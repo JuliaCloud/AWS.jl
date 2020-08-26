@@ -19,8 +19,8 @@ Seals and completes the snapshot after all of the required blocks of data have b
 - `x-amz-Checksum-Algorithm`: The algorithm used to generate the checksum. Currently, the only supported algorithm is SHA256.
 """
 
-CompleteSnapshot(snapshotId, x_amz_ChangedBlocksCount; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)); aws_config=aws_config)
-CompleteSnapshot(snapshotId, x_amz_ChangedBlocksCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)), args)); aws_config=aws_config)
+complete_snapshot(snapshotId, x_amz_ChangedBlocksCount; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)); aws_config=aws_config)
+complete_snapshot(snapshotId, x_amz_ChangedBlocksCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)), args)); aws_config=aws_config)
 
 """
     GetSnapshotBlock()
@@ -34,8 +34,8 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
 
 """
 
-GetSnapshotBlock(blockIndex, blockToken, snapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("blockToken"=>blockToken); aws_config=aws_config)
-GetSnapshotBlock(blockIndex, blockToken, snapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blockToken"=>blockToken), args)); aws_config=aws_config)
+get_snapshot_block(blockIndex, blockToken, snapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("blockToken"=>blockToken); aws_config=aws_config)
+get_snapshot_block(blockIndex, blockToken, snapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blockToken"=>blockToken), args)); aws_config=aws_config)
 
 """
     ListChangedBlocks()
@@ -52,8 +52,8 @@ Returns the block indexes and block tokens for blocks that are different between
 - `startingBlockIndex`: The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots.
 """
 
-ListChangedBlocks(secondSnapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks"; aws_config=aws_config)
-ListChangedBlocks(secondSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks", args; aws_config=aws_config)
+list_changed_blocks(secondSnapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks"; aws_config=aws_config)
+list_changed_blocks(secondSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks", args; aws_config=aws_config)
 
 """
     ListSnapshotBlocks()
@@ -69,8 +69,8 @@ Returns the block indexes and block tokens for blocks in an Amazon Elastic Block
 - `startingBlockIndex`: The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot.
 """
 
-ListSnapshotBlocks(snapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks"; aws_config=aws_config)
-ListSnapshotBlocks(snapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks", args; aws_config=aws_config)
+list_snapshot_blocks(snapshotId; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks"; aws_config=aws_config)
+list_snapshot_blocks(snapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks", args; aws_config=aws_config)
 
 """
     PutSnapshotBlock()
@@ -89,8 +89,8 @@ Writes a block of data to a block in the snapshot. If the specified block contai
 - `x-amz-Progress`: The progress of the write process, as a percentage.
 """
 
-PutSnapshotBlock(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length; aws_config::AWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)); aws_config=aws_config)
-PutSnapshotBlock(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)), args)); aws_config=aws_config)
+put_snapshot_block(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length; aws_config::AWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)); aws_config=aws_config)
+put_snapshot_block(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)), args)); aws_config=aws_config)
 
 """
     StartSnapshot()
@@ -110,5 +110,5 @@ Creates a new Amazon EBS snapshot. The new snapshot enters the pending state aft
 - `Timeout`: The amount of time (in minutes) after which the snapshot is automatically cancelled if:   No blocks are written to the snapshot.   The snapshot is not completed after writing the last block of data.   If no value is specified, the timeout defaults to 60 minutes.
 """
 
-StartSnapshot(VolumeSize; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-StartSnapshot(VolumeSize, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+start_snapshot(VolumeSize; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+start_snapshot(VolumeSize, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)

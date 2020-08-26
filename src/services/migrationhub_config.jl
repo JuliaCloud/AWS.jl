@@ -17,8 +17,8 @@ This API sets up the home region for the calling account only.
 - `DryRun`: Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
 """
 
-CreateHomeRegionControl(HomeRegion, Target; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target); aws_config=aws_config)
-CreateHomeRegionControl(HomeRegion, Target, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), args)); aws_config=aws_config)
+create_home_region_control(HomeRegion, Target; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target); aws_config=aws_config)
+create_home_region_control(HomeRegion, Target, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), args)); aws_config=aws_config)
 
 """
     DescribeHomeRegionControls()
@@ -33,8 +33,8 @@ This API permits filtering on the ControlId and HomeRegion fields.
 - `Target`: The target parameter specifies the identifier to which the home region is applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
 
-DescribeHomeRegionControls(; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
-DescribeHomeRegionControls(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls", args; aws_config=aws_config)
+describe_home_region_controls(; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
+describe_home_region_controls(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls", args; aws_config=aws_config)
 
 """
     GetHomeRegion()
@@ -43,5 +43,5 @@ Returns the calling account’s home region, if configured. This API is used by 
 
 """
 
-GetHomeRegion(; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion"; aws_config=aws_config)
-GetHomeRegion(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion", args; aws_config=aws_config)
+get_home_region(; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion"; aws_config=aws_config)
+get_home_region(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion", args; aws_config=aws_config)

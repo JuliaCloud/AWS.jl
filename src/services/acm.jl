@@ -15,8 +15,8 @@ Adds one or more tags to an ACM certificate. Tags are labels that you can use to
 
 """
 
-AddTagsToCertificate(CertificateArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm("AddTagsToCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags); aws_config=aws_config)
-AddTagsToCertificate(CertificateArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("AddTagsToCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), args)); aws_config=aws_config)
+add_tags_to_certificate(CertificateArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm("AddTagsToCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags); aws_config=aws_config)
+add_tags_to_certificate(CertificateArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("AddTagsToCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     DeleteCertificate()
@@ -28,8 +28,8 @@ Deletes a certificate and its associated private key. If this action succeeds, t
 
 """
 
-DeleteCertificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("DeleteCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
-DeleteCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
+delete_certificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("DeleteCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
+delete_certificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
 
 """
     DescribeCertificate()
@@ -41,8 +41,8 @@ Returns detailed metadata about the specified ACM certificate.
 
 """
 
-DescribeCertificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("DescribeCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
-DescribeCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
+describe_certificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("DescribeCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
+describe_certificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
 
 """
     ExportCertificate()
@@ -55,8 +55,8 @@ Exports a private certificate issued by a private certificate authority (CA) for
 
 """
 
-ExportCertificate(CertificateArn, Passphrase; aws_config::AWSConfig=global_aws_config()) = acm("ExportCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Passphrase"=>Passphrase); aws_config=aws_config)
-ExportCertificate(CertificateArn, Passphrase, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ExportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Passphrase"=>Passphrase), args)); aws_config=aws_config)
+export_certificate(CertificateArn, Passphrase; aws_config::AWSConfig=global_aws_config()) = acm("ExportCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Passphrase"=>Passphrase); aws_config=aws_config)
+export_certificate(CertificateArn, Passphrase, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ExportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Passphrase"=>Passphrase), args)); aws_config=aws_config)
 
 """
     GetCertificate()
@@ -68,8 +68,8 @@ Retrieves an Amazon-issued certificate and its certificate chain. The chain cons
 
 """
 
-GetCertificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("GetCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
-GetCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
+get_certificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("GetCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
+get_certificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
 
 """
     ImportCertificate()
@@ -86,8 +86,8 @@ Imports a certificate into AWS Certificate Manager (ACM) to use with services th
 - `Tags`: One or more resource tags to associate with the imported certificate.  Note: You cannot apply tags when reimporting a certificate.
 """
 
-ImportCertificate(Certificate, PrivateKey; aws_config::AWSConfig=global_aws_config()) = acm("ImportCertificate", Dict{String, Any}("Certificate"=>Certificate, "PrivateKey"=>PrivateKey); aws_config=aws_config)
-ImportCertificate(Certificate, PrivateKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "PrivateKey"=>PrivateKey), args)); aws_config=aws_config)
+import_certificate(Certificate, PrivateKey; aws_config::AWSConfig=global_aws_config()) = acm("ImportCertificate", Dict{String, Any}("Certificate"=>Certificate, "PrivateKey"=>PrivateKey); aws_config=aws_config)
+import_certificate(Certificate, PrivateKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "PrivateKey"=>PrivateKey), args)); aws_config=aws_config)
 
 """
     ListCertificates()
@@ -101,8 +101,8 @@ Retrieves a list of certificate ARNs and domain names. You can request that only
 - `NextToken`: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
 """
 
-ListCertificates(; aws_config::AWSConfig=global_aws_config()) = acm("ListCertificates"; aws_config=aws_config)
-ListCertificates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ListCertificates", args; aws_config=aws_config)
+list_certificates(; aws_config::AWSConfig=global_aws_config()) = acm("ListCertificates"; aws_config=aws_config)
+list_certificates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ListCertificates", args; aws_config=aws_config)
 
 """
     ListTagsForCertificate()
@@ -114,8 +114,8 @@ Lists the tags that have been applied to the ACM certificate. Use the certificat
 
 """
 
-ListTagsForCertificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("ListTagsForCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
-ListTagsForCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ListTagsForCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
+list_tags_for_certificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("ListTagsForCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
+list_tags_for_certificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ListTagsForCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromCertificate()
@@ -128,8 +128,8 @@ Remove one or more tags from an ACM certificate. A tag consists of a key-value p
 
 """
 
-RemoveTagsFromCertificate(CertificateArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm("RemoveTagsFromCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags); aws_config=aws_config)
-RemoveTagsFromCertificate(CertificateArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RemoveTagsFromCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), args)); aws_config=aws_config)
+remove_tags_from_certificate(CertificateArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm("RemoveTagsFromCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags); aws_config=aws_config)
+remove_tags_from_certificate(CertificateArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RemoveTagsFromCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     RenewCertificate()
@@ -141,8 +141,8 @@ Renews an eligable ACM certificate. At this time, only exported private certific
 
 """
 
-RenewCertificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("RenewCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
-RenewCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RenewCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
+renew_certificate(CertificateArn; aws_config::AWSConfig=global_aws_config()) = acm("RenewCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws_config=aws_config)
+renew_certificate(CertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RenewCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws_config=aws_config)
 
 """
     RequestCertificate()
@@ -162,8 +162,8 @@ Requests an ACM certificate for use with other AWS services. To request an ACM c
 - `ValidationMethod`: The method you want to use if you are requesting a public certificate to validate that you own or control domain. You can validate with DNS or validate with email. We recommend that you use DNS validation. 
 """
 
-RequestCertificate(DomainName; aws_config::AWSConfig=global_aws_config()) = acm("RequestCertificate", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-RequestCertificate(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RequestCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
+request_certificate(DomainName; aws_config::AWSConfig=global_aws_config()) = acm("RequestCertificate", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
+request_certificate(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("RequestCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
 
 """
     ResendValidationEmail()
@@ -177,8 +177,8 @@ Resends the email that requests domain ownership validation. The domain owner or
 
 """
 
-ResendValidationEmail(CertificateArn, Domain, ValidationDomain; aws_config::AWSConfig=global_aws_config()) = acm("ResendValidationEmail", Dict{String, Any}("CertificateArn"=>CertificateArn, "Domain"=>Domain, "ValidationDomain"=>ValidationDomain); aws_config=aws_config)
-ResendValidationEmail(CertificateArn, Domain, ValidationDomain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ResendValidationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Domain"=>Domain, "ValidationDomain"=>ValidationDomain), args)); aws_config=aws_config)
+resend_validation_email(CertificateArn, Domain, ValidationDomain; aws_config::AWSConfig=global_aws_config()) = acm("ResendValidationEmail", Dict{String, Any}("CertificateArn"=>CertificateArn, "Domain"=>Domain, "ValidationDomain"=>ValidationDomain); aws_config=aws_config)
+resend_validation_email(CertificateArn, Domain, ValidationDomain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("ResendValidationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Domain"=>Domain, "ValidationDomain"=>ValidationDomain), args)); aws_config=aws_config)
 
 """
     UpdateCertificateOptions()
@@ -191,5 +191,5 @@ Updates a certificate. Currently, you can use this function to specify whether t
 
 """
 
-UpdateCertificateOptions(CertificateArn, Options; aws_config::AWSConfig=global_aws_config()) = acm("UpdateCertificateOptions", Dict{String, Any}("CertificateArn"=>CertificateArn, "Options"=>Options); aws_config=aws_config)
-UpdateCertificateOptions(CertificateArn, Options, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("UpdateCertificateOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Options"=>Options), args)); aws_config=aws_config)
+update_certificate_options(CertificateArn, Options; aws_config::AWSConfig=global_aws_config()) = acm("UpdateCertificateOptions", Dict{String, Any}("CertificateArn"=>CertificateArn, "Options"=>Options); aws_config=aws_config)
+update_certificate_options(CertificateArn, Options, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm("UpdateCertificateOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "Options"=>Options), args)); aws_config=aws_config)

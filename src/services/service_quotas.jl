@@ -11,8 +11,8 @@ Associates the Service Quotas template with your organization so that when new a
 
 """
 
-AssociateServiceQuotaTemplate(; aws_config::AWSConfig=global_aws_config()) = service_quotas("AssociateServiceQuotaTemplate"; aws_config=aws_config)
-AssociateServiceQuotaTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("AssociateServiceQuotaTemplate", args; aws_config=aws_config)
+associate_service_quota_template(; aws_config::AWSConfig=global_aws_config()) = service_quotas("AssociateServiceQuotaTemplate"; aws_config=aws_config)
+associate_service_quota_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("AssociateServiceQuotaTemplate", args; aws_config=aws_config)
 
 """
     DeleteServiceQuotaIncreaseRequestFromTemplate()
@@ -26,8 +26,8 @@ Removes a service quota increase request from the Service Quotas template.
 
 """
 
-DeleteServiceQuotaIncreaseRequestFromTemplate(AwsRegion, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-DeleteServiceQuotaIncreaseRequestFromTemplate(AwsRegion, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+delete_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+delete_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("DeleteServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     DisassociateServiceQuotaTemplate()
@@ -36,8 +36,8 @@ Disables the Service Quotas template. Once the template is disabled, it does not
 
 """
 
-DisassociateServiceQuotaTemplate(; aws_config::AWSConfig=global_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate"; aws_config=aws_config)
-DisassociateServiceQuotaTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate", args; aws_config=aws_config)
+disassociate_service_quota_template(; aws_config::AWSConfig=global_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate"; aws_config=aws_config)
+disassociate_service_quota_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("DisassociateServiceQuotaTemplate", args; aws_config=aws_config)
 
 """
     GetAWSDefaultServiceQuota()
@@ -50,8 +50,8 @@ Retrieves the default service quotas values. The Value returned for each quota i
 
 """
 
-GetAWSDefaultServiceQuota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-GetAWSDefaultServiceQuota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+get_awsdefault_service_quota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+get_awsdefault_service_quota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAWSDefaultServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     GetAssociationForServiceQuotaTemplate()
@@ -60,8 +60,8 @@ Retrieves the ServiceQuotaTemplateAssociationStatus value from the service. Use 
 
 """
 
-GetAssociationForServiceQuotaTemplate(; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate"; aws_config=aws_config)
-GetAssociationForServiceQuotaTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate", args; aws_config=aws_config)
+get_association_for_service_quota_template(; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate"; aws_config=aws_config)
+get_association_for_service_quota_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetAssociationForServiceQuotaTemplate", args; aws_config=aws_config)
 
 """
     GetRequestedServiceQuotaChange()
@@ -73,8 +73,8 @@ Retrieves the details for a particular increase request.
 
 """
 
-GetRequestedServiceQuotaChange(RequestId; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}("RequestId"=>RequestId); aws_config=aws_config)
-GetRequestedServiceQuotaChange(RequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestId"=>RequestId), args)); aws_config=aws_config)
+get_requested_service_quota_change(RequestId; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}("RequestId"=>RequestId); aws_config=aws_config)
+get_requested_service_quota_change(RequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetRequestedServiceQuotaChange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestId"=>RequestId), args)); aws_config=aws_config)
 
 """
     GetServiceQuota()
@@ -87,8 +87,8 @@ Returns the details for the specified service quota. This operation provides a d
 
 """
 
-GetServiceQuota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-GetServiceQuota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+get_service_quota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+get_service_quota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     GetServiceQuotaIncreaseRequestFromTemplate()
@@ -102,8 +102,8 @@ Returns the details of the service quota increase request in your template.
 
 """
 
-GetServiceQuotaIncreaseRequestFromTemplate(AwsRegion, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-GetServiceQuotaIncreaseRequestFromTemplate(AwsRegion, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+get_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+get_service_quota_increase_request_from_template(AwsRegion, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("GetServiceQuotaIncreaseRequestFromTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     ListAWSDefaultServiceQuotas()
@@ -118,8 +118,8 @@ Lists all default service quotas for the specified AWS service or all AWS servic
 - `NextToken`: (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from. If additional items exist beyond the specified maximum, the NextToken element is present and has a value (isn't null). Include that value as the NextToken request parameter in the call to the operation to get the next part of the results. You should check NextToken after every operation to ensure that you receive all of the results.
 """
 
-ListAWSDefaultServiceQuotas(ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config)
-ListAWSDefaultServiceQuotas(ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+list_awsdefault_service_quotas(ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config)
+list_awsdefault_service_quotas(ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListAWSDefaultServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     ListRequestedServiceQuotaChangeHistory()
@@ -133,8 +133,8 @@ Requests a list of the changes to quotas for a service.
 - `Status`: Specifies the status value of the quota increase request.
 """
 
-ListRequestedServiceQuotaChangeHistory(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory"; aws_config=aws_config)
-ListRequestedServiceQuotaChangeHistory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory", args; aws_config=aws_config)
+list_requested_service_quota_change_history(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory"; aws_config=aws_config)
+list_requested_service_quota_change_history(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistory", args; aws_config=aws_config)
 
 """
     ListRequestedServiceQuotaChangeHistoryByQuota()
@@ -151,8 +151,8 @@ Requests a list of the changes to specific service quotas. This command provides
 - `Status`: Specifies the status value of the quota increase request.
 """
 
-ListRequestedServiceQuotaChangeHistoryByQuota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-ListRequestedServiceQuotaChangeHistoryByQuota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+list_requested_service_quota_change_history_by_quota(QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+list_requested_service_quota_change_history_by_quota(QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListRequestedServiceQuotaChangeHistoryByQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     ListServiceQuotaIncreaseRequestsInTemplate()
@@ -166,8 +166,8 @@ Returns a list of the quota increase requests in the template.
 - `ServiceCode`: The identifier for a service. When performing an operation, use the ServiceCode to specify a particular service. 
 """
 
-ListServiceQuotaIncreaseRequestsInTemplate(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate"; aws_config=aws_config)
-ListServiceQuotaIncreaseRequestsInTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate", args; aws_config=aws_config)
+list_service_quota_increase_requests_in_template(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate"; aws_config=aws_config)
+list_service_quota_increase_requests_in_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotaIncreaseRequestsInTemplate", args; aws_config=aws_config)
 
 """
     ListServiceQuotas()
@@ -182,8 +182,8 @@ Lists all service quotas for the specified AWS service. This request returns a l
 - `NextToken`: (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
 """
 
-ListServiceQuotas(ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config)
-ListServiceQuotas(ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+list_service_quotas(ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}("ServiceCode"=>ServiceCode); aws_config=aws_config)
+list_service_quotas(ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServiceQuotas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     ListServices()
@@ -195,8 +195,8 @@ Lists the AWS services available in Service Quotas. Not all AWS services are ava
 - `NextToken`: (Optional) Use this parameter in a request if you receive a NextToken response in a previous request that indicates that there's more output available. In a subsequent call, set it to the value of the previous call's NextToken response to indicate where the output should continue from.
 """
 
-ListServices(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServices"; aws_config=aws_config)
-ListServices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServices", args; aws_config=aws_config)
+list_services(; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServices"; aws_config=aws_config)
+list_services(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("ListServices", args; aws_config=aws_config)
 
 """
     PutServiceQuotaIncreaseRequestIntoTemplate()
@@ -211,8 +211,8 @@ Defines and adds a quota to the service quota template. To add a quota to the te
 
 """
 
-PutServiceQuotaIncreaseRequestIntoTemplate(AwsRegion, DesiredValue, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-PutServiceQuotaIncreaseRequestIntoTemplate(AwsRegion, DesiredValue, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+put_service_quota_increase_request_into_template(AwsRegion, DesiredValue, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+put_service_quota_increase_request_into_template(AwsRegion, DesiredValue, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("PutServiceQuotaIncreaseRequestIntoTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
 
 """
     RequestServiceQuotaIncrease()
@@ -226,5 +226,5 @@ Retrieves the details of a service quota increase request. The response to this 
 
 """
 
-RequestServiceQuotaIncrease(DesiredValue, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-RequestServiceQuotaIncrease(DesiredValue, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)
+request_service_quota_increase(DesiredValue, QuotaCode, ServiceCode; aws_config::AWSConfig=global_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode); aws_config=aws_config)
+request_service_quota_increase(DesiredValue, QuotaCode, ServiceCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_quotas("RequestServiceQuotaIncrease", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredValue"=>DesiredValue, "QuotaCode"=>QuotaCode, "ServiceCode"=>ServiceCode), args)); aws_config=aws_config)

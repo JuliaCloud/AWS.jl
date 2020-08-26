@@ -17,8 +17,8 @@ Accepts the Convertible Reserved Instance exchange quote described in the GetRes
 - `TargetConfiguration`: The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
 """
 
-AcceptReservedInstancesExchangeQuote(ReservedInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config)
-AcceptReservedInstancesExchangeQuote(ReservedInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), args)); aws_config=aws_config)
+accept_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config)
+accept_reserved_instances_exchange_quote(ReservedInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), args)); aws_config=aws_config)
 
 """
     AcceptTransitGatewayPeeringAttachment()
@@ -32,8 +32,8 @@ Accepts a transit gateway peering attachment request. The peering attachment mus
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AcceptTransitGatewayPeeringAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-AcceptTransitGatewayPeeringAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+accept_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+accept_transit_gateway_peering_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     AcceptTransitGatewayVpcAttachment()
@@ -47,8 +47,8 @@ Accepts a request to attach a VPC to a transit gateway. The VPC attachment must 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AcceptTransitGatewayVpcAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-AcceptTransitGatewayVpcAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+accept_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+accept_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     AcceptVpcEndpointConnections()
@@ -63,8 +63,8 @@ Accepts one or more interface VPC endpoint connection requests to your VPC endpo
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AcceptVpcEndpointConnections(ServiceId, VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
-AcceptVpcEndpointConnections(ServiceId, VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
+accept_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
+accept_vpc_endpoint_connections(ServiceId, VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
 
 """
     AcceptVpcPeeringConnection()
@@ -76,8 +76,8 @@ Accept a VPC peering connection request. To accept a request, the VPC peering co
 - `vpcPeeringConnectionId`: The ID of the VPC peering connection. You must specify this parameter in the request.
 """
 
-AcceptVpcPeeringConnection(; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcPeeringConnection"; aws_config=aws_config)
-AcceptVpcPeeringConnection(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcPeeringConnection", args; aws_config=aws_config)
+accept_vpc_peering_connection(; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcPeeringConnection"; aws_config=aws_config)
+accept_vpc_peering_connection(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptVpcPeeringConnection", args; aws_config=aws_config)
 
 """
     AdvertiseByoipCidr()
@@ -91,8 +91,8 @@ Advertises an IPv4 or IPv6 address range that is provisioned for use with your A
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AdvertiseByoipCidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-AdvertiseByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
+advertise_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
+advertise_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
 
 """
     AllocateAddress()
@@ -108,8 +108,8 @@ Allocates an Elastic IP address to your AWS account. After you allocate the Elas
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AllocateAddress(; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateAddress"; aws_config=aws_config)
-AllocateAddress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateAddress", args; aws_config=aws_config)
+allocate_address(; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateAddress"; aws_config=aws_config)
+allocate_address(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateAddress", args; aws_config=aws_config)
 
 """
     AllocateHosts()
@@ -129,8 +129,8 @@ Allocates a Dedicated Host to your account. At a minimum, specify the supported 
 - `instanceType`: Specifies the instance type to be supported by the Dedicated Hosts. If you specify an instance type, the Dedicated Hosts support instances of the specified instance type only. If you want the Dedicated Hosts to support multiple instance types in a specific instance family, omit this parameter and specify InstanceFamily instead. You cannot specify InstanceType and InstanceFamily in the same request.
 """
 
-AllocateHosts(availabilityZone, quantity; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateHosts", Dict{String, Any}("availabilityZone"=>availabilityZone, "quantity"=>quantity); aws_config=aws_config)
-AllocateHosts(availabilityZone, quantity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "quantity"=>quantity), args)); aws_config=aws_config)
+allocate_hosts(availabilityZone, quantity; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateHosts", Dict{String, Any}("availabilityZone"=>availabilityZone, "quantity"=>quantity); aws_config=aws_config)
+allocate_hosts(availabilityZone, quantity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "quantity"=>quantity), args)); aws_config=aws_config)
 
 """
     ApplySecurityGroupsToClientVpnTargetNetwork()
@@ -146,8 +146,8 @@ Applies a security group to the association between the target network and the C
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ApplySecurityGroupsToClientVpnTargetNetwork(ClientVpnEndpointId, SecurityGroupId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId); aws_config=aws_config)
-ApplySecurityGroupsToClientVpnTargetNetwork(ClientVpnEndpointId, SecurityGroupId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId), args)); aws_config=aws_config)
+apply_security_groups_to_client_vpn_target_network(ClientVpnEndpointId, SecurityGroupId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId); aws_config=aws_config)
+apply_security_groups_to_client_vpn_target_network(ClientVpnEndpointId, SecurityGroupId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ApplySecurityGroupsToClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SecurityGroupId"=>SecurityGroupId, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     AssignIpv6Addresses()
@@ -162,8 +162,8 @@ Assigns one or more IPv6 addresses to the specified network interface. You can s
 - `ipv6Addresses`: One or more specific IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
 """
 
-AssignIpv6Addresses(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-AssignIpv6Addresses(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+assign_ipv6_addresses(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+assign_ipv6_addresses(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     AssignPrivateIpAddresses()
@@ -179,8 +179,8 @@ Assigns one or more secondary private IP addresses to the specified network inte
 - `secondaryPrivateIpAddressCount`: The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
 """
 
-AssignPrivateIpAddresses(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-AssignPrivateIpAddresses(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+assign_private_ip_addresses(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+assign_private_ip_addresses(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     AssociateAddress()
@@ -197,8 +197,8 @@ Associates an Elastic IP address, or carrier IP address (for instances that are 
 - `privateIpAddress`: [EC2-VPC] The primary or secondary private IP address to associate with the Elastic IP address. If no private IP address is specified, the Elastic IP address is associated with the primary private IP address.
 """
 
-AssociateAddress(; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateAddress"; aws_config=aws_config)
-AssociateAddress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateAddress", args; aws_config=aws_config)
+associate_address(; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateAddress"; aws_config=aws_config)
+associate_address(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateAddress", args; aws_config=aws_config)
 
 """
     AssociateClientVpnTargetNetwork()
@@ -214,8 +214,8 @@ Associates a target network with a Client VPN endpoint. A target network is a su
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AssociateClientVpnTargetNetwork(ClientVpnEndpointId, SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-AssociateClientVpnTargetNetwork(ClientVpnEndpointId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+associate_client_vpn_target_network(ClientVpnEndpointId, SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+associate_client_vpn_target_network(ClientVpnEndpointId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     AssociateDhcpOptions()
@@ -230,8 +230,8 @@ Associates a set of DHCP options (that you've previously created) with the speci
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AssociateDhcpOptions(DhcpOptionsId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId); aws_config=aws_config)
-AssociateDhcpOptions(DhcpOptionsId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId), args)); aws_config=aws_config)
+associate_dhcp_options(DhcpOptionsId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId); aws_config=aws_config)
+associate_dhcp_options(DhcpOptionsId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     AssociateIamInstanceProfile()
@@ -244,8 +244,8 @@ Associates an IAM instance profile with a running or stopped instance. You canno
 
 """
 
-AssociateIamInstanceProfile(IamInstanceProfile, InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId); aws_config=aws_config)
-AssociateIamInstanceProfile(IamInstanceProfile, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
+associate_iam_instance_profile(IamInstanceProfile, InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId); aws_config=aws_config)
+associate_iam_instance_profile(IamInstanceProfile, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     AssociateRouteTable()
@@ -261,8 +261,8 @@ Associates a subnet in your VPC or an internet gateway or virtual private gatewa
 - `subnetId`: The ID of the subnet.
 """
 
-AssociateRouteTable(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
-AssociateRouteTable(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
+associate_route_table(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
+associate_route_table(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     AssociateSubnetCidrBlock()
@@ -275,8 +275,8 @@ Associates a CIDR block with your subnet. You can only associate a single IPv6 C
 
 """
 
-AssociateSubnetCidrBlock(ipv6CidrBlock, subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}("ipv6CidrBlock"=>ipv6CidrBlock, "subnetId"=>subnetId); aws_config=aws_config)
-AssociateSubnetCidrBlock(ipv6CidrBlock, subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6CidrBlock"=>ipv6CidrBlock, "subnetId"=>subnetId), args)); aws_config=aws_config)
+associate_subnet_cidr_block(ipv6CidrBlock, subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}("ipv6CidrBlock"=>ipv6CidrBlock, "subnetId"=>subnetId); aws_config=aws_config)
+associate_subnet_cidr_block(ipv6CidrBlock, subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6CidrBlock"=>ipv6CidrBlock, "subnetId"=>subnetId), args)); aws_config=aws_config)
 
 """
     AssociateTransitGatewayMulticastDomain()
@@ -290,8 +290,8 @@ Associates the specified subnets and transit gateway attachments with the specif
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-AssociateTransitGatewayMulticastDomain(; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain"; aws_config=aws_config)
-AssociateTransitGatewayMulticastDomain(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain", args; aws_config=aws_config)
+associate_transit_gateway_multicast_domain(; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain"; aws_config=aws_config)
+associate_transit_gateway_multicast_domain(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayMulticastDomain", args; aws_config=aws_config)
 
 """
     AssociateTransitGatewayRouteTable()
@@ -306,8 +306,8 @@ Associates the specified attachment with the specified transit gateway route tab
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AssociateTransitGatewayRouteTable(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-AssociateTransitGatewayRouteTable(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     AssociateVpcCidrBlock()
@@ -325,8 +325,8 @@ Associates a CIDR block with your VPC. You can associate a secondary IPv4 CIDR b
 - `amazonProvidedIpv6CidrBlock`: Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IPv6 addresses, or the size of the CIDR block.
 """
 
-AssociateVpcCidrBlock(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-AssociateVpcCidrBlock(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+associate_vpc_cidr_block(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+associate_vpc_cidr_block(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AssociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     AttachClassicLinkVpc()
@@ -342,8 +342,8 @@ Links an EC2-Classic instance to a ClassicLink-enabled VPC through one or more o
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AttachClassicLinkVpc(SecurityGroupId, instanceId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config)
-AttachClassicLinkVpc(SecurityGroupId, instanceId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId), args)); aws_config=aws_config)
+attach_classic_link_vpc(SecurityGroupId, instanceId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config)
+attach_classic_link_vpc(SecurityGroupId, instanceId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityGroupId"=>SecurityGroupId, "instanceId"=>instanceId, "vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     AttachInternetGateway()
@@ -358,8 +358,8 @@ Attaches an internet gateway or a virtual private gateway to a VPC, enabling con
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AttachInternetGateway(internetGatewayId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config)
-AttachInternetGateway(internetGatewayId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), args)); aws_config=aws_config)
+attach_internet_gateway(internetGatewayId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config)
+attach_internet_gateway(internetGatewayId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     AttachNetworkInterface()
@@ -375,13 +375,13 @@ Attaches a network interface to an instance.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AttachNetworkInterface(deviceIndex, instanceId, networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-AttachNetworkInterface(deviceIndex, instanceId, networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+attach_network_interface(deviceIndex, instanceId, networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+attach_network_interface(deviceIndex, instanceId, networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceIndex"=>deviceIndex, "instanceId"=>instanceId, "networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     AttachVolume()
 
-Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see Making an EBS Volume Available For Use. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attaching Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
+Attaches an EBS volume to a running or stopped instance and exposes it to the instance with the specified device name. Encrypted EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it available. For more information, see Making an EBS volume available for use. If a volume has an AWS Marketplace product code:   The volume can be attached only to a stopped instance.   AWS Marketplace product codes are copied from the volume to the instance.   You must be subscribed to the product.   The instance type and operating system of the instance must support the product. For example, you can't detach a volume from a Windows instance and attach it to a Linux instance.   For more information, see Attaching Amazon EBS volumes in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `Device`: The device name (for example, /dev/sdh or xvdh).
@@ -392,8 +392,8 @@ Attaches an EBS volume to a running or stopped instance and exposes it to the in
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AttachVolume(Device, InstanceId, VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVolume", Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId); aws_config=aws_config)
-AttachVolume(Device, InstanceId, VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId), args)); aws_config=aws_config)
+attach_volume(Device, InstanceId, VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVolume", Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId); aws_config=aws_config)
+attach_volume(Device, InstanceId, VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Device"=>Device, "InstanceId"=>InstanceId, "VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     AttachVpnGateway()
@@ -408,8 +408,8 @@ Attaches a virtual private gateway to a VPC. You can attach one virtual private 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AttachVpnGateway(VpcId, VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
-AttachVpnGateway(VpcId, VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
+attach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
+attach_vpn_gateway(VpcId, VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AttachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
 
 """
     AuthorizeClientVpnIngress()
@@ -428,8 +428,8 @@ Adds an ingress authorization rule to a Client VPN endpoint. Ingress authorizati
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AuthorizeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-AuthorizeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     AuthorizeSecurityGroupEgress()
@@ -450,8 +450,8 @@ AuthorizeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr, args::Abstract
 - `toPort`: Not supported. Use a set of IP permissions to specify the port.
 """
 
-AuthorizeSecurityGroupEgress(groupId; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config)
-AuthorizeSecurityGroupEgress(groupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), args)); aws_config=aws_config)
+authorize_security_group_egress(groupId; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config)
+authorize_security_group_egress(groupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), args)); aws_config=aws_config)
 
 """
     AuthorizeSecurityGroupIngress()
@@ -471,8 +471,8 @@ Adds the specified ingress rules to a security group. An inbound rule permits in
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-AuthorizeSecurityGroupIngress(; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupIngress"; aws_config=aws_config)
-AuthorizeSecurityGroupIngress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupIngress", args; aws_config=aws_config)
+authorize_security_group_ingress(; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupIngress"; aws_config=aws_config)
+authorize_security_group_ingress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AuthorizeSecurityGroupIngress", args; aws_config=aws_config)
 
 """
     BundleInstance()
@@ -487,8 +487,8 @@ Bundles an Amazon instance store-backed Windows instance. During bundling, only 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-BundleInstance(InstanceId, Storage; aws_config::AWSConfig=global_aws_config()) = ec2("BundleInstance", Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage); aws_config=aws_config)
-BundleInstance(InstanceId, Storage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("BundleInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage), args)); aws_config=aws_config)
+bundle_instance(InstanceId, Storage; aws_config::AWSConfig=global_aws_config()) = ec2("BundleInstance", Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage); aws_config=aws_config)
+bundle_instance(InstanceId, Storage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("BundleInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Storage"=>Storage), args)); aws_config=aws_config)
 
 """
     CancelBundleTask()
@@ -502,8 +502,8 @@ Cancels a bundling operation for an instance store-backed Windows instance.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CancelBundleTask(BundleId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}("BundleId"=>BundleId); aws_config=aws_config)
-CancelBundleTask(BundleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId), args)); aws_config=aws_config)
+cancel_bundle_task(BundleId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}("BundleId"=>BundleId); aws_config=aws_config)
+cancel_bundle_task(BundleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelBundleTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId), args)); aws_config=aws_config)
 
 """
     CancelCapacityReservation()
@@ -517,8 +517,8 @@ Cancels the specified Capacity Reservation, releases the reserved capacity, and 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CancelCapacityReservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
-CancelCapacityReservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
+cancel_capacity_reservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
+cancel_capacity_reservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
 
 """
     CancelConversionTask()
@@ -533,8 +533,8 @@ Cancels an active conversion task. The task can be the import of an instance or 
 - `reasonMessage`: The reason for canceling the conversion task.
 """
 
-CancelConversionTask(conversionTaskId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}("conversionTaskId"=>conversionTaskId); aws_config=aws_config)
-CancelConversionTask(conversionTaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("conversionTaskId"=>conversionTaskId), args)); aws_config=aws_config)
+cancel_conversion_task(conversionTaskId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}("conversionTaskId"=>conversionTaskId); aws_config=aws_config)
+cancel_conversion_task(conversionTaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelConversionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("conversionTaskId"=>conversionTaskId), args)); aws_config=aws_config)
 
 """
     CancelExportTask()
@@ -546,8 +546,8 @@ Cancels an active export task. The request removes all artifacts of the export, 
 
 """
 
-CancelExportTask(exportTaskId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelExportTask", Dict{String, Any}("exportTaskId"=>exportTaskId); aws_config=aws_config)
-CancelExportTask(exportTaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportTaskId"=>exportTaskId), args)); aws_config=aws_config)
+cancel_export_task(exportTaskId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelExportTask", Dict{String, Any}("exportTaskId"=>exportTaskId); aws_config=aws_config)
+cancel_export_task(exportTaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportTaskId"=>exportTaskId), args)); aws_config=aws_config)
 
 """
     CancelImportTask()
@@ -560,8 +560,8 @@ Cancels an in-process import virtual machine or import snapshot task.
 - `ImportTaskId`: The ID of the import image or import snapshot task to be canceled.
 """
 
-CancelImportTask(; aws_config::AWSConfig=global_aws_config()) = ec2("CancelImportTask"; aws_config=aws_config)
-CancelImportTask(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelImportTask", args; aws_config=aws_config)
+cancel_import_task(; aws_config::AWSConfig=global_aws_config()) = ec2("CancelImportTask"; aws_config=aws_config)
+cancel_import_task(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelImportTask", args; aws_config=aws_config)
 
 """
     CancelReservedInstancesListing()
@@ -573,8 +573,8 @@ Cancels the specified Reserved Instance listing in the Reserved Instance Marketp
 
 """
 
-CancelReservedInstancesListing(reservedInstancesListingId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId); aws_config=aws_config)
-CancelReservedInstancesListing(reservedInstancesListingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId), args)); aws_config=aws_config)
+cancel_reserved_instances_listing(reservedInstancesListingId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId); aws_config=aws_config)
+cancel_reserved_instances_listing(reservedInstancesListingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservedInstancesListingId"=>reservedInstancesListingId), args)); aws_config=aws_config)
 
 """
     CancelSpotFleetRequests()
@@ -589,8 +589,8 @@ Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CancelSpotFleetRequests(spotFleetRequestId, terminateInstances; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances); aws_config=aws_config)
-CancelSpotFleetRequests(spotFleetRequestId, terminateInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances), args)); aws_config=aws_config)
+cancel_spot_fleet_requests(spotFleetRequestId, terminateInstances; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances); aws_config=aws_config)
+cancel_spot_fleet_requests(spotFleetRequestId, terminateInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotFleetRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "terminateInstances"=>terminateInstances), args)); aws_config=aws_config)
 
 """
     CancelSpotInstanceRequests()
@@ -604,8 +604,8 @@ Cancels one or more Spot Instance requests.  Canceling a Spot Instance request d
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CancelSpotInstanceRequests(SpotInstanceRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId); aws_config=aws_config)
-CancelSpotInstanceRequests(SpotInstanceRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId), args)); aws_config=aws_config)
+cancel_spot_instance_requests(SpotInstanceRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId); aws_config=aws_config)
+cancel_spot_instance_requests(SpotInstanceRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CancelSpotInstanceRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SpotInstanceRequestId"=>SpotInstanceRequestId), args)); aws_config=aws_config)
 
 """
     ConfirmProductInstance()
@@ -620,8 +620,8 @@ Determines whether a product code is associated with an instance. This action ca
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ConfirmProductInstance(InstanceId, ProductCode; aws_config::AWSConfig=global_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode); aws_config=aws_config)
-ConfirmProductInstance(InstanceId, ProductCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode), args)); aws_config=aws_config)
+confirm_product_instance(InstanceId, ProductCode; aws_config::AWSConfig=global_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode); aws_config=aws_config)
+confirm_product_instance(InstanceId, ProductCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ConfirmProductInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ProductCode"=>ProductCode), args)); aws_config=aws_config)
 
 """
     CopyFpgaImage()
@@ -639,8 +639,8 @@ Copies the specified Amazon FPGA Image (AFI) to the current Region.
 - `Name`: The name for the new AFI. The default is the name of the source AFI.
 """
 
-CopyFpgaImage(SourceFpgaImageId, SourceRegion; aws_config::AWSConfig=global_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config)
-CopyFpgaImage(SourceFpgaImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion), args)); aws_config=aws_config)
+copy_fpga_image(SourceFpgaImageId, SourceRegion; aws_config::AWSConfig=global_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config)
+copy_fpga_image(SourceFpgaImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopyFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceFpgaImageId"=>SourceFpgaImageId, "SourceRegion"=>SourceRegion), args)); aws_config=aws_config)
 
 """
     CopyImage()
@@ -660,13 +660,13 @@ Initiates the copy of an AMI from the specified source Region to the current Reg
 - `kmsKeyId`: An identifier for the symmetric AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. If a KmsKeyId is specified, the Encrypted flag must also be set.  To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    AWS parses KmsKeyId asynchronously, meaning that the action you call may appear to complete even though you provided an invalid identifier. This action will eventually report failure.  The specified CMK must exist in the Region that the snapshot is being copied to.  Amazon EBS does not support asymmetric CMKs.
 """
 
-CopyImage(Name, SourceImageId, SourceRegion; aws_config::AWSConfig=global_aws_config()) = ec2("CopyImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config)
-CopyImage(Name, SourceImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), args)); aws_config=aws_config)
+copy_image(Name, SourceImageId, SourceRegion; aws_config::AWSConfig=global_aws_config()) = ec2("CopyImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config)
+copy_image(Name, SourceImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), args)); aws_config=aws_config)
 
 """
     CopySnapshot()
 
-Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same Region or from one Region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a different CMK. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copying an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
+Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy the snapshot within the same Region or from one Region to another. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). Copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however, you can specify a different CMK. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the CMK used to encrypt the snapshot. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copying an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `SourceRegion`: The ID of the Region that contains the snapshot to be copied.
@@ -682,8 +682,8 @@ Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You
 - `presignedUrl`: When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see Query Requests. The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in Authenticating Requests by Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
 """
 
-CopySnapshot(SourceRegion, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
-CopySnapshot(SourceRegion, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
+copy_snapshot(SourceRegion, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
+copy_snapshot(SourceRegion, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
 
 """
     CreateCapacityReservation()
@@ -709,8 +709,8 @@ Creates a new Capacity Reservation with the specified attributes. Capacity Reser
 - `Tenancy`: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation can have one of the following tenancy settings:    default - The Capacity Reservation is created on hardware that is shared with other AWS accounts.    dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated to a single AWS account.  
 """
 
-CreateCapacityReservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config)
-CreateCapacityReservation(InstanceCount, InstancePlatform, InstanceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), args)); aws_config=aws_config)
+create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config)
+create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), args)); aws_config=aws_config)
 
 """
     CreateCarrierGateway()
@@ -726,8 +726,8 @@ Creates a carrier gateway. For more information about carrier gateways, see Carr
 - `TagSpecification`: The tags to associate with the carrier gateway.
 """
 
-CreateCarrierGateway(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateCarrierGateway(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_carrier_gateway(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_carrier_gateway(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateClientVpnEndpoint()
@@ -753,8 +753,8 @@ Creates a Client VPN endpoint. A Client VPN endpoint is the resource you create 
 - `VpnPort`: The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443 
 """
 
-CreateClientVpnEndpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateClientVpnEndpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_client_vpn_endpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_client_vpn_endpoint(Authentication, ClientCidrBlock, ConnectionLogOptions, ServerCertificateArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Authentication"=>Authentication, "ClientCidrBlock"=>ClientCidrBlock, "ConnectionLogOptions"=>ConnectionLogOptions, "ServerCertificateArn"=>ServerCertificateArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateClientVpnRoute()
@@ -772,8 +772,8 @@ Adds a route to a network to a Client VPN endpoint. Each Client VPN endpoint has
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateClientVpnRoute(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateClientVpnRoute(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock, "TargetVpcSubnetId"=>TargetVpcSubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateCustomerGateway()
@@ -792,8 +792,8 @@ Provides information to AWS about your VPN customer gateway device. The customer
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateCustomerGateway(BgpAsn, Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}("BgpAsn"=>BgpAsn, "Type"=>Type); aws_config=aws_config)
-CreateCustomerGateway(BgpAsn, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BgpAsn"=>BgpAsn, "Type"=>Type), args)); aws_config=aws_config)
+create_customer_gateway(BgpAsn, Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}("BgpAsn"=>BgpAsn, "Type"=>Type); aws_config=aws_config)
+create_customer_gateway(BgpAsn, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BgpAsn"=>BgpAsn, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateDefaultSubnet()
@@ -807,8 +807,8 @@ Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availa
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateDefaultSubnet(AvailabilityZone; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config)
-CreateDefaultSubnet(AvailabilityZone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), args)); aws_config=aws_config)
+create_default_subnet(AvailabilityZone; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config)
+create_default_subnet(AvailabilityZone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), args)); aws_config=aws_config)
 
 """
     CreateDefaultVpc()
@@ -819,8 +819,8 @@ Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in ea
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateDefaultVpc(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultVpc"; aws_config=aws_config)
-CreateDefaultVpc(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultVpc", args; aws_config=aws_config)
+create_default_vpc(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultVpc"; aws_config=aws_config)
+create_default_vpc(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDefaultVpc", args; aws_config=aws_config)
 
 """
     CreateDhcpOptions()
@@ -835,8 +835,8 @@ Creates a set of DHCP options for your VPC. After creating the set, you must ass
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateDhcpOptions(dhcpConfiguration; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration); aws_config=aws_config)
-CreateDhcpOptions(dhcpConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration), args)); aws_config=aws_config)
+create_dhcp_options(dhcpConfiguration; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration); aws_config=aws_config)
+create_dhcp_options(dhcpConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dhcpConfiguration"=>dhcpConfiguration), args)); aws_config=aws_config)
 
 """
     CreateEgressOnlyInternetGateway()
@@ -852,8 +852,8 @@ CreateDhcpOptions(dhcpConfiguration, args::AbstractDict{String, <:Any}; aws_conf
 - `TagSpecification`: The tags to assign to the egress-only internet gateway.
 """
 
-CreateEgressOnlyInternetGateway(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
-CreateEgressOnlyInternetGateway(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
+create_egress_only_internet_gateway(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
+create_egress_only_internet_gateway(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     CreateFleet()
@@ -879,8 +879,8 @@ Launches an EC2 Fleet. You can create a single EC2 Fleet that includes multiple 
 - `ValidUntil`: The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new EC2 Fleet requests are placed or able to fulfill the request. If no value is specified, the request remains until you cancel it.
 """
 
-CreateFleet(TargetCapacitySpecification, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFleet", Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item); aws_config=aws_config)
-CreateFleet(TargetCapacitySpecification, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item), args)); aws_config=aws_config)
+create_fleet(TargetCapacitySpecification, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFleet", Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item); aws_config=aws_config)
+create_fleet(TargetCapacitySpecification, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetCapacitySpecification"=>TargetCapacitySpecification, "item"=>item), args)); aws_config=aws_config)
 
 """
     CreateFlowLogs()
@@ -904,8 +904,8 @@ Creates one or more flow logs to capture information about IP traffic for a spec
 - `TagSpecification`: The tags to apply to the flow logs.
 """
 
-CreateFlowLogs(ResourceId, ResourceType, TrafficType; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TrafficType"=>TrafficType); aws_config=aws_config)
-CreateFlowLogs(ResourceId, ResourceType, TrafficType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TrafficType"=>TrafficType), args)); aws_config=aws_config)
+create_flow_logs(ResourceId, ResourceType, TrafficType; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TrafficType"=>TrafficType); aws_config=aws_config)
+create_flow_logs(ResourceId, ResourceType, TrafficType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TrafficType"=>TrafficType), args)); aws_config=aws_config)
 
 """
     CreateFpgaImage()
@@ -924,8 +924,8 @@ Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP). T
 - `TagSpecification`: The tags to apply to the FPGA image during creation.
 """
 
-CreateFpgaImage(InputStorageLocation; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}("InputStorageLocation"=>InputStorageLocation); aws_config=aws_config)
-CreateFpgaImage(InputStorageLocation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputStorageLocation"=>InputStorageLocation), args)); aws_config=aws_config)
+create_fpga_image(InputStorageLocation; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}("InputStorageLocation"=>InputStorageLocation); aws_config=aws_config)
+create_fpga_image(InputStorageLocation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputStorageLocation"=>InputStorageLocation), args)); aws_config=aws_config)
 
 """
     CreateImage()
@@ -943,8 +943,8 @@ Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is eith
 - `noReboot`: By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
 """
 
-CreateImage(instanceId, name; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}("instanceId"=>instanceId, "name"=>name); aws_config=aws_config)
-CreateImage(instanceId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), args)); aws_config=aws_config)
+create_image(instanceId, name; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}("instanceId"=>instanceId, "name"=>name); aws_config=aws_config)
+create_image(instanceId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateInstanceExportTask()
@@ -961,8 +961,8 @@ Exports a running or stopped instance to an Amazon S3 bucket. For information ab
 - `targetEnvironment`: The target virtualization environment.
 """
 
-CreateInstanceExportTask(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
-CreateInstanceExportTask(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
+create_instance_export_task(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
+create_instance_export_task(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInstanceExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     CreateInternetGateway()
@@ -974,8 +974,8 @@ Creates an internet gateway for use with a VPC. After creating the internet gate
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateInternetGateway(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInternetGateway"; aws_config=aws_config)
-CreateInternetGateway(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInternetGateway", args; aws_config=aws_config)
+create_internet_gateway(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInternetGateway"; aws_config=aws_config)
+create_internet_gateway(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateInternetGateway", args; aws_config=aws_config)
 
 """
     CreateKeyPair()
@@ -990,8 +990,8 @@ Creates a 2048-bit RSA key pair with the specified name. Amazon EC2 stores the p
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateKeyPair(KeyName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}("KeyName"=>KeyName); aws_config=aws_config)
-CreateKeyPair(KeyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName), args)); aws_config=aws_config)
+create_key_pair(KeyName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}("KeyName"=>KeyName); aws_config=aws_config)
+create_key_pair(KeyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName), args)); aws_config=aws_config)
 
 """
     CreateLaunchTemplate()
@@ -1009,8 +1009,8 @@ Creates a launch template. A launch template contains the parameters to launch a
 - `VersionDescription`: A description for the first version of the launch template.
 """
 
-CreateLaunchTemplate(LaunchTemplateData, LaunchTemplateName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName); aws_config=aws_config)
-CreateLaunchTemplate(LaunchTemplateData, LaunchTemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName), args)); aws_config=aws_config)
+create_launch_template(LaunchTemplateData, LaunchTemplateName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName); aws_config=aws_config)
+create_launch_template(LaunchTemplateData, LaunchTemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData, "LaunchTemplateName"=>LaunchTemplateName), args)); aws_config=aws_config)
 
 """
     CreateLaunchTemplateVersion()
@@ -1029,8 +1029,8 @@ Creates a new version for a launch template. You can specify an existing version
 - `VersionDescription`: A description for the version of the launch template.
 """
 
-CreateLaunchTemplateVersion(LaunchTemplateData; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData); aws_config=aws_config)
-CreateLaunchTemplateVersion(LaunchTemplateData, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData), args)); aws_config=aws_config)
+create_launch_template_version(LaunchTemplateData; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData); aws_config=aws_config)
+create_launch_template_version(LaunchTemplateData, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLaunchTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateData"=>LaunchTemplateData), args)); aws_config=aws_config)
 
 """
     CreateLocalGatewayRoute()
@@ -1046,8 +1046,8 @@ Creates a static route for the specified local gateway route table.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateLocalGatewayRoute(DestinationCidrBlock, LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId); aws_config=aws_config)
-CreateLocalGatewayRoute(DestinationCidrBlock, LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId), args)); aws_config=aws_config)
+create_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId); aws_config=aws_config)
+create_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId, LocalGatewayVirtualInterfaceGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "LocalGatewayVirtualInterfaceGroupId"=>LocalGatewayVirtualInterfaceGroupId), args)); aws_config=aws_config)
 
 """
     CreateLocalGatewayRouteTableVpcAssociation()
@@ -1063,8 +1063,8 @@ Associates the specified VPC with the specified local gateway route table.
 - `TagSpecification`: The tags to assign to the local gateway route table VPC association.
 """
 
-CreateLocalGatewayRouteTableVpcAssociation(LocalGatewayRouteTableId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId); aws_config=aws_config)
-CreateLocalGatewayRouteTableVpcAssociation(LocalGatewayRouteTableId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId), args)); aws_config=aws_config)
+create_local_gateway_route_table_vpc_association(LocalGatewayRouteTableId, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId); aws_config=aws_config)
+create_local_gateway_route_table_vpc_association(LocalGatewayRouteTableId, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableId"=>LocalGatewayRouteTableId, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     CreateManagedPrefixList()
@@ -1083,8 +1083,8 @@ Creates a managed prefix list. You can specify one or more entries for the prefi
 - `TagSpecification`: The tags to apply to the prefix list during creation.
 """
 
-CreateManagedPrefixList(AddressFamily, MaxEntries, PrefixListName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateManagedPrefixList(AddressFamily, MaxEntries, PrefixListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateNatGateway()
@@ -1101,8 +1101,8 @@ Creates a NAT gateway in the specified public subnet. This action creates a netw
 - `TagSpecification`: The tags to assign to the NAT gateway.
 """
 
-CreateNatGateway(AllocationId, SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateNatGateway(AllocationId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_nat_gateway(AllocationId, SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_nat_gateway(AllocationId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateNetworkAcl()
@@ -1117,8 +1117,8 @@ Creates a network ACL in a VPC. Network ACLs provide an optional layer of securi
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateNetworkAcl(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-CreateNetworkAcl(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+create_network_acl(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+create_network_acl(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     CreateNetworkAclEntry()
@@ -1140,8 +1140,8 @@ Creates an entry (a rule) in a network ACL with the specified rule number. Each 
 - `portRange`: TCP or UDP protocols: The range of ports the rule applies to. Required if specifying protocol 6 (TCP) or 17 (UDP).
 """
 
-CreateNetworkAclEntry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config)
-CreateNetworkAclEntry(egress, networkAclId, protocol, ruleAction, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
+create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config)
+create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
 
 """
     CreateNetworkInterface()
@@ -1164,8 +1164,8 @@ Creates a network interface in the specified subnet. For more information about 
 - `secondaryPrivateIpAddressCount`: The number of secondary private IPv4 addresses to assign to a network interface. When you specify a number of secondary IPv4 addresses, Amazon EC2 selects these IP addresses within the subnet's IPv4 CIDR range. You can't specify this option and specify more than one private IP address using privateIpAddresses. The number of IP addresses you can assign to a network interface varies by instance type. For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual Private Cloud User Guide.
 """
 
-CreateNetworkInterface(subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config)
-CreateNetworkInterface(subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), args)); aws_config=aws_config)
+create_network_interface(subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config)
+create_network_interface(subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), args)); aws_config=aws_config)
 
 """
     CreateNetworkInterfacePermission()
@@ -1182,8 +1182,8 @@ Grants an AWS-authorized account permission to attach the specified network inte
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateNetworkInterfacePermission(NetworkInterfaceId, Permission; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission); aws_config=aws_config)
-CreateNetworkInterfacePermission(NetworkInterfaceId, Permission, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission), args)); aws_config=aws_config)
+create_network_interface_permission(NetworkInterfaceId, Permission; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission); aws_config=aws_config)
+create_network_interface_permission(NetworkInterfaceId, Permission, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "Permission"=>Permission), args)); aws_config=aws_config)
 
 """
     CreatePlacementGroup()
@@ -1198,8 +1198,8 @@ Creates a placement group in which to launch instances. The strategy of the plac
 - `strategy`: The placement strategy.
 """
 
-CreatePlacementGroup(; aws_config::AWSConfig=global_aws_config()) = ec2("CreatePlacementGroup"; aws_config=aws_config)
-CreatePlacementGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreatePlacementGroup", args; aws_config=aws_config)
+create_placement_group(; aws_config::AWSConfig=global_aws_config()) = ec2("CreatePlacementGroup"; aws_config=aws_config)
+create_placement_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreatePlacementGroup", args; aws_config=aws_config)
 
 """
     CreateReservedInstancesListing()
@@ -1214,8 +1214,8 @@ Creates a listing for Amazon EC2 Standard Reserved Instances to be sold in the R
 
 """
 
-CreateReservedInstancesListing(clientToken, instanceCount, priceSchedules, reservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId); aws_config=aws_config)
-CreateReservedInstancesListing(clientToken, instanceCount, priceSchedules, reservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId), args)); aws_config=aws_config)
+create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId); aws_config=aws_config)
+create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId), args)); aws_config=aws_config)
 
 """
     CreateRoute()
@@ -1241,8 +1241,8 @@ Creates a route in a route table within a VPC. You must specify one of the follo
 - `vpcPeeringConnectionId`: The ID of a VPC peering connection.
 """
 
-CreateRoute(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
-CreateRoute(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
+create_route(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
+create_route(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     CreateRouteTable()
@@ -1257,8 +1257,8 @@ Creates a route table for the specified VPC. After you create a route table, you
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateRouteTable(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-CreateRouteTable(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+create_route_table(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+create_route_table(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     CreateSecurityGroup()
@@ -1275,13 +1275,13 @@ Creates a security group. A security group acts as a virtual firewall for your i
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateSecurityGroup(GroupDescription, GroupName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName); aws_config=aws_config)
-CreateSecurityGroup(GroupDescription, GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName), args)); aws_config=aws_config)
+create_security_group(GroupDescription, GroupName; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName); aws_config=aws_config)
+create_security_group(GroupDescription, GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupDescription"=>GroupDescription, "GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     CreateSnapshot()
 
-Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. When a snapshot is created, any AWS Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your EBS volume at the time the snapshot command is issued; this may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
+Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for backups, to make copies of EBS volumes, and to save data before shutting down an instance. When a snapshot is created, any AWS Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your EBS volume at the time the snapshot command is issued; this may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. To create a snapshot for EBS volumes that serve as root devices, you should stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. You can tag your snapshots during creation. For more information, see Tagging your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `VolumeId`: The ID of the EBS volume.
@@ -1292,8 +1292,8 @@ Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snap
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateSnapshot(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-CreateSnapshot(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+create_snapshot(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+create_snapshot(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     CreateSnapshots()
@@ -1310,8 +1310,8 @@ Creates crash-consistent snapshots of multiple EBS volumes and stores the data i
 - `TagSpecification`: Tags to apply to every snapshot specified by the instance.
 """
 
-CreateSnapshots(InstanceSpecification; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}("InstanceSpecification"=>InstanceSpecification); aws_config=aws_config)
-CreateSnapshots(InstanceSpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceSpecification"=>InstanceSpecification), args)); aws_config=aws_config)
+create_snapshots(InstanceSpecification; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}("InstanceSpecification"=>InstanceSpecification); aws_config=aws_config)
+create_snapshots(InstanceSpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceSpecification"=>InstanceSpecification), args)); aws_config=aws_config)
 
 """
     CreateSpotDatafeedSubscription()
@@ -1326,8 +1326,8 @@ Creates a data feed for Spot Instances, enabling you to view Spot Instance usage
 - `prefix`: A prefix for the data feed file names.
 """
 
-CreateSpotDatafeedSubscription(bucket; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}("bucket"=>bucket); aws_config=aws_config)
-CreateSpotDatafeedSubscription(bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucket"=>bucket), args)); aws_config=aws_config)
+create_spot_datafeed_subscription(bucket; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}("bucket"=>bucket); aws_config=aws_config)
+create_spot_datafeed_subscription(bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucket"=>bucket), args)); aws_config=aws_config)
 
 """
     CreateSubnet()
@@ -1347,8 +1347,8 @@ Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateSubnet(CidrBlock, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId); aws_config=aws_config)
-CreateSubnet(CidrBlock, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId), args)); aws_config=aws_config)
+create_subnet(CidrBlock, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId); aws_config=aws_config)
+create_subnet(CidrBlock, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     CreateTags()
@@ -1363,8 +1363,8 @@ Adds or overwrites only the specified tags for the specified Amazon EC2 resource
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateTags(ResourceId, Tag; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag); aws_config=aws_config)
-CreateTags(ResourceId, Tag, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag), args)); aws_config=aws_config)
+create_tags(ResourceId, Tag; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag); aws_config=aws_config)
+create_tags(ResourceId, Tag, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tag"=>Tag), args)); aws_config=aws_config)
 
 """
     CreateTrafficMirrorFilter()
@@ -1378,8 +1378,8 @@ Creates a Traffic Mirror filter. A Traffic Mirror filter is a set of rules that 
 - `TagSpecification`: The tags to assign to a Traffic Mirror filter.
 """
 
-CreateTrafficMirrorFilter(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateTrafficMirrorFilter(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_traffic_mirror_filter(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_traffic_mirror_filter(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateTrafficMirrorFilterRule()
@@ -1403,8 +1403,8 @@ Creates a Traffic Mirror filter rule.  A Traffic Mirror rule defines the Traffic
 - `SourcePortRange`: The source port range.
 """
 
-CreateTrafficMirrorFilterRule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateTrafficMirrorFilterRule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_traffic_mirror_filter_rule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_traffic_mirror_filter_rule(DestinationCidrBlock, RuleAction, RuleNumber, SourceCidrBlock, TrafficDirection, TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "RuleAction"=>RuleAction, "RuleNumber"=>RuleNumber, "SourceCidrBlock"=>SourceCidrBlock, "TrafficDirection"=>TrafficDirection, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateTrafficMirrorSession()
@@ -1426,8 +1426,8 @@ Creates a Traffic Mirror session. A Traffic Mirror session actively copies packe
 - `VirtualNetworkId`: The VXLAN ID for the Traffic Mirror session. For more information about the VXLAN protocol, see RFC 7348. If you do not specify a VirtualNetworkId, an account-wide unique id is chosen at random.
 """
 
-CreateTrafficMirrorSession(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateTrafficMirrorSession(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_traffic_mirror_session(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_traffic_mirror_session(NetworkInterfaceId, SessionNumber, TrafficMirrorFilterId, TrafficMirrorTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfaceId"=>NetworkInterfaceId, "SessionNumber"=>SessionNumber, "TrafficMirrorFilterId"=>TrafficMirrorFilterId, "TrafficMirrorTargetId"=>TrafficMirrorTargetId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateTrafficMirrorTarget()
@@ -1443,8 +1443,8 @@ Creates a target for your Traffic Mirror session. A Traffic Mirror target is the
 - `TagSpecification`: The tags to assign to the Traffic Mirror target.
 """
 
-CreateTrafficMirrorTarget(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config)
-CreateTrafficMirrorTarget(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_traffic_mirror_target(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_traffic_mirror_target(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateTransitGateway()
@@ -1458,8 +1458,8 @@ Creates a transit gateway. You can use a transit gateway to interconnect your vi
 - `TagSpecification`: The tags to apply to the transit gateway.
 """
 
-CreateTransitGateway(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGateway"; aws_config=aws_config)
-CreateTransitGateway(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGateway", args; aws_config=aws_config)
+create_transit_gateway(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGateway"; aws_config=aws_config)
+create_transit_gateway(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGateway", args; aws_config=aws_config)
 
 """
     CreateTransitGatewayMulticastDomain()
@@ -1474,8 +1474,8 @@ Creates a multicast domain using the specified transit gateway. The transit gate
 - `TagSpecification`: The tags for the transit gateway multicast domain.
 """
 
-CreateTransitGatewayMulticastDomain(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
-CreateTransitGatewayMulticastDomain(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+create_transit_gateway_multicast_domain(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
+create_transit_gateway_multicast_domain(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
 
 """
     CreateTransitGatewayPeeringAttachment()
@@ -1493,8 +1493,26 @@ Requests a transit gateway peering attachment between the specified transit gate
 - `TagSpecification`: The tags to apply to the transit gateway peering attachment.
 """
 
-CreateTransitGatewayPeeringAttachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
-CreateTransitGatewayPeeringAttachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+create_transit_gateway_peering_attachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
+create_transit_gateway_peering_attachment(PeerAccountId, PeerRegion, PeerTransitGatewayId, TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAccountId"=>PeerAccountId, "PeerRegion"=>PeerRegion, "PeerTransitGatewayId"=>PeerTransitGatewayId, "TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+
+"""
+    CreateTransitGatewayPrefixListReference()
+
+Creates a reference (route) to a prefix list in a specified transit gateway route table.
+
+# Required Parameters
+- `PrefixListId`: The ID of the prefix list that is used for destination matches.
+- `TransitGatewayRouteTableId`: The ID of the transit gateway route table.
+
+# Optional Parameters
+- `Blackhole`: Indicates whether to drop traffic that matches this route.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `TransitGatewayAttachmentId`: The ID of the attachment to which traffic is routed.
+"""
+
+create_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+create_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     CreateTransitGatewayRoute()
@@ -1511,8 +1529,8 @@ Creates a static route for the specified transit gateway route table.
 - `TransitGatewayAttachmentId`: The ID of the attachment.
 """
 
-CreateTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-CreateTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+create_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+create_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     CreateTransitGatewayRouteTable()
@@ -1527,8 +1545,8 @@ Creates a route table for the specified transit gateway.
 - `TagSpecifications`: The tags to apply to the transit gateway route table.
 """
 
-CreateTransitGatewayRouteTable(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
-CreateTransitGatewayRouteTable(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+create_transit_gateway_route_table(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
+create_transit_gateway_route_table(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
 
 """
     CreateTransitGatewayVpcAttachment()
@@ -1547,32 +1565,32 @@ Attaches the specified VPC to the specified transit gateway. If you attach a VPC
 - `TagSpecifications`: The tags to apply to the VPC attachment.
 """
 
-CreateTransitGatewayVpcAttachment(TransitGatewayId, VpcId, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item); aws_config=aws_config)
-CreateTransitGatewayVpcAttachment(TransitGatewayId, VpcId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item), args)); aws_config=aws_config)
+create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item); aws_config=aws_config)
+create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId, "VpcId"=>VpcId, "item"=>item), args)); aws_config=aws_config)
 
 """
     CreateVolume()
 
-Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints. You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see Tagging your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more information, see Creating an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `AvailabilityZone`: The Availability Zone in which to create the volume.
 
 # Optional Parameters
-- `Iops`: The number of I/O operations per second (IOPS) to provision for the volume, with a maximum ratio of 50 IOPS/GiB. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS Volume Types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1) volumes.
+- `Iops`: The number of I/O operations per second (IOPS) to provision for an io1 or io2 volume, with a maximum ratio of 50 IOPS/GiB for io1, and 500 IOPS/GiB for io2. Range is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on Nitro-based instances. Other instance families guarantee performance up to 32,000 IOPS. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. This parameter is valid only for Provisioned IOPS SSD (io1 and io2) volumes.
 - `KmsKeyId`: The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
 - `MultiAttachEnabled`: Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Nitro-based instances in the same Availability Zone. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
 - `OutpostArn`: The Amazon Resource Name (ARN) of the Outpost.
-- `Size`: The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for gp2, 4-16,384 for io1, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
+- `Size`: The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. Constraints: 1-16,384 for gp2, 4-16,384 for io1 and io2, 500-16,384 for st1, 500-16,384 for sc1, and 1-1,024 for standard. If you specify a snapshot, the volume size must be equal to or larger than the snapshot size. Default: If you're creating the volume from a snapshot and don't specify a volume size, the default is the snapshot size.
 - `SnapshotId`: The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.
 - `TagSpecification`: The tags to apply to the volume during creation.
-- `VolumeType`: The volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: gp2 
+- `VolumeType`: The volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes. Default: gp2 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `encrypted`: Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by Default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported Instance Types.
+- `encrypted`: Specifies whether the volume should be encrypted. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Encryption by default in the Amazon Elastic Compute Cloud User Guide. Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types.
 """
 
-CreateVolume(AvailabilityZone; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config)
-CreateVolume(AvailabilityZone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), args)); aws_config=aws_config)
+create_volume(AvailabilityZone; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config)
+create_volume(AvailabilityZone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), args)); aws_config=aws_config)
 
 """
     CreateVpc()
@@ -1592,8 +1610,8 @@ Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can creat
 - `instanceTenancy`: The tenancy options for instances launched into the VPC. For default, instances are launched with shared tenancy by default. You can launch instances with any tenancy into a shared tenancy VPC. For dedicated, instances are launched as dedicated tenancy instances by default. You can only launch instances with a tenancy of dedicated or host into a dedicated tenancy VPC.   Important: The host value cannot be used with this parameter. Use the default or dedicated values only. Default: default 
 """
 
-CreateVpc(CidrBlock; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpc", Dict{String, Any}("CidrBlock"=>CidrBlock); aws_config=aws_config)
-CreateVpc(CidrBlock, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock), args)); aws_config=aws_config)
+create_vpc(CidrBlock; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpc", Dict{String, Any}("CidrBlock"=>CidrBlock); aws_config=aws_config)
+create_vpc(CidrBlock, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock), args)); aws_config=aws_config)
 
 """
     CreateVpcEndpoint()
@@ -1616,8 +1634,8 @@ Creates a VPC endpoint for a specified service. An endpoint enables you to creat
 - `VpcEndpointType`: The type of endpoint. Default: Gateway
 """
 
-CreateVpcEndpoint(ServiceName, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId); aws_config=aws_config)
-CreateVpcEndpoint(ServiceName, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId), args)); aws_config=aws_config)
+create_vpc_endpoint(ServiceName, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId); aws_config=aws_config)
+create_vpc_endpoint(ServiceName, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     CreateVpcEndpointConnectionNotification()
@@ -1636,8 +1654,8 @@ Creates a connection notification for a specified VPC endpoint or VPC endpoint s
 - `VpcEndpointId`: The ID of the endpoint.
 """
 
-CreateVpcEndpointConnectionNotification(ConnectionNotificationArn, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item); aws_config=aws_config)
-CreateVpcEndpointConnectionNotification(ConnectionNotificationArn, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item), args)); aws_config=aws_config)
+create_vpc_endpoint_connection_notification(ConnectionNotificationArn, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item); aws_config=aws_config)
+create_vpc_endpoint_connection_notification(ConnectionNotificationArn, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationArn"=>ConnectionNotificationArn, "item"=>item), args)); aws_config=aws_config)
 
 """
     CreateVpcEndpointServiceConfiguration()
@@ -1655,8 +1673,8 @@ Creates a VPC endpoint service configuration to which service consumers (AWS acc
 - `TagSpecification`: The tags to associate with the service.
 """
 
-CreateVpcEndpointServiceConfiguration(NetworkLoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration", Dict{String, Any}("NetworkLoadBalancerArn"=>NetworkLoadBalancerArn); aws_config=aws_config)
-CreateVpcEndpointServiceConfiguration(NetworkLoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkLoadBalancerArn"=>NetworkLoadBalancerArn), args)); aws_config=aws_config)
+create_vpc_endpoint_service_configuration(NetworkLoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration", Dict{String, Any}("NetworkLoadBalancerArn"=>NetworkLoadBalancerArn); aws_config=aws_config)
+create_vpc_endpoint_service_configuration(NetworkLoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkLoadBalancerArn"=>NetworkLoadBalancerArn), args)); aws_config=aws_config)
 
 """
     CreateVpcPeeringConnection()
@@ -1672,8 +1690,8 @@ Requests a VPC peering connection between two VPCs: a requester VPC that you own
 - `vpcId`: The ID of the requester VPC. You must specify this parameter in the request.
 """
 
-CreateVpcPeeringConnection(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcPeeringConnection"; aws_config=aws_config)
-CreateVpcPeeringConnection(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcPeeringConnection", args; aws_config=aws_config)
+create_vpc_peering_connection(; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcPeeringConnection"; aws_config=aws_config)
+create_vpc_peering_connection(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpcPeeringConnection", args; aws_config=aws_config)
 
 """
     CreateVpnConnection()
@@ -1692,8 +1710,8 @@ Creates a VPN connection between an existing virtual private gateway or transit 
 - `options`: The options for the VPN connection.
 """
 
-CreateVpnConnection(CustomerGatewayId, Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type); aws_config=aws_config)
-CreateVpnConnection(CustomerGatewayId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type), args)); aws_config=aws_config)
+create_vpn_connection(CustomerGatewayId, Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type); aws_config=aws_config)
+create_vpn_connection(CustomerGatewayId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateVpnConnectionRoute()
@@ -1706,8 +1724,8 @@ Creates a static route associated with a VPN connection between an existing virt
 
 """
 
-CreateVpnConnectionRoute(DestinationCidrBlock, VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
-CreateVpnConnectionRoute(DestinationCidrBlock, VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
+create_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
+create_vpn_connection_route(DestinationCidrBlock, VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
 
 """
     CreateVpnGateway()
@@ -1724,8 +1742,8 @@ Creates a virtual private gateway. A virtual private gateway is the endpoint on 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-CreateVpnGateway(Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}("Type"=>Type); aws_config=aws_config)
-CreateVpnGateway(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), args)); aws_config=aws_config)
+create_vpn_gateway(Type; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}("Type"=>Type); aws_config=aws_config)
+create_vpn_gateway(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), args)); aws_config=aws_config)
 
 """
     DeleteCarrierGateway()
@@ -1739,8 +1757,8 @@ Deletes a carrier gateway.  If you do not delete the route that contains the car
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteCarrierGateway(CarrierGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId); aws_config=aws_config)
-DeleteCarrierGateway(CarrierGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId), args)); aws_config=aws_config)
+delete_carrier_gateway(CarrierGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId); aws_config=aws_config)
+delete_carrier_gateway(CarrierGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCarrierGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CarrierGatewayId"=>CarrierGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteClientVpnEndpoint()
@@ -1754,8 +1772,8 @@ Deletes the specified Client VPN endpoint. You must disassociate all target netw
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteClientVpnEndpoint(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DeleteClientVpnEndpoint(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+delete_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+delete_client_vpn_endpoint(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DeleteClientVpnRoute()
@@ -1771,8 +1789,8 @@ Deletes a route from a Client VPN endpoint. You can only delete routes that you 
 - `TargetVpcSubnetId`: The ID of the target subnet used by the route.
 """
 
-DeleteClientVpnRoute(ClientVpnEndpointId, DestinationCidrBlock; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock); aws_config=aws_config)
-DeleteClientVpnRoute(ClientVpnEndpointId, DestinationCidrBlock, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock), args)); aws_config=aws_config)
+delete_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock); aws_config=aws_config)
+delete_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteClientVpnRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "DestinationCidrBlock"=>DestinationCidrBlock), args)); aws_config=aws_config)
 
 """
     DeleteCustomerGateway()
@@ -1786,8 +1804,8 @@ Deletes the specified customer gateway. You must delete the VPN connection befor
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteCustomerGateway(CustomerGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId); aws_config=aws_config)
-DeleteCustomerGateway(CustomerGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId), args)); aws_config=aws_config)
+delete_customer_gateway(CustomerGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId); aws_config=aws_config)
+delete_customer_gateway(CustomerGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteCustomerGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayId"=>CustomerGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteDhcpOptions()
@@ -1801,8 +1819,8 @@ Deletes the specified set of DHCP options. You must disassociate the set of DHCP
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteDhcpOptions(DhcpOptionsId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId); aws_config=aws_config)
-DeleteDhcpOptions(DhcpOptionsId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId), args)); aws_config=aws_config)
+delete_dhcp_options(DhcpOptionsId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId); aws_config=aws_config)
+delete_dhcp_options(DhcpOptionsId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteDhcpOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DhcpOptionsId"=>DhcpOptionsId), args)); aws_config=aws_config)
 
 """
     DeleteEgressOnlyInternetGateway()
@@ -1816,8 +1834,8 @@ Deletes an egress-only internet gateway.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteEgressOnlyInternetGateway(EgressOnlyInternetGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId); aws_config=aws_config)
-DeleteEgressOnlyInternetGateway(EgressOnlyInternetGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId), args)); aws_config=aws_config)
+delete_egress_only_internet_gateway(EgressOnlyInternetGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId); aws_config=aws_config)
+delete_egress_only_internet_gateway(EgressOnlyInternetGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteEgressOnlyInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EgressOnlyInternetGatewayId"=>EgressOnlyInternetGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteFleets()
@@ -1832,8 +1850,8 @@ Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no n
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteFleets(FleetId, TerminateInstances; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFleets", Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances); aws_config=aws_config)
-DeleteFleets(FleetId, TerminateInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances), args)); aws_config=aws_config)
+delete_fleets(FleetId, TerminateInstances; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFleets", Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances); aws_config=aws_config)
+delete_fleets(FleetId, TerminateInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TerminateInstances"=>TerminateInstances), args)); aws_config=aws_config)
 
 """
     DeleteFlowLogs()
@@ -1847,8 +1865,8 @@ Deletes one or more flow logs.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteFlowLogs(FlowLogId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}("FlowLogId"=>FlowLogId); aws_config=aws_config)
-DeleteFlowLogs(FlowLogId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowLogId"=>FlowLogId), args)); aws_config=aws_config)
+delete_flow_logs(FlowLogId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}("FlowLogId"=>FlowLogId); aws_config=aws_config)
+delete_flow_logs(FlowLogId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFlowLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowLogId"=>FlowLogId), args)); aws_config=aws_config)
 
 """
     DeleteFpgaImage()
@@ -1862,8 +1880,8 @@ Deletes the specified Amazon FPGA Image (AFI).
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteFpgaImage(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
-DeleteFpgaImage(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
+delete_fpga_image(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
+delete_fpga_image(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
 
 """
     DeleteInternetGateway()
@@ -1877,8 +1895,8 @@ Deletes the specified internet gateway. You must detach the internet gateway fro
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteInternetGateway(internetGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId); aws_config=aws_config)
-DeleteInternetGateway(internetGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId), args)); aws_config=aws_config)
+delete_internet_gateway(internetGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId); aws_config=aws_config)
+delete_internet_gateway(internetGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteKeyPair()
@@ -1891,8 +1909,8 @@ Deletes the specified key pair, by removing the public key from Amazon EC2.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteKeyPair(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteKeyPair"; aws_config=aws_config)
-DeleteKeyPair(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteKeyPair", args; aws_config=aws_config)
+delete_key_pair(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteKeyPair"; aws_config=aws_config)
+delete_key_pair(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteKeyPair", args; aws_config=aws_config)
 
 """
     DeleteLaunchTemplate()
@@ -1905,8 +1923,8 @@ Deletes a launch template. Deleting a launch template deletes all of its version
 - `LaunchTemplateName`: The name of the launch template. You must specify either the launch template ID or launch template name in the request.
 """
 
-DeleteLaunchTemplate(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplate"; aws_config=aws_config)
-DeleteLaunchTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplate", args; aws_config=aws_config)
+delete_launch_template(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplate"; aws_config=aws_config)
+delete_launch_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplate", args; aws_config=aws_config)
 
 """
     DeleteLaunchTemplateVersions()
@@ -1922,8 +1940,8 @@ Deletes one or more versions of a launch template. You cannot delete the default
 - `LaunchTemplateName`: The name of the launch template. You must specify either the launch template ID or launch template name in the request.
 """
 
-DeleteLaunchTemplateVersions(LaunchTemplateVersion; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion); aws_config=aws_config)
-DeleteLaunchTemplateVersions(LaunchTemplateVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion), args)); aws_config=aws_config)
+delete_launch_template_versions(LaunchTemplateVersion; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion); aws_config=aws_config)
+delete_launch_template_versions(LaunchTemplateVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLaunchTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchTemplateVersion"=>LaunchTemplateVersion), args)); aws_config=aws_config)
 
 """
     DeleteLocalGatewayRoute()
@@ -1938,8 +1956,8 @@ Deletes the specified route from the specified local gateway route table.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteLocalGatewayRoute(DestinationCidrBlock, LocalGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config)
-DeleteLocalGatewayRoute(DestinationCidrBlock, LocalGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), args)); aws_config=aws_config)
+delete_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config)
+delete_local_gateway_route(DestinationCidrBlock, LocalGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DeleteLocalGatewayRouteTableVpcAssociation()
@@ -1953,8 +1971,8 @@ Deletes the specified association between a VPC and local gateway route table.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteLocalGatewayRouteTableVpcAssociation(LocalGatewayRouteTableVpcAssociationId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId); aws_config=aws_config)
-DeleteLocalGatewayRouteTableVpcAssociation(LocalGatewayRouteTableVpcAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId), args)); aws_config=aws_config)
+delete_local_gateway_route_table_vpc_association(LocalGatewayRouteTableVpcAssociationId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId); aws_config=aws_config)
+delete_local_gateway_route_table_vpc_association(LocalGatewayRouteTableVpcAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteLocalGatewayRouteTableVpcAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocalGatewayRouteTableVpcAssociationId"=>LocalGatewayRouteTableVpcAssociationId), args)); aws_config=aws_config)
 
 """
     DeleteManagedPrefixList()
@@ -1968,8 +1986,8 @@ Deletes the specified managed prefix list. You must first remove all references 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteManagedPrefixList(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
-DeleteManagedPrefixList(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
+delete_managed_prefix_list(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
+delete_managed_prefix_list(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
 
 """
     DeleteNatGateway()
@@ -1983,8 +2001,8 @@ Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its Elas
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteNatGateway(NatGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}("NatGatewayId"=>NatGatewayId); aws_config=aws_config)
-DeleteNatGateway(NatGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId), args)); aws_config=aws_config)
+delete_nat_gateway(NatGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}("NatGatewayId"=>NatGatewayId); aws_config=aws_config)
+delete_nat_gateway(NatGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NatGatewayId"=>NatGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteNetworkAcl()
@@ -1998,8 +2016,8 @@ Deletes the specified network ACL. You can't delete the ACL if it's associated w
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteNetworkAcl(networkAclId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}("networkAclId"=>networkAclId); aws_config=aws_config)
-DeleteNetworkAcl(networkAclId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkAclId"=>networkAclId), args)); aws_config=aws_config)
+delete_network_acl(networkAclId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}("networkAclId"=>networkAclId); aws_config=aws_config)
+delete_network_acl(networkAclId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAcl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkAclId"=>networkAclId), args)); aws_config=aws_config)
 
 """
     DeleteNetworkAclEntry()
@@ -2015,8 +2033,8 @@ Deletes the specified ingress or egress entry (rule) from the specified network 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteNetworkAclEntry(egress, networkAclId, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber); aws_config=aws_config)
-DeleteNetworkAclEntry(egress, networkAclId, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
+delete_network_acl_entry(egress, networkAclId, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber); aws_config=aws_config)
+delete_network_acl_entry(egress, networkAclId, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
 
 """
     DeleteNetworkInterface()
@@ -2030,8 +2048,8 @@ Deletes the specified network interface. You must detach the network interface b
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteNetworkInterface(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-DeleteNetworkInterface(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+delete_network_interface(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+delete_network_interface(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     DeleteNetworkInterfacePermission()
@@ -2046,8 +2064,8 @@ Deletes a permission for a network interface. By default, you cannot delete the 
 - `Force`: Specify true to remove the permission even if the network interface is attached to an instance.
 """
 
-DeleteNetworkInterfacePermission(NetworkInterfacePermissionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId); aws_config=aws_config)
-DeleteNetworkInterfacePermission(NetworkInterfacePermissionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId), args)); aws_config=aws_config)
+delete_network_interface_permission(NetworkInterfacePermissionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId); aws_config=aws_config)
+delete_network_interface_permission(NetworkInterfacePermissionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInterfacePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInterfacePermissionId"=>NetworkInterfacePermissionId), args)); aws_config=aws_config)
 
 """
     DeletePlacementGroup()
@@ -2061,8 +2079,8 @@ Deletes the specified placement group. You must terminate all instances in the p
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeletePlacementGroup(groupName; aws_config::AWSConfig=global_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}("groupName"=>groupName); aws_config=aws_config)
-DeletePlacementGroup(groupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupName"=>groupName), args)); aws_config=aws_config)
+delete_placement_group(groupName; aws_config::AWSConfig=global_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}("groupName"=>groupName); aws_config=aws_config)
+delete_placement_group(groupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeletePlacementGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupName"=>groupName), args)); aws_config=aws_config)
 
 """
     DeleteQueuedReservedInstances()
@@ -2076,8 +2094,8 @@ Deletes the queued purchases for the specified Reserved Instances.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteQueuedReservedInstances(ReservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config)
-DeleteQueuedReservedInstances(ReservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId), args)); aws_config=aws_config)
+delete_queued_reserved_instances(ReservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config)
+delete_queued_reserved_instances(ReservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteQueuedReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesId"=>ReservedInstancesId), args)); aws_config=aws_config)
 
 """
     DeleteRoute()
@@ -2094,8 +2112,8 @@ Deletes the specified route from the specified route table.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteRoute(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
-DeleteRoute(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
+delete_route(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
+delete_route(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     DeleteRouteTable()
@@ -2109,8 +2127,8 @@ Deletes the specified route table. You must disassociate the route table from an
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteRouteTable(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
-DeleteRouteTable(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
+delete_route_table(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
+delete_route_table(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     DeleteSecurityGroup()
@@ -2123,13 +2141,13 @@ Deletes a security group. If you attempt to delete a security group that is asso
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteSecurityGroup(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSecurityGroup"; aws_config=aws_config)
-DeleteSecurityGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSecurityGroup", args; aws_config=aws_config)
+delete_security_group(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSecurityGroup"; aws_config=aws_config)
+delete_security_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSecurityGroup", args; aws_config=aws_config)
 
 """
     DeleteSnapshot()
 
-Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Deleting an Amazon EBS Snapshot in the Amazon Elastic Compute Cloud User Guide.
+Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Deleting an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `SnapshotId`: The ID of the EBS snapshot.
@@ -2138,8 +2156,8 @@ Deletes the specified snapshot. When you make periodic snapshots of a volume, th
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteSnapshot(SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config)
-DeleteSnapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
+delete_snapshot(SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config)
+delete_snapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
 
 """
     DeleteSpotDatafeedSubscription()
@@ -2150,8 +2168,8 @@ Deletes the data feed for Spot Instances.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteSpotDatafeedSubscription(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSpotDatafeedSubscription"; aws_config=aws_config)
-DeleteSpotDatafeedSubscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSpotDatafeedSubscription", args; aws_config=aws_config)
+delete_spot_datafeed_subscription(; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSpotDatafeedSubscription"; aws_config=aws_config)
+delete_spot_datafeed_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSpotDatafeedSubscription", args; aws_config=aws_config)
 
 """
     DeleteSubnet()
@@ -2165,8 +2183,8 @@ Deletes the specified subnet. You must terminate all running instances in the su
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteSubnet(SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}("SubnetId"=>SubnetId); aws_config=aws_config)
-DeleteSubnet(SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), args)); aws_config=aws_config)
+delete_subnet(SubnetId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}("SubnetId"=>SubnetId); aws_config=aws_config)
+delete_subnet(SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), args)); aws_config=aws_config)
 
 """
     DeleteTags()
@@ -2181,8 +2199,8 @@ Deletes the specified set of tags from the specified set of resources. To list t
 - `tag`: The tags to delete. Specify a tag key and an optional tag value to delete specific tags. If you specify a tag key without a tag value, we delete any tag with this key regardless of its value. If you specify a tag key with an empty string as the tag value, we delete the tag only if its value is an empty string. If you omit this parameter, we delete all user-defined tags for the specified resources. We do not delete AWS-generated tags (tags that have the aws: prefix).
 """
 
-DeleteTags(resourceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}("resourceId"=>resourceId); aws_config=aws_config)
-DeleteTags(resourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId), args)); aws_config=aws_config)
+delete_tags(resourceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}("resourceId"=>resourceId); aws_config=aws_config)
+delete_tags(resourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId), args)); aws_config=aws_config)
 
 """
     DeleteTrafficMirrorFilter()
@@ -2196,8 +2214,8 @@ Deletes the specified Traffic Mirror filter. You cannot delete a Traffic Mirror 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTrafficMirrorFilter(TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config)
-DeleteTrafficMirrorFilter(TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), args)); aws_config=aws_config)
+delete_traffic_mirror_filter(TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config)
+delete_traffic_mirror_filter(TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), args)); aws_config=aws_config)
 
 """
     DeleteTrafficMirrorFilterRule()
@@ -2211,8 +2229,8 @@ Deletes the specified Traffic Mirror rule.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTrafficMirrorFilterRule(TrafficMirrorFilterRuleId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config)
-DeleteTrafficMirrorFilterRule(TrafficMirrorFilterRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), args)); aws_config=aws_config)
+delete_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config)
+delete_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), args)); aws_config=aws_config)
 
 """
     DeleteTrafficMirrorSession()
@@ -2226,8 +2244,8 @@ Deletes the specified Traffic Mirror session.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTrafficMirrorSession(TrafficMirrorSessionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config)
-DeleteTrafficMirrorSession(TrafficMirrorSessionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), args)); aws_config=aws_config)
+delete_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config)
+delete_traffic_mirror_session(TrafficMirrorSessionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), args)); aws_config=aws_config)
 
 """
     DeleteTrafficMirrorTarget()
@@ -2241,8 +2259,8 @@ Deletes the specified Traffic Mirror target. You cannot delete a Traffic Mirror 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTrafficMirrorTarget(TrafficMirrorTargetId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId); aws_config=aws_config)
-DeleteTrafficMirrorTarget(TrafficMirrorTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId), args)); aws_config=aws_config)
+delete_traffic_mirror_target(TrafficMirrorTargetId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId); aws_config=aws_config)
+delete_traffic_mirror_target(TrafficMirrorTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTrafficMirrorTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorTargetId"=>TrafficMirrorTargetId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGateway()
@@ -2256,8 +2274,8 @@ Deletes the specified transit gateway.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGateway(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
-DeleteTransitGateway(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+delete_transit_gateway(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
+delete_transit_gateway(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayMulticastDomain()
@@ -2271,8 +2289,8 @@ Deletes the specified transit gateway multicast domain.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGatewayMulticastDomain(TransitGatewayMulticastDomainId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId); aws_config=aws_config)
-DeleteTransitGatewayMulticastDomain(TransitGatewayMulticastDomainId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), args)); aws_config=aws_config)
+delete_transit_gateway_multicast_domain(TransitGatewayMulticastDomainId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId); aws_config=aws_config)
+delete_transit_gateway_multicast_domain(TransitGatewayMulticastDomainId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayMulticastDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayMulticastDomainId"=>TransitGatewayMulticastDomainId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayPeeringAttachment()
@@ -2286,8 +2304,24 @@ Deletes a transit gateway peering attachment.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGatewayPeeringAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-DeleteTransitGatewayPeeringAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+delete_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+delete_transit_gateway_peering_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+
+"""
+    DeleteTransitGatewayPrefixListReference()
+
+Deletes a reference (route) to a prefix list in a specified transit gateway route table.
+
+# Required Parameters
+- `PrefixListId`: The ID of the prefix list.
+- `TransitGatewayRouteTableId`: The ID of the route table.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+
+delete_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+delete_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayRoute()
@@ -2302,8 +2336,8 @@ Deletes the specified route from the specified transit gateway route table.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-DeleteTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+delete_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+delete_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayRouteTable()
@@ -2317,8 +2351,8 @@ Deletes the specified transit gateway route table. You must disassociate the rou
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGatewayRouteTable(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-DeleteTransitGatewayRouteTable(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+delete_transit_gateway_route_table(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+delete_transit_gateway_route_table(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayVpcAttachment()
@@ -2332,13 +2366,13 @@ Deletes the specified VPC attachment.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteTransitGatewayVpcAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-DeleteTransitGatewayVpcAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     DeleteVolume()
 
-Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Deleting an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+Deletes the specified EBS volume. The volume must be in the available state (not attached to an instance). The volume can remain in the deleting state for several minutes. For more information, see Deleting an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `VolumeId`: The ID of the volume.
@@ -2347,8 +2381,8 @@ Deletes the specified EBS volume. The volume must be in the available state (not
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-DeleteVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+delete_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+delete_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     DeleteVpc()
@@ -2362,8 +2396,8 @@ Deletes the specified VPC. You must detach or delete all gateways and resources 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpc(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpc", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
-DeleteVpc(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
+delete_vpc(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpc", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
+delete_vpc(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     DeleteVpcEndpointConnectionNotifications()
@@ -2377,8 +2411,8 @@ Deletes one or more VPC endpoint connection notifications.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpcEndpointConnectionNotifications(ConnectionNotificationId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config)
-DeleteVpcEndpointConnectionNotifications(ConnectionNotificationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), args)); aws_config=aws_config)
+delete_vpc_endpoint_connection_notifications(ConnectionNotificationId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config)
+delete_vpc_endpoint_connection_notifications(ConnectionNotificationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointConnectionNotifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), args)); aws_config=aws_config)
 
 """
     DeleteVpcEndpointServiceConfigurations()
@@ -2392,8 +2426,8 @@ Deletes one or more VPC endpoint service configurations in your account. Before 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpcEndpointServiceConfigurations(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-DeleteVpcEndpointServiceConfigurations(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+delete_vpc_endpoint_service_configurations(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
+delete_vpc_endpoint_service_configurations(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpointServiceConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
 
 """
     DeleteVpcEndpoints()
@@ -2407,8 +2441,8 @@ Deletes one or more specified VPC endpoints. Deleting a gateway endpoint also de
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpcEndpoints(VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
-DeleteVpcEndpoints(VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
+delete_vpc_endpoints(VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
+delete_vpc_endpoints(VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
 
 """
     DeleteVpcPeeringConnection()
@@ -2422,8 +2456,8 @@ Deletes a VPC peering connection. Either the owner of the requester VPC or the o
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpcPeeringConnection(vpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config)
-DeleteVpcPeeringConnection(vpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), args)); aws_config=aws_config)
+delete_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config)
+delete_vpc_peering_connection(vpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), args)); aws_config=aws_config)
 
 """
     DeleteVpnConnection()
@@ -2437,8 +2471,8 @@ Deletes the specified VPN connection. If you're deleting the VPC and its associa
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpnConnection(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
-DeleteVpnConnection(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
+delete_vpn_connection(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
+delete_vpn_connection(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
 
 """
     DeleteVpnConnectionRoute()
@@ -2451,8 +2485,8 @@ Deletes the specified static route associated with a VPN connection between an e
 
 """
 
-DeleteVpnConnectionRoute(DestinationCidrBlock, VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
-DeleteVpnConnectionRoute(DestinationCidrBlock, VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
+delete_vpn_connection_route(DestinationCidrBlock, VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
+delete_vpn_connection_route(DestinationCidrBlock, VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnConnectionRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
 
 """
     DeleteVpnGateway()
@@ -2466,8 +2500,8 @@ Deletes the specified virtual private gateway. You must first detach the virtual
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeleteVpnGateway(VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}("VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
-DeleteVpnGateway(VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
+delete_vpn_gateway(VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}("VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
+delete_vpn_gateway(VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
 
 """
     DeprovisionByoipCidr()
@@ -2481,8 +2515,8 @@ Releases the specified address range that you provisioned for use with your AWS 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeprovisionByoipCidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-DeprovisionByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
+deprovision_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
+deprovision_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
 
 """
     DeregisterImage()
@@ -2496,8 +2530,8 @@ Deregisters the specified AMI. After you deregister an AMI, it can't be used to 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DeregisterImage(ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
-DeregisterImage(ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws_config=aws_config)
+deregister_image(ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
+deregister_image(ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws_config=aws_config)
 
 """
     DeregisterInstanceEventNotificationAttributes()
@@ -2509,8 +2543,8 @@ Deregisters tag keys to prevent tags that have the specified tag keys from being
 - `InstanceTagAttribute`: Information about the tag keys to deregister.
 """
 
-DeregisterInstanceEventNotificationAttributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes"; aws_config=aws_config)
-DeregisterInstanceEventNotificationAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes", args; aws_config=aws_config)
+deregister_instance_event_notification_attributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes"; aws_config=aws_config)
+deregister_instance_event_notification_attributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterInstanceEventNotificationAttributes", args; aws_config=aws_config)
 
 """
     DeregisterTransitGatewayMulticastGroupMembers()
@@ -2524,8 +2558,8 @@ Deregisters the specified members (network interfaces) from the transit gateway 
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-DeregisterTransitGatewayMulticastGroupMembers(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers"; aws_config=aws_config)
-DeregisterTransitGatewayMulticastGroupMembers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers", args; aws_config=aws_config)
+deregister_transit_gateway_multicast_group_members(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers"; aws_config=aws_config)
+deregister_transit_gateway_multicast_group_members(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupMembers", args; aws_config=aws_config)
 
 """
     DeregisterTransitGatewayMulticastGroupSources()
@@ -2539,8 +2573,8 @@ Deregisters the specified sources (network interfaces) from the transit gateway 
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-DeregisterTransitGatewayMulticastGroupSources(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources"; aws_config=aws_config)
-DeregisterTransitGatewayMulticastGroupSources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources", args; aws_config=aws_config)
+deregister_transit_gateway_multicast_group_sources(; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources"; aws_config=aws_config)
+deregister_transit_gateway_multicast_group_sources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeregisterTransitGatewayMulticastGroupSources", args; aws_config=aws_config)
 
 """
     DescribeAccountAttributes()
@@ -2552,8 +2586,8 @@ Describes attributes of your AWS account. The following are the supported accoun
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeAccountAttributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAccountAttributes"; aws_config=aws_config)
-DescribeAccountAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAccountAttributes", args; aws_config=aws_config)
+describe_account_attributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAccountAttributes"; aws_config=aws_config)
+describe_account_attributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAccountAttributes", args; aws_config=aws_config)
 
 """
     DescribeAddresses()
@@ -2567,8 +2601,8 @@ Describes the specified Elastic IP addresses or all of your Elastic IP addresses
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeAddresses(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAddresses"; aws_config=aws_config)
-DescribeAddresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAddresses", args; aws_config=aws_config)
+describe_addresses(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAddresses"; aws_config=aws_config)
+describe_addresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAddresses", args; aws_config=aws_config)
 
 """
     DescribeAggregateIdFormat()
@@ -2579,8 +2613,8 @@ Describes the longer ID format settings for all resource types in a specific Reg
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeAggregateIdFormat(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAggregateIdFormat"; aws_config=aws_config)
-DescribeAggregateIdFormat(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAggregateIdFormat", args; aws_config=aws_config)
+describe_aggregate_id_format(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAggregateIdFormat"; aws_config=aws_config)
+describe_aggregate_id_format(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAggregateIdFormat", args; aws_config=aws_config)
 
 """
     DescribeAvailabilityZones()
@@ -2595,8 +2629,8 @@ Describes the Availability Zones, Local Zones, and Wavelength Zones that are ava
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeAvailabilityZones(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAvailabilityZones"; aws_config=aws_config)
-DescribeAvailabilityZones(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAvailabilityZones", args; aws_config=aws_config)
+describe_availability_zones(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAvailabilityZones"; aws_config=aws_config)
+describe_availability_zones(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeAvailabilityZones", args; aws_config=aws_config)
 
 """
     DescribeBundleTasks()
@@ -2609,8 +2643,8 @@ Describes the specified bundle tasks or all of your bundle tasks.  Completed bun
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeBundleTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeBundleTasks"; aws_config=aws_config)
-DescribeBundleTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeBundleTasks", args; aws_config=aws_config)
+describe_bundle_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeBundleTasks"; aws_config=aws_config)
+describe_bundle_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeBundleTasks", args; aws_config=aws_config)
 
 """
     DescribeByoipCidrs()
@@ -2625,8 +2659,8 @@ Describes the IP address ranges that were specified in calls to ProvisionByoipCi
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeByoipCidrs(MaxResults; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
-DescribeByoipCidrs(MaxResults, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws_config=aws_config)
+describe_byoip_cidrs(MaxResults; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
+describe_byoip_cidrs(MaxResults, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeByoipCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws_config=aws_config)
 
 """
     DescribeCapacityReservations()
@@ -2641,8 +2675,8 @@ Describes one or more of your Capacity Reservations. The results describe only t
 - `NextToken`: The token to use to retrieve the next page of results.
 """
 
-DescribeCapacityReservations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCapacityReservations"; aws_config=aws_config)
-DescribeCapacityReservations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCapacityReservations", args; aws_config=aws_config)
+describe_capacity_reservations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCapacityReservations"; aws_config=aws_config)
+describe_capacity_reservations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCapacityReservations", args; aws_config=aws_config)
 
 """
     DescribeCarrierGateways()
@@ -2657,8 +2691,8 @@ Describes one or more of your carrier gateways.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeCarrierGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCarrierGateways"; aws_config=aws_config)
-DescribeCarrierGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCarrierGateways", args; aws_config=aws_config)
+describe_carrier_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCarrierGateways"; aws_config=aws_config)
+describe_carrier_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCarrierGateways", args; aws_config=aws_config)
 
 """
     DescribeClassicLinkInstances()
@@ -2673,8 +2707,8 @@ Describes one or more of your linked EC2-Classic instances. This request only re
 - `nextToken`: The token for the next page of results.
 """
 
-DescribeClassicLinkInstances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClassicLinkInstances"; aws_config=aws_config)
-DescribeClassicLinkInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClassicLinkInstances", args; aws_config=aws_config)
+describe_classic_link_instances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClassicLinkInstances"; aws_config=aws_config)
+describe_classic_link_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClassicLinkInstances", args; aws_config=aws_config)
 
 """
     DescribeClientVpnAuthorizationRules()
@@ -2691,8 +2725,8 @@ Describes the authorization rules for a specified Client VPN endpoint.
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeClientVpnAuthorizationRules(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DescribeClientVpnAuthorizationRules(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+describe_client_vpn_authorization_rules(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+describe_client_vpn_authorization_rules(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnAuthorizationRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DescribeClientVpnConnections()
@@ -2709,8 +2743,8 @@ Describes active client connections and connections that have been terminated wi
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeClientVpnConnections(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DescribeClientVpnConnections(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+describe_client_vpn_connections(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+describe_client_vpn_connections(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DescribeClientVpnEndpoints()
@@ -2725,8 +2759,8 @@ Describes one or more Client VPN endpoints in the account.
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeClientVpnEndpoints(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnEndpoints"; aws_config=aws_config)
-DescribeClientVpnEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnEndpoints", args; aws_config=aws_config)
+describe_client_vpn_endpoints(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnEndpoints"; aws_config=aws_config)
+describe_client_vpn_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnEndpoints", args; aws_config=aws_config)
 
 """
     DescribeClientVpnRoutes()
@@ -2743,8 +2777,8 @@ Describes the routes for the specified Client VPN endpoint.
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeClientVpnRoutes(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DescribeClientVpnRoutes(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+describe_client_vpn_routes(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+describe_client_vpn_routes(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DescribeClientVpnTargetNetworks()
@@ -2762,8 +2796,8 @@ Describes the target networks associated with the specified Client VPN endpoint.
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeClientVpnTargetNetworks(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DescribeClientVpnTargetNetworks(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+describe_client_vpn_target_networks(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+describe_client_vpn_target_networks(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeClientVpnTargetNetworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DescribeCoipPools()
@@ -2778,8 +2812,8 @@ Describes the specified customer-owned address pools or all of your customer-own
 - `PoolId`: The IDs of the address pools.
 """
 
-DescribeCoipPools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCoipPools"; aws_config=aws_config)
-DescribeCoipPools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCoipPools", args; aws_config=aws_config)
+describe_coip_pools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCoipPools"; aws_config=aws_config)
+describe_coip_pools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCoipPools", args; aws_config=aws_config)
 
 """
     DescribeConversionTasks()
@@ -2791,8 +2825,8 @@ Describes the specified conversion tasks or all your conversion tasks. For more 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeConversionTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeConversionTasks"; aws_config=aws_config)
-DescribeConversionTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeConversionTasks", args; aws_config=aws_config)
+describe_conversion_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeConversionTasks"; aws_config=aws_config)
+describe_conversion_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeConversionTasks", args; aws_config=aws_config)
 
 """
     DescribeCustomerGateways()
@@ -2805,8 +2839,8 @@ Describes one or more of your VPN customer gateways. For more information, see A
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeCustomerGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCustomerGateways"; aws_config=aws_config)
-DescribeCustomerGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCustomerGateways", args; aws_config=aws_config)
+describe_customer_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCustomerGateways"; aws_config=aws_config)
+describe_customer_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeCustomerGateways", args; aws_config=aws_config)
 
 """
     DescribeDhcpOptions()
@@ -2821,8 +2855,8 @@ Describes one or more of your DHCP options sets. For more information, see DHCP 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeDhcpOptions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeDhcpOptions"; aws_config=aws_config)
-DescribeDhcpOptions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeDhcpOptions", args; aws_config=aws_config)
+describe_dhcp_options(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeDhcpOptions"; aws_config=aws_config)
+describe_dhcp_options(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeDhcpOptions", args; aws_config=aws_config)
 
 """
     DescribeEgressOnlyInternetGateways()
@@ -2837,8 +2871,8 @@ Describes one or more of your egress-only internet gateways.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeEgressOnlyInternetGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeEgressOnlyInternetGateways"; aws_config=aws_config)
-DescribeEgressOnlyInternetGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeEgressOnlyInternetGateways", args; aws_config=aws_config)
+describe_egress_only_internet_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeEgressOnlyInternetGateways"; aws_config=aws_config)
+describe_egress_only_internet_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeEgressOnlyInternetGateways", args; aws_config=aws_config)
 
 """
     DescribeElasticGpus()
@@ -2853,8 +2887,8 @@ Describes the Elastic Graphics accelerator associated with your instances. For m
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeElasticGpus(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeElasticGpus"; aws_config=aws_config)
-DescribeElasticGpus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeElasticGpus", args; aws_config=aws_config)
+describe_elastic_gpus(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeElasticGpus"; aws_config=aws_config)
+describe_elastic_gpus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeElasticGpus", args; aws_config=aws_config)
 
 """
     DescribeExportImageTasks()
@@ -2869,8 +2903,8 @@ Describes the specified export image tasks or all of your export image tasks.
 - `NextToken`: A token that indicates the next page of results.
 """
 
-DescribeExportImageTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportImageTasks"; aws_config=aws_config)
-DescribeExportImageTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportImageTasks", args; aws_config=aws_config)
+describe_export_image_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportImageTasks"; aws_config=aws_config)
+describe_export_image_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportImageTasks", args; aws_config=aws_config)
 
 """
     DescribeExportTasks()
@@ -2882,8 +2916,8 @@ Describes the specified export instance tasks or all of your export instance tas
 - `exportTaskId`: The export task IDs.
 """
 
-DescribeExportTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportTasks"; aws_config=aws_config)
-DescribeExportTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportTasks", args; aws_config=aws_config)
+describe_export_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportTasks"; aws_config=aws_config)
+describe_export_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeExportTasks", args; aws_config=aws_config)
 
 """
     DescribeFastSnapshotRestores()
@@ -2897,8 +2931,8 @@ Describes the state of fast snapshot restores for your snapshots.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeFastSnapshotRestores(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFastSnapshotRestores"; aws_config=aws_config)
-DescribeFastSnapshotRestores(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFastSnapshotRestores", args; aws_config=aws_config)
+describe_fast_snapshot_restores(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFastSnapshotRestores"; aws_config=aws_config)
+describe_fast_snapshot_restores(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFastSnapshotRestores", args; aws_config=aws_config)
 
 """
     DescribeFleetHistory()
@@ -2916,8 +2950,8 @@ Describes the events for the specified EC2 Fleet during the specified time. EC2 
 - `NextToken`: The token for the next set of results.
 """
 
-DescribeFleetHistory(FleetId, StartTime; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime); aws_config=aws_config)
-DescribeFleetHistory(FleetId, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime), args)); aws_config=aws_config)
+describe_fleet_history(FleetId, StartTime; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime); aws_config=aws_config)
+describe_fleet_history(FleetId, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
     DescribeFleetInstances()
@@ -2934,8 +2968,8 @@ Describes the running instances for the specified EC2 Fleet.
 - `NextToken`: The token for the next set of results.
 """
 
-DescribeFleetInstances(FleetId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}("FleetId"=>FleetId); aws_config=aws_config)
-DescribeFleetInstances(FleetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), args)); aws_config=aws_config)
+describe_fleet_instances(FleetId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}("FleetId"=>FleetId); aws_config=aws_config)
+describe_fleet_instances(FleetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId), args)); aws_config=aws_config)
 
 """
     DescribeFleets()
@@ -2950,8 +2984,8 @@ Describes the specified EC2 Fleets or all of your EC2 Fleets.
 - `NextToken`: The token for the next set of results.
 """
 
-DescribeFleets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleets"; aws_config=aws_config)
-DescribeFleets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleets", args; aws_config=aws_config)
+describe_fleets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleets"; aws_config=aws_config)
+describe_fleets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFleets", args; aws_config=aws_config)
 
 """
     DescribeFlowLogs()
@@ -2966,8 +3000,8 @@ Describes one or more flow logs. To view the information in your flow logs (the 
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeFlowLogs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFlowLogs"; aws_config=aws_config)
-DescribeFlowLogs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFlowLogs", args; aws_config=aws_config)
+describe_flow_logs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFlowLogs"; aws_config=aws_config)
+describe_flow_logs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFlowLogs", args; aws_config=aws_config)
 
 """
     DescribeFpgaImageAttribute()
@@ -2982,8 +3016,8 @@ Describes the specified attribute of the specified Amazon FPGA Image (AFI).
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeFpgaImageAttribute(Attribute, FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId); aws_config=aws_config)
-DescribeFpgaImageAttribute(Attribute, FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
+describe_fpga_image_attribute(Attribute, FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId); aws_config=aws_config)
+describe_fpga_image_attribute(Attribute, FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
 
 """
     DescribeFpgaImages()
@@ -2999,8 +3033,8 @@ Describes the Amazon FPGA Images (AFIs) available to you. These include public A
 - `Owner`: Filters the AFI by owner. Specify an AWS account ID, self (owner is the sender of the request), or an AWS owner alias (valid values are amazon | aws-marketplace).
 """
 
-DescribeFpgaImages(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImages"; aws_config=aws_config)
-DescribeFpgaImages(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImages", args; aws_config=aws_config)
+describe_fpga_images(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImages"; aws_config=aws_config)
+describe_fpga_images(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeFpgaImages", args; aws_config=aws_config)
 
 """
     DescribeHostReservationOfferings()
@@ -3016,8 +3050,8 @@ Describes the Dedicated Host reservations that are available to purchase. The re
 - `OfferingId`: The ID of the reservation offering.
 """
 
-DescribeHostReservationOfferings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservationOfferings"; aws_config=aws_config)
-DescribeHostReservationOfferings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservationOfferings", args; aws_config=aws_config)
+describe_host_reservation_offerings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservationOfferings"; aws_config=aws_config)
+describe_host_reservation_offerings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservationOfferings", args; aws_config=aws_config)
 
 """
     DescribeHostReservations()
@@ -3031,8 +3065,8 @@ Describes reservations that are associated with Dedicated Hosts in your account.
 - `NextToken`: The token to use to retrieve the next page of results.
 """
 
-DescribeHostReservations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservations"; aws_config=aws_config)
-DescribeHostReservations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservations", args; aws_config=aws_config)
+describe_host_reservations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservations"; aws_config=aws_config)
+describe_host_reservations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHostReservations", args; aws_config=aws_config)
 
 """
     DescribeHosts()
@@ -3046,8 +3080,8 @@ Describes the specified Dedicated Hosts or all your Dedicated Hosts. The results
 - `nextToken`: The token to use to retrieve the next page of results.
 """
 
-DescribeHosts(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHosts"; aws_config=aws_config)
-DescribeHosts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHosts", args; aws_config=aws_config)
+describe_hosts(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHosts"; aws_config=aws_config)
+describe_hosts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeHosts", args; aws_config=aws_config)
 
 """
     DescribeIamInstanceProfileAssociations()
@@ -3061,8 +3095,8 @@ Describes your IAM instance profile associations.
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeIamInstanceProfileAssociations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIamInstanceProfileAssociations"; aws_config=aws_config)
-DescribeIamInstanceProfileAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIamInstanceProfileAssociations", args; aws_config=aws_config)
+describe_iam_instance_profile_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIamInstanceProfileAssociations"; aws_config=aws_config)
+describe_iam_instance_profile_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIamInstanceProfileAssociations", args; aws_config=aws_config)
 
 """
     DescribeIdFormat()
@@ -3073,8 +3107,8 @@ Describes the ID format settings for your resources on a per-Region basis, for e
 - `Resource`: The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway 
 """
 
-DescribeIdFormat(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdFormat"; aws_config=aws_config)
-DescribeIdFormat(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdFormat", args; aws_config=aws_config)
+describe_id_format(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdFormat"; aws_config=aws_config)
+describe_id_format(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdFormat", args; aws_config=aws_config)
 
 """
     DescribeIdentityIdFormat()
@@ -3088,8 +3122,8 @@ Describes the ID format settings for resources for the specified IAM user, IAM r
 - `resource`: The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway 
 """
 
-DescribeIdentityIdFormat(principalArn; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn); aws_config=aws_config)
-DescribeIdentityIdFormat(principalArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn), args)); aws_config=aws_config)
+describe_identity_id_format(principalArn; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn); aws_config=aws_config)
+describe_identity_id_format(principalArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn), args)); aws_config=aws_config)
 
 """
     DescribeImageAttribute()
@@ -3104,8 +3138,8 @@ Describes the specified attribute of the specified AMI. You can specify only one
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeImageAttribute(Attribute, ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config)
-DescribeImageAttribute(Attribute, ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), args)); aws_config=aws_config)
+describe_image_attribute(Attribute, ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config)
+describe_image_attribute(Attribute, ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), args)); aws_config=aws_config)
 
 """
     DescribeImages()
@@ -3114,14 +3148,14 @@ Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of
 
 # Optional Parameters
 - `ExecutableBy`: Scopes the images by users with explicit launch permissions. Specify an AWS account ID, self (the sender of the request), or all (public AMIs).
-- `Filter`: The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias, from an Amazon-maintained list (amazon | aws-marketplace). This is not the user-configured AWS account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the related parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
+- `Filter`: The filters.    architecture - The image architecture (i386 | x86_64 | arm64).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the EBS volume.    block-device-mapping.volume-size - The volume size of the EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the EBS volume (gp2 | io1 | io2 | st1 | sc1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the EBS volume is encrypted.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    hypervisor - The hypervisor type (ovm | xen).    image-id - The ID of the image.    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias, from an Amazon-maintained list (amazon | aws-marketplace). This is not the user-configured AWS account alias set using the IAM console. We recommend that you use the related parameter instead of this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the related parameter instead of this filter.    platform - The platform. To only list Windows-based AMIs, use windows.    product-code - The product code.    product-code.type - The type of the product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).  
 - `ImageId`: The image IDs. Default: Describes all images available to you.
 - `Owner`: Scopes the results to images with the specified owners. You can specify a combination of AWS account IDs, self, amazon, and aws-marketplace. If you omit this parameter, the results include all images for which you have launch permissions, regardless of ownership.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeImages(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImages"; aws_config=aws_config)
-DescribeImages(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImages", args; aws_config=aws_config)
+describe_images(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImages"; aws_config=aws_config)
+describe_images(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImages", args; aws_config=aws_config)
 
 """
     DescribeImportImageTasks()
@@ -3136,8 +3170,8 @@ Displays details about an import virtual machine or import snapshot tasks that a
 - `NextToken`: A token that indicates the next page of results.
 """
 
-DescribeImportImageTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportImageTasks"; aws_config=aws_config)
-DescribeImportImageTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportImageTasks", args; aws_config=aws_config)
+describe_import_image_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportImageTasks"; aws_config=aws_config)
+describe_import_image_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportImageTasks", args; aws_config=aws_config)
 
 """
     DescribeImportSnapshotTasks()
@@ -3152,8 +3186,8 @@ Describes your import snapshot tasks.
 - `NextToken`: A token that indicates the next page of results.
 """
 
-DescribeImportSnapshotTasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportSnapshotTasks"; aws_config=aws_config)
-DescribeImportSnapshotTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportSnapshotTasks", args; aws_config=aws_config)
+describe_import_snapshot_tasks(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportSnapshotTasks"; aws_config=aws_config)
+describe_import_snapshot_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeImportSnapshotTasks", args; aws_config=aws_config)
 
 """
     DescribeInstanceAttribute()
@@ -3168,8 +3202,8 @@ Describes the specified attribute of the specified instance. You can specify onl
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeInstanceAttribute(attribute, instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config)
-DescribeInstanceAttribute(attribute, instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), args)); aws_config=aws_config)
+describe_instance_attribute(attribute, instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config)
+describe_instance_attribute(attribute, instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     DescribeInstanceCreditSpecifications()
@@ -3184,8 +3218,8 @@ Describes the credit option for CPU usage of the specified burstable performance
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeInstanceCreditSpecifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceCreditSpecifications"; aws_config=aws_config)
-DescribeInstanceCreditSpecifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceCreditSpecifications", args; aws_config=aws_config)
+describe_instance_credit_specifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceCreditSpecifications"; aws_config=aws_config)
+describe_instance_credit_specifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceCreditSpecifications", args; aws_config=aws_config)
 
 """
     DescribeInstanceEventNotificationAttributes()
@@ -3196,8 +3230,8 @@ Describes the tag keys that are registered to appear in scheduled event notifica
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeInstanceEventNotificationAttributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes"; aws_config=aws_config)
-DescribeInstanceEventNotificationAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes", args; aws_config=aws_config)
+describe_instance_event_notification_attributes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes"; aws_config=aws_config)
+describe_instance_event_notification_attributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes", args; aws_config=aws_config)
 
 """
     DescribeInstanceStatus()
@@ -3213,8 +3247,8 @@ Describes the status of the specified instances or all of your instances. By def
 - `includeAllInstances`: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false 
 """
 
-DescribeInstanceStatus(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceStatus"; aws_config=aws_config)
-DescribeInstanceStatus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceStatus", args; aws_config=aws_config)
+describe_instance_status(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceStatus"; aws_config=aws_config)
+describe_instance_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceStatus", args; aws_config=aws_config)
 
 """
     DescribeInstanceTypeOfferings()
@@ -3229,8 +3263,8 @@ Returns a list of all instance types offered. The results can be filtered by loc
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeInstanceTypeOfferings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypeOfferings"; aws_config=aws_config)
-DescribeInstanceTypeOfferings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypeOfferings", args; aws_config=aws_config)
+describe_instance_type_offerings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypeOfferings"; aws_config=aws_config)
+describe_instance_type_offerings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypeOfferings", args; aws_config=aws_config)
 
 """
     DescribeInstanceTypes()
@@ -3245,8 +3279,8 @@ Describes the details of the instance types that are offered in a location. The 
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeInstanceTypes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypes"; aws_config=aws_config)
-DescribeInstanceTypes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypes", args; aws_config=aws_config)
+describe_instance_types(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypes"; aws_config=aws_config)
+describe_instance_types(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstanceTypes", args; aws_config=aws_config)
 
 """
     DescribeInstances()
@@ -3261,8 +3295,8 @@ Describes the specified instances or all instances. If you specify instance IDs,
 - `nextToken`: The token to request the next page of results.
 """
 
-DescribeInstances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstances"; aws_config=aws_config)
-DescribeInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstances", args; aws_config=aws_config)
+describe_instances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstances"; aws_config=aws_config)
+describe_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInstances", args; aws_config=aws_config)
 
 """
     DescribeInternetGateways()
@@ -3277,8 +3311,8 @@ Describes one or more of your internet gateways.
 - `internetGatewayId`: One or more internet gateway IDs. Default: Describes all your internet gateways.
 """
 
-DescribeInternetGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInternetGateways"; aws_config=aws_config)
-DescribeInternetGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInternetGateways", args; aws_config=aws_config)
+describe_internet_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInternetGateways"; aws_config=aws_config)
+describe_internet_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeInternetGateways", args; aws_config=aws_config)
 
 """
     DescribeIpv6Pools()
@@ -3293,8 +3327,8 @@ Describes your IPv6 address pools.
 - `PoolId`: The IDs of the IPv6 address pools.
 """
 
-DescribeIpv6Pools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIpv6Pools"; aws_config=aws_config)
-DescribeIpv6Pools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIpv6Pools", args; aws_config=aws_config)
+describe_ipv6_pools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIpv6Pools"; aws_config=aws_config)
+describe_ipv6_pools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeIpv6Pools", args; aws_config=aws_config)
 
 """
     DescribeKeyPairs()
@@ -3308,8 +3342,8 @@ Describes the specified key pairs or all of your key pairs. For more information
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeKeyPairs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeKeyPairs"; aws_config=aws_config)
-DescribeKeyPairs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeKeyPairs", args; aws_config=aws_config)
+describe_key_pairs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeKeyPairs"; aws_config=aws_config)
+describe_key_pairs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeKeyPairs", args; aws_config=aws_config)
 
 """
     DescribeLaunchTemplateVersions()
@@ -3328,8 +3362,8 @@ Describes one or more versions of a specified launch template. You can describe 
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeLaunchTemplateVersions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplateVersions"; aws_config=aws_config)
-DescribeLaunchTemplateVersions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplateVersions", args; aws_config=aws_config)
+describe_launch_template_versions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplateVersions"; aws_config=aws_config)
+describe_launch_template_versions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplateVersions", args; aws_config=aws_config)
 
 """
     DescribeLaunchTemplates()
@@ -3345,8 +3379,8 @@ Describes one or more launch templates.
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeLaunchTemplates(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplates"; aws_config=aws_config)
-DescribeLaunchTemplates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplates", args; aws_config=aws_config)
+describe_launch_templates(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplates"; aws_config=aws_config)
+describe_launch_templates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLaunchTemplates", args; aws_config=aws_config)
 
 """
     DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations()
@@ -3361,8 +3395,8 @@ Describes the associations between virtual interface groups and local gateway ro
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"; aws_config=aws_config)
-DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations", args; aws_config=aws_config)
+describe_local_gateway_route_table_virtual_interface_group_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations"; aws_config=aws_config)
+describe_local_gateway_route_table_virtual_interface_group_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVirtualInterfaceGroupAssociations", args; aws_config=aws_config)
 
 """
     DescribeLocalGatewayRouteTableVpcAssociations()
@@ -3377,8 +3411,8 @@ Describes the specified associations between VPCs and local gateway route tables
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGatewayRouteTableVpcAssociations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations"; aws_config=aws_config)
-DescribeLocalGatewayRouteTableVpcAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations", args; aws_config=aws_config)
+describe_local_gateway_route_table_vpc_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations"; aws_config=aws_config)
+describe_local_gateway_route_table_vpc_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTableVpcAssociations", args; aws_config=aws_config)
 
 """
     DescribeLocalGatewayRouteTables()
@@ -3393,8 +3427,8 @@ Describes one or more local gateway route tables. By default, all local gateway 
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGatewayRouteTables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTables"; aws_config=aws_config)
-DescribeLocalGatewayRouteTables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTables", args; aws_config=aws_config)
+describe_local_gateway_route_tables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTables"; aws_config=aws_config)
+describe_local_gateway_route_tables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayRouteTables", args; aws_config=aws_config)
 
 """
     DescribeLocalGatewayVirtualInterfaceGroups()
@@ -3409,8 +3443,8 @@ Describes the specified local gateway virtual interface groups.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGatewayVirtualInterfaceGroups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups"; aws_config=aws_config)
-DescribeLocalGatewayVirtualInterfaceGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups", args; aws_config=aws_config)
+describe_local_gateway_virtual_interface_groups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups"; aws_config=aws_config)
+describe_local_gateway_virtual_interface_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaceGroups", args; aws_config=aws_config)
 
 """
     DescribeLocalGatewayVirtualInterfaces()
@@ -3425,8 +3459,8 @@ Describes the specified local gateway virtual interfaces.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGatewayVirtualInterfaces(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces"; aws_config=aws_config)
-DescribeLocalGatewayVirtualInterfaces(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces", args; aws_config=aws_config)
+describe_local_gateway_virtual_interfaces(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces"; aws_config=aws_config)
+describe_local_gateway_virtual_interfaces(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGatewayVirtualInterfaces", args; aws_config=aws_config)
 
 """
     DescribeLocalGateways()
@@ -3441,8 +3475,8 @@ Describes one or more local gateways. By default, all local gateways are describ
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeLocalGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGateways"; aws_config=aws_config)
-DescribeLocalGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGateways", args; aws_config=aws_config)
+describe_local_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGateways"; aws_config=aws_config)
+describe_local_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeLocalGateways", args; aws_config=aws_config)
 
 """
     DescribeManagedPrefixLists()
@@ -3457,8 +3491,8 @@ Describes your managed prefix lists and any AWS-managed prefix lists. To view th
 - `PrefixListId`: One or more prefix list IDs.
 """
 
-DescribeManagedPrefixLists(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeManagedPrefixLists"; aws_config=aws_config)
-DescribeManagedPrefixLists(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeManagedPrefixLists", args; aws_config=aws_config)
+describe_managed_prefix_lists(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeManagedPrefixLists"; aws_config=aws_config)
+describe_managed_prefix_lists(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeManagedPrefixLists", args; aws_config=aws_config)
 
 """
     DescribeMovingAddresses()
@@ -3473,8 +3507,8 @@ Describes your Elastic IP addresses that are being moved to the EC2-VPC platform
 - `publicIp`: One or more Elastic IP addresses.
 """
 
-DescribeMovingAddresses(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeMovingAddresses"; aws_config=aws_config)
-DescribeMovingAddresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeMovingAddresses", args; aws_config=aws_config)
+describe_moving_addresses(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeMovingAddresses"; aws_config=aws_config)
+describe_moving_addresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeMovingAddresses", args; aws_config=aws_config)
 
 """
     DescribeNatGateways()
@@ -3489,8 +3523,8 @@ Describes one or more of your NAT gateways.
 - `NextToken`: The token for the next page of results.
 """
 
-DescribeNatGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNatGateways"; aws_config=aws_config)
-DescribeNatGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNatGateways", args; aws_config=aws_config)
+describe_nat_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNatGateways"; aws_config=aws_config)
+describe_nat_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNatGateways", args; aws_config=aws_config)
 
 """
     DescribeNetworkAcls()
@@ -3505,8 +3539,8 @@ Describes one or more of your network ACLs. For more information, see Network AC
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeNetworkAcls(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkAcls"; aws_config=aws_config)
-DescribeNetworkAcls(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkAcls", args; aws_config=aws_config)
+describe_network_acls(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkAcls"; aws_config=aws_config)
+describe_network_acls(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkAcls", args; aws_config=aws_config)
 
 """
     DescribeNetworkInterfaceAttribute()
@@ -3521,8 +3555,8 @@ Describes a network interface attribute. You can specify only one attribute at a
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeNetworkInterfaceAttribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-DescribeNetworkInterfaceAttribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+describe_network_interface_attribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+describe_network_interface_attribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     DescribeNetworkInterfacePermissions()
@@ -3536,8 +3570,8 @@ Describes the permissions for your network interfaces.
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeNetworkInterfacePermissions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfacePermissions"; aws_config=aws_config)
-DescribeNetworkInterfacePermissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfacePermissions", args; aws_config=aws_config)
+describe_network_interface_permissions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfacePermissions"; aws_config=aws_config)
+describe_network_interface_permissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfacePermissions", args; aws_config=aws_config)
 
 """
     DescribeNetworkInterfaces()
@@ -3552,8 +3586,8 @@ Describes one or more of your network interfaces.
 - `filter`: One or more filters.    addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attachment-id - The ID of the interface attachment.    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    group-name - The name of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    owner-id - The AWS account ID of the network interface owner.    private-ip-address - The private IPv4 address or addresses of the network interface.    private-dns-name - The private DNS name of the network interface (IPv4).    requester-id - The ID of the entity that launched the instance on your behalf (for example, AWS Management Console, Auto Scaling, and so on).    requester-managed - Indicates whether the network interface is being managed by an AWS service (for example, AWS Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.  
 """
 
-DescribeNetworkInterfaces(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces"; aws_config=aws_config)
-DescribeNetworkInterfaces(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces", args; aws_config=aws_config)
+describe_network_interfaces(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces"; aws_config=aws_config)
+describe_network_interfaces(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces", args; aws_config=aws_config)
 
 """
     DescribePlacementGroups()
@@ -3567,8 +3601,8 @@ Describes the specified placement groups or all of your placement groups. For mo
 - `groupName`: The names of the placement groups. Default: Describes all your placement groups, or only those otherwise specified.
 """
 
-DescribePlacementGroups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePlacementGroups"; aws_config=aws_config)
-DescribePlacementGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePlacementGroups", args; aws_config=aws_config)
+describe_placement_groups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePlacementGroups"; aws_config=aws_config)
+describe_placement_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePlacementGroups", args; aws_config=aws_config)
 
 """
     DescribePrefixLists()
@@ -3583,8 +3617,8 @@ Describes available AWS services in a prefix list format, which includes the pre
 - `PrefixListId`: One or more prefix list IDs.
 """
 
-DescribePrefixLists(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrefixLists"; aws_config=aws_config)
-DescribePrefixLists(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrefixLists", args; aws_config=aws_config)
+describe_prefix_lists(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrefixLists"; aws_config=aws_config)
+describe_prefix_lists(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrefixLists", args; aws_config=aws_config)
 
 """
     DescribePrincipalIdFormat()
@@ -3598,8 +3632,8 @@ Describes the ID format settings for the root user and all IAM roles and IAM use
 - `Resource`: The type of resource: bundle | conversion-task | customer-gateway | dhcp-options | elastic-ip-allocation | elastic-ip-association | export-task | flow-log | image | import-task | instance | internet-gateway | network-acl | network-acl-association | network-interface | network-interface-attachment | prefix-list | reservation | route-table | route-table-association | security-group | snapshot | subnet | subnet-cidr-block-association | volume | vpc | vpc-cidr-block-association | vpc-endpoint | vpc-peering-connection | vpn-connection | vpn-gateway 
 """
 
-DescribePrincipalIdFormat(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrincipalIdFormat"; aws_config=aws_config)
-DescribePrincipalIdFormat(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrincipalIdFormat", args; aws_config=aws_config)
+describe_principal_id_format(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrincipalIdFormat"; aws_config=aws_config)
+describe_principal_id_format(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePrincipalIdFormat", args; aws_config=aws_config)
 
 """
     DescribePublicIpv4Pools()
@@ -3613,8 +3647,8 @@ Describes the specified IPv4 address pools.
 - `PoolId`: The IDs of the address pools.
 """
 
-DescribePublicIpv4Pools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePublicIpv4Pools"; aws_config=aws_config)
-DescribePublicIpv4Pools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePublicIpv4Pools", args; aws_config=aws_config)
+describe_public_ipv4_pools(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePublicIpv4Pools"; aws_config=aws_config)
+describe_public_ipv4_pools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribePublicIpv4Pools", args; aws_config=aws_config)
 
 """
     DescribeRegions()
@@ -3628,8 +3662,8 @@ Describes the Regions that are enabled for your account, or all Regions. For a l
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeRegions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRegions"; aws_config=aws_config)
-DescribeRegions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRegions", args; aws_config=aws_config)
+describe_regions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRegions"; aws_config=aws_config)
+describe_regions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRegions", args; aws_config=aws_config)
 
 """
     DescribeReservedInstances()
@@ -3644,8 +3678,8 @@ Describes one or more of the Reserved Instances that you purchased. For more inf
 - `offeringType`: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type.
 """
 
-DescribeReservedInstances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstances"; aws_config=aws_config)
-DescribeReservedInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstances", args; aws_config=aws_config)
+describe_reserved_instances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstances"; aws_config=aws_config)
+describe_reserved_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstances", args; aws_config=aws_config)
 
 """
     DescribeReservedInstancesListings()
@@ -3658,8 +3692,8 @@ Describes your account's Reserved Instance listings in the Reserved Instance Mar
 - `reservedInstancesListingId`: One or more Reserved Instance listing IDs.
 """
 
-DescribeReservedInstancesListings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesListings"; aws_config=aws_config)
-DescribeReservedInstancesListings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesListings", args; aws_config=aws_config)
+describe_reserved_instances_listings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesListings"; aws_config=aws_config)
+describe_reserved_instances_listings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesListings", args; aws_config=aws_config)
 
 """
     DescribeReservedInstancesModifications()
@@ -3672,8 +3706,8 @@ Describes the modifications made to your Reserved Instances. If no parameter is 
 - `nextToken`: The token to retrieve the next page of results.
 """
 
-DescribeReservedInstancesModifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesModifications"; aws_config=aws_config)
-DescribeReservedInstancesModifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesModifications", args; aws_config=aws_config)
+describe_reserved_instances_modifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesModifications"; aws_config=aws_config)
+describe_reserved_instances_modifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesModifications", args; aws_config=aws_config)
 
 """
     DescribeReservedInstancesOfferings()
@@ -3698,8 +3732,8 @@ Describes Reserved Instance offerings that are available for purchase. With Rese
 - `offeringType`: The Reserved Instance offering type. If you are using tools that predate the 2011-11-01 API version, you only have access to the Medium Utilization Reserved Instance offering type. 
 """
 
-DescribeReservedInstancesOfferings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesOfferings"; aws_config=aws_config)
-DescribeReservedInstancesOfferings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesOfferings", args; aws_config=aws_config)
+describe_reserved_instances_offerings(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesOfferings"; aws_config=aws_config)
+describe_reserved_instances_offerings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeReservedInstancesOfferings", args; aws_config=aws_config)
 
 """
     DescribeRouteTables()
@@ -3714,8 +3748,8 @@ Describes one or more of your route tables. Each subnet in your VPC must be asso
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeRouteTables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRouteTables"; aws_config=aws_config)
-DescribeRouteTables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRouteTables", args; aws_config=aws_config)
+describe_route_tables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRouteTables"; aws_config=aws_config)
+describe_route_tables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeRouteTables", args; aws_config=aws_config)
 
 """
     DescribeScheduledInstanceAvailability()
@@ -3735,8 +3769,8 @@ Finds available schedules that meet the specified criteria. You can search for a
 - `NextToken`: The token for the next set of results.
 """
 
-DescribeScheduledInstanceAvailability(FirstSlotStartTimeRange, Recurrence; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence); aws_config=aws_config)
-DescribeScheduledInstanceAvailability(FirstSlotStartTimeRange, Recurrence, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence), args)); aws_config=aws_config)
+describe_scheduled_instance_availability(FirstSlotStartTimeRange, Recurrence; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence); aws_config=aws_config)
+describe_scheduled_instance_availability(FirstSlotStartTimeRange, Recurrence, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstanceAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSlotStartTimeRange"=>FirstSlotStartTimeRange, "Recurrence"=>Recurrence), args)); aws_config=aws_config)
 
 """
     DescribeScheduledInstances()
@@ -3752,8 +3786,8 @@ Describes the specified Scheduled Instances or all your Scheduled Instances.
 - `SlotStartTimeRange`: The time period for the first schedule to start.
 """
 
-DescribeScheduledInstances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstances"; aws_config=aws_config)
-DescribeScheduledInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstances", args; aws_config=aws_config)
+describe_scheduled_instances(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstances"; aws_config=aws_config)
+describe_scheduled_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeScheduledInstances", args; aws_config=aws_config)
 
 """
     DescribeSecurityGroupReferences()
@@ -3768,8 +3802,8 @@ DescribeScheduledInstances(args::AbstractDict{String, <:Any}; aws_config::AWSCon
 - `GroupId`: The IDs of the security groups in your account.
 """
 
-DescribeSecurityGroupReferences(item; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}("item"=>item); aws_config=aws_config)
-DescribeSecurityGroupReferences(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
+describe_security_group_references(item; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}("item"=>item); aws_config=aws_config)
+describe_security_group_references(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
 
 """
     DescribeSecurityGroups()
@@ -3785,8 +3819,8 @@ Describes the specified security groups or all of your security groups. A securi
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSecurityGroups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroups"; aws_config=aws_config)
-DescribeSecurityGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroups", args; aws_config=aws_config)
+describe_security_groups(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroups"; aws_config=aws_config)
+describe_security_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSecurityGroups", args; aws_config=aws_config)
 
 """
     DescribeSnapshotAttribute()
@@ -3801,8 +3835,8 @@ Describes the specified attribute of the specified snapshot. You can specify onl
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSnapshotAttribute(Attribute, SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config)
-DescribeSnapshotAttribute(Attribute, SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
+describe_snapshot_attribute(Attribute, SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config)
+describe_snapshot_attribute(Attribute, SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
 
 """
     DescribeSnapshots()
@@ -3819,8 +3853,8 @@ Describes the specified EBS snapshots available to you or all of the EBS snapsho
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSnapshots(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshots"; aws_config=aws_config)
-DescribeSnapshots(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshots", args; aws_config=aws_config)
+describe_snapshots(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshots"; aws_config=aws_config)
+describe_snapshots(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSnapshots", args; aws_config=aws_config)
 
 """
     DescribeSpotDatafeedSubscription()
@@ -3831,8 +3865,8 @@ Describes the data feed for Spot Instances. For more information, see Spot Insta
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSpotDatafeedSubscription(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotDatafeedSubscription"; aws_config=aws_config)
-DescribeSpotDatafeedSubscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotDatafeedSubscription", args; aws_config=aws_config)
+describe_spot_datafeed_subscription(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotDatafeedSubscription"; aws_config=aws_config)
+describe_spot_datafeed_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotDatafeedSubscription", args; aws_config=aws_config)
 
 """
     DescribeSpotFleetInstances()
@@ -3848,8 +3882,8 @@ Describes the running instances for the specified Spot Fleet.
 - `nextToken`: The token for the next set of results.
 """
 
-DescribeSpotFleetInstances(spotFleetRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config)
-DescribeSpotFleetInstances(spotFleetRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), args)); aws_config=aws_config)
+describe_spot_fleet_instances(spotFleetRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config)
+describe_spot_fleet_instances(spotFleetRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), args)); aws_config=aws_config)
 
 """
     DescribeSpotFleetRequestHistory()
@@ -3867,8 +3901,8 @@ Describes the events for the specified Spot Fleet request during the specified t
 - `nextToken`: The token for the next set of results.
 """
 
-DescribeSpotFleetRequestHistory(spotFleetRequestId, startTime; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime); aws_config=aws_config)
-DescribeSpotFleetRequestHistory(spotFleetRequestId, startTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime), args)); aws_config=aws_config)
+describe_spot_fleet_request_history(spotFleetRequestId, startTime; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime); aws_config=aws_config)
+describe_spot_fleet_request_history(spotFleetRequestId, startTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequestHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId, "startTime"=>startTime), args)); aws_config=aws_config)
 
 """
     DescribeSpotFleetRequests()
@@ -3882,8 +3916,8 @@ Describes your Spot Fleet requests. Spot Fleet requests are deleted 48 hours aft
 - `spotFleetRequestId`: The IDs of the Spot Fleet requests.
 """
 
-DescribeSpotFleetRequests(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequests"; aws_config=aws_config)
-DescribeSpotFleetRequests(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequests", args; aws_config=aws_config)
+describe_spot_fleet_requests(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequests"; aws_config=aws_config)
+describe_spot_fleet_requests(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotFleetRequests", args; aws_config=aws_config)
 
 """
     DescribeSpotInstanceRequests()
@@ -3891,15 +3925,15 @@ DescribeSpotFleetRequests(args::AbstractDict{String, <:Any}; aws_config::AWSConf
 Describes the specified Spot Instance requests. You can use DescribeSpotInstanceRequests to find a running Spot Instance by examining the response. If the status of the Spot Instance is fulfilled, the instance ID appears in the response and contains the identifier of the instance. Alternatively, you can use DescribeInstances with a filter to look for instances where the instance lifecycle is spot. We recommend that you set MaxResults to a value between 5 and 1000 to limit the number of results returned. This paginates the output, which makes the list more manageable and returns the results faster. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSpotInstanceRequests request to retrieve the remaining results. Spot Instance requests are deleted four hours after they are canceled and their instances are terminated.
 
 # Optional Parameters
-- `Filter`: One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.  
+- `Filter`: One or more filters.    availability-zone-group - The Availability Zone group.    create-time - The time stamp when the Spot Instance request was created.    fault-code - The fault code related to the request.    fault-message - The fault message related to the request.    instance-id - The ID of the instance that fulfilled the request.    launch-group - The Spot Instance launch group.    launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is deleted on instance termination.    launch.block-device-mapping.device-name - The device name for the volume in the block device mapping (for example, /dev/sdh or xvdh).    launch.block-device-mapping.snapshot-id - The ID of the snapshot for the EBS volume.    launch.block-device-mapping.volume-size - The size of the EBS volume, in GiB.    launch.block-device-mapping.volume-type - The type of EBS volume: gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1for Cold HDD, or standard for Magnetic.    launch.group-id - The ID of the security group for the instance.    launch.group-name - The name of the security group for the instance.    launch.image-id - The ID of the AMI.    launch.instance-type - The type of instance (for example, m3.medium).    launch.kernel-id - The kernel ID.    launch.key-name - The name of the key pair the instance launched with.    launch.monitoring-enabled - Whether detailed monitoring is enabled for the Spot Instance.    launch.ramdisk-id - The RAM disk ID.    launched-availability-zone - The Availability Zone in which the request is launched.    network-interface.addresses.primary - Indicates whether the IP address is the primary private IP address.    network-interface.delete-on-termination - Indicates whether the network interface is deleted when the instance is terminated.    network-interface.description - A description of the network interface.    network-interface.device-index - The index of the device for the network interface attachment on the instance.    network-interface.group-id - The ID of the security group associated with the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.private-ip-address - The primary private IP address of the network interface.    network-interface.subnet-id - The ID of the subnet for the instance.    product-description - The product description associated with the instance (Linux/UNIX | Windows).    spot-instance-request-id - The Spot Instance request ID.    spot-price - The maximum hourly price for any Spot Instance launched to fulfill the request.    state - The state of the Spot Instance request (open | active | closed | cancelled | failed). Spot request status information can help you track your Amazon EC2 Spot Instance requests. For more information, see Spot request status in the Amazon EC2 User Guide for Linux Instances.    status-code - The short code describing the most recent evaluation of your Spot Instance request.    status-message - The message explaining the status of the Spot Instance request.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    type - The type of Spot Instance request (one-time | persistent).    valid-from - The start date of the request.    valid-until - The end date of the request.  
 - `MaxResults`: The maximum number of results to return in a single call. Specify a value between 5 and 1000. To retrieve the remaining results, make another call with the returned NextToken value.
 - `NextToken`: The token to request the next set of results. This value is null when there are no more results to return.
 - `SpotInstanceRequestId`: One or more Spot Instance request IDs.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSpotInstanceRequests(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotInstanceRequests"; aws_config=aws_config)
-DescribeSpotInstanceRequests(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotInstanceRequests", args; aws_config=aws_config)
+describe_spot_instance_requests(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotInstanceRequests"; aws_config=aws_config)
+describe_spot_instance_requests(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotInstanceRequests", args; aws_config=aws_config)
 
 """
     DescribeSpotPriceHistory()
@@ -3918,8 +3952,8 @@ Describes the Spot price history. For more information, see Spot Instance pricin
 - `startTime`: The date and time, up to the past 90 days, from which to start retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
 """
 
-DescribeSpotPriceHistory(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotPriceHistory"; aws_config=aws_config)
-DescribeSpotPriceHistory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotPriceHistory", args; aws_config=aws_config)
+describe_spot_price_history(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotPriceHistory"; aws_config=aws_config)
+describe_spot_price_history(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSpotPriceHistory", args; aws_config=aws_config)
 
 """
     DescribeStaleSecurityGroups()
@@ -3935,8 +3969,8 @@ DescribeSpotPriceHistory(args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 - `NextToken`: The token for the next set of items to return. (You received this token from a prior call.)
 """
 
-DescribeStaleSecurityGroups(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
-DescribeStaleSecurityGroups(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
+describe_stale_security_groups(VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
+describe_stale_security_groups(VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     DescribeSubnets()
@@ -3951,8 +3985,8 @@ Describes one or more of your subnets. For more information, see Your VPC and Su
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeSubnets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSubnets"; aws_config=aws_config)
-DescribeSubnets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSubnets", args; aws_config=aws_config)
+describe_subnets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSubnets"; aws_config=aws_config)
+describe_subnets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeSubnets", args; aws_config=aws_config)
 
 """
     DescribeTags()
@@ -3966,8 +4000,8 @@ Describes the specified tags for your EC2 resources. For more information about 
 - `nextToken`: The token to retrieve the next page of results.
 """
 
-DescribeTags(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTags"; aws_config=aws_config)
-DescribeTags(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTags", args; aws_config=aws_config)
+describe_tags(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTags"; aws_config=aws_config)
+describe_tags(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTags", args; aws_config=aws_config)
 
 """
     DescribeTrafficMirrorFilters()
@@ -3982,8 +4016,8 @@ Describes one or more Traffic Mirror filters.
 - `TrafficMirrorFilterId`: The ID of the Traffic Mirror filter.
 """
 
-DescribeTrafficMirrorFilters(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorFilters"; aws_config=aws_config)
-DescribeTrafficMirrorFilters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorFilters", args; aws_config=aws_config)
+describe_traffic_mirror_filters(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorFilters"; aws_config=aws_config)
+describe_traffic_mirror_filters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorFilters", args; aws_config=aws_config)
 
 """
     DescribeTrafficMirrorSessions()
@@ -3998,8 +4032,8 @@ Describes one or more Traffic Mirror sessions. By default, all Traffic Mirror se
 - `TrafficMirrorSessionId`: The ID of the Traffic Mirror session.
 """
 
-DescribeTrafficMirrorSessions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorSessions"; aws_config=aws_config)
-DescribeTrafficMirrorSessions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorSessions", args; aws_config=aws_config)
+describe_traffic_mirror_sessions(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorSessions"; aws_config=aws_config)
+describe_traffic_mirror_sessions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorSessions", args; aws_config=aws_config)
 
 """
     DescribeTrafficMirrorTargets()
@@ -4014,8 +4048,8 @@ Information about one or more Traffic Mirror targets.
 - `TrafficMirrorTargetId`: The ID of the Traffic Mirror targets.
 """
 
-DescribeTrafficMirrorTargets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorTargets"; aws_config=aws_config)
-DescribeTrafficMirrorTargets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorTargets", args; aws_config=aws_config)
+describe_traffic_mirror_targets(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorTargets"; aws_config=aws_config)
+describe_traffic_mirror_targets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTrafficMirrorTargets", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayAttachments()
@@ -4024,14 +4058,14 @@ Describes one or more attachments between resources and transit gateways. By def
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type (vpc | vpn).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
+- `Filter`: One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type (vpc | vpn | direct-connect-gateway | tgw-peering).    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 - `TransitGatewayAttachmentIds`: The IDs of the attachments.
 """
 
-DescribeTransitGatewayAttachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments"; aws_config=aws_config)
-DescribeTransitGatewayAttachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments", args; aws_config=aws_config)
+describe_transit_gateway_attachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments"; aws_config=aws_config)
+describe_transit_gateway_attachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayMulticastDomains()
@@ -4046,8 +4080,8 @@ Describes one or more transit gateway multicast domains.
 - `TransitGatewayMulticastDomainIds`: The ID of the transit gateway multicast domain.
 """
 
-DescribeTransitGatewayMulticastDomains(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains"; aws_config=aws_config)
-DescribeTransitGatewayMulticastDomains(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains", args; aws_config=aws_config)
+describe_transit_gateway_multicast_domains(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains"; aws_config=aws_config)
+describe_transit_gateway_multicast_domains(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayMulticastDomains", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayPeeringAttachments()
@@ -4062,8 +4096,8 @@ Describes your transit gateway peering attachments.
 - `TransitGatewayAttachmentIds`: One or more IDs of the transit gateway peering attachments.
 """
 
-DescribeTransitGatewayPeeringAttachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments"; aws_config=aws_config)
-DescribeTransitGatewayPeeringAttachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments", args; aws_config=aws_config)
+describe_transit_gateway_peering_attachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments"; aws_config=aws_config)
+describe_transit_gateway_peering_attachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayPeeringAttachments", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayRouteTables()
@@ -4078,8 +4112,8 @@ Describes one or more transit gateway route tables. By default, all transit gate
 - `TransitGatewayRouteTableIds`: The IDs of the transit gateway route tables.
 """
 
-DescribeTransitGatewayRouteTables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayRouteTables"; aws_config=aws_config)
-DescribeTransitGatewayRouteTables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayRouteTables", args; aws_config=aws_config)
+describe_transit_gateway_route_tables(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayRouteTables"; aws_config=aws_config)
+describe_transit_gateway_route_tables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayRouteTables", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayVpcAttachments()
@@ -4094,8 +4128,8 @@ Describes one or more VPC attachments. By default, all VPC attachments are descr
 - `TransitGatewayAttachmentIds`: The IDs of the attachments.
 """
 
-DescribeTransitGatewayVpcAttachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments"; aws_config=aws_config)
-DescribeTransitGatewayVpcAttachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments", args; aws_config=aws_config)
+describe_transit_gateway_vpc_attachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments"; aws_config=aws_config)
+describe_transit_gateway_vpc_attachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayVpcAttachments", args; aws_config=aws_config)
 
 """
     DescribeTransitGateways()
@@ -4110,8 +4144,8 @@ Describes one or more transit gateways. By default, all transit gateways are des
 - `TransitGatewayIds`: The IDs of the transit gateways.
 """
 
-DescribeTransitGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGateways"; aws_config=aws_config)
-DescribeTransitGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGateways", args; aws_config=aws_config)
+describe_transit_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGateways"; aws_config=aws_config)
+describe_transit_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGateways", args; aws_config=aws_config)
 
 """
     DescribeVolumeAttribute()
@@ -4126,13 +4160,13 @@ Describes the specified attribute of the specified volume. You can specify only 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVolumeAttribute(Attribute, VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId); aws_config=aws_config)
-DescribeVolumeAttribute(Attribute, VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId), args)); aws_config=aws_config)
+describe_volume_attribute(Attribute, VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId); aws_config=aws_config)
+describe_volume_attribute(Attribute, VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     DescribeVolumeStatus()
 
-Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitoring the Status of Your Volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
+Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes:  Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks may still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see Monitoring the status of your volumes in the Amazon Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and may require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and may have inconsistent data.  Actions: Reflect the actions you may have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the EnableVolumeIO action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.)
 
 # Optional Parameters
 - `Filter`: The filters.    action.code - The action code for the event (for example, enable-volume-io).    action.description - A description of the action.    action.event-id - The event ID associated with the action.    availability-zone - The Availability Zone of the instance.    event.description - A description of the event.    event.event-id - The event ID.    event.event-type - The event type (for io-enabled: passed | failed; for io-performance: io-performance:degraded | io-performance:severely-degraded | io-performance:stalled).    event.not-after - The latest end time for the event.    event.not-before - The earliest start time for the event.    volume-status.details-name - The cause for volume-status.status (io-enabled | io-performance).    volume-status.details-status - The status of volume-status.details-name (for io-enabled: passed | failed; for io-performance: normal | degraded | severely-degraded | stalled).    volume-status.status - The status of the volume (ok | impaired | warning | insufficient-data).  
@@ -4142,8 +4176,8 @@ Describes the status of the specified volumes. Volume status provides the result
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVolumeStatus(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeStatus"; aws_config=aws_config)
-DescribeVolumeStatus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeStatus", args; aws_config=aws_config)
+describe_volume_status(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeStatus"; aws_config=aws_config)
+describe_volume_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumeStatus", args; aws_config=aws_config)
 
 """
     DescribeVolumes()
@@ -4151,31 +4185,31 @@ DescribeVolumeStatus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 Describes the specified EBS volumes or all of your EBS volumes. If you are describing a long list of volumes, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeVolumes request to retrieve the remaining results. For more information about EBS volumes, see Amazon EBS Volumes in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
-- `Filter`: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The status of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
+- `Filter`: The filters.    attachment.attach-time - The time stamp when the attachment initiated.    attachment.delete-on-termination - Whether the volume is deleted on instance termination.    attachment.device - The device name specified in the block device mapping (for example, /dev/sda1).    attachment.instance-id - The ID of the instance the volume is attached to.    attachment.status - The attachment state (attaching | attached | detaching).    availability-zone - The Availability Zone in which the volume was created.    create-time - The time stamp when the volume was created.    encrypted - Indicates whether the volume is encrypted (true | false)    multi-attach-enabled - Indicates whether the volume is enabled for Multi-Attach (true | false)    fast-restored - Indicates whether the volume was created from a snapshot that is enabled for fast snapshot restore (true | false).    size - The size of the volume, in GiB.    snapshot-id - The snapshot from which the volume was created.    status - The state of the volume (creating | available | in-use | deleting | deleted | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume ID.    volume-type - The Amazon EBS volume type. This can be gp2 for General Purpose SSD, io1 or io2 for Provisioned IOPS SSD, st1 for Throughput Optimized HDD, sc1 for Cold HDD, or standard for Magnetic volumes.  
 - `VolumeId`: The volume IDs.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `maxResults`: The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
 - `nextToken`: The NextToken value returned from a previous paginated DescribeVolumes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
 """
 
-DescribeVolumes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumes"; aws_config=aws_config)
-DescribeVolumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumes", args; aws_config=aws_config)
+describe_volumes(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumes"; aws_config=aws_config)
+describe_volumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumes", args; aws_config=aws_config)
 
 """
     DescribeVolumesModifications()
 
-Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring Volume Modifications in the Amazon Elastic Compute Cloud User Guide.
+Describes the most recent volume modification request for the specified EBS volumes. If a volume has never been modified, some information in the output will be null. If a volume has been modified more than once, the output includes only the most recent modification request. You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. For more information, see Monitoring volume modifications in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: The filters.    modification-state - The current modification state (modifying | optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard | io1 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard | io1 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.  
+- `Filter`: The filters.    modification-state - The current modification state (modifying | optimizing | completed | failed).    original-iops - The original IOPS rate of the volume.    original-size - The original size of the volume, in GiB.    original-volume-type - The original volume type of the volume (standard | io1 | io2 | gp2 | sc1 | st1).    originalMultiAttachEnabled - Indicates whether Multi-Attach support was enabled (true | false).    start-time - The modification start time.    target-iops - The target IOPS rate of the volume.    target-size - The target size of the volume, in GiB.    target-volume-type - The target volume type of the volume (standard | io1 | io2 | gp2 | sc1 | st1).    targetMultiAttachEnabled - Indicates whether Multi-Attach support is to be enabled (true | false).    volume-id - The ID of the volume.  
 - `MaxResults`: The maximum number of results (up to a limit of 500) to be returned in a paginated request.
 - `NextToken`: The nextToken value returned by a previous paginated request.
 - `VolumeId`: The IDs of the volumes.
 """
 
-DescribeVolumesModifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumesModifications"; aws_config=aws_config)
-DescribeVolumesModifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumesModifications", args; aws_config=aws_config)
+describe_volumes_modifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumesModifications"; aws_config=aws_config)
+describe_volumes_modifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVolumesModifications", args; aws_config=aws_config)
 
 """
     DescribeVpcAttribute()
@@ -4190,8 +4224,8 @@ Describes the specified attribute of the specified VPC. You can specify only one
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpcAttribute(Attribute, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId); aws_config=aws_config)
-DescribeVpcAttribute(Attribute, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId), args)); aws_config=aws_config)
+describe_vpc_attribute(Attribute, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId); aws_config=aws_config)
+describe_vpc_attribute(Attribute, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     DescribeVpcClassicLink()
@@ -4204,8 +4238,8 @@ Describes the ClassicLink status of one or more VPCs.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpcClassicLink(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLink"; aws_config=aws_config)
-DescribeVpcClassicLink(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLink", args; aws_config=aws_config)
+describe_vpc_classic_link(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLink"; aws_config=aws_config)
+describe_vpc_classic_link(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLink", args; aws_config=aws_config)
 
 """
     DescribeVpcClassicLinkDnsSupport()
@@ -4218,8 +4252,8 @@ Describes the ClassicLink DNS support status of one or more VPCs. If enabled, th
 - `nextToken`: The token for the next page of results.
 """
 
-DescribeVpcClassicLinkDnsSupport(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport"; aws_config=aws_config)
-DescribeVpcClassicLinkDnsSupport(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport", args; aws_config=aws_config)
+describe_vpc_classic_link_dns_support(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport"; aws_config=aws_config)
+describe_vpc_classic_link_dns_support(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcClassicLinkDnsSupport", args; aws_config=aws_config)
 
 """
     DescribeVpcEndpointConnectionNotifications()
@@ -4234,8 +4268,8 @@ Describes the connection notifications for VPC endpoints and VPC endpoint servic
 - `NextToken`: The token to request the next page of results.
 """
 
-DescribeVpcEndpointConnectionNotifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications"; aws_config=aws_config)
-DescribeVpcEndpointConnectionNotifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications", args; aws_config=aws_config)
+describe_vpc_endpoint_connection_notifications(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications"; aws_config=aws_config)
+describe_vpc_endpoint_connection_notifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnectionNotifications", args; aws_config=aws_config)
 
 """
     DescribeVpcEndpointConnections()
@@ -4249,8 +4283,8 @@ Describes the VPC endpoint connections to your VPC endpoint services, including 
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeVpcEndpointConnections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnections"; aws_config=aws_config)
-DescribeVpcEndpointConnections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnections", args; aws_config=aws_config)
+describe_vpc_endpoint_connections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnections"; aws_config=aws_config)
+describe_vpc_endpoint_connections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointConnections", args; aws_config=aws_config)
 
 """
     DescribeVpcEndpointServiceConfigurations()
@@ -4265,8 +4299,8 @@ Describes the VPC endpoint service configurations in your account (your services
 - `ServiceId`: The IDs of one or more services.
 """
 
-DescribeVpcEndpointServiceConfigurations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations"; aws_config=aws_config)
-DescribeVpcEndpointServiceConfigurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations", args; aws_config=aws_config)
+describe_vpc_endpoint_service_configurations(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations"; aws_config=aws_config)
+describe_vpc_endpoint_service_configurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServiceConfigurations", args; aws_config=aws_config)
 
 """
     DescribeVpcEndpointServicePermissions()
@@ -4283,8 +4317,8 @@ Describes the principals (service consumers) that are permitted to discover your
 - `NextToken`: The token to retrieve the next page of results.
 """
 
-DescribeVpcEndpointServicePermissions(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-DescribeVpcEndpointServicePermissions(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+describe_vpc_endpoint_service_permissions(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
+describe_vpc_endpoint_service_permissions(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
 
 """
     DescribeVpcEndpointServices()
@@ -4299,8 +4333,8 @@ Describes available services to which you can create a VPC endpoint.
 - `ServiceName`: One or more service names.
 """
 
-DescribeVpcEndpointServices(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServices"; aws_config=aws_config)
-DescribeVpcEndpointServices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServices", args; aws_config=aws_config)
+describe_vpc_endpoint_services(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServices"; aws_config=aws_config)
+describe_vpc_endpoint_services(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpointServices", args; aws_config=aws_config)
 
 """
     DescribeVpcEndpoints()
@@ -4315,8 +4349,8 @@ Describes one or more of your VPC endpoints.
 - `VpcEndpointId`: One or more endpoint IDs.
 """
 
-DescribeVpcEndpoints(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpoints"; aws_config=aws_config)
-DescribeVpcEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpoints", args; aws_config=aws_config)
+describe_vpc_endpoints(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpoints"; aws_config=aws_config)
+describe_vpc_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcEndpoints", args; aws_config=aws_config)
 
 """
     DescribeVpcPeeringConnections()
@@ -4331,8 +4365,8 @@ Describes one or more of your VPC peering connections.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpcPeeringConnections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcPeeringConnections"; aws_config=aws_config)
-DescribeVpcPeeringConnections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcPeeringConnections", args; aws_config=aws_config)
+describe_vpc_peering_connections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcPeeringConnections"; aws_config=aws_config)
+describe_vpc_peering_connections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcPeeringConnections", args; aws_config=aws_config)
 
 """
     DescribeVpcs()
@@ -4347,8 +4381,8 @@ Describes one or more of your VPCs.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpcs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcs"; aws_config=aws_config)
-DescribeVpcs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcs", args; aws_config=aws_config)
+describe_vpcs(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcs"; aws_config=aws_config)
+describe_vpcs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpcs", args; aws_config=aws_config)
 
 """
     DescribeVpnConnections()
@@ -4361,8 +4395,8 @@ Describes one or more of your VPN connections. For more information, see AWS Sit
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpnConnections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnConnections"; aws_config=aws_config)
-DescribeVpnConnections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnConnections", args; aws_config=aws_config)
+describe_vpn_connections(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnConnections"; aws_config=aws_config)
+describe_vpn_connections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnConnections", args; aws_config=aws_config)
 
 """
     DescribeVpnGateways()
@@ -4375,8 +4409,8 @@ Describes one or more of your virtual private gateways. For more information, se
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DescribeVpnGateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnGateways"; aws_config=aws_config)
-DescribeVpnGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnGateways", args; aws_config=aws_config)
+describe_vpn_gateways(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnGateways"; aws_config=aws_config)
+describe_vpn_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeVpnGateways", args; aws_config=aws_config)
 
 """
     DetachClassicLinkVpc()
@@ -4391,8 +4425,8 @@ Unlinks (detaches) a linked EC2-Classic instance from a VPC. After the instance 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DetachClassicLinkVpc(instanceId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config)
-DetachClassicLinkVpc(instanceId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId), args)); aws_config=aws_config)
+detach_classic_link_vpc(instanceId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId); aws_config=aws_config)
+detach_classic_link_vpc(instanceId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachClassicLinkVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     DetachInternetGateway()
@@ -4407,8 +4441,8 @@ Detaches an internet gateway from a VPC, disabling connectivity between the inte
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DetachInternetGateway(internetGatewayId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config)
-DetachInternetGateway(internetGatewayId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), args)); aws_config=aws_config)
+detach_internet_gateway(internetGatewayId, vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId); aws_config=aws_config)
+detach_internet_gateway(internetGatewayId, vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachInternetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("internetGatewayId"=>internetGatewayId, "vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     DetachNetworkInterface()
@@ -4423,13 +4457,13 @@ Detaches a network interface from an instance.
 - `force`: Specifies whether to force a detachment.    Use the Force parameter only as a last resort to detach a network interface from a failed instance.    If you use the Force parameter to detach a network interface, you might not be able to attach a different network interface to the same index on the instance without first stopping and starting the instance.   If you force the detachment of a network interface, the instance metadata might not get updated. This means that the attributes associated with the detached network interface might still be visible. The instance metadata will get updated when you stop and start the instance.   
 """
 
-DetachNetworkInterface(attachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}("attachmentId"=>attachmentId); aws_config=aws_config)
-DetachNetworkInterface(attachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), args)); aws_config=aws_config)
+detach_network_interface(attachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}("attachmentId"=>attachmentId); aws_config=aws_config)
+detach_network_interface(attachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), args)); aws_config=aws_config)
 
 """
     DetachVolume()
 
-Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an AWS Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detaching an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide.
+Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an AWS Marketplace product code is detached from an instance, the product code is no longer associated with the instance. For more information, see Detaching an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `VolumeId`: The ID of the volume.
@@ -4441,8 +4475,8 @@ Detaches an EBS volume from an instance. Make sure to unmount any file systems o
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DetachVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-DetachVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+detach_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+detach_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     DetachVpnGateway()
@@ -4457,8 +4491,8 @@ Detaches a virtual private gateway from a VPC. You do this if you're planning to
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DetachVpnGateway(VpcId, VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
-DetachVpnGateway(VpcId, VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
+detach_vpn_gateway(VpcId, VpnGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId); aws_config=aws_config)
+detach_vpn_gateway(VpcId, VpnGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DetachVpnGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId, "VpnGatewayId"=>VpnGatewayId), args)); aws_config=aws_config)
 
 """
     DisableEbsEncryptionByDefault()
@@ -4469,8 +4503,8 @@ Disables EBS encryption by default for your account in the current Region. After
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisableEbsEncryptionByDefault(; aws_config::AWSConfig=global_aws_config()) = ec2("DisableEbsEncryptionByDefault"; aws_config=aws_config)
-DisableEbsEncryptionByDefault(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableEbsEncryptionByDefault", args; aws_config=aws_config)
+disable_ebs_encryption_by_default(; aws_config::AWSConfig=global_aws_config()) = ec2("DisableEbsEncryptionByDefault"; aws_config=aws_config)
+disable_ebs_encryption_by_default(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableEbsEncryptionByDefault", args; aws_config=aws_config)
 
 """
     DisableFastSnapshotRestores()
@@ -4485,8 +4519,8 @@ Disables fast snapshot restores for the specified snapshots in the specified Ava
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisableFastSnapshotRestores(AvailabilityZone, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
-DisableFastSnapshotRestores(AvailabilityZone, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
+disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
+disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
 
 """
     DisableTransitGatewayRouteTablePropagation()
@@ -4501,8 +4535,8 @@ Disables the specified resource attachment from propagating routes to the specif
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisableTransitGatewayRouteTablePropagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-DisableTransitGatewayRouteTablePropagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+disable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+disable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DisableVgwRoutePropagation()
@@ -4517,8 +4551,8 @@ Disables a virtual private gateway (VGW) from propagating routes to a specified 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisableVgwRoutePropagation(GatewayId, RouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config)
-DisableVgwRoutePropagation(GatewayId, RouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), args)); aws_config=aws_config)
+disable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config)
+disable_vgw_route_propagation(GatewayId, RouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), args)); aws_config=aws_config)
 
 """
     DisableVpcClassicLink()
@@ -4532,8 +4566,8 @@ Disables ClassicLink for a VPC. You cannot disable ClassicLink for a VPC that ha
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisableVpcClassicLink(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-DisableVpcClassicLink(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+disable_vpc_classic_link(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+disable_vpc_classic_link(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     DisableVpcClassicLinkDnsSupport()
@@ -4544,8 +4578,8 @@ Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve t
 - `VpcId`: The ID of the VPC.
 """
 
-DisableVpcClassicLinkDnsSupport(; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport"; aws_config=aws_config)
-DisableVpcClassicLinkDnsSupport(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport", args; aws_config=aws_config)
+disable_vpc_classic_link_dns_support(; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport"; aws_config=aws_config)
+disable_vpc_classic_link_dns_support(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisableVpcClassicLinkDnsSupport", args; aws_config=aws_config)
 
 """
     DisassociateAddress()
@@ -4558,8 +4592,8 @@ Disassociates an Elastic IP address from the instance or network interface it's 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisassociateAddress(; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateAddress"; aws_config=aws_config)
-DisassociateAddress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateAddress", args; aws_config=aws_config)
+disassociate_address(; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateAddress"; aws_config=aws_config)
+disassociate_address(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateAddress", args; aws_config=aws_config)
 
 """
     DisassociateClientVpnTargetNetwork()
@@ -4574,8 +4608,8 @@ Disassociates a target network from the specified Client VPN endpoint. When you 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisassociateClientVpnTargetNetwork(AssociationId, ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-DisassociateClientVpnTargetNetwork(AssociationId, ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateClientVpnTargetNetwork", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     DisassociateIamInstanceProfile()
@@ -4587,8 +4621,8 @@ Disassociates an IAM instance profile from a running or stopped instance. Use De
 
 """
 
-DisassociateIamInstanceProfile(AssociationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
-DisassociateIamInstanceProfile(AssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), args)); aws_config=aws_config)
+disassociate_iam_instance_profile(AssociationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
+disassociate_iam_instance_profile(AssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), args)); aws_config=aws_config)
 
 """
     DisassociateRouteTable()
@@ -4602,8 +4636,8 @@ Disassociates a subnet or gateway from a route table. After you perform this act
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisassociateRouteTable(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
-DisassociateRouteTable(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
+disassociate_route_table(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
+disassociate_route_table(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
 
 """
     DisassociateSubnetCidrBlock()
@@ -4615,8 +4649,8 @@ Disassociates a CIDR block from a subnet. Currently, you can disassociate an IPv
 
 """
 
-DisassociateSubnetCidrBlock(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
-DisassociateSubnetCidrBlock(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
+disassociate_subnet_cidr_block(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
+disassociate_subnet_cidr_block(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateSubnetCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
 
 """
     DisassociateTransitGatewayMulticastDomain()
@@ -4630,8 +4664,8 @@ Disassociates the specified subnets from the transit gateway multicast domain.
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-DisassociateTransitGatewayMulticastDomain(; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain"; aws_config=aws_config)
-DisassociateTransitGatewayMulticastDomain(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain", args; aws_config=aws_config)
+disassociate_transit_gateway_multicast_domain(; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain"; aws_config=aws_config)
+disassociate_transit_gateway_multicast_domain(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayMulticastDomain", args; aws_config=aws_config)
 
 """
     DisassociateTransitGatewayRouteTable()
@@ -4646,8 +4680,8 @@ Disassociates a resource attachment from a transit gateway route table.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-DisassociateTransitGatewayRouteTable(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-DisassociateTransitGatewayRouteTable(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     DisassociateVpcCidrBlock()
@@ -4659,25 +4693,25 @@ Disassociates a CIDR block from a VPC. To disassociate the CIDR block, you must 
 
 """
 
-DisassociateVpcCidrBlock(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
-DisassociateVpcCidrBlock(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
+disassociate_vpc_cidr_block(associationId; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}("associationId"=>associationId); aws_config=aws_config)
+disassociate_vpc_cidr_block(associationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DisassociateVpcCidrBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId), args)); aws_config=aws_config)
 
 """
     EnableEbsEncryptionByDefault()
 
-Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are are always encrypted, either using the default CMK or the CMK that you specified when you created each volume. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported Instance Types.
+Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are are always encrypted, either using the default CMK or the CMK that you specified when you created each volume. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide. You can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableEbsEncryptionByDefault(; aws_config::AWSConfig=global_aws_config()) = ec2("EnableEbsEncryptionByDefault"; aws_config=aws_config)
-EnableEbsEncryptionByDefault(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableEbsEncryptionByDefault", args; aws_config=aws_config)
+enable_ebs_encryption_by_default(; aws_config::AWSConfig=global_aws_config()) = ec2("EnableEbsEncryptionByDefault"; aws_config=aws_config)
+enable_ebs_encryption_by_default(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableEbsEncryptionByDefault", args; aws_config=aws_config)
 
 """
     EnableFastSnapshotRestores()
 
-Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS Fast Snapshot Restore in the Amazon Elastic Compute Cloud User Guide.
+Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS fast snapshot restore in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `AvailabilityZone`: One or more Availability Zones. For example, us-east-2a.
@@ -4687,8 +4721,8 @@ Enables fast snapshot restores for the specified snapshots in the specified Avai
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableFastSnapshotRestores(AvailabilityZone, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
-EnableFastSnapshotRestores(AvailabilityZone, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
+enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
+enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), args)); aws_config=aws_config)
 
 """
     EnableTransitGatewayRouteTablePropagation()
@@ -4703,8 +4737,8 @@ Enables the specified attachment to propagate routes to the specified propagatio
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableTransitGatewayRouteTablePropagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-EnableTransitGatewayRouteTablePropagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+enable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+enable_transit_gateway_route_table_propagation(TransitGatewayAttachmentId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableTransitGatewayRouteTablePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     EnableVgwRoutePropagation()
@@ -4719,8 +4753,8 @@ Enables a virtual private gateway (VGW) to propagate routes to the specified rou
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableVgwRoutePropagation(GatewayId, RouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config)
-EnableVgwRoutePropagation(GatewayId, RouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), args)); aws_config=aws_config)
+enable_vgw_route_propagation(GatewayId, RouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId); aws_config=aws_config)
+enable_vgw_route_propagation(GatewayId, RouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVgwRoutePropagation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayId"=>GatewayId, "RouteTableId"=>RouteTableId), args)); aws_config=aws_config)
 
 """
     EnableVolumeIO()
@@ -4734,8 +4768,8 @@ Enables I/O operations for a volume that had I/O operations disabled because the
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableVolumeIO(volumeId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}("volumeId"=>volumeId); aws_config=aws_config)
-EnableVolumeIO(volumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("volumeId"=>volumeId), args)); aws_config=aws_config)
+enable_volume_io(volumeId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}("volumeId"=>volumeId); aws_config=aws_config)
+enable_volume_io(volumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVolumeIO", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("volumeId"=>volumeId), args)); aws_config=aws_config)
 
 """
     EnableVpcClassicLink()
@@ -4749,8 +4783,8 @@ Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your C
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-EnableVpcClassicLink(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-EnableVpcClassicLink(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+enable_vpc_classic_link(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+enable_vpc_classic_link(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLink", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     EnableVpcClassicLinkDnsSupport()
@@ -4761,8 +4795,8 @@ Enables a VPC to support DNS hostname resolution for ClassicLink. If enabled, th
 - `VpcId`: The ID of the VPC.
 """
 
-EnableVpcClassicLinkDnsSupport(; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport"; aws_config=aws_config)
-EnableVpcClassicLinkDnsSupport(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport", args; aws_config=aws_config)
+enable_vpc_classic_link_dns_support(; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport"; aws_config=aws_config)
+enable_vpc_classic_link_dns_support(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("EnableVpcClassicLinkDnsSupport", args; aws_config=aws_config)
 
 """
     ExportClientVpnClientCertificateRevocationList()
@@ -4776,8 +4810,8 @@ Downloads the client certificate revocation list for the specified Client VPN en
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ExportClientVpnClientCertificateRevocationList(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-ExportClientVpnClientCertificateRevocationList(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+export_client_vpn_client_certificate_revocation_list(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+export_client_vpn_client_certificate_revocation_list(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     ExportClientVpnClientConfiguration()
@@ -4791,8 +4825,8 @@ Downloads the contents of the Client VPN endpoint configuration file for the spe
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ExportClientVpnClientConfiguration(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-ExportClientVpnClientConfiguration(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+export_client_vpn_client_configuration(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+export_client_vpn_client_configuration(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportClientVpnClientConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     ExportImage()
@@ -4812,8 +4846,8 @@ Exports an Amazon Machine Image (AMI) to a VM file. For more information, see Ex
 - `TagSpecification`: The tags to apply to the image being exported.
 """
 
-ExportImage(DiskImageFormat, ImageId, S3ExportLocation; aws_config::AWSConfig=global_aws_config()) = ec2("ExportImage", Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-ExportImage(DiskImageFormat, ImageId, S3ExportLocation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+export_image(DiskImageFormat, ImageId, S3ExportLocation; aws_config::AWSConfig=global_aws_config()) = ec2("ExportImage", Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+export_image(DiskImageFormat, ImageId, S3ExportLocation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskImageFormat"=>DiskImageFormat, "ImageId"=>ImageId, "S3ExportLocation"=>S3ExportLocation, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     ExportTransitGatewayRoutes()
@@ -4829,8 +4863,8 @@ Exports routes from the specified transit gateway route table to the specified S
 - `Filter`: One or more filters. The possible values are:    attachment.transit-gateway-attachment-id - The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the attachment (available | deleted | deleting | failed | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting).    transit-gateway-route-destination-cidr-block - The CIDR range.    type - The type of route (active | blackhole).  
 """
 
-ExportTransitGatewayRoutes(S3Bucket, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-ExportTransitGatewayRoutes(S3Bucket, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ExportTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     GetAssociatedIpv6PoolCidrs()
@@ -4846,8 +4880,8 @@ Gets information about the IPv6 CIDR block associations for a specified IPv6 add
 - `NextToken`: The token for the next page of results.
 """
 
-GetAssociatedIpv6PoolCidrs(PoolId; aws_config::AWSConfig=global_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config)
-GetAssociatedIpv6PoolCidrs(PoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), args)); aws_config=aws_config)
+get_associated_ipv6_pool_cidrs(PoolId; aws_config::AWSConfig=global_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config)
+get_associated_ipv6_pool_cidrs(PoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetAssociatedIpv6PoolCidrs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), args)); aws_config=aws_config)
 
 """
     GetCapacityReservationUsage()
@@ -4863,8 +4897,8 @@ Gets usage information about a Capacity Reservation. If the Capacity Reservation
 - `NextToken`: The token to use to retrieve the next page of results.
 """
 
-GetCapacityReservationUsage(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
-GetCapacityReservationUsage(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
+get_capacity_reservation_usage(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
+get_capacity_reservation_usage(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetCapacityReservationUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
 
 """
     GetCoipPoolUsage()
@@ -4881,8 +4915,8 @@ Describes the allocations from the specified customer-owned address pool.
 - `NextToken`: The token for the next page of results.
 """
 
-GetCoipPoolUsage(PoolId; aws_config::AWSConfig=global_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config)
-GetCoipPoolUsage(PoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), args)); aws_config=aws_config)
+get_coip_pool_usage(PoolId; aws_config::AWSConfig=global_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}("PoolId"=>PoolId); aws_config=aws_config)
+get_coip_pool_usage(PoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetCoipPoolUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId), args)); aws_config=aws_config)
 
 """
     GetConsoleOutput()
@@ -4897,8 +4931,8 @@ Gets the console output for the specified instance. For Linux instances, the ins
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetConsoleOutput(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-GetConsoleOutput(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+get_console_output(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+get_console_output(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     GetConsoleScreenshot()
@@ -4913,8 +4947,8 @@ Retrieve a JPG-format screenshot of a running instance to help with troubleshoot
 - `WakeUp`: When set to true, acts as keystroke input and wakes up an instance that's in standby or \"sleep\" mode.
 """
 
-GetConsoleScreenshot(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-GetConsoleScreenshot(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+get_console_screenshot(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+get_console_screenshot(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetConsoleScreenshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     GetDefaultCreditSpecification()
@@ -4928,8 +4962,8 @@ Describes the default credit option for CPU usage of a burstable performance ins
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetDefaultCreditSpecification(InstanceFamily; aws_config::AWSConfig=global_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}("InstanceFamily"=>InstanceFamily); aws_config=aws_config)
-GetDefaultCreditSpecification(InstanceFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceFamily"=>InstanceFamily), args)); aws_config=aws_config)
+get_default_credit_specification(InstanceFamily; aws_config::AWSConfig=global_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}("InstanceFamily"=>InstanceFamily); aws_config=aws_config)
+get_default_credit_specification(InstanceFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceFamily"=>InstanceFamily), args)); aws_config=aws_config)
 
 """
     GetEbsDefaultKmsKeyId()
@@ -4940,8 +4974,8 @@ Describes the default customer master key (CMK) for EBS encryption by default fo
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetEbsDefaultKmsKeyId(; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsDefaultKmsKeyId"; aws_config=aws_config)
-GetEbsDefaultKmsKeyId(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsDefaultKmsKeyId", args; aws_config=aws_config)
+get_ebs_default_kms_key_id(; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsDefaultKmsKeyId"; aws_config=aws_config)
+get_ebs_default_kms_key_id(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsDefaultKmsKeyId", args; aws_config=aws_config)
 
 """
     GetEbsEncryptionByDefault()
@@ -4952,8 +4986,8 @@ Describes whether EBS encryption by default is enabled for your account in the c
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetEbsEncryptionByDefault(; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault"; aws_config=aws_config)
-GetEbsEncryptionByDefault(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault", args; aws_config=aws_config)
+get_ebs_encryption_by_default(; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault"; aws_config=aws_config)
+get_ebs_encryption_by_default(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault", args; aws_config=aws_config)
 
 """
     GetGroupsForCapacityReservation()
@@ -4969,8 +5003,8 @@ Lists the resource groups to which a Capacity Reservation has been added.
 - `NextToken`: The token to use to retrieve the next page of results.
 """
 
-GetGroupsForCapacityReservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
-GetGroupsForCapacityReservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
+get_groups_for_capacity_reservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
+get_groups_for_capacity_reservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetGroupsForCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
 
 """
     GetHostReservationPurchasePreview()
@@ -4985,8 +5019,8 @@ Preview a reservation purchase with configurations that match those of your Dedi
 - `HostIdSet`: The IDs of the Dedicated Hosts with which the reservation is associated.
 """
 
-GetHostReservationPurchasePreview(OfferingId, item; aws_config::AWSConfig=global_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config)
-GetHostReservationPurchasePreview(OfferingId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), args)); aws_config=aws_config)
+get_host_reservation_purchase_preview(OfferingId, item; aws_config::AWSConfig=global_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config)
+get_host_reservation_purchase_preview(OfferingId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetHostReservationPurchasePreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), args)); aws_config=aws_config)
 
 """
     GetLaunchTemplateData()
@@ -5000,8 +5034,8 @@ Retrieves the configuration data of the specified instance. You can use this dat
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetLaunchTemplateData(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-GetLaunchTemplateData(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+get_launch_template_data(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+get_launch_template_data(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetLaunchTemplateData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     GetManagedPrefixListAssociations()
@@ -5017,8 +5051,8 @@ Gets information about the resources that are associated with the specified mana
 - `NextToken`: The token for the next page of results.
 """
 
-GetManagedPrefixListAssociations(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
-GetManagedPrefixListAssociations(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
+get_managed_prefix_list_associations(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
+get_managed_prefix_list_associations(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
 
 """
     GetManagedPrefixListEntries()
@@ -5035,8 +5069,8 @@ Gets information about the entries for a specified managed prefix list.
 - `TargetVersion`: The version of the prefix list for which to return the entries. The default is the current version.
 """
 
-GetManagedPrefixListEntries(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
-GetManagedPrefixListEntries(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
+get_managed_prefix_list_entries(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
+get_managed_prefix_list_entries(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetManagedPrefixListEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
 
 """
     GetPasswordData()
@@ -5050,8 +5084,8 @@ Retrieves the encrypted administrator password for a running Windows instance. T
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-GetPasswordData(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetPasswordData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-GetPasswordData(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetPasswordData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+get_password_data(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetPasswordData", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+get_password_data(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetPasswordData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     GetReservedInstancesExchangeQuote()
@@ -5066,8 +5100,8 @@ Returns a quote and exchange information for exchanging one or more specified Co
 - `TargetConfiguration`: The configuration of the target Convertible Reserved Instance to exchange for your current Convertible Reserved Instances.
 """
 
-GetReservedInstancesExchangeQuote(ReservedInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config)
-GetReservedInstancesExchangeQuote(ReservedInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), args)); aws_config=aws_config)
+get_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config)
+get_reserved_instances_exchange_quote(ReservedInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), args)); aws_config=aws_config)
 
 """
     GetTransitGatewayAttachmentPropagations()
@@ -5084,8 +5118,8 @@ Lists the route tables to which the specified resource attachment propagates rou
 - `NextToken`: The token for the next page of results.
 """
 
-GetTransitGatewayAttachmentPropagations(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-GetTransitGatewayAttachmentPropagations(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+get_transit_gateway_attachment_propagations(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+get_transit_gateway_attachment_propagations(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayAttachmentPropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     GetTransitGatewayMulticastDomainAssociations()
@@ -5100,8 +5134,26 @@ Gets information about the associations for the transit gateway multicast domain
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-GetTransitGatewayMulticastDomainAssociations(; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations"; aws_config=aws_config)
-GetTransitGatewayMulticastDomainAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations", args; aws_config=aws_config)
+get_transit_gateway_multicast_domain_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations"; aws_config=aws_config)
+get_transit_gateway_multicast_domain_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayMulticastDomainAssociations", args; aws_config=aws_config)
+
+"""
+    GetTransitGatewayPrefixListReferences()
+
+Gets information about the prefix list references in a specified transit gateway route table.
+
+# Required Parameters
+- `TransitGatewayRouteTableId`: The ID of the transit gateway route table.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Filter`: One or more filters. The possible values are:    attachment.resource-id - The ID of the resource for the attachment.    attachment.resource-type - The type of resource for the attachment (vpc | vpn | direct-connect-gateway | tgw-peering).    attachment.transit-gateway-attachment-id - The ID of the attachment.    is-blackhole - Whether traffic matching the route is blocked (true | false).    prefix-list-id - The ID of the prefix list.    prefix-list-owner-id - The ID of the owner of the prefix list.    state - The state of the prefix list reference (pending | available | modifying | deleting).  
+- `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `NextToken`: The token for the next page of results.
+"""
+
+get_transit_gateway_prefix_list_references(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayPrefixListReferences", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+get_transit_gateway_prefix_list_references(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayPrefixListReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     GetTransitGatewayRouteTableAssociations()
@@ -5113,13 +5165,13 @@ Gets information about the associations for the specified transit gateway route 
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
+- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn | direct-connect-gateway | tgw-peering).    transit-gateway-attachment-id - The ID of the attachment.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
 
-GetTransitGatewayRouteTableAssociations(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-GetTransitGatewayRouteTableAssociations(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+get_transit_gateway_route_table_associations(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+get_transit_gateway_route_table_associations(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTableAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     GetTransitGatewayRouteTablePropagations()
@@ -5131,13 +5183,13 @@ Gets information about the route table propagations for the specified transit ga
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn).    transit-gateway-attachment-id - The ID of the attachment.  
+- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type (vpc | vpn | direct-connect-gateway | tgw-peering).    transit-gateway-attachment-id - The ID of the attachment.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
 
-GetTransitGatewayRouteTablePropagations(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-GetTransitGatewayRouteTablePropagations(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+get_transit_gateway_route_table_propagations(TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+get_transit_gateway_route_table_propagations(TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("GetTransitGatewayRouteTablePropagations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     ImportClientVpnClientCertificateRevocationList()
@@ -5152,8 +5204,8 @@ Uploads a client certificate revocation list to the specified Client VPN endpoin
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ImportClientVpnClientCertificateRevocationList(CertificateRevocationList, ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-ImportClientVpnClientCertificateRevocationList(CertificateRevocationList, ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportClientVpnClientCertificateRevocationList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateRevocationList"=>CertificateRevocationList, "ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     ImportImage()
@@ -5177,8 +5229,8 @@ Import single or multi-volume disk images or EBS snapshots into an Amazon Machin
 - `TagSpecification`: The tags to apply to the image being imported.
 """
 
-ImportImage(; aws_config::AWSConfig=global_aws_config()) = ec2("ImportImage"; aws_config=aws_config)
-ImportImage(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportImage", args; aws_config=aws_config)
+import_image(; aws_config::AWSConfig=global_aws_config()) = ec2("ImportImage"; aws_config=aws_config)
+import_image(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportImage", args; aws_config=aws_config)
 
 """
     ImportInstance()
@@ -5195,8 +5247,8 @@ Creates an import instance task using metadata from the specified disk image. Im
 - `launchSpecification`: The launch specification.
 """
 
-ImportInstance(platform; aws_config::AWSConfig=global_aws_config()) = ec2("ImportInstance", Dict{String, Any}("platform"=>platform); aws_config=aws_config)
-ImportInstance(platform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platform"=>platform), args)); aws_config=aws_config)
+import_instance(platform; aws_config::AWSConfig=global_aws_config()) = ec2("ImportInstance", Dict{String, Any}("platform"=>platform); aws_config=aws_config)
+import_instance(platform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platform"=>platform), args)); aws_config=aws_config)
 
 """
     ImportKeyPair()
@@ -5212,8 +5264,8 @@ Imports the public key from an RSA key pair that you created with a third-party 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ImportKeyPair(keyName, publicKeyMaterial; aws_config::AWSConfig=global_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config)
-ImportKeyPair(keyName, publicKeyMaterial, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial), args)); aws_config=aws_config)
+import_key_pair(keyName, publicKeyMaterial; aws_config::AWSConfig=global_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config)
+import_key_pair(keyName, publicKeyMaterial, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyName"=>keyName, "publicKeyMaterial"=>publicKeyMaterial), args)); aws_config=aws_config)
 
 """
     ImportSnapshot()
@@ -5232,8 +5284,8 @@ Imports a disk into an EBS snapshot.
 - `TagSpecification`: The tags to apply to the snapshot being imported.
 """
 
-ImportSnapshot(; aws_config::AWSConfig=global_aws_config()) = ec2("ImportSnapshot"; aws_config=aws_config)
-ImportSnapshot(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportSnapshot", args; aws_config=aws_config)
+import_snapshot(; aws_config::AWSConfig=global_aws_config()) = ec2("ImportSnapshot"; aws_config=aws_config)
+import_snapshot(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportSnapshot", args; aws_config=aws_config)
 
 """
     ImportVolume()
@@ -5250,8 +5302,8 @@ Creates an import volume task using metadata from the specified disk image.For m
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ImportVolume(availabilityZone, image, volume; aws_config::AWSConfig=global_aws_config()) = ec2("ImportVolume", Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume); aws_config=aws_config)
-ImportVolume(availabilityZone, image, volume, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume), args)); aws_config=aws_config)
+import_volume(availabilityZone, image, volume; aws_config::AWSConfig=global_aws_config()) = ec2("ImportVolume", Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume); aws_config=aws_config)
+import_volume(availabilityZone, image, volume, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ImportVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "image"=>image, "volume"=>volume), args)); aws_config=aws_config)
 
 """
     ModifyAvailabilityZoneGroup()
@@ -5266,8 +5318,8 @@ Changes the opt-in status of the Local Zone and Wavelength Zone group for your a
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyAvailabilityZoneGroup(GroupName, OptInStatus; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus); aws_config=aws_config)
-ModifyAvailabilityZoneGroup(GroupName, OptInStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus), args)); aws_config=aws_config)
+modify_availability_zone_group(GroupName, OptInStatus; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus); aws_config=aws_config)
+modify_availability_zone_group(GroupName, OptInStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyAvailabilityZoneGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "OptInStatus"=>OptInStatus), args)); aws_config=aws_config)
 
 """
     ModifyCapacityReservation()
@@ -5284,8 +5336,8 @@ Modifies a Capacity Reservation's capacity and the conditions under which it is 
 - `InstanceCount`: The number of instances for which to reserve capacity.
 """
 
-ModifyCapacityReservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
-ModifyCapacityReservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
+modify_capacity_reservation(CapacityReservationId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}("CapacityReservationId"=>CapacityReservationId); aws_config=aws_config)
+modify_capacity_reservation(CapacityReservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationId"=>CapacityReservationId), args)); aws_config=aws_config)
 
 """
     ModifyClientVpnEndpoint()
@@ -5307,8 +5359,8 @@ Modifies the specified Client VPN endpoint. Modifying the DNS server resets exis
 - `VpnPort`: The port number to assign to the Client VPN endpoint for TCP and UDP traffic. Valid Values: 443 | 1194  Default Value: 443 
 """
 
-ModifyClientVpnEndpoint(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-ModifyClientVpnEndpoint(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+modify_client_vpn_endpoint(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+modify_client_vpn_endpoint(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyClientVpnEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     ModifyDefaultCreditSpecification()
@@ -5323,8 +5375,8 @@ Modifies the default credit option for CPU usage of burstable performance instan
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyDefaultCreditSpecification(CpuCredits, InstanceFamily; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily); aws_config=aws_config)
-ModifyDefaultCreditSpecification(CpuCredits, InstanceFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily), args)); aws_config=aws_config)
+modify_default_credit_specification(CpuCredits, InstanceFamily; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily); aws_config=aws_config)
+modify_default_credit_specification(CpuCredits, InstanceFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyDefaultCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CpuCredits"=>CpuCredits, "InstanceFamily"=>InstanceFamily), args)); aws_config=aws_config)
 
 """
     ModifyEbsDefaultKmsKeyId()
@@ -5338,8 +5390,8 @@ Changes the default customer master key (CMK) for EBS encryption by default for 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyEbsDefaultKmsKeyId(KmsKeyId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}("KmsKeyId"=>KmsKeyId); aws_config=aws_config)
-ModifyEbsDefaultKmsKeyId(KmsKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId), args)); aws_config=aws_config)
+modify_ebs_default_kms_key_id(KmsKeyId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}("KmsKeyId"=>KmsKeyId); aws_config=aws_config)
+modify_ebs_default_kms_key_id(KmsKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyEbsDefaultKmsKeyId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId), args)); aws_config=aws_config)
 
 """
     ModifyFleet()
@@ -5355,8 +5407,8 @@ Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of ty
 - `ExcessCapacityTerminationPolicy`: Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
 """
 
-ModifyFleet(FleetId, TargetCapacitySpecification; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFleet", Dict{String, Any}("FleetId"=>FleetId, "TargetCapacitySpecification"=>TargetCapacitySpecification); aws_config=aws_config)
-ModifyFleet(FleetId, TargetCapacitySpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TargetCapacitySpecification"=>TargetCapacitySpecification), args)); aws_config=aws_config)
+modify_fleet(FleetId, TargetCapacitySpecification; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFleet", Dict{String, Any}("FleetId"=>FleetId, "TargetCapacitySpecification"=>TargetCapacitySpecification); aws_config=aws_config)
+modify_fleet(FleetId, TargetCapacitySpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetId"=>FleetId, "TargetCapacitySpecification"=>TargetCapacitySpecification), args)); aws_config=aws_config)
 
 """
     ModifyFpgaImageAttribute()
@@ -5378,8 +5430,8 @@ Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
 - `UserId`: The AWS account IDs. This parameter is valid only when modifying the loadPermission attribute.
 """
 
-ModifyFpgaImageAttribute(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
-ModifyFpgaImageAttribute(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
+modify_fpga_image_attribute(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
+modify_fpga_image_attribute(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
 
 """
     ModifyHosts()
@@ -5396,8 +5448,8 @@ Modify the auto-placement setting of a Dedicated Host. When auto-placement is en
 - `autoPlacement`: Specify whether to enable or disable auto-placement.
 """
 
-ModifyHosts(hostId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config)
-ModifyHosts(hostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), args)); aws_config=aws_config)
+modify_hosts(hostId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config)
+modify_hosts(hostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), args)); aws_config=aws_config)
 
 """
     ModifyIdFormat()
@@ -5410,8 +5462,8 @@ Modifies the ID format for the specified resource on a per-Region basis. You can
 
 """
 
-ModifyIdFormat(Resource, UseLongIds; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds); aws_config=aws_config)
-ModifyIdFormat(Resource, UseLongIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds), args)); aws_config=aws_config)
+modify_id_format(Resource, UseLongIds; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds); aws_config=aws_config)
+modify_id_format(Resource, UseLongIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "UseLongIds"=>UseLongIds), args)); aws_config=aws_config)
 
 """
     ModifyIdentityIdFormat()
@@ -5425,8 +5477,8 @@ Modifies the ID format of a resource for a specified IAM user, IAM role, or the 
 
 """
 
-ModifyIdentityIdFormat(principalArn, resource, useLongIds; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds); aws_config=aws_config)
-ModifyIdentityIdFormat(principalArn, resource, useLongIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds), args)); aws_config=aws_config)
+modify_identity_id_format(principalArn, resource, useLongIds; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds); aws_config=aws_config)
+modify_identity_id_format(principalArn, resource, useLongIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyIdentityIdFormat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalArn"=>principalArn, "resource"=>resource, "useLongIds"=>useLongIds), args)); aws_config=aws_config)
 
 """
     ModifyImageAttribute()
@@ -5448,8 +5500,8 @@ Modifies the specified attribute of the specified AMI. You can specify only one 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyImageAttribute(ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
-ModifyImageAttribute(ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws_config=aws_config)
+modify_image_attribute(ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
+modify_image_attribute(ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws_config=aws_config)
 
 """
     ModifyInstanceAttribute()
@@ -5477,8 +5529,8 @@ Modifies the specified attribute of the specified instance. You can specify only
 - `value`: A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
 
-ModifyInstanceAttribute(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
-ModifyInstanceAttribute(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
+modify_instance_attribute(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
+modify_instance_attribute(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     ModifyInstanceCapacityReservationAttributes()
@@ -5493,8 +5545,8 @@ Modifies the Capacity Reservation settings for a stopped instance. Use this acti
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyInstanceCapacityReservationAttributes(CapacityReservationSpecification, InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId); aws_config=aws_config)
-ModifyInstanceCapacityReservationAttributes(CapacityReservationSpecification, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
+modify_instance_capacity_reservation_attributes(CapacityReservationSpecification, InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId); aws_config=aws_config)
+modify_instance_capacity_reservation_attributes(CapacityReservationSpecification, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCapacityReservationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CapacityReservationSpecification"=>CapacityReservationSpecification, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     ModifyInstanceCreditSpecification()
@@ -5509,8 +5561,8 @@ Modifies the credit option for CPU usage on a running or stopped burstable perfo
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyInstanceCreditSpecification(InstanceCreditSpecification; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification); aws_config=aws_config)
-ModifyInstanceCreditSpecification(InstanceCreditSpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification), args)); aws_config=aws_config)
+modify_instance_credit_specification(InstanceCreditSpecification; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification); aws_config=aws_config)
+modify_instance_credit_specification(InstanceCreditSpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceCreditSpecification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCreditSpecification"=>InstanceCreditSpecification), args)); aws_config=aws_config)
 
 """
     ModifyInstanceEventStartTime()
@@ -5526,8 +5578,8 @@ Modifies the start time for a scheduled Amazon EC2 instance event.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyInstanceEventStartTime(InstanceEventId, InstanceId, NotBefore; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore); aws_config=aws_config)
-ModifyInstanceEventStartTime(InstanceEventId, InstanceId, NotBefore, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore), args)); aws_config=aws_config)
+modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore); aws_config=aws_config)
+modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore), args)); aws_config=aws_config)
 
 """
     ModifyInstanceMetadataOptions()
@@ -5544,8 +5596,8 @@ Modify the instance metadata parameters on a running or stopped instance. When y
 - `HttpTokens`: The state of token usage for your instance metadata requests. If the parameter is not specified in the request, the default state is optional. If the state is optional, you can choose to retrieve instance metadata with or without a signed token header on your request. If you retrieve the IAM role credentials without a token, the version 1.0 role credentials are returned. If you retrieve the IAM role credentials using a valid signed token, the version 2.0 role credentials are returned. If the state is required, you must send a signed token header with any instance metadata retrieval requests. In this state, retrieving the IAM role credential always returns the version 2.0 credentials; the version 1.0 credentials are not available.
 """
 
-ModifyInstanceMetadataOptions(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-ModifyInstanceMetadataOptions(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+modify_instance_metadata_options(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+modify_instance_metadata_options(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstanceMetadataOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     ModifyInstancePlacement()
@@ -5564,8 +5616,8 @@ Modifies the placement attributes for a specified instance. You can do the follo
 - `tenancy`: The tenancy for the instance.
 """
 
-ModifyInstancePlacement(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
-ModifyInstancePlacement(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
+modify_instance_placement(instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}("instanceId"=>instanceId); aws_config=aws_config)
+modify_instance_placement(instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyInstancePlacement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     ModifyLaunchTemplate()
@@ -5580,8 +5632,8 @@ Modifies a launch template. You can specify which version of the launch template
 - `SetDefaultVersion`: The version number of the launch template to set as the default version.
 """
 
-ModifyLaunchTemplate(; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyLaunchTemplate"; aws_config=aws_config)
-ModifyLaunchTemplate(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyLaunchTemplate", args; aws_config=aws_config)
+modify_launch_template(; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyLaunchTemplate"; aws_config=aws_config)
+modify_launch_template(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyLaunchTemplate", args; aws_config=aws_config)
 
 """
     ModifyManagedPrefixList()
@@ -5599,8 +5651,8 @@ Modifies the specified managed prefix list. Adding or removing entries in a pref
 - `RemoveEntry`: One or more entries to remove from the prefix list.
 """
 
-ModifyManagedPrefixList(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
-ModifyManagedPrefixList(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
+modify_managed_prefix_list(PrefixListId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}("PrefixListId"=>PrefixListId); aws_config=aws_config)
+modify_managed_prefix_list(PrefixListId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId), args)); aws_config=aws_config)
 
 """
     ModifyNetworkInterfaceAttribute()
@@ -5618,8 +5670,8 @@ Modifies the specified network interface attribute. You can specify only one att
 - `sourceDestCheck`: Indicates whether source/destination checking is enabled. A value of true means checking is enabled, and false means checking is disabled. This value must be false for a NAT instance to perform NAT. For more information, see NAT Instances in the Amazon Virtual Private Cloud User Guide.
 """
 
-ModifyNetworkInterfaceAttribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-ModifyNetworkInterfaceAttribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+modify_network_interface_attribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+modify_network_interface_attribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     ModifyReservedInstances()
@@ -5634,13 +5686,13 @@ Modifies the Availability Zone, instance count, instance type, or network platfo
 - `clientToken`: A unique, case-sensitive token you provide to ensure idempotency of your modification request. For more information, see Ensuring Idempotency.
 """
 
-ModifyReservedInstances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config)
-ModifyReservedInstances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), args)); aws_config=aws_config)
+modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config)
+modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), args)); aws_config=aws_config)
 
 """
     ModifySnapshotAttribute()
 
-Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
+Adds or removes permission settings for the specified snapshot. You may add or remove specified AWS account IDs from a snapshot's list of create volume permissions, but you cannot do both in a single operation. If you need to both add and remove account IDs for a snapshot, you must use multiple operations. You can make up to 500 modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with AWS Marketplace product codes cannot be made public. Snapshots encrypted with your default CMK cannot be shared with other accounts. For more information about modifying snapshot permissions, see Sharing snapshots in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `SnapshotId`: The ID of the snapshot.
@@ -5654,8 +5706,8 @@ Adds or removes permission settings for the specified snapshot. You may add or r
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifySnapshotAttribute(SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config)
-ModifySnapshotAttribute(SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
+modify_snapshot_attribute(SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}("SnapshotId"=>SnapshotId); aws_config=aws_config)
+modify_snapshot_attribute(SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
 
 """
     ModifySpotFleetRequest()
@@ -5671,8 +5723,8 @@ Modifies the specified Spot Fleet request. You can only modify a Spot Fleet requ
 - `targetCapacity`: The size of the fleet.
 """
 
-ModifySpotFleetRequest(spotFleetRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config)
-ModifySpotFleetRequest(spotFleetRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), args)); aws_config=aws_config)
+modify_spot_fleet_request(spotFleetRequestId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId); aws_config=aws_config)
+modify_spot_fleet_request(spotFleetRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySpotFleetRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestId"=>spotFleetRequestId), args)); aws_config=aws_config)
 
 """
     ModifySubnetAttribute()
@@ -5689,8 +5741,8 @@ Modifies a subnet attribute. You can only modify one attribute at a time.
 - `MapPublicIpOnLaunch`: Specify true to indicate that network interfaces attached to instances created in the specified subnet should be assigned a public IPv4 address.
 """
 
-ModifySubnetAttribute(subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config)
-ModifySubnetAttribute(subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), args)); aws_config=aws_config)
+modify_subnet_attribute(subnetId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config)
+modify_subnet_attribute(subnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifySubnetAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), args)); aws_config=aws_config)
 
 """
     ModifyTrafficMirrorFilterNetworkServices()
@@ -5706,8 +5758,8 @@ Allows or restricts mirroring network services.  By default, Amazon DNS network 
 - `RemoveNetworkService`: The network service, for example Amazon DNS, that you no longer want to mirror.
 """
 
-ModifyTrafficMirrorFilterNetworkServices(TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config)
-ModifyTrafficMirrorFilterNetworkServices(TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), args)); aws_config=aws_config)
+modify_traffic_mirror_filter_network_services(TrafficMirrorFilterId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId); aws_config=aws_config)
+modify_traffic_mirror_filter_network_services(TrafficMirrorFilterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterNetworkServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterId"=>TrafficMirrorFilterId), args)); aws_config=aws_config)
 
 """
     ModifyTrafficMirrorFilterRule()
@@ -5731,8 +5783,8 @@ Modifies the specified Traffic Mirror rule.  DestinationCidrBlock and SourceCidr
 - `TrafficDirection`: The type of traffic (ingress | egress) to assign to the rule.
 """
 
-ModifyTrafficMirrorFilterRule(TrafficMirrorFilterRuleId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config)
-ModifyTrafficMirrorFilterRule(TrafficMirrorFilterRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), args)); aws_config=aws_config)
+modify_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId); aws_config=aws_config)
+modify_traffic_mirror_filter_rule(TrafficMirrorFilterRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorFilterRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorFilterRuleId"=>TrafficMirrorFilterRuleId), args)); aws_config=aws_config)
 
 """
     ModifyTrafficMirrorSession()
@@ -5753,8 +5805,43 @@ Modifies a Traffic Mirror session.
 - `VirtualNetworkId`: The virtual network ID of the Traffic Mirror session.
 """
 
-ModifyTrafficMirrorSession(TrafficMirrorSessionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config)
-ModifyTrafficMirrorSession(TrafficMirrorSessionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), args)); aws_config=aws_config)
+modify_traffic_mirror_session(TrafficMirrorSessionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId); aws_config=aws_config)
+modify_traffic_mirror_session(TrafficMirrorSessionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTrafficMirrorSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrafficMirrorSessionId"=>TrafficMirrorSessionId), args)); aws_config=aws_config)
+
+"""
+    ModifyTransitGateway()
+
+Modifies the specified transit gateway. When you modify a transit gateway, the modified options are applied to new transit gateway attachments only. Your existing transit gateway attachments are not modified.
+
+# Required Parameters
+- `TransitGatewayId`: The ID of the transit gateway.
+
+# Optional Parameters
+- `Description`: The description for the transit gateway.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Options`: The options to modify.
+"""
+
+modify_transit_gateway(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
+modify_transit_gateway(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+
+"""
+    ModifyTransitGatewayPrefixListReference()
+
+Modifies a reference (route) to a prefix list in a specified transit gateway route table.
+
+# Required Parameters
+- `PrefixListId`: The ID of the prefix list.
+- `TransitGatewayRouteTableId`: The ID of the transit gateway route table.
+
+# Optional Parameters
+- `Blackhole`: Indicates whether to drop traffic that matches this route.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `TransitGatewayAttachmentId`: The ID of the attachment to which traffic is routed.
+"""
+
+modify_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayPrefixListReference", Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+modify_transit_gateway_prefix_list_reference(PrefixListId, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayPrefixListReference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrefixListId"=>PrefixListId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     ModifyTransitGatewayVpcAttachment()
@@ -5771,26 +5858,26 @@ Modifies the specified VPC attachment.
 - `RemoveSubnetIds`: The IDs of one or more subnets to remove.
 """
 
-ModifyTransitGatewayVpcAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-ModifyTransitGatewayVpcAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     ModifyVolume()
 
-You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System. For information about extending a Windows file system, see Extending a Windows File System.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitoring Volume Modifications.  With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux and Modifying the Size, IOPS, or Type of an EBS Volume on Windows. If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume.
+You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the size, IOPS, or type of an EBS volume on Linux. For more information about modifying an EBS volume running Windows, see Modifying the size, IOPS, or type of an EBS volume on Windows.   When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux file system. For information about extending a Windows file system, see Extending a Windows file system.   You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a modification using DescribeVolumesModifications. For information about tracking status changes using either method, see Monitoring volume modifications.  With previous-generation instance types, resizing an EBS volume may require detaching and reattaching the volume or stopping and restarting the instance. For more information, see Modifying the size, IOPS, or type of an EBS volume on Linux and Modifying the size, IOPS, or type of an EBS volume on Windows. If you reach the maximum volume modification rate per volume limit, you will need to wait at least six hours before applying further modifications to the affected EBS volume.
 
 # Required Parameters
 - `VolumeId`: The ID of the volume.
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Iops`: The target IOPS rate of the volume. This is only valid for Provisioned IOPS SSD (io1) volumes. For more information, see Provisioned IOPS SSD (io1) Volumes. Default: If no IOPS value is specified, the existing value is retained.
+- `Iops`: The target IOPS rate of the volume. This is only valid for Provisioned IOPS SSD (io1 and io2) volumes. For moreinformation, see  Provisioned IOPS SSD (io1 and io2) volumes. Default: If no IOPS value is specified, the existing value is retained.
 - `Size`: The target size of the volume, in GiB. The target volume size must be greater than or equal to than the existing size of the volume. For information about available EBS volume sizes, see Amazon EBS Volume Types. Default: If no size is specified, the existing size is retained.
 - `VolumeType`: The target EBS volume type of the volume. Default: If no type is specified, the existing type is retained.
 """
 
-ModifyVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-ModifyVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+modify_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+modify_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     ModifyVolumeAttribute()
@@ -5805,8 +5892,8 @@ Modifies a volume attribute. By default, all I/O operations for the volume are s
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyVolumeAttribute(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-ModifyVolumeAttribute(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+modify_volume_attribute(VolumeId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+modify_volume_attribute(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVolumeAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     ModifyVpcAttribute()
@@ -5821,8 +5908,8 @@ Modifies the specified attribute of the specified VPC.
 - `EnableDnsSupport`: Indicates whether the DNS resolution is supported for the VPC. If enabled, queries to the Amazon provided DNS server at the 169.254.169.253 IP address, or the reserved IP address at the base of the VPC network range \"plus two\" succeed. If disabled, the Amazon provided DNS service in the VPC that resolves public DNS hostnames to IP addresses is not enabled. You cannot modify the DNS resolution and DNS hostnames attributes in the same request. Use separate requests for each attribute.
 """
 
-ModifyVpcAttribute(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
-ModifyVpcAttribute(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
+modify_vpc_attribute(vpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}("vpcId"=>vpcId); aws_config=aws_config)
+modify_vpc_attribute(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcId"=>vpcId), args)); aws_config=aws_config)
 
 """
     ModifyVpcEndpoint()
@@ -5845,8 +5932,8 @@ Modifies attributes of a specified VPC endpoint. The attributes that you can mod
 - `ResetPolicy`: (Gateway endpoint) Specify true to reset the policy document to the default policy. The default policy allows full access to the service.
 """
 
-ModifyVpcEndpoint(VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
-ModifyVpcEndpoint(VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
+modify_vpc_endpoint(VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}("VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
+modify_vpc_endpoint(VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
 
 """
     ModifyVpcEndpointConnectionNotification()
@@ -5862,8 +5949,8 @@ Modifies a connection notification for VPC endpoint or VPC endpoint service. You
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyVpcEndpointConnectionNotification(ConnectionNotificationId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config)
-ModifyVpcEndpointConnectionNotification(ConnectionNotificationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), args)); aws_config=aws_config)
+modify_vpc_endpoint_connection_notification(ConnectionNotificationId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId); aws_config=aws_config)
+modify_vpc_endpoint_connection_notification(ConnectionNotificationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointConnectionNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNotificationId"=>ConnectionNotificationId), args)); aws_config=aws_config)
 
 """
     ModifyVpcEndpointServiceConfiguration()
@@ -5882,8 +5969,8 @@ Modifies the attributes of your VPC endpoint service configuration. You can chan
 - `RemovePrivateDnsName`: Removes the private DNS name of the endpoint service.
 """
 
-ModifyVpcEndpointServiceConfiguration(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-ModifyVpcEndpointServiceConfiguration(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+modify_vpc_endpoint_service_configuration(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
+modify_vpc_endpoint_service_configuration(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServiceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
 
 """
     ModifyVpcEndpointServicePermissions()
@@ -5899,8 +5986,8 @@ Modifies the permissions for your VPC endpoint service. You can add or remove pe
 - `RemoveAllowedPrincipals`: The Amazon Resource Names (ARN) of one or more principals. Permissions are revoked for principals in this list.
 """
 
-ModifyVpcEndpointServicePermissions(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-ModifyVpcEndpointServicePermissions(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+modify_vpc_endpoint_service_permissions(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
+modify_vpc_endpoint_service_permissions(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcEndpointServicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
 
 """
     ModifyVpcPeeringConnectionOptions()
@@ -5916,8 +6003,8 @@ Modifies the VPC peering connection options on one side of a VPC peering connect
 - `RequesterPeeringConnectionOptions`: The VPC peering connection options for the requester VPC.
 """
 
-ModifyVpcPeeringConnectionOptions(VpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId); aws_config=aws_config)
-ModifyVpcPeeringConnectionOptions(VpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId), args)); aws_config=aws_config)
+modify_vpc_peering_connection_options(VpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId); aws_config=aws_config)
+modify_vpc_peering_connection_options(VpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcPeeringConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcPeeringConnectionId"=>VpcPeeringConnectionId), args)); aws_config=aws_config)
 
 """
     ModifyVpcTenancy()
@@ -5932,8 +6019,8 @@ Modifies the instance tenancy attribute of the specified VPC. You can change the
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyVpcTenancy(InstanceTenancy, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId); aws_config=aws_config)
-ModifyVpcTenancy(InstanceTenancy, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId), args)); aws_config=aws_config)
+modify_vpc_tenancy(InstanceTenancy, VpcId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId); aws_config=aws_config)
+modify_vpc_tenancy(InstanceTenancy, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpcTenancy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceTenancy"=>InstanceTenancy, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     ModifyVpnConnection()
@@ -5950,8 +6037,8 @@ Modifies the customer gateway or the target gateway of an AWS Site-to-Site VPN c
 - `VpnGatewayId`: The ID of the virtual private gateway at the AWS side of the VPN connection.
 """
 
-ModifyVpnConnection(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
-ModifyVpnConnection(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
+modify_vpn_connection(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
+modify_vpn_connection(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
 
 """
     ModifyVpnTunnelCertificate()
@@ -5966,8 +6053,8 @@ Modifies the VPN tunnel endpoint certificate.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyVpnTunnelCertificate(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config)
-ModifyVpnTunnelCertificate(VpnConnectionId, VpnTunnelOutsideIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), args)); aws_config=aws_config)
+modify_vpn_tunnel_certificate(VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config)
+modify_vpn_tunnel_certificate(VpnConnectionId, VpnTunnelOutsideIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), args)); aws_config=aws_config)
 
 """
     ModifyVpnTunnelOptions()
@@ -5983,8 +6070,8 @@ Modifies the options for a VPN tunnel in an AWS Site-to-Site VPN connection. You
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ModifyVpnTunnelOptions(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config)
-ModifyVpnTunnelOptions(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), args)); aws_config=aws_config)
+modify_vpn_tunnel_options(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress); aws_config=aws_config)
+modify_vpn_tunnel_options(TunnelOptions, VpnConnectionId, VpnTunnelOutsideIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnTunnelOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TunnelOptions"=>TunnelOptions, "VpnConnectionId"=>VpnConnectionId, "VpnTunnelOutsideIpAddress"=>VpnTunnelOutsideIpAddress), args)); aws_config=aws_config)
 
 """
     MonitorInstances()
@@ -5998,8 +6085,8 @@ Enables detailed monitoring for a running instance. Otherwise, basic monitoring 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-MonitorInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("MonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-MonitorInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("MonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+monitor_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("MonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+monitor_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("MonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     MoveAddressToVpc()
@@ -6013,8 +6100,8 @@ Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platfor
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-MoveAddressToVpc(publicIp; aws_config::AWSConfig=global_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config)
-MoveAddressToVpc(publicIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), args)); aws_config=aws_config)
+move_address_to_vpc(publicIp; aws_config::AWSConfig=global_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config)
+move_address_to_vpc(publicIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("MoveAddressToVpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), args)); aws_config=aws_config)
 
 """
     ProvisionByoipCidr()
@@ -6032,8 +6119,8 @@ Provisions an IPv4 or IPv6 address range for use with your AWS resources through
 - `PubliclyAdvertisable`: (IPv6 only) Indicate whether the address range will be publicly advertised to the internet. Default: true
 """
 
-ProvisionByoipCidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-ProvisionByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
+provision_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
+provision_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
 
 """
     PurchaseHostReservation()
@@ -6052,8 +6139,8 @@ Purchase a reservation with configurations that match those of your Dedicated Ho
 - `TagSpecification`: The tags to apply to the Dedicated Host Reservation during purchase.
 """
 
-PurchaseHostReservation(OfferingId, item; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config)
-PurchaseHostReservation(OfferingId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), args)); aws_config=aws_config)
+purchase_host_reservation(OfferingId, item; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item); aws_config=aws_config)
+purchase_host_reservation(OfferingId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseHostReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OfferingId"=>OfferingId, "item"=>item), args)); aws_config=aws_config)
 
 """
     PurchaseReservedInstancesOffering()
@@ -6070,8 +6157,8 @@ Purchases a Reserved Instance for use with your account. With Reserved Instances
 - `limitPrice`: Specified for Reserved Instance Marketplace offerings to limit the total order and ensure that the Reserved Instances are not purchased at unexpected prices.
 """
 
-PurchaseReservedInstancesOffering(InstanceCount, ReservedInstancesOfferingId; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId); aws_config=aws_config)
-PurchaseReservedInstancesOffering(InstanceCount, ReservedInstancesOfferingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId), args)); aws_config=aws_config)
+purchase_reserved_instances_offering(InstanceCount, ReservedInstancesOfferingId; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId); aws_config=aws_config)
+purchase_reserved_instances_offering(InstanceCount, ReservedInstancesOfferingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseReservedInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "ReservedInstancesOfferingId"=>ReservedInstancesOfferingId), args)); aws_config=aws_config)
 
 """
     PurchaseScheduledInstances()
@@ -6086,8 +6173,8 @@ Purchases the Scheduled Instances with the specified schedule. Scheduled Instanc
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-PurchaseScheduledInstances(PurchaseRequest; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-PurchaseScheduledInstances(PurchaseRequest, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+purchase_scheduled_instances(PurchaseRequest; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+purchase_scheduled_instances(PurchaseRequest, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("PurchaseScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PurchaseRequest"=>PurchaseRequest, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     RebootInstances()
@@ -6101,8 +6188,8 @@ Requests a reboot of the specified instances. This operation is asynchronous; it
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RebootInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("RebootInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-RebootInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RebootInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+reboot_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("RebootInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+reboot_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RebootInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     RegisterImage()
@@ -6127,8 +6214,8 @@ Registers an AMI. When you're creating an AMI, this is the final step you must c
 - `virtualizationType`: The type of virtualization (hvm | paravirtual). Default: paravirtual 
 """
 
-RegisterImage(name; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterImage", Dict{String, Any}("name"=>name); aws_config=aws_config)
-RegisterImage(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+register_image(name; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterImage", Dict{String, Any}("name"=>name); aws_config=aws_config)
+register_image(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     RegisterInstanceEventNotificationAttributes()
@@ -6140,8 +6227,8 @@ Registers a set of tag keys to include in scheduled event notifications for your
 - `InstanceTagAttribute`: Information about the tag keys to register.
 """
 
-RegisterInstanceEventNotificationAttributes(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes"; aws_config=aws_config)
-RegisterInstanceEventNotificationAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes", args; aws_config=aws_config)
+register_instance_event_notification_attributes(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes"; aws_config=aws_config)
+register_instance_event_notification_attributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterInstanceEventNotificationAttributes", args; aws_config=aws_config)
 
 """
     RegisterTransitGatewayMulticastGroupMembers()
@@ -6155,8 +6242,8 @@ Registers members (network interfaces) with the transit gateway multicast group.
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-RegisterTransitGatewayMulticastGroupMembers(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers"; aws_config=aws_config)
-RegisterTransitGatewayMulticastGroupMembers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers", args; aws_config=aws_config)
+register_transit_gateway_multicast_group_members(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers"; aws_config=aws_config)
+register_transit_gateway_multicast_group_members(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupMembers", args; aws_config=aws_config)
 
 """
     RegisterTransitGatewayMulticastGroupSources()
@@ -6170,8 +6257,8 @@ Registers sources (network interfaces) with the specified transit gateway multic
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-RegisterTransitGatewayMulticastGroupSources(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources"; aws_config=aws_config)
-RegisterTransitGatewayMulticastGroupSources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources", args; aws_config=aws_config)
+register_transit_gateway_multicast_group_sources(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources"; aws_config=aws_config)
+register_transit_gateway_multicast_group_sources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources", args; aws_config=aws_config)
 
 """
     RejectTransitGatewayPeeringAttachment()
@@ -6185,8 +6272,8 @@ Rejects a transit gateway peering attachment request.
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RejectTransitGatewayPeeringAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-RejectTransitGatewayPeeringAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+reject_transit_gateway_peering_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+reject_transit_gateway_peering_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayPeeringAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     RejectTransitGatewayVpcAttachment()
@@ -6200,8 +6287,8 @@ Rejects a request to attach a VPC to a transit gateway. The VPC attachment must 
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RejectTransitGatewayVpcAttachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
-RejectTransitGatewayVpcAttachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+reject_transit_gateway_vpc_attachment(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+reject_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayVpcAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
 
 """
     RejectVpcEndpointConnections()
@@ -6216,8 +6303,8 @@ Rejects one or more VPC endpoint connection requests to your VPC endpoint servic
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RejectVpcEndpointConnections(ServiceId, VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
-RejectVpcEndpointConnections(ServiceId, VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
+reject_vpc_endpoint_connections(ServiceId, VpcEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId); aws_config=aws_config)
+reject_vpc_endpoint_connections(ServiceId, VpcEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcEndpointConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId, "VpcEndpointId"=>VpcEndpointId), args)); aws_config=aws_config)
 
 """
     RejectVpcPeeringConnection()
@@ -6231,8 +6318,8 @@ Rejects a VPC peering connection request. The VPC peering connection must be in 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RejectVpcPeeringConnection(vpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config)
-RejectVpcPeeringConnection(vpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), args)); aws_config=aws_config)
+reject_vpc_peering_connection(vpcPeeringConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId); aws_config=aws_config)
+reject_vpc_peering_connection(vpcPeeringConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectVpcPeeringConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcPeeringConnectionId"=>vpcPeeringConnectionId), args)); aws_config=aws_config)
 
 """
     ReleaseAddress()
@@ -6246,8 +6333,8 @@ Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ReleaseAddress(; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseAddress"; aws_config=aws_config)
-ReleaseAddress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseAddress", args; aws_config=aws_config)
+release_address(; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseAddress"; aws_config=aws_config)
+release_address(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseAddress", args; aws_config=aws_config)
 
 """
     ReleaseHosts()
@@ -6259,8 +6346,8 @@ When you no longer want to use an On-Demand Dedicated Host it can be released. O
 
 """
 
-ReleaseHosts(hostId; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config)
-ReleaseHosts(hostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), args)); aws_config=aws_config)
+release_hosts(hostId; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}("hostId"=>hostId); aws_config=aws_config)
+release_hosts(hostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReleaseHosts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostId"=>hostId), args)); aws_config=aws_config)
 
 """
     ReplaceIamInstanceProfileAssociation()
@@ -6273,8 +6360,8 @@ Replaces an IAM instance profile for the specified running instance. You can use
 
 """
 
-ReplaceIamInstanceProfileAssociation(AssociationId, IamInstanceProfile; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile); aws_config=aws_config)
-ReplaceIamInstanceProfileAssociation(AssociationId, IamInstanceProfile, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile), args)); aws_config=aws_config)
+replace_iam_instance_profile_association(AssociationId, IamInstanceProfile; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile); aws_config=aws_config)
+replace_iam_instance_profile_association(AssociationId, IamInstanceProfile, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceIamInstanceProfileAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "IamInstanceProfile"=>IamInstanceProfile), args)); aws_config=aws_config)
 
 """
     ReplaceNetworkAclAssociation()
@@ -6289,8 +6376,8 @@ Changes which network ACL a subnet is associated with. By default when you creat
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ReplaceNetworkAclAssociation(associationId, networkAclId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId); aws_config=aws_config)
-ReplaceNetworkAclAssociation(associationId, networkAclId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId), args)); aws_config=aws_config)
+replace_network_acl_association(associationId, networkAclId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId); aws_config=aws_config)
+replace_network_acl_association(associationId, networkAclId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "networkAclId"=>networkAclId), args)); aws_config=aws_config)
 
 """
     ReplaceNetworkAclEntry()
@@ -6312,8 +6399,8 @@ Replaces an entry (rule) in a network ACL. For more information, see Network ACL
 - `portRange`: TCP or UDP protocols: The range of ports the rule applies to. Required if specifying protocol 6 (TCP) or 17 (UDP).
 """
 
-ReplaceNetworkAclEntry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config)
-ReplaceNetworkAclEntry(egress, networkAclId, protocol, ruleAction, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
+replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config)
+replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
 
 """
     ReplaceRoute()
@@ -6340,8 +6427,8 @@ Replaces an existing route within a route table in a VPC. You must provide only 
 - `vpcPeeringConnectionId`: The ID of a VPC peering connection.
 """
 
-ReplaceRoute(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
-ReplaceRoute(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
+replace_route(routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}("routeTableId"=>routeTableId); aws_config=aws_config)
+replace_route(routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     ReplaceRouteTableAssociation()
@@ -6356,8 +6443,8 @@ Changes the route table associated with a given subnet, internet gateway, or vir
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ReplaceRouteTableAssociation(associationId, routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId); aws_config=aws_config)
-ReplaceRouteTableAssociation(associationId, routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId), args)); aws_config=aws_config)
+replace_route_table_association(associationId, routeTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId); aws_config=aws_config)
+replace_route_table_association(associationId, routeTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceRouteTableAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationId"=>associationId, "routeTableId"=>routeTableId), args)); aws_config=aws_config)
 
 """
     ReplaceTransitGatewayRoute()
@@ -6374,8 +6461,8 @@ Replaces the specified route in the specified transit gateway route table.
 - `TransitGatewayAttachmentId`: The ID of the attachment.
 """
 
-ReplaceTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-ReplaceTransitGatewayRoute(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+replace_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+replace_transit_gateway_route(DestinationCidrBlock, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReplaceTransitGatewayRoute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationCidrBlock"=>DestinationCidrBlock, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     ReportInstanceStatus()
@@ -6394,8 +6481,8 @@ Submits feedback about the status of an instance. The instance must be in the ru
 - `startTime`: The time at which the reported instance health state began.
 """
 
-ReportInstanceStatus(instanceId, reasonCode, status; aws_config::AWSConfig=global_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status); aws_config=aws_config)
-ReportInstanceStatus(instanceId, reasonCode, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status), args)); aws_config=aws_config)
+report_instance_status(instanceId, reasonCode, status; aws_config::AWSConfig=global_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status); aws_config=aws_config)
+report_instance_status(instanceId, reasonCode, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ReportInstanceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "reasonCode"=>reasonCode, "status"=>status), args)); aws_config=aws_config)
 
 """
     RequestSpotFleet()
@@ -6409,8 +6496,8 @@ Creates a Spot Fleet request. The Spot Fleet request specifies the total target 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RequestSpotFleet(spotFleetRequestConfig; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig); aws_config=aws_config)
-RequestSpotFleet(spotFleetRequestConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig), args)); aws_config=aws_config)
+request_spot_fleet(spotFleetRequestConfig; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig); aws_config=aws_config)
+request_spot_fleet(spotFleetRequestConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spotFleetRequestConfig"=>spotFleetRequestConfig), args)); aws_config=aws_config)
 
 """
     RequestSpotInstances()
@@ -6433,8 +6520,8 @@ Creates a Spot Instance request. For more information, see Spot Instance request
 - `validUntil`: The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
 """
 
-RequestSpotInstances(; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotInstances"; aws_config=aws_config)
-RequestSpotInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotInstances", args; aws_config=aws_config)
+request_spot_instances(; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotInstances"; aws_config=aws_config)
+request_spot_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RequestSpotInstances", args; aws_config=aws_config)
 
 """
     ResetEbsDefaultKmsKeyId()
@@ -6445,8 +6532,8 @@ Resets the default customer master key (CMK) for EBS encryption for your account
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ResetEbsDefaultKmsKeyId(; aws_config::AWSConfig=global_aws_config()) = ec2("ResetEbsDefaultKmsKeyId"; aws_config=aws_config)
-ResetEbsDefaultKmsKeyId(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetEbsDefaultKmsKeyId", args; aws_config=aws_config)
+reset_ebs_default_kms_key_id(; aws_config::AWSConfig=global_aws_config()) = ec2("ResetEbsDefaultKmsKeyId"; aws_config=aws_config)
+reset_ebs_default_kms_key_id(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetEbsDefaultKmsKeyId", args; aws_config=aws_config)
 
 """
     ResetFpgaImageAttribute()
@@ -6461,8 +6548,8 @@ Resets the specified attribute of the specified Amazon FPGA Image (AFI) to its d
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ResetFpgaImageAttribute(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
-ResetFpgaImageAttribute(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
+reset_fpga_image_attribute(FpgaImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
+reset_fpga_image_attribute(FpgaImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetFpgaImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), args)); aws_config=aws_config)
 
 """
     ResetImageAttribute()
@@ -6477,8 +6564,8 @@ Resets an attribute of an AMI to its default value.  The productCodes attribute 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ResetImageAttribute(Attribute, ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config)
-ResetImageAttribute(Attribute, ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), args)); aws_config=aws_config)
+reset_image_attribute(Attribute, ImageId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId); aws_config=aws_config)
+reset_image_attribute(Attribute, ImageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetImageAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "ImageId"=>ImageId), args)); aws_config=aws_config)
 
 """
     ResetInstanceAttribute()
@@ -6493,8 +6580,8 @@ Resets an attribute of an instance to its default value. To reset the kernel or 
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ResetInstanceAttribute(attribute, instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config)
-ResetInstanceAttribute(attribute, instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), args)); aws_config=aws_config)
+reset_instance_attribute(attribute, instanceId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId); aws_config=aws_config)
+reset_instance_attribute(attribute, instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetInstanceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attribute"=>attribute, "instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     ResetNetworkInterfaceAttribute()
@@ -6509,13 +6596,13 @@ Resets a network interface attribute. You can specify only one attribute at a ti
 - `sourceDestCheck`: The source/destination checking attribute. Resets the value to true.
 """
 
-ResetNetworkInterfaceAttribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-ResetNetworkInterfaceAttribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+reset_network_interface_attribute(networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+reset_network_interface_attribute(networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     ResetSnapshotAttribute()
 
-Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Sharing Snapshots in the Amazon Elastic Compute Cloud User Guide.
+Resets permission settings for the specified snapshot. For more information about modifying snapshot permissions, see Sharing snapshots in the Amazon Elastic Compute Cloud User Guide.
 
 # Required Parameters
 - `Attribute`: The attribute to reset. Currently, only the attribute for permission to create volumes can be reset.
@@ -6525,8 +6612,8 @@ Resets permission settings for the specified snapshot. For more information abou
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-ResetSnapshotAttribute(Attribute, SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config)
-ResetSnapshotAttribute(Attribute, SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
+reset_snapshot_attribute(Attribute, SnapshotId; aws_config::AWSConfig=global_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId); aws_config=aws_config)
+reset_snapshot_attribute(Attribute, SnapshotId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ResetSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "SnapshotId"=>SnapshotId), args)); aws_config=aws_config)
 
 """
     RestoreAddressToClassic()
@@ -6540,8 +6627,8 @@ Restores an Elastic IP address that was previously moved to the EC2-VPC platform
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RestoreAddressToClassic(publicIp; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config)
-RestoreAddressToClassic(publicIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), args)); aws_config=aws_config)
+restore_address_to_classic(publicIp; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}("publicIp"=>publicIp); aws_config=aws_config)
+restore_address_to_classic(publicIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreAddressToClassic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicIp"=>publicIp), args)); aws_config=aws_config)
 
 """
     RestoreManagedPrefixListVersion()
@@ -6557,8 +6644,8 @@ Restores the entries from a previous version of a managed prefix list to a new v
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RestoreManagedPrefixListVersion(CurrentVersion, PrefixListId, PreviousVersion; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion); aws_config=aws_config)
-RestoreManagedPrefixListVersion(CurrentVersion, PrefixListId, PreviousVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion), args)); aws_config=aws_config)
+restore_managed_prefix_list_version(CurrentVersion, PrefixListId, PreviousVersion; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion); aws_config=aws_config)
+restore_managed_prefix_list_version(CurrentVersion, PrefixListId, PreviousVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RestoreManagedPrefixListVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "PrefixListId"=>PrefixListId, "PreviousVersion"=>PreviousVersion), args)); aws_config=aws_config)
 
 """
     RevokeClientVpnIngress()
@@ -6575,8 +6662,8 @@ Removes an ingress authorization rule from a Client VPN endpoint.
 - `RevokeAllGroups`: Indicates whether access should be revoked for all clients.
 """
 
-RevokeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr); aws_config=aws_config)
-RevokeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr), args)); aws_config=aws_config)
+revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr); aws_config=aws_config)
+revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeClientVpnIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId, "TargetNetworkCidr"=>TargetNetworkCidr), args)); aws_config=aws_config)
 
 """
     RevokeSecurityGroupEgress()
@@ -6597,8 +6684,8 @@ RevokeClientVpnIngress(ClientVpnEndpointId, TargetNetworkCidr, args::AbstractDic
 - `toPort`: Not supported. Use a set of IP permissions to specify the port.
 """
 
-RevokeSecurityGroupEgress(groupId; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config)
-RevokeSecurityGroupEgress(groupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), args)); aws_config=aws_config)
+revoke_security_group_egress(groupId; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}("groupId"=>groupId); aws_config=aws_config)
+revoke_security_group_egress(groupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupId"=>groupId), args)); aws_config=aws_config)
 
 """
     RevokeSecurityGroupIngress()
@@ -6618,8 +6705,8 @@ Removes the specified ingress rules from a security group. To remove a rule, the
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-RevokeSecurityGroupIngress(; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupIngress"; aws_config=aws_config)
-RevokeSecurityGroupIngress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupIngress", args; aws_config=aws_config)
+revoke_security_group_ingress(; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupIngress"; aws_config=aws_config)
+revoke_security_group_ingress(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RevokeSecurityGroupIngress", args; aws_config=aws_config)
 
 """
     RunInstances()
@@ -6667,8 +6754,8 @@ Launches the specified number of instances using an AMI for which you have permi
 - `privateIpAddress`: [EC2-VPC] The primary IPv4 address. You must specify a value from the IPv4 address range of the subnet. Only one private IP address can be designated as primary. You can't specify this option if you've specified the option to designate a private IP address as the primary IP address in a network interface specification. You cannot specify this option if you're launching more than one instance in the request. You cannot specify this option and the network interfaces option in the same request.
 """
 
-RunInstances(MaxCount, MinCount; aws_config::AWSConfig=global_aws_config()) = ec2("RunInstances", Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())); aws_config=aws_config)
-RunInstances(MaxCount, MinCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RunInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+run_instances(MaxCount, MinCount; aws_config::AWSConfig=global_aws_config()) = ec2("RunInstances", Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())); aws_config=aws_config)
+run_instances(MaxCount, MinCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RunInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxCount"=>MaxCount, "MinCount"=>MinCount, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     RunScheduledInstances()
@@ -6685,8 +6772,8 @@ Launches the specified Scheduled Instances. Before you can launch a Scheduled In
 - `InstanceCount`: The number of instances. Default: 1
 """
 
-RunScheduledInstances(LaunchSpecification, ScheduledInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-RunScheduledInstances(LaunchSpecification, ScheduledInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+run_scheduled_instances(LaunchSpecification, ScheduledInstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+run_scheduled_instances(LaunchSpecification, ScheduledInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RunScheduledInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchSpecification"=>LaunchSpecification, "ScheduledInstanceId"=>ScheduledInstanceId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     SearchLocalGatewayRoutes()
@@ -6703,8 +6790,8 @@ Searches for routes in the specified local gateway route table.
 - `NextToken`: The token for the next page of results.
 """
 
-SearchLocalGatewayRoutes(Filter, LocalGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}("Filter"=>Filter, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config)
-SearchLocalGatewayRoutes(Filter, LocalGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), args)); aws_config=aws_config)
+search_local_gateway_routes(Filter, LocalGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}("Filter"=>Filter, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId); aws_config=aws_config)
+search_local_gateway_routes(Filter, LocalGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchLocalGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "LocalGatewayRouteTableId"=>LocalGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     SearchTransitGatewayMulticastGroups()
@@ -6719,8 +6806,8 @@ Searches one or more transit gateway multicast groups and returns the group memb
 - `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
 """
 
-SearchTransitGatewayMulticastGroups(; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayMulticastGroups"; aws_config=aws_config)
-SearchTransitGatewayMulticastGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayMulticastGroups", args; aws_config=aws_config)
+search_transit_gateway_multicast_groups(; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayMulticastGroups"; aws_config=aws_config)
+search_transit_gateway_multicast_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayMulticastGroups", args; aws_config=aws_config)
 
 """
     SearchTransitGatewayRoutes()
@@ -6728,7 +6815,7 @@ SearchTransitGatewayMulticastGroups(args::AbstractDict{String, <:Any}; aws_confi
 Searches for routes in the specified transit gateway route table.
 
 # Required Parameters
-- `Filter`: One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn).    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
+- `Filter`: One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type (vpc | vpn | direct-connect-gateway | tgw-peering).    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
 - `TransitGatewayRouteTableId`: The ID of the transit gateway route table.
 
 # Optional Parameters
@@ -6736,8 +6823,8 @@ Searches for routes in the specified transit gateway route table.
 - `MaxResults`: The maximum number of routes to return.
 """
 
-SearchTransitGatewayRoutes(Filter, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
-SearchTransitGatewayRoutes(Filter, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
+search_transit_gateway_routes(Filter, TransitGatewayRouteTableId; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
+search_transit_gateway_routes(Filter, TransitGatewayRouteTableId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SearchTransitGatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), args)); aws_config=aws_config)
 
 """
     SendDiagnosticInterrupt()
@@ -6751,8 +6838,8 @@ Sends a diagnostic interrupt to the specified Amazon EC2 instance to trigger a k
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-SendDiagnosticInterrupt(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-SendDiagnosticInterrupt(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+send_diagnostic_interrupt(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+send_diagnostic_interrupt(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("SendDiagnosticInterrupt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     StartInstances()
@@ -6767,8 +6854,8 @@ Starts an Amazon EBS-backed instance that you've previously stopped. Instances t
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-StartInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-StartInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+start_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+start_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     StartVpcEndpointServicePrivateDnsVerification()
@@ -6782,8 +6869,8 @@ Initiates the verification process to prove that the service provider owns the p
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-StartVpcEndpointServicePrivateDnsVerification(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-StartVpcEndpointServicePrivateDnsVerification(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+start_vpc_endpoint_service_private_dns_verification(ServiceId; aws_config::AWSConfig=global_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
+start_vpc_endpoint_service_private_dns_verification(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartVpcEndpointServicePrivateDnsVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
 
 """
     StopInstances()
@@ -6799,8 +6886,8 @@ Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an
 - `force`: Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false 
 """
 
-StopInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("StopInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-StopInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StopInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+stop_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("StopInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+stop_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StopInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     TerminateClientVpnConnections()
@@ -6816,8 +6903,8 @@ Terminates active Client VPN endpoint connections. This action can be used to te
 - `Username`: The name of the user who initiated the connection. Use this option to terminate all active connections for the specified user. This option can only be used if the user has established up to five connections.
 """
 
-TerminateClientVpnConnections(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
-TerminateClientVpnConnections(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
+terminate_client_vpn_connections(ClientVpnEndpointId; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId); aws_config=aws_config)
+terminate_client_vpn_connections(ClientVpnEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateClientVpnConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientVpnEndpointId"=>ClientVpnEndpointId), args)); aws_config=aws_config)
 
 """
     TerminateInstances()
@@ -6831,8 +6918,8 @@ Shuts down the specified instances. This operation is idempotent; if you termina
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-TerminateInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-TerminateInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+terminate_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+terminate_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("TerminateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     UnassignIpv6Addresses()
@@ -6845,8 +6932,8 @@ Unassigns one or more IPv6 addresses from a network interface.
 
 """
 
-UnassignIpv6Addresses(ipv6Addresses, networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-UnassignIpv6Addresses(ipv6Addresses, networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
+unassign_ipv6_addresses(ipv6Addresses, networkInterfaceId; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+unassign_ipv6_addresses(ipv6Addresses, networkInterfaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId), args)); aws_config=aws_config)
 
 """
     UnassignPrivateIpAddresses()
@@ -6859,8 +6946,8 @@ Unassigns one or more secondary private IP addresses from a network interface.
 
 """
 
-UnassignPrivateIpAddresses(networkInterfaceId, privateIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress); aws_config=aws_config)
-UnassignPrivateIpAddresses(networkInterfaceId, privateIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress), args)); aws_config=aws_config)
+unassign_private_ip_addresses(networkInterfaceId, privateIpAddress; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress); aws_config=aws_config)
+unassign_private_ip_addresses(networkInterfaceId, privateIpAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress), args)); aws_config=aws_config)
 
 """
     UnmonitorInstances()
@@ -6874,8 +6961,8 @@ Disables detailed monitoring for a running instance. For more information, see M
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-UnmonitorInstances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-UnmonitorInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+unmonitor_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+unmonitor_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     UpdateSecurityGroupRuleDescriptionsEgress()
@@ -6892,8 +6979,8 @@ UnmonitorInstances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AW
 - `IpPermissions`: The IP permissions for the security group rule.
 """
 
-UpdateSecurityGroupRuleDescriptionsEgress(item; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-UpdateSecurityGroupRuleDescriptionsEgress(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
+update_security_group_rule_descriptions_egress(item; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}("item"=>item); aws_config=aws_config)
+update_security_group_rule_descriptions_egress(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
 
 """
     UpdateSecurityGroupRuleDescriptionsIngress()
@@ -6910,8 +6997,8 @@ Updates the description of an ingress (inbound) security group rule. You can rep
 - `IpPermissions`: The IP permissions for the security group rule. 
 """
 
-UpdateSecurityGroupRuleDescriptionsIngress(item; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-UpdateSecurityGroupRuleDescriptionsIngress(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(item; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}("item"=>item); aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), args)); aws_config=aws_config)
 
 """
     WithdrawByoipCidr()
@@ -6925,5 +7012,5 @@ Stops advertising an address range that is provisioned as an address pool. You c
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 
-WithdrawByoipCidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-WithdrawByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
+withdraw_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
+withdraw_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)

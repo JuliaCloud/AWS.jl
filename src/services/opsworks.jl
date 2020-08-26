@@ -15,8 +15,8 @@ Assign a registered instance to a layer.   You can assign registered on-premises
 
 """
 
-AssignInstance(InstanceId, LayerIds; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds); aws_config=aws_config)
-AssignInstance(InstanceId, LayerIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), args)); aws_config=aws_config)
+assign_instance(InstanceId, LayerIds; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds); aws_config=aws_config)
+assign_instance(InstanceId, LayerIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), args)); aws_config=aws_config)
 
 """
     AssignVolume()
@@ -30,8 +30,8 @@ Assigns one of the stack's registered Amazon EBS volumes to a specified instance
 - `InstanceId`: The instance ID.
 """
 
-AssignVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-AssignVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+assign_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+assign_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     AssociateElasticIp()
@@ -45,8 +45,8 @@ Associates one of the stack's registered Elastic IP addresses with a specified i
 - `InstanceId`: The instance ID.
 """
 
-AssociateElasticIp(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-AssociateElasticIp(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+associate_elastic_ip(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
+associate_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
 
 """
     AttachElasticLoadBalancer()
@@ -59,8 +59,8 @@ Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWo
 
 """
 
-AttachElasticLoadBalancer(ElasticLoadBalancerName, LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
-AttachElasticLoadBalancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
+attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
+attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     CloneStack()
@@ -94,8 +94,8 @@ Creates a clone of a specified stack. For more information, see Clone a Stack. B
 - `VpcId`: The ID of the VPC that the cloned stack is to be launched into. It must be in the specified region. All instances are launched into this VPC, and you cannot change the ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your account does not support EC2 Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively.  If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2 Classic, see Supported Platforms. 
 """
 
-CloneStack(ServiceRoleArn, SourceStackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId); aws_config=aws_config)
-CloneStack(ServiceRoleArn, SourceStackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), args)); aws_config=aws_config)
+clone_stack(ServiceRoleArn, SourceStackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId); aws_config=aws_config)
+clone_stack(ServiceRoleArn, SourceStackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), args)); aws_config=aws_config)
 
 """
     CreateApp()
@@ -119,8 +119,8 @@ Creates an app for a specified stack. For more information, see Creating Apps.  
 - `SslConfiguration`: An SslConfiguration object with the SSL configuration.
 """
 
-CreateApp(Name, StackId, Type; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
-CreateApp(Name, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
+create_app(Name, StackId, Type; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
+create_app(Name, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -139,8 +139,8 @@ Runs deployment or stack commands. For more information, see Deploying Apps and 
 - `LayerIds`: The layer IDs for the deployment targets.
 """
 
-CreateDeployment(Command, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}("Command"=>Command, "StackId"=>StackId); aws_config=aws_config)
-CreateDeployment(Command, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), args)); aws_config=aws_config)
+create_deployment(Command, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}("Command"=>Command, "StackId"=>StackId); aws_config=aws_config)
+create_deployment(Command, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     CreateInstance()
@@ -170,8 +170,8 @@ Creates an instance in a specified stack. For more information, see Adding an In
 - `VirtualizationType`: The instance's virtualization type, paravirtual or hvm.
 """
 
-CreateInstance(InstanceType, LayerIds, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId); aws_config=aws_config)
-CreateInstance(InstanceType, LayerIds, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), args)); aws_config=aws_config)
+create_instance(InstanceType, LayerIds, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId); aws_config=aws_config)
+create_instance(InstanceType, LayerIds, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     CreateLayer()
@@ -201,8 +201,8 @@ Creates a layer. For more information, see How to Create a Layer.  You should us
 - `VolumeConfigurations`: A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
 """
 
-CreateLayer(Name, Shortname, StackId, Type; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
-CreateLayer(Name, Shortname, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
+create_layer(Name, Shortname, StackId, Type; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
+create_layer(Name, Shortname, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateStack()
@@ -233,8 +233,8 @@ Creates a new stack. For more information, see Create a New Stack.  Required Per
 - `VpcId`: The ID of the VPC that the stack is to be launched into. The VPC must be in the stack's region. All instances are launched into this VPC. You cannot change the ID later.   If your account supports EC2-Classic, the default value is no VPC.   If your account does not support EC2-Classic, the default value is the default VPC for the specified region.   If the VPC ID corresponds to a default VPC and you have specified either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks sets these parameters to the first valid Availability Zone for the specified region and the corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is in the specified region.   You must specify a value for DefaultSubnetId.   For more information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about default VPC and EC2-Classic, see Supported Platforms. 
 """
 
-CreateStack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
-CreateStack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
+create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
+create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
 
 """
     CreateUserProfile()
@@ -250,8 +250,8 @@ Creates a new user profile.  Required Permissions: To use this action, an IAM us
 - `SshUsername`: The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
 """
 
-CreateUserProfile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-CreateUserProfile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+create_user_profile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
+create_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
 
 """
     DeleteApp()
@@ -263,8 +263,8 @@ Deletes a specified app.  Required Permissions: To use this action, an IAM user 
 
 """
 
-DeleteApp(AppId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
-DeleteApp(AppId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
+delete_app(AppId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
+delete_app(AppId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
 
 """
     DeleteInstance()
@@ -279,8 +279,8 @@ Deletes a specified instance, which terminates the associated Amazon EC2 instanc
 - `DeleteVolumes`: Whether to delete the instance's Amazon EBS volumes.
 """
 
-DeleteInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-DeleteInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+delete_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+delete_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     DeleteLayer()
@@ -292,8 +292,8 @@ Deletes a specified layer. You must first stop and then delete all associated in
 
 """
 
-DeleteLayer(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-DeleteLayer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+delete_layer(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
+delete_layer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     DeleteStack()
@@ -305,8 +305,8 @@ Deletes a specified stack. You must first delete all instances, layers, and apps
 
 """
 
-DeleteStack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-DeleteStack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+delete_stack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+delete_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     DeleteUserProfile()
@@ -318,8 +318,8 @@ Deletes a user profile.  Required Permissions: To use this action, an IAM user m
 
 """
 
-DeleteUserProfile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-DeleteUserProfile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+delete_user_profile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
+delete_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
 
 """
     DeregisterEcsCluster()
@@ -331,8 +331,8 @@ Deregisters a specified Amazon ECS cluster from a stack. For more information, s
 
 """
 
-DeregisterEcsCluster(EcsClusterArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn); aws_config=aws_config)
-DeregisterEcsCluster(EcsClusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), args)); aws_config=aws_config)
+deregister_ecs_cluster(EcsClusterArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn); aws_config=aws_config)
+deregister_ecs_cluster(EcsClusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), args)); aws_config=aws_config)
 
 """
     DeregisterElasticIp()
@@ -344,8 +344,8 @@ Deregisters a specified Elastic IP address. The address can then be registered b
 
 """
 
-DeregisterElasticIp(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-DeregisterElasticIp(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+deregister_elastic_ip(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
+deregister_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
 
 """
     DeregisterInstance()
@@ -357,8 +357,8 @@ Deregister a registered Amazon EC2 or on-premises instance. This action removes 
 
 """
 
-DeregisterInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-DeregisterInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+deregister_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+deregister_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     DeregisterRdsDbInstance()
@@ -370,8 +370,8 @@ Deregisters an Amazon RDS instance.  Required Permissions: To use this action, a
 
 """
 
-DeregisterRdsDbInstance(RdsDbInstanceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
-DeregisterRdsDbInstance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
+deregister_rds_db_instance(RdsDbInstanceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
+deregister_rds_db_instance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
 
 """
     DeregisterVolume()
@@ -383,8 +383,8 @@ Deregisters an Amazon EBS volume. The volume can then be registered by another s
 
 """
 
-DeregisterVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-DeregisterVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+deregister_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+deregister_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     DescribeAgentVersions()
@@ -396,8 +396,8 @@ Describes the available AWS OpsWorks Stacks agent versions. You must specify a s
 - `StackId`: The stack ID.
 """
 
-DescribeAgentVersions(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions"; aws_config=aws_config)
-DescribeAgentVersions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions", args; aws_config=aws_config)
+describe_agent_versions(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions"; aws_config=aws_config)
+describe_agent_versions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions", args; aws_config=aws_config)
 
 """
     DescribeApps()
@@ -409,8 +409,8 @@ Requests a description of a specified set of apps.  This call accepts only one r
 - `StackId`: The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
 """
 
-DescribeApps(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeApps"; aws_config=aws_config)
-DescribeApps(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeApps", args; aws_config=aws_config)
+describe_apps(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeApps"; aws_config=aws_config)
+describe_apps(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeApps", args; aws_config=aws_config)
 
 """
     DescribeCommands()
@@ -423,8 +423,8 @@ Describes the results of specified commands.  This call accepts only one resourc
 - `InstanceId`: The instance ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified instance.
 """
 
-DescribeCommands(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeCommands"; aws_config=aws_config)
-DescribeCommands(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeCommands", args; aws_config=aws_config)
+describe_commands(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeCommands"; aws_config=aws_config)
+describe_commands(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeCommands", args; aws_config=aws_config)
 
 """
     DescribeDeployments()
@@ -437,8 +437,8 @@ Requests a description of a specified set of deployments.  This call accepts onl
 - `StackId`: The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
 """
 
-DescribeDeployments(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeDeployments"; aws_config=aws_config)
-DescribeDeployments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeDeployments", args; aws_config=aws_config)
+describe_deployments(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeDeployments"; aws_config=aws_config)
+describe_deployments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeDeployments", args; aws_config=aws_config)
 
 """
     DescribeEcsClusters()
@@ -452,8 +452,8 @@ Describes Amazon ECS clusters that are registered with a stack. If you specify o
 - `StackId`: A stack ID. DescribeEcsClusters returns a description of the cluster that is registered with the stack.
 """
 
-DescribeEcsClusters(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters"; aws_config=aws_config)
-DescribeEcsClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters", args; aws_config=aws_config)
+describe_ecs_clusters(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters"; aws_config=aws_config)
+describe_ecs_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters", args; aws_config=aws_config)
 
 """
     DescribeElasticIps()
@@ -466,8 +466,8 @@ Describes Elastic IP addresses.  This call accepts only one resource-identifying
 - `StackId`: A stack ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses that are registered with the specified stack.
 """
 
-DescribeElasticIps(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticIps"; aws_config=aws_config)
-DescribeElasticIps(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticIps", args; aws_config=aws_config)
+describe_elastic_ips(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticIps"; aws_config=aws_config)
+describe_elastic_ips(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticIps", args; aws_config=aws_config)
 
 """
     DescribeElasticLoadBalancers()
@@ -479,8 +479,8 @@ Describes a stack's Elastic Load Balancing instances.  This call accepts only on
 - `StackId`: A stack ID. The action describes the stack's Elastic Load Balancing instances.
 """
 
-DescribeElasticLoadBalancers(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers"; aws_config=aws_config)
-DescribeElasticLoadBalancers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers", args; aws_config=aws_config)
+describe_elastic_load_balancers(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers"; aws_config=aws_config)
+describe_elastic_load_balancers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers", args; aws_config=aws_config)
 
 """
     DescribeInstances()
@@ -493,8 +493,8 @@ Requests a description of a set of instances.  This call accepts only one resour
 - `StackId`: A stack ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified stack.
 """
 
-DescribeInstances(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeInstances"; aws_config=aws_config)
-DescribeInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeInstances", args; aws_config=aws_config)
+describe_instances(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeInstances"; aws_config=aws_config)
+describe_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeInstances", args; aws_config=aws_config)
 
 """
     DescribeLayers()
@@ -506,8 +506,8 @@ Requests a description of one or more layers in a specified stack.  This call ac
 - `StackId`: The stack ID.
 """
 
-DescribeLayers(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLayers"; aws_config=aws_config)
-DescribeLayers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLayers", args; aws_config=aws_config)
+describe_layers(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLayers"; aws_config=aws_config)
+describe_layers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLayers", args; aws_config=aws_config)
 
 """
     DescribeLoadBasedAutoScaling()
@@ -519,8 +519,8 @@ Describes load-based auto scaling configurations for specified layers.  You must
 
 """
 
-DescribeLoadBasedAutoScaling(LayerIds; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}("LayerIds"=>LayerIds); aws_config=aws_config)
-DescribeLoadBasedAutoScaling(LayerIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), args)); aws_config=aws_config)
+describe_load_based_auto_scaling(LayerIds; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}("LayerIds"=>LayerIds); aws_config=aws_config)
+describe_load_based_auto_scaling(LayerIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), args)); aws_config=aws_config)
 
 """
     DescribeMyUserProfile()
@@ -529,8 +529,8 @@ Describes a user's SSH information.  Required Permissions: To use this action, a
 
 """
 
-DescribeMyUserProfile(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile"; aws_config=aws_config)
-DescribeMyUserProfile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile", args; aws_config=aws_config)
+describe_my_user_profile(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile"; aws_config=aws_config)
+describe_my_user_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile", args; aws_config=aws_config)
 
 """
     DescribeOperatingSystems()
@@ -539,8 +539,8 @@ Describes the operating systems that are supported by AWS OpsWorks Stacks.
 
 """
 
-DescribeOperatingSystems(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems"; aws_config=aws_config)
-DescribeOperatingSystems(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems", args; aws_config=aws_config)
+describe_operating_systems(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems"; aws_config=aws_config)
+describe_operating_systems(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems", args; aws_config=aws_config)
 
 """
     DescribePermissions()
@@ -552,8 +552,8 @@ Describes the permissions for a specified stack.  Required Permissions: To use t
 - `StackId`: The stack ID.
 """
 
-DescribePermissions(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribePermissions"; aws_config=aws_config)
-DescribePermissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribePermissions", args; aws_config=aws_config)
+describe_permissions(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribePermissions"; aws_config=aws_config)
+describe_permissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribePermissions", args; aws_config=aws_config)
 
 """
     DescribeRaidArrays()
@@ -566,8 +566,8 @@ Describe an instance's RAID arrays.  This call accepts only one resource-identif
 - `StackId`: The stack ID.
 """
 
-DescribeRaidArrays(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays"; aws_config=aws_config)
-DescribeRaidArrays(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays", args; aws_config=aws_config)
+describe_raid_arrays(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays"; aws_config=aws_config)
+describe_raid_arrays(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays", args; aws_config=aws_config)
 
 """
     DescribeRdsDbInstances()
@@ -581,8 +581,8 @@ Describes Amazon RDS instances.  Required Permissions: To use this action, an IA
 - `RdsDbInstanceArns`: An array containing the ARNs of the instances to be described.
 """
 
-DescribeRdsDbInstances(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-DescribeRdsDbInstances(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_rds_db_instances(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+describe_rds_db_instances(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     DescribeServiceErrors()
@@ -595,8 +595,8 @@ Describes AWS OpsWorks Stacks service errors.  Required Permissions: To use this
 - `StackId`: The stack ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified stack.
 """
 
-DescribeServiceErrors(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors"; aws_config=aws_config)
-DescribeServiceErrors(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors", args; aws_config=aws_config)
+describe_service_errors(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors"; aws_config=aws_config)
+describe_service_errors(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors", args; aws_config=aws_config)
 
 """
     DescribeStackProvisioningParameters()
@@ -608,8 +608,8 @@ Requests a description of a stack's provisioning parameters.  Required Permissio
 
 """
 
-DescribeStackProvisioningParameters(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-DescribeStackProvisioningParameters(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_stack_provisioning_parameters(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+describe_stack_provisioning_parameters(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     DescribeStackSummary()
@@ -621,8 +621,8 @@ Describes the number of layers and apps in a specified stack, and the number of 
 
 """
 
-DescribeStackSummary(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-DescribeStackSummary(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_stack_summary(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+describe_stack_summary(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     DescribeStacks()
@@ -633,8 +633,8 @@ Requests a description of one or more stacks.  Required Permissions: To use this
 - `StackIds`: An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
 """
 
-DescribeStacks(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStacks"; aws_config=aws_config)
-DescribeStacks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStacks", args; aws_config=aws_config)
+describe_stacks(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStacks"; aws_config=aws_config)
+describe_stacks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeStacks", args; aws_config=aws_config)
 
 """
     DescribeTimeBasedAutoScaling()
@@ -646,8 +646,8 @@ Describes time-based auto scaling configurations for specified instances.  You m
 
 """
 
-DescribeTimeBasedAutoScaling(InstanceIds; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}("InstanceIds"=>InstanceIds); aws_config=aws_config)
-DescribeTimeBasedAutoScaling(InstanceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), args)); aws_config=aws_config)
+describe_time_based_auto_scaling(InstanceIds; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}("InstanceIds"=>InstanceIds); aws_config=aws_config)
+describe_time_based_auto_scaling(InstanceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), args)); aws_config=aws_config)
 
 """
     DescribeUserProfiles()
@@ -658,8 +658,8 @@ Describe specified users.  Required Permissions: To use this action, an IAM user
 - `IamUserArns`: An array of IAM or federated user ARNs that identify the users to be described.
 """
 
-DescribeUserProfiles(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles"; aws_config=aws_config)
-DescribeUserProfiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles", args; aws_config=aws_config)
+describe_user_profiles(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles"; aws_config=aws_config)
+describe_user_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles", args; aws_config=aws_config)
 
 """
     DescribeVolumes()
@@ -673,8 +673,8 @@ Describes an instance's Amazon EBS volumes.  This call accepts only one resource
 - `VolumeIds`: Am array of volume IDs. If you use this parameter, DescribeVolumes returns descriptions of the specified volumes. Otherwise, it returns a description of every volume.
 """
 
-DescribeVolumes(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeVolumes"; aws_config=aws_config)
-DescribeVolumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeVolumes", args; aws_config=aws_config)
+describe_volumes(; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeVolumes"; aws_config=aws_config)
+describe_volumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DescribeVolumes", args; aws_config=aws_config)
 
 """
     DetachElasticLoadBalancer()
@@ -687,8 +687,8 @@ Detaches a specified Elastic Load Balancing instance from its layer.  Required P
 
 """
 
-DetachElasticLoadBalancer(ElasticLoadBalancerName, LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
-DetachElasticLoadBalancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
+detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
+detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     DisassociateElasticIp()
@@ -700,8 +700,8 @@ Disassociates an Elastic IP address from its instance. The address remains regis
 
 """
 
-DisassociateElasticIp(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-DisassociateElasticIp(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+disassociate_elastic_ip(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
+disassociate_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
 
 """
     GetHostnameSuggestion()
@@ -713,8 +713,8 @@ Gets a generated host name for the specified layer, based on the current host na
 
 """
 
-GetHostnameSuggestion(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-GetHostnameSuggestion(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+get_hostname_suggestion(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
+get_hostname_suggestion(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     GrantAccess()
@@ -728,8 +728,8 @@ GetHostnameSuggestion(LayerId, args::AbstractDict{String, <:Any}; aws_config::AW
 - `ValidForInMinutes`: The length of time (in minutes) that the grant is valid. When the grant expires at the end of this period, the user will no longer be able to use the credentials to log in. If the user is logged in at the time, he or she automatically will be logged out.
 """
 
-GrantAccess(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-GrantAccess(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+grant_access(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+grant_access(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     ListTags()
@@ -744,8 +744,8 @@ Returns a list of tags that are applied to the specified stack or layer.
 - `NextToken`: Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call. 
 """
 
-ListTags(ResourceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-ListTags(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags(ResourceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     RebootInstance()
@@ -757,8 +757,8 @@ Reboots a specified instance. For more information, see Starting, Stopping, and 
 
 """
 
-RebootInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-RebootInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+reboot_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+reboot_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     RegisterEcsCluster()
@@ -771,8 +771,8 @@ Registers a specified Amazon ECS cluster with a stack. You can register only one
 
 """
 
-RegisterEcsCluster(EcsClusterArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId); aws_config=aws_config)
-RegisterEcsCluster(EcsClusterArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), args)); aws_config=aws_config)
+register_ecs_cluster(EcsClusterArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId); aws_config=aws_config)
+register_ecs_cluster(EcsClusterArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     RegisterElasticIp()
@@ -785,8 +785,8 @@ Registers an Elastic IP address with a specified stack. An address can be regist
 
 """
 
-RegisterElasticIp(ElasticIp, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId); aws_config=aws_config)
-RegisterElasticIp(ElasticIp, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), args)); aws_config=aws_config)
+register_elastic_ip(ElasticIp, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId); aws_config=aws_config)
+register_elastic_ip(ElasticIp, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     RegisterInstance()
@@ -805,8 +805,8 @@ Registers instances that were created outside of AWS OpsWorks Stacks with a spec
 - `RsaPublicKeyFingerprint`: The instances public RSA key fingerprint.
 """
 
-RegisterInstance(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-RegisterInstance(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+register_instance(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+register_instance(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     RegisterRdsDbInstance()
@@ -821,8 +821,8 @@ Registers an Amazon RDS instance with a stack.  Required Permissions: To use thi
 
 """
 
-RegisterRdsDbInstance(DbPassword, DbUser, RdsDbInstanceArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId); aws_config=aws_config)
-RegisterRdsDbInstance(DbPassword, DbUser, RdsDbInstanceArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), args)); aws_config=aws_config)
+register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId); aws_config=aws_config)
+register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     RegisterVolume()
@@ -836,8 +836,8 @@ Registers an Amazon EBS volume with a specified stack. A volume can be registere
 - `Ec2VolumeId`: The Amazon EBS volume ID.
 """
 
-RegisterVolume(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-RegisterVolume(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+register_volume(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+register_volume(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     SetLoadBasedAutoScaling()
@@ -853,8 +853,8 @@ Specify the load-based auto scaling configuration for a specified layer. For mor
 - `UpScaling`: An AutoScalingThresholds object with the upscaling threshold configuration. If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks starts a specified number of instances.
 """
 
-SetLoadBasedAutoScaling(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-SetLoadBasedAutoScaling(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+set_load_based_auto_scaling(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
+set_load_based_auto_scaling(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     SetPermission()
@@ -871,8 +871,8 @@ Specifies a user's permissions. For more information, see Security and Permissio
 - `Level`: The user's permission level, which must be set to one of the following strings. You cannot set your own permissions level.    deny     show     deploy     manage     iam_only    For more information about the permissions associated with these levels, see Managing User Permissions.
 """
 
-SetPermission(IamUserArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId); aws_config=aws_config)
-SetPermission(IamUserArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), args)); aws_config=aws_config)
+set_permission(IamUserArn, StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId); aws_config=aws_config)
+set_permission(IamUserArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     SetTimeBasedAutoScaling()
@@ -886,8 +886,8 @@ Specify the time-based auto scaling configuration for a specified instance. For 
 - `AutoScalingSchedule`: An AutoScalingSchedule with the instance schedule.
 """
 
-SetTimeBasedAutoScaling(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-SetTimeBasedAutoScaling(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+set_time_based_auto_scaling(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+set_time_based_auto_scaling(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     StartInstance()
@@ -899,8 +899,8 @@ Starts a specified instance. For more information, see Starting, Stopping, and R
 
 """
 
-StartInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-StartInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+start_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+start_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     StartStack()
@@ -912,8 +912,8 @@ Starts a stack's instances.  Required Permissions: To use this action, an IAM us
 
 """
 
-StartStack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-StartStack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+start_stack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+start_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     StopInstance()
@@ -927,8 +927,8 @@ Stops a specified instance. When you stop a standard instance, the data disappea
 - `Force`: Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
 """
 
-StopInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-StopInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+stop_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+stop_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     StopStack()
@@ -940,8 +940,8 @@ Stops a specified stack.  Required Permissions: To use this action, an IAM user 
 
 """
 
-StopStack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-StopStack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+stop_stack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+stop_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -954,8 +954,8 @@ Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks.
 
 """
 
-TagResource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UnassignInstance()
@@ -967,8 +967,8 @@ Unassigns a registered instance from all layers that are using the instance. The
 
 """
 
-UnassignInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-UnassignInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+unassign_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+unassign_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     UnassignVolume()
@@ -980,8 +980,8 @@ Unassigns an assigned Amazon EBS volume. The volume remains registered with the 
 
 """
 
-UnassignVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-UnassignVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+unassign_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+unassign_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -994,8 +994,8 @@ Removes tags from a specified stack or layer.
 
 """
 
-UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateApp()
@@ -1018,8 +1018,8 @@ Updates a specified app.  Required Permissions: To use this action, an IAM user 
 - `Type`: The app type.
 """
 
-UpdateApp(AppId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
-UpdateApp(AppId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
+update_app(AppId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
+update_app(AppId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
 
 """
     UpdateElasticIp()
@@ -1033,8 +1033,8 @@ Updates a registered Elastic IP address's name. For more information, see Resour
 - `Name`: The new name.
 """
 
-UpdateElasticIp(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-UpdateElasticIp(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+update_elastic_ip(ElasticIp; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
+update_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
 
 """
     UpdateInstance()
@@ -1058,8 +1058,8 @@ Updates a specified instance.  Required Permissions: To use this action, an IAM 
 - `SshKeyName`: The instance's Amazon EC2 key name.
 """
 
-UpdateInstance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-UpdateInstance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+update_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
+update_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
 """
     UpdateLayer()
@@ -1088,8 +1088,8 @@ Updates a specified layer.  Required Permissions: To use this action, an IAM use
 - `VolumeConfigurations`: A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
 """
 
-UpdateLayer(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-UpdateLayer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+update_layer(LayerId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
+update_layer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
 
 """
     UpdateMyUserProfile()
@@ -1100,8 +1100,8 @@ Updates a user's SSH public key.  Required Permissions: To use this action, an I
 - `SshPublicKey`: The user's SSH public key.
 """
 
-UpdateMyUserProfile(; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile"; aws_config=aws_config)
-UpdateMyUserProfile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile", args; aws_config=aws_config)
+update_my_user_profile(; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile"; aws_config=aws_config)
+update_my_user_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile", args; aws_config=aws_config)
 
 """
     UpdateRdsDbInstance()
@@ -1116,8 +1116,8 @@ Updates an Amazon RDS instance.  Required Permissions: To use this action, an IA
 - `DbUser`: The master user name.
 """
 
-UpdateRdsDbInstance(RdsDbInstanceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
-UpdateRdsDbInstance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
+update_rds_db_instance(RdsDbInstanceArn; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
+update_rds_db_instance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
 
 """
     UpdateStack()
@@ -1147,8 +1147,8 @@ Updates a specified stack.  Required Permissions: To use this action, an IAM use
 - `UseOpsworksSecurityGroups`: Whether to associate the AWS OpsWorks Stacks built-in security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of built-in security groups, one for each layer, which are associated with layers by default. UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of using the built-in groups. UseOpsworksSecurityGroups has the following settings:    True - AWS OpsWorks Stacks automatically associates the appropriate built-in security group with each layer (default setting). You can associate additional security groups with a layer after you create it, but you cannot delete the built-in security group.   False - AWS OpsWorks Stacks does not associate built-in security groups with layers. You must create appropriate EC2 security groups and associate a security group with each layer that you create. However, you can still manually associate a built-in security group with a layer on. Custom security groups are required only for those layers that need custom settings.   For more information, see Create a New Stack.
 """
 
-UpdateStack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-UpdateStack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+update_stack(StackId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
+update_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
 
 """
     UpdateUserProfile()
@@ -1164,8 +1164,8 @@ Updates a specified user profile.  Required Permissions: To use this action, an 
 - `SshUsername`: The user's SSH user name. The allowable characters are [a-z], [A-Z], [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks Stacks removes them. For example, my.name will be changed to myname. If you do not specify an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name. 
 """
 
-UpdateUserProfile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-UpdateUserProfile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+update_user_profile(IamUserArn; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
+update_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
 
 """
     UpdateVolume()
@@ -1180,5 +1180,5 @@ Updates an Amazon EBS volume's name or mount point. For more information, see Re
 - `Name`: The new name.
 """
 
-UpdateVolume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-UpdateVolume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+update_volume(VolumeId; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
+update_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)

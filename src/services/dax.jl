@@ -27,8 +27,8 @@ Creates a DAX cluster. All nodes in the cluster run the same DAX caching softwar
 - `Tags`: A set of tags to associate with the DAX cluster. 
 """
 
-CreateCluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("CreateCluster", Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor); aws_config=aws_config)
-CreateCluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor), args)); aws_config=aws_config)
+create_cluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("CreateCluster", Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor); aws_config=aws_config)
+create_cluster(ClusterName, IamRoleArn, NodeType, ReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "IamRoleArn"=>IamRoleArn, "NodeType"=>NodeType, "ReplicationFactor"=>ReplicationFactor), args)); aws_config=aws_config)
 
 """
     CreateParameterGroup()
@@ -42,8 +42,8 @@ Creates a new parameter group. A parameter group is a collection of parameters t
 - `Description`: A description of the parameter group.
 """
 
-CreateParameterGroup(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("CreateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-CreateParameterGroup(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
+create_parameter_group(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("CreateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
+create_parameter_group(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
 
 """
     CreateSubnetGroup()
@@ -58,8 +58,8 @@ Creates a new subnet group.
 - `Description`: A description for the subnet group
 """
 
-CreateSubnetGroup(SubnetGroupName, SubnetIds; aws_config::AWSConfig=global_aws_config()) = dax("CreateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds); aws_config=aws_config)
-CreateSubnetGroup(SubnetGroupName, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
+create_subnet_group(SubnetGroupName, SubnetIds; aws_config::AWSConfig=global_aws_config()) = dax("CreateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds); aws_config=aws_config)
+create_subnet_group(SubnetGroupName, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
 
 """
     DecreaseReplicationFactor()
@@ -75,8 +75,8 @@ Removes one or more nodes from a DAX cluster.  You cannot use DecreaseReplicatio
 - `NodeIdsToRemove`: The unique identifiers of the nodes to be removed from the cluster.
 """
 
-DecreaseReplicationFactor(ClusterName, NewReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("DecreaseReplicationFactor", Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor); aws_config=aws_config)
-DecreaseReplicationFactor(ClusterName, NewReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DecreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), args)); aws_config=aws_config)
+decrease_replication_factor(ClusterName, NewReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("DecreaseReplicationFactor", Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor); aws_config=aws_config)
+decrease_replication_factor(ClusterName, NewReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DecreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), args)); aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -88,8 +88,8 @@ Deletes a previously provisioned DAX cluster. DeleteCluster deletes all associat
 
 """
 
-DeleteCluster(ClusterName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config)
-DeleteCluster(ClusterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), args)); aws_config=aws_config)
+delete_cluster(ClusterName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config)
+delete_cluster(ClusterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), args)); aws_config=aws_config)
 
 """
     DeleteParameterGroup()
@@ -101,8 +101,8 @@ Deletes the specified parameter group. You cannot delete a parameter group if it
 
 """
 
-DeleteParameterGroup(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-DeleteParameterGroup(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
+delete_parameter_group(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
+delete_parameter_group(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
 
 """
     DeleteSubnetGroup()
@@ -114,8 +114,8 @@ Deletes a subnet group.  You cannot delete a subnet group if it is associated wi
 
 """
 
-DeleteSubnetGroup(SubnetGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
-DeleteSubnetGroup(SubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), args)); aws_config=aws_config)
+delete_subnet_group(SubnetGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DeleteSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
+delete_subnet_group(SubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), args)); aws_config=aws_config)
 
 """
     DescribeClusters()
@@ -128,8 +128,8 @@ Returns information about all provisioned DAX clusters if no cluster identifier 
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
 """
 
-DescribeClusters(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeClusters"; aws_config=aws_config)
-DescribeClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeClusters", args; aws_config=aws_config)
+describe_clusters(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeClusters"; aws_config=aws_config)
+describe_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeClusters", args; aws_config=aws_config)
 
 """
     DescribeDefaultParameters()
@@ -141,8 +141,8 @@ Returns the default system parameter information for the DAX caching software.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
 """
 
-DescribeDefaultParameters(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeDefaultParameters"; aws_config=aws_config)
-DescribeDefaultParameters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeDefaultParameters", args; aws_config=aws_config)
+describe_default_parameters(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeDefaultParameters"; aws_config=aws_config)
+describe_default_parameters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeDefaultParameters", args; aws_config=aws_config)
 
 """
     DescribeEvents()
@@ -159,8 +159,8 @@ Returns events related to DAX clusters and parameter groups. You can obtain even
 - `StartTime`: The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
 """
 
-DescribeEvents(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeEvents"; aws_config=aws_config)
-DescribeEvents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeEvents", args; aws_config=aws_config)
+describe_events(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeEvents"; aws_config=aws_config)
+describe_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeEvents", args; aws_config=aws_config)
 
 """
     DescribeParameterGroups()
@@ -173,8 +173,8 @@ Returns a list of parameter group descriptions. If a parameter group name is spe
 - `ParameterGroupNames`: The names of the parameter groups.
 """
 
-DescribeParameterGroups(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameterGroups"; aws_config=aws_config)
-DescribeParameterGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameterGroups", args; aws_config=aws_config)
+describe_parameter_groups(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameterGroups"; aws_config=aws_config)
+describe_parameter_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameterGroups", args; aws_config=aws_config)
 
 """
     DescribeParameters()
@@ -190,8 +190,8 @@ Returns the detailed parameter list for a particular parameter group.
 - `Source`: How the parameter is defined. For example, system denotes a system-defined parameter.
 """
 
-DescribeParameters(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameters", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
-DescribeParameters(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
+describe_parameters(ParameterGroupName; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameters", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config)
+describe_parameters(ParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), args)); aws_config=aws_config)
 
 """
     DescribeSubnetGroups()
@@ -204,8 +204,8 @@ Returns a list of subnet group descriptions. If a subnet group name is specified
 - `SubnetGroupNames`: The name of the subnet group.
 """
 
-DescribeSubnetGroups(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeSubnetGroups"; aws_config=aws_config)
-DescribeSubnetGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeSubnetGroups", args; aws_config=aws_config)
+describe_subnet_groups(; aws_config::AWSConfig=global_aws_config()) = dax("DescribeSubnetGroups"; aws_config=aws_config)
+describe_subnet_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("DescribeSubnetGroups", args; aws_config=aws_config)
 
 """
     IncreaseReplicationFactor()
@@ -220,8 +220,8 @@ Adds one or more nodes to a DAX cluster.
 - `AvailabilityZones`: The Availability Zones (AZs) in which the cluster nodes will be created. All nodes belonging to the cluster are placed in these Availability Zones. Use this parameter if you want to distribute the nodes across multiple AZs.
 """
 
-IncreaseReplicationFactor(ClusterName, NewReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("IncreaseReplicationFactor", Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor); aws_config=aws_config)
-IncreaseReplicationFactor(ClusterName, NewReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("IncreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), args)); aws_config=aws_config)
+increase_replication_factor(ClusterName, NewReplicationFactor; aws_config::AWSConfig=global_aws_config()) = dax("IncreaseReplicationFactor", Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor); aws_config=aws_config)
+increase_replication_factor(ClusterName, NewReplicationFactor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("IncreaseReplicationFactor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NewReplicationFactor"=>NewReplicationFactor), args)); aws_config=aws_config)
 
 """
     ListTags()
@@ -235,8 +235,8 @@ List all of the tags for a DAX cluster. You can call ListTags up to 10 times per
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token.
 """
 
-ListTags(ResourceName; aws_config::AWSConfig=global_aws_config()) = dax("ListTags", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
-ListTags(ResourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws_config=aws_config)
+list_tags(ResourceName; aws_config::AWSConfig=global_aws_config()) = dax("ListTags", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
+list_tags(ResourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws_config=aws_config)
 
 """
     RebootNode()
@@ -249,8 +249,8 @@ Reboots a single node of a DAX cluster. The reboot action takes place as soon as
 
 """
 
-RebootNode(ClusterName, NodeId; aws_config::AWSConfig=global_aws_config()) = dax("RebootNode", Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId); aws_config=aws_config)
-RebootNode(ClusterName, NodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("RebootNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId), args)); aws_config=aws_config)
+reboot_node(ClusterName, NodeId; aws_config::AWSConfig=global_aws_config()) = dax("RebootNode", Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId); aws_config=aws_config)
+reboot_node(ClusterName, NodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("RebootNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "NodeId"=>NodeId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -263,8 +263,8 @@ Associates a set of tags with a DAX resource. You can call TagResource up to 5 t
 
 """
 
-TagResource(ResourceName, Tags; aws_config::AWSConfig=global_aws_config()) = dax("TagResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceName, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceName, Tags; aws_config::AWSConfig=global_aws_config()) = dax("TagResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceName, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -277,8 +277,8 @@ Removes the association of tags from a DAX resource. You can call UntagResource 
 
 """
 
-UntagResource(ResourceName, TagKeys; aws_config::AWSConfig=global_aws_config()) = dax("UntagResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceName, TagKeys; aws_config::AWSConfig=global_aws_config()) = dax("UntagResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateCluster()
@@ -297,8 +297,8 @@ Modifies the settings for a DAX cluster. You can use this action to change one o
 - `SecurityGroupIds`: A list of user-specified security group IDs to be assigned to each node in the DAX cluster. If this parameter is not specified, DAX assigns the default VPC security group to each node.
 """
 
-UpdateCluster(ClusterName; aws_config::AWSConfig=global_aws_config()) = dax("UpdateCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config)
-UpdateCluster(ClusterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), args)); aws_config=aws_config)
+update_cluster(ClusterName; aws_config::AWSConfig=global_aws_config()) = dax("UpdateCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config)
+update_cluster(ClusterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), args)); aws_config=aws_config)
 
 """
     UpdateParameterGroup()
@@ -311,8 +311,8 @@ Modifies the parameters of a parameter group. You can modify up to 20 parameters
 
 """
 
-UpdateParameterGroup(ParameterGroupName, ParameterNameValues; aws_config::AWSConfig=global_aws_config()) = dax("UpdateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues); aws_config=aws_config)
-UpdateParameterGroup(ParameterGroupName, ParameterNameValues, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), args)); aws_config=aws_config)
+update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AWSConfig=global_aws_config()) = dax("UpdateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues); aws_config=aws_config)
+update_parameter_group(ParameterGroupName, ParameterNameValues, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), args)); aws_config=aws_config)
 
 """
     UpdateSubnetGroup()
@@ -327,5 +327,5 @@ Modifies an existing subnet group.
 - `SubnetIds`: A list of subnet IDs in the subnet group.
 """
 
-UpdateSubnetGroup(SubnetGroupName; aws_config::AWSConfig=global_aws_config()) = dax("UpdateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
-UpdateSubnetGroup(SubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), args)); aws_config=aws_config)
+update_subnet_group(SubnetGroupName; aws_config::AWSConfig=global_aws_config()) = dax("UpdateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
+update_subnet_group(SubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dax("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), args)); aws_config=aws_config)

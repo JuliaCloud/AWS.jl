@@ -15,8 +15,8 @@ Adds or updates tags for the specified Kinesis data stream. Each time you invoke
 
 """
 
-AddTagsToStream(StreamName, Tags; aws_config::AWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags); aws_config=aws_config)
-AddTagsToStream(StreamName, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags), args)); aws_config=aws_config)
+add_tags_to_stream(StreamName, Tags; aws_config::AWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags); aws_config=aws_config)
+add_tags_to_stream(StreamName, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     CreateStream()
@@ -29,8 +29,8 @@ Creates a Kinesis data stream. A stream captures and transports data records tha
 
 """
 
-CreateStream(ShardCount, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName); aws_config=aws_config)
-CreateStream(ShardCount, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName), args)); aws_config=aws_config)
+create_stream(ShardCount, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName); aws_config=aws_config)
+create_stream(ShardCount, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     DecreaseStreamRetentionPeriod()
@@ -43,8 +43,8 @@ Decreases the Kinesis data stream's retention period, which is the length of tim
 
 """
 
-DecreaseStreamRetentionPeriod(RetentionPeriodHours, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
-DecreaseStreamRetentionPeriod(RetentionPeriodHours, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), args)); aws_config=aws_config)
+decrease_stream_retention_period(RetentionPeriodHours, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
+decrease_stream_retention_period(RetentionPeriodHours, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     DeleteStream()
@@ -58,8 +58,8 @@ Deletes a Kinesis data stream and all its shards and data. You must shut down an
 - `EnforceConsumerDeletion`: If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException. 
 """
 
-DeleteStream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-DeleteStream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
+delete_stream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
+delete_stream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     DeregisterStreamConsumer()
@@ -72,8 +72,8 @@ To deregister a consumer, provide its ARN. Alternatively, you can provide the AR
 - `StreamARN`: The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 """
 
-DeregisterStreamConsumer(; aws_config::AWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer"; aws_config=aws_config)
-DeregisterStreamConsumer(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer", args; aws_config=aws_config)
+deregister_stream_consumer(; aws_config::AWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer"; aws_config=aws_config)
+deregister_stream_consumer(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer", args; aws_config=aws_config)
 
 """
     DescribeLimits()
@@ -82,8 +82,8 @@ Describes the shard limits and usage for the account. If you update your account
 
 """
 
-DescribeLimits(; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeLimits"; aws_config=aws_config)
-DescribeLimits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeLimits", args; aws_config=aws_config)
+describe_limits(; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeLimits"; aws_config=aws_config)
+describe_limits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeLimits", args; aws_config=aws_config)
 
 """
     DescribeStream()
@@ -98,8 +98,8 @@ Describes the specified Kinesis data stream. The information returned includes t
 - `Limit`: The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 shards are returned.
 """
 
-DescribeStream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-DescribeStream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
+describe_stream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
+describe_stream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     DescribeStreamConsumer()
@@ -112,8 +112,8 @@ To get the description of a registered consumer, provide the ARN of the consumer
 - `StreamARN`: The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 """
 
-DescribeStreamConsumer(; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer"; aws_config=aws_config)
-DescribeStreamConsumer(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer", args; aws_config=aws_config)
+describe_stream_consumer(; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer"; aws_config=aws_config)
+describe_stream_consumer(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer", args; aws_config=aws_config)
 
 """
     DescribeStreamSummary()
@@ -125,8 +125,8 @@ Provides a summarized description of the specified Kinesis data stream without t
 
 """
 
-DescribeStreamSummary(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-DescribeStreamSummary(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
+describe_stream_summary(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
+describe_stream_summary(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     DisableEnhancedMonitoring()
@@ -139,8 +139,8 @@ Disables enhanced monitoring.
 
 """
 
-DisableEnhancedMonitoring(ShardLevelMetrics, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
-DisableEnhancedMonitoring(ShardLevelMetrics, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), args)); aws_config=aws_config)
+disable_enhanced_monitoring(ShardLevelMetrics, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
+disable_enhanced_monitoring(ShardLevelMetrics, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     EnableEnhancedMonitoring()
@@ -153,8 +153,8 @@ Enables enhanced Kinesis data stream monitoring for shard-level metrics.
 
 """
 
-EnableEnhancedMonitoring(ShardLevelMetrics, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
-EnableEnhancedMonitoring(ShardLevelMetrics, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), args)); aws_config=aws_config)
+enable_enhanced_monitoring(ShardLevelMetrics, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
+enable_enhanced_monitoring(ShardLevelMetrics, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     GetRecords()
@@ -168,8 +168,8 @@ Gets data records from a Kinesis data stream's shard. Specify a shard iterator u
 - `Limit`: The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException. The default value is 10,000.
 """
 
-GetRecords(ShardIterator; aws_config::AWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}("ShardIterator"=>ShardIterator); aws_config=aws_config)
-GetRecords(ShardIterator, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), args)); aws_config=aws_config)
+get_records(ShardIterator; aws_config::AWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}("ShardIterator"=>ShardIterator); aws_config=aws_config)
+get_records(ShardIterator, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), args)); aws_config=aws_config)
 
 """
     GetShardIterator()
@@ -186,8 +186,8 @@ Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after 
 - `Timestamp`: The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
 """
 
-GetShardIterator(ShardId, ShardIteratorType, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName); aws_config=aws_config)
-GetShardIterator(ShardId, ShardIteratorType, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName), args)); aws_config=aws_config)
+get_shard_iterator(ShardId, ShardIteratorType, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName); aws_config=aws_config)
+get_shard_iterator(ShardId, ShardIteratorType, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     IncreaseStreamRetentionPeriod()
@@ -200,8 +200,8 @@ Increases the Kinesis data stream's retention period, which is the length of tim
 
 """
 
-IncreaseStreamRetentionPeriod(RetentionPeriodHours, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
-IncreaseStreamRetentionPeriod(RetentionPeriodHours, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), args)); aws_config=aws_config)
+increase_stream_retention_period(RetentionPeriodHours, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
+increase_stream_retention_period(RetentionPeriodHours, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     ListShards()
@@ -217,8 +217,8 @@ Lists the shards in a stream and provides information about each shard. This ope
 - `StreamName`: The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
 """
 
-ListShards(; aws_config::AWSConfig=global_aws_config()) = kinesis("ListShards"; aws_config=aws_config)
-ListShards(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListShards", args; aws_config=aws_config)
+list_shards(; aws_config::AWSConfig=global_aws_config()) = kinesis("ListShards"; aws_config=aws_config)
+list_shards(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListShards", args; aws_config=aws_config)
 
 """
     ListStreamConsumers()
@@ -234,8 +234,8 @@ Lists the consumers registered to receive data from a stream using enhanced fan-
 - `StreamCreationTimestamp`: Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter. 
 """
 
-ListStreamConsumers(StreamARN; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}("StreamARN"=>StreamARN); aws_config=aws_config)
-ListStreamConsumers(StreamARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), args)); aws_config=aws_config)
+list_stream_consumers(StreamARN; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}("StreamARN"=>StreamARN); aws_config=aws_config)
+list_stream_consumers(StreamARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), args)); aws_config=aws_config)
 
 """
     ListStreams()
@@ -247,8 +247,8 @@ Lists your Kinesis data streams. The number of streams may be too large to retur
 - `Limit`: The maximum number of streams to list.
 """
 
-ListStreams(; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreams"; aws_config=aws_config)
-ListStreams(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreams", args; aws_config=aws_config)
+list_streams(; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreams"; aws_config=aws_config)
+list_streams(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListStreams", args; aws_config=aws_config)
 
 """
     ListTagsForStream()
@@ -263,8 +263,8 @@ Lists the tags for the specified Kinesis data stream. This operation has a limit
 - `Limit`: The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
 
-ListTagsForStream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-ListTagsForStream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
+list_tags_for_stream(StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
+list_tags_for_stream(StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     MergeShards()
@@ -278,8 +278,8 @@ Merges two adjacent shards in a Kinesis data stream and combines them into a sin
 
 """
 
-MergeShards(AdjacentShardToMerge, ShardToMerge, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName); aws_config=aws_config)
-MergeShards(AdjacentShardToMerge, ShardToMerge, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName), args)); aws_config=aws_config)
+merge_shards(AdjacentShardToMerge, ShardToMerge, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName); aws_config=aws_config)
+merge_shards(AdjacentShardToMerge, ShardToMerge, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     PutRecord()
@@ -296,8 +296,8 @@ Writes a single data record into an Amazon Kinesis data stream. Call PutRecord t
 - `SequenceNumberForOrdering`: Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
 """
 
-PutRecord(Data, PartitionKey, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName); aws_config=aws_config)
-PutRecord(Data, PartitionKey, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName), args)); aws_config=aws_config)
+put_record(Data, PartitionKey, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName); aws_config=aws_config)
+put_record(Data, PartitionKey, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     PutRecords()
@@ -310,8 +310,8 @@ Writes multiple data records into a Kinesis data stream in a single call (also r
 
 """
 
-PutRecords(Records, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName); aws_config=aws_config)
-PutRecords(Records, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName), args)); aws_config=aws_config)
+put_records(Records, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName); aws_config=aws_config)
+put_records(Records, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     RegisterStreamConsumer()
@@ -324,8 +324,8 @@ Registers a consumer with a Kinesis data stream. When you use this operation, th
 
 """
 
-RegisterStreamConsumer(ConsumerName, StreamARN; aws_config::AWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN); aws_config=aws_config)
-RegisterStreamConsumer(ConsumerName, StreamARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN), args)); aws_config=aws_config)
+register_stream_consumer(ConsumerName, StreamARN; aws_config::AWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN); aws_config=aws_config)
+register_stream_consumer(ConsumerName, StreamARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromStream()
@@ -338,8 +338,8 @@ Removes tags from the specified Kinesis data stream. Removed tags are deleted an
 
 """
 
-RemoveTagsFromStream(StreamName, TagKeys; aws_config::AWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys); aws_config=aws_config)
-RemoveTagsFromStream(StreamName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+remove_tags_from_stream(StreamName, TagKeys; aws_config::AWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys); aws_config=aws_config)
+remove_tags_from_stream(StreamName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     SplitShard()
@@ -353,8 +353,8 @@ Splits a shard into two new shards in the Kinesis data stream, to increase the s
 
 """
 
-SplitShard(NewStartingHashKey, ShardToSplit, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName); aws_config=aws_config)
-SplitShard(NewStartingHashKey, ShardToSplit, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName), args)); aws_config=aws_config)
+split_shard(NewStartingHashKey, ShardToSplit, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName); aws_config=aws_config)
+split_shard(NewStartingHashKey, ShardToSplit, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     StartStreamEncryption()
@@ -368,8 +368,8 @@ Enables or updates server-side encryption using an AWS KMS key for a specified s
 
 """
 
-StartStreamEncryption(EncryptionType, KeyId, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
-StartStreamEncryption(EncryptionType, KeyId, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), args)); aws_config=aws_config)
+start_stream_encryption(EncryptionType, KeyId, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
+start_stream_encryption(EncryptionType, KeyId, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     StopStreamEncryption()
@@ -383,8 +383,8 @@ Disables server-side encryption for a specified stream.  Stopping encryption is 
 
 """
 
-StopStreamEncryption(EncryptionType, KeyId, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
-StopStreamEncryption(EncryptionType, KeyId, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), args)); aws_config=aws_config)
+stop_stream_encryption(EncryptionType, KeyId, StreamName; aws_config::AWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
+stop_stream_encryption(EncryptionType, KeyId, StreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), args)); aws_config=aws_config)
 
 """
     UpdateShardCount()
@@ -398,5 +398,5 @@ Updates the shard count of the specified stream to the specified number of shard
 
 """
 
-UpdateShardCount(ScalingType, StreamName, TargetShardCount; aws_config::AWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount); aws_config=aws_config)
-UpdateShardCount(ScalingType, StreamName, TargetShardCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount), args)); aws_config=aws_config)
+update_shard_count(ScalingType, StreamName, TargetShardCount; aws_config::AWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount); aws_config=aws_config)
+update_shard_count(ScalingType, StreamName, TargetShardCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount), args)); aws_config=aws_config)

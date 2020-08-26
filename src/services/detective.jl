@@ -14,8 +14,8 @@ Accepts an invitation for the member account to contribute data to a behavior gr
 
 """
 
-AcceptInvitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-AcceptInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
+accept_invitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+accept_invitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     CreateGraph()
@@ -24,8 +24,8 @@ Creates a new behavior graph for the calling account, and sets that account as t
 
 """
 
-CreateGraph(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
-CreateGraph(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph", args; aws_config=aws_config)
+create_graph(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
+create_graph(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph", args; aws_config=aws_config)
 
 """
     CreateMembers()
@@ -40,8 +40,8 @@ Sends a request to invite the specified AWS accounts to be member accounts in th
 - `Message`: Customized message text to include in the invitation email message to the invited member accounts.
 """
 
-CreateMembers(Accounts, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn); aws_config=aws_config)
-CreateMembers(Accounts, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
+create_members(Accounts, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn); aws_config=aws_config)
+create_members(Accounts, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DeleteGraph()
@@ -53,8 +53,8 @@ Disables the specified behavior graph and queues it to be deleted. This operatio
 
 """
 
-DeleteGraph(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-DeleteGraph(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
+delete_graph(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+delete_graph(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DeleteMembers()
@@ -67,8 +67,8 @@ Deletes one or more member accounts from the master account behavior graph. This
 
 """
 
-DeleteMembers(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
-DeleteMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
+delete_members(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
+delete_members(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DisassociateMembership()
@@ -80,8 +80,8 @@ Removes the member account from the specified behavior graph. This operation can
 
 """
 
-DisassociateMembership(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-DisassociateMembership(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
+disassociate_membership(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+disassociate_membership(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     GetMembers()
@@ -94,8 +94,8 @@ Returns the membership details for specified member accounts for a behavior grap
 
 """
 
-GetMembers(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
-GetMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
+get_members(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
+get_members(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     ListGraphs()
@@ -107,8 +107,8 @@ Returns the list of behavior graphs that the calling account is a master of. Thi
 - `NextToken`: For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
 """
 
-ListGraphs(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list"; aws_config=aws_config)
-ListGraphs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list", args; aws_config=aws_config)
+list_graphs(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list"; aws_config=aws_config)
+list_graphs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list", args; aws_config=aws_config)
 
 """
     ListInvitations()
@@ -120,8 +120,8 @@ Retrieves the list of open and accepted behavior graph invitations for the membe
 - `NextToken`: For requests to retrieve the next page of results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
 """
 
-ListInvitations(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list"; aws_config=aws_config)
-ListInvitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list", args; aws_config=aws_config)
+list_invitations(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list"; aws_config=aws_config)
+list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list", args; aws_config=aws_config)
 
 """
     ListMembers()
@@ -136,8 +136,8 @@ Retrieves the list of member accounts for a behavior graph. Does not return memb
 - `NextToken`: For requests to retrieve the next page of member account results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
 """
 
-ListMembers(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-ListMembers(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
+list_members(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+list_members(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     RejectInvitation()
@@ -149,8 +149,8 @@ Rejects an invitation to contribute the account data to a behavior graph. This o
 
 """
 
-RejectInvitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-RejectInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
+reject_invitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+reject_invitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     StartMonitoringMember()
@@ -163,5 +163,5 @@ Sends a request to enable data ingest for a member account that has a status of 
 
 """
 
-StartMonitoringMember(AccountId, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws_config=aws_config)
-StartMonitoringMember(AccountId, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
+start_monitoring_member(AccountId, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws_config=aws_config)
+start_monitoring_member(AccountId, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), args)); aws_config=aws_config)

@@ -16,8 +16,8 @@ Batch operation to grant permissions to the principal.
 - `CatalogId`: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
 """
 
-BatchGrantPermissions(Entries; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-BatchGrantPermissions(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+batch_grant_permissions(Entries; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
+batch_grant_permissions(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
 
 """
     BatchRevokePermissions()
@@ -31,8 +31,8 @@ Batch operation to revoke permissions from the principal.
 - `CatalogId`: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
 """
 
-BatchRevokePermissions(Entries; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-BatchRevokePermissions(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+batch_revoke_permissions(Entries; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
+batch_revoke_permissions(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
 
 """
     DeregisterResource()
@@ -44,8 +44,8 @@ Deregisters the resource as managed by the Data Catalog. When you deregister a p
 
 """
 
-DeregisterResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-DeregisterResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+deregister_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+deregister_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DescribeResource()
@@ -57,8 +57,8 @@ Retrieves the current data access role for the given resource registered in AWS 
 
 """
 
-DescribeResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-DescribeResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+describe_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+describe_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetDataLakeSettings()
@@ -69,8 +69,8 @@ Retrieves the list of the data lake administrators of a Lake Formation-managed d
 - `CatalogId`: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
 """
 
-GetDataLakeSettings(; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings"; aws_config=aws_config)
-GetDataLakeSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings", args; aws_config=aws_config)
+get_data_lake_settings(; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings"; aws_config=aws_config)
+get_data_lake_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings", args; aws_config=aws_config)
 
 """
     GetEffectivePermissionsForPath()
@@ -86,8 +86,8 @@ Returns the Lake Formation permissions for a specified table or database resourc
 - `NextToken`: A continuation token, if this is not the first call to retrieve this list.
 """
 
-GetEffectivePermissionsForPath(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-GetEffectivePermissionsForPath(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_effective_permissions_for_path(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+get_effective_permissions_for_path(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GrantPermissions()
@@ -104,8 +104,8 @@ Grants permissions to the principal to access metadata in the Data Catalog and d
 - `PermissionsWithGrantOption`: Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.
 """
 
-GrantPermissions(Permissions, Principal, Resource; aws_config::AWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-GrantPermissions(Permissions, Principal, Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), args)); aws_config=aws_config)
+grant_permissions(Permissions, Principal, Resource; aws_config::AWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
+grant_permissions(Permissions, Principal, Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     ListPermissions()
@@ -121,8 +121,8 @@ Returns a list of the principal permissions on the resource, filtered by the per
 - `ResourceType`: Specifies a resource type to filter the permissions returned.
 """
 
-ListPermissions(; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListPermissions"; aws_config=aws_config)
-ListPermissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListPermissions", args; aws_config=aws_config)
+list_permissions(; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListPermissions"; aws_config=aws_config)
+list_permissions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListPermissions", args; aws_config=aws_config)
 
 """
     ListResources()
@@ -135,8 +135,8 @@ Lists the resources registered to be managed by the Data Catalog.
 - `NextToken`: A continuation token, if this is not the first call to retrieve these resources.
 """
 
-ListResources(; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListResources"; aws_config=aws_config)
-ListResources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListResources", args; aws_config=aws_config)
+list_resources(; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListResources"; aws_config=aws_config)
+list_resources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("ListResources", args; aws_config=aws_config)
 
 """
     PutDataLakeSettings()
@@ -150,8 +150,8 @@ Sets the list of data lake administrators who have admin privileges on all resou
 - `CatalogId`: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. 
 """
 
-PutDataLakeSettings(DataLakeSettings; aws_config::AWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}("DataLakeSettings"=>DataLakeSettings); aws_config=aws_config)
-PutDataLakeSettings(DataLakeSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), args)); aws_config=aws_config)
+put_data_lake_settings(DataLakeSettings; aws_config::AWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}("DataLakeSettings"=>DataLakeSettings); aws_config=aws_config)
+put_data_lake_settings(DataLakeSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), args)); aws_config=aws_config)
 
 """
     RegisterResource()
@@ -166,8 +166,8 @@ Registers the resource as managed by the Data Catalog. To add or update data, La
 - `UseServiceLinkedRole`: Designates an AWS Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Formation.
 """
 
-RegisterResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-RegisterResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+register_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+register_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     RevokePermissions()
@@ -184,8 +184,8 @@ Revokes permissions to the principal to access metadata in the Data Catalog and 
 - `PermissionsWithGrantOption`: Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals.
 """
 
-RevokePermissions(Permissions, Principal, Resource; aws_config::AWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-RevokePermissions(Permissions, Principal, Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), args)); aws_config=aws_config)
+revoke_permissions(Permissions, Principal, Resource; aws_config::AWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
+revoke_permissions(Permissions, Principal, Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     UpdateResource()
@@ -198,5 +198,5 @@ Updates the data access role used for vending access to the given (registered) r
 
 """
 
-UpdateResource(ResourceArn, RoleArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn); aws_config=aws_config)
-UpdateResource(ResourceArn, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+update_resource(ResourceArn, RoleArn; aws_config::AWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn); aws_config=aws_config)
+update_resource(ResourceArn, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), args)); aws_config=aws_config)

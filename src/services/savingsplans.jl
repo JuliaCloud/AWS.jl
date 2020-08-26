@@ -19,8 +19,8 @@ Creates a Savings Plan.
 - `upfrontPaymentAmount`: The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.
 """
 
-CreateSavingsPlan(commitment, savingsPlanOfferingId; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateSavingsPlan(commitment, savingsPlanOfferingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_savings_plan(commitment, savingsPlanOfferingId; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())); aws_config=aws_config)
+create_savings_plan(commitment, savingsPlanOfferingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeSavingsPlanRates()
@@ -36,8 +36,8 @@ Describes the specified Savings Plans rates.
 - `nextToken`: The token for the next page of results.
 """
 
-DescribeSavingsPlanRates(savingsPlanId; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}("savingsPlanId"=>savingsPlanId); aws_config=aws_config)
-DescribeSavingsPlanRates(savingsPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), args)); aws_config=aws_config)
+describe_savings_plan_rates(savingsPlanId; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}("savingsPlanId"=>savingsPlanId); aws_config=aws_config)
+describe_savings_plan_rates(savingsPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("savingsPlanId"=>savingsPlanId), args)); aws_config=aws_config)
 
 """
     DescribeSavingsPlans()
@@ -53,8 +53,8 @@ Describes the specified Savings Plans.
 - `states`: The states.
 """
 
-DescribeSavingsPlans(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans"; aws_config=aws_config)
-DescribeSavingsPlans(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans", args; aws_config=aws_config)
+describe_savings_plans(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans"; aws_config=aws_config)
+describe_savings_plans(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans", args; aws_config=aws_config)
 
 """
     DescribeSavingsPlansOfferingRates()
@@ -74,8 +74,8 @@ Describes the specified Savings Plans offering rates.
 - `usageTypes`: The usage details of the line item in the billing report.
 """
 
-DescribeSavingsPlansOfferingRates(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates"; aws_config=aws_config)
-DescribeSavingsPlansOfferingRates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", args; aws_config=aws_config)
+describe_savings_plans_offering_rates(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates"; aws_config=aws_config)
+describe_savings_plans_offering_rates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", args; aws_config=aws_config)
 
 """
     DescribeSavingsPlansOfferings()
@@ -98,8 +98,8 @@ Describes the specified Savings Plans offerings.
 - `usageTypes`: The usage details of the line item in the billing report.
 """
 
-DescribeSavingsPlansOfferings(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings"; aws_config=aws_config)
-DescribeSavingsPlansOfferings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings", args; aws_config=aws_config)
+describe_savings_plans_offerings(; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings"; aws_config=aws_config)
+describe_savings_plans_offerings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -111,8 +111,8 @@ Lists the tags for the specified resource.
 
 """
 
-ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -125,8 +125,8 @@ Adds the specified tags to the specified resource.
 
 """
 
-TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -139,5 +139,5 @@ Removes the specified tags from the specified resource.
 
 """
 
-UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = savingsplans("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)

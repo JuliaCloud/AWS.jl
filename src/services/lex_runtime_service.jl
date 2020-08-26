@@ -16,8 +16,8 @@ Removes session information for a specified bot, alias, and user ID.
 
 """
 
-DeleteSession(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session"; aws_config=aws_config)
-DeleteSession(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args; aws_config=aws_config)
+delete_session(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session"; aws_config=aws_config)
+delete_session(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args; aws_config=aws_config)
 
 """
     GetSession()
@@ -33,8 +33,8 @@ Returns session information for a specified bot, alias, and user ID.
 - `checkpointLabelFilter`: A string used to filter the intents returned in the recentIntentSummaryView structure.  When you specify a filter, only intents with their checkpointLabel field set to that string are returned.
 """
 
-GetSession(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/"; aws_config=aws_config)
-GetSession(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/", args; aws_config=aws_config)
+get_session(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/"; aws_config=aws_config)
+get_session(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/", args; aws_config=aws_config)
 
 """
     PostContent()
@@ -54,8 +54,8 @@ GetSession(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_con
 - `x-amz-lex-session-attributes`: You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes.
 """
 
-PostContent(Content_Type, botAlias, botName, inputStream, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-PostContent(Content_Type, botAlias, botName, inputStream, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
+post_content(Content_Type, botAlias, botName, inputStream, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
+post_content(Content_Type, botAlias, botName, inputStream, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputStream"=>inputStream, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
 
 """
     PostText()
@@ -73,8 +73,8 @@ Sends user input to Amazon Lex. Client applications can use this API to send req
 - `sessionAttributes`: Application-specific information passed between Amazon Lex and a client application. For more information, see Setting Session Attributes.
 """
 
-PostText(botAlias, botName, inputText, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}("inputText"=>inputText); aws_config=aws_config)
-PostText(botAlias, botName, inputText, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputText"=>inputText), args)); aws_config=aws_config)
+post_text(botAlias, botName, inputText, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}("inputText"=>inputText); aws_config=aws_config)
+post_text(botAlias, botName, inputText, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputText"=>inputText), args)); aws_config=aws_config)
 
 """
     PutSession()
@@ -93,5 +93,5 @@ Creates a new session or modifies an existing session with an Amazon Lex bot. Us
 - `sessionAttributes`: Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application.
 """
 
-PutSession(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session"; aws_config=aws_config)
-PutSession(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args; aws_config=aws_config)
+put_session(botAlias, botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session"; aws_config=aws_config)
+put_session(botAlias, botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args; aws_config=aws_config)

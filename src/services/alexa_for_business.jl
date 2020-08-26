@@ -14,8 +14,8 @@ Associates a skill with the organization under the customer's AWS account. If a 
 
 """
 
-ApproveSkill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-ApproveSkill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+approve_skill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+approve_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     AssociateContactWithAddressBook()
@@ -28,8 +28,8 @@ Associates a contact with a given address book.
 
 """
 
-AssociateContactWithAddressBook(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
-AssociateContactWithAddressBook(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+associate_contact_with_address_book(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
+associate_contact_with_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
 
 """
     AssociateDeviceWithNetworkProfile()
@@ -42,8 +42,8 @@ Associates a device with the specified network profile.
 
 """
 
-AssociateDeviceWithNetworkProfile(DeviceArn, NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
-AssociateDeviceWithNetworkProfile(DeviceArn, NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+associate_device_with_network_profile(DeviceArn, NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+associate_device_with_network_profile(DeviceArn, NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
 
 """
     AssociateDeviceWithRoom()
@@ -55,8 +55,8 @@ Associates a device with a given room. This applies all the settings from the ro
 - `RoomArn`: The ARN of the room with which to associate the device. Required.
 """
 
-AssociateDeviceWithRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom"; aws_config=aws_config)
-AssociateDeviceWithRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom", args; aws_config=aws_config)
+associate_device_with_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom"; aws_config=aws_config)
+associate_device_with_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom", args; aws_config=aws_config)
 
 """
     AssociateSkillGroupWithRoom()
@@ -68,8 +68,8 @@ Associates a skill group with a given room. This enables all skills in the assoc
 - `SkillGroupArn`: The ARN of the skill group to associate with a room. Required.
 """
 
-AssociateSkillGroupWithRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom"; aws_config=aws_config)
-AssociateSkillGroupWithRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom", args; aws_config=aws_config)
+associate_skill_group_with_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom"; aws_config=aws_config)
+associate_skill_group_with_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom", args; aws_config=aws_config)
 
 """
     AssociateSkillWithSkillGroup()
@@ -83,8 +83,8 @@ Associates a skill with a skill group.
 - `SkillGroupArn`: The ARN of the skill group to associate the skill to. Required.
 """
 
-AssociateSkillWithSkillGroup(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-AssociateSkillWithSkillGroup(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+associate_skill_with_skill_group(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+associate_skill_with_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     AssociateSkillWithUsers()
@@ -96,8 +96,8 @@ Makes a private skill available for enrolled users to enable on their devices.
 
 """
 
-AssociateSkillWithUsers(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-AssociateSkillWithUsers(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+associate_skill_with_users(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+associate_skill_with_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     CreateAddressBook()
@@ -112,8 +112,8 @@ Creates an address book with the specified details.
 - `Description`: The description of the address book.
 """
 
-CreateAddressBook(Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateAddressBook(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_address_book(Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_address_book(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateBusinessReportSchedule()
@@ -133,8 +133,8 @@ Creates a recurring schedule for usage reports to deliver to the specified S3 lo
 - `Tags`: The tags for the business report schedule.
 """
 
-CreateBusinessReportSchedule(ContentRange, Format; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateBusinessReportSchedule(ContentRange, Format, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_business_report_schedule(ContentRange, Format; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_business_report_schedule(ContentRange, Format, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateConferenceProvider()
@@ -152,8 +152,8 @@ Adds a new conference provider under the user's AWS account.
 - `PSTNDialIn`: The information for PSTN conferencing.
 """
 
-CreateConferenceProvider(ConferenceProviderName, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateConferenceProvider(ConferenceProviderName, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateContact()
@@ -172,8 +172,8 @@ Creates a contact with the specified details.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
 
-CreateContact(FirstName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateContact(FirstName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_contact(FirstName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_contact(FirstName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateGatewayGroup()
@@ -188,8 +188,8 @@ Creates a gateway group with the specified details.
 - `Description`: The description of the gateway group.
 """
 
-CreateGatewayGroup(ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
-CreateGatewayGroup(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+create_gateway_group(ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_gateway_group(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateNetworkProfile()
@@ -211,8 +211,8 @@ Creates a network profile with the specified details.
 - `TrustAnchors`: The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
 """
 
-CreateNetworkProfile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid); aws_config=aws_config)
-CreateNetworkProfile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), args)); aws_config=aws_config)
+create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid); aws_config=aws_config)
+create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), args)); aws_config=aws_config)
 
 """
     CreateProfile()
@@ -237,8 +237,8 @@ Creates a new room profile with the specified details.
 - `Tags`: The tags for the profile.
 """
 
-CreateProfile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateProfile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateRoom()
@@ -256,8 +256,8 @@ Creates a room with the specified details.
 - `Tags`: The tags for the room.
 """
 
-CreateRoom(RoomName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateRoom(RoomName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_room(RoomName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_room(RoomName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateSkillGroup()
@@ -273,8 +273,8 @@ Creates a skill group with a specified name and description.
 - `Tags`: The tags for the skill group.
 """
 
-CreateSkillGroup(SkillGroupName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateSkillGroup(SkillGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_skill_group(SkillGroupName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_skill_group(SkillGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -292,8 +292,8 @@ Creates a user.
 - `Tags`: The tags for the user.
 """
 
-CreateUser(UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateUser(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_user(UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteAddressBook()
@@ -305,8 +305,8 @@ Deletes an address book by the address book ARN.
 
 """
 
-DeleteAddressBook(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
-DeleteAddressBook(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+delete_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+delete_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
 
 """
     DeleteBusinessReportSchedule()
@@ -318,8 +318,8 @@ Deletes the recurring report delivery schedule with the specified schedule ARN.
 
 """
 
-DeleteBusinessReportSchedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
-DeleteBusinessReportSchedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+delete_business_report_schedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
+delete_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
 
 """
     DeleteConferenceProvider()
@@ -331,8 +331,8 @@ Deletes a conference provider.
 
 """
 
-DeleteConferenceProvider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
-DeleteConferenceProvider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+delete_conference_provider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
+delete_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
 
 """
     DeleteContact()
@@ -344,8 +344,8 @@ Deletes a contact by the contact ARN.
 
 """
 
-DeleteContact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
-DeleteContact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+delete_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+delete_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
 
 """
     DeleteDevice()
@@ -357,8 +357,8 @@ Removes a device from Alexa For Business.
 
 """
 
-DeleteDevice(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
-DeleteDevice(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+delete_device(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
+delete_device(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
 
 """
     DeleteDeviceUsageData()
@@ -371,8 +371,8 @@ When this action is called for a specified shared device, it allows authorized u
 
 """
 
-DeleteDeviceUsageData(DeviceArn, DeviceUsageType; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType); aws_config=aws_config)
-DeleteDeviceUsageData(DeviceArn, DeviceUsageType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType), args)); aws_config=aws_config)
+delete_device_usage_data(DeviceArn, DeviceUsageType; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType); aws_config=aws_config)
+delete_device_usage_data(DeviceArn, DeviceUsageType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType), args)); aws_config=aws_config)
 
 """
     DeleteGatewayGroup()
@@ -384,8 +384,8 @@ Deletes a gateway group.
 
 """
 
-DeleteGatewayGroup(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
-DeleteGatewayGroup(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+delete_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+delete_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
 
 """
     DeleteNetworkProfile()
@@ -397,8 +397,8 @@ Deletes a network profile by the network profile ARN.
 
 """
 
-DeleteNetworkProfile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
-DeleteNetworkProfile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+delete_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+delete_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
 
 """
     DeleteProfile()
@@ -409,8 +409,8 @@ Deletes a room profile by the profile ARN.
 - `ProfileArn`: The ARN of the room profile to delete. Required.
 """
 
-DeleteProfile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile"; aws_config=aws_config)
-DeleteProfile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile", args; aws_config=aws_config)
+delete_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile"; aws_config=aws_config)
+delete_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile", args; aws_config=aws_config)
 
 """
     DeleteRoom()
@@ -421,8 +421,8 @@ Deletes a room by the room ARN.
 - `RoomArn`: The ARN of the room to delete. Required.
 """
 
-DeleteRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom"; aws_config=aws_config)
-DeleteRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom", args; aws_config=aws_config)
+delete_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom"; aws_config=aws_config)
+delete_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom", args; aws_config=aws_config)
 
 """
     DeleteRoomSkillParameter()
@@ -437,8 +437,8 @@ Deletes room skill parameter details by room, skill, and parameter key ID.
 - `RoomArn`: The ARN of the room from which to remove the room skill parameter details.
 """
 
-DeleteRoomSkillParameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
-DeleteRoomSkillParameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+delete_room_skill_parameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
+delete_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     DeleteSkillAuthorization()
@@ -452,8 +452,8 @@ Unlinks a third-party account from a skill.
 - `RoomArn`: The room that the skill is authorized for.
 """
 
-DeleteSkillAuthorization(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-DeleteSkillAuthorization(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+delete_skill_authorization(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+delete_skill_authorization(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     DeleteSkillGroup()
@@ -464,8 +464,8 @@ Deletes a skill group by skill group ARN.
 - `SkillGroupArn`: The ARN of the skill group to delete. Required.
 """
 
-DeleteSkillGroup(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup"; aws_config=aws_config)
-DeleteSkillGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup", args; aws_config=aws_config)
+delete_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup"; aws_config=aws_config)
+delete_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup", args; aws_config=aws_config)
 
 """
     DeleteUser()
@@ -479,8 +479,8 @@ Deletes a specified user by user ARN and enrollment ARN.
 - `UserArn`: The ARN of the user to delete in the organization. Required.
 """
 
-DeleteUser(EnrollmentId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}("EnrollmentId"=>EnrollmentId); aws_config=aws_config)
-DeleteUser(EnrollmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnrollmentId"=>EnrollmentId), args)); aws_config=aws_config)
+delete_user(EnrollmentId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}("EnrollmentId"=>EnrollmentId); aws_config=aws_config)
+delete_user(EnrollmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnrollmentId"=>EnrollmentId), args)); aws_config=aws_config)
 
 """
     DisassociateContactFromAddressBook()
@@ -493,8 +493,8 @@ Disassociates a contact from a given address book.
 
 """
 
-DisassociateContactFromAddressBook(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
-DisassociateContactFromAddressBook(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+disassociate_contact_from_address_book(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
+disassociate_contact_from_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
 
 """
     DisassociateDeviceFromRoom()
@@ -505,8 +505,8 @@ Disassociates a device from its current room. The device continues to be connect
 - `DeviceArn`: The ARN of the device to disassociate from a room. Required.
 """
 
-DisassociateDeviceFromRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom"; aws_config=aws_config)
-DisassociateDeviceFromRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom", args; aws_config=aws_config)
+disassociate_device_from_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom"; aws_config=aws_config)
+disassociate_device_from_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom", args; aws_config=aws_config)
 
 """
     DisassociateSkillFromSkillGroup()
@@ -520,8 +520,8 @@ Disassociates a skill from a skill group.
 - `SkillGroupArn`: The unique identifier of a skill. Required.
 """
 
-DisassociateSkillFromSkillGroup(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-DisassociateSkillFromSkillGroup(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+disassociate_skill_from_skill_group(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+disassociate_skill_from_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     DisassociateSkillFromUsers()
@@ -533,8 +533,8 @@ Makes a private skill unavailable for enrolled users and prevents them from enab
 
 """
 
-DisassociateSkillFromUsers(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-DisassociateSkillFromUsers(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+disassociate_skill_from_users(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+disassociate_skill_from_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     DisassociateSkillGroupFromRoom()
@@ -546,8 +546,8 @@ Disassociates a skill group from a specified room. This disables all skills in t
 - `SkillGroupArn`: The ARN of the skill group to disassociate from a room. Required.
 """
 
-DisassociateSkillGroupFromRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
-DisassociateSkillGroupFromRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom", args; aws_config=aws_config)
+disassociate_skill_group_from_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
+disassociate_skill_group_from_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom", args; aws_config=aws_config)
 
 """
     ForgetSmartHomeAppliances()
@@ -559,8 +559,8 @@ Forgets smart home appliances associated to a room.
 
 """
 
-ForgetSmartHomeAppliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
-ForgetSmartHomeAppliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+forget_smart_home_appliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+forget_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
 
 """
     GetAddressBook()
@@ -572,8 +572,8 @@ Gets address the book details by the address book ARN.
 
 """
 
-GetAddressBook(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
-GetAddressBook(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+get_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+get_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
 
 """
     GetConferencePreference()
@@ -582,8 +582,8 @@ Retrieves the existing conference preferences.
 
 """
 
-GetConferencePreference(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference"; aws_config=aws_config)
-GetConferencePreference(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference", args; aws_config=aws_config)
+get_conference_preference(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference"; aws_config=aws_config)
+get_conference_preference(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference", args; aws_config=aws_config)
 
 """
     GetConferenceProvider()
@@ -595,8 +595,8 @@ Gets details about a specific conference provider.
 
 """
 
-GetConferenceProvider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
-GetConferenceProvider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+get_conference_provider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
+get_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
 
 """
     GetContact()
@@ -608,8 +608,8 @@ Gets the contact details by the contact ARN.
 
 """
 
-GetContact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
-GetContact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+get_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+get_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
 
 """
     GetDevice()
@@ -620,8 +620,8 @@ Gets the details of a device by device ARN.
 - `DeviceArn`: The ARN of the device for which to request details. Required.
 """
 
-GetDevice(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice"; aws_config=aws_config)
-GetDevice(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice", args; aws_config=aws_config)
+get_device(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice"; aws_config=aws_config)
+get_device(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice", args; aws_config=aws_config)
 
 """
     GetGateway()
@@ -633,8 +633,8 @@ Retrieves the details of a gateway.
 
 """
 
-GetGateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
-GetGateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+get_gateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
+get_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
 
 """
     GetGatewayGroup()
@@ -646,8 +646,8 @@ Retrieves the details of a gateway group.
 
 """
 
-GetGatewayGroup(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
-GetGatewayGroup(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+get_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+get_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
 
 """
     GetInvitationConfiguration()
@@ -656,8 +656,8 @@ Retrieves the configured values for the user enrollment invitation email templat
 
 """
 
-GetInvitationConfiguration(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration"; aws_config=aws_config)
-GetInvitationConfiguration(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration", args; aws_config=aws_config)
+get_invitation_configuration(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration"; aws_config=aws_config)
+get_invitation_configuration(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration", args; aws_config=aws_config)
 
 """
     GetNetworkProfile()
@@ -669,8 +669,8 @@ Gets the network profile details by the network profile ARN.
 
 """
 
-GetNetworkProfile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
-GetNetworkProfile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+get_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+get_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
 
 """
     GetProfile()
@@ -681,8 +681,8 @@ Gets the details of a room profile by profile ARN.
 - `ProfileArn`: The ARN of the room profile for which to request details. Required.
 """
 
-GetProfile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile"; aws_config=aws_config)
-GetProfile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile", args; aws_config=aws_config)
+get_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile"; aws_config=aws_config)
+get_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile", args; aws_config=aws_config)
 
 """
     GetRoom()
@@ -693,8 +693,8 @@ Gets room details by room ARN.
 - `RoomArn`: The ARN of the room for which to request details. Required.
 """
 
-GetRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom"; aws_config=aws_config)
-GetRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom", args; aws_config=aws_config)
+get_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom"; aws_config=aws_config)
+get_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom", args; aws_config=aws_config)
 
 """
     GetRoomSkillParameter()
@@ -709,8 +709,8 @@ Gets room skill parameter details by room, skill, and parameter key ARN.
 - `RoomArn`: The ARN of the room from which to get the room skill parameter details. 
 """
 
-GetRoomSkillParameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
-GetRoomSkillParameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+get_room_skill_parameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
+get_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     GetSkillGroup()
@@ -721,8 +721,8 @@ Gets skill group details by skill group ARN.
 - `SkillGroupArn`: The ARN of the skill group for which to get details. Required.
 """
 
-GetSkillGroup(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup"; aws_config=aws_config)
-GetSkillGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup", args; aws_config=aws_config)
+get_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup"; aws_config=aws_config)
+get_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup", args; aws_config=aws_config)
 
 """
     ListBusinessReportSchedules()
@@ -734,8 +734,8 @@ Lists the details of the schedules that a user configured. A download URL of the
 - `NextToken`: The token used to list the remaining schedules from the previous API call.
 """
 
-ListBusinessReportSchedules(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules"; aws_config=aws_config)
-ListBusinessReportSchedules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules", args; aws_config=aws_config)
+list_business_report_schedules(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules"; aws_config=aws_config)
+list_business_report_schedules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules", args; aws_config=aws_config)
 
 """
     ListConferenceProviders()
@@ -747,8 +747,8 @@ Lists conference providers under a specific AWS account.
 - `NextToken`: The tokens used for pagination.
 """
 
-ListConferenceProviders(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
-ListConferenceProviders(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders", args; aws_config=aws_config)
+list_conference_providers(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
+list_conference_providers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders", args; aws_config=aws_config)
 
 """
     ListDeviceEvents()
@@ -764,8 +764,8 @@ Lists the device event history, including device connection status, for up to 30
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
 """
 
-ListDeviceEvents(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
-ListDeviceEvents(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+list_device_events(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
+list_device_events(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
 
 """
     ListGatewayGroups()
@@ -777,8 +777,8 @@ Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve det
 - `NextToken`: The token used to paginate though multiple pages of gateway group summaries.
 """
 
-ListGatewayGroups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups"; aws_config=aws_config)
-ListGatewayGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups", args; aws_config=aws_config)
+list_gateway_groups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups"; aws_config=aws_config)
+list_gateway_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups", args; aws_config=aws_config)
 
 """
     ListGateways()
@@ -791,8 +791,8 @@ Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a s
 - `NextToken`: The token used to paginate though multiple pages of gateway summaries.
 """
 
-ListGateways(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways"; aws_config=aws_config)
-ListGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways", args; aws_config=aws_config)
+list_gateways(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways"; aws_config=aws_config)
+list_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways", args; aws_config=aws_config)
 
 """
     ListSkills()
@@ -807,8 +807,8 @@ Lists all enabled skills in a specific skill group.
 - `SkillType`: Whether the skill is publicly available or is a private skill.
 """
 
-ListSkills(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills"; aws_config=aws_config)
-ListSkills(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills", args; aws_config=aws_config)
+list_skills(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills"; aws_config=aws_config)
+list_skills(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills", args; aws_config=aws_config)
 
 """
     ListSkillsStoreCategories()
@@ -820,8 +820,8 @@ Lists all categories in the Alexa skill store.
 - `NextToken`: The tokens used for pagination.
 """
 
-ListSkillsStoreCategories(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories"; aws_config=aws_config)
-ListSkillsStoreCategories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories", args; aws_config=aws_config)
+list_skills_store_categories(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories"; aws_config=aws_config)
+list_skills_store_categories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories", args; aws_config=aws_config)
 
 """
     ListSkillsStoreSkillsByCategory()
@@ -836,8 +836,8 @@ Lists all skills in the Alexa skill store by category.
 - `NextToken`: The tokens used for pagination.
 """
 
-ListSkillsStoreSkillsByCategory(CategoryId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}("CategoryId"=>CategoryId); aws_config=aws_config)
-ListSkillsStoreSkillsByCategory(CategoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryId"=>CategoryId), args)); aws_config=aws_config)
+list_skills_store_skills_by_category(CategoryId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}("CategoryId"=>CategoryId); aws_config=aws_config)
+list_skills_store_skills_by_category(CategoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryId"=>CategoryId), args)); aws_config=aws_config)
 
 """
     ListSmartHomeAppliances()
@@ -852,8 +852,8 @@ Lists all of the smart home appliances associated with a room.
 - `NextToken`: The tokens used for pagination.
 """
 
-ListSmartHomeAppliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
-ListSmartHomeAppliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+list_smart_home_appliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+list_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
 
 """
     ListTags()
@@ -868,8 +868,8 @@ Lists all tags for the specified resource.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
 """
 
-ListTags(Arn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-ListTags(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+list_tags(Arn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+list_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
 
 """
     PutConferencePreference()
@@ -881,8 +881,8 @@ Sets the conference preferences on a specific conference provider at the account
 
 """
 
-PutConferencePreference(ConferencePreference; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}("ConferencePreference"=>ConferencePreference); aws_config=aws_config)
-PutConferencePreference(ConferencePreference, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferencePreference"=>ConferencePreference), args)); aws_config=aws_config)
+put_conference_preference(ConferencePreference; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}("ConferencePreference"=>ConferencePreference); aws_config=aws_config)
+put_conference_preference(ConferencePreference, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferencePreference"=>ConferencePreference), args)); aws_config=aws_config)
 
 """
     PutInvitationConfiguration()
@@ -897,8 +897,8 @@ Configures the email template for the user enrollment invitation with the specif
 - `PrivateSkillIds`: The list of private skill IDs that you want to recommend to the user to enable in the invitation.
 """
 
-PutInvitationConfiguration(OrganizationName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}("OrganizationName"=>OrganizationName); aws_config=aws_config)
-PutInvitationConfiguration(OrganizationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), args)); aws_config=aws_config)
+put_invitation_configuration(OrganizationName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}("OrganizationName"=>OrganizationName); aws_config=aws_config)
+put_invitation_configuration(OrganizationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), args)); aws_config=aws_config)
 
 """
     PutRoomSkillParameter()
@@ -913,8 +913,8 @@ Updates room skill parameter details by room, skill, and parameter key ID. Not a
 - `RoomArn`: The ARN of the room associated with the room skill parameter. Required.
 """
 
-PutRoomSkillParameter(RoomSkillParameter, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId); aws_config=aws_config)
-PutRoomSkillParameter(RoomSkillParameter, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId), args)); aws_config=aws_config)
+put_room_skill_parameter(RoomSkillParameter, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId); aws_config=aws_config)
+put_room_skill_parameter(RoomSkillParameter, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     PutSkillAuthorization()
@@ -929,8 +929,8 @@ Links a user's account to a third-party skill provider. If this API operation is
 - `RoomArn`: The room that the skill is authorized for.
 """
 
-PutSkillAuthorization(AuthorizationResult, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId); aws_config=aws_config)
-PutSkillAuthorization(AuthorizationResult, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId), args)); aws_config=aws_config)
+put_skill_authorization(AuthorizationResult, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId); aws_config=aws_config)
+put_skill_authorization(AuthorizationResult, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     RegisterAVSDevice()
@@ -948,8 +948,8 @@ Registers an Alexa-enabled device built by an Original Equipment Manufacturer (O
 - `RoomArn`: The ARN of the room with which to associate your AVS device.
 """
 
-RegisterAVSDevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode); aws_config=aws_config)
-RegisterAVSDevice(AmazonId, ClientId, ProductId, UserCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode), args)); aws_config=aws_config)
+register_avsdevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode); aws_config=aws_config)
+register_avsdevice(AmazonId, ClientId, ProductId, UserCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode), args)); aws_config=aws_config)
 
 """
     RejectSkill()
@@ -961,8 +961,8 @@ Disassociates a skill from the organization under a user's AWS account. If the s
 
 """
 
-RejectSkill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
-RejectSkill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+reject_skill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+reject_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
 
 """
     ResolveRoom()
@@ -975,8 +975,8 @@ Determines the details for the room from which a skill request was invoked. This
 
 """
 
-ResolveRoom(SkillId, UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId); aws_config=aws_config)
-ResolveRoom(SkillId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId), args)); aws_config=aws_config)
+resolve_room(SkillId, UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId); aws_config=aws_config)
+resolve_room(SkillId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     RevokeInvitation()
@@ -988,8 +988,8 @@ Revokes an invitation and invalidates the enrollment URL.
 - `UserArn`: The ARN of the user for whom to revoke an enrollment invitation. Required.
 """
 
-RevokeInvitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation"; aws_config=aws_config)
-RevokeInvitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation", args; aws_config=aws_config)
+revoke_invitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation"; aws_config=aws_config)
+revoke_invitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation", args; aws_config=aws_config)
 
 """
     SearchAddressBooks()
@@ -1003,8 +1003,8 @@ Searches address books and lists the ones that meet a set of filter and sort cri
 - `SortCriteria`: The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
 """
 
-SearchAddressBooks(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
-SearchAddressBooks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks", args; aws_config=aws_config)
+search_address_books(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
+search_address_books(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks", args; aws_config=aws_config)
 
 """
     SearchContacts()
@@ -1018,8 +1018,8 @@ Searches contacts and lists the ones that meet a set of filter and sort criteria
 - `SortCriteria`: The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
 """
 
-SearchContacts(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts"; aws_config=aws_config)
-SearchContacts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts", args; aws_config=aws_config)
+search_contacts(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts"; aws_config=aws_config)
+search_contacts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts", args; aws_config=aws_config)
 
 """
     SearchDevices()
@@ -1033,8 +1033,8 @@ Searches devices and lists the ones that meet a set of filter criteria.
 - `SortCriteria`: The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
 """
 
-SearchDevices(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices"; aws_config=aws_config)
-SearchDevices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices", args; aws_config=aws_config)
+search_devices(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices"; aws_config=aws_config)
+search_devices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices", args; aws_config=aws_config)
 
 """
     SearchNetworkProfiles()
@@ -1048,8 +1048,8 @@ Searches network profiles and lists the ones that meet a set of filter and sort 
 - `SortCriteria`: The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
 """
 
-SearchNetworkProfiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
-SearchNetworkProfiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles", args; aws_config=aws_config)
+search_network_profiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
+search_network_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles", args; aws_config=aws_config)
 
 """
     SearchProfiles()
@@ -1063,8 +1063,8 @@ Searches room profiles and lists the ones that meet a set of filter criteria.
 - `SortCriteria`: The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
 """
 
-SearchProfiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles"; aws_config=aws_config)
-SearchProfiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles", args; aws_config=aws_config)
+search_profiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles"; aws_config=aws_config)
+search_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles", args; aws_config=aws_config)
 
 """
     SearchRooms()
@@ -1078,8 +1078,8 @@ Searches rooms and lists the ones that meet a set of filter and sort criteria.
 - `SortCriteria`: The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
 """
 
-SearchRooms(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms"; aws_config=aws_config)
-SearchRooms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms", args; aws_config=aws_config)
+search_rooms(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms"; aws_config=aws_config)
+search_rooms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms", args; aws_config=aws_config)
 
 """
     SearchSkillGroups()
@@ -1093,8 +1093,8 @@ Searches skill groups and lists the ones that meet a set of filter and sort crit
 - `SortCriteria`: The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
 """
 
-SearchSkillGroups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
-SearchSkillGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups", args; aws_config=aws_config)
+search_skill_groups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
+search_skill_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups", args; aws_config=aws_config)
 
 """
     SearchUsers()
@@ -1108,8 +1108,8 @@ Searches users and lists the ones that meet a set of filter and sort criteria.
 - `SortCriteria`: The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
 """
 
-SearchUsers(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers"; aws_config=aws_config)
-SearchUsers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers", args; aws_config=aws_config)
+search_users(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers"; aws_config=aws_config)
+search_users(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers", args; aws_config=aws_config)
 
 """
     SendAnnouncement()
@@ -1125,8 +1125,8 @@ Triggers an asynchronous flow to send text, SSML, or audio announcements to room
 - `TimeToLiveInSeconds`: The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
 """
 
-SendAnnouncement(ClientRequestToken, Content, RoomFilters; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters); aws_config=aws_config)
-SendAnnouncement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), args)); aws_config=aws_config)
+send_announcement(ClientRequestToken, Content, RoomFilters; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters); aws_config=aws_config)
+send_announcement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), args)); aws_config=aws_config)
 
 """
     SendInvitation()
@@ -1137,8 +1137,8 @@ Sends an enrollment invitation email with a URL to a user. The URL is valid for 
 - `UserArn`: The ARN of the user to whom to send an invitation. Required.
 """
 
-SendInvitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation"; aws_config=aws_config)
-SendInvitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation", args; aws_config=aws_config)
+send_invitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation"; aws_config=aws_config)
+send_invitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation", args; aws_config=aws_config)
 
 """
     StartDeviceSync()
@@ -1153,8 +1153,8 @@ Resets a device and its account to the known default settings. This clears all i
 - `RoomArn`: The ARN of the room with which the device to sync is associated. Required.
 """
 
-StartDeviceSync(Features; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}("Features"=>Features); aws_config=aws_config)
-StartDeviceSync(Features, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Features"=>Features), args)); aws_config=aws_config)
+start_device_sync(Features; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}("Features"=>Features); aws_config=aws_config)
+start_device_sync(Features, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Features"=>Features), args)); aws_config=aws_config)
 
 """
     StartSmartHomeApplianceDiscovery()
@@ -1166,8 +1166,8 @@ Initiates the discovery of any smart home appliances associated with the room.
 
 """
 
-StartSmartHomeApplianceDiscovery(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
-StartSmartHomeApplianceDiscovery(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+start_smart_home_appliance_discovery(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+start_smart_home_appliance_discovery(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -1180,8 +1180,8 @@ Adds metadata tags to a specified resource.
 
 """
 
-TagResource(Arn, Tags; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
-TagResource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(Arn, Tags; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -1194,8 +1194,8 @@ Removes metadata tags from a specified resource.
 
 """
 
-UntagResource(Arn, TagKeys; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(Arn, TagKeys; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateAddressBook()
@@ -1210,8 +1210,8 @@ Updates address book details by the address book ARN.
 - `Name`: The updated name of the room.
 """
 
-UpdateAddressBook(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
-UpdateAddressBook(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+update_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+update_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
 
 """
     UpdateBusinessReportSchedule()
@@ -1229,8 +1229,8 @@ Updates the configuration of the report delivery schedule with the specified sch
 - `ScheduleName`: The name identifier of the schedule.
 """
 
-UpdateBusinessReportSchedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
-UpdateBusinessReportSchedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+update_business_report_schedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
+update_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
 
 """
     UpdateConferenceProvider()
@@ -1247,8 +1247,8 @@ Updates an existing conference provider's settings.
 - `PSTNDialIn`: The information for PSTN conferencing.
 """
 
-UpdateConferenceProvider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting); aws_config=aws_config)
-UpdateConferenceProvider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting), args)); aws_config=aws_config)
+update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting); aws_config=aws_config)
+update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting), args)); aws_config=aws_config)
 
 """
     UpdateContact()
@@ -1267,8 +1267,8 @@ Updates the contact details by the contact ARN.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
 
-UpdateContact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
-UpdateContact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+update_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+update_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
 
 """
     UpdateDevice()
@@ -1280,8 +1280,8 @@ Updates the device name by device ARN.
 - `DeviceName`: The updated device name. Required.
 """
 
-UpdateDevice(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice"; aws_config=aws_config)
-UpdateDevice(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice", args; aws_config=aws_config)
+update_device(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice"; aws_config=aws_config)
+update_device(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice", args; aws_config=aws_config)
 
 """
     UpdateGateway()
@@ -1297,8 +1297,8 @@ Updates the details of a gateway. If any optional field is not provided, the exi
 - `SoftwareVersion`: The updated software version of the gateway. The gateway automatically updates its software version during normal operation.
 """
 
-UpdateGateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
-UpdateGateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+update_gateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
+update_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
 
 """
     UpdateGatewayGroup()
@@ -1313,8 +1313,8 @@ Updates the details of a gateway group. If any optional field is not provided, t
 - `Name`: The updated name of the gateway group.
 """
 
-UpdateGatewayGroup(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
-UpdateGatewayGroup(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+update_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+update_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
 
 """
     UpdateNetworkProfile()
@@ -1333,8 +1333,8 @@ Updates a network profile by the network profile ARN.
 - `TrustAnchors`: The root certificate(s) of your authentication server that will be installed on your devices and used to trust your authentication server during EAP negotiation. 
 """
 
-UpdateNetworkProfile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
-UpdateNetworkProfile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+update_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+update_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
 
 """
     UpdateProfile()
@@ -1357,8 +1357,8 @@ Updates an existing room profile by room profile ARN.
 - `WakeWord`: The updated wake word for the room profile.
 """
 
-UpdateProfile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile"; aws_config=aws_config)
-UpdateProfile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile", args; aws_config=aws_config)
+update_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile"; aws_config=aws_config)
+update_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile", args; aws_config=aws_config)
 
 """
     UpdateRoom()
@@ -1373,8 +1373,8 @@ Updates room details by room ARN.
 - `RoomName`: The updated name for the room.
 """
 
-UpdateRoom(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom"; aws_config=aws_config)
-UpdateRoom(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom", args; aws_config=aws_config)
+update_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom"; aws_config=aws_config)
+update_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom", args; aws_config=aws_config)
 
 """
     UpdateSkillGroup()
@@ -1387,5 +1387,5 @@ Updates skill group details by skill group ARN.
 - `SkillGroupName`: The updated name for the skill group.
 """
 
-UpdateSkillGroup(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)
-UpdateSkillGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup", args; aws_config=aws_config)
+update_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)
+update_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup", args; aws_config=aws_config)

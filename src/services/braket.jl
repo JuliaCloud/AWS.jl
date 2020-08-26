@@ -15,8 +15,8 @@ Cancels the specified task.
 
 """
 
-CancelQuantumTask(clientToken, quantumTaskArn; aws_config::AWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}("clientToken"=>clientToken); aws_config=aws_config)
-CancelQuantumTask(clientToken, quantumTaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken), args)); aws_config=aws_config)
+cancel_quantum_task(clientToken, quantumTaskArn; aws_config::AWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}("clientToken"=>clientToken); aws_config=aws_config)
+cancel_quantum_task(clientToken, quantumTaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken), args)); aws_config=aws_config)
 
 """
     CreateQuantumTask()
@@ -35,8 +35,8 @@ Creates a quantum task.
 - `deviceParameters`: The parameters for the device to run the task on.
 """
 
-CreateQuantumTask(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots); aws_config=aws_config)
-CreateQuantumTask(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots), args)); aws_config=aws_config)
+create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots); aws_config=aws_config)
+create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots), args)); aws_config=aws_config)
 
 """
     GetDevice()
@@ -48,8 +48,8 @@ Retrieves the devices available in Amazon Braket.
 
 """
 
-GetDevice(deviceArn; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)"; aws_config=aws_config)
-GetDevice(deviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)", args; aws_config=aws_config)
+get_device(deviceArn; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)"; aws_config=aws_config)
+get_device(deviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/device/$(deviceArn)", args; aws_config=aws_config)
 
 """
     GetQuantumTask()
@@ -61,8 +61,8 @@ Retrieves the specified quantum task.
 
 """
 
-GetQuantumTask(quantumTaskArn; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)"; aws_config=aws_config)
-GetQuantumTask(quantumTaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)", args; aws_config=aws_config)
+get_quantum_task(quantumTaskArn; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)"; aws_config=aws_config)
+get_quantum_task(quantumTaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)", args; aws_config=aws_config)
 
 """
     SearchDevices()
@@ -77,8 +77,8 @@ Searches for devices using the specified filters.
 - `nextToken`: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
 """
 
-SearchDevices(filters; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-SearchDevices(filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)
+search_devices(filters; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
+search_devices(filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)
 
 """
     SearchQuantumTasks()
@@ -93,5 +93,5 @@ Searches for tasks that match the specified filter values.
 - `nextToken`: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
 """
 
-SearchQuantumTasks(filters; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-SearchQuantumTasks(filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)
+search_quantum_tasks(filters; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
+search_quantum_tasks(filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)
