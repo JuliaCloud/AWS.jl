@@ -10,19 +10,9 @@ end
 @testset "set user agent" begin
     new_user_agent = "new user agent"
 
-    @test AWS.user_agent == "AWS.jl/1.0.0"
+    @test AWS.user_agent[] == "AWS.jl/1.0.0"
     set_user_agent(new_user_agent)
-    @test AWS.user_agent == new_user_agent
-end
-
-@testset "set aws config" begin
-    new_aws_config = AWSConfig(AWSCredentials("access_key_id", "secret_key"), "us-east-1", "json")
-    global_aws_config(new_aws_config)
-
-    @test AWS.aws_config.credentials.access_key_id == new_aws_config.credentials.access_key_id
-    @test AWS.aws_config.credentials.secret_key == new_aws_config.credentials.secret_key
-
-    global_aws_config(AWSConfig())
+    @test AWS.user_agent[] == new_user_agent
 end
 
 @testset "sign" begin
@@ -92,7 +82,7 @@ end
     end
 end
 
-@testset "do_request" begin
+@testset "submit_request" begin
     aws = AWS.AWSConfig()
 
     @testset "HEAD request method" begin
@@ -107,7 +97,7 @@ end
 
         apply(Patches._aws_http_request_patch) do
             Patches._response!()
-            result = AWS.do_request(aws, request)
+            result = AWS.submit_request(aws, request)
 
             @test result == expected_result_type(Patches.headers)
             @test typeof(result) <: expected_result_type
@@ -126,7 +116,7 @@ end
 
         apply(Patches._aws_http_request_patch) do
             Patches._response!()
-            result = AWS.do_request(aws, request)
+            result = AWS.submit_request(aws, request)
 
             @test result == request.response_stream
         end
@@ -144,7 +134,7 @@ end
         @testset "body" begin
             apply(Patches._aws_http_request_patch) do
                 Patches._response!()
-                result = AWS.do_request(aws, request)
+                result = AWS.submit_request(aws, request)
 
                 @test String(result) == Patches.body
             end
@@ -153,7 +143,7 @@ end
         @testset "body and headers" begin
             apply(Patches._aws_http_request_patch) do
                 Patches._response!()
-                body, headers = AWS.do_request(aws, request; return_headers=true)
+                body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                 @test String(body) == Patches.body
                 @test headers == Patches.headers
@@ -178,13 +168,13 @@ end
                     Patches._response!(headers=expected_headers, body=expected_body)
 
                     @testset "body" begin
-                       result = AWS.do_request(aws, request)
+                       result = AWS.submit_request(aws, request)
 
                        @test String(result) == expected_body
                     end
 
                     @testset "body and headers" begin
-                        body, headers = AWS.do_request(aws, request; return_headers=true)
+                        body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                         @test String(body) == expected_body
                         @test headers == expected_headers
@@ -201,14 +191,14 @@ end
                     Patches._response!(headers=expected_headers)
 
                     @testset "body" begin
-                        result = AWS.do_request(aws, request)
+                        result = AWS.submit_request(aws, request)
 
                         @test typeof(result) <: expected_body_type
                         @test result == expected_body
                     end
 
                     @testset "body and headers" begin
-                        body, headers = AWS.do_request(aws, request; return_headers=true)
+                        body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                         @test body == expected_body
                         @test typeof(body) <: expected_body_type
@@ -236,14 +226,14 @@ end
                 Patches._response!(headers=expected_headers,)
 
                 @testset "body" begin
-                    result = AWS.do_request(aws, request)
+                    result = AWS.submit_request(aws, request)
 
                     @test result == expected_body
                     @test typeof(result) <: expected_body_type
                 end
 
                 @testset "body and headers" begin
-                    body, headers = AWS.do_request(aws, request; return_headers=true)
+                    body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                     @test body == expected_body
                     @test typeof(body) <: expected_body_type
@@ -256,7 +246,18 @@ end
 
         @testset "JSON" begin
             json_headers = ["Content-Type"=>"application/json"]
-            json_body = """{"Marker":null,"VaultList":[{"CreationDate":"2020-06-22T03:14:41.754Z","LastInventoryDate":null,"NumberOfArchives":0,"SizeInBytes":0,"VaultARN":"arn:aws:glacier:us-east-1:000:vaults/test","VaultName":"test"}]}"""
+            body = Dict{String,Any}(
+                "Marker" => nothing,
+                "VaultList" => Any[Dict{String,Any}(
+                    "VaultName" => "test",
+                    "SizeInBytes" => 0,
+                    "NumberOfArchives" => 0,
+                    "CreationDate" => "2020-06-22T03:14:41.754Z",
+                    "VaultARN" => "arn:aws:glacier:us-east-1:000:vaults/test",
+                    "LastInventoryDate" => nothing
+                )]
+            )
+            json_body = JSON.json(body)
 
             expected_body_type = LittleDict{String, Any}
             expected_body = JSON.parse(json_body, dicttype=LittleDict)
@@ -265,14 +266,14 @@ end
                 Patches._response!(body=json_body, headers=json_headers,)
 
                 @testset "body" begin
-                    result = AWS.do_request(aws, request)
+                    result = AWS.submit_request(aws, request)
 
                     @test result isa expected_body_type
                     @test result == expected_body
                 end
 
                 @testset "body and headers" begin
-                    body, headers = AWS.do_request(aws, request; return_headers=true)
+                    body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                     @test body == expected_body
                     @test body isa expected_body_type
@@ -299,14 +300,14 @@ end
                 Patches._response!(headers=expected_headers)
 
                 @testset "body" begin
-                    result = AWS.do_request(aws, request)
+                    result = AWS.submit_request(aws, request)
 
                     @test result isa String
                     @test result == expected_body
                 end
 
                 @testset "body and headers" begin
-                    body, headers = AWS.do_request(aws, request; return_headers=true)
+                    body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                     @test body == expected_body
                     @test body isa String

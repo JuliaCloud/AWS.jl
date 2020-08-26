@@ -23,8 +23,8 @@ include("AWSMetadataUtilities.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-global user_agent = "AWS.jl/1.0.0"
-global aws_config = AWSConfig()
+user_agent = Ref("AWS.jl/1.0.0")
+aws_config = Ref(AWSConfig())
 
 """
     global_aws_config()
@@ -34,20 +34,7 @@ Retrieve the global AWS configuration.
 # Returns
 - `AWSConfig`: The global AWS configuration
 """
-global_aws_config() = aws_config
-
-"""
-    global_aws_config(aws::AWSConfig)
-
-Set the global AWS configuration and return it.
-
-# Arguments
-- `aws::AWSConfig`: The new AWS configuration to be used globally
-
-# Returns
-- `AWSConfig`: The global AWS configuration
-"""
-global_aws_config(aws::AWSConfig) = return global aws_config = aws
+global_aws_config() = aws_config[]
 
 
 """
@@ -61,7 +48,7 @@ Set the global user agent when making HTTP requests.
 # Return
 - `String`: The global user agent
 """
-set_user_agent(new_user_agent::String) = return global user_agent = new_user_agent
+set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
 
 
 """
@@ -297,7 +284,7 @@ function _http_request(request::Request)
 end
 
 """
-    do_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+    submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
 
 Submit the request to AWS.
 
@@ -311,7 +298,7 @@ Submit the request to AWS.
 # Returns
 - `Tuple or Dict`: Tuple if returning_headers, otherwise just return a Dict of the response body
 """
-function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
     response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
@@ -328,7 +315,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         "PriorRequestNotComplete"
     ]
 
-    request.headers["User-Agent"] = user_agent
+    request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
 
     @repeat 3 try
@@ -487,8 +474,8 @@ Perform a RestXML request to AWS.
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestXMLService)(
-    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
-    aws_config::AWSConfig=aws_config,
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+    aws_config::AWSConfig=aws_config[],
 )
     request = Request(
         service=service.name,
@@ -523,7 +510,7 @@ function (service::RestXMLService)(
 
     request.url = _generate_service_url(aws_config.region, request.service, request.resource)
 
-    return do_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 
@@ -547,7 +534,7 @@ Perform a Query request to AWS.
 """
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=aws_config,
+    aws_config::AWSConfig=aws_config[],
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -571,7 +558,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.name, args))
 
-    return do_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -594,7 +581,7 @@ Perform a JSON request to AWS.
 """
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws_config::AWSConfig=aws_config,
+    aws_config::AWSConfig=aws_config[],
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -616,7 +603,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    return do_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -640,7 +627,7 @@ Perform a RestJSON request to AWS.
 """
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws_config::AWSConfig=aws_config,
+    aws_config::AWSConfig=aws_config[],
 )
     return_headers = _return_headers(args)
 
@@ -670,7 +657,7 @@ function (service::RestJSONService)(
     delete!(args, "headers")
     request.content = json(args)
 
-    return do_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
 end  # module AWS

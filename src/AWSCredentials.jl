@@ -284,6 +284,7 @@ body, or `nothing` if not running on an EC2 instance.
 
 # Arguments
 - `metadata_endpoint::String`: AWS internal meta data endpoint to hit
+    https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-ex-1
 
 # Throws
 - `StatusError`: If the response status is >= 300
@@ -503,6 +504,8 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     credentials === nothing && return nothing
     config = AWSConfig(creds=credentials, region=aws_get_region(source_profile, ini))
 
+    # RoleSessionName Documentation
+    # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
     role = AWSServices.sts(
         "AssumeRole",
         LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"));
@@ -557,8 +560,9 @@ function _get_ini_value(
     ini::Inifile, profile::AbstractString, key::AbstractString;
     default_value=nothing
 )
-    value = get(ini, profile, key, default_value)
-    value = get(ini, "profile $profile", key, value)
+    value = get(ini, "profile $profile", key)
+    value === :notfound && (value = get(ini, profile, key))
+    value === :notfound && (value = default_value)
 
     return value
 end

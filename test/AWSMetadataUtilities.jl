@@ -160,7 +160,7 @@ end
 
 @testset "_clean_documentation" begin
     documentation = "<p>To remove one or more tags, use the <a>RemoveTagsFromCertificate</a> action. \$ \\ To view all of the tags that have been applied to the certificate, use the <a>ListTagsForCertificate</a> action."
-    expected_result = "To remove one or more tags, use the RemoveTagsFromCertificate action.     To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action."
+    expected_result = "To remove one or more tags, use the RemoveTagsFromCertificate action.   To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action."
     result = _clean_documentation(documentation)
 
     @test result == expected_result

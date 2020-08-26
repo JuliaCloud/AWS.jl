@@ -85,7 +85,7 @@ function _get_service_and_version(filename::String)
 end
 
 """
-    _generate_low_level_definitions(services::Array{OrderedDict{String, Any}})
+    _generate_low_level_definitions(services::AbstractArray{OrderedDict})
 
 Get the low-level definitions for all AWS Services.
 
@@ -174,8 +174,8 @@ Clean up the documentation to make it Julia compiler and human-readable.
 """
 function _clean_documentation(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
-    documentation = replace(documentation, '$' => ' ')
-    documentation = replace(documentation, '\\' => ' ')
+    documentation = replace(documentation, '$' => "")
+    documentation = replace(documentation, '\\' => "")
     documentation = replace(documentation, '"' => "\\\"")
 
     return documentation
@@ -566,6 +566,8 @@ function _generate_high_level_definition(
         operation_definition *= _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
     elseif protocol in ("rest-json", "rest-xml")
         operation_definition *= _generate_rest_operation_defintion(required_parameters, optional_parameters, name, service_name, method, request_uri)
+    else
+        throw(ProtocolNotDefined("$function_name is using a new protocol; $protocol which is not supported."))
     end
 
     return operation_definition
