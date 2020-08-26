@@ -24,10 +24,10 @@ struct AWSException <: Exception
     info::Union{XMLDictElement, Dict, String, Nothing}
     cause::HTTP.StatusError
 end
-show(io::IO, e::AWSException) = println(
-    io,
-    string(e.code, isempty(e.message) ? "" : (" -- " * e.message), "\n", e.cause)
-)
+function show(io::IO, e::AWSException)
+    message = isempty(e.message) ? "" : (" -- " * e.message)
+    println(io, string(e.code, message, "\n", e.cause))
+end
 
 http_message(e::HTTP.StatusError) = String(copy(e.response.body))
 http_status(e::HTTP.StatusError) = e.status
@@ -47,7 +47,7 @@ function AWSException(e::HTTP.StatusError)
     if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
         info = JSON.parse(http_message(e))
         if haskey(info, "__type")
-            code = split(info["__type"], "#")[end]
+            code = rsplit(info["__type"], '#', limit=2)[end]
         end
     end
 

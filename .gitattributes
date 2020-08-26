@@ -1,3 +1,4 @@
 # https://docs.github.com/en/github/administering-a-repository/customizing-how-changed-files-appear-on-github
 deps/metadata.json linguist-generated=true
+src/AWSServices.jl linguist-generated=true
 src/services/* linguist-generated=true

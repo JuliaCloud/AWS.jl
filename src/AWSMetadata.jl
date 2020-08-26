@@ -59,7 +59,7 @@ function parse_aws_metadata()
     end
 end
 
-function _generate_low_level_wrappers(services::Array{OrderedDict})
+function _generate_low_level_wrappers(services::AbstractArray{<:OrderedDict})
     service_definitions = sort(_generate_low_level_definitions(services))
 
     template = """
@@ -83,7 +83,7 @@ function _generate_low_level_wrappers(services::Array{OrderedDict})
     return template
 end
 
-function _generate_high_level_wrapper(services::Array{OrderedDict})
+function _generate_high_level_wrapper(services::AbstractArray{<:OrderedDict})
     for service in services
         service_name = service["name"]
         println("Generating high level wrapper for $service_name")
@@ -108,4 +108,5 @@ function _generate_high_level_wrapper(services::Array{OrderedDict})
         end
     end
 end
+
 end

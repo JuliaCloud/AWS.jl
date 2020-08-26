@@ -13,15 +13,13 @@ Resources:
     Properties:
       Description: Allow access to stack outputs
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Action:
-              - cloudformation:DescribeStacks
-            Resource:
-              - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
+            Action: cloudformation:DescribeStacks
+            Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
 
   IAMPolicy:
     Type: AWS::IAM::Policy
@@ -52,19 +50,16 @@ Resources:
             Action:
               - secretsmanager:GetSecretValue
               - secretsmanager:DeleteSecret
-            Resource:
-              - !Sub arn:aws:secretsmanager:*:${AWS::AccountId}:secret:aws-jl-test-*
+            Resource: !Sub arn:aws:secretsmanager:*:${AWS::AccountId}:secret:aws-jl-test-*
           - Effect: Allow
-            Action:
-              - secretsmanager:CreateSecret
-            Resource:
-              - "*"
+            Action: secretsmanager:CreateSecret
+            Resource: "*"
   GlacierTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
       PolicyName: GlacierTestPolicy
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -74,13 +69,10 @@ Resources:
               - glacier:CreateVault
               - glacier:DeleteVault
               - ListTagsForVault
-            Resource:
-              - !Sub arn:aws:glacier:*:${AWS::AccountId}:vaults/aws-jl-test-*
+            Resource: !Sub arn:aws:glacier:*:${AWS::AccountId}:vaults/aws-jl-test-*
           - Effect: Allow
-            Action:
-              - glacier:ListVaults
-            Resource:
-              - "*"
+            Action: glacier:ListVaults
+            Resource: "*"
   S3TestPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -91,8 +83,7 @@ Resources:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Action:
-              - s3:ListAllMyBuckets
+            Action: s3:ListAllMyBuckets
             Resource: "*"
           - Effect: Allow
             Action:
@@ -106,8 +97,7 @@ Resources:
               - s3:GetBucketVersioning
               - s3:DeleteBucket
               - s3:PutBucketVersioning
-            Resource:
-              - arn:aws:s3:::aws-jl-test-*
+            Resource: arn:aws:s3:::aws-jl-test-*
           - Effect: Allow
             Action:
               - s3:DeleteObjectTagging
@@ -121,20 +111,18 @@ Resources:
               - s3:DeleteObjectVersionTagging
               - s3:DeleteObject
               - s3:GetObjectVersion
-            Resource:
-              - arn:aws:s3:::aws-jl-test-*/*
+            Resource: arn:aws:s3:::aws-jl-test-*/*
   SQSTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
       PolicyName: SQSTestPolicy
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
-            Action:
-              - sqs:ListQueues
+            Action: sqs:ListQueues
             Resource: "*"
           - Effect: Allow
             Action:
@@ -148,5 +136,4 @@ Resources:
               - sqs:SendMessage
               - sqs:SendMessageBatch
               - sqs:SetQueueAttributes
-            Resource:
-              - !Sub arn:aws:sqs:*:${AWS::AccountId}:aws-jl-test-*
+            Resource: !Sub arn:aws:sqs:*:${AWS::AccountId}:aws-jl-test-*
