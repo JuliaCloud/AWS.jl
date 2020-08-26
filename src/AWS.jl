@@ -13,7 +13,7 @@ export @service
 export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
 export JSONService, RestJSONService, RestXMLService, QueryService
 
-include("_utilities.jl")
+include("utilities.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include("AWSExceptions.jl")

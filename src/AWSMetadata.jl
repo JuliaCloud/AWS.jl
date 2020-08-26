@@ -1,8 +1,6 @@
 module AWSMetadata
 
-include("AWSMetadataUtilities.jl")
-
-using .AWSMetadataUtilities: _get_aws_sdk_js_files, _get_service_and_version,
+using ..AWSMetadataUtilities: _get_aws_sdk_js_files, _get_service_and_version,
     _generate_low_level_definitions, _generate_high_level_definitions
 using HTTP
 using JSON
@@ -54,7 +52,7 @@ function parse_aws_metadata()
         _generate_low_level_wrappers(files)
         _generate_high_level_wrapper(services_modified)
         open(metadata_path, "w") do f
-            print(f, json(OrderedDict(metadata), 2))
+            JSON.print(f, metadata, 2)
         end
     end
 end
@@ -95,7 +93,7 @@ function _generate_high_level_wrapper(services::AbstractArray{<:OrderedDict})
 
         protocol = service["metadata"]["protocol"]
 
-        operations = sort(_generate_high_level_definitions(service_name, protocol, operations, shapes))
+        operations = sort!(_generate_high_level_definitions(service_name, protocol, operations, shapes))
 
         service_path = joinpath(@__DIR__, "services", "$service_name.jl")
         open(service_path, "w") do f

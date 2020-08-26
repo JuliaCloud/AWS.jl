@@ -20,7 +20,7 @@ Retrieve the `User ARN` from the `AWSConfig`, if not present query STS to update
 `user_arn`.
 
 # Arguments
-- `aws::AWSConfig`: SymbolDict used to retrieve the user arn
+- `aws::AWSConfig`: AWSConfig used to retrieve the user arn
 """
 function aws_user_arn(aws::AWSConfig)
     creds = aws.credentials
@@ -39,7 +39,7 @@ Retrieve the `AWS account number` from the `AWSConfig`, if not present query STS
 the `AWS account number`.
 
 # Arguments
-- `aws::AWSConfig`: SymbolDict used to retrieve the AWS account number
+- `aws::AWSConfig`: AWSConfig used to retrieve the AWS account number
 """
 function aws_account_number(aws::AWSConfig)
     creds = aws.credentials

@@ -26,7 +26,7 @@ include("patch.jl")
 aws = AWSConfig()
 
 @testset "AWS.jl" begin
-    include("_utilities.jl")
+    include("utilities.jl")
     include("AWS.jl")
     include("AWSCredentials.jl")
     include("AWSExceptions.jl")
