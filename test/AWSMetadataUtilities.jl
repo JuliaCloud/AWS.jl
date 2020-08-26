@@ -1,7 +1,7 @@
 function _clean_high_level_definition(definition::String)
-    # Required post Julia1.5 with how triple quoted strings are dealt with.
-    definition = replace(definition, " "=>"")
-    definition = replace(definition, "\n"=>"")
+    # Required post Julia 1.5 with how triple quoted strings are dealt with.
+    definition = replace(definition, " " => "")
+    definition = replace(definition, "\n" => "")
 
     return definition
 end

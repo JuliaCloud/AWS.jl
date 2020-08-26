@@ -1,8 +1,8 @@
-using IniFile
-using HTTP
 using Dates
-using Mocking
+using HTTP
+using IniFile
 using JSON
+using Mocking
 
 
 export AWSCredentials,
@@ -23,6 +23,8 @@ export AWSCredentials,
        localhost_is_lambda
 
 """
+    AWSCredentials
+
 When you interact with AWS, you specify your [AWS Security Credentials](http://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html)
 to verify who you are and whether you have permission to access the resources that you are requesting.
 AWS uses the security credentials to authenticate and authorize your requests.
@@ -96,11 +98,23 @@ function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
 end
 
 
-dot_aws_config_file() = get(ENV, "AWS_CONFIG_FILE", joinpath(homedir(), ".aws", "config"))
-dot_aws_credentials_file() = get(ENV, "AWS_SHARED_CREDENTIALS_FILE", joinpath(homedir(), ".aws", "credentials"))
+function dot_aws_config_file()
+    get(ENV, "AWS_CONFIG_FILE") do
+        joinpath(homedir(), ".aws", "config")
+    end
+end
+function dot_aws_credentials_file()
+    get(ENV, "AWS_SHARED_CREDENTIALS_FILE") do
+        joinpath(homedir(), ".aws", "credentials")
+    end
+end
 localhost_maybe_ec2() = localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
 localhost_is_lambda() = haskey(ENV, "LAMBDA_TASK_ROOT")
-_aws_get_profile() = get(ENV, "AWS_DEFAULT_PROFILE", get(ENV, "AWS_PROFILE", "default"))
+function _aws_get_profile()
+    get(ENV, "AWS_DEFAULT_PROFILE") do
+        get(ENV, "AWS_PROFILE", "default")
+    end
+end
 
 
 """
@@ -140,8 +154,7 @@ function AWSCredentials(; profile=nothing)
     ]
 
     # Loop through our search locations until we get credentials back
-    for f in functions
-        credential_function = f
+    for credential_function in functions
         creds = credential_function()
         creds === nothing || break
     end
@@ -257,7 +270,8 @@ end
 
 
 function _will_expire(aws_creds::AWSCredentials)
-    return now(UTC) >= aws_creds.expiry - Minute(5)
+    # Credentials will expire in <= 5 minutes from now
+    return aws_creds.expiry - now(UTC) <= Minute(5)
 end
 
 
@@ -300,7 +314,7 @@ function ec2_instance_credentials()
     creds = _ec2_metadata("iam/security-credentials/$name")
     new_creds = JSON.parse(creds)
 
-    expiry = DateTime(strip(new_creds["Expiration"], 'Z'))
+    expiry = DateTime(rstrip(new_creds["Expiration"], 'Z'))
 
     return AWSCredentials(
         new_creds["AccessKeyId"],
@@ -388,10 +402,8 @@ function dot_aws_credentials(profile=nothing)
 
     if isfile(credential_file)
         ini = read(Inifile(), credential_file)
-        access_key, secret_key, token = _aws_get_credential_details(
-            profile === nothing ? _aws_get_profile() : profile,
-            ini,
-        )
+        p = profile === nothing ? _aws_get_profile() : profile
+        access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
         if access_key !== nothing
             return AWSCredentials(access_key, secret_key, token)
@@ -460,8 +472,9 @@ Retrieve the AWS Region for a given profile, returns `us-east-1` as a default.
 - `ini::Inifile`: Inifile to look in for the region
 """
 function aws_get_region(profile::AbstractString, ini::Inifile)
-    region = get(ENV, "AWS_DEFAULT_REGION", "us-east-1")
-    region = _get_ini_value(ini, profile, "region"; default_value=region)
+    region = get(ENV, "AWS_DEFAULT_REGION") do
+        _get_ini_value(ini, profile, "region"; default_value="us-east-1")
+    end
 
     return region
 end

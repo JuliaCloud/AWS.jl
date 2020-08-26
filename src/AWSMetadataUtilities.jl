@@ -1,8 +1,6 @@
 module AWSMetadataUtilities
 
-include("AWSExceptions.jl")
-
-using .AWSExceptions
+using ..AWSExceptions
 using OrderedCollections: OrderedDict, LittleDict
 using HTTP
 using JSON
@@ -40,13 +38,11 @@ Return a list of all AWS Services and their latest version.
 # Returns
 - `Array{Dict}`: Array of the latest AWS Service definitions
 """
-function _filter_latest_service_version(services::Array)
-    seen_services = String[]
+function _filter_latest_service_version(services::AbstractArray)
+    seen_services = Set{String}()
     latest_versions = OrderedDict[]
 
-    services = reverse(services)
-
-    for service in services
+    for service in reverse(services)
         service_name, _ = _get_service_and_version(service["name"])
 
         if !(service_name in seen_services)
@@ -71,7 +67,9 @@ Get the `service` and `version` from a filename.
 """
 function _get_service_and_version(filename::String)
     try
+        # Remove ".normal.json" suffix
         service_and_version = join(split(filename, '.')[1:end-2],'.')
+        
         service_and_version = split(service_and_version, '-')
         service = join(service_and_version[1:end-3], '-')
         version = join(service_and_version[end-2:end], '-')
@@ -97,7 +95,7 @@ Get the low-level definitions for all AWS Services.
 # Returns
 - `String[]`: Array of low-level service code to be written into `AWSServices.jl`
 """
-function _generate_low_level_definitions(services::Array{OrderedDict})
+function _generate_low_level_definitions(services::AbstractArray{OrderedDict})
     service_definitions = String[]
 
     for service in services
@@ -116,7 +114,7 @@ function _generate_low_level_definitions(services::Array{OrderedDict})
 end
 
 """
-    _generate_low_level_definition(service::Dict{String, Any})
+    _generate_low_level_definition(service::AbstractDict{String, <:Any})
 
 Get the low-level definition for an AWS Service.
 
@@ -145,11 +143,9 @@ function _generate_low_level_definition(service::Dict)
         return "const $service_id = AWS.RestXMLService(\"$service_name\", \"$api_version\")"
     elseif protocol in ("ec2", "query")
         return "const $service_id = AWS.QueryService(\"$service_name\", \"$api_version\")"
+    elseif protocol == "rest-json" && haskey(service_specifics, service_id)
+        return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\", $(service_specifics[service_id]))"
     elseif protocol == "rest-json"
-         if haskey(service_specifics, service_id)
-             return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\", $(service_specifics[service_id]))"
-         end
-
         return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\")"
     elseif protocol == "json"
         json_version = service["jsonVersion"]
@@ -165,10 +161,10 @@ end
 
 Clean up the documentation to make it Julia compiler and human-readable.
 
-- Remove anything in-between <> HTML tags
+- Remove any HTML tags
 - Remove any dollar signs
-- Remove any \\
-- Replace " with \"
+- Remove any backslashes
+- Escape any double-quotes
 
 # Arguments
 - `documentation::String`: Documentation to be cleaned
@@ -180,7 +176,7 @@ function _clean_documentation(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => ' ')
     documentation = replace(documentation, '\\' => ' ')
-    documentation = replace(documentation, '\"' => "\\\"")
+    documentation = replace(documentation, '"' => "\\\"")
 
     return documentation
 end
@@ -237,7 +233,7 @@ Get the required and optional parameters for a given operation.
 """
 function _get_function_parameters(input::String, shapes::Dict)
     """
-        _get_parameter_name(parameter::String, input_shape::AbstractDict){String, <:Any}
+        _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
 
     Find the correct parameter name for making requests. Certain ones have a specific locationName, for Batch requests this locationName is nested one shape deeper.
 
@@ -256,10 +252,10 @@ function _get_function_parameters(input::String, shapes::Dict)
 
         # Check to see if the nested shape has a locationName
         nested_shape = input_shape["members"][parameter]["shape"]
-        nested_member = get(shapes[nested_shape], "member", "")
+        nested_member = get(shapes[nested_shape], "member", Dict())
 
         # If nested_shape[member] exists return locationName (if exists), otherwise return the original parameter name
-        return !isempty(nested_member) ? get(nested_member, "locationName", parameter) : parameter
+        return get(nested_member, "locationName", parameter)
     end
 
     required_parameters = LittleDict{String, Any}()
@@ -283,12 +279,12 @@ function _get_function_parameters(input::String, shapes::Dict)
     end
 
     if haskey(input_shape, "members")
-        for parameter in input_shape["members"]
-            parameter_name = get(input_shape["members"][parameter[1]], "locationName", parameter[1])
+        for (member_key, member_value) in input_shape["members"]
+            parameter_name = get(input_shape["members"][member_key], "locationName", member_key)
 
             if !haskey(required_parameters, parameter_name)
-                documentation = _clean_documentation(get(parameter[2], "documentation", ""))
-                idempotent = get(parameter[2], "idempotencyToken", false)
+                documentation = _clean_documentation(get(member_value, "documentation", ""))
+                idempotent = get(member_value, "idempotencyToken", false)
                 
                 optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
                     "documentation" => documentation,
@@ -328,8 +324,7 @@ function _generate_high_level_definitions(
 )
     operation_definitions = String[]
 
-    for operation in operations
-        operation = operation[2]
+    for (_, operation) in operations
         name = operation["name"]
         method = operation["http"]["method"]
         request_uri = operation["http"]["requestUri"]
@@ -487,7 +482,7 @@ function _generate_high_level_definition(
     - `String`: Function definition as Julia code
     """
     function _generate_json_query_opeation_definition(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String)
-        req_keys = [replace(key, "-"=>"_") for key in collect(keys(required_params))]
+        req_keys = [replace(key, '-' => '_') for key in collect(keys(required_params))]
 
         idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
 

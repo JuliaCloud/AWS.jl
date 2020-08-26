@@ -1,5 +1,5 @@
 function _now_formatted()
-    return lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+    return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
 @testset "service module" begin
@@ -35,7 +35,7 @@ end
     aws.credentials.secret_key = secret_key
 
     time = DateTime(2020)
-    date = Dates.format(time, "yyyymmdd")
+    date = Dates.format(time, dateformat"yyyymmdd")
 
     request = Request(
         service="s3",
@@ -84,6 +84,7 @@ end
         @test headers["x-amz-date"] == expected_x_amz_date
 
         authorization_header = split(headers["Authorization"], ' ')
+        @test length(authorization_header) == 4
         @test authorization_header[1] == "AWS4-HMAC-SHA256"
         @test authorization_header[2] == "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
         @test authorization_header[3] == "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
@@ -266,7 +267,7 @@ end
                 @testset "body" begin
                     result = AWS.do_request(aws, request)
 
-                    @test typeof(result) <: expected_body_type
+                    @test result isa expected_body_type
                     @test result == expected_body
                 end
 
@@ -274,10 +275,10 @@ end
                     body, headers = AWS.do_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) <: expected_body_type
+                    @test body isa expected_body_type
 
                     @test headers == LittleDict(json_headers)
-                    @test typeof(headers) <: LittleDict{SubString{String}, SubString{String}}
+                    @test headers isa LittleDict{SubString{String}, SubString{String}}
                 end
             end
         end

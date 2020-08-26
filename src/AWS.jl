@@ -1,6 +1,7 @@
 module AWS
 
 using Base64
+using Dates
 using HTTP
 using MbedTLS
 using Mocking
@@ -177,7 +178,7 @@ function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
 
     creds = check_credentials(aws.credentials)
     query["AWSAccessKeyId"] = creds.access_key_id
-    query["Expires"] = Dates.format(time + Dates.Second(120), dateformat"yyyy-mm-dd\THH:MM:SS\Z")
+    query["Expires"] = Dates.format(time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z")
     query["SignatureVersion"] = "2"
     query["SignatureMethod"] = "HmacSHA256"
 
@@ -185,7 +186,7 @@ function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
         query["SecurityToken"] = creds.token
     end
 
-    query = Pair[k => query[k] for k in sort(collect(keys(query)))]
+    query = [k => query[k] for k in sort!(collect(keys(query)))]
     uri = HTTP.URI(request.url)
     to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
     push!(query, "Signature" => digest(MD_SHA256, to_sign, creds.secret_key) |> base64encode |> strip)
@@ -199,7 +200,7 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 4 Authentication Headers.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
 
-    date = Dates.format(time,"yyyymmdd")
+    date = Dates.format(time, dateformat"yyyymmdd")
     datetime = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
     # Authentication scope...
@@ -232,13 +233,13 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     end
 
     # Sort and lowercase() Headers to produce canonical form...
-    canonical_headers = join(sort(["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]), "\n")
-    signed_headers = join(sort([lowercase(k) for k in keys(request.headers)]), ";")
+    canonical_headers = join(sort!(["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]), "\n")
+    signed_headers = join(sort!([lowercase(k) for k in keys(request.headers)]), ";")
 
     # Sort Query String...
     uri = HTTP.URI(request.url)
     query = HTTP.URIs.queryparams(uri.query)
-    query = Pair[k => query[k] for k in sort(collect(keys(query)))]
+    query = [k => query[k] for k in sort!(collect(keys(query)))]
 
     # Create hash of canonical request...
     canonical_form = string(
@@ -257,11 +258,12 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     signature = bytes2hex(digest(MD_SHA256, string_to_sign, signing_key))
 
     # Append Authorization header...
-    request.headers["Authorization"] = string(
-        "AWS4-HMAC-SHA256 ",
-        "Credential=$(creds.access_key_id)/$authentication_scope, ",
-        "SignedHeaders=$signed_headers, ",
-        "Signature=$signature"
+    request.headers["Authorization"] = join([
+            "AWS4-HMAC-SHA256 Credential=$(creds.access_key_id)/$authentication_scope",
+            "SignedHeaders=$signed_headers",
+            "Signature=$signature",
+        ],
+        ", ",
     )
 
     return request
@@ -385,7 +387,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
     mime = HTTP.header(response, "Content-Type", "")
 
     if isempty(mime)
-        if length(response.body) > 5 && String(response.body[1:5]) == "<?xml"
+        if length(response.body) > 5 && response.body[1:5] == b"<?xml"
             mime = "text/xml"
         end
     end
@@ -512,7 +514,7 @@ function (service::RestXMLService)(
     query_str = HTTP.escapeuri(args)
 
     if !isempty(query_str)
-        if occursin("?", request.resource)
+        if occursin('?', request.resource)
             request.resource *= "&$query_str"
         else
             request.resource *= "?$query_str"
@@ -569,7 +571,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.name, args))
 
-    do_request(aws_config, request; return_headers=return_headers)
+    return do_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -614,7 +616,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    do_request(aws_config, request; return_headers=return_headers)
+    return do_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -668,7 +670,7 @@ function (service::RestJSONService)(
     delete!(args, "headers")
     request.content = json(args)
 
-    do_request(aws_config, request; return_headers=return_headers)
+    return do_request(aws_config, request; return_headers=return_headers)
 end
 
 end  # module AWS

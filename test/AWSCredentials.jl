@@ -317,7 +317,7 @@ end
         "Token" => "Test-Token",
         "InstanceProfileArn" => "Test-Arn",
         "RoleArn" => "Test-Arn",
-        "Expiration" => now(),
+        "Expiration" => now(UTC),
 
         "URI" => "/Test-URI/",
         "Security-Credentials" => "Test-Security-Credentials"
@@ -471,7 +471,7 @@ end
                 testAWSCredentials = AWSCredentials(
                     test_values["AccessKeyId"],
                     test_values["SecretAccessKey"],
-                    expiry=Dates.now() - Minute(10),
+                    expiry=Dates.now(UTC) - Minute(10),
                     renew=env_var_credentials
                 )
 
