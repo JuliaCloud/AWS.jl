@@ -435,17 +435,17 @@ end
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
-            response = Secrets_Manager.GetSecretValue(secret_name)
+            response = Secrets_Manager.get_secret_value(secret_name)
             
             return response["SecretString"]
         end
 
-        Secrets_Manager.CreateSecret(secret_name, LittleDict("SecretString" => secret_string, "ClientRequestToken" => string(uuid4())))
+        Secrets_Manager.create_secret(secret_name, LittleDict("SecretString" => secret_string, "ClientRequestToken" => string(uuid4())))
 
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            Secrets_Manager.DeleteSecret(secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true"))
+            Secrets_Manager.delete_secret(secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true"))
         end
 
         @test_throws AWSException _get_secret_string(secret_name)
@@ -498,18 +498,18 @@ end
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        response = IAM.CreatePolicy(expected_policy_document, expected_policy_name)
+        response = IAM.create_policy(expected_policy_document, expected_policy_name)
         policy_arn = policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
-            response_policy_version = IAM.GetPolicyVersion(policy_arn, "v1")
+            response_policy_version = IAM.get_policy_version(policy_arn, "v1")
             response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
-            IAM.DeletePolicy(policy_arn)
+            IAM.delete_policy(policy_arn)
         end
 
-        @test_throws AWSException IAM.GetPolicy(policy_arn)
+        @test_throws AWSException IAM.get_policy(policy_arn)
     end
 
     @testset "low-level iam" begin
@@ -548,13 +548,13 @@ end
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
-            result = SQS.GetQueueUrl(queue_name)
+            result = SQS.get_queue_url(queue_name)
 
             return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
         end
 
         # Create Queue
-        SQS.CreateQueue(queue_name)
+        SQS.create_queue(queue_name)
         queue_url = _get_queue_url(queue_name)
         
         try 
@@ -564,12 +564,12 @@ end
             # Change Message Visibility Batch Request
             expected_message_id = "aws-jl-test"
 
-            SQS.SendMessage(expected_message, queue_url)
+            SQS.send_message(expected_message, queue_url)
 
-            response = SQS.ReceiveMessage(queue_url)
+            response = SQS.receive_message(queue_url)
             receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-            response = SQS.DeleteMessageBatch(
+            response = SQS.delete_message_batch(
                 [
                     LittleDict(
                         "Id"=>expected_message_id,
@@ -582,13 +582,13 @@ end
             message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
             @test message_id == expected_message_id
 
-            SQS.SendMessage(expected_message, queue_url)
+            SQS.send_message(expected_message, queue_url)
             
-            result = SQS.ReceiveMessage(queue_url)
+            result = SQS.receive_message(queue_url)
             message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
-            SQS.DeleteQueue(queue_url)
+            SQS.delete_queue(queue_url)
         end
 
         @test_throws AWSException _get_queue_url(queue_name)
@@ -665,7 +665,7 @@ end
 
         function _bucket_exists(bucket_name)
             try
-                S3.HeadBucket(bucket_name)
+                S3.head_bucket(bucket_name)
                 return true
             catch e
                 if e isa AWSException && e.cause.status == 404
@@ -680,30 +680,30 @@ end
         @test _bucket_exists(bucket_name) == false
 
         # PUT operation
-        S3.CreateBucket(bucket_name)
+        S3.create_bucket(bucket_name)
         @test _bucket_exists(bucket_name)
 
         try
             # PUT with parameters operation
             body = "sample-file-body"
-            S3.PutObject(bucket_name, file_name, Dict("body" => body))
-            @test !isempty(S3.GetObject(bucket_name, file_name))
+            S3.put_object(bucket_name, file_name, Dict("body" => body))
+            @test !isempty(S3.get_object(bucket_name, file_name))
 
             # GET operation
-            result = S3.ListObjects(bucket_name)
+            result = S3.list_objects(bucket_name)
             @test result["ListBucketResult"]["Contents"]["Key"] == file_name
             
             # GET with parameters operation
             max_keys = 1
-            result = S3.ListObjects(bucket_name, Dict("max_keys" => max_keys))
+            result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
             @test length([result["ListBucketResult"]["Contents"]]) == max_keys
         finally
             # DELETE with parameters operation
-            S3.DeleteObject(bucket_name, file_name)
-            @test_throws AWSException S3.GetObject(bucket_name, file_name)
+            S3.delete_object(bucket_name, file_name)
+            @test_throws AWSException S3.get_object(bucket_name, file_name)
 
             # DELETE operation
-            S3.DeleteBucket(bucket_name)
+            S3.delete_bucket(bucket_name)
 
             sleep(2)
         end
@@ -781,7 +781,7 @@ end
 
         # PUT
         for vault in vault_names
-            Glacier.CreateVault("-", vault)
+            Glacier.create_vault("-", vault)
         end
 
         try
@@ -789,11 +789,11 @@ end
             tags = Dict("Tags"=> LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
 
             for vault in vault_names
-                Glacier.AddTagsToVault("-", vault, tags)
+                Glacier.add_tags_to_vault("-", vault, tags)
             end
 
             for vault in vault_names
-                result_tags = Glacier.ListTagsForVault("-", vault)
+                result_tags = Glacier.list_tags_for_vault("-", vault)
                 @test result_tags == tags
             end
 
@@ -802,16 +802,16 @@ end
             # "class com.amazon.coral.value.json.numbers.TruncatingBigNumber can not be converted to an String"
             limit = "1"
             args = LittleDict("limit" => limit)
-            result = Glacier.ListVaults("-", args)
+            result = Glacier.list_vaults("-", args)
             @test length(result["VaultList"]) == parse(Int, limit)
         finally
             # DELETE
             for vault in vault_names
-                Glacier.DeleteVault("-", vault)
+                Glacier.delete_vault("-", vault)
             end
         end
 
-        result = Glacier.ListVaults("-")
+        result = Glacier.list_vaults("-")
         res_vault_names = [v["VaultName"] for v in result["VaultList"]]
 
         for vault in vault_names
