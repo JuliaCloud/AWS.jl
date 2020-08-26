@@ -139,7 +139,7 @@ function AWSCredentials(; profile=nothing)
     creds = nothing
     credential_function = () -> nothing
 
-    if profile == nothing
+    if profile === nothing
         profile = get(ENV, "AWS_PROFILE", get(ENV, "AWS_DEFAULT_PROFILE", nothing))
     end
 
@@ -154,7 +154,8 @@ function AWSCredentials(; profile=nothing)
     ]
 
     # Loop through our search locations until we get credentials back
-    for credential_function in functions
+    for f in functions
+        credential_function = f
         creds = credential_function()
         creds === nothing || break
     end
