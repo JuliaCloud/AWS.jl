@@ -395,6 +395,9 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
 end
 
 function _generate_rest_resource(request_uri::String, args::AbstractDict{String, <:Any})
+    # There maybe a time where both $k and $k+ are in the request_uri, in which case this needs to be updated
+    # From looking around, I have not seen an example yet, however that doesn't mean it doesn't exist
+
     for (k,v) in args
         if occursin("{$k}", request_uri)
             request_uri = replace(request_uri, "{$k}" => v)
@@ -433,14 +436,14 @@ end
 
 function _flatten_query!(result::Vector{Pair{String, String}}, service::String, query::AbstractDict{String, <:Any}, prefix::String="")
     for (k, v) in query
-        if typeof(v) <: AbstractDict
+        if v isa AbstractDict
             _flatten_query!(result, service, v, string(prefix, k, "."))
-        elseif typeof(v) <: AbstractArray
+        elseif v isa AbstractArray
             for (i, j) in enumerate(v)
                 suffix = service in ("ec2", "sqs") ? "" : ".member"
                 prefix_key = string(prefix, k, suffix, ".", i)
 
-                if typeof(j) <: AbstractDict
+                if j isa AbstractDict
                     _flatten_query!(result, service, j, string(prefix_key, "."))
                 else
                     push!(result, Pair(prefix_key, string(j)))

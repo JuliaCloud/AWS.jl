@@ -27,7 +27,7 @@ Resources:
     Properties:
       PolicyName: IAMPolicy
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -43,7 +43,7 @@ Resources:
     Properties:
       PolicyName: SecretsManagerTestPolicy
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -79,7 +79,7 @@ Resources:
     Properties:
       PolicyName: S3TestPolicy
       Users:
-        - !Sub ${PublicCIUser}
+        - !Ref PublicCIUser
       PolicyDocument:
         Version: 2012-10-17
         Statement:

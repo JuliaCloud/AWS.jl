@@ -6,6 +6,8 @@ using HTTP
 using JSON
 using OrderedCollections: OrderedDict
 
+const metadata_path = joinpath(@__DIR__, "..", "deps", "metadata.json")
+const services_path = joinpath(@__DIR__, "AWSServices.jl")
 
 """
     parse_aws_metadata()
@@ -23,7 +25,6 @@ function parse_aws_metadata()
         push!(services_modified, file)
     end
 
-    metadata_path = joinpath(@__DIR__, "..", "deps", "metadata.json")
     metadata = JSON.parsefile(metadata_path, dicttype=OrderedDict)
 
     files = _get_aws_sdk_js_files()
@@ -73,7 +74,6 @@ function _generate_low_level_wrappers(services::AbstractArray{<:OrderedDict})
     end
     """
 
-    services_path = joinpath(@__DIR__, "AWSServices.jl")
     open(services_path, "w") do f
         print(f, template)
     end
@@ -102,7 +102,7 @@ function _generate_high_level_wrapper(services::AbstractArray{<:OrderedDict})
             println(f, "using AWS.AWSServices: $service_name\n")
             println(f, "using Compat")
             println(f, "using UUIDs")
-            print(f, join(operations, "\n"))
+            join(f, operations, "\n")
         end
     end
 end

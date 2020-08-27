@@ -100,7 +100,7 @@ end
             result = AWS.submit_request(aws, request)
 
             @test result == expected_result_type(Patches.headers)
-            @test typeof(result) <: expected_result_type
+            @test result isa expected_result_type
         end
     end
 
@@ -193,7 +193,7 @@ end
                     @testset "body" begin
                         result = AWS.submit_request(aws, request)
 
-                        @test typeof(result) <: expected_body_type
+                        @test result isa expected_body_type
                         @test result == expected_body
                     end
 
@@ -201,10 +201,10 @@ end
                         body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                         @test body == expected_body
-                        @test typeof(body) <: expected_body_type
+                        @test body isa expected_body_type
 
                         @test headers == LittleDict(expected_headers)
-                        @test typeof(headers) <: expected_header_type
+                        @test headers isa expected_header_type
                     end
                 end
             end
@@ -229,17 +229,17 @@ end
                     result = AWS.submit_request(aws, request)
 
                     @test result == expected_body
-                    @test typeof(result) <: expected_body_type
+                    @test result isa expected_body_type
                 end
 
                 @testset "body and headers" begin
                     body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) <: expected_body_type
+                    @test body isa expected_body_type
 
                     @test headers == LittleDict(expected_headers)
-                    @test typeof(headers) <: LittleDict{SubString{String}, SubString{String}}
+                    @test headers isa LittleDict{SubString{String}, SubString{String}}
                end
             end
         end

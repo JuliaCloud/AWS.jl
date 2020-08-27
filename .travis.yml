@@ -9,7 +9,7 @@ julia:
   - nightly
 matrix:
   allow_failures:
-  - julia: nightly
+    - julia: nightly
 branches:
   only:
   - master

@@ -28,15 +28,15 @@ function _get_aws_sdk_js_files()
 end
 
 """
-    _filter_latest_service_version(services::Array{Any})
+    _filter_latest_service_version(services::AbstractArray)
 
 Return a list of all AWS Services and their latest version.
 
 # Arguments
-- `services::Array`: Array of all AWS APIs and their versions
+- `services::AbstractArray`: Array of all AWS APIs and their versions
 
 # Returns
-- `Array{Dict}`: Array of the latest AWS Service definitions
+- `Vector{OrderedDict}`: Array of the latest AWS Service definitions
 """
 function _filter_latest_service_version(services::AbstractArray)
     seen_services = Set{String}()
@@ -90,10 +90,10 @@ end
 Get the low-level definitions for all AWS Services.
 
 # Arguments
-- `services::Array{OrderedDict}`: List of AWS Services to generate low-level definitions
+- `services::Abstract{OrderedDict}`: List of AWS Services to generate low-level definitions
 
 # Returns
-- `String[]`: Array of low-level service code to be written into `AWSServices.jl`
+- `Vector{String}`: Array of low-level service code to be written into `AWSServices.jl`
 """
 function _generate_low_level_definitions(services::AbstractArray{OrderedDict})
     service_definitions = String[]
@@ -114,12 +114,12 @@ function _generate_low_level_definitions(services::AbstractArray{OrderedDict})
 end
 
 """
-    _generate_low_level_definition(service::AbstractDict{String, <:Any})
+    _generate_low_level_definition(service::AbstractDict)
 
 Get the low-level definition for an AWS Service.
 
 # Arguments
-- `service::Dict{String, Any}`: AWS Service to generate the low-level code definition
+- `service::AbstractDict`: AWS Service to generate the low-level code definition
 
 # Returns
 - `String`: Low-level definition for the AWS Service
@@ -127,7 +127,7 @@ Get the low-level definition for an AWS Service.
 # Throws
 - `ProtocolNotFound`: If `service` is using a protocol that's not either `[rest-xml, rest-json, json, query]`
 """
-function _generate_low_level_definition(service::Dict)
+function _generate_low_level_definition(service::AbstractDict)
     protocol = service["protocol"]
     service_name = service["endpointPrefix"]
     service_id = replace(lowercase(service["serviceId"]), ' ' => '_')

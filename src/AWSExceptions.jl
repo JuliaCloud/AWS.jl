@@ -57,9 +57,13 @@ function AWSException(e::HTTP.StatusError)
         info = parse_xml(http_message(e))
     end
 
+    # There are times when Errors or Error are returned back
     info = get(info, "Errors", info)
     info = get(info, "Error", info)
+
     code = get(info, "Code", code)
+    
+    # There are also times when the response back is (M|m)essage
     message = get(info, "Message", message)
     message = get(info, "message", message)
 
