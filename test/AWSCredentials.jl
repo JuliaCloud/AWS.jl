@@ -46,22 +46,22 @@ end
         @test creds.user_arn == ""
         @test creds.account_number == ""
         @test creds.expiry == typemax(DateTime)
-        @test creds.renew == nothing
+        @test creds.renew === nothing
     end
 
     @testset "Renewal" begin
         # Credentials shouldn't throw an error if no renew function is supplied
         creds = AWSCredentials("access_key_id", "secret_key", renew=nothing)
-        newcreds = check_credentials(creds, force_refresh = true)
+        newcreds = check_credentials(creds, force_refresh=true)
 
         # Creds should remain unchanged if no renew function exists
         @test creds === newcreds
         @test creds.access_key_id == "access_key_id"
         @test creds.secret_key == "secret_key"
-        @test creds.renew == nothing
+        @test creds.renew === nothing
 
         # Creds should error if the renew function returns nothing
-        creds = AWSCredentials("access_key_id", "secret_key", renew = () -> nothing)
+        creds = AWSCredentials("access_key_id", "secret_key", renew=() -> nothing)
         @test_throws ErrorException check_credentials(creds, force_refresh=true)
 
         # Creds should remain unchanged

@@ -75,7 +75,7 @@ mutable struct AWSCredentials
 end
 
 
-function Base.show(io::IO,c::AWSCredentials)
+function Base.show(io::IO, c::AWSCredentials)
     println(io,
         c.user_arn,
         isempty(c.user_arn) ? "" : " ",
@@ -85,6 +85,7 @@ function Base.show(io::IO,c::AWSCredentials)
         c.access_key_id,
         isempty(c.secret_key) ? "" : ", $(c.secret_key[1:3])...",
         isempty(c.token) ? "" : ", $(c.token[1:3])...",
+        ", ",
         c.expiry,
         ")"
     )
