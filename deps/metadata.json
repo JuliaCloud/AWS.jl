@@ -1,6 +1,6 @@
 {
   "xray-2016-04-12.normal.json": {
-    "sha": "3de33f32448b808e23bdf5eb209036a65908c510",
+    "sha": "c1f9efe05bb4f3e853284da71f5adfba822545ca",
     "version": "2016-04-12"
   },
   "workspaces-2015-04-08.normal.json": {
@@ -88,7 +88,7 @@
     "version": "2019-06-10"
   },
   "ssm-2014-11-06.normal.json": {
-    "sha": "1f9e5ae1a2c0678986e408316ca2fad6e8a62978",
+    "sha": "cc91bf383076a160a5970295fa876e554e4e7315",
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
@@ -380,7 +380,7 @@
     "version": "2014-12-12"
   },
   "logs-2014-03-28.normal.json": {
-    "sha": "c87ba967ca69a68069700eea5f1cc8aae89da0e2",
+    "sha": "de71da61359bcb31bb2345701b9cb8e1ad266532",
     "version": "2014-03-28"
   },
   "lightsail-2016-11-28.normal.json": {
@@ -440,7 +440,7 @@
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
-    "sha": "0f4bc93bc9f850630e85e0678accad78ac91ec30",
+    "sha": "0d47eb0dd1f4461a65c2a7fb0e1ecc5a3a2b57d6",
     "version": "2018-11-14"
   },
   "ivs-2020-07-14.normal.json": {
@@ -452,7 +452,7 @@
     "version": "2018-09-06"
   },
   "iotsitewise-2019-12-02.normal.json": {
-    "sha": "32630c3b67ced7ae3ef28314ff020290480fc880",
+    "sha": "60837de63a5e1e256b451698dd03a5a95bff5845",
     "version": "2019-12-02"
   },
   "iotsecuretunneling-2018-10-05.normal.json": {
@@ -548,7 +548,7 @@
     "version": "2015-10-01"
   },
   "fsx-2018-03-01.normal.json": {
-    "sha": "32b385a8e1f73b32bdd51d2c58f73153bd8189c8",
+    "sha": "738a229b33371136114bbdf6d415457322113f73",
     "version": "2018-03-01"
   },
   "frauddetector-2019-11-15.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "6cc4db118027f92f716798fce0101d3b0f69fa9b",
+    "sha": "0f95e9081e1fa171d48e6a200a06b3e326900441",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -660,7 +660,7 @@
     "version": "2014-10-31"
   },
   "dms-2016-01-01.normal.json": {
-    "sha": "7b0352c5e9fbc6c41f886e6d8c51843d69f37aaf",
+    "sha": "9714f828003f2c3d679fb0409d0bc4264ae15c8c",
     "version": "2016-01-01"
   },
   "dlm-2018-01-12.normal.json": {
@@ -816,7 +816,7 @@
     "version": "2017-09-23"
   },
   "chime-2018-05-01.normal.json": {
-    "sha": "bed63bd9dcb865d49915dc5fe20101628959e3b9",
+    "sha": "5e3e2807b5bac777b305523abb5caf8477ed6608",
     "version": "2018-05-01"
   },
   "ce-2017-10-25.normal.json": {
@@ -876,7 +876,7 @@
     "version": "2019-10-09"
   },
   "apigatewayv2-2018-11-29.normal.json": {
-    "sha": "5ffacef759c2cc917654ab35d5340ecf3869599f",
+    "sha": "4a209600d8a1b51adbaa0fbfa290f742781448a9",
     "version": "2018-11-29"
   },
   "apigatewaymanagementapi-2018-11-29.normal.json": {

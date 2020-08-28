@@ -16,8 +16,8 @@ using UUIDs
 
 """
 
-AssociateNode(EngineAttributes, NodeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
-AssociateNode(EngineAttributes, NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+associate_node(EngineAttributes, NodeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
+associate_node(EngineAttributes, NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     CreateBackup()
@@ -32,8 +32,8 @@ AssociateNode(EngineAttributes, NodeName, ServerName, args::AbstractDict{String,
 - `Tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.  
 """
 
-CreateBackup(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-CreateBackup(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+create_backup(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
+create_backup(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     CreateServer()
@@ -66,8 +66,8 @@ CreateBackup(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 - `Tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.  
 """
 
-CreateServer(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
-CreateServer(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
+create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
+create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
 
 """
     DeleteBackup()
@@ -79,8 +79,8 @@ CreateServer(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleAr
 
 """
 
-DeleteBackup(BackupId; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
-DeleteBackup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+delete_backup(BackupId; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
+delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
 
 """
     DeleteServer()
@@ -92,8 +92,8 @@ DeleteBackup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 
 """
 
-DeleteServer(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-DeleteServer(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+delete_server(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
+delete_server(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     DescribeAccountAttributes()
@@ -102,8 +102,8 @@ DeleteServer(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 
 """
 
-DescribeAccountAttributes(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes"; aws_config=aws_config)
-DescribeAccountAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes", args; aws_config=aws_config)
+describe_account_attributes(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes"; aws_config=aws_config)
+describe_account_attributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes", args; aws_config=aws_config)
 
 """
     DescribeBackups()
@@ -117,8 +117,8 @@ DescribeAccountAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConf
 - `ServerName`: Returns backups for the server with the specified ServerName. 
 """
 
-DescribeBackups(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeBackups"; aws_config=aws_config)
-DescribeBackups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeBackups", args; aws_config=aws_config)
+describe_backups(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeBackups"; aws_config=aws_config)
+describe_backups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeBackups", args; aws_config=aws_config)
 
 """
     DescribeEvents()
@@ -133,8 +133,8 @@ DescribeBackups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_
 - `NextToken`: NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
 """
 
-DescribeEvents(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-DescribeEvents(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+describe_events(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
+describe_events(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     DescribeNodeAssociationStatus()
@@ -147,8 +147,8 @@ DescribeEvents(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 
 """
 
-DescribeNodeAssociationStatus(NodeAssociationStatusToken, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName); aws_config=aws_config)
-DescribeNodeAssociationStatus(NodeAssociationStatusToken, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), args)); aws_config=aws_config)
+describe_node_association_status(NodeAssociationStatusToken, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName); aws_config=aws_config)
+describe_node_association_status(NodeAssociationStatusToken, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     DescribeServers()
@@ -161,8 +161,8 @@ DescribeNodeAssociationStatus(NodeAssociationStatusToken, ServerName, args::Abst
 - `ServerName`: Describes the server with the specified ServerName.
 """
 
-DescribeServers(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeServers"; aws_config=aws_config)
-DescribeServers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeServers", args; aws_config=aws_config)
+describe_servers(; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeServers"; aws_config=aws_config)
+describe_servers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DescribeServers", args; aws_config=aws_config)
 
 """
     DisassociateNode()
@@ -177,8 +177,8 @@ DescribeServers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_
 - `EngineAttributes`: Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
 """
 
-DisassociateNode(NodeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
-DisassociateNode(NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+disassociate_node(NodeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
+disassociate_node(NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     ExportServerEngineAttribute()
@@ -193,8 +193,8 @@ DisassociateNode(NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_co
 - `InputAttributes`: The list of engine attributes. The list type is EngineAttribute. An EngineAttribute list item is a pair that includes an attribute name and its value. For the Userdata ExportAttributeName, the following are supported engine attribute names.    RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet, this parameter is ignored.    OrganizationName In Chef, an organization name. AWS OpsWorks for Chef Automate always creates the organization default. In Puppet, this parameter is ignored.    NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box). In Puppet, this parameter is ignored.    NodeClientVersion In Chef, the version of the Chef engine (three numbers separated by dots, such as 13.8.5). If this attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet, this parameter is ignored.  
 """
 
-ExportServerEngineAttribute(ExportAttributeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName); aws_config=aws_config)
-ExportServerEngineAttribute(ExportAttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+export_server_engine_attribute(ExportAttributeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName); aws_config=aws_config)
+export_server_engine_attribute(ExportAttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -209,8 +209,8 @@ Returns a list of tags that are applied to the specified AWS OpsWorks for Chef A
 - `NextToken`: NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
 """
 
-ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     RestoreServer()
@@ -226,8 +226,8 @@ ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::
 - `KeyPair`:  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
 """
 
-RestoreServer(BackupId, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName); aws_config=aws_config)
-RestoreServer(BackupId, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), args)); aws_config=aws_config)
+restore_server(BackupId, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName); aws_config=aws_config)
+restore_server(BackupId, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     StartMaintenance()
@@ -241,8 +241,8 @@ RestoreServer(BackupId, ServerName, args::AbstractDict{String, <:Any}; aws_confi
 - `EngineAttributes`: Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.   
 """
 
-StartMaintenance(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-StartMaintenance(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+start_maintenance(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
+start_maintenance(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -255,8 +255,8 @@ Applies tags to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Ent
 
 """
 
-TagResource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -269,8 +269,8 @@ Removes specified tags from an AWS OpsWorks-CM server or backup.
 
 """
 
-UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateServer()
@@ -287,8 +287,8 @@ UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_confi
 - `PreferredMaintenanceWindow`: 
 """
 
-UpdateServer(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-UpdateServer(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+update_server(ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
+update_server(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
 
 """
     UpdateServerEngineAttributes()
@@ -303,5 +303,5 @@ UpdateServer(ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 - `AttributeValue`: The value to set for the attribute. 
 """
 
-UpdateServerEngineAttributes(AttributeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName); aws_config=aws_config)
-UpdateServerEngineAttributes(AttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+update_server_engine_attributes(AttributeName, ServerName; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName); aws_config=aws_config)
+update_server_engine_attributes(AttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)

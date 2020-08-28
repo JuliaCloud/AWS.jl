@@ -16,8 +16,8 @@ using UUIDs
 - `ClientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
 """
 
-AssociateRepository(Repository; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-AssociateRepository(Repository, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+associate_repository(Repository; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+associate_repository(Repository, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeCodeReview()
@@ -29,8 +29,8 @@ AssociateRepository(Repository, args::AbstractDict{String, <:Any}; aws_config::A
 
 """
 
-DescribeCodeReview(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)"; aws_config=aws_config)
-DescribeCodeReview(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)", args; aws_config=aws_config)
+describe_code_review(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)"; aws_config=aws_config)
+describe_code_review(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)", args; aws_config=aws_config)
 
 """
     DescribeRecommendationFeedback()
@@ -45,8 +45,8 @@ DescribeCodeReview(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config:
 - `UserId`:  Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide. 
 """
 
-DescribeRecommendationFeedback(CodeReviewArn, RecommendationId; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}("RecommendationId"=>RecommendationId); aws_config=aws_config)
-DescribeRecommendationFeedback(CodeReviewArn, RecommendationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecommendationId"=>RecommendationId), args)); aws_config=aws_config)
+describe_recommendation_feedback(CodeReviewArn, RecommendationId; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}("RecommendationId"=>RecommendationId); aws_config=aws_config)
+describe_recommendation_feedback(CodeReviewArn, RecommendationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecommendationId"=>RecommendationId), args)); aws_config=aws_config)
 
 """
     DescribeRepositoryAssociation()
@@ -58,8 +58,8 @@ DescribeRecommendationFeedback(CodeReviewArn, RecommendationId, args::AbstractDi
 
 """
 
-DescribeRepositoryAssociation(AssociationArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)"; aws_config=aws_config)
-DescribeRepositoryAssociation(AssociationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)", args; aws_config=aws_config)
+describe_repository_association(AssociationArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)"; aws_config=aws_config)
+describe_repository_association(AssociationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations/$(AssociationArn)", args; aws_config=aws_config)
 
 """
     DisassociateRepository()
@@ -71,8 +71,8 @@ Removes the association between Amazon CodeGuru Reviewer and a repository.
 
 """
 
-DisassociateRepository(AssociationArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)"; aws_config=aws_config)
-DisassociateRepository(AssociationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)", args; aws_config=aws_config)
+disassociate_repository(AssociationArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)"; aws_config=aws_config)
+disassociate_repository(AssociationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)", args; aws_config=aws_config)
 
 """
     ListCodeReviews()
@@ -90,8 +90,8 @@ DisassociateRepository(AssociationArn, args::AbstractDict{String, <:Any}; aws_co
 - `States`:  List of states for filtering that needs to be applied before displaying the result. For example, states=[Pending] lists code reviews in the Pending state.  The valid code review states are:    Completed: The code review is complete.     Pending: The code review started and has not completed or failed.     Failed: The code review failed.     Deleting: The code review is being deleted.   
 """
 
-ListCodeReviews(Type; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}("Type"=>Type); aws_config=aws_config)
-ListCodeReviews(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), args)); aws_config=aws_config)
+list_code_reviews(Type; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}("Type"=>Type); aws_config=aws_config)
+list_code_reviews(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), args)); aws_config=aws_config)
 
 """
     ListRecommendationFeedback()
@@ -108,8 +108,8 @@ ListCodeReviews(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 - `UserIds`:  An AWS user's account ID or Amazon Resource Name (ARN). Use this ID to query the recommendation feedback for a code review from that user.   The UserId is an IAM principal that can be specified as an AWS account ID or an Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the AWS Identity and Access Management User Guide. 
 """
 
-ListRecommendationFeedback(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback"; aws_config=aws_config)
-ListRecommendationFeedback(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback", args; aws_config=aws_config)
+list_recommendation_feedback(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback"; aws_config=aws_config)
+list_recommendation_feedback(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback", args; aws_config=aws_config)
 
 """
     ListRecommendations()
@@ -124,8 +124,8 @@ ListRecommendationFeedback(CodeReviewArn, args::AbstractDict{String, <:Any}; aws
 - `NextToken`:  Pagination token. 
 """
 
-ListRecommendations(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations"; aws_config=aws_config)
-ListRecommendations(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations", args; aws_config=aws_config)
+list_recommendations(CodeReviewArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations"; aws_config=aws_config)
+list_recommendations(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations", args; aws_config=aws_config)
 
 """
     ListRepositoryAssociations()
@@ -141,8 +141,8 @@ ListRecommendations(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_config
 - `State`: List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
 """
 
-ListRepositoryAssociations(; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations"; aws_config=aws_config)
-ListRepositoryAssociations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations", args; aws_config=aws_config)
+list_repository_associations(; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations"; aws_config=aws_config)
+list_repository_associations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations", args; aws_config=aws_config)
 
 """
     PutRecommendationFeedback()
@@ -156,5 +156,5 @@ ListRepositoryAssociations(args::AbstractDict{String, Any}; aws_config::AWSConfi
 
 """
 
-PutRecommendationFeedback(CodeReviewArn, Reactions, RecommendationId; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId); aws_config=aws_config)
-PutRecommendationFeedback(CodeReviewArn, Reactions, RecommendationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId), args)); aws_config=aws_config)
+put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId); aws_config=aws_config)
+put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId), args)); aws_config=aws_config)

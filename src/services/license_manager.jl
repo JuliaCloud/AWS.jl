@@ -22,8 +22,8 @@ Creates a license configuration. A license configuration is an abstraction of a 
 - `Tags`: Tags to add to the license configuration.
 """
 
-CreateLicenseConfiguration(LicenseCountingType, Name; aws_config::AWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name); aws_config=aws_config)
-CreateLicenseConfiguration(LicenseCountingType, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), args)); aws_config=aws_config)
+create_license_configuration(LicenseCountingType, Name; aws_config::AWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name); aws_config=aws_config)
+create_license_configuration(LicenseCountingType, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteLicenseConfiguration()
@@ -35,8 +35,8 @@ Deletes the specified license configuration. You cannot delete a license configu
 
 """
 
-DeleteLicenseConfiguration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-DeleteLicenseConfiguration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+delete_license_configuration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+delete_license_configuration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     GetLicenseConfiguration()
@@ -48,8 +48,8 @@ Gets detailed information about the specified license configuration.
 
 """
 
-GetLicenseConfiguration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-GetLicenseConfiguration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+get_license_configuration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+get_license_configuration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     GetServiceSettings()
@@ -58,8 +58,8 @@ Gets the License Manager settings for the current Region.
 
 """
 
-GetServiceSettings(; aws_config::AWSConfig=global_aws_config()) = license_manager("GetServiceSettings"; aws_config=aws_config)
-GetServiceSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("GetServiceSettings", args; aws_config=aws_config)
+get_service_settings(; aws_config::AWSConfig=global_aws_config()) = license_manager("GetServiceSettings"; aws_config=aws_config)
+get_service_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("GetServiceSettings", args; aws_config=aws_config)
 
 """
     ListAssociationsForLicenseConfiguration()
@@ -74,8 +74,8 @@ Lists the resource associations for the specified license configuration. Resourc
 - `NextToken`: Token for the next set of results.
 """
 
-ListAssociationsForLicenseConfiguration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-ListAssociationsForLicenseConfiguration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+list_associations_for_license_configuration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+list_associations_for_license_configuration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     ListFailuresForLicenseConfigurationOperations()
@@ -90,8 +90,8 @@ Lists the license configuration operations that failed.
 - `NextToken`: Token for the next set of results.
 """
 
-ListFailuresForLicenseConfigurationOperations(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-ListFailuresForLicenseConfigurationOperations(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+list_failures_for_license_configuration_operations(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+list_failures_for_license_configuration_operations(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     ListLicenseConfigurations()
@@ -105,8 +105,8 @@ Lists the license configurations for your account.
 - `NextToken`: Token for the next set of results.
 """
 
-ListLicenseConfigurations(; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations"; aws_config=aws_config)
-ListLicenseConfigurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations", args; aws_config=aws_config)
+list_license_configurations(; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations"; aws_config=aws_config)
+list_license_configurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations", args; aws_config=aws_config)
 
 """
     ListLicenseSpecificationsForResource()
@@ -121,8 +121,8 @@ Describes the license configurations for the specified resource.
 - `NextToken`: Token for the next set of results.
 """
 
-ListLicenseSpecificationsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-ListLicenseSpecificationsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_license_specifications_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_license_specifications_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListResourceInventory()
@@ -135,8 +135,8 @@ Lists resources managed using Systems Manager inventory.
 - `NextToken`: Token for the next set of results.
 """
 
-ListResourceInventory(; aws_config::AWSConfig=global_aws_config()) = license_manager("ListResourceInventory"; aws_config=aws_config)
-ListResourceInventory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListResourceInventory", args; aws_config=aws_config)
+list_resource_inventory(; aws_config::AWSConfig=global_aws_config()) = license_manager("ListResourceInventory"; aws_config=aws_config)
+list_resource_inventory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListResourceInventory", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -148,8 +148,8 @@ Lists the tags for the specified license configuration.
 
 """
 
-ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListUsageForLicenseConfiguration()
@@ -165,8 +165,8 @@ Lists all license usage records for a license configuration, displaying license 
 - `NextToken`: Token for the next set of results.
 """
 
-ListUsageForLicenseConfiguration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-ListUsageForLicenseConfiguration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+list_usage_for_license_configuration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+list_usage_for_license_configuration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -179,8 +179,8 @@ Adds the specified tags to the specified license configuration.
 
 """
 
-TagResource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -193,8 +193,8 @@ Removes the specified tags from the specified license configuration.
 
 """
 
-UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateLicenseConfiguration()
@@ -214,8 +214,8 @@ Modifies the attributes of an existing license configuration.
 - `ProductInformationList`: New product information.
 """
 
-UpdateLicenseConfiguration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-UpdateLicenseConfiguration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
+update_license_configuration(LicenseConfigurationArn; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
+update_license_configuration(LicenseConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), args)); aws_config=aws_config)
 
 """
     UpdateLicenseSpecificationsForResource()
@@ -230,8 +230,8 @@ Adds or removes the specified license configurations for the specified AWS resou
 - `RemoveLicenseSpecifications`: ARNs of the license configurations to remove.
 """
 
-UpdateLicenseSpecificationsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-UpdateLicenseSpecificationsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+update_license_specifications_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+update_license_specifications_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     UpdateServiceSettings()
@@ -245,5 +245,5 @@ Updates License Manager settings for the current Region.
 - `SnsTopicArn`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
 """
 
-UpdateServiceSettings(; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings"; aws_config=aws_config)
-UpdateServiceSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings", args; aws_config=aws_config)
+update_service_settings(; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings"; aws_config=aws_config)
+update_service_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings", args; aws_config=aws_config)

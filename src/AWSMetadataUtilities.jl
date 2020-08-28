@@ -220,6 +220,32 @@ function _clean_uri(uri::String)
 end
 
 """
+    _format_function_name(function_name::String)
+
+Convert a function name from CamelCase to snake_case
+
+# Arguments
+- `function_name::String`: Function name to be converted to snake_case
+
+# Returns:
+- `String`: snake_case version of the function_name
+"""
+function _format_function_name(function_name::String)
+    # Replace a string of uppercase characters with themselves prefaced by an underscore
+    # [A-Z](?![A-Z]) => Match a single uppercase character that is not followed by another uppercase character
+    # |(A-Z]{1,})    => Match 1-Infinite amounts of uppercase characters
+    function_name = replace(function_name, r"[A-Z](?![A-Z])|([A-Z]{1,})" => s"_\g<0>")
+    
+    # Lowercase the entire string
+    function_name = lowercase(function_name)
+
+    # Chop off the leading underscore
+    function_name = chop(function_name, head=1, tail=0)
+
+    return function_name
+end
+
+"""
     _get_function_parameters(input, shapes)
 
 Get the required and optional parameters for a given operation.
@@ -438,31 +464,33 @@ function _generate_high_level_definition(
         params_str = (!isempty(req_kv) || idempotent) ? "$(join(vcat(req_kv, idempotent_kv), ", "))" : ""
         headers_str = headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
+
+        formatted_function_name = _format_function_name(function_name)
         
         if required_keys && (idempotent || headers)
             return """\n
-                $function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif !required_keys && (idempotent || headers)
             return """\n
-                $function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif required_keys && !isempty(req_kv)
             return """\n
-                $function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
                 """
         elseif required_keys
             return """\n
-                $function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
         else
             return """\n
-                $function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $function_name(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
         end
     end
@@ -492,25 +520,27 @@ function _generate_high_level_definition(
         required = !isempty(req_kv)
         idempotent = !isempty(idempotent_kv)
 
+        formatted_function_name = _format_function_name(function_name)
+
         if required && idempotent
             return """\n
-                $function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif required
             return """\n
-                $function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif idempotent
             return """\n
-                $function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         else
             return """\n
-                $function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
-                $function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
+                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
                 """
         end
     end

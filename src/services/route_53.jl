@@ -17,8 +17,8 @@ Associates an Amazon VPC with a private hosted zone.   To perform the associatio
 - `Comment`:  Optional: A comment about the association request.
 """
 
-AssociateVPCWithHostedZone(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
-AssociateVPCWithHostedZone(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
+associate_vpcwith_hosted_zone(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
+associate_vpcwith_hosted_zone(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
     ChangeResourceRecordSets()
@@ -31,8 +31,8 @@ Creates, changes, or deletes a resource record set, which contains authoritative
 
 """
 
-ChangeResourceRecordSets(ChangeBatch, Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}("ChangeBatch"=>ChangeBatch); aws_config=aws_config)
-ChangeResourceRecordSets(ChangeBatch, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeBatch"=>ChangeBatch), args)); aws_config=aws_config)
+change_resource_record_sets(ChangeBatch, Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}("ChangeBatch"=>ChangeBatch); aws_config=aws_config)
+change_resource_record_sets(ChangeBatch, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeBatch"=>ChangeBatch), args)); aws_config=aws_config)
 
 """
     ChangeTagsForResource()
@@ -48,8 +48,8 @@ Adds, edits, or deletes tags for a health check or a hosted zone. For informatio
 - `RemoveTagKeys`: A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
 """
 
-ChangeTagsForResource(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)"; aws_config=aws_config)
-ChangeTagsForResource(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args; aws_config=aws_config)
+change_tags_for_resource(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)"; aws_config=aws_config)
+change_tags_for_resource(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args; aws_config=aws_config)
 
 """
     CreateHealthCheck()
@@ -62,8 +62,8 @@ Creates a new health check. For information about adding health checks to resour
 
 """
 
-CreateHealthCheck(CallerReference, HealthCheckConfig; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig); aws_config=aws_config)
-CreateHealthCheck(CallerReference, HealthCheckConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig), args)); aws_config=aws_config)
+create_health_check(CallerReference, HealthCheckConfig; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig); aws_config=aws_config)
+create_health_check(CallerReference, HealthCheckConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HealthCheckConfig"=>HealthCheckConfig), args)); aws_config=aws_config)
 
 """
     CreateHostedZone()
@@ -80,8 +80,8 @@ Creates a new public or private hosted zone. You create records in a public host
 - `VPC`: (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone. You can specify only one Amazon VPC when you create a private hosted zone. To associate additional Amazon VPCs with the hosted zone, use AssociateVPCWithHostedZone after you create a hosted zone.
 """
 
-CreateHostedZone(CallerReference, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name); aws_config=aws_config)
-CreateHostedZone(CallerReference, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name), args)); aws_config=aws_config)
+create_hosted_zone(CallerReference, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name); aws_config=aws_config)
+create_hosted_zone(CallerReference, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateQueryLoggingConfig()
@@ -94,8 +94,8 @@ Creates a configuration for DNS query logging. After you create a query logging 
 
 """
 
-CreateQueryLoggingConfig(CloudWatchLogsLogGroupArn, HostedZoneId; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId); aws_config=aws_config)
-CreateQueryLoggingConfig(CloudWatchLogsLogGroupArn, HostedZoneId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId), args)); aws_config=aws_config)
+create_query_logging_config(CloudWatchLogsLogGroupArn, HostedZoneId; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId); aws_config=aws_config)
+create_query_logging_config(CloudWatchLogsLogGroupArn, HostedZoneId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/queryloggingconfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsLogGroupArn"=>CloudWatchLogsLogGroupArn, "HostedZoneId"=>HostedZoneId), args)); aws_config=aws_config)
 
 """
     CreateReusableDelegationSet()
@@ -109,8 +109,8 @@ Creates a delegation set (a group of four name servers) that can be reused by mu
 - `HostedZoneId`: If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone.
 """
 
-CreateReusableDelegationSet(CallerReference; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}("CallerReference"=>CallerReference); aws_config=aws_config)
-CreateReusableDelegationSet(CallerReference, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference), args)); aws_config=aws_config)
+create_reusable_delegation_set(CallerReference; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}("CallerReference"=>CallerReference); aws_config=aws_config)
+create_reusable_delegation_set(CallerReference, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/delegationset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference), args)); aws_config=aws_config)
 
 """
     CreateTrafficPolicy()
@@ -125,8 +125,8 @@ Creates a traffic policy, which you use to create multiple DNS resource record s
 - `Comment`: (Optional) Any comments that you want to include about the traffic policy.
 """
 
-CreateTrafficPolicy(Document, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}("Document"=>Document, "Name"=>Name); aws_config=aws_config)
-CreateTrafficPolicy(Document, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "Name"=>Name), args)); aws_config=aws_config)
+create_traffic_policy(Document, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}("Document"=>Document, "Name"=>Name); aws_config=aws_config)
+create_traffic_policy(Document, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateTrafficPolicyInstance()
@@ -142,8 +142,8 @@ Creates resource record sets in a specified hosted zone based on the settings in
 
 """
 
-CreateTrafficPolicyInstance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion); aws_config=aws_config)
-CreateTrafficPolicyInstance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), args)); aws_config=aws_config)
+create_traffic_policy_instance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion); aws_config=aws_config)
+create_traffic_policy_instance(HostedZoneId, Name, TTL, TrafficPolicyId, TrafficPolicyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostedZoneId"=>HostedZoneId, "Name"=>Name, "TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), args)); aws_config=aws_config)
 
 """
     CreateTrafficPolicyVersion()
@@ -158,8 +158,8 @@ Creates a new version of an existing traffic policy. When you create a new versi
 - `Comment`: The comment that you specified in the CreateTrafficPolicyVersion request, if any.
 """
 
-CreateTrafficPolicyVersion(Document, Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
-CreateTrafficPolicyVersion(Document, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), args)); aws_config=aws_config)
+create_traffic_policy_version(Document, Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
+create_traffic_policy_version(Document, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), args)); aws_config=aws_config)
 
 """
     CreateVPCAssociationAuthorization()
@@ -172,8 +172,8 @@ Authorizes the AWS account that created a specified VPC to submit an AssociateVP
 
 """
 
-CreateVPCAssociationAuthorization(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
-CreateVPCAssociationAuthorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
+create_vpcassociation_authorization(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
+create_vpcassociation_authorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
     DeleteHealthCheck()
@@ -185,8 +185,8 @@ Deletes a health check.  Amazon Route 53 does not prevent you from deleting a he
 
 """
 
-DeleteHealthCheck(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
-DeleteHealthCheck(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
+delete_health_check(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
+delete_health_check(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
 
 """
     DeleteHostedZone()
@@ -198,8 +198,8 @@ Deletes a hosted zone. If the hosted zone was created by another service, such a
 
 """
 
-DeleteHostedZone(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
-DeleteHostedZone(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
+delete_hosted_zone(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
+delete_hosted_zone(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteQueryLoggingConfig()
@@ -211,8 +211,8 @@ Deletes a configuration for DNS query logging. If you delete a configuration, Am
 
 """
 
-DeleteQueryLoggingConfig(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)"; aws_config=aws_config)
-DeleteQueryLoggingConfig(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)", args; aws_config=aws_config)
+delete_query_logging_config(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)"; aws_config=aws_config)
+delete_query_logging_config(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteReusableDelegationSet()
@@ -224,8 +224,8 @@ Deletes a reusable delegation set.  You can delete a reusable delegation set onl
 
 """
 
-DeleteReusableDelegationSet(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)"; aws_config=aws_config)
-DeleteReusableDelegationSet(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)", args; aws_config=aws_config)
+delete_reusable_delegation_set(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)"; aws_config=aws_config)
+delete_reusable_delegation_set(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteTrafficPolicy()
@@ -238,8 +238,8 @@ Deletes a traffic policy.
 
 """
 
-DeleteTrafficPolicy(Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)"; aws_config=aws_config)
-DeleteTrafficPolicy(Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args; aws_config=aws_config)
+delete_traffic_policy(Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)"; aws_config=aws_config)
+delete_traffic_policy(Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args; aws_config=aws_config)
 
 """
     DeleteTrafficPolicyInstance()
@@ -251,8 +251,8 @@ Deletes a traffic policy instance and all of the resource record sets that Amazo
 
 """
 
-DeleteTrafficPolicyInstance(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)"; aws_config=aws_config)
-DeleteTrafficPolicyInstance(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)", args; aws_config=aws_config)
+delete_traffic_policy_instance(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)"; aws_config=aws_config)
+delete_traffic_policy_instance(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteVPCAssociationAuthorization()
@@ -265,8 +265,8 @@ Removes authorization to submit an AssociateVPCWithHostedZone request to associa
 
 """
 
-DeleteVPCAssociationAuthorization(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
-DeleteVPCAssociationAuthorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
+delete_vpcassociation_authorization(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
+delete_vpcassociation_authorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
     DisassociateVPCFromHostedZone()
@@ -281,8 +281,8 @@ Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 
 - `Comment`:  Optional: A comment about the disassociation request.
 """
 
-DisassociateVPCFromHostedZone(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
-DisassociateVPCFromHostedZone(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
+disassociate_vpcfrom_hosted_zone(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
+disassociate_vpcfrom_hosted_zone(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
     GetAccountLimit()
@@ -294,8 +294,8 @@ Gets the specified limit for the current account, for example, the maximum numbe
 
 """
 
-GetAccountLimit(Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/accountlimit/$(Type)"; aws_config=aws_config)
-GetAccountLimit(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/accountlimit/$(Type)", args; aws_config=aws_config)
+get_account_limit(Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/accountlimit/$(Type)"; aws_config=aws_config)
+get_account_limit(Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/accountlimit/$(Type)", args; aws_config=aws_config)
 
 """
     GetChange()
@@ -307,8 +307,8 @@ Returns the current status of a change batch request. The status is one of the f
 
 """
 
-GetChange(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/change/$(Id)"; aws_config=aws_config)
-GetChange(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/change/$(Id)", args; aws_config=aws_config)
+get_change(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/change/$(Id)"; aws_config=aws_config)
+get_change(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/change/$(Id)", args; aws_config=aws_config)
 
 """
     GetCheckerIpRanges()
@@ -317,8 +317,8 @@ GetChange(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aw
 
 """
 
-GetCheckerIpRanges(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges"; aws_config=aws_config)
-GetCheckerIpRanges(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges", args; aws_config=aws_config)
+get_checker_ip_ranges(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges"; aws_config=aws_config)
+get_checker_ip_ranges(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges", args; aws_config=aws_config)
 
 """
     GetGeoLocation()
@@ -331,8 +331,8 @@ Gets information about whether a specified geographic location is supported for 
 - `subdivisioncode`: For SubdivisionCode, Amazon Route 53 supports only states of the United States. For a list of state abbreviations, see Appendix B: Two–Letter State and Possession Abbreviations on the United States Postal Service website.  If you specify subdivisioncode, you must also specify US for CountryCode. 
 """
 
-GetGeoLocation(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation"; aws_config=aws_config)
-GetGeoLocation(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation", args; aws_config=aws_config)
+get_geo_location(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation"; aws_config=aws_config)
+get_geo_location(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation", args; aws_config=aws_config)
 
 """
     GetHealthCheck()
@@ -344,8 +344,8 @@ Gets information about a specified health check.
 
 """
 
-GetHealthCheck(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
-GetHealthCheck(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
+get_health_check(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
+get_health_check(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
 
 """
     GetHealthCheckCount()
@@ -354,8 +354,8 @@ Retrieves the number of health checks that are associated with the current AWS a
 
 """
 
-GetHealthCheckCount(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount"; aws_config=aws_config)
-GetHealthCheckCount(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount", args; aws_config=aws_config)
+get_health_check_count(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount"; aws_config=aws_config)
+get_health_check_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount", args; aws_config=aws_config)
 
 """
     GetHealthCheckLastFailureReason()
@@ -367,8 +367,8 @@ Gets the reason that a specified health check failed most recently.
 
 """
 
-GetHealthCheckLastFailureReason(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason"; aws_config=aws_config)
-GetHealthCheckLastFailureReason(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason", args; aws_config=aws_config)
+get_health_check_last_failure_reason(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason"; aws_config=aws_config)
+get_health_check_last_failure_reason(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason", args; aws_config=aws_config)
 
 """
     GetHealthCheckStatus()
@@ -380,8 +380,8 @@ Gets status of a specified health check.
 
 """
 
-GetHealthCheckStatus(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status"; aws_config=aws_config)
-GetHealthCheckStatus(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status", args; aws_config=aws_config)
+get_health_check_status(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status"; aws_config=aws_config)
+get_health_check_status(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status", args; aws_config=aws_config)
 
 """
     GetHostedZone()
@@ -393,8 +393,8 @@ Gets information about a specified hosted zone including the four name servers a
 
 """
 
-GetHostedZone(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
-GetHostedZone(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
+get_hosted_zone(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
+get_hosted_zone(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
 
 """
     GetHostedZoneCount()
@@ -403,8 +403,8 @@ Retrieves the number of hosted zones that are associated with the current AWS ac
 
 """
 
-GetHostedZoneCount(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount"; aws_config=aws_config)
-GetHostedZoneCount(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount", args; aws_config=aws_config)
+get_hosted_zone_count(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount"; aws_config=aws_config)
+get_hosted_zone_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount", args; aws_config=aws_config)
 
 """
     GetHostedZoneLimit()
@@ -417,8 +417,8 @@ Gets the specified limit for a specified hosted zone, for example, the maximum n
 
 """
 
-GetHostedZoneLimit(Id, Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)"; aws_config=aws_config)
-GetHostedZoneLimit(Id, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)", args; aws_config=aws_config)
+get_hosted_zone_limit(Id, Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)"; aws_config=aws_config)
+get_hosted_zone_limit(Id, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)", args; aws_config=aws_config)
 
 """
     GetQueryLoggingConfig()
@@ -430,8 +430,8 @@ Gets information about a specified configuration for DNS query logging. For more
 
 """
 
-GetQueryLoggingConfig(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)"; aws_config=aws_config)
-GetQueryLoggingConfig(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)", args; aws_config=aws_config)
+get_query_logging_config(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)"; aws_config=aws_config)
+get_query_logging_config(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)", args; aws_config=aws_config)
 
 """
     GetReusableDelegationSet()
@@ -443,8 +443,8 @@ Retrieves information about a specified reusable delegation set, including the f
 
 """
 
-GetReusableDelegationSet(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset/$(Id)"; aws_config=aws_config)
-GetReusableDelegationSet(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset/$(Id)", args; aws_config=aws_config)
+get_reusable_delegation_set(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset/$(Id)"; aws_config=aws_config)
+get_reusable_delegation_set(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset/$(Id)", args; aws_config=aws_config)
 
 """
     GetReusableDelegationSetLimit()
@@ -457,8 +457,8 @@ Gets the maximum number of hosted zones that you can associate with the specifie
 
 """
 
-GetReusableDelegationSetLimit(Id, Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)"; aws_config=aws_config)
-GetReusableDelegationSetLimit(Id, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)", args; aws_config=aws_config)
+get_reusable_delegation_set_limit(Id, Type; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)"; aws_config=aws_config)
+get_reusable_delegation_set_limit(Id, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)", args; aws_config=aws_config)
 
 """
     GetTrafficPolicy()
@@ -471,8 +471,8 @@ Gets information about a specific traffic policy version.
 
 """
 
-GetTrafficPolicy(Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)"; aws_config=aws_config)
-GetTrafficPolicy(Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args; aws_config=aws_config)
+get_traffic_policy(Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)"; aws_config=aws_config)
+get_traffic_policy(Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args; aws_config=aws_config)
 
 """
     GetTrafficPolicyInstance()
@@ -484,8 +484,8 @@ Gets information about a specified traffic policy instance.  After you submit a 
 
 """
 
-GetTrafficPolicyInstance(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)"; aws_config=aws_config)
-GetTrafficPolicyInstance(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)", args; aws_config=aws_config)
+get_traffic_policy_instance(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)"; aws_config=aws_config)
+get_traffic_policy_instance(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)", args; aws_config=aws_config)
 
 """
     GetTrafficPolicyInstanceCount()
@@ -494,8 +494,8 @@ Gets the number of traffic policy instances that are associated with the current
 
 """
 
-GetTrafficPolicyInstanceCount(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount"; aws_config=aws_config)
-GetTrafficPolicyInstanceCount(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount", args; aws_config=aws_config)
+get_traffic_policy_instance_count(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount"; aws_config=aws_config)
+get_traffic_policy_instance_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount", args; aws_config=aws_config)
 
 """
     ListGeoLocations()
@@ -509,8 +509,8 @@ Retrieves a list of supported geographic locations. Countries are listed first, 
 - `startsubdivisioncode`: The code for the state of the United States with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextSubdivisionCode from the previous response has a value, enter that value in startsubdivisioncode to return the next page of results. To list subdivisions (U.S. states), you must include both startcountrycode and startsubdivisioncode.
 """
 
-ListGeoLocations(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations"; aws_config=aws_config)
-ListGeoLocations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations", args; aws_config=aws_config)
+list_geo_locations(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations"; aws_config=aws_config)
+list_geo_locations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations", args; aws_config=aws_config)
 
 """
     ListHealthChecks()
@@ -522,8 +522,8 @@ Retrieve a list of the health checks that are associated with the current AWS ac
 - `maxitems`: The maximum number of health checks that you want ListHealthChecks to return in response to the current request. Amazon Route 53 returns a maximum of 100 items. If you set MaxItems to a value greater than 100, Route 53 returns only the first 100 health checks. 
 """
 
-ListHealthChecks(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck"; aws_config=aws_config)
-ListHealthChecks(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck", args; aws_config=aws_config)
+list_health_checks(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck"; aws_config=aws_config)
+list_health_checks(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck", args; aws_config=aws_config)
 
 """
     ListHostedZones()
@@ -536,8 +536,8 @@ Retrieves a list of the public and private hosted zones that are associated with
 - `maxitems`: (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If you have more than maxitems hosted zones, the value of IsTruncated in the response is true, and the value of NextMarker is the hosted zone ID of the first hosted zone that Route 53 will return if you submit another request.
 """
 
-ListHostedZones(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone"; aws_config=aws_config)
-ListHostedZones(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone", args; aws_config=aws_config)
+list_hosted_zones(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone"; aws_config=aws_config)
+list_hosted_zones(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone", args; aws_config=aws_config)
 
 """
     ListHostedZonesByName()
@@ -550,8 +550,8 @@ Retrieves a list of your hosted zones in lexicographic order. The response inclu
 - `maxitems`: The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones. 
 """
 
-ListHostedZonesByName(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname"; aws_config=aws_config)
-ListHostedZonesByName(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname", args; aws_config=aws_config)
+list_hosted_zones_by_name(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname"; aws_config=aws_config)
+list_hosted_zones_by_name(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname", args; aws_config=aws_config)
 
 """
     ListHostedZonesByVPC()
@@ -567,8 +567,8 @@ Lists all the private hosted zones that a specified VPC is associated with, rega
 - `nexttoken`: If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request.  For the value of NextToken, specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get.
 """
 
-ListHostedZonesByVPC(vpcid, vpcregion; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion); aws_config=aws_config)
-ListHostedZonesByVPC(vpcid, vpcregion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion), args)); aws_config=aws_config)
+list_hosted_zones_by_vpc(vpcid, vpcregion; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion); aws_config=aws_config)
+list_hosted_zones_by_vpc(vpcid, vpcregion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyvpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("vpcid"=>vpcid, "vpcregion"=>vpcregion), args)); aws_config=aws_config)
 
 """
     ListQueryLoggingConfigs()
@@ -581,8 +581,8 @@ Lists the configurations for DNS query logging that are associated with the curr
 - `nexttoken`: (Optional) If the current AWS account has more than MaxResults query logging configurations, use NextToken to get the second and subsequent pages of results. For the first ListQueryLoggingConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
 """
 
-ListQueryLoggingConfigs(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig"; aws_config=aws_config)
-ListQueryLoggingConfigs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig", args; aws_config=aws_config)
+list_query_logging_configs(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig"; aws_config=aws_config)
+list_query_logging_configs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig", args; aws_config=aws_config)
 
 """
     ListResourceRecordSets()
@@ -599,8 +599,8 @@ Lists the resource record sets in a specified hosted zone.  ListResourceRecordSe
 - `type`: The type of resource record set to begin the record listing from. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT  Values for alias resource record sets:     API Gateway custom regional API or edge-optimized API: A    CloudFront distribution: A or AAAA    Elastic Beanstalk environment that has a regionalized subdomain: A    Elastic Load Balancing load balancer: A | AAAA    S3 bucket: A    VPC interface VPC endpoint: A    Another resource record set in this hosted zone: The type of the resource record set that the alias references.   Constraint: Specifying type without specifying name returns an InvalidInput error.
 """
 
-ListResourceRecordSets(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset"; aws_config=aws_config)
-ListResourceRecordSets(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset", args; aws_config=aws_config)
+list_resource_record_sets(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset"; aws_config=aws_config)
+list_resource_record_sets(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset", args; aws_config=aws_config)
 
 """
     ListReusableDelegationSets()
@@ -612,8 +612,8 @@ Retrieves a list of the reusable delegation sets that are associated with the cu
 - `maxitems`: The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Route 53 returns only the first 100 reusable delegation sets.
 """
 
-ListReusableDelegationSets(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset"; aws_config=aws_config)
-ListReusableDelegationSets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset", args; aws_config=aws_config)
+list_reusable_delegation_sets(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset"; aws_config=aws_config)
+list_reusable_delegation_sets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -626,8 +626,8 @@ Lists tags for one health check or hosted zone.  For information about using tag
 
 """
 
-ListTagsForResource(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)"; aws_config=aws_config)
-ListTagsForResource(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args; aws_config=aws_config)
+list_tags_for_resource(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)"; aws_config=aws_config)
+list_tags_for_resource(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args; aws_config=aws_config)
 
 """
     ListTagsForResources()
@@ -642,8 +642,8 @@ Lists tags for up to 10 health checks or hosted zones. For information about usi
 - `ResourceIds`: A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
 """
 
-ListTagsForResources(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-ListTagsForResources(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+list_tags_for_resources(ResourceId, ResourceType; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+list_tags_for_resources(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/tags/$(ResourceType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     ListTrafficPolicies()
@@ -655,8 +655,8 @@ Gets information about the latest version for every traffic policy that is assoc
 - `trafficpolicyid`: (Conditional) For your first request to ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was returned in the previous response.
 """
 
-ListTrafficPolicies(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies"; aws_config=aws_config)
-ListTrafficPolicies(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies", args; aws_config=aws_config)
+list_traffic_policies(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies"; aws_config=aws_config)
+list_traffic_policies(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies", args; aws_config=aws_config)
 
 """
     ListTrafficPolicyInstances()
@@ -670,8 +670,8 @@ Gets information about the traffic policy instances that you created by using th
 - `trafficpolicyinstancetype`: If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
 """
 
-ListTrafficPolicyInstances(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances"; aws_config=aws_config)
-ListTrafficPolicyInstances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances", args; aws_config=aws_config)
+list_traffic_policy_instances(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances"; aws_config=aws_config)
+list_traffic_policy_instances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances", args; aws_config=aws_config)
 
 """
     ListTrafficPolicyInstancesByHostedZone()
@@ -687,8 +687,8 @@ Gets information about the traffic policy instances that you created in a specif
 - `trafficpolicyinstancetype`: If the value of IsTruncated in the previous response is true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the type of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
 """
 
-ListTrafficPolicyInstancesByHostedZone(id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}("id"=>id); aws_config=aws_config)
-ListTrafficPolicyInstancesByHostedZone(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+list_traffic_policy_instances_by_hosted_zone(id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}("id"=>id); aws_config=aws_config)
+list_traffic_policy_instances_by_hosted_zone(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     ListTrafficPolicyInstancesByPolicy()
@@ -706,8 +706,8 @@ Gets information about the traffic policy instances that you created by using a 
 - `trafficpolicyinstancetype`: If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of trafficpolicyinstancetype, specify the value of TrafficPolicyInstanceTypeMarker from the previous response, which is the name of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
 """
 
-ListTrafficPolicyInstancesByPolicy(id, version; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}("id"=>id, "version"=>version); aws_config=aws_config)
-ListTrafficPolicyInstancesByPolicy(id, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "version"=>version), args)); aws_config=aws_config)
+list_traffic_policy_instances_by_policy(id, version; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}("id"=>id, "version"=>version); aws_config=aws_config)
+list_traffic_policy_instances_by_policy(id, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances/trafficpolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "version"=>version), args)); aws_config=aws_config)
 
 """
     ListTrafficPolicyVersions()
@@ -722,8 +722,8 @@ Gets information about all of the versions for a specified traffic policy. Traff
 - `trafficpolicyversion`: For your first request to ListTrafficPolicyVersions, don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems, ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker, specify the value of TrafficPolicyVersionMarker in the previous response.
 """
 
-ListTrafficPolicyVersions(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions"; aws_config=aws_config)
-ListTrafficPolicyVersions(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions", args; aws_config=aws_config)
+list_traffic_policy_versions(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions"; aws_config=aws_config)
+list_traffic_policy_versions(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions", args; aws_config=aws_config)
 
 """
     ListVPCAssociationAuthorizations()
@@ -738,8 +738,8 @@ Gets a list of the VPCs that were created by other accounts and that can be asso
 - `nexttoken`:  Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of NextToken from the response in the nexttoken parameter in another ListVPCAssociationAuthorizations request.
 """
 
-ListVPCAssociationAuthorizations(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation"; aws_config=aws_config)
-ListVPCAssociationAuthorizations(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", args; aws_config=aws_config)
+list_vpcassociation_authorizations(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation"; aws_config=aws_config)
+list_vpcassociation_authorizations(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", args; aws_config=aws_config)
 
 """
     TestDNSAnswer()
@@ -757,8 +757,8 @@ Gets the value that Amazon Route 53 returns in response to a DNS request for a s
 - `resolverip`: If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East (N. Virginia) Region (us-east-1).
 """
 
-TestDNSAnswer(hostedzoneid, recordname, recordtype; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype); aws_config=aws_config)
-TestDNSAnswer(hostedzoneid, recordname, recordtype, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype), args)); aws_config=aws_config)
+test_dnsanswer(hostedzoneid, recordname, recordtype; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype); aws_config=aws_config)
+test_dnsanswer(hostedzoneid, recordname, recordtype, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/testdnsanswer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hostedzoneid"=>hostedzoneid, "recordname"=>recordname, "recordtype"=>recordtype), args)); aws_config=aws_config)
 
 """
     UpdateHealthCheck()
@@ -787,8 +787,8 @@ Updates an existing health check. Note that some values can't be updated.  For m
 - `SearchString`: If the value of Type is HTTP_STR_MATCH or HTTPS_STR_MATCH, the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. (You can't change the value of Type when you update a health check.)
 """
 
-UpdateHealthCheck(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
-UpdateHealthCheck(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
+update_health_check(HealthCheckId; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)"; aws_config=aws_config)
+update_health_check(HealthCheckId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)", args; aws_config=aws_config)
 
 """
     UpdateHostedZoneComment()
@@ -802,8 +802,8 @@ Updates the comment for a specified hosted zone.
 - `Comment`: The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
 """
 
-UpdateHostedZoneComment(Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
-UpdateHostedZoneComment(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
+update_hosted_zone_comment(Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
+update_hosted_zone_comment(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
 
 """
     UpdateTrafficPolicyComment()
@@ -817,8 +817,8 @@ Updates the comment for a specified traffic policy version.
 
 """
 
-UpdateTrafficPolicyComment(Comment, Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}("Comment"=>Comment); aws_config=aws_config)
-UpdateTrafficPolicyComment(Comment, Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Comment"=>Comment), args)); aws_config=aws_config)
+update_traffic_policy_comment(Comment, Id, Version; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}("Comment"=>Comment); aws_config=aws_config)
+update_traffic_policy_comment(Comment, Id, Version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Comment"=>Comment), args)); aws_config=aws_config)
 
 """
     UpdateTrafficPolicyInstance()
@@ -833,5 +833,5 @@ Updates the resource record sets in a specified hosted zone that were created ba
 
 """
 
-UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion); aws_config=aws_config)
-UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), args)); aws_config=aws_config)
+update_traffic_policy_instance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion); aws_config=aws_config)
+update_traffic_policy_instance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TTL"=>TTL, "TrafficPolicyId"=>TrafficPolicyId, "TrafficPolicyVersion"=>TrafficPolicyVersion), args)); aws_config=aws_config)

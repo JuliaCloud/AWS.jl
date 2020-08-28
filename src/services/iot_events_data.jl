@@ -14,8 +14,8 @@ Sends a set of messages to the AWS IoT Events system. Each message payload is tr
 
 """
 
-BatchPutMessage(messages; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}("messages"=>messages); aws_config=aws_config)
-BatchPutMessage(messages, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), args)); aws_config=aws_config)
+batch_put_message(messages; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}("messages"=>messages); aws_config=aws_config)
+batch_put_message(messages, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), args)); aws_config=aws_config)
 
 """
     BatchUpdateDetector()
@@ -27,8 +27,8 @@ Updates the state, variable values, and timer settings of one or more detectors 
 
 """
 
-BatchUpdateDetector(detectors; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}("detectors"=>detectors); aws_config=aws_config)
-BatchUpdateDetector(detectors, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), args)); aws_config=aws_config)
+batch_update_detector(detectors; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}("detectors"=>detectors); aws_config=aws_config)
+batch_update_detector(detectors, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), args)); aws_config=aws_config)
 
 """
     DescribeDetector()
@@ -42,8 +42,8 @@ Returns information about the specified detector (instance).
 - `keyValue`: A filter used to limit results to detectors (instances) created because of the given key ID.
 """
 
-DescribeDetector(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/"; aws_config=aws_config)
-DescribeDetector(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", args; aws_config=aws_config)
+describe_detector(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/"; aws_config=aws_config)
+describe_detector(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", args; aws_config=aws_config)
 
 """
     ListDetectors()
@@ -59,5 +59,5 @@ Lists detectors (the instances of a detector model).
 - `stateName`: A filter that limits results to those detectors (instances) in the given state.
 """
 
-ListDetectors(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)"; aws_config=aws_config)
-ListDetectors(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)", args; aws_config=aws_config)
+list_detectors(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)"; aws_config=aws_config)
+list_detectors(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)", args; aws_config=aws_config)

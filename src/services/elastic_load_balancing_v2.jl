@@ -15,8 +15,8 @@ Adds the specified SSL server certificate to the certificate list for the specif
 
 """
 
-AddListenerCertificates(Certificates, ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-AddListenerCertificates(Certificates, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+add_listener_certificates(Certificates, ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config)
+add_listener_certificates(Certificates, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     AddTags()
@@ -29,8 +29,8 @@ Adds the specified tags to the specified Elastic Load Balancing resource. You ca
 
 """
 
-AddTags(ResourceArns, Tags; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags); aws_config=aws_config)
-AddTags(ResourceArns, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags), args)); aws_config=aws_config)
+add_tags(ResourceArns, Tags; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags); aws_config=aws_config)
+add_tags(ResourceArns, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     CreateListener()
@@ -49,8 +49,8 @@ Creates a listener for the specified Application Load Balancer or Network Load B
 - `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
 """
 
-CreateListener(DefaultActions, LoadBalancerArn, Port, Protocol; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn, "Port"=>Port, "Protocol"=>Protocol); aws_config=aws_config)
-CreateListener(DefaultActions, LoadBalancerArn, Port, Protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn, "Port"=>Port, "Protocol"=>Protocol), args)); aws_config=aws_config)
+create_listener(DefaultActions, LoadBalancerArn, Port, Protocol; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn, "Port"=>Port, "Protocol"=>Protocol); aws_config=aws_config)
+create_listener(DefaultActions, LoadBalancerArn, Port, Protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn, "Port"=>Port, "Protocol"=>Protocol), args)); aws_config=aws_config)
 
 """
     CreateLoadBalancer()
@@ -70,8 +70,8 @@ Creates an Application Load Balancer or a Network Load Balancer. When you create
 - `Type`: The type of load balancer. The default is application.
 """
 
-CreateLoadBalancer(Name; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-CreateLoadBalancer(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+create_load_balancer(Name; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_load_balancer(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateRule()
@@ -86,8 +86,8 @@ Creates a rule for the specified listener. The listener must be associated with 
 
 """
 
-CreateRule(Actions, Conditions, ListenerArn, Priority; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority); aws_config=aws_config)
-CreateRule(Actions, Conditions, ListenerArn, Priority, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority), args)); aws_config=aws_config)
+create_rule(Actions, Conditions, ListenerArn, Priority; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority); aws_config=aws_config)
+create_rule(Actions, Conditions, ListenerArn, Priority, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority), args)); aws_config=aws_config)
 
 """
     CreateTargetGroup()
@@ -113,8 +113,8 @@ Creates a target group. To register targets with the target group, use RegisterT
 - `VpcId`: The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
 """
 
-CreateTargetGroup(Name; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-CreateTargetGroup(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+create_target_group(Name; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_target_group(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteListener()
@@ -126,8 +126,8 @@ Deletes the specified listener. Alternatively, your listener is deleted when you
 
 """
 
-DeleteListener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-DeleteListener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+delete_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+delete_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     DeleteLoadBalancer()
@@ -139,8 +139,8 @@ Deletes the specified Application Load Balancer or Network Load Balancer and its
 
 """
 
-DeleteLoadBalancer(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
-DeleteLoadBalancer(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
+delete_load_balancer(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
+delete_load_balancer(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
 
 """
     DeleteRule()
@@ -152,8 +152,8 @@ Deletes the specified rule. You can't delete the default rule.
 
 """
 
-DeleteRule(RuleArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config)
-DeleteRule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), args)); aws_config=aws_config)
+delete_rule(RuleArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config)
+delete_rule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), args)); aws_config=aws_config)
 
 """
     DeleteTargetGroup()
@@ -165,8 +165,8 @@ Deletes the specified target group. You can delete a target group if it is not r
 
 """
 
-DeleteTargetGroup(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
-DeleteTargetGroup(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
+delete_target_group(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
+delete_target_group(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeleteTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
 
 """
     DeregisterTargets()
@@ -179,8 +179,8 @@ Deregisters the specified targets from the specified target group. After the tar
 
 """
 
-DeregisterTargets(TargetGroupArn, Targets; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config)
-DeregisterTargets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), args)); aws_config=aws_config)
+deregister_targets(TargetGroupArn, Targets; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config)
+deregister_targets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), args)); aws_config=aws_config)
 
 """
     DescribeAccountLimits()
@@ -192,8 +192,8 @@ Describes the current Elastic Load Balancing resource limits for your AWS accoun
 - `PageSize`: The maximum number of results to return with this call.
 """
 
-DescribeAccountLimits(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits"; aws_config=aws_config)
-DescribeAccountLimits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits", args; aws_config=aws_config)
+describe_account_limits(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits"; aws_config=aws_config)
+describe_account_limits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits", args; aws_config=aws_config)
 
 """
     DescribeListenerCertificates()
@@ -208,8 +208,8 @@ Describes the default certificate and the certificate list for the specified HTT
 - `PageSize`: The maximum number of results to return with this call.
 """
 
-DescribeListenerCertificates(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-DescribeListenerCertificates(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+describe_listener_certificates(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+describe_listener_certificates(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     DescribeListeners()
@@ -223,8 +223,8 @@ Describes the specified listeners or the listeners for the specified Application
 - `PageSize`: The maximum number of results to return with this call.
 """
 
-DescribeListeners(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListeners"; aws_config=aws_config)
-DescribeListeners(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListeners", args; aws_config=aws_config)
+describe_listeners(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListeners"; aws_config=aws_config)
+describe_listeners(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListeners", args; aws_config=aws_config)
 
 """
     DescribeLoadBalancerAttributes()
@@ -236,8 +236,8 @@ Describes the attributes for the specified Application Load Balancer or Network 
 
 """
 
-DescribeLoadBalancerAttributes(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
-DescribeLoadBalancerAttributes(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
+describe_load_balancer_attributes(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
+describe_load_balancer_attributes(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
 
 """
     DescribeLoadBalancers()
@@ -251,8 +251,8 @@ Describes the specified load balancers or all of your load balancers. To describ
 - `PageSize`: The maximum number of results to return with this call.
 """
 
-DescribeLoadBalancers(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers"; aws_config=aws_config)
-DescribeLoadBalancers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers", args; aws_config=aws_config)
+describe_load_balancers(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers"; aws_config=aws_config)
+describe_load_balancers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeLoadBalancers", args; aws_config=aws_config)
 
 """
     DescribeRules()
@@ -266,8 +266,8 @@ Describes the specified rules or the rules for the specified listener. You must 
 - `RuleArns`: The Amazon Resource Names (ARN) of the rules.
 """
 
-DescribeRules(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeRules"; aws_config=aws_config)
-DescribeRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeRules", args; aws_config=aws_config)
+describe_rules(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeRules"; aws_config=aws_config)
+describe_rules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeRules", args; aws_config=aws_config)
 
 """
     DescribeSSLPolicies()
@@ -280,8 +280,8 @@ Describes the specified policies or all policies used for SSL negotiation. For m
 - `PageSize`: The maximum number of results to return with this call.
 """
 
-DescribeSSLPolicies(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies"; aws_config=aws_config)
-DescribeSSLPolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies", args; aws_config=aws_config)
+describe_sslpolicies(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies"; aws_config=aws_config)
+describe_sslpolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeSSLPolicies", args; aws_config=aws_config)
 
 """
     DescribeTags()
@@ -293,8 +293,8 @@ Describes the tags for the specified resources. You can describe the tags for on
 
 """
 
-DescribeTags(ResourceArns; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}("ResourceArns"=>ResourceArns); aws_config=aws_config)
-DescribeTags(ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
+describe_tags(ResourceArns; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}("ResourceArns"=>ResourceArns); aws_config=aws_config)
+describe_tags(ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
 
 """
     DescribeTargetGroupAttributes()
@@ -306,8 +306,8 @@ Describes the attributes for the specified target group. For more information, s
 
 """
 
-DescribeTargetGroupAttributes(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
-DescribeTargetGroupAttributes(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
+describe_target_group_attributes(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
+describe_target_group_attributes(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
 
 """
     DescribeTargetGroups()
@@ -322,8 +322,8 @@ Describes the specified target groups or all of your target groups. By default, 
 - `TargetGroupArns`: The Amazon Resource Names (ARN) of the target groups.
 """
 
-DescribeTargetGroups(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups"; aws_config=aws_config)
-DescribeTargetGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups", args; aws_config=aws_config)
+describe_target_groups(; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups"; aws_config=aws_config)
+describe_target_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetGroups", args; aws_config=aws_config)
 
 """
     DescribeTargetHealth()
@@ -337,8 +337,8 @@ Describes the health of the specified targets or all of your targets.
 - `Targets`: The targets.
 """
 
-DescribeTargetHealth(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
-DescribeTargetHealth(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
+describe_target_health(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
+describe_target_health(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTargetHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
 
 """
     ModifyListener()
@@ -357,8 +357,8 @@ Replaces the specified properties of the specified listener. Any properties that
 - `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
 """
 
-ModifyListener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-ModifyListener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+modify_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+modify_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     ModifyLoadBalancerAttributes()
@@ -371,8 +371,8 @@ Modifies the specified attributes of the specified Application Load Balancer or 
 
 """
 
-ModifyLoadBalancerAttributes(Attributes, LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
-ModifyLoadBalancerAttributes(Attributes, LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
+modify_load_balancer_attributes(Attributes, LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
+modify_load_balancer_attributes(Attributes, LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
 
 """
     ModifyRule()
@@ -387,8 +387,8 @@ Replaces the specified properties of the specified rule. Any properties that you
 - `Conditions`: The conditions. Each rule can include zero or one of the following conditions: http-request-method, host-header, path-pattern, and source-ip, and zero or more of the following conditions: http-header and query-string.
 """
 
-ModifyRule(RuleArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config)
-ModifyRule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), args)); aws_config=aws_config)
+modify_rule(RuleArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}("RuleArn"=>RuleArn); aws_config=aws_config)
+modify_rule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleArn"=>RuleArn), args)); aws_config=aws_config)
 
 """
     ModifyTargetGroup()
@@ -410,8 +410,8 @@ Modifies the health checks used when evaluating the health state of the targets 
 - `UnhealthyThresholdCount`: The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
 """
 
-ModifyTargetGroup(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
-ModifyTargetGroup(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
+modify_target_group(TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
+modify_target_group(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
 
 """
     ModifyTargetGroupAttributes()
@@ -424,8 +424,8 @@ Modifies the specified attributes of the specified target group.
 
 """
 
-ModifyTargetGroupAttributes(Attributes, TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
-ModifyTargetGroupAttributes(Attributes, TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
+modify_target_group_attributes(Attributes, TargetGroupArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
+modify_target_group_attributes(Attributes, TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
 
 """
     RegisterTargets()
@@ -438,8 +438,8 @@ Registers the specified targets with the specified target group. If the target i
 
 """
 
-RegisterTargets(TargetGroupArn, Targets; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config)
-RegisterTargets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), args)); aws_config=aws_config)
+register_targets(TargetGroupArn, Targets; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config)
+register_targets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RegisterTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets), args)); aws_config=aws_config)
 
 """
     RemoveListenerCertificates()
@@ -452,8 +452,8 @@ Removes the specified certificate from the certificate list for the specified HT
 
 """
 
-RemoveListenerCertificates(Certificates, ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-RemoveListenerCertificates(Certificates, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+remove_listener_certificates(Certificates, ListenerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn); aws_config=aws_config)
+remove_listener_certificates(Certificates, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveListenerCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificates"=>Certificates, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     RemoveTags()
@@ -466,8 +466,8 @@ Removes the specified tags from the specified Elastic Load Balancing resource. T
 
 """
 
-RemoveTags(ResourceArns, TagKeys; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys); aws_config=aws_config)
-RemoveTags(ResourceArns, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+remove_tags(ResourceArns, TagKeys; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys); aws_config=aws_config)
+remove_tags(ResourceArns, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArns"=>ResourceArns, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     SetIpAddressType()
@@ -480,8 +480,8 @@ Sets the type of IP addresses used by the subnets of the specified Application L
 
 """
 
-SetIpAddressType(IpAddressType, LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
-SetIpAddressType(IpAddressType, LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
+set_ip_address_type(IpAddressType, LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
+set_ip_address_type(IpAddressType, LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddressType"=>IpAddressType, "LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
 
 """
     SetRulePriorities()
@@ -493,8 +493,8 @@ Sets the priorities of the specified rules. You can reorder the rules as long as
 
 """
 
-SetRulePriorities(RulePriorities; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}("RulePriorities"=>RulePriorities); aws_config=aws_config)
-SetRulePriorities(RulePriorities, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RulePriorities"=>RulePriorities), args)); aws_config=aws_config)
+set_rule_priorities(RulePriorities; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}("RulePriorities"=>RulePriorities); aws_config=aws_config)
+set_rule_priorities(RulePriorities, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetRulePriorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RulePriorities"=>RulePriorities), args)); aws_config=aws_config)
 
 """
     SetSecurityGroups()
@@ -507,8 +507,8 @@ Associates the specified security groups with the specified Application Load Bal
 
 """
 
-SetSecurityGroups(LoadBalancerArn, SecurityGroups; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups); aws_config=aws_config)
-SetSecurityGroups(LoadBalancerArn, SecurityGroups, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups), args)); aws_config=aws_config)
+set_security_groups(LoadBalancerArn, SecurityGroups; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups); aws_config=aws_config)
+set_security_groups(LoadBalancerArn, SecurityGroups, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn, "SecurityGroups"=>SecurityGroups), args)); aws_config=aws_config)
 
 """
     SetSubnets()
@@ -523,5 +523,5 @@ Enables the Availability Zones for the specified public subnets for the specifie
 - `Subnets`: The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
 """
 
-SetSubnets(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
-SetSubnets(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)
+set_subnets(LoadBalancerArn; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
+set_subnets(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)

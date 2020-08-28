@@ -16,8 +16,8 @@ Creates a new Cost Category with the requested name and rules.
 
 """
 
-CreateCostCategoryDefinition(Name, RuleVersion, Rules; aws_config::AWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
-CreateCostCategoryDefinition(Name, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)
+create_cost_category_definition(Name, RuleVersion, Rules; aws_config::AWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
+create_cost_category_definition(Name, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)
 
 """
     DeleteCostCategoryDefinition()
@@ -29,8 +29,8 @@ Deletes a Cost Category. Expenses from this month going forward will no longer b
 
 """
 
-DeleteCostCategoryDefinition(CostCategoryArn; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
-DeleteCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
+delete_cost_category_definition(CostCategoryArn; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
+delete_cost_category_definition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
 
 """
     DescribeCostCategoryDefinition()
@@ -44,8 +44,8 @@ Returns the name, ARN, rules, definition, and effective dates of a Cost Category
 - `EffectiveOn`:  The date when the Cost Category was effective. 
 """
 
-DescribeCostCategoryDefinition(CostCategoryArn; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
-DescribeCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
+describe_cost_category_definition(CostCategoryArn; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
+describe_cost_category_definition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
 
 """
     GetCostAndUsage()
@@ -63,8 +63,8 @@ Retrieves cost and usage metrics for your account. You can specify which cost an
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetCostAndUsage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetCostAndUsage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_cost_and_usage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_cost_and_usage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetCostAndUsageWithResources()
@@ -82,8 +82,8 @@ Retrieves cost and usage metrics with resources for your account. You can specif
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetCostAndUsageWithResources(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetCostAndUsageWithResources(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_cost_and_usage_with_resources(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_cost_and_usage_with_resources(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetCostForecast()
@@ -100,8 +100,8 @@ Retrieves a forecast for how much Amazon Web Services predicts that you will spe
 - `PredictionIntervalLevel`: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
 """
 
-GetCostForecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetCostForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_cost_forecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_cost_forecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetDimensionValues()
@@ -118,8 +118,8 @@ Retrieves all available filter values for a specified filter over a period of ti
 - `SearchString`: The value that you want to search the filter values for.
 """
 
-GetDimensionValues(Dimension, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetDimensionValues(Dimension, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_dimension_values(Dimension, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_dimension_values(Dimension, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetReservationCoverage()
@@ -137,8 +137,8 @@ Retrieves the reservation coverage for your account. This enables you to see how
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetReservationCoverage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetReservationCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_reservation_coverage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_reservation_coverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetReservationPurchaseRecommendation()
@@ -159,8 +159,8 @@ Gets recommendations for which reservations to purchase. These recommendations c
 - `TermInYears`: The reservation term that you want recommendations for.
 """
 
-GetReservationPurchaseRecommendation(Service; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
-GetReservationPurchaseRecommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
+get_reservation_purchase_recommendation(Service; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
+get_reservation_purchase_recommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
 
 """
     GetReservationUtilization()
@@ -177,8 +177,8 @@ Retrieves the reservation utilization for your account. Master accounts in an or
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetReservationUtilization(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetReservationUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_reservation_utilization(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_reservation_utilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetRightsizingRecommendation()
@@ -195,8 +195,8 @@ Creates recommendations that help you save cost by identifying idle and underuti
 - `PageSize`: The number of recommendations that you want returned in a single response object.
 """
 
-GetRightsizingRecommendation(Service; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
-GetRightsizingRecommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
+get_rightsizing_recommendation(Service; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
+get_rightsizing_recommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansCoverage()
@@ -215,8 +215,8 @@ Retrieves the Savings Plans covered for your account. This enables you to see ho
 - `NextToken`: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetSavingsPlansCoverage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetSavingsPlansCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_savings_plans_coverage(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_savings_plans_coverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansPurchaseRecommendation()
@@ -236,8 +236,8 @@ Retrieves your request parameters, Savings Plan Recommendations Summary and Deta
 - `PageSize`: The number of recommendations that you want returned in a single response object.
 """
 
-GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears); aws_config=aws_config)
-GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), args)); aws_config=aws_config)
+get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears); aws_config=aws_config)
+get_savings_plans_purchase_recommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansUtilization()
@@ -252,8 +252,8 @@ Retrieves the Savings Plans utilization for your account across date ranges with
 - `Granularity`: The granularity of the Amazon Web Services utillization data for your Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
 """
 
-GetSavingsPlansUtilization(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetSavingsPlansUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_savings_plans_utilization(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_savings_plans_utilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansUtilizationDetails()
@@ -269,8 +269,8 @@ Retrieves attribute data along with aggregate utilization and savings data for a
 - `NextToken`: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
 """
 
-GetSavingsPlansUtilizationDetails(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetSavingsPlansUtilizationDetails(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_savings_plans_utilization_details(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_savings_plans_utilization_details(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetTags()
@@ -286,8 +286,8 @@ Queries for available tag keys and tag values for a specified period. You can se
 - `TagKey`: The key of the tag that you want to return values for.
 """
 
-GetTags(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetTags", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetTags(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_tags(TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetTags", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_tags(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetUsageForecast()
@@ -304,8 +304,8 @@ Retrieves a forecast for how much Amazon Web Services predicts that you will use
 - `PredictionIntervalLevel`: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
 """
 
-GetUsageForecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
-GetUsageForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
+get_usage_forecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_usage_forecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     ListCostCategoryDefinitions()
@@ -318,8 +318,8 @@ Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories 
 - `NextToken`:  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size. 
 """
 
-ListCostCategoryDefinitions(; aws_config::AWSConfig=global_aws_config()) = cost_explorer("ListCostCategoryDefinitions"; aws_config=aws_config)
-ListCostCategoryDefinitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("ListCostCategoryDefinitions", args; aws_config=aws_config)
+list_cost_category_definitions(; aws_config::AWSConfig=global_aws_config()) = cost_explorer("ListCostCategoryDefinitions"; aws_config=aws_config)
+list_cost_category_definitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("ListCostCategoryDefinitions", args; aws_config=aws_config)
 
 """
     UpdateCostCategoryDefinition()
@@ -333,5 +333,5 @@ Updates an existing Cost Category. Changes made to the Cost Category rules will 
 
 """
 
-UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules; aws_config::AWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
-UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)
+update_cost_category_definition(CostCategoryArn, RuleVersion, Rules; aws_config::AWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
+update_cost_category_definition(CostCategoryArn, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)

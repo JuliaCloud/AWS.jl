@@ -17,5 +17,5 @@ using UUIDs
 - `StreamName`: The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName, you must specify the streamARN.
 """
 
-GetMedia(StartSelector; aws_config::AWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}("StartSelector"=>StartSelector); aws_config=aws_config)
-GetMedia(StartSelector, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), args)); aws_config=aws_config)
+get_media(StartSelector; aws_config::AWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}("StartSelector"=>StartSelector); aws_config=aws_config)
+get_media(StartSelector, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), args)); aws_config=aws_config)

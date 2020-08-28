@@ -21,8 +21,8 @@ Returns the number of closed workflow executions within the given domain that me
 - `typeFilter`: If specified, indicates the type of the workflow executions to be counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
 """
 
-CountClosedWorkflowExecutions(domain; aws_config::AWSConfig=global_aws_config()) = swf("CountClosedWorkflowExecutions", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-CountClosedWorkflowExecutions(domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws_config=aws_config)
+count_closed_workflow_executions(domain; aws_config::AWSConfig=global_aws_config()) = swf("CountClosedWorkflowExecutions", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
+count_closed_workflow_executions(domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws_config=aws_config)
 
 """
     CountOpenWorkflowExecutions()
@@ -39,8 +39,8 @@ Returns the number of open workflow executions within the given domain that meet
 - `typeFilter`: Specifies the type of the workflow executions to be counted.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
 """
 
-CountOpenWorkflowExecutions(domain, startTimeFilter; aws_config::AWSConfig=global_aws_config()) = swf("CountOpenWorkflowExecutions", Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter); aws_config=aws_config)
-CountOpenWorkflowExecutions(domain, startTimeFilter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), args)); aws_config=aws_config)
+count_open_workflow_executions(domain, startTimeFilter; aws_config::AWSConfig=global_aws_config()) = swf("CountOpenWorkflowExecutions", Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter); aws_config=aws_config)
+count_open_workflow_executions(domain, startTimeFilter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), args)); aws_config=aws_config)
 
 """
     CountPendingActivityTasks()
@@ -53,8 +53,8 @@ Returns the estimated number of activity tasks in the specified task list. The c
 
 """
 
-CountPendingActivityTasks(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingActivityTasks", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
-CountPendingActivityTasks(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingActivityTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
+count_pending_activity_tasks(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingActivityTasks", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
+count_pending_activity_tasks(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingActivityTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
 
 """
     CountPendingDecisionTasks()
@@ -67,8 +67,8 @@ Returns the estimated number of decision tasks in the specified task list. The c
 
 """
 
-CountPendingDecisionTasks(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingDecisionTasks", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
-CountPendingDecisionTasks(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingDecisionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
+count_pending_decision_tasks(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingDecisionTasks", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
+count_pending_decision_tasks(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("CountPendingDecisionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
 
 """
     DeprecateActivityType()
@@ -81,8 +81,8 @@ Deprecates the specified activity type. After an activity type has been deprecat
 
 """
 
-DeprecateActivityType(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
-DeprecateActivityType(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
+deprecate_activity_type(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
+deprecate_activity_type(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
 
 """
     DeprecateDomain()
@@ -94,8 +94,8 @@ Deprecates the specified domain. After a domain has been deprecated it cannot be
 
 """
 
-DeprecateDomain(name; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
-DeprecateDomain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+deprecate_domain(name; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
+deprecate_domain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DeprecateWorkflowType()
@@ -108,8 +108,8 @@ Deprecates the specified workflow type. After a workflow type has been deprecate
 
 """
 
-DeprecateWorkflowType(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
-DeprecateWorkflowType(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
+deprecate_workflow_type(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
+deprecate_workflow_type(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
 
 """
     DescribeActivityType()
@@ -122,8 +122,8 @@ Returns information about the specified activity type. This includes configurati
 
 """
 
-DescribeActivityType(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("DescribeActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
-DescribeActivityType(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
+describe_activity_type(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("DescribeActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
+describe_activity_type(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
 
 """
     DescribeDomain()
@@ -135,8 +135,8 @@ Returns information about the specified domain, including description and status
 
 """
 
-DescribeDomain(name; aws_config::AWSConfig=global_aws_config()) = swf("DescribeDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
-DescribeDomain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+describe_domain(name; aws_config::AWSConfig=global_aws_config()) = swf("DescribeDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
+describe_domain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DescribeWorkflowExecution()
@@ -149,8 +149,8 @@ Returns information about the specified workflow execution including its type an
 
 """
 
-DescribeWorkflowExecution(domain, execution; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowExecution", Dict{String, Any}("domain"=>domain, "execution"=>execution); aws_config=aws_config)
-DescribeWorkflowExecution(domain, execution, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), args)); aws_config=aws_config)
+describe_workflow_execution(domain, execution; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowExecution", Dict{String, Any}("domain"=>domain, "execution"=>execution); aws_config=aws_config)
+describe_workflow_execution(domain, execution, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), args)); aws_config=aws_config)
 
 """
     DescribeWorkflowType()
@@ -163,8 +163,8 @@ Returns information about the specified workflow type. This includes configurati
 
 """
 
-DescribeWorkflowType(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
-DescribeWorkflowType(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
+describe_workflow_type(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
+describe_workflow_type(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("DescribeWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
 
 """
     GetWorkflowExecutionHistory()
@@ -181,8 +181,8 @@ Returns the history of the specified workflow execution. The results may be spli
 - `reverseOrder`: When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
 """
 
-GetWorkflowExecutionHistory(domain, execution; aws_config::AWSConfig=global_aws_config()) = swf("GetWorkflowExecutionHistory", Dict{String, Any}("domain"=>domain, "execution"=>execution); aws_config=aws_config)
-GetWorkflowExecutionHistory(domain, execution, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("GetWorkflowExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), args)); aws_config=aws_config)
+get_workflow_execution_history(domain, execution; aws_config::AWSConfig=global_aws_config()) = swf("GetWorkflowExecutionHistory", Dict{String, Any}("domain"=>domain, "execution"=>execution); aws_config=aws_config)
+get_workflow_execution_history(domain, execution, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("GetWorkflowExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "execution"=>execution), args)); aws_config=aws_config)
 
 """
     ListActivityTypes()
@@ -200,8 +200,8 @@ Returns information about all activities registered in the specified domain that
 - `reverseOrder`: When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
 """
 
-ListActivityTypes(domain, registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListActivityTypes", Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus); aws_config=aws_config)
-ListActivityTypes(domain, registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListActivityTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
+list_activity_types(domain, registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListActivityTypes", Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus); aws_config=aws_config)
+list_activity_types(domain, registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListActivityTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
 
 """
     ListClosedWorkflowExecutions()
@@ -223,8 +223,8 @@ Returns a list of closed workflow executions in the specified domain that meet t
 - `typeFilter`: If specified, only executions of the type specified in the filter are returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
 """
 
-ListClosedWorkflowExecutions(domain; aws_config::AWSConfig=global_aws_config()) = swf("ListClosedWorkflowExecutions", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-ListClosedWorkflowExecutions(domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws_config=aws_config)
+list_closed_workflow_executions(domain; aws_config::AWSConfig=global_aws_config()) = swf("ListClosedWorkflowExecutions", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
+list_closed_workflow_executions(domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListClosedWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws_config=aws_config)
 
 """
     ListDomains()
@@ -240,8 +240,8 @@ Returns the list of domains registered in the account. The results may be split 
 - `reverseOrder`: When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
 """
 
-ListDomains(registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListDomains", Dict{String, Any}("registrationStatus"=>registrationStatus); aws_config=aws_config)
-ListDomains(registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
+list_domains(registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListDomains", Dict{String, Any}("registrationStatus"=>registrationStatus); aws_config=aws_config)
+list_domains(registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
 
 """
     ListOpenWorkflowExecutions()
@@ -261,8 +261,8 @@ Returns a list of open workflow executions in the specified domain that meet the
 - `typeFilter`: If specified, only executions of the type specified in the filter are returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request. 
 """
 
-ListOpenWorkflowExecutions(domain, startTimeFilter; aws_config::AWSConfig=global_aws_config()) = swf("ListOpenWorkflowExecutions", Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter); aws_config=aws_config)
-ListOpenWorkflowExecutions(domain, startTimeFilter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), args)); aws_config=aws_config)
+list_open_workflow_executions(domain, startTimeFilter; aws_config::AWSConfig=global_aws_config()) = swf("ListOpenWorkflowExecutions", Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter); aws_config=aws_config)
+list_open_workflow_executions(domain, startTimeFilter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListOpenWorkflowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "startTimeFilter"=>startTimeFilter), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -274,8 +274,8 @@ List tags for a given domain.
 
 """
 
-ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = swf("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = swf("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     ListWorkflowTypes()
@@ -293,8 +293,8 @@ Returns information about workflow types in the specified domain. The results ma
 - `reverseOrder`: When set to true, returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
 """
 
-ListWorkflowTypes(domain, registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListWorkflowTypes", Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus); aws_config=aws_config)
-ListWorkflowTypes(domain, registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListWorkflowTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
+list_workflow_types(domain, registrationStatus; aws_config::AWSConfig=global_aws_config()) = swf("ListWorkflowTypes", Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus); aws_config=aws_config)
+list_workflow_types(domain, registrationStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("ListWorkflowTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "registrationStatus"=>registrationStatus), args)); aws_config=aws_config)
 
 """
     PollForActivityTask()
@@ -309,8 +309,8 @@ Used by workers to get an ActivityTask from the specified activity taskList. Thi
 - `identity`: Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
 """
 
-PollForActivityTask(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("PollForActivityTask", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
-PollForActivityTask(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("PollForActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
+poll_for_activity_task(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("PollForActivityTask", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
+poll_for_activity_task(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("PollForActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
 
 """
     PollForDecisionTask()
@@ -328,8 +328,8 @@ Used by deciders to get a DecisionTask from the specified decision taskList. A d
 - `reverseOrder`: When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
 """
 
-PollForDecisionTask(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("PollForDecisionTask", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
-PollForDecisionTask(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("PollForDecisionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
+poll_for_decision_task(domain, taskList; aws_config::AWSConfig=global_aws_config()) = swf("PollForDecisionTask", Dict{String, Any}("domain"=>domain, "taskList"=>taskList); aws_config=aws_config)
+poll_for_decision_task(domain, taskList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("PollForDecisionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "taskList"=>taskList), args)); aws_config=aws_config)
 
 """
     RecordActivityTaskHeartbeat()
@@ -343,8 +343,8 @@ Used by activity workers to report to the service that the ActivityTask represen
 - `details`: If specified, contains details about the progress of the task.
 """
 
-RecordActivityTaskHeartbeat(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RecordActivityTaskHeartbeat", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-RecordActivityTaskHeartbeat(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RecordActivityTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
+record_activity_task_heartbeat(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RecordActivityTaskHeartbeat", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
+record_activity_task_heartbeat(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RecordActivityTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
 
 """
     RegisterActivityType()
@@ -366,8 +366,8 @@ Registers a new activity type along with its configuration settings in the speci
 - `description`: A textual description of the activity type.
 """
 
-RegisterActivityType(domain, name, version; aws_config::AWSConfig=global_aws_config()) = swf("RegisterActivityType", Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version); aws_config=aws_config)
-RegisterActivityType(domain, name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), args)); aws_config=aws_config)
+register_activity_type(domain, name, version; aws_config::AWSConfig=global_aws_config()) = swf("RegisterActivityType", Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version); aws_config=aws_config)
+register_activity_type(domain, name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), args)); aws_config=aws_config)
 
 """
     RegisterDomain()
@@ -383,8 +383,8 @@ Registers a new domain.  Access Control  You can use IAM policies to control thi
 - `tags`: Tags to be added when registering a domain. Tags may only contain unicode letters, digits, whitespace, or these symbols: _ . : / = + - @.
 """
 
-RegisterDomain(name, workflowExecutionRetentionPeriodInDays; aws_config::AWSConfig=global_aws_config()) = swf("RegisterDomain", Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays); aws_config=aws_config)
-RegisterDomain(name, workflowExecutionRetentionPeriodInDays, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays), args)); aws_config=aws_config)
+register_domain(name, workflowExecutionRetentionPeriodInDays; aws_config::AWSConfig=global_aws_config()) = swf("RegisterDomain", Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays); aws_config=aws_config)
+register_domain(name, workflowExecutionRetentionPeriodInDays, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "workflowExecutionRetentionPeriodInDays"=>workflowExecutionRetentionPeriodInDays), args)); aws_config=aws_config)
 
 """
     RegisterWorkflowType()
@@ -406,8 +406,8 @@ Registers a new workflow type and its configuration settings in the specified do
 - `description`: Textual description of the workflow type.
 """
 
-RegisterWorkflowType(domain, name, version; aws_config::AWSConfig=global_aws_config()) = swf("RegisterWorkflowType", Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version); aws_config=aws_config)
-RegisterWorkflowType(domain, name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), args)); aws_config=aws_config)
+register_workflow_type(domain, name, version; aws_config::AWSConfig=global_aws_config()) = swf("RegisterWorkflowType", Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version); aws_config=aws_config)
+register_workflow_type(domain, name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RegisterWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "name"=>name, "version"=>version), args)); aws_config=aws_config)
 
 """
     RequestCancelWorkflowExecution()
@@ -422,8 +422,8 @@ Records a WorkflowExecutionCancelRequested event in the currently running workfl
 - `runId`: The runId of the workflow execution to cancel.
 """
 
-RequestCancelWorkflowExecution(domain, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("RequestCancelWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId); aws_config=aws_config)
-RequestCancelWorkflowExecution(domain, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RequestCancelWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), args)); aws_config=aws_config)
+request_cancel_workflow_execution(domain, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("RequestCancelWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId); aws_config=aws_config)
+request_cancel_workflow_execution(domain, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RequestCancelWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), args)); aws_config=aws_config)
 
 """
     RespondActivityTaskCanceled()
@@ -437,8 +437,8 @@ Used by workers to tell the service that the ActivityTask identified by the task
 - `details`:  Information about the cancellation.
 """
 
-RespondActivityTaskCanceled(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCanceled", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-RespondActivityTaskCanceled(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCanceled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
+respond_activity_task_canceled(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCanceled", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
+respond_activity_task_canceled(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCanceled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
 
 """
     RespondActivityTaskCompleted()
@@ -452,8 +452,8 @@ Used by workers to tell the service that the ActivityTask identified by the task
 - `result`: The result of the activity task. It is a free form string that is implementation specific.
 """
 
-RespondActivityTaskCompleted(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCompleted", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-RespondActivityTaskCompleted(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
+respond_activity_task_completed(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCompleted", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
+respond_activity_task_completed(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
 
 """
     RespondActivityTaskFailed()
@@ -468,8 +468,8 @@ Used by workers to tell the service that the ActivityTask identified by the task
 - `reason`: Description of the error that may assist in diagnostics.
 """
 
-RespondActivityTaskFailed(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskFailed", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-RespondActivityTaskFailed(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskFailed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
+respond_activity_task_failed(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskFailed", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
+respond_activity_task_failed(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondActivityTaskFailed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
 
 """
     RespondDecisionTaskCompleted()
@@ -484,8 +484,8 @@ Used by deciders to tell the service that the DecisionTask identified by the tas
 - `executionContext`: User defined context to add to workflow execution.
 """
 
-RespondDecisionTaskCompleted(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondDecisionTaskCompleted", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-RespondDecisionTaskCompleted(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondDecisionTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
+respond_decision_task_completed(taskToken; aws_config::AWSConfig=global_aws_config()) = swf("RespondDecisionTaskCompleted", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
+respond_decision_task_completed(taskToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("RespondDecisionTaskCompleted", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws_config=aws_config)
 
 """
     SignalWorkflowExecution()
@@ -502,8 +502,8 @@ Records a WorkflowExecutionSignaled event in the workflow execution history and 
 - `runId`: The runId of the workflow execution to signal.
 """
 
-SignalWorkflowExecution(domain, signalName, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("SignalWorkflowExecution", Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId); aws_config=aws_config)
-SignalWorkflowExecution(domain, signalName, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("SignalWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId), args)); aws_config=aws_config)
+signal_workflow_execution(domain, signalName, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("SignalWorkflowExecution", Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId); aws_config=aws_config)
+signal_workflow_execution(domain, signalName, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("SignalWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "signalName"=>signalName, "workflowId"=>workflowId), args)); aws_config=aws_config)
 
 """
     StartWorkflowExecution()
@@ -526,8 +526,8 @@ Starts an execution of the workflow type in the specified domain using the provi
 - `taskStartToCloseTimeout`: Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.  A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault is returned. 
 """
 
-StartWorkflowExecution(domain, workflowId, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("StartWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType); aws_config=aws_config)
-StartWorkflowExecution(domain, workflowId, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("StartWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType), args)); aws_config=aws_config)
+start_workflow_execution(domain, workflowId, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("StartWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType); aws_config=aws_config)
+start_workflow_execution(domain, workflowId, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("StartWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId, "workflowType"=>workflowType), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -540,8 +540,8 @@ Add a tag to a Amazon SWF domain.  Amazon SWF supports a maximum of 50 tags per 
 
 """
 
-TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = swf("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = swf("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     TerminateWorkflowExecution()
@@ -559,8 +559,8 @@ Records a WorkflowExecutionTerminated event and forces closure of the workflow e
 - `runId`: The runId of the workflow execution to terminate.
 """
 
-TerminateWorkflowExecution(domain, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("TerminateWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId); aws_config=aws_config)
-TerminateWorkflowExecution(domain, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("TerminateWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), args)); aws_config=aws_config)
+terminate_workflow_execution(domain, workflowId; aws_config::AWSConfig=global_aws_config()) = swf("TerminateWorkflowExecution", Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId); aws_config=aws_config)
+terminate_workflow_execution(domain, workflowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("TerminateWorkflowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowId"=>workflowId), args)); aws_config=aws_config)
 
 """
     UndeprecateActivityType()
@@ -573,8 +573,8 @@ Undeprecates a previously deprecated activity type. After an activity type has b
 
 """
 
-UndeprecateActivityType(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
-UndeprecateActivityType(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
+undeprecate_activity_type(activityType, domain; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateActivityType", Dict{String, Any}("activityType"=>activityType, "domain"=>domain); aws_config=aws_config)
+undeprecate_activity_type(activityType, domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateActivityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityType"=>activityType, "domain"=>domain), args)); aws_config=aws_config)
 
 """
     UndeprecateDomain()
@@ -586,8 +586,8 @@ Undeprecates a previously deprecated domain. After a domain has been undeprecate
 
 """
 
-UndeprecateDomain(name; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
-UndeprecateDomain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+undeprecate_domain(name; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateDomain", Dict{String, Any}("name"=>name); aws_config=aws_config)
+undeprecate_domain(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     UndeprecateWorkflowType()
@@ -600,8 +600,8 @@ Undeprecates a previously deprecated workflow type. After a workflow type has be
 
 """
 
-UndeprecateWorkflowType(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
-UndeprecateWorkflowType(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
+undeprecate_workflow_type(domain, workflowType; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateWorkflowType", Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType); aws_config=aws_config)
+undeprecate_workflow_type(domain, workflowType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UndeprecateWorkflowType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "workflowType"=>workflowType), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -614,5 +614,5 @@ Remove a tag from a Amazon SWF domain.
 
 """
 
-UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = swf("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = swf("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = swf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)

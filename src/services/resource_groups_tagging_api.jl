@@ -11,8 +11,8 @@ Describes the status of the StartReportCreation operation.  You can call this op
 
 """
 
-DescribeReportCreation(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation"; aws_config=aws_config)
-DescribeReportCreation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation", args; aws_config=aws_config)
+describe_report_creation(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation"; aws_config=aws_config)
+describe_report_creation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation", args; aws_config=aws_config)
 
 """
     GetComplianceSummary()
@@ -29,8 +29,8 @@ Returns a table that shows counts of resources that are noncompliant with their 
 - `TargetIdFilters`: The target identifiers (usually, specific account IDs) to limit the output by. If you use this parameter, the count of returned noncompliant resources includes only resources with the specified target IDs.
 """
 
-GetComplianceSummary(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary"; aws_config=aws_config)
-GetComplianceSummary(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary", args; aws_config=aws_config)
+get_compliance_summary(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary"; aws_config=aws_config)
+get_compliance_summary(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary", args; aws_config=aws_config)
 
 """
     GetResources()
@@ -47,8 +47,8 @@ Returns all the tagged or previously tagged resources that are located in the sp
 - `TagsPerPage`: AWS recommends using ResourcesPerPage instead of this parameter. A limit that restricts the number of tags (key and value pairs) returned by GetResources in paginated output. A resource with no tags is counted as having one tag (one key and value pair).  GetResources does not split a resource and its associated tags across pages. If the specified TagsPerPage would cause such a break, a PaginationToken is returned in place of the affected resource and its tags. Use that token in another request to get the remaining data. For example, if you specify a TagsPerPage of 100 and the account has 22 resources with 10 tags each (meaning that each resource has 10 key and value pairs), the output will consist of three pages. The first page displays the first 10 resources, each with its 10 tags. The second page displays the next 10 resources, each with its 10 tags. The third page displays the remaining 2 resources, each with its 10 tags. You can set TagsPerPage to a minimum of 100 items and the maximum of 500 items.
 """
 
-GetResources(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources"; aws_config=aws_config)
-GetResources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources", args; aws_config=aws_config)
+get_resources(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources"; aws_config=aws_config)
+get_resources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources", args; aws_config=aws_config)
 
 """
     GetTagKeys()
@@ -59,8 +59,8 @@ Returns all tag keys in the specified Region for the AWS account.
 - `PaginationToken`: A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
 """
 
-GetTagKeys(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys"; aws_config=aws_config)
-GetTagKeys(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys", args; aws_config=aws_config)
+get_tag_keys(; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys"; aws_config=aws_config)
+get_tag_keys(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys", args; aws_config=aws_config)
 
 """
     GetTagValues()
@@ -74,8 +74,8 @@ Returns all tag values for the specified key in the specified Region for the AWS
 - `PaginationToken`: A string that indicates that additional data is available. Leave this value empty for your initial request. If the response includes a PaginationToken, use that string for this value to request an additional page of data.
 """
 
-GetTagValues(Key; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
-GetTagValues(Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
+get_tag_values(Key; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
+get_tag_values(Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
 
 """
     StartReportCreation()
@@ -87,8 +87,8 @@ Generates a report that lists all tagged resources in accounts across your organ
 
 """
 
-StartReportCreation(S3Bucket; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}("S3Bucket"=>S3Bucket); aws_config=aws_config)
-StartReportCreation(S3Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket), args)); aws_config=aws_config)
+start_report_creation(S3Bucket; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}("S3Bucket"=>S3Bucket); aws_config=aws_config)
+start_report_creation(S3Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket), args)); aws_config=aws_config)
 
 """
     TagResources()
@@ -101,8 +101,8 @@ Applies one or more tags to the specified resources. Note the following:   Not a
 
 """
 
-TagResources(ResourceARNList, Tags; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags); aws_config=aws_config)
-TagResources(ResourceARNList, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resources(ResourceARNList, Tags; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags); aws_config=aws_config)
+tag_resources(ResourceARNList, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResources()
@@ -115,5 +115,5 @@ Removes the specified tags from the specified resources. When you specify a tag 
 
 """
 
-UntagResources(ResourceARNList, TagKeys; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResources(ResourceARNList, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resources(ResourceARNList, TagKeys; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resources(ResourceARNList, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys), args)); aws_config=aws_config)

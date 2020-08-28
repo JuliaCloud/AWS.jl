@@ -20,8 +20,8 @@ using UUIDs
 - `variables`:  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
 """
 
-GetScreenData(appId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
-GetScreenData(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws_config=aws_config)
+get_screen_data(appId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
+get_screen_data(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws_config=aws_config)
 
 """
     InvokeScreenAutomation()
@@ -40,5 +40,5 @@ GetScreenData(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aw
 - `variables`:  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
 """
 
-InvokeScreenAutomation(appId, automationId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
-InvokeScreenAutomation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)
+invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
+invoke_screen_automation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)
