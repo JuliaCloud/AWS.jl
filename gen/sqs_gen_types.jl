@@ -1,9 +1,0 @@
-type BatchResultErrorEntry end
-type ChangeMessageVisibilityBatchRequestEntry end
-type ChangeMessageVisibilityBatchResultEntry end
-type DeleteMessageBatchRequestEntry end
-type DeleteMessageBatchResultEntry end
-type Message end
-type MessageAttributeValue end
-type SendMessageBatchRequestEntry end
-type SendMessageBatchResultEntry end

@@ -1,22 +1,34 @@
 using AWS
+using AWS: AWSCredentials
+using AWS: AWSServices
+using AWS.AWSExceptions: AWSException
+using AWS.AWSMetadataUtilities: _clean_documentation, _filter_latest_service_version,
+    _generate_low_level_definition, _generate_high_level_definition, _generate_high_level_definitions,
+    _get_aws_sdk_js_files, _get_service_and_version, _get_function_parameters, _clean_uri, _format_function_name,
+    InvalidFileName, ProtocolNotDefined
+using Base64
+using Compat: mergewith
+using Dates
+using HTTP
+using JSON
+using OrderedCollections: LittleDict, OrderedDict
+using MbedTLS: digest, MD_SHA256, MD_MD5
+using Mocking
+using Retry
+using Test
+using UUIDs
+using XMLDict
 
-config_file = isempty(ARGS) ? "config.jl" : ARGS[1]
-include(config_file)
+Mocking.activate()
 
-include("tests3.jl")
-include("testsqs.jl")
-include("testautoscale.jl")
-include("ec2_utils.jl")
-#include("testec2.jl")
+include("patch.jl")
 
-const dbg = get(config, "dbg", false)
-const key = get(config, "key", AWS.AWS_SECKEY)
-const id = get(config, "key", AWS.AWS_ID)
-const region = get(config, "region", AWS.AWS_REGION)
+aws = AWSConfig()
 
-env = AWSEnv(timeout=60.0, id=id, key=key, region=region, dbg=dbg)
-
-TestS3.runtests(env, config)
-TestSQS.runtests(env, config)
-TestEC2Utils.runtests(env, config)
-TestAutoscale.runtests(env, config)
+@testset "AWS.jl" begin
+    include("utilities.jl")
+    include("AWS.jl")
+    include("AWSCredentials.jl")
+    include("AWSExceptions.jl")
+    include("AWSMetadataUtilities.jl")
+end

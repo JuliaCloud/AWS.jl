@@ -1,0 +1,37 @@
+name = "AWS"
+uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
+license = "MIT"
+version = "1.0.0"
+
+[deps]
+Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+IniFile = "83e8ac13-25f8-5344-8a64-a9f2b223428f"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+MbedTLS = "739be429-bea8-5141-9913-cc70e7f3736d"
+Mocking = "78c3b35d-d492-501b-9361-3d52fe80e533"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+Retry = "20febd7b-183b-5ae2-ac4a-720e7ce64774"
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+XMLDict = "228000da-037f-5747-90a9-8195ccbf91a5"
+
+[compat]
+Compat = "3"
+HTTP = "0.8"
+IniFile = "0.5"
+JSON = "0.18, 0.19, 0.20, 0.21"
+MbedTLS = "0.6, 0.7, 1"
+Mocking = "0.7"
+OrderedCollections = "1"
+Retry = "0.3, 0.4"
+XMLDict = "0.3, 0.4"
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
+
+[targets]
+test = ["Test", "UUIDs"]

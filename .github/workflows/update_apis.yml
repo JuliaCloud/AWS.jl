@@ -1,0 +1,25 @@
+name: AWS
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 a.m. UTC 
+
+jobs:
+  AWS:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        julia-version: [1] 
+        julia-arch: [x86]
+        os: [ubuntu-latest]
+    steps:
+      - uses: julia-actions/setup-julia@latest
+        with:
+          version: ${{ matrix.julia-version }}
+      - name: UpdateAPI
+        # Run against the latest version, since everything merged into master will be tagged.
+        run: julia -e 'import Pkg; Pkg.develop(Pkg.PackageSpec(url="https://github.com/JuliaCloud/AWS.git", rev="master")); using AWS; AWS.AWSMetadata.parse_aws_metadata();'
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v2
+        with:
+         path: "~/.julia/dev/AWS/"
+         token: ${{ secrets.GITHUB_TOKEN }}

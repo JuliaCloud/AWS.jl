@@ -1,235 +1,666 @@
-__precompile__()
-
 module AWS
-using Requests
-using JSON
-using LightXML
-using Compat
 
-const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
-const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"
-const EP_US_WEST_NORTHERN_CALIFORNIA   = "ec2.us-west-1.amazonaws.com"
-const EP_EU_IRELAND                    = "ec2.eu-west-1.amazonaws.com"
-const EP_AP_SINGAPORE                  = "ec2.ap-southeast-1.amazonaws.com"
-const EP_AP_SYDNEY                     = "ec2.ap-southeast-2.amazonaws.com"
-const EP_AP_TOKYO                      = "ec2.ap-northeast-1.amazonaws.com"
-const EP_SA_SAO_PAULO                  = "ec2.sa-east-1.amazonaws.com"
+using Base64
+using Dates
+using HTTP
+using MbedTLS
+using Mocking
+using OrderedCollections: LittleDict, OrderedDict
+using Retry
+using Sockets
+using XMLDict
 
-export EP_US_EAST_NORTHERN_VIRGINIA, EP_US_WEST_OREGON, EP_US_WEST_NORTHERN_CALIFORNIA
-export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAULO
+export @service
+export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
+export JSONService, RestJSONService, RestXMLService, QueryService
 
-export AWSEnv
+include("utilities.jl")
+include("AWSCredentials.jl")
+include("AWSConfig.jl")
+include("AWSExceptions.jl")
+include("AWSMetadataUtilities.jl")
 
-const AP_NORTHEAST_1 = "ap-northeast-1" # Asia Pacific (Tokyo) Region
-const AP_SOUTHEAST_1 = "ap-southeast-1" # Asia Pacific (Singapore) Region
-const AP_SOUTHEAST_2 = "ap-southeast-2" # Asia Pacific (Sydney) Region
-const EU_WEST_1 = "eu-west-1" # EU (Ireland) Region
-const SA_EAST_1 = "sa-east-1" # South America (Sao Paulo) Region
-const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
-const US_WEST_1 = "us-west-1" # US West (Northern California) Region
-const US_WEST_2 = "us-west-2" # US West (Oregon) Region
+using ..AWSExceptions
+using ..AWSExceptions: AWSException
 
-function read_aws_config(configFileName::String = joinpath(homedir(), ".aws/config"))
-    global AWS_ID
-    global AWS_SECKEY
-    global AWS_REGION
+user_agent = Ref("AWS.jl/1.0.0")
+aws_config = Ref(AWSConfig())
 
-    isfile(configFileName) || return
-    for line in readlines(configFileName)
-        line = replace(line, " ", "")
-        line = replace(line, "\n", "")
-        segs = split(line, "=")
-        if ismatch(r"^aws_secret_access_key", segs[1])
-            AWS_SECKEY = segs[2]
-        elseif ismatch(r"^aws_access_key_id", segs[1])
-            AWS_ID = segs[2]
-        elseif ismatch(r"^region", segs[1])
-            AWS_REGION = segs[2]
+"""
+    global_aws_config()
+
+Retrieve the global AWS configuration.
+
+# Returns
+- `AWSConfig`: The global AWS configuration
+"""
+global_aws_config() = aws_config[]
+
+
+"""
+    set_user_agent(new_user_agent::String)
+
+Set the global user agent when making HTTP requests.
+
+# Arguments
+- `new_user_agent::String`: User agent to set when making HTTP requests
+
+# Return
+- `String`: The global user agent
+"""
+set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
+
+
+"""
+    macro service(module_name::Symbol)
+
+Include a high-level service wrapper based off of the module_name parameter.
+
+When calling the macro you cannot match the predefined constant for the lowl level API.
+The low level API constants are named in all lowercase, and spaces replaced with underscores.
+
+Examples:
+```julia
+using AWS.AWSServices: secrets_manager
+using AWS: @service
+
+# This matches the constant and will error!
+@service secrets_manager
+> ERROR: cannot assign a value to variable AWSServices.secrets_manager from module Main
+
+# This does NOT match the filename structure and will error!
+@service secretsmanager
+> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+
+# All of the examples below are valid!
+@service Secrets_Manager
+@service SECRETS_MANAGER
+@service sECRETS_MANAGER
+```
+
+# Arguments
+- `module_name::Symbol`: Name of the service to include high-level API wrappers in your namespace
+
+# Return
+- `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
+"""
+macro service(module_name::Symbol)
+    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
+
+    return Expr(:toplevel,
+    :(module($(esc(module_name)))
+        Base.include($(esc(module_name)), $(esc(service_name)))
+     end))
+end
+
+struct RestXMLService
+    name::String
+    api_version::String
+end
+
+struct QueryService
+    name::String
+    api_version::String
+end
+
+struct JSONService
+    name::String
+    api_version::String
+
+    json_version::String
+    target::String
+end
+
+struct RestJSONService
+    name::String
+    api_version::String
+
+    service_specific_headers::LittleDict{String, String}
+end
+
+RestJSONService(name::String, api_version::String) = RestJSONService(name, api_version, LittleDict{String, String}())
+
+Base.@kwdef mutable struct Request
+    service::String
+    api_version::String
+    request_method::String
+
+    headers::AbstractDict{String, String}=LittleDict{String, String}()
+    content::String=""
+    resource::String=""
+    url::String=""
+
+    return_stream::Bool=false
+    response_stream::Union{Base.BufferStream, Nothing}=nothing
+    http_options::Array{String}=[]
+    return_raw::Bool=false
+    response_dict_type::Type{<:AbstractDict}=LittleDict
+end
+
+# Needs to be included after the definition of struct otherwise it cannot find them
+include("AWSServices.jl")
+
+_http_status(e::HTTP.StatusError) = e.status
+_header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
+
+function _sign!(aws::AWSConfig, request::Request; time::DateTime=now(Dates.UTC))
+    if request.service in ("sdb", "importexport")
+        _sign_aws2!(aws, request, time)
+    else
+        _sign_aws4!(aws, request, time)
+    end
+end
+
+function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
+    # Create AWS Signature Version 2 Authentication query parameters.
+    # http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
+
+    query = Dict{String, String}()
+    for elem in split(request.content, '&', keepempty=false)
+        (n, v) = split(elem, "=")
+        query[n] = HTTP.unescapeuri(v)
+    end
+
+    request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
+
+    creds = check_credentials(aws.credentials)
+    query["AWSAccessKeyId"] = creds.access_key_id
+    query["Expires"] = Dates.format(time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z")
+    query["SignatureVersion"] = "2"
+    query["SignatureMethod"] = "HmacSHA256"
+
+    if !isempty(creds.token)
+        query["SecurityToken"] = creds.token
+    end
+
+    query = [k => query[k] for k in sort!(collect(keys(query)))]
+    uri = HTTP.URI(request.url)
+    to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
+    push!(query, "Signature" => digest(MD_SHA256, to_sign, creds.secret_key) |> base64encode |> strip)
+
+    request.content = HTTP.escapeuri(query)
+
+    return request
+end
+
+function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
+    # Create AWS Signature Version 4 Authentication Headers.
+    # http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
+
+    date = Dates.format(time, dateformat"yyyymmdd")
+    datetime = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
+
+    # Authentication scope...
+    authentication_scope = [date, aws.region, request.service, "aws4_request"]
+
+    creds = check_credentials(aws.credentials)
+    signing_key = "AWS4$(creds.secret_key)"
+
+    for scope in authentication_scope
+        signing_key = digest(MD_SHA256, scope, signing_key)
+    end
+
+    # Authentication scope string...
+    authentication_scope = join(authentication_scope, "/")
+
+    # SHA256 hash of content...
+    content_hash = bytes2hex(digest(MD_SHA256, request.content))
+
+    # HTTP headers...
+    delete!(request.headers, "Authorization")
+
+    merge!(request.headers, Dict(
+        "x-amz-content-sha256" => content_hash,
+        "x-amz-date" => datetime,
+        "Content-MD5" => base64encode(digest(MD_MD5, request.content))
+    ))
+
+    if !isempty(creds.token)
+        request.headers["x-amz-security-token"] = creds.token
+    end
+
+    # Sort and lowercase() Headers to produce canonical form...
+    canonical_headers = join(sort!(["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]), "\n")
+    signed_headers = join(sort!([lowercase(k) for k in keys(request.headers)]), ";")
+
+    # Sort Query String...
+    uri = HTTP.URI(request.url)
+    query = HTTP.URIs.queryparams(uri.query)
+    query = [k => query[k] for k in sort!(collect(keys(query)))]
+
+    # Create hash of canonical request...
+    canonical_form = string(
+        request.request_method, "\n",
+        request.service == "s3" ? uri.path : HTTP.escapepath(uri.path), "\n",
+        HTTP.escapeuri(query), "\n",
+        canonical_headers, "\n\n",
+        signed_headers, "\n",
+        content_hash
+    )
+
+    canonical_hash = bytes2hex(digest(MD_SHA256, canonical_form))
+
+    # Create and sign "String to Sign"...
+    string_to_sign = "AWS4-HMAC-SHA256\n$datetime\n$authentication_scope\n$canonical_hash"
+    signature = bytes2hex(digest(MD_SHA256, string_to_sign, signing_key))
+
+    # Append Authorization header...
+    request.headers["Authorization"] = join([
+            "AWS4-HMAC-SHA256 Credential=$(creds.access_key_id)/$authentication_scope",
+            "SignedHeaders=$signed_headers",
+            "Signature=$signature",
+        ],
+        ", ",
+    )
+
+    return request
+end
+
+function _http_request(request::Request)
+    @repeat 4 try
+        http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
+
+        return HTTP.request(
+            http_stack,
+            request.request_method,
+            HTTP.URI(request.url),
+            HTTP.mkheaders(request.headers),
+            request.content;
+            require_ssl_verification=false,
+            response_stream=request.response_stream,
+            request.http_options...
+        )
+    catch e
+        # Base.IOError is needed because HTTP.jl can often have errors that aren't
+        # caught and wrapped in an HTTP.IOError
+        # https://github.com/JuliaWeb/HTTP.jl/issues/382
+        @delay_retry if isa(e, Sockets.DNSError) ||
+                        isa(e, HTTP.ParseError) ||
+                        isa(e, HTTP.IOError) ||
+                        isa(e, Base.IOError) ||
+                        (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
     end
 end
 
-function __init__()
-    config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
+"""
+    submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
 
-    # Search for default AWS_ID and AWS_SECKEY
-    global AWS_ID = ""
-    global AWS_SECKEY = ""
-    global AWS_REGION = US_EAST_1
-    global AWS_TOKEN = ""
+Submit the request to AWS.
 
-    # read the default configuration file first
-    read_aws_config()
+# Arguments
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `request::Request`: All the information about making a request to AWS
 
-    # override specific options in the same precedence as specified in
-    # http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#config-settings-and-precedence
-    credentials_path = joinpath(homedir(), ".aws/credentials")
-    if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
-        AWS_ID = ENV["AWS_ID"]
-        AWS_SECKEY = ENV["AWS_SECKEY"]
-    elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
-        AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
-        AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
-    elseif isfile(credentials_path)
-        read_aws_config(credentials_path)
-    else
-        secret_path = joinpath(config_file_base, ".awssecret")
-        if isfile(secret_path)
-            AWS_ID, AWS_SECKEY = split(readchomp(secret_path))
+# Keywords
+- `return_headers::Bool=false`: True if you want the headers from the response returned back
+
+# Returns
+- `Tuple or Dict`: Tuple if returning_headers, otherwise just return a Dict of the response body
+"""
+function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+    response = nothing
+    TOO_MANY_REQUESTS = 429
+    EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
+    REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
+    THROTTLING_ERROR_CODES = [
+        "Throttling",
+        "ThrottlingException",
+        "ThrottledException",
+        "RequestThrottledException",
+        "TooManyRequestsException",
+        "ProvisionedThroughputExceededException",
+        "LimitExceededException",
+        "RequestThrottled",
+        "PriorRequestNotComplete"
+    ]
+
+    request.headers["User-Agent"] = user_agent[]
+    request.headers["Host"] = HTTP.URI(request.url).host
+
+    @repeat 3 try
+        _sign!(aws, request)
+        response = @mock _http_request(request)
+
+        if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
+            request.url = HTTP.header(response, "Location")
+        end
+    catch e
+        if e isa HTTP.StatusError
+            e = AWSException(e)
+        end
+
+        @retry if :message in fieldnames(typeof(e)) && occursin("Signature expired", e.message) end
+
+        # Handle ExpiredToken...
+        # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
+        @retry if ecode(e) in EXPIRED_ERROR_CODES
+            check_credentials(aws.credentials, force_refresh=true)
+        end
+
+        # Throttle handling
+        # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
+        # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
+        @delay_retry if e isa AWSException &&
+            (_http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in THROTTLING_ERROR_CODES)
+        end
+
+        # Handle BadDigest error and CRC32 check sum failure
+        @retry if e isa AWSException && (
+            _header(e.cause, "crc32body") == "x-amz-crc32" ||
+            ecode(e) in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
+        )
         end
     end
 
-    # Search for default AWS_REGION
-    if haskey(ENV, "AWS_REGION")
-        AWS_REGION = ENV["AWS_REGION"]
-    elseif haskey(ENV, "AWS_DEFAULT_REGION")
-        AWS_REGION = ENV["AWS_DEFAULT_REGION"]
-    elseif isfile( joinpath(config_file_base, ".awsregion") )
-        region_path = joinpath(config_file_base, ".awsregion")
-        AWS_REGION = readchomp(region_path)
+    response_dict_type = request.response_dict_type
+
+    # For HEAD request, return headers...
+    if request.request_method == "HEAD"
+        return response_dict_type(response.headers)
+    end
+
+    # Return response stream if requested...
+    if request.return_stream
+        return request.response_stream
+    end
+
+    # Return raw data if requested...
+    if request.return_raw
+        return (return_headers ? (response.body, response.headers) : response.body)
+    end
+
+    # Parse response data according to mimetype...
+    mime = HTTP.header(response, "Content-Type", "")
+
+    if isempty(mime)
+        if length(response.body) > 5 && response.body[1:5] == b"<?xml"
+            mime = "text/xml"
+        end
+    end
+
+    body = String(copy(response.body))
+
+    if occursin(r"/xml", mime)
+        xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
+        return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
+    elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
+        info = isempty(response.body) ? nothing : JSON.parse(body, dicttype=response_dict_type)
+        return (return_headers ? (info, response_dict_type(response.headers)) : info)
+    elseif startswith(mime, "text/")
+        return (return_headers ? (body, response_dict_type(response.headers)) : body)
     else
-        info("using default region: ", AWS_REGION)
+        return (return_headers ? (response.body, response.headers) : response.body)
     end
 end
 
-type AWSEnv
-    aws_id::String         # AWS Access Key id
-    aws_seckey::String     # AWS Secret key for signing requests
-    aws_token::String      # AWS Security Token for temporary credentials
-    region::String      # region name
-	ep_scheme::String      # URL scheme: http or https
-    ep_host::String     # region endpoint (host)
-    ep_path::String     # region endpoint (path)
-    sig_ver::Int                # AWS signature version (2 or 4)
-    timeout::Float64            # request timeout in seconds, default is no timeout.
-    dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
-    dbg::Bool                   # print request to screen
+function _generate_rest_resource(request_uri::String, args::AbstractDict{String, <:Any})
+    # There maybe a time where both $k and $k+ are in the request_uri, in which case this needs to be updated
+    # From looking around, I have not seen an example yet, however that doesn't mean it doesn't exist
 
+    for (k,v) in args
+        if occursin("{$k}", request_uri)
+            request_uri = replace(request_uri, "{$k}" => v)
+        elseif occursin("{$k+}", request_uri)
+            request_uri = replace(request_uri, "{$k+}" => HTTP.escapepath(v))
+        end
+    end
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, scheme="https", region=AWS_REGION, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
-        if ec2_creds
-            creds = get_instance_credentials()
-            if creds != nothing
-                id = creds["AccessKeyId"]
-                key = creds["SecretAccessKey"]
-                token = creds["Token"]
+    return request_uri
+end
+
+function _generate_service_url(region::String, service::String, resource::String)
+    SERVICE_HOST = "amazonaws.com"
+    regionless_services = ("iam", "route53")
+
+    if service in regionless_services || (service == "sdb" && region == "us-east-1")
+        region = ""
+    end
+
+    return string("https://", service, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, resource)
+end
+
+function _return_headers(args::AbstractDict{String, <:Any})
+    return_headers = get(args, "return_headers", false)
+
+    if return_headers
+        delete!(args, "return_headers")
+    end
+
+    return return_headers
+end
+
+function _flatten_query(service::String, query::AbstractDict{String, <: Any})
+    return _flatten_query!(Pair{String, String}[], service, query)
+end
+
+function _flatten_query!(result::Vector{Pair{String, String}}, service::String, query::AbstractDict{String, <:Any}, prefix::String="")
+    for (k, v) in query
+        if v isa AbstractDict
+            _flatten_query!(result, service, v, string(prefix, k, "."))
+        elseif v isa AbstractArray
+            for (i, j) in enumerate(v)
+                suffix = service in ("ec2", "sqs") ? "" : ".member"
+                prefix_key = string(prefix, k, suffix, ".", i)
+
+                if j isa AbstractDict
+                    _flatten_query!(result, service, j, string(prefix_key, "."))
+                else
+                    push!(result, Pair(prefix_key, string(j)))
+                end
             end
-        end
-
-        if (id == "") || (key == "")
-            error("Invalid AWS security credentials provided")
-        end
-
-		#=
-        s = search(ep,"/")
-        if length(s) == 0
-            ep_host = ep
-            ep_path = "/"
         else
-            ep_host = ep[1:(first(s)-1)]
-            ep_path = ep[first(s):end]
+            push!(result, Pair(string(prefix, k), string(v)))
         end
-		=#
-		ep_scheme, ep_host, ep_path = parse_endpoint(ep, scheme)
+    end
 
-        # host portion of ep overrides region
-        if length(ep_host) > 19 && ep_host[1:4] == "ec2." && ep_host[(end-13):end] == ".amazonaws.com"
-            warn("AWSEnv: ep keyword argument has been deprecated for AWS native services. Use region keyword argument instead.")
-            region = ep_host[5:end-14]
-            ep_host = ""
-        end
-        if ep_host != ""
-            region = ""
-        end
-        if (region == "" && ep == "")
-            error("No region or endpoint provided")
-        end
+    return result
+end
 
-        if sig_ver != 2 && sig_ver != 4
-          error("Invalid signature version number")
-        end
+"""
+    (service::RestXMLService)(
+        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
+        aws::AWSConfig=aws_config
+    )
 
-        if dr
-            new(id, key, token, region, ep_scheme, ep_host, ep_path, sig_ver, timeout, dr, true)
+Perform a RestXML request to AWS.
+
+# Arguments
+- `request_method::String`: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
+- `request_uri::String`: AWS URI for the endpoint
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
+function (service::RestXMLService)(
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+    aws_config::AWSConfig=aws_config[],
+)
+    request = Request(
+        service=service.name,
+        api_version=service.api_version,
+        request_method=request_method,
+        content=get(args, "body", ""),
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+    )
+
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = args["response_dict_type"]
+    end
+
+    delete!(args, "headers")
+    delete!(args, "body")
+    return_headers = _return_headers(args)
+
+    request.resource = _generate_rest_resource(request_uri, args)
+    query_str = HTTP.escapeuri(args)
+
+    if !isempty(query_str)
+        if occursin('?', request.resource)
+            request.resource *= "&$query_str"
         else
-            new(id, key, token, region, ep_scheme, ep_host, ep_path, sig_ver, timeout, false, dbg)
+            request.resource *= "?$query_str"
         end
     end
 
-	function AWSEnv(env::AWSEnv; ep="")
-        ep_scheme, ep_host, ep_path = parse_endpoint(ep, env.ep_scheme)
+    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
 
-        new(env.aws_id, env.aws_seckey, env.aws_token, env.region, ep_scheme,
-            ep_host, ep_path, env.sig_ver, env.timeout, env.dry_run, env.dbg)
-    end
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
-function parse_endpoint(ep, default_scheme)
-    s = search(ep,"://")
-    if length(s) == 0
-        ep_scheme = default_scheme
-        ephp = ep
-    else
-        ep_scheme = ep[1:(first(s)-1)]
-        ephp = ep[first(s)+3:end]
-    end
-    s = search(ephp,"/")
-    if length(s) == 0
-        ep_host = ephp
-        ep_path = "/"
-    else
-        ep_host = ephp[1:(first(s)-1)]
-        ep_path = ephp[first(s):end]
-    end
-    return (ep_scheme, ep_host, ep_path)
+
+"""
+    (service::QueryService)(
+        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+        aws::AWSConfig=aws_config
+    )
+
+Perform a Query request to AWS.
+
+# Arguments
+- `operation::String`:
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
+function (service::QueryService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+    aws_config::AWSConfig=aws_config[],
+)
+    POST_RESOURCE = "/"
+    return_headers = _return_headers(args)
+
+    request = Request(
+        service=service.name,
+        api_version=service.api_version,
+        resource=POST_RESOURCE,
+        request_method="POST",
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+    )
+
+    request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
+
+    args["Action"] = operation
+    args["Version"] = service.api_version
+    request.content = HTTP.escapeuri(_flatten_query(service.name, args))
+
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
-ep_host(env::AWSEnv, service) = lowercase(env.ep_host=="" ? "$service.$(env.region).amazonaws.com" : env.ep_host)
-export ep_host
+"""
+    (service::JSONService)(
+        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+        aws::AWSConfig=aws_config
+    )
 
-function get_instance_credentials()
-    try
-        #if getaddrinfo("instance-data.ec2.internal.") != ip"169.254.169.254"
-        #    return nothing
-        #end
+Perform a JSON request to AWS.
 
-        url = "http://169.254.169.254/2014-11-05/meta-data/iam/security-credentials/"
-        resp = Requests.get(url)
-        if resp.status != 200
-            return nothing
-        end
+# Arguments
+- `operation::String`: Name of the operation to perform
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
-        iam = split(String(copy(resp.data)))
-        if length(iam) == 0
-            return nothing
-        end
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
-        url *= iam[1]
-        resp = Requests.get(url)
-        if resp.status != 200
-            return nothing
-        end
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
+function (service::JSONService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    aws_config::AWSConfig=aws_config[],
+)
+    POST_RESOURCE = "/"
+    return_headers = _return_headers(args)
 
-        return JSON.Parser.parse(String(copy(resp.data)))
-    catch
-        return nothing
+    request = Request(
+        service=service.name,
+        api_version=service.api_version,
+        resource=POST_RESOURCE,
+        request_method="POST",
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        content=json(args),
+        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+    )
+
+    request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
+    request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
+
+    return submit_request(aws_config, request; return_headers=return_headers)
+end
+
+"""
+    (service::RestJSONService)(
+        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+        aws::AWSConfig=aws_config
+    )
+
+Perform a RestJSON request to AWS.
+
+# Arguments
+- `request_method::String`: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
+- `request_uri::String`: AWS URI for the endpoint
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
+function (service::RestJSONService)(
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+    aws_config::AWSConfig=aws_config[],
+)
+    return_headers = _return_headers(args)
+
+    request = Request(
+        service=service.name,
+        api_version=service.api_version,
+        request_method=request_method,
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        resource=_generate_rest_resource(request_uri, args),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+    )
+
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = args["response_dict_type"]
     end
+
+    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+
+    if !isempty(service.service_specific_headers)
+        merge!(request.headers, service.service_specific_headers)
+    end
+
+    request.headers["Content-Type"] = "application/json"
+    delete!(args, "headers")
+    request.content = json(args)
+
+    return submit_request(aws_config, request; return_headers=return_headers)
 end
 
-# trying to get elements from nothing should result in nothing
-elements_by_tagname(::Void, s) = nothing
-elements_by_tagname(node, s) = LightXML.get_elements_by_tagname(node, s)
-
-include("codegen.jl")
-include("aws_utils.jl")
-include("crypto.jl")
-include("sign.jl")
-include("ec2.jl")
-include("S3.jl")
-include("sqs.jl")
-include("autoscaling.jl")
-
-include("show.jl")
-
-
-end
+end  # module AWS

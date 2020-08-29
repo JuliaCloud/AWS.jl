@@ -1,68 +1,123 @@
-## AWS - Julia interface to Amazon Web Services
+## AWS.jl
 
-This package provides a native Julia interface to the Amazon Web Services API
-
-The following services are supported as of now:
-
-- EC2
-- S3
-- SQS
-- Auto Scaling
+[![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
+[![ColPrac: Contributor's Guide on Collaborative Practices for Community Packages](https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet)](https://github.com/SciML/ColPrac)
 
 
-### Current status
-- The basic APIs of EC2, S3, SQS and Auto Scaling are tested
-- The advanced APIs (e.g. VPC related APIs, etc) of EC2 are yet untested. Any testing will be helpful. 
-- The REST API does not match exactly in certain cases
-  with the WSDL. For the EC2 API, the bulk of the code is generated from the WSDL while it has been translated by hand for the
-  S3 API.
+## Overview
+A Julia interface for [Amazon Web Services](https://aws.amazon.com).
 
-  Please file issues on GitHub with the output from running the request in debug mode, i.e., with env.dbg = true.
+This package replaces [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) and [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) which previously provided low-level and high-level APIs respectively.
+It includes automated code generation to ensure all new AWS services are available, as well as keeping existing services up to date.
 
+To see an overview of the architecture see the [design document](https://github.com/JuliaCloud/AWS.jl/wiki/v1-Design-Document).
 
-### Usage
-- Each of the functions takes in an AWSEnv as the first parameter
-
-```
-type AWSEnv
-    aws_id::String         # AWS Access Key id
-    aws_seckey::String     # AWS Secret key for signing requests
-    aws_token::String      # AWS Security Token for temporary credentials
-    region::String      # region name
-    ep_scheme::String      # URL scheme: http or https
-    ep_host::String     # region endpoint (host)
-    ep_path::String     # region endpoint (path)
-    sig_ver::Int                # AWS signature version (2 or 4)
-    timeout::Float64            # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
-    dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
-    dbg::Bool                   # print request and raw response to screen
-
-end
-```
-Constructors:
-
-```
-AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, scheme="https", region=AWS_REGION, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
+## Installation
+```julia
+julia> Pkg.add("AWS")
 ```
 
-- The ```AWS_ID``` and ```AWS_SECKEY``` are initialized from env if available. Else a file ~/.awssecret is read (if available) for the same.
-- The ```AWS_TOKEN``` is an empty string by default. Override ```token``` if the ```id``` and ```key``` are temporary security credentials.
-- Set ```ec2_creds``` to true to automatically retrieve temporary security credentials if running on an EC2 instance that has such credentials.
-- Set ```region``` to one of the AWS region name strings, e.g., "us-east-1". Not needed if setting ```ep```.
-- ```ep``` can contain both a hostname and a pathname for an AWS endpoint. It is generally not needed when using native AWS services; use ```region``` instead. If using a service that emulates AWS, set ```ep``` to the hostname of the endpoint to be used. If both ```region``` and ```ep``` are set, the host portion of ```ep``` will override region, and the path portion of ```ep``` will be used in conjunction with ```region```.
-- ```sig_ver``` must be set to 2 or 4. Some AWS services require one signature version or the other, in which case this value will be ignored.
+## Usage
+`AWS.jl` can be used with low-level and high-level API requests.
+Please note when passing parameters for a request they must be a subtype of `AbstractDict{String, <:Any}`.
 
+### Low-Level
+To use the low-level API, you must know how to perform the request you are making.
+If you do not know how to perform a request you can reference the [AWS Documentation](https://docs.aws.amazon.com/).
+Alternatively you can look at `/src/services/{Service}.jl` to find a list of available requests, as well as their required and optional parameters.
 
-APIs:
+For example, to list the objects in an S3 bucket you must pass in the request method (`"GET"`) and the endpoint (`"/${bucket}"`):
 
-- [EC2 API](EC2.md)
-- [S3 API](S3.md)
-- [SQS API](SQS.md)
-- [Auto Scale API](AutoScale.md)
+```julia
+using AWS.AWSServices: s3
 
+s3("GET", "/your-bucket")
+```
 
-### Binary dependencies
+### High-Level
+To use the high-level API, you only need to know the name of the request you wish to make.
+For example again, to list the objects in an S3 bucket:
 
-libz must be installed
+```julia
+using AWS: @service
+@service S3
 
-libxml2 must be installed
+S3.ListObjects("/your-bucket")
+```
+
+**Note:** When calling the `@service` macro you **CANNOT** match the predefined constant for the low level API. The low level API constants are named in all lowercase, and spaces are replaced with underscores.
+
+```julia
+using AWS.AWSServices: secrets_manager
+using AWS: @service
+
+# This matches the constant and will error!
+@service secrets_manager
+> ERROR: cannot assign a value to variable AWSServices.secrets_manager from module Main
+
+# This does NOT match the filename structure and will error!
+@service secretsmanager
+> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+
+# All of the examples below are valid!
+@service Secrets_Manager
+@service SECRETS_MANAGER
+@service sECRETS_MANAGER
+```
+
+## Limitations
+Currently there are a few limitations with the high-level APIs. 
+For example, with S3's DeleteMultipleObjects call.
+To remove multiple objects you must pass in an XML string (see below) in the body of the request.
+
+Low-Level API Example:
+```julia
+using AWS.AWSServices: s3
+
+body = """
+    <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Object>
+            <Key>test.txt</Key>
+        </Object>
+    </Delete>
+    """
+bucket_name = "example-bucket"
+
+s3("POST", "/$bucket_name?delete", Dict("body" => body))  # Delete multiple objects
+```
+
+There is no-programatic way to see this from the [aws-sdk-js](https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json), so the high-level function will not work.
+
+High-Level API Example:
+```julia
+using AWS: @service
+@service S3
+
+body = """
+    <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Object>
+            <Key>test.txt</Key>
+        </Object>
+    </Delete>
+    """
+bucket_name = "example-bucket"
+
+S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
+> ERROR: AWS.AWSExceptions.AWSException("MissingRequestBodyError", "Request Body is empty")
+```
+There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
+
+## Alternative Solutions
+There are a few alternatives to this package, the two below are being deprecated in favour of this package:
+* [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) - Low-level AWS interface
+* [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) - High-level AWS interface
+
+As well as some hand-written packages for specific AWS services:
+* [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia 1.0+
+* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia 1.0+ 
+* [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia 0.7
+* [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia 0.6
+* [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia 0.6
+* [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia 0.6
+* [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia 0.6
+* [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia 0.6
