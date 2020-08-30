@@ -295,7 +295,7 @@ function _ec2_metadata(metadata_endpoint::String)
     try
         request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
 
-        return String(request.body)
+        return request isa Nothing ? nothing : String(request.body)
     catch e
         e isa HTTP.IOError || rethrow(e)
     end
@@ -311,6 +311,11 @@ Parse the EC2 metadata to retrieve AWSCredentials.
 """
 function ec2_instance_credentials()
     info = _ec2_metadata("iam/info")
+
+    if info isa Nothing
+        return nothing
+    end
+
     info = JSON.parse(info)
 
     name = _ec2_metadata("iam/security-credentials/")
@@ -427,7 +432,7 @@ If this fails try to retrieve credentials from `_aws_get_role()`, otherwise retu
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
 """
 function dot_aws_config(profile=nothing)
-    config_file = dot_aws_config_file()
+    config_file = @mock dot_aws_config_file()
 
     if isfile(config_file)
         ini = read(Inifile(), config_file)

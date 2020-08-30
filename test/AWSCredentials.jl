@@ -462,6 +462,43 @@ end
         end
     end
 
+    @testset "Credentials Not Found" begin
+        _http_request_patch = @patch function HTTP.request(method::String, url::String)
+            return nothing
+        end
+
+        _cred_file_patch = @patch function dot_aws_credentials_file()
+            return ""
+        end
+
+        _config_file_patch = @patch function dot_aws_config_file()
+            return ""
+        end
+
+        ACCESS_KEY = "AWS_ACCESS_KEY_ID"
+        CONTAINER_URI = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
+
+        old_aws_access_key_id = get(ENV, ACCESS_KEY, "")
+        old_container_uri = get(ENV, CONTAINER_URI, "")
+
+        try
+            delete!(ENV, "AWS_ACCESS_KEY_ID")
+            delete!(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+
+            apply([_http_request_patch, _cred_file_patch, _config_file_patch]) do
+                @test_throws ErrorException AWSConfig()
+            end
+        finally
+            if !isempty(old_aws_access_key_id)
+                ENV[ACCESS_KEY] = old_aws_access_key_id
+            end
+
+            if !isempty(old_container_uri)
+                ENV[CONTAINER_URI] = old_container_uri
+            end
+        end
+    end
+
     @testset "Helper functions" begin
         @testset "Check Credentials - EnvVars" begin
             withenv(
