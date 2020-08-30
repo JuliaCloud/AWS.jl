@@ -288,7 +288,7 @@ body, or `nothing` if not running on an EC2 instance.
     https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-ex-1
 
 # Throws
-- `StatusError`: If the response status is >= 300
+- `StatusError`: If the response status is >= 300, except for 404
 - `ParsingError`: Invalid HTTP request target
 """
 function _ec2_metadata(metadata_endpoint::String)
@@ -297,7 +297,7 @@ function _ec2_metadata(metadata_endpoint::String)
 
         return request === nothing ? nothing : String(request.body)
     catch e
-        e isa HTTP.IOError || rethrow(e)
+        e isa HTTP.IOError || e isa HTTP.StatusError && e.status == 404 || rethrow(e)
     end
 
     return nothing
