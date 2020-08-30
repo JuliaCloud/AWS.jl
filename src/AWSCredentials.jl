@@ -295,7 +295,7 @@ function _ec2_metadata(metadata_endpoint::String)
     try
         request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
 
-        return request isa Nothing ? nothing : String(request.body)
+        return request === nothing ? nothing : String(request.body)
     catch e
         e isa HTTP.IOError || rethrow(e)
     end
@@ -312,7 +312,7 @@ Parse the EC2 metadata to retrieve AWSCredentials.
 function ec2_instance_credentials()
     info = _ec2_metadata("iam/info")
 
-    if info isa Nothing
+    if info === nothing
         return nothing
     end
 
