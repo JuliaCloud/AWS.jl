@@ -24,7 +24,7 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 user_agent = Ref("AWS.jl/1.0.0")
-aws_config = Ref(AWSConfig())
+aws_config = Ref{AWSConfig}()
 
 """
     global_aws_config()
@@ -34,7 +34,13 @@ Retrieve the global AWS configuration.
 # Returns
 - `AWSConfig`: The global AWS configuration
 """
-global_aws_config() = aws_config[]
+function global_aws_config()
+    if !isassigned(aws_config)
+        aws_config[] = AWSConfig()
+    end
+
+    return aws_config[]
+end
 
 
 """
