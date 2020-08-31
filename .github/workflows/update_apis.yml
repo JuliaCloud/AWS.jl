@@ -17,7 +17,7 @@ jobs:
           version: ${{ matrix.julia-version }}
       - name: UpdateAPI
         # Run against the latest version, since everything merged into master will be tagged.
-        run: julia -e 'import Pkg; Pkg.develop(Pkg.PackageSpec(url="https://github.com/JuliaCloud/AWS.git", rev="master")); using AWS; AWS.AWSMetadata.parse_aws_metadata();'
+        run: julia -e 'import Pkg; Pkg.develop(Pkg.PackageSpec(url="https://github.com/JuliaCloud/AWS.git")); using AWS; AWS.AWSMetadata.parse_aws_metadata();'
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v2
         with:
