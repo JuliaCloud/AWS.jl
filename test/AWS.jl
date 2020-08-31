@@ -58,7 +58,7 @@ end
             expected_signature
         ], '&')
 
-        @test expected_content == content
+        @test content == expected_content
     end
 
     @testset "sign v4" begin
@@ -329,7 +329,7 @@ end
 
     expected = "/$(args["Bucket"])/$(args["Key"])"
     result = AWS._generate_rest_resource(request_uri, args)
-    @test expected == result
+    @test result == expected
 end
 
 @testset "_generate_service_url" begin

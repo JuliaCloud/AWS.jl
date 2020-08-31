@@ -5,7 +5,7 @@
         a = Dict("a"=>1)
         b = Dict("b"=>2)
 
-        @test expected == AWS._merge(a, b)
+        @test AWS._merge(a, b) == expected
 
     end
 
@@ -15,7 +15,7 @@
         a = Dict("common" => Dict("a" => 1))
         b = Dict("common" => Dict("b" => 2))
 
-        @test expected == AWS._merge(a, b)
+        @test AWS._merge(a, b) == expected
     end
 
     @testset "Complex Same Nested Dict Keys" begin
@@ -24,7 +24,7 @@
         a1 = Dict("common" => Dict("a" => 1))
         a2 = Dict("common" => Dict("a" => 2))
 
-        @test expected == AWS._merge(a1, a2)
+        @test AWS._merge(a1, a2) == expected
     end
 end
 
@@ -35,7 +35,7 @@ end
         a = Dict("a"=>1)
         b = Dict("b"=>2)
 
-        @test expected == mergewith(AWS._merge, a, b)
+        @test mergewith(AWS._merge, a, b) == expected
     end
 
     @testset "Complex Differed Nested Dict Keys" begin
@@ -44,7 +44,7 @@ end
         a = Dict("common" => Dict("a" => 1))
         b = Dict("common" => Dict("b" => 2))
 
-        @test expected == mergewith(AWS._merge, a, b)
+        @test mergewith(AWS._merge, a, b) == expected
     end
 
     @testset "Complex Same Nested Dict Keys" begin
@@ -53,12 +53,12 @@ end
         a1 = Dict("common" => Dict("a" => 1))
         a2 = Dict("common" => Dict("a" => 2))
 
-        @test expected == mergewith(AWS._merge, a1, a2)
+        @test mergewith(AWS._merge, a1, a2) == expected
     end
 end
 
 @testset "_merge - AbstractString" begin
     expected = "b"
 
-    @test expected == AWS._merge("a", "b")
+    @test AWS._merge("a", "b") == expected
 end
