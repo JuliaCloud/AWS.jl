@@ -19,6 +19,7 @@ include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include("AWSExceptions.jl")
 include("AWSMetadataUtilities.jl")
+include("AWSMetadata.jl")
 
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
