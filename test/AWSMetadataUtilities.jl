@@ -74,28 +74,28 @@ end
         expected = "const s3 = AWS.RestXMLService(\"s3\", \"2006-03-01\")"
         response = _generate_low_level_definition(services["s3"])
 
-        @test expected == response
+        @test response == expected
     end
 
     @testset "rest-json" begin
         expected = "const glacier = AWS.RestJSONService(\"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
         response = _generate_low_level_definition(services["glacier"])
 
-        @test expected == response
+        @test response == expected
     end
 
     @testset "ec2 / query" begin
         expected = "const ec2 = AWS.QueryService(\"ec2\", \"2016-11-15\")"
         response = _generate_low_level_definition(services["ec2"])
 
-        @test expected == response
+        @test response == expected
     end
 
     @testset "json" begin
         expected = "const budgets = AWS.JSONService(\"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
         response = _generate_low_level_definition(services["budgets"])
 
-        @test expected == response
+        @test response == expected
     end
 
     @testset "invalid protocol" begin
@@ -171,35 +171,35 @@ end
         uri = "/v1/configurations/"
         expected = "/v1/configurations/"
 
-        @test expected == _clean_uri(uri)
+        @test _clean_uri(uri) == expected
     end
 
     @testset "single parameter" begin
         uri = "/v1/configurations/{parameter-one}"
         expected = "/v1/configurations/\$(parameter_one)"
 
-        @test expected == _clean_uri(uri)
+        @test _clean_uri(uri) == expected
     end
 
     @testset "multiple parameters" begin
         uri = "/v1/configurations/{parameter_one}/{parameter_two}"
         expected = "/v1/configurations/\$(parameter_one)/\$(parameter_two)"
 
-        @test expected == _clean_uri(uri)
+        @test _clean_uri(uri) == expected
     end
 
     @testset "hyphen not in parameter" begin
         uri = "/v1/configuration-parameters/{parameter-one}"
         expected = "/v1/configuration-parameters/\$(parameter_one)"
 
-        @test expected == _clean_uri(uri)
+        @test _clean_uri(uri) == expected
     end
 
     @testset "remove plus signs" begin
         uri = "/v1/configuration-parameters/{parameter-one+}"
         expected = "/v1/configuration-parameters/\$(parameter_one)"
 
-        @test expected == _clean_uri(uri)
+        @test _clean_uri(uri) == expected
     end
 end
 
@@ -208,28 +208,28 @@ end
         function_name = "Testfunctionname"
         expected = "testfunctionname"
 
-        @test expected == _format_function_name(function_name)
+        @test _format_function_name(function_name) == expected
     end
 
     @testset "all capitals" begin
         function_name = "TESTFUNCTIONNAME"
         expected = "testfunctionname"
 
-        @test expected == _format_function_name(function_name)
+        @test _format_function_name(function_name) == expected
     end
 
     @testset "subsequent capitals" begin
         function_name = "TestFUNCTIONName"
         expected = "test_functionname"
 
-        @test expected == _format_function_name(function_name)
+        @test _format_function_name(function_name) == expected
     end
 
     @testset "normal" begin
         function_name = "TestFunctionName"
         expected = "test_function_name"
 
-        @test expected == _format_function_name(function_name)
+        @test _format_function_name(function_name) == expected
     end
 end
 
@@ -317,7 +317,7 @@ end
     expected_result = _clean_high_level_definition(expected_result)
     result = _clean_high_level_definition(result[1])
     
-    @test expected_result == result
+    @test result == expected_result
 end
 
 @testset "_generate_high_level_definition" begin
@@ -363,7 +363,7 @@ end
             expected_result = _clean_high_level_definition(expected_result)
             result = _clean_high_level_definition(result)
             
-            @test expected_result == result
+            @test result == expected_result
         end
 
         @testset "json, query, ec2 protocol" begin
@@ -398,7 +398,7 @@ end
             expected_result = _clean_high_level_definition(expected_result)
             result = _clean_high_level_definition(result)
             
-            @test expected_result == result
+            @test result == expected_result
         end
     end
 
@@ -437,7 +437,7 @@ end
             expected_result = _clean_high_level_definition(expected_result)
             result = _clean_high_level_definition(result)
             
-            @test expected_result == result
+            @test result == expected_result
         end
 
         @testset "json, query, ec2 protocol" begin
@@ -472,7 +472,7 @@ end
             expected_result = _clean_high_level_definition(expected_result)
             result = _clean_high_level_definition(result)
             
-            @test expected_result == result
+            @test result == expected_result
         end
     end
 end
