@@ -485,7 +485,7 @@ Perform a RestXML request to AWS.
 """
 function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=aws_config[],
+    aws_config::AWSConfig=global_aws_config(),
 )
     request = Request(
         service=service.name,
@@ -500,7 +500,7 @@ function (service::RestXMLService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     delete!(args, "headers")
@@ -544,7 +544,7 @@ Perform a Query request to AWS.
 """
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=aws_config[],
+    aws_config::AWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -561,6 +561,10 @@ function (service::QueryService)(
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
     )
+
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
+    end
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
@@ -591,7 +595,7 @@ Perform a JSON request to AWS.
 """
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws_config::AWSConfig=aws_config[],
+    aws_config::AWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -609,6 +613,10 @@ function (service::JSONService)(
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
     )
+
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
+    end
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
@@ -637,7 +645,7 @@ Perform a RestJSON request to AWS.
 """
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws_config::AWSConfig=aws_config[],
+    aws_config::AWSConfig=global_aws_config(),
 )
     return_headers = _return_headers(args)
 
@@ -654,7 +662,7 @@ function (service::RestJSONService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     request.url = _generate_service_url(aws_config.region, request.service, request.resource)
