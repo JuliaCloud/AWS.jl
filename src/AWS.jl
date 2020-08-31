@@ -500,8 +500,7 @@ function (service::RestXMLService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
-        delete!(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     delete!(args, "headers")
@@ -564,8 +563,7 @@ function (service::QueryService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
-        delete!(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
@@ -617,8 +615,7 @@ function (service::JSONService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
-        delete!(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
@@ -665,8 +662,7 @@ function (service::RestJSONService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = args["response_dict_type"]
-        delete!(args, "response_dict_type")
+        request.response_dict_type = pop!(args, "response_dict_type")
     end
 
     request.url = _generate_service_url(aws_config.region, request.service, request.resource)
