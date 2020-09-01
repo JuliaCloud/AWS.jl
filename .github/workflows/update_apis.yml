@@ -13,8 +13,6 @@ jobs:
         os: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v2
-        with:
-          repository: JuliaCloud/AWS.jl
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
@@ -25,7 +23,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-         commit-message: AWS API Definitions Updated
-         reviewers: mattBrzezinski
-         title: AWS API Definitions Updated
-         token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: AWS API Definitions Updated
+          reviewers: mattBrzezinski
+          title: AWS API Definitions Updated
+          token: ${{ secrets.GITHUB_TOKEN }}
