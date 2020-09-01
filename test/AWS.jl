@@ -506,7 +506,7 @@ end
         expected_policy_document = JSON.json(expected_policy_document)
 
         response = IAM.create_policy(expected_policy_document, expected_policy_name)
-        policy_arn = policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
+        policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
             response_policy_version = IAM.get_policy_version(policy_arn, "v1")
