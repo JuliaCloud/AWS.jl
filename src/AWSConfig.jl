@@ -53,7 +53,7 @@ end
 
 function _update_creds!(aws_config::AWSConfig)
     r = AWSServices.sts("GetCallerIdentity"; aws_config=aws_config)
-    r = r["GetCallerIdentityResponse"]["GetCallerIdentityResult"]
+    r = r["GetCallerIdentityResult"]
     creds = aws_config.credentials
 
     creds.user_arn = r["Arn"]

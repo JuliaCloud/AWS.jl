@@ -85,6 +85,11 @@ end
 @testset "submit_request" begin
     aws = AWS.AWSConfig()
 
+    function _expected_body(body::AbstractString, dict_type::Type)
+        parsed = parse_xml(body)
+        return xml_dict(XMLDict.root(parsed.x), dict_type)
+    end
+
     @testset "HEAD request method" begin
         expected_result_type = LittleDict
 
@@ -182,9 +187,9 @@ end
                 end
 
                 @testset "text/xml" begin
-                    expected_headers = Pair["Content-Type"=>"",]
+                    expected_headers = Pair["Content-Type"=>"text/xml",]
                     expected_body_type = LittleDict{Union{Symbol, String}, Any}
-                    expected_body = xml_dict((Patches.body), expected_body_type)
+                    expected_body = _expected_body(Patches.body, expected_body_type)
 
                     expected_header_type = LittleDict{SubString{String}, SubString{String}}
 
@@ -219,7 +224,7 @@ end
             )
 
             expected_body_type = LittleDict{Union{Symbol, String}, Any}
-            expected_body = xml_dict((Patches.body), expected_body_type)
+            expected_body = _expected_body(Patches.body, expected_body_type)
             expected_headers = Pair["Content-Type"=>"application/xml",]
 
             apply(Patches._aws_http_request_patch) do
@@ -501,11 +506,11 @@ end
         expected_policy_document = JSON.json(expected_policy_document)
 
         response = IAM.create_policy(expected_policy_document, expected_policy_name)
-        policy_arn = policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
+        policy_arn = policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
             response_policy_version = IAM.get_policy_version(policy_arn, "v1")
-            response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
+            response_document = response_policy_version["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
             IAM.delete_policy(policy_arn)
@@ -530,11 +535,11 @@ end
         expected_policy_document = JSON.json(expected_policy_document)
 
         response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
-        policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
+        policy_arn = response["CreatePolicyResult"]["Policy"]["Arn"]
 
         try
             response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
-            response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
+            response_document = response_policy_version["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
             AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
@@ -552,7 +557,7 @@ end
         function _get_queue_url(queue_name)
             result = SQS.get_queue_url(queue_name)
 
-            return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
+            return result["GetQueueUrlResult"]["QueueUrl"]
         end
 
         # Create Queue
@@ -569,7 +574,7 @@ end
             SQS.send_message(expected_message, queue_url)
 
             response = SQS.receive_message(queue_url)
-            receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
+            receipt_handle = response["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
             response = SQS.delete_message_batch(
                 [
@@ -581,13 +586,13 @@ end
                 queue_url,
             )
 
-            message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+            message_id = response["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
             @test message_id == expected_message_id
 
             SQS.send_message(expected_message, queue_url)
             
             result = SQS.receive_message(queue_url)
-            message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
+            message = result["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
             SQS.delete_queue(queue_url)
@@ -603,7 +608,7 @@ end
         function _get_queue_url(queue_name)
             result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
 
-            return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
+            return result["GetQueueUrlResult"]["QueueUrl"]
         end
 
         # Create Queue
@@ -623,7 +628,7 @@ end
             )
 
             response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url,))
-            receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
+            receipt_handle = response["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
             response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
                     "QueueUrl" => queue_url,
@@ -636,7 +641,7 @@ end
                 )
             )
 
-            message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+            message_id = response["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
             @test message_id == expected_message_id
 
             # Send message
@@ -648,7 +653,7 @@ end
 
             # Receive Message
             result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
-            message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
+            message = result["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
             AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
@@ -693,12 +698,12 @@ end
 
             # GET operation
             result = S3.list_objects(bucket_name)
-            @test result["ListBucketResult"]["Contents"]["Key"] == file_name
+            @test result["Contents"]["Key"] == file_name
             
             # GET with parameters operation
             max_keys = 1
             result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
-            @test length([result["ListBucketResult"]["Contents"]]) == max_keys
+            @test length([result["Contents"]]) == max_keys
         finally
             # DELETE with parameters operation
             S3.delete_object(bucket_name, file_name)
@@ -745,12 +750,12 @@ end
 
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")
-            @test result["ListBucketResult"]["Contents"]["Key"] == file_name
+            @test result["Contents"]["Key"] == file_name
             
             # GET with parameters operation
             max_keys = 1
             result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
-            @test length([result["ListBucketResult"]["Contents"]]) == max_keys
+            @test length([result["Contents"]]) == max_keys
 
             # POST with parameters operation
             body = """

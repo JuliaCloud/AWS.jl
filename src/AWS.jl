@@ -390,7 +390,10 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
 
     if occursin(r"/xml", mime)
         xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
-        return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
+        body = parse_xml(body)
+        root = XMLDict.root(body.x)
+
+        return (return_headers ? (xml_dict(root, xml_dict_type), response_dict_type(response.headers)) : xml_dict(root, xml_dict_type))
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
         info = isempty(response.body) ? nothing : JSON.parse(body, dicttype=response_dict_type)
         return (return_headers ? (info, response_dict_type(response.headers)) : info)
