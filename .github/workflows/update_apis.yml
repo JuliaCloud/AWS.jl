@@ -12,14 +12,18 @@ jobs:
         julia-arch: [x86]
         os: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@latest
         with:
           version: ${{ matrix.julia-version }}
+      - uses: julia-actions/julia-buildpkg@latest
       - name: UpdateAPI
         # Run against the latest version, since everything merged into master will be tagged.
-        run: julia -e 'import Pkg; Pkg.add(Pkg.PackageSpec(url="https://github.com/JuliaCloud/AWS.jl.git", rev="master")); using AWS; AWS.AWSMetadata.parse_aws_metadata();'
+        run: julia --project -e 'using AWS; AWS.AWSMetadata.parse_aws_metadata();'
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v2
+        uses: peter-evans/create-pull-request@v3
         with:
-         path: "~/.julia/dev/AWS/"
-         token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: AWS API Definitions Updated
+          reviewers: mattBrzezinski
+          title: AWS API Definitions Updated
+          token: ${{ secrets.GITHUB_TOKEN }}
