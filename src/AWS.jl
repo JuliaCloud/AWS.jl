@@ -1,5 +1,6 @@
 module AWS
 
+using Compat
 using Base64
 using Dates
 using HTTP
