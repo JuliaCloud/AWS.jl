@@ -10,7 +10,7 @@ using UUIDs
 Deletes the specified report.
 
 # Optional Parameters
-- `ReportName`: 
+- `ReportName`: The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
 """
 
 delete_report_definition(; aws_config::AWSConfig=global_aws_config()) = cost_and_usage_report_service("DeleteReportDefinition"; aws_config=aws_config)

@@ -92,7 +92,7 @@
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
-    "sha": "2393b67bfa1b78e22251d9b7c55f1cc9134f0b03",
+    "sha": "7b3fe32bda3c394c55486cbe0fad03ca759e05ff",
     "version": "2012-11-05"
   },
   "sns-2010-03-31.normal.json": {
@@ -140,7 +140,7 @@
     "version": "2017-09-08"
   },
   "securityhub-2018-10-26.normal.json": {
-    "sha": "32827f10e00b743f5579284e0385f8d17e74ab6f",
+    "sha": "450fff1d67877e5a8f5dad258fd424d8bddf04e4",
     "version": "2018-10-26"
   },
   "secretsmanager-2017-10-17.normal.json": {
@@ -184,7 +184,7 @@
     "version": "2016-11-28"
   },
   "route53resolver-2018-04-01.normal.json": {
-    "sha": "59fc20dceeb44e280184db7a991896ea02cdd09e",
+    "sha": "696f5726c102a2d04b87462a85ad3faaa2eac52c",
     "version": "2018-04-01"
   },
   "route53domains-2014-05-15.normal.json": {
@@ -192,7 +192,7 @@
     "version": "2014-05-15"
   },
   "route53-2013-04-01.normal.json": {
-    "sha": "02ce0ed64d37eccd6a3236a21d54ae3bd481d2c7",
+    "sha": "84ca0c2907b98b6ffd8de0d2d11a28a34f88428f",
     "version": "2013-04-01"
   },
   "robomaker-2018-06-29.normal.json": {
@@ -212,7 +212,7 @@
     "version": "2016-06-27"
   },
   "redshift-2012-12-01.normal.json": {
-    "sha": "b52aa4fd9213d448566319e291a4a1da5c28ecc3",
+    "sha": "96b28df4bae762dad286d17b7c9c0d187c170397",
     "version": "2012-12-01"
   },
   "rds-data-2018-08-01.normal.json": {
@@ -348,7 +348,7 @@
     "version": "2017-10-14"
   },
   "mediaconvert-2017-08-29.normal.json": {
-    "sha": "477da2be1c3a1a9d36bad78eb377e514712a6650",
+    "sha": "deb871e84a6541a9d8bcce32f34bbb9564e5f629",
     "version": "2017-08-29"
   },
   "mediaconnect-2018-11-14.normal.json": {
@@ -544,7 +544,7 @@
     "version": "2012-06-01"
   },
   "gamelift-2015-10-01.normal.json": {
-    "sha": "dce396cf7417ca287a8217887b7290664fc7ab69",
+    "sha": "8d0299f02f7b0d28da30aed3e5592c87b4162335",
     "version": "2015-10-01"
   },
   "fsx-2018-03-01.normal.json": {
@@ -596,7 +596,7 @@
     "version": "2012-09-25"
   },
   "elasticmapreduce-2009-03-31.normal.json": {
-    "sha": "677cc3b80a6dfebae110b920c941448feb721986",
+    "sha": "533f27797a368886ed844d5b0737e76c7ced7071",
     "version": "2009-03-31"
   },
   "elasticloadbalancingv2-2015-12-01.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "0f95e9081e1fa171d48e6a200a06b3e326900441",
+    "sha": "6b3c0b1b8bc1a47b46fd5aa6ddee768926a59ac3",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -700,7 +700,7 @@
     "version": "2017-07-25"
   },
   "cur-2017-01-06.normal.json": {
-    "sha": "9ac8cb8974e4f1fae7ef75f2ee9b0691b4d348ab",
+    "sha": "2882c7c58561d58bbea3384adfae07053f019346",
     "version": "2017-01-06"
   },
   "connectparticipant-2018-09-07.normal.json": {
@@ -760,7 +760,7 @@
     "version": "2019-07-18"
   },
   "codeguru-reviewer-2019-09-19.normal.json": {
-    "sha": "8318cb2649f12fa3e5781784e3e7c92ffb7a89e4",
+    "sha": "0424658cef47363807eab0c0931719feb7eaca13",
     "version": "2019-09-19"
   },
   "codedeploy-2014-10-06.normal.json": {
@@ -800,7 +800,7 @@
     "version": "2014-05-30"
   },
   "cloudfront-2020-05-31.normal.json": {
-    "sha": "b18a06fce5dd9ca1dfc025178468e306d32a493d",
+    "sha": "97fe563dbee9e2d536f0e3a5a2af3e9e75843566",
     "version": "2020-05-31"
   },
   "cloudformation-2010-05-15.normal.json": {
@@ -836,7 +836,7 @@
     "version": "2016-08-10"
   },
   "backup-2018-11-15.normal.json": {
-    "sha": "a874e1b38e9af433dd1ed4f1760dcf58e01d5608",
+    "sha": "714c1252d6e7a5df53458452f110874e37e82a49",
     "version": "2018-11-15"
   },
   "autoscaling-plans-2018-01-06.normal.json": {
@@ -910,5 +910,9 @@
   "AWSMigrationHub-2017-05-31.normal.json": {
     "sha": "3fe8ac6c83654077d104e4a3ffb9ce52726229b5",
     "version": "2017-05-31"
+  },
+  "appflow-2020-08-23.normal.json": {
+    "sha": "c221f5a9e4c5b886309db9bed24efed26c48e4c0",
+    "version": "2020-08-23"
   }
 }
