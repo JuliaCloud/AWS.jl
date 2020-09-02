@@ -132,6 +132,19 @@ describe_job_flows(; aws_config::AWSConfig=global_aws_config()) = emr("DescribeJ
 describe_job_flows(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeJobFlows", args; aws_config=aws_config)
 
 """
+    DescribeNotebookExecution()
+
+Provides details of a notebook execution.
+
+# Required Parameters
+- `NotebookExecutionId`: The unique identifier of the notebook execution.
+
+"""
+
+describe_notebook_execution(NotebookExecutionId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
+describe_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+
+"""
     DescribeSecurityConfiguration()
 
 Provides the details of a security configuration by returning the configuration JSON.
@@ -260,6 +273,22 @@ Provides information for all active EC2 instances and EC2 instances terminated i
 
 list_instances(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_instances(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+
+"""
+    ListNotebookExecutions()
+
+Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecution calls.
+
+# Optional Parameters
+- `EditorId`: The unique ID of the editor associated with the notebook execution.
+- `From`: The beginning of time range filter for listing notebook executions. The default is the timestamp of 30 days ago.
+- `Marker`: The pagination token, returned by a previous ListNotebookExecutions call, that indicates the start of the list for this ListNotebookExecutions call.
+- `Status`: The status filter for listing notebook executions.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
+- `To`: The end of time range filter for listing notebook executions. The default is the current timestamp.
+"""
+
+list_notebook_executions(; aws_config::AWSConfig=global_aws_config()) = emr("ListNotebookExecutions"; aws_config=aws_config)
+list_notebook_executions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListNotebookExecutions", args; aws_config=aws_config)
 
 """
     ListSecurityConfigurations()
@@ -471,7 +500,7 @@ set_termination_protection(JobFlowIds, TerminationProtected, args::AbstractDict{
 """
     SetVisibleToAllUsers()
 
-Sets the Cluster VisibleToAllUsers value, which determines whether the cluster is visible to all IAM users of the AWS account associated with the cluster. Only the IAM user who created the cluster or the AWS account root user can call this action. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If set to false, only the IAM user that created the cluster can perform actions. This action works on running clusters. You can override the default true setting when you create a cluster by using the VisibleToAllUsers parameter with RunJobFlow.
+Sets the ClusterVisibleToAllUsers value, which determines whether the cluster is visible to all IAM users of the AWS account associated with the cluster. Only the IAM user who created the cluster or the AWS account root user can call this action. The default value, true, indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. If set to false, only the IAM user that created the cluster can perform actions. This action works on running clusters. You can override the default true setting when you create a cluster by using the VisibleToAllUsers parameter with RunJobFlow.
 
 # Required Parameters
 - `JobFlowIds`: The unique identifier of the job flow (cluster).
@@ -481,6 +510,40 @@ Sets the Cluster VisibleToAllUsers value, which determines whether the cluster i
 
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config)
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws_config=aws_config)
+
+"""
+    StartNotebookExecution()
+
+Starts a notebook execution.
+
+# Required Parameters
+- `EditorId`: The unique identifier of the EMR Notebook to use for notebook execution.
+- `ExecutionEngine`: Specifies the execution engine (cluster) that runs the notebook execution.
+- `RelativePath`: The path and file name of the notebook file for this execution, relative to the path specified for the EMR Notebook. For example, if you specify a path of s3://MyBucket/MyNotebooks when you create an EMR Notebook for a notebook with an ID of e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath of my_notebook_executions/notebook_execution.ipynb, the location of the file for the notebook execution is s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execution.ipynb.
+- `ServiceRole`: The name or ARN of the IAM role that is used as the service role for Amazon EMR (the EMR role) for the notebook execution.
+
+# Optional Parameters
+- `NotebookExecutionName`: An optional name for the notebook execution.
+- `NotebookInstanceSecurityGroupId`: The unique identifier of the Amazon EC2 security group to associate with the EMR Notebook for this notebook execution.
+- `NotebookParams`: Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
+- `Tags`: A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+"""
+
+start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole); aws_config=aws_config)
+start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), args)); aws_config=aws_config)
+
+"""
+    StopNotebookExecution()
+
+Stops a notebook execution.
+
+# Required Parameters
+- `NotebookExecutionId`: The unique identifier of the notebook execution.
+
+"""
+
+stop_notebook_execution(NotebookExecutionId; aws_config::AWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
+stop_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
 
 """
     TerminateJobFlows()

@@ -97,6 +97,20 @@ create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AWS
 create_invalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws_config=aws_config)
 
 """
+    CreateMonitoringSubscription2020_05_31()
+
+Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
+
+# Required Parameters
+- `DistributionId`: The ID of the distribution that you are enabling metrics for.
+- `MonitoringSubscription`: A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
+
+"""
+
+create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription); aws_config=aws_config)
+create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription), args)); aws_config=aws_config)
+
+"""
     CreateOriginRequestPolicy2020_05_31()
 
 Creates an origin request policy. After you create an origin request policy, you can attach it to one or more cache behaviors. When it’s attached to a cache behavior, the origin request policy determines the values that CloudFront includes in requests that it sends to the origin. Each request that CloudFront sends to the origin includes the following:   The request body and the URL path (without the domain name) from the viewer request.   The headers that CloudFront automatically includes in every origin request, including Host, User-Agent, and X-Amz-Cf-Id.   All HTTP headers, cookies, and URL query strings that are specified in the cache policy or the origin request policy. These can include items from the viewer request and, in the case of headers, additional ones that are added by CloudFront.   CloudFront sends a request when it can’t find a valid object in its cache that matches the request. If you want to send values to the origin and also include them in the cache key, use CreateCachePolicy. For more information about origin request policies, see Controlling origin requests in the Amazon CloudFront Developer Guide.
@@ -121,6 +135,24 @@ Add a new public key to CloudFront to use, for example, for field-level encrypti
 
 create_public_key2020_05_31(PublicKeyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
 create_public_key2020_05_31(PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
+
+"""
+    CreateRealtimeLogConfig2020_05_31()
+
+Creates a real-time log configuration. After you create a real-time log configuration, you can attach it to one or more cache behaviors to send real-time log data to the specified Amazon Kinesis data stream. For more information about real-time log configurations, see Real-time logs in the Amazon CloudFront Developer Guide.
+
+# Required Parameters
+- `EndPoints`: Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+- `Field`: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+- `Name`: A unique name to identify this real-time log configuration.
+- `SamplingRate`: The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+
+# Optional Parameters
+- `Fields`: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+"""
+
+create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate); aws_config=aws_config)
+create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate), args)); aws_config=aws_config)
 
 """
     CreateStreamingDistribution2020_05_31()
@@ -224,6 +256,19 @@ delete_field_level_encryption_profile2020_05_31(Id; aws_config::AWSConfig=global
 delete_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
 
 """
+    DeleteMonitoringSubscription2020_05_31()
+
+Disables additional CloudWatch metrics for the specified CloudFront distribution.
+
+# Required Parameters
+- `DistributionId`: The ID of the distribution that you are disabling metrics for.
+
+"""
+
+delete_monitoring_subscription2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
+delete_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
+
+"""
     DeleteOriginRequestPolicy2020_05_31()
 
 Deletes an origin request policy. You cannot delete an origin request policy if it’s attached to any cache behaviors. First update your distributions to remove the origin request policy from all cache behaviors, then delete the origin request policy. To delete an origin request policy, you must provide the policy’s identifier and version. To get the identifier, you can use ListOriginRequestPolicies or GetOriginRequestPolicy.
@@ -252,6 +297,19 @@ Remove a public key you previously added to CloudFront.
 
 delete_public_key2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
 delete_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
+
+"""
+    DeleteRealtimeLogConfig2020_05_31()
+
+Deletes a real-time log configuration. You cannot delete a real-time log configuration if it’s attached to a cache behavior. First update your distributions to remove the real-time log configuration from all cache behaviors, then delete the real-time log configuration. To delete a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to delete.
+
+# Optional Parameters
+- `ARN`: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
+- `Name`: The name of the real-time log configuration to delete.
+"""
+
+delete_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config)
+delete_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", args; aws_config=aws_config)
 
 """
     DeleteStreamingDistribution2020_05_31()
@@ -413,6 +471,19 @@ get_invalidation2020_05_31(DistributionId, Id; aws_config::AWSConfig=global_aws_
 get_invalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws_config=aws_config)
 
 """
+    GetMonitoringSubscription2020_05_31()
+
+Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
+
+# Required Parameters
+- `DistributionId`: The ID of the distribution that you are getting metrics information for.
+
+"""
+
+get_monitoring_subscription2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
+get_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
+
+"""
     GetOriginRequestPolicy2020_05_31()
 
 Gets an origin request policy, including the following metadata:   The policy’s identifier.   The date and time when the policy was last modified.   To get an origin request policy, you must provide the policy’s identifier. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
@@ -463,6 +534,19 @@ Return public key configuration informaation
 
 get_public_key_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
 get_public_key_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", args; aws_config=aws_config)
+
+"""
+    GetRealtimeLogConfig2020_05_31()
+
+Gets a real-time log configuration. To get a real-time log configuration, you can provide the configuration’s name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to get.
+
+# Optional Parameters
+- `ARN`: The Amazon Resource Name (ARN) of the real-time log configuration to get.
+- `Name`: The name of the real-time log configuration to get.
+"""
+
+get_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
+get_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", args; aws_config=aws_config)
 
 """
     GetStreamingDistribution2020_05_31()
@@ -563,6 +647,21 @@ list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId; 
 list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", args; aws_config=aws_config)
 
 """
+    ListDistributionsByRealtimeLogConfig2020_05_31()
+
+Gets a list of distribution that have a cache behavior that’s associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. 
+
+# Optional Parameters
+- `Marker`: Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+- `MaxItems`: The maximum number of distributions that you want in the response.
+- `RealtimeLogConfigArn`: The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
+- `RealtimeLogConfigName`: The name of the real-time log configuration whose associated distributions you want to list.
+"""
+
+list_distributions_by_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config)
+list_distributions_by_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", args; aws_config=aws_config)
+
+"""
     ListDistributionsByWebACLId2020_05_31()
 
 List the distributions that are associated with a specified AWS WAF web ACL. 
@@ -646,6 +745,19 @@ List all public keys that have been added to CloudFront for this account.
 
 list_public_keys2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
 list_public_keys2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", args; aws_config=aws_config)
+
+"""
+    ListRealtimeLogConfigs2020_05_31()
+
+Gets a list of real-time log configurations. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request. 
+
+# Optional Parameters
+- `Marker`: Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+- `MaxItems`: The maximum number of real-time log configurations that you want in the response.
+"""
+
+list_realtime_log_configs2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
+list_realtime_log_configs2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", args; aws_config=aws_config)
 
 """
     ListStreamingDistributions2020_05_31()
@@ -812,6 +924,22 @@ Update public key information. Note that the only value you can change is the co
 
 update_public_key2020_05_31(Id, PublicKeyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
 update_public_key2020_05_31(Id, PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
+
+"""
+    UpdateRealtimeLogConfig2020_05_31()
+
+Updates a real-time log configuration. When you update a real-time log configuration, all the parameters are updated with the values provided in the request. You cannot update some parameters independent of others. To update a real-time log configuration:   Call GetRealtimeLogConfig to get the current real-time log configuration.   Locally modify the parameters in the real-time log configuration that you want to update.   Call this API (UpdateRealtimeLogConfig) by providing the entire real-time log configuration, including the parameters that you modified and those that you didn’t.   You cannot update a real-time log configuration’s Name or ARN.
+
+# Optional Parameters
+- `ARN`: The Amazon Resource Name (ARN) for this real-time log configuration.
+- `EndPoints`: Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+- `Fields`: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
+- `Name`: The name for this real-time log configuration.
+- `SamplingRate`: The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+"""
+
+update_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
+update_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", args; aws_config=aws_config)
 
 """
     UpdateStreamingDistribution2020_05_31()

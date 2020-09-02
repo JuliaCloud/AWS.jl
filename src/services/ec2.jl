@@ -477,7 +477,7 @@ authorize_security_group_ingress(args::AbstractDict{String, <:Any}; aws_config::
 """
     BundleInstance()
 
-Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C: ) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS. 
+Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:) is bundled. Data on other instance store volumes is not preserved.  This action is not applicable for Linux/Unix instances or Windows instances that are backed by Amazon EBS. 
 
 # Required Parameters
 - `InstanceId`: The ID of the instance to bundle. Type: String Default: None Required: Yes
@@ -778,7 +778,7 @@ create_client_vpn_route(ClientVpnEndpointId, DestinationCidrBlock, TargetVpcSubn
 """
     CreateCustomerGateway()
 
-Provides information to AWS about your VPN customer gateway device. The customer gateway is the appliance at your end of the VPN connection. (The device on the AWS side of the VPN connection is the virtual private gateway.) You must provide the Internet-routable IP address of the customer gateway's external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with the exception of 7224, which is reserved in the us-east-1 Region, and 9059, which is reserved in the eu-west-1 Region.  For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.  To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. Identical requests return information about the existing customer gateway and do not create new customer gateways. 
+Provides information to AWS about your VPN customer gateway device. The customer gateway is the appliance at your end of the VPN connection. (The device on the AWS side of the VPN connection is the virtual private gateway.) You must provide the internet-routable IP address of the customer gateway's external interface. The IP address must be static and can be behind a device performing network address translation (NAT). For devices that use Border Gateway Protocol (BGP), you can also provide the device's BGP Autonomous System Number (ASN). You can use an existing ASN assigned to your network. If you don't have an ASN already, you can use a private ASN (in the 64512 - 65534 range).  Amazon EC2 supports all 4-byte ASN numbers in the range of 1 - 2147483647, with the exception of the following:   7224 - reserved in the us-east-1 Region   9059 - reserved in the eu-west-1 Region   17943 - reserved in the ap-southeast-1 Region   10124 - reserved in the ap-northeast-1 Region    For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.  To create more than one customer gateway with the same VPN type, IP address, and BGP ASN, specify a unique device name for each customer gateway. Identical requests return information about the existing customer gateway and do not create new customer gateways. 
 
 # Required Parameters
 - `BgpAsn`: For devices that support BGP, the customer gateway's BGP ASN. Default: 65000
@@ -898,7 +898,7 @@ Creates one or more flow logs to capture information about IP traffic for a spec
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `LogDestination`: Specifies the destination to which the flow log data is to be published. Flow log data can be published to a CloudWatch Logs log group or an Amazon S3 bucket. The value specified for this parameter depends on the value specified for LogDestinationType. If LogDestinationType is not specified or cloud-watch-logs, specify the Amazon Resource Name (ARN) of the CloudWatch Logs log group. For example, to publish to a log group called my-logs, specify arn:aws:logs:us-east-1:123456789012:log-group:my-logs. Alternatively, use LogGroupName instead. If LogDestinationType is s3, specify the ARN of the Amazon S3 bucket. You can also specify a subfolder in the bucket. To specify a subfolder in the bucket, use the following ARN format: bucket_ARN/subfolder_name/. For example, to specify a subfolder named my-logs in a bucket named my-bucket, use the following ARN: arn:aws:s3:::my-bucket/my-logs/. You cannot use AWSLogs as a subfolder name. This is a reserved term.
 - `LogDestinationType`: Specifies the type of destination to which the flow log data is to be published. Flow log data can be published to CloudWatch Logs or Amazon S3. To publish flow log data to CloudWatch Logs, specify cloud-watch-logs. To publish flow log data to Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs 
-- `LogFormat`: The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow Log Records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must specify at least one field. Specify the fields using the  {field-id} format, separated by spaces. For the AWS CLI, use single quotation marks (' ') to surround the parameter value.
+- `LogFormat`: The fields to include in the flow log record, in the order in which they should appear. For a list of available fields, see Flow Log Records. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must specify at least one field. Specify the fields using the {field-id} format, separated by spaces. For the AWS CLI, use single quotation marks (' ') to surround the parameter value.
 - `LogGroupName`: The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. If you specify LogDestinationType as s3, do not specify DeliverLogsPermissionArn or LogGroupName.
 - `MaxAggregationInterval`: The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. You can specify 60 seconds (1 minute) or 600 seconds (10 minutes). When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
 - `TagSpecification`: The tags to apply to the flow logs.
@@ -1266,8 +1266,8 @@ create_route_table(vpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 Creates a security group. A security group acts as a virtual firewall for your instance to control inbound and outbound traffic. For more information, see Amazon EC2 Security Groups in the Amazon Elastic Compute Cloud User Guide and Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide. When you create a security group, you specify a friendly name of your choice. You can have a security group for use in EC2-Classic with the same name as a security group for use in a VPC. However, you can't have two security groups for use in EC2-Classic with the same name or two security groups for use in a VPC with the same name. You have a default security group for use in EC2-Classic and a default security group for use in your VPC. If you don't specify a security group when you launch an instance, the instance is launched into the appropriate default security group. A default security group includes a default rule that grants instances unrestricted network access to each other. You can add or remove rules from your security groups using AuthorizeSecurityGroupIngress, AuthorizeSecurityGroupEgress, RevokeSecurityGroupIngress, and RevokeSecurityGroupEgress. For more information about VPC security group limits, see Amazon VPC Limits.
 
 # Required Parameters
-- `GroupDescription`: A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}! *
-- `GroupName`: The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}! *
+- `GroupDescription`: A description for the security group. This is informational only. Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!*
+- `GroupName`: The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!*
 
 # Optional Parameters
 - `TagSpecification`: The tags to assign to the security group.
@@ -3355,7 +3355,7 @@ Describes one or more versions of a specified launch template. You can describe 
 - `Filter`: One or more filters.    create-time - The time the launch template version was created.    ebs-optimized - A boolean that indicates whether the instance is optimized for Amazon EBS I/O.    iam-instance-profile - The ARN of the IAM instance profile.    image-id - The ID of the AMI.    instance-type - The instance type.    is-default-version - A boolean that indicates whether the launch template version is the default version.    kernel-id - The kernel ID.    ram-disk-id - The RAM disk ID.  
 - `LaunchTemplateId`: The ID of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name in the request. To describe all the latest or default launch template versions in your account, you must omit this parameter.
 - `LaunchTemplateName`: The name of the launch template. To describe one or more versions of a specified launch template, you must specify either the launch template ID or the launch template name in the request. To describe all the latest or default launch template versions in your account, you must omit this parameter.
-- `LaunchTemplateVersion`: One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are  Latest,  Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is  Latest. To describe all launch templates in your account that are defined as the default version, the valid value is  Default. You can specify  Latest and  Default in the same call. You cannot specify numbers.
+- `LaunchTemplateVersion`: One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are Latest, Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is Latest. To describe all launch templates in your account that are defined as the default version, the valid value is Default. You can specify Latest and Default in the same call. You cannot specify numbers.
 - `MaxResults`: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
 - `MaxVersion`: The version number up to which to describe launch template versions.
 - `MinVersion`: The version number after which to describe launch template versions.
@@ -5405,6 +5405,7 @@ Modifies the specified EC2 Fleet. You can only modify an EC2 Fleet request of ty
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `ExcessCapacityTerminationPolicy`: Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet.
+- `LaunchTemplateConfig`: The launch template and overrides.
 """
 
 modify_fleet(FleetId, TargetCapacitySpecification; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyFleet", Dict{String, Any}("FleetId"=>FleetId, "TargetCapacitySpecification"=>TargetCapacitySpecification); aws_config=aws_config)
@@ -5718,6 +5719,7 @@ Modifies the specified Spot Fleet request. You can only modify a Spot Fleet requ
 - `spotFleetRequestId`: The ID of the Spot Fleet request.
 
 # Optional Parameters
+- `LaunchTemplateConfig`: The launch template and overrides. You can only use this parameter if you specified a launch template (LaunchTemplateConfigs) in your Spot Fleet request. If you specified LaunchSpecifications in your Spot Fleet request, then omit this parameter.
 - `OnDemandTargetCapacity`: The number of On-Demand Instances in the fleet.
 - `excessCapacityTerminationPolicy`: Indicates whether running Spot Instances should be terminated if the target capacity of the Spot Fleet request is decreased below the current size of the Spot Fleet.
 - `targetCapacity`: The size of the fleet.
@@ -6039,6 +6041,25 @@ Modifies the customer gateway or the target gateway of an AWS Site-to-Site VPN c
 
 modify_vpn_connection(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
 modify_vpn_connection(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
+
+"""
+    ModifyVpnConnectionOptions()
+
+Modifies the connection options for your Site-to-Site VPN VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the AWS side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated.
+
+# Required Parameters
+- `VpnConnectionId`: The ID of the Site-to-Site VPN VPN connection. 
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `LocalIpv4NetworkCidr`: The IPv4 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: 0.0.0.0/0 
+- `LocalIpv6NetworkCidr`: The IPv6 CIDR on the customer gateway (on-premises) side of the VPN connection. Default: ::/0 
+- `RemoteIpv4NetworkCidr`: The IPv4 CIDR on the AWS side of the VPN connection. Default: 0.0.0.0/0 
+- `RemoteIpv6NetworkCidr`: The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0 
+"""
+
+modify_vpn_connection_options(VpnConnectionId; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnectionOptions", Dict{String, Any}("VpnConnectionId"=>VpnConnectionId); aws_config=aws_config)
+modify_vpn_connection_options(VpnConnectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("ModifyVpnConnectionOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpnConnectionId"=>VpnConnectionId), args)); aws_config=aws_config)
 
 """
     ModifyVpnTunnelCertificate()

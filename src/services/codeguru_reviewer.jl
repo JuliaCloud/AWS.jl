@@ -7,17 +7,34 @@ using UUIDs
 """
     AssociateRepository()
 
- Use to associate an AWS CodeCommit repository or a repostory managed by AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are configured.  Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar Connections to connect to CodeGuru Reviewer. For more information, see Connect to a repository source provider in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.  
+ Use to associate an AWS CodeCommit repository or a repostory managed by AWS CodeStar Connections with Amazon CodeGuru Reviewer. When you associate a repository, CodeGuru Reviewer reviews source code changes in the repository's pull requests and provides automatic recommendations. You can view recommendations using the CodeGuru Reviewer console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are configured. Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar Connections to connect to CodeGuru Reviewer. For more information, see Connect to a repository source provider in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information, see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.  
 
 # Required Parameters
 - `Repository`: The repository to associate.
 
 # Optional Parameters
-- `ClientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
+- `ClientRequestToken`: Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. 
 """
 
 associate_repository(Repository; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 associate_repository(Repository, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Repository"=>Repository, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
+    CreateCodeReview()
+
+ Use to create a code review for a repository analysis. 
+
+# Required Parameters
+- `Name`:  The name of the code review. Each code review of the same code review type must have a unique name in your AWS account. 
+- `RepositoryAssociationArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.   A code review can only be created on an associated repository. This is the ARN of the associated repository. 
+- `Type`:  The type of code review to create. This is specified using a  CodeReviewType  object. 
+
+# Optional Parameters
+- `ClientRequestToken`:  Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate code reviews if there are failures and retries. 
+"""
+
+create_code_review(Name, RepositoryAssociationArn, Type; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/codereviews", Dict{String, Any}("Name"=>Name, "RepositoryAssociationArn"=>RepositoryAssociationArn, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_code_review(Name, RepositoryAssociationArn, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/codereviews", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RepositoryAssociationArn"=>RepositoryAssociationArn, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeCodeReview()
@@ -54,7 +71,7 @@ describe_recommendation_feedback(CodeReviewArn, RecommendationId, args::Abstract
  Returns a  RepositoryAssociation  object that contains information about the requested repository association. 
 
 # Required Parameters
-- `AssociationArn`: The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.
+- `AssociationArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories. 
 
 """
 
@@ -67,7 +84,7 @@ describe_repository_association(AssociationArn, args::AbstractDict{String, <:Any
 Removes the association between Amazon CodeGuru Reviewer and a repository.
 
 # Required Parameters
-- `AssociationArn`: The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. 
+- `AssociationArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories. 
 
 """
 
@@ -136,9 +153,9 @@ list_recommendations(CodeReviewArn, args::AbstractDict{String, <:Any}; aws_confi
 - `MaxResults`: The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable. 
 - `Name`: List of repository names to use as a filter.
 - `NextToken`: The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
-- `Owner`: List of owners to use as a filter. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket, this is name of the account that was used to associate the repository. 
+- `Owner`: List of owners to use as a filter. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository. For other repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name of the account that was used to associate the repository. 
 - `ProviderType`: List of provider types to use as a filter.
-- `State`: List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
+- `State`: List of repository association states to use as a filter. The valid repository association states are:    Associated: The repository association is complete.     Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is required for pull requests to trigger a CodeGuru Reviewer review.    If your repository ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these webhooks, reviews of code in your repository cannot be triggered.      Setting up source code access. This is required for CodeGuru Reviewer to securely clone code in your repository.       Failed: The repository failed to associate or disassociate.     Disassociating: CodeGuru Reviewer is removing the repository's pull request notifications and source code access.   
 """
 
 list_repository_associations(; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations"; aws_config=aws_config)
