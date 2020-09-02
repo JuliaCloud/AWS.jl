@@ -9,6 +9,7 @@ using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Retry
 using Sockets
+using UUIDs: UUIDs
 using XMLDict
 
 export @service
