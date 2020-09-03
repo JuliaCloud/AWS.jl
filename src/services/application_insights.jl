@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: application_insights
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateApplication()
 

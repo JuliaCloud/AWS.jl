@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: iot_1click_projects
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateDeviceWithPlacement()
 

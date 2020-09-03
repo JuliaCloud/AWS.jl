@@ -1,5 +1,6 @@
 module AWS
 
+using Compat: Compat
 using Base64
 using Dates
 using HTTP
@@ -8,6 +9,7 @@ using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Retry
 using Sockets
+using UUIDs: UUIDs
 using XMLDict
 
 export @service

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: s3_control
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateAccessPoint()
 

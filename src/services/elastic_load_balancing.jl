@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: elastic_load_balancing
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AddTags()
 

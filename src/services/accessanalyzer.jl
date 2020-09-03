@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: accessanalyzer
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateAnalyzer()
 

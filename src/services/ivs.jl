@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: ivs
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     BatchGetChannel()
 
@@ -39,7 +39,7 @@ Creates a new channel and an associated stream key to start streaming.
 - `authorized`: Whether the channel is authorized. Default: false.
 - `latencyMode`: Channel latency mode. Default: LOW.
 - `name`: Channel name.
-- `tags`: See Channel tags.
+- `tags`: See Channeltags.
 - `type`: Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
 """
 
@@ -55,7 +55,7 @@ Creates a stream key, used to initiate a stream, for the specified channel ARN. 
 - `channelArn`: ARN of the channel for which to create the stream key.
 
 # Optional Parameters
-- `tags`: See Channel tags.
+- `tags`: See Channeltags.
 """
 
 create_stream_key(channelArn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)

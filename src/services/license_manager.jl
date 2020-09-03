@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: license_manager
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateLicenseConfiguration()
 

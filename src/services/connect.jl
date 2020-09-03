@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: connect
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateUser()
 
@@ -14,7 +14,7 @@ Creates a user account for the specified Amazon Connect instance.
 - `PhoneConfig`: The phone settings for the user.
 - `RoutingProfileId`: The identifier of the routing profile for the user.
 - `SecurityProfileIds`: The identifier of the security profile for the user.
-- `Username`: The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-. @]+.
+- `Username`: The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.@]+.
 
 # Optional Parameters
 - `DirectoryUserId`: The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.

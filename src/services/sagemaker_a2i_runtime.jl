@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: sagemaker_a2i_runtime
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DeleteHumanLoop()
 

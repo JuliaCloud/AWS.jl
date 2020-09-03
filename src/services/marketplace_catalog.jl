@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: marketplace_catalog
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CancelChangeSet()
 

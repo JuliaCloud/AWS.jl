@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: pinpoint_sms_voice
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateConfigurationSet()
 

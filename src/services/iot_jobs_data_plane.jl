@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: iot_jobs_data_plane
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DescribeJobExecution()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: mobile_analytics
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     PutEvents()
 

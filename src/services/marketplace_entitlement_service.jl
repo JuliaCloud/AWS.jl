@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: marketplace_entitlement_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     GetEntitlements()
 

@@ -2,15 +2,15 @@
 using AWS
 using AWS.AWSServices: dlm
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateLifecyclePolicy()
 
 Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
 
 # Required Parameters
-- `Description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+  are supported.
+- `Description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+ are supported.
 - `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
 - `PolicyDetails`: The configuration details of the lifecycle policy.
 - `State`: The desired activation state of the lifecycle policy after creation.

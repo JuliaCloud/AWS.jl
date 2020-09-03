@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: cost_and_usage_report_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DeleteReportDefinition()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: alexa_for_business
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     ApproveSkill()
 

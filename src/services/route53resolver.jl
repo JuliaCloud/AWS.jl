@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: route53resolver
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateResolverEndpointIpAddress()
 

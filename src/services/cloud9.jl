@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: cloud9
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateEnvironmentEC2()
 

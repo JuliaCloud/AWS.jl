@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: lex_runtime_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DeleteSession()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: datasync
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CancelTaskExecution()
 
@@ -27,7 +27,7 @@ Activates an AWS DataSync agent that you have deployed on your host. The activat
 
 # Optional Parameters
 - `AgentName`: The name you configured for your agent. This value is a text reference that is used to identify the agent in the console.
-- `SecurityGroupArns`: The ARNs of the security groups used to protect your data transfer task subnets. See CreateAgentRequest SubnetArns.
+- `SecurityGroupArns`: The ARNs of the security groups used to protect your data transfer task subnets. See CreateAgentRequestSubnetArns.
 - `SubnetArns`: The Amazon Resource Names (ARNs) of the subnets in which DataSync will create elastic network interfaces for each data transfer task. The agent that runs a task must be private. When you start a task that is associated with an agent created in a VPC, or one that has access to an IP address in a VPC, then the task is also private. In this case, DataSync creates four network interfaces for each task in your subnet. For a data transfer to work, the agent must be able to route to all these four network interfaces.
 - `Tags`: The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
 - `VpcEndpointId`: The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.

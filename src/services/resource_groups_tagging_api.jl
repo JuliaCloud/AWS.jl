@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: resource_groups_tagging_api
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DescribeReportCreation()
 

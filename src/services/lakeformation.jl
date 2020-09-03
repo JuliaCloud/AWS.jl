@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: lakeformation
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     BatchGrantPermissions()
 

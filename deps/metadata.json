@@ -368,7 +368,7 @@
     "version": "2018-09-24"
   },
   "macie2-2020-01-01.normal.json": {
-    "sha": "f6b643913cb1ccc9f8f8c47ca23973faa86a3869",
+    "sha": "d5da059f7e7cb3ab15343b5a2300f3f44b458771",
     "version": "2020-01-01"
   },
   "macie-2017-12-19.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "6b3c0b1b8bc1a47b46fd5aa6ddee768926a59ac3",
+    "sha": "e5c0266709b854b37dcfeeffa89c56210eeb35a0",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -871,6 +871,10 @@
     "sha": "76d5972a260117fadff8525bb7868f0088fb4e58",
     "version": "2016-02-06"
   },
+  "appflow-2020-08-23.normal.json": {
+    "sha": "c221f5a9e4c5b886309db9bed24efed26c48e4c0",
+    "version": "2020-08-23"
+  },
   "appconfig-2019-10-09.normal.json": {
     "sha": "c6b7a4f23ac9130b30b6a72ed7f44da2e2fbf646",
     "version": "2019-10-09"
@@ -910,9 +914,5 @@
   "AWSMigrationHub-2017-05-31.normal.json": {
     "sha": "3fe8ac6c83654077d104e4a3ffb9ce52726229b5",
     "version": "2017-05-31"
-  },
-  "appflow-2020-08-23.normal.json": {
-    "sha": "c221f5a9e4c5b886309db9bed24efed26c48e4c0",
-    "version": "2020-08-23"
   }
 }

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: redshift
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AcceptReservedNodeExchange()
 

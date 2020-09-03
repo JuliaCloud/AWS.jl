@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: imagebuilder
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CancelImageCreation()
 
@@ -236,7 +236,7 @@ delete_infrastructure_configuration(infrastructureConfigurationArn, args::Abstra
  Gets a component object. 
 
 # Required Parameters
-- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires \"/ d+ \" suffix.
+- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires \"/d+\" suffix.
 
 """
 

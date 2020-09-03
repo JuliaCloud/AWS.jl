@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: workdocs
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AbortDocumentVersionUpload()
 

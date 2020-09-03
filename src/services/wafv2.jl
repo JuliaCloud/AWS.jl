@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: wafv2
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateWebACL()
 

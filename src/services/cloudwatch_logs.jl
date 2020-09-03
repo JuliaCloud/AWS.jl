@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: cloudwatch_logs
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateKmsKey()
 

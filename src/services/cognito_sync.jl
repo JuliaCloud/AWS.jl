@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: cognito_sync
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     BulkPublish()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: data_pipeline
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     ActivatePipeline()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: directory_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AcceptSharedDirectory()
 
@@ -761,7 +761,7 @@ Applies a schema extension to a Microsoft AD directory.
 - `CreateSnapshotBeforeSchemaExtension`: If true, creates a snapshot of the directory before applying the schema extension.
 - `Description`: A description of the schema extension.
 - `DirectoryId`: The identifier of the directory for which the schema extension will be applied to.
-- `LdifContent`: The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with  n. See the example request below for more details. The file size can be no larger than 1MB.
+- `LdifContent`: The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB.
 
 """
 

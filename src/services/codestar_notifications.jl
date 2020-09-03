@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: codestar_notifications
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateNotificationRule()
 

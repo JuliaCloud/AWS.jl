@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: kinesis_analytics_v2
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AddApplicationCloudWatchLoggingOption()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: iot_events
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateDetectorModel()
 

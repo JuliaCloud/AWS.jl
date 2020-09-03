@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: codestar_connections
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateConnection()
 

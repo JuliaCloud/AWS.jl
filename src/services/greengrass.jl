@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: greengrass
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateRoleToGroup()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: device_farm
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateDevicePool()
 
@@ -484,7 +484,7 @@ get_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetTestGridSession()
 
-A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult url. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequest sessionArn).   The project ARN and a session ID (GetTestGridSessionRequest projectArn and GetTestGridSessionRequest sessionId).   
+A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResulturl. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequestsessionArn).   The project ARN and a session ID (GetTestGridSessionRequestprojectArn and GetTestGridSessionRequestsessionId).   
 
 # Optional Parameters
 - `projectArn`: The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects.

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: iot_events_data
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     BatchPutMessage()
 

@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: cloudfront
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateCachePolicy2020_05_31()
 

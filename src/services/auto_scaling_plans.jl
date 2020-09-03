@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: auto_scaling_plans
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateScalingPlan()
 

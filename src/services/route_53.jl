@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: route_53
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateVPCWithHostedZone()
 

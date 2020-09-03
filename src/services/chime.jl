@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: chime
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociatePhoneNumberWithUser()
 
@@ -334,7 +334,7 @@ create_user(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 """
     CreateVoiceConnector()
 
-Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling CreateVoiceConnectorRequest RequireEncryption configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
+Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling CreateVoiceConnectorRequestRequireEncryption configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime Voice Connector.

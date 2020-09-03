@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: ec2_instance_connect
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     SendSSHPublicKey()
 

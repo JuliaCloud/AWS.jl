@@ -2,18 +2,18 @@
 using AWS
 using AWS.AWSServices: lex_model_building_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CreateBotVersion()
 
-Creates a new version of the bot based on the  LATEST version. If the  LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version.  You can update only the  LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation.   When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.   This operation requires permission for the lex:CreateBotVersion action. 
+Creates a new version of the bot based on the LATEST version. If the LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version.  You can update only the LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation.   When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.   This operation requires permission for the lex:CreateBotVersion action. 
 
 # Required Parameters
 - `name`: The name of the bot that you want to create a new version of. The name is case sensitive. 
 
 # Optional Parameters
-- `checksum`: Identifies a specific revision of the  LATEST version of the bot. If you specify a checksum and the  LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version.
+- `checksum`: Identifies a specific revision of the LATEST version of the bot. If you specify a checksum and the LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 
 create_bot_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions"; aws_config=aws_config)
@@ -22,13 +22,13 @@ create_bot_version(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 """
     CreateIntentVersion()
 
-Creates a new version of an intent based on the  LATEST version of the intent. If the  LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the  LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action. 
+Creates a new version of an intent based on the LATEST version of the intent. If the LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action. 
 
 # Required Parameters
 - `name`: The name of the intent that you want to create a new version of. The name is case sensitive. 
 
 # Optional Parameters
-- `checksum`: Checksum of the  LATEST version of the intent that should be used to create the new version. If you specify a checksum and the  LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version.
+- `checksum`: Checksum of the LATEST version of the intent that should be used to create the new version. If you specify a checksum and the LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 
 create_intent_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions"; aws_config=aws_config)
@@ -37,13 +37,13 @@ create_intent_version(name, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     CreateSlotTypeVersion()
 
-Creates a new version of a slot type based on the  LATEST version of the specified slot type. If the  LATEST version of this resource has not changed since the last version that you created, Amazon Lex doesn't create a new version. It returns the last version that you created.   You can update only the  LATEST version of a slot type. You can't update the numbered versions that you create with the CreateSlotTypeVersion operation.  When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions for the lex:CreateSlotTypeVersion action.
+Creates a new version of a slot type based on the LATEST version of the specified slot type. If the LATEST version of this resource has not changed since the last version that you created, Amazon Lex doesn't create a new version. It returns the last version that you created.   You can update only the LATEST version of a slot type. You can't update the numbered versions that you create with the CreateSlotTypeVersion operation.  When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions for the lex:CreateSlotTypeVersion action.
 
 # Required Parameters
 - `name`: The name of the slot type that you want to create a new version for. The name is case sensitive. 
 
 # Optional Parameters
-- `checksum`: Checksum for the  LATEST version of the slot type that you want to publish. If you specify a checksum and the  LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version.
+- `checksum`: Checksum for the LATEST version of the slot type that you want to publish. If you specify a checksum and the LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
 
 create_slot_type_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions"; aws_config=aws_config)
@@ -52,7 +52,7 @@ create_slot_type_version(name, args::AbstractDict{String, <:Any}; aws_config::AW
 """
     DeleteBot()
 
-Deletes all versions of the bot, including the  LATEST version. To delete a specific version of the bot, use the DeleteBotVersion operation. The DeleteBot operation doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed later. Amazon Lex stores utterances indefinitely for improving the ability of your bot to respond to user inputs. These utterances are not removed when the bot is deleted. To remove the utterances, use the DeleteUtterances operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
+Deletes all versions of the bot, including the LATEST version. To delete a specific version of the bot, use the DeleteBotVersion operation. The DeleteBot operation doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed later. Amazon Lex stores utterances indefinitely for improving the ability of your bot to respond to user inputs. These utterances are not removed when the bot is deleted. To remove the utterances, use the DeleteUtterances operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
 
 # Required Parameters
 - `name`: The name of the bot. The name is case sensitive. 
@@ -98,7 +98,7 @@ Deletes a specific version of a bot. To delete all versions of a bot, use the De
 
 # Required Parameters
 - `name`: The name of the bot.
-- `version`: The version of the bot to delete. You cannot delete the  LATEST version of the bot. To delete the  LATEST version, use the DeleteBot operation.
+- `version`: The version of the bot to delete. You cannot delete the LATEST version of the bot. To delete the LATEST version, use the DeleteBot operation.
 
 """
 
@@ -108,7 +108,7 @@ delete_bot_version(name, version, args::AbstractDict{String, <:Any}; aws_config:
 """
     DeleteIntent()
 
-Deletes all versions of the intent, including the  LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
+Deletes all versions of the intent, including the LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
 
 # Required Parameters
 - `name`: The name of the intent. The name is case sensitive. 
@@ -125,7 +125,7 @@ Deletes a specific version of an intent. To delete all versions of a intent, use
 
 # Required Parameters
 - `name`: The name of the intent.
-- `version`: The version of the intent to delete. You cannot delete the  LATEST version of the intent. To delete the  LATEST version, use the DeleteIntent operation.
+- `version`: The version of the intent to delete. You cannot delete the LATEST version of the intent. To delete the LATEST version, use the DeleteIntent operation.
 
 """
 
@@ -135,7 +135,7 @@ delete_intent_version(name, version, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteSlotType()
 
-Deletes all versions of the slot type, including the  LATEST version. To delete a specific version of the slot type, use the DeleteSlotTypeVersion operation.  You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.    If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
+Deletes all versions of the slot type, including the LATEST version. To delete a specific version of the slot type, use the DeleteSlotTypeVersion operation.  You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.    If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
 
 # Required Parameters
 - `name`: The name of the slot type. The name is case sensitive. 
@@ -152,7 +152,7 @@ Deletes a specific version of a slot type. To delete all versions of a slot type
 
 # Required Parameters
 - `name`: The name of the slot type.
-- `version`: The version of the slot type to delete. You cannot delete the  LATEST version of the slot type. To delete the  LATEST version, use the DeleteSlotType operation.
+- `version`: The version of the slot type to delete. You cannot delete the LATEST version of the slot type. To delete the LATEST version, use the DeleteSlotType operation.
 
 """
 
@@ -254,7 +254,7 @@ get_bot_channel_associations(aliasName, botName, args::AbstractDict{String, <:An
 """
     GetBotVersions()
 
-Gets information about all of the versions of a bot. The GetBotVersions operation returns a BotMetadata object for each version of a bot. For example, if a bot has three numbered versions, the GetBotVersions operation returns four BotMetadata objects in the response, one for each numbered version and one for the  LATEST version.  The GetBotVersions operation always returns at least one version, the  LATEST version. This operation requires permissions for the lex:GetBotVersions action.
+Gets information about all of the versions of a bot. The GetBotVersions operation returns a BotMetadata object for each version of a bot. For example, if a bot has three numbered versions, the GetBotVersions operation returns four BotMetadata objects in the response, one for each numbered version and one for the LATEST version.  The GetBotVersions operation always returns at least one version, the LATEST version. This operation requires permissions for the lex:GetBotVersions action.
 
 # Required Parameters
 - `name`: The name of the bot for which versions should be returned.
@@ -270,7 +270,7 @@ get_bot_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 """
     GetBots()
 
-Returns bot information as follows:    If you provide the nameContains field, the response includes information for the  LATEST version of all bots whose name contains the specified string.   If you don't specify the nameContains field, the operation returns information about the  LATEST version of all of your bots.   This operation requires permission for the lex:GetBots action.
+Returns bot information as follows:    If you provide the nameContains field, the response includes information for the LATEST version of all bots whose name contains the specified string.   If you don't specify the nameContains field, the operation returns information about the LATEST version of all of your bots.   This operation requires permission for the lex:GetBots action.
 
 # Optional Parameters
 - `maxResults`: The maximum number of bots to return in the response that the request will return. The default is 10.
@@ -370,7 +370,7 @@ get_intent(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 """
     GetIntentVersions()
 
-Gets information about all of the versions of an intent. The GetIntentVersions operation returns an IntentMetadata object for each version of an intent. For example, if an intent has three numbered versions, the GetIntentVersions operation returns four IntentMetadata objects in the response, one for each numbered version and one for the  LATEST version.  The GetIntentVersions operation always returns at least one version, the  LATEST version. This operation requires permissions for the lex:GetIntentVersions action.
+Gets information about all of the versions of an intent. The GetIntentVersions operation returns an IntentMetadata object for each version of an intent. For example, if an intent has three numbered versions, the GetIntentVersions operation returns four IntentMetadata objects in the response, one for each numbered version and one for the LATEST version.  The GetIntentVersions operation always returns at least one version, the LATEST version. This operation requires permissions for the lex:GetIntentVersions action.
 
 # Required Parameters
 - `name`: The name of the intent for which versions should be returned.
@@ -386,7 +386,7 @@ get_intent_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 """
     GetIntents()
 
-Returns intent information as follows:    If you specify the nameContains field, returns the  LATEST version of all intents that contain the specified string.    If you don't specify the nameContains field, returns information about the  LATEST version of all intents.     The operation requires permission for the lex:GetIntents action. 
+Returns intent information as follows:    If you specify the nameContains field, returns the LATEST version of all intents that contain the specified string.    If you don't specify the nameContains field, returns information about the LATEST version of all intents.     The operation requires permission for the lex:GetIntents action. 
 
 # Optional Parameters
 - `maxResults`: The maximum number of intents to return in the response. The default is 10.
@@ -414,7 +414,7 @@ get_slot_type(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     GetSlotTypeVersions()
 
-Gets information about all versions of a slot type. The GetSlotTypeVersions operation returns a SlotTypeMetadata object for each version of a slot type. For example, if a slot type has three numbered versions, the GetSlotTypeVersions operation returns four SlotTypeMetadata objects in the response, one for each numbered version and one for the  LATEST version.  The GetSlotTypeVersions operation always returns at least one version, the  LATEST version. This operation requires permissions for the lex:GetSlotTypeVersions action.
+Gets information about all versions of a slot type. The GetSlotTypeVersions operation returns a SlotTypeMetadata object for each version of a slot type. For example, if a slot type has three numbered versions, the GetSlotTypeVersions operation returns four SlotTypeMetadata objects in the response, one for each numbered version and one for the LATEST version.  The GetSlotTypeVersions operation always returns at least one version, the LATEST version. This operation requires permissions for the lex:GetSlotTypeVersions action.
 
 # Required Parameters
 - `name`: The name of the slot type for which versions should be returned.
@@ -430,7 +430,7 @@ get_slot_type_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     GetSlotTypes()
 
-Returns slot type information as follows:    If you specify the nameContains field, returns the  LATEST version of all slot types that contain the specified string.    If you don't specify the nameContains field, returns information about the  LATEST version of all slot types.     The operation requires permission for the lex:GetSlotTypes action. 
+Returns slot type information as follows:    If you specify the nameContains field, returns the LATEST version of all slot types that contain the specified string.    If you don't specify the nameContains field, returns information about the LATEST version of all slot types.     The operation requires permission for the lex:GetSlotTypes action. 
 
 # Optional Parameters
 - `maxResults`: The maximum number of slot types to return in the response. The default is 10.
@@ -472,7 +472,7 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutBot()
 
-Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name, a locale, and whether the bot is directed toward children under age 13. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with the minimum information, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see how-it-works.  If you specify the name of an existing bot, the fields in the request replace the existing values in the  LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see security-iam.
+Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name, a locale, and whether the bot is directed toward children under age 13. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with the minimum information, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see how-it-works.  If you specify the name of an existing bot, the fields in the request replace the existing values in the LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see security-iam.
 
 # Required Parameters
 - `childDirected`: For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ. 
@@ -481,7 +481,7 @@ Creates an Amazon Lex conversational bot or replaces an existing bot. When you c
 
 # Optional Parameters
 - `abortStatement`: When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then aborts the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type.  For example, in a pizza ordering bot, Amazon Lex might ask a user \"What type of crust would you like?\" If the user's response is not one of the expected responses (for example, \"thin crust, \"deep dish,\" etc.), Amazon Lex tries to elicit a correct response a few more times.  For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the abort statement will not be sent to the user, the fallback intent is used instead. For more information, see  AMAZON.FallbackIntent.
-- `checksum`: Identifies a specific revision of the  LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the  LATEST version. If you don't specify the  checksum field, or if the checksum does not match the  LATEST version, you get a PreconditionFailedException exception.
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the LATEST version. If you don't specify the  checksum field, or if the checksum does not match the LATEST version, you get a PreconditionFailedException exception.
 - `clarificationPrompt`: When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeat the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.  When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: \"What would you like to do? You can say 'Order a pizza' or 'Order a drink.'\" If you have defined a fallback intent, it will be invoked if the clarification prompt is repeated the number of times defined in the maxAttempts field. For more information, see  AMAZON.FallbackIntent. If you don't define a clarification prompt, at runtime Amazon Lex will return a 400 Bad Request exception in three cases:    Follow-up prompt - When the user responds to a follow-up prompt but does not provide an intent. For example, in response to a follow-up prompt that says \"Would you like anything else today?\" the user says \"Yes.\" Amazon Lex will return a 400 Bad Request exception because it does not have a clarification prompt to send to the user to get an intent.   Lambda function - When using a Lambda function, you return an ElicitIntent dialog type. Since Amazon Lex does not have a clarification prompt to get an intent from the user, it returns a 400 Bad Request exception.   PutSession operation - When using the PutSession operation, you send an ElicitIntent dialog type. Since Amazon Lex does not have a clarification prompt to get an intent from the user, it returns a 400 Bad Request exception.  
 - `createVersion`: When set to true a new numbered version of the bot is created. This is the same as calling the CreateBotVersion operation. If you don't specify createVersion, the default is false.
 - `description`: A description of the bot.
@@ -509,7 +509,7 @@ Creates an alias for the specified version of the bot or replaces an alias for t
 - `name`: The name of the alias. The name is not case sensitive.
 
 # Optional Parameters
-- `checksum`: Identifies a specific revision of the  LATEST version. When you create a new bot alias, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot alias, set the checksum field to the checksum of the most recent revision of the  LATEST version. If you don't specify the  checksum field, or if the checksum does not match the  LATEST version, you get a PreconditionFailedException exception.
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new bot alias, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot alias, set the checksum field to the checksum of the most recent revision of the LATEST version. If you don't specify the  checksum field, or if the checksum does not match the LATEST version, you get a PreconditionFailedException exception.
 - `conversationLogs`: Settings for conversation logs for the alias.
 - `description`: A description of the alias.
 - `tags`: A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
@@ -521,13 +521,13 @@ put_bot_alias(botName, botVersion, name, args::AbstractDict{String, <:Any}; aws_
 """
     PutIntent()
 
-Creates an intent or replaces an existing intent. To define the interaction between the user and your bot, you use one or more intents. For a pizza ordering bot, for example, you would create an OrderPizza intent.  To create an intent or replace an existing intent, you must provide the following:   Intent name. For example, OrderPizza.   Sample utterances. For example, \"Can I order a pizza, please.\" and \"I want to order a pizza.\"   Information to be gathered. You specify slot types for the information that your bot will request from the user. You can specify standard slot types, such as a date or a time, or custom slot types such as the size and crust of a pizza.   How the intent will be fulfilled. You can provide a Lambda function or configure the intent to return the intent information to the client application. If you use a Lambda function, when all of the intent information is available, Amazon Lex invokes your Lambda function. If you configure your intent to return the intent information to the client application.    You can specify other optional information in the request, such as:   A confirmation prompt to ask the user to confirm an intent. For example, \"Shall I order your pizza?\"   A conclusion statement to send to the user after the intent has been fulfilled. For example, \"I placed your pizza order.\"   A follow-up prompt that asks the user for additional activity. For example, asking \"Do you want to order a drink with your pizza?\"   If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the  LATEST version of the intent with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. When you update the  LATEST version of an intent, the status field of any bot that uses the  LATEST version of the intent is set to NOT_BUILT. For more information, see how-it-works. This operation requires permissions for the lex:PutIntent action.
+Creates an intent or replaces an existing intent. To define the interaction between the user and your bot, you use one or more intents. For a pizza ordering bot, for example, you would create an OrderPizza intent.  To create an intent or replace an existing intent, you must provide the following:   Intent name. For example, OrderPizza.   Sample utterances. For example, \"Can I order a pizza, please.\" and \"I want to order a pizza.\"   Information to be gathered. You specify slot types for the information that your bot will request from the user. You can specify standard slot types, such as a date or a time, or custom slot types such as the size and crust of a pizza.   How the intent will be fulfilled. You can provide a Lambda function or configure the intent to return the intent information to the client application. If you use a Lambda function, when all of the intent information is available, Amazon Lex invokes your Lambda function. If you configure your intent to return the intent information to the client application.    You can specify other optional information in the request, such as:   A confirmation prompt to ask the user to confirm an intent. For example, \"Shall I order your pizza?\"   A conclusion statement to send to the user after the intent has been fulfilled. For example, \"I placed your pizza order.\"   A follow-up prompt that asks the user for additional activity. For example, asking \"Do you want to order a drink with your pizza?\"   If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the LATEST version of the intent with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. When you update the LATEST version of an intent, the status field of any bot that uses the LATEST version of the intent is set to NOT_BUILT. For more information, see how-it-works. This operation requires permissions for the lex:PutIntent action.
 
 # Required Parameters
 - `name`: The name of the intent. The name is not case sensitive.  The name can't match a built-in intent name, or a built-in intent name with \"AMAZON.\" removed. For example, because there is a built-in intent called AMAZON.HelpIntent, you can't create a custom intent called HelpIntent. For a list of built-in intents, see Standard Built-in Intents in the Alexa Skills Kit.
 
 # Optional Parameters
-- `checksum`: Identifies a specific revision of the  LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the  LATEST version. If you don't specify the  checksum field, or if the checksum does not match the  LATEST version, you get a PreconditionFailedException exception.
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the LATEST version. If you don't specify the  checksum field, or if the checksum does not match the LATEST version, you get a PreconditionFailedException exception.
 - `conclusionStatement`:  The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function.  This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element.  The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one. 
 - `confirmationPrompt`: Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.   You you must provide both the rejectionStatement and the confirmationPrompt, or neither. 
 - `createVersion`: When set to true a new numbered version of the intent is created. This is the same as calling the CreateIntentVersion operation. If you do not specify createVersion, the default is false.
@@ -548,13 +548,13 @@ put_intent(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global
 """
     PutSlotType()
 
-Creates a custom slot type or replaces an existing custom slot type. To create a custom slot type, specify a name for the slot type and a set of enumeration values, which are the values that a slot of this type can assume. For more information, see how-it-works. If you specify the name of an existing slot type, the fields in the request replace the existing values in the  LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception. When you update the  LATEST version of a slot type, if a bot uses the  LATEST version of an intent that contains the slot type, the bot's status field is set to NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
+Creates a custom slot type or replaces an existing custom slot type. To create a custom slot type, specify a name for the slot type and a set of enumeration values, which are the values that a slot of this type can assume. For more information, see how-it-works. If you specify the name of an existing slot type, the fields in the request replace the existing values in the LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception. When you update the LATEST version of a slot type, if a bot uses the LATEST version of an intent that contains the slot type, the bot's status field is set to NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
 
 # Required Parameters
 - `name`: The name of the slot type. The name is not case sensitive.  The name can't match a built-in slot type name, or a built-in slot type name with \"AMAZON.\" removed. For example, because there is a built-in slot type called AMAZON.DATE, you can't create a custom slot type called DATE. For a list of built-in slot types, see Slot Type Reference in the Alexa Skills Kit.
 
 # Optional Parameters
-- `checksum`: Identifies a specific revision of the  LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the  LATEST version. If you don't specify the  checksum field, or if the checksum does not match the  LATEST version, you get a PreconditionFailedException exception.
+- `checksum`: Identifies a specific revision of the LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the LATEST version. If you don't specify the  checksum field, or if the checksum does not match the LATEST version, you get a PreconditionFailedException exception.
 - `createVersion`: When set to true a new numbered version of the slot type is created. This is the same as calling the CreateSlotTypeVersion operation. If you do not specify createVersion, the default is false.
 - `description`: A description of the slot type.
 - `enumerationValues`: A list of EnumerationValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, which are additional values that help train the machine learning model about the values that it resolves for a slot.  When Amazon Lex resolves a slot value, it generates a resolution list that contains up to five possible values for the slot. If you are using a Lambda function, this resolution list is passed to the function. If you are not using a Lambda function you can choose to return the value that the user entered or the first value in the resolution list as the slot value. The valueSelectionStrategy field indicates the option to use. 
@@ -572,7 +572,7 @@ put_slot_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glo
 Starts a job to import a resource to Amazon Lex.
 
 # Required Parameters
-- `mergeStrategy`: Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The  LASTEST version of the existing resource is overwritten with the data from the import file.  
+- `mergeStrategy`: Specifies the action that the StartImport operation should take when there is an existing resource with the same name.   FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The LASTEST version of the existing resource is overwritten with the data from the import file.  
 - `payload`: A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
 - `resourceType`: Specifies the type of resource to export. Each resource also exports any resources that it depends on.    A bot exports dependent intents.   An intent exports dependent slot types.  
 

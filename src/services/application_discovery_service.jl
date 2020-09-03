@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: application_discovery_service
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateConfigurationItemsToApplication()
 
@@ -97,7 +97,7 @@ Lists agents or connectors as specified by ID or other filters. All agents/conne
 - `agentIds`: The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
 - `filters`: You can filter the request using various logical operators and a key-value format. For example:   {\"key\": \"collectionStatus\", \"value\": \"STARTED\"} 
 - `maxResults`: The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest agentIds but set DescribeAgentsRequest maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequestagentIds but set DescribeAgentsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
 """
 
 describe_agents(; aws_config::AWSConfig=global_aws_config()) = application_discovery_service("DescribeAgents"; aws_config=aws_config)
@@ -232,7 +232,7 @@ Retrieves a list of configuration items as specified by the value passed to the 
 # Optional Parameters
 - `filters`: You can filter the request using various logical operators and a key-value format. For example:   {\"key\": \"serverType\", \"value\": \"webServer\"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
 - `maxResults`: The total number of items to return. The maximum value is 100.
-- `nextToken`: Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+- `nextToken`: Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
 - `orderBy`: Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
 """
 
@@ -250,7 +250,7 @@ Retrieves a list of servers that are one network hop away from a specified serve
 # Optional Parameters
 - `maxResults`: Maximum number of results to return in a single page of output.
 - `neighborConfigurationIds`: List of configuration IDs to test for one-hop-away.
-- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest neighborConfigurationIds but set ListServerNeighborsRequest maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequestneighborConfigurationIds but set ListServerNeighborsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
 - `portInformationNeeded`: Flag to indicate if port and protocol information is needed as part of the response.
 """
 

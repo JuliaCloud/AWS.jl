@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: appstream
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateFleet()
 
@@ -100,7 +100,7 @@ Creates a fleet. A fleet consists of streaming instances that run a specified im
 - `ImageName`: The name of the image used to create the fleet.
 - `MaxUserDurationInSeconds`: The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 360000.
 - `StreamView`: The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
-- `Tags`: The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+- `Tags`: The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +  - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `VpcConfig`: The VPC configuration for the fleet.
 """
 
@@ -126,7 +126,7 @@ Creates an image builder. An image builder is a virtual machine that is used to 
 - `IamRoleArn`: The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
 - `ImageArn`: The ARN of the public, private, or shared image to use.
 - `ImageName`: The name of the image used to create the image builder.
-- `Tags`: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+- `Tags`: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +  - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `VpcConfig`: The VPC configuration for the image builder. You can specify only one subnet.
 """
 
@@ -165,7 +165,7 @@ Creates a stack to start streaming applications to users. A stack consists of an
 - `FeedbackURL`: The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
 - `RedirectURL`: The URL that users are redirected to after their streaming session ends.
 - `StorageConnectors`: The storage connectors to enable.
-- `Tags`: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+- `Tags`: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +  - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `UserSettings`: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
 """
 
@@ -632,7 +632,7 @@ Adds or overwrites one or more tags for the specified AppStream 2.0 resource. Yo
 
 # Required Parameters
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
-- `Tags`: The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @
+- `Tags`: The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +  - @
 
 """
 

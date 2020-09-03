@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: mturk
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AcceptQualificationRequest()
 
@@ -519,7 +519,7 @@ reject_qualification_request(QualificationRequestId, args::AbstractDict{String, 
 
 # Required Parameters
 - `AssignmentId`: The ID of the assignment for which this bonus is paid.
-- `BonusAmount`:  The Bonus amount is a US Dollar amount specified using a string (for example, \"5\" represents  5.00 USD and \"101.42\" represents  101.42 USD). Do not include currency symbols or currency codes. 
+- `BonusAmount`:  The Bonus amount is a US Dollar amount specified using a string (for example, \"5\" represents 5.00 USD and \"101.42\" represents 101.42 USD). Do not include currency symbols or currency codes. 
 - `Reason`: A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
 - `WorkerId`: The ID of the Worker being paid the bonus.
 

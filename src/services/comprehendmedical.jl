@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: comprehendmedical
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DescribeEntitiesDetectionV2Job()
 

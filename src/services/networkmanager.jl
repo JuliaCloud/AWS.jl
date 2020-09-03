@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: networkmanager
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AssociateCustomerGateway()
 
@@ -83,9 +83,9 @@ Creates a new link for a specified site.
 
 # Optional Parameters
 - `Description`: A description of the link. Length Constraints: Maximum length of 256 characters.
-- `Provider`: The provider of the link. Constraints: Cannot include the following characters: |   ^ Length Constraints: Maximum length of 128 characters.
+- `Provider`: The provider of the link. Constraints: Cannot include the following characters: |  ^ Length Constraints: Maximum length of 128 characters.
 - `Tags`: The tags to apply to the resource during creation.
-- `Type`: The type of the link. Constraints: Cannot include the following characters: |   ^ Length Constraints: Maximum length of 128 characters.
+- `Type`: The type of the link. Constraints: Cannot include the following characters: |  ^ Length Constraints: Maximum length of 128 characters.
 """
 
 create_link(Bandwidth, SiteId, globalNetworkId; aws_config::AWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId); aws_config=aws_config)

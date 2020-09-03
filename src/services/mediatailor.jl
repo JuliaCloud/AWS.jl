@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: mediatailor
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     DeletePlaybackConfiguration()
 

@@ -14,7 +14,9 @@ using JSON
 using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking
+using Pkg
 using Retry
+using Suppressor
 using Test
 using UUIDs
 using XMLDict
@@ -31,4 +33,5 @@ aws = AWSConfig()
     include("AWSCredentials.jl")
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
+    include("test_pkg.jl")
 end

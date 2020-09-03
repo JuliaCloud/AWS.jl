@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: glacier
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AbortMultipartUpload()
 
@@ -297,7 +297,7 @@ This operation initiates the vault locking process by doing the following:   Ins
 - `vaultName`: The name of the vault.
 
 # Optional Parameters
-- `policy`: The vault lock policy as a JSON string, which uses \" \" as an escape character.
+- `policy`: The vault lock policy as a JSON string, which uses \"\" as an escape character.
 """
 
 initiate_vault_lock(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)

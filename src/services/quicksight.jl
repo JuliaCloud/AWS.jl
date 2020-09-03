@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: quicksight
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     CancelIngestion()
 
@@ -235,7 +235,7 @@ create_template(AwsAccountId, SourceEntity, TemplateId, args::AbstractDict{Strin
 Creates a template alias for a template.
 
 # Required Parameters
-- `AliasName`: The name that you want to give to the template alias that you're creating. Don't start the alias name with the   character. Alias names that start with   are reserved by QuickSight. 
+- `AliasName`: The name that you want to give to the template alias that you're creating. Don't start the alias name with the  character. Alias names that start with  are reserved by QuickSight. 
 - `AwsAccountId`: The ID of the AWS account that contains the template that you creating an alias for.
 - `TemplateId`: An ID for the template.
 - `TemplateVersionNumber`: The version number of the template.
@@ -272,7 +272,7 @@ create_theme(AwsAccountId, BaseThemeId, Configuration, Name, ThemeId, args::Abst
 Creates a theme alias for a theme.
 
 # Required Parameters
-- `AliasName`: The name that you want to give to the theme alias that you are creating. The alias name can't begin with a  . Alias names that start with   are reserved by Amazon QuickSight. 
+- `AliasName`: The name that you want to give to the theme alias that you are creating. The alias name can't begin with a . Alias names that start with  are reserved by Amazon QuickSight. 
 - `AwsAccountId`: The ID of the AWS account that contains the theme for the new theme alias.
 - `ThemeId`: An ID for the theme alias.
 - `ThemeVersionNumber`: The version number of the theme.
@@ -440,7 +440,7 @@ delete_template(AwsAccountId, TemplateId, args::AbstractDict{String, <:Any}; aws
 Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
 
 # Required Parameters
-- `AliasName`: The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword  LATEST in the AliasName parameter. 
+- `AliasName`: The name for the template alias. To delete a specific alias, you delete the version that the alias points to. You can specify the alias name, or specify the latest version of the template by providing the keyword LATEST in the AliasName parameter. 
 - `AwsAccountId`: The ID of the AWS account that contains the item to delete.
 - `TemplateId`: The ID for the template that the specified alias is for.
 
@@ -723,7 +723,7 @@ Describes a template's metadata.
 - `TemplateId`: The ID for the template.
 
 # Optional Parameters
-- `alias-name`: The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword  LATEST in the AliasName parameter. The keyword  PUBLISHED doesn't apply to templates.
+- `alias-name`: The alias of the template that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword LATEST in the AliasName parameter. The keyword PUBLISHED doesn't apply to templates.
 - `version-number`: (Optional) The number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the template is described.
 """
 
@@ -736,7 +736,7 @@ describe_template(AwsAccountId, TemplateId, args::AbstractDict{String, <:Any}; a
 Describes the template alias for a template.
 
 # Required Parameters
-- `AliasName`: The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword  LATEST in the AliasName parameter. The keyword  PUBLISHED doesn't apply to templates.
+- `AliasName`: The name of the template alias that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the template by providing the keyword LATEST in the AliasName parameter. The keyword PUBLISHED doesn't apply to templates.
 - `AwsAccountId`: The ID of the AWS account that contains the template alias that you're describing.
 - `TemplateId`: The ID for the template.
 
@@ -769,7 +769,7 @@ Describes a theme.
 - `ThemeId`: The ID for the theme.
 
 # Optional Parameters
-- `alias-name`: The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword  LATEST in the AliasName parameter. The keyword  PUBLISHED doesn't apply to themes.
+- `alias-name`: The alias of the theme that you want to describe. If you name a specific alias, you describe the version that the alias points to. You can specify the latest version of the theme by providing the keyword LATEST in the AliasName parameter. The keyword PUBLISHED doesn't apply to themes.
 - `version-number`: The version number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the theme is described.
 """
 
@@ -1545,7 +1545,7 @@ update_template(AwsAccountId, SourceEntity, TemplateId, args::AbstractDict{Strin
 Updates the template alias of a template.
 
 # Required Parameters
-- `AliasName`: The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword  LATEST in the AliasName parameter. The keyword  PUBLISHED doesn't apply to templates.
+- `AliasName`: The alias of the template that you want to update. If you name a specific alias, you update the version that the alias points to. You can specify the latest version of the template by providing the keyword LATEST in the AliasName parameter. The keyword PUBLISHED doesn't apply to templates.
 - `AwsAccountId`: The ID of the AWS account that contains the template alias that you're updating.
 - `TemplateId`: The ID for the template.
 - `TemplateVersionNumber`: The version number of the template.

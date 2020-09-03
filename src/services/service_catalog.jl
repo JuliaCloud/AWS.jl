@@ -2,8 +2,8 @@
 using AWS
 using AWS.AWSServices: service_catalog
 
-using Compat
-using UUIDs
+using AWS.Compat
+using AWS.UUIDs
 """
     AcceptPortfolioShare()
 
@@ -277,7 +277,7 @@ create_provisioning_artifact(IdempotencyToken, Parameters, ProductId, args::Abst
 Creates a self-service action.
 
 # Required Parameters
-- `Definition`: The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, \"AssumeRole\": \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned product launch role, set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of parameters in JSON format. For example: [{ \"Name \": \"InstanceId \", \"Type \": \"TARGET \"}] or [{ \"Name \": \"InstanceId \", \"Type \": \"TEXT_VALUE \"}].  
+- `Definition`: The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, \"AssumeRole\": \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned product launch role, set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
 - `DefinitionType`: The service action definition type. For example, SSM_AUTOMATION.
 - `IdempotencyToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
 - `Name`: The self-service action name.
