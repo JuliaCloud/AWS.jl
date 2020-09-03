@@ -31,8 +31,9 @@ XMLDict = "0.3, 0.4"
 julia = "1"
 
 [extras]
+Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [targets]
-test = ["Test", "UUIDs"]
+test = ["Pkg", "Test", "UUIDs"]
