@@ -16,6 +16,7 @@ using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking
 using Pkg
 using Retry
+using Suppressor
 using Test
 using UUIDs
 using XMLDict

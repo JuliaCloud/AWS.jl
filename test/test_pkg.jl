@@ -7,16 +7,12 @@ else
 end
 
 # Check to see if we get any warnings when using AWS.jl inside of another package.
-mktemp() do out_file, out_io
-    mktemp() do err_file, err_io
-        redirect_stdout(out_io) do
-            redirect_stderr(err_io) do 
-                @eval using TestPkg
-            end
-        end
-
-        @test isempty(read(err_file))
+out = @capture_out begin
+    err = @capture_err begin
+        @eval using TestPkg
     end
 
-    @test isempty(read(out_file))
+    @test isempty(err)
 end
+
+@test isempty(out)
