@@ -76,7 +76,7 @@
     "version": "2013-06-30"
   },
   "states-2016-11-23.normal.json": {
-    "sha": "932253ce567993ce2204987d30adb4a377743bb2",
+    "sha": "369c8615f99a3ffd272f22b170f7fd10054d7cc7",
     "version": "2016-11-23"
   },
   "sso-oidc-2019-06-10.normal.json": {
@@ -340,7 +340,7 @@
     "version": "2018-11-07"
   },
   "mediapackage-2017-10-12.normal.json": {
-    "sha": "6d7cd59eb473bec136477e167998ec17edf7abcd",
+    "sha": "620824913c1207c83d5e1fc479b324f0acefa083",
     "version": "2017-10-12"
   },
   "medialive-2017-10-14.normal.json": {
@@ -436,7 +436,7 @@
     "version": "2013-12-02"
   },
   "kendra-2019-02-03.normal.json": {
-    "sha": "1fbb4e8e38465a30c567eaeaf941787a67831bef",
+    "sha": "eb46219d57d0c15584fde463a5351f1f86551d26",
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
@@ -520,7 +520,7 @@
     "version": "2016-08-04"
   },
   "guardduty-2017-11-28.normal.json": {
-    "sha": "c3e850b70749122acbc9100bab2bd7d3592c0486",
+    "sha": "2d22d448e885e0a69821f2168f3b618337bd407e",
     "version": "2017-11-28"
   },
   "groundstation-2019-05-23.normal.json": {
