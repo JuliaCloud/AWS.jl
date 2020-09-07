@@ -37,9 +37,9 @@ Retrieve the global AWS configuration.
 # Returns
 - `AWSConfig`: The global AWS configuration
 """
-function global_aws_config()
+function global_aws_config(; kwargs...)
     if !isassigned(aws_config)
-        aws_config[] = AWSConfig()
+        aws_config[] = AWSConfig(; kwargs...)
     end
 
     return aws_config[]
