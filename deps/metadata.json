@@ -1,10 +1,10 @@
 {
   "xray-2016-04-12.normal.json": {
-    "sha": "c1f9efe05bb4f3e853284da71f5adfba822545ca",
+    "sha": "f7300e82fcb0eba8b535bec42930d564c05b4980",
     "version": "2016-04-12"
   },
   "workspaces-2015-04-08.normal.json": {
-    "sha": "6b3eb3a5ee5b4c3c7a73e599789376ed9711c0dd",
+    "sha": "ac9f79999e95ca22b4ee118af38629e380e5e399",
     "version": "2015-04-08"
   },
   "workmailmessageflow-2019-05-01.normal.json": {
@@ -88,7 +88,7 @@
     "version": "2019-06-10"
   },
   "ssm-2014-11-06.normal.json": {
-    "sha": "cc91bf383076a160a5970295fa876e554e4e7315",
+    "sha": "f4b069c616922486af623175b44b2d094a65d5e9",
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
