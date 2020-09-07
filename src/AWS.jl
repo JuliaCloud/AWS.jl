@@ -13,7 +13,7 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
+export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_global_aws_config, set_user_agent
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
@@ -33,6 +33,10 @@ aws_config = Ref{AWSConfig}()
     global_aws_config()
 
 Retrieve the global AWS configuration.
+If one is not set, create one with default configuration options.
+
+# Keywords
+- `kwargs...`: AWSConfig kwargs to be passed along if the global configuration is not already set
 
 # Returns
 - `AWSConfig`: The global AWS configuration
@@ -43,6 +47,22 @@ function global_aws_config(; kwargs...)
     end
 
     return aws_config[]
+end
+
+
+"""
+    set_global_aws_config(config::AWSConfig)
+
+Set the global AWSConfig.
+
+# Arguments
+- `config::AWSConfig`: The AWSConfig to set in the global state
+
+# Returns
+- `AWSConfig`: Global AWSConfig
+"""
+function set_global_aws_config(config::AWSConfig)
+    return aws_config[] = config
 end
 
 
