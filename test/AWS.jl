@@ -23,12 +23,12 @@ end
     expected = AWSConfig(region=test_region)
 
     try
-        AWS.set_global_aws_config(expected)
+        AWS.global_aws_config(expected)
         result = AWS.global_aws_config()
 
         @test result.region == test_region
     finally
-        AWS.set_global_aws_config(AWSConfig())
+        AWS.global_aws_config(AWSConfig())
     end
 end
 

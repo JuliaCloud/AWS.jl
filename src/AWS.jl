@@ -42,7 +42,7 @@ If one is not set, create one with default configuration options.
 - `AWSConfig`: The global AWS configuration
 """
 function global_aws_config(; kwargs...)
-    if !isassigned(aws_config)
+    if !isassigned(aws_config) || !isempty(kwargs)
         aws_config[] = AWSConfig(; kwargs...)
     end
 
@@ -61,7 +61,7 @@ Set the global AWSConfig.
 # Returns
 - `AWSConfig`: Global AWSConfig
 """
-function set_global_aws_config(config::AWSConfig)
+function global_aws_config(config::AWSConfig)
     return aws_config[] = config
 end
 
