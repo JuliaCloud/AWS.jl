@@ -228,7 +228,7 @@
     "version": "2018-01-04"
   },
   "quicksight-2018-04-01.normal.json": {
-    "sha": "a86d7d0d33079546e5cbb117198046bef542b316",
+    "sha": "505bcd203a5ed631dbc5407599131a58ca49e02e",
     "version": "2018-04-01"
   },
   "qldb-session-2019-07-11.normal.json": {
@@ -392,7 +392,7 @@
     "version": "2018-08-01"
   },
   "lex-models-2017-04-19.normal.json": {
-    "sha": "fcec427851b805e62873556e92ef525245e9a4e1",
+    "sha": "c5b2b8d851882fe3a17c37c74c27c523d5780e18",
     "version": "2017-04-19"
   },
   "lambda-2015-03-31.normal.json": {
@@ -600,7 +600,7 @@
     "version": "2009-03-31"
   },
   "elasticloadbalancingv2-2015-12-01.normal.json": {
-    "sha": "0720eb7892ca8be542358d71018cc284dbae9000",
+    "sha": "cf2d66b57be88ba122d22ea4d66818033badff96",
     "version": "2015-12-01"
   },
   "elasticloadbalancing-2012-06-01.normal.json": {
@@ -772,7 +772,7 @@
     "version": "2015-04-13"
   },
   "codebuild-2016-10-06.normal.json": {
-    "sha": "e67983fba0f3f363b0a16e29242a638a56d86211",
+    "sha": "4349243791bf254305fb1e447353ae7ffec0cffd",
     "version": "2016-10-06"
   },
   "codeartifact-2018-09-22.normal.json": {
@@ -880,7 +880,7 @@
     "version": "2019-10-09"
   },
   "apigatewayv2-2018-11-29.normal.json": {
-    "sha": "4a209600d8a1b51adbaa0fbfa290f742781448a9",
+    "sha": "c46f920514518f21b94fda39add74cd98ff703ef",
     "version": "2018-11-29"
   },
   "apigatewaymanagementapi-2018-11-29.normal.json": {
