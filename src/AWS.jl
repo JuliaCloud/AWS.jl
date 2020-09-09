@@ -13,7 +13,7 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_global_aws_config, set_user_agent
+export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
