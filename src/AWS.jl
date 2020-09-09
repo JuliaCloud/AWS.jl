@@ -51,7 +51,7 @@ end
 
 
 """
-    set_global_aws_config(config::AWSConfig)
+    global_aws_config(config::AWSConfig)
 
 Set the global AWSConfig.
 
