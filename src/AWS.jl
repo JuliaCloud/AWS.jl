@@ -33,16 +33,36 @@ aws_config = Ref{AWSConfig}()
     global_aws_config()
 
 Retrieve the global AWS configuration.
+If one is not set, create one with default configuration options.
+
+# Keywords
+- `kwargs...`: AWSConfig kwargs to be passed along if the global configuration is not already set
 
 # Returns
 - `AWSConfig`: The global AWS configuration
 """
-function global_aws_config()
-    if !isassigned(aws_config)
-        aws_config[] = AWSConfig()
+function global_aws_config(; kwargs...)
+    if !isassigned(aws_config) || !isempty(kwargs)
+        aws_config[] = AWSConfig(; kwargs...)
     end
 
     return aws_config[]
+end
+
+
+"""
+    global_aws_config(config::AWSConfig)
+
+Set the global AWSConfig.
+
+# Arguments
+- `config::AWSConfig`: The AWSConfig to set in the global state
+
+# Returns
+- `AWSConfig`: Global AWSConfig
+"""
+function global_aws_config(config::AWSConfig)
+    return aws_config[] = config
 end
 
 

@@ -7,6 +7,31 @@ end
     @test :S3 in names(Main)
 end
 
+@testset "global config, kwargs" begin
+    try
+        region = "us-east-2"
+        AWS.global_aws_config(; region=region)
+
+        @test AWS.global_aws_config().region == region
+    finally
+        AWS.aws_config[] = AWSConfig()
+    end
+end
+
+@testset "set global aws config" begin
+    test_region = "test region"
+    expected = AWSConfig(region=test_region)
+
+    try
+        AWS.global_aws_config(expected)
+        result = AWS.global_aws_config()
+
+        @test result.region == test_region
+    finally
+        AWS.global_aws_config(AWSConfig())
+    end
+end
+
 @testset "set user agent" begin
     new_user_agent = "new user agent"
 
