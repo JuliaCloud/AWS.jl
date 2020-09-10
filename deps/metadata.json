@@ -412,7 +412,7 @@
     "version": "2017-09-30"
   },
   "kinesisanalyticsv2-2018-05-23.normal.json": {
-    "sha": "1148413f384823d8f1d6ec0379ca35733e03e284",
+    "sha": "9ccebe2ba2d6fede5110f0ae348a019001b171db",
     "version": "2018-05-23"
   },
   "kinesisanalytics-2015-08-14.normal.json": {
@@ -532,7 +532,7 @@
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
-    "sha": "c1b8985b12feea6991d16b483169fb381977311d",
+    "sha": "c160660e016cb3663da0c7a78417e7813f494043",
     "version": "2017-03-31"
   },
   "globalaccelerator-2018-08-08.normal.json": {
@@ -914,5 +914,9 @@
   "AWSMigrationHub-2017-05-31.normal.json": {
     "sha": "3fe8ac6c83654077d104e4a3ffb9ce52726229b5",
     "version": "2017-05-31"
+  },
+  "redshift-data-2019-12-20.normal.json": {
+    "sha": "329eb4e788aafad6f7d38e44d5eef9f192436d9c",
+    "version": "2019-12-20"
   }
 }
