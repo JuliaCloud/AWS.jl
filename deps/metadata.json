@@ -172,7 +172,7 @@
     "version": "2018-08-20"
   },
   "s3-2006-03-01.normal.json": {
-    "sha": "e014067ce75cb0bd46ac5d9c75130e65a5bff08d",
+    "sha": "79e617244a2caed68be5b943f546420645a491e8",
     "version": "2006-03-01"
   },
   "runtime.sagemaker-2017-05-13.normal.json": {
@@ -644,7 +644,7 @@
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
-    "sha": "f2cb6b1025fb24614050dc976d5a18e907af04ee",
+    "sha": "bbb8ac4fddc3c6471ebbd98006d220f5ebf3b1c3",
     "version": "2019-11-02"
   },
   "dynamodb-2012-08-10.normal.json": {
@@ -800,7 +800,7 @@
     "version": "2014-05-30"
   },
   "cloudfront-2020-05-31.normal.json": {
-    "sha": "97fe563dbee9e2d536f0e3a5a2af3e9e75843566",
+    "sha": "d4f7c9df3bdfa86e698291c2989c9f4bb37215d6",
     "version": "2020-05-31"
   },
   "cloudformation-2010-05-15.normal.json": {
@@ -918,5 +918,9 @@
   "redshift-data-2019-12-20.normal.json": {
     "sha": "329eb4e788aafad6f7d38e44d5eef9f192436d9c",
     "version": "2019-12-20"
+  },
+  "sso-admin-2020-07-20.normal.json": {
+    "sha": "7ed99283037bbd11e56ee238847252596f54aca4",
+    "version": "2020-07-20"
   }
 }
