@@ -21,7 +21,7 @@ create_activity(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 """
     CreateStateMachine()
 
-Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the AWS Step Functions User Guide.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, and LoggingConfiguration. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different. 
+Creates a state machine. A state machine consists of a collection of states that can do work (Task states), determine to which states to transition next (Choice states), stop an execution with an error (Fail states), and so on. State machines are specified using a JSON-based, structured language. For more information, see Amazon States Language in the AWS Step Functions User Guide.  This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create a duplicate resource if it was already created. CreateStateMachine's idempotency check is based on the state machine name, definition, type, LoggingConfiguration and TracingConfiguration. If a following request has a different roleArn or tags, Step Functions will ignore these differences and treat it as an idempotent request of the previous. In this case, roleArn and tags will not be updated, even if they are different. 
 
 # Required Parameters
 - `definition`: The Amazon States Language definition of the state machine. See Amazon States Language.
@@ -31,6 +31,7 @@ Creates a state machine. A state machine consists of a collection of states that
 # Optional Parameters
 - `loggingConfiguration`: Defines what execution history events are logged and where they are logged.  By default, the level is set to OFF. For more information see Log Levels in the AWS Step Functions User Guide. 
 - `tags`: Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
+- `tracingConfiguration`: Selects whether AWS X-Ray tracing is enabled.
 - `type`: Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
 """
 
@@ -258,6 +259,7 @@ Starts a state machine execution.   StartExecution is idempotent. If StartExecut
 # Optional Parameters
 - `input`: The string that contains the JSON input data for the execution, for example:  \"input\": \"{\"first_name\" : \"test\"}\"   If you don't include any JSON input data, you still must include the two braces, for example: \"input\": \"{}\"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
 - `name`: The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters \" # %  ^ | ~ `  &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+- `traceHeader`: Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
 """
 
 start_execution(stateMachineArn; aws_config::AWSConfig=global_aws_config()) = sfn("StartExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
@@ -319,6 +321,7 @@ Updates an existing state machine by modifying its definition, roleArn, or loggi
 - `definition`: The Amazon States Language definition of the state machine. See Amazon States Language.
 - `loggingConfiguration`: The LoggingConfiguration data type is used to set CloudWatch Logs options.
 - `roleArn`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
+- `tracingConfiguration`: Selects whether AWS X-Ray tracing is enabled.
 """
 
 update_state_machine(stateMachineArn; aws_config::AWSConfig=global_aws_config()) = sfn("UpdateStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
