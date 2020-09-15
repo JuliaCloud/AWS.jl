@@ -4,7 +4,7 @@
     "version": "2016-04-12"
   },
   "workspaces-2015-04-08.normal.json": {
-    "sha": "ac9f79999e95ca22b4ee118af38629e380e5e399",
+    "sha": "5ad250b81d4b5ccd1ba39927421b4120910d719c",
     "version": "2015-04-08"
   },
   "workmailmessageflow-2019-05-01.normal.json": {
@@ -76,7 +76,7 @@
     "version": "2013-06-30"
   },
   "states-2016-11-23.normal.json": {
-    "sha": "369c8615f99a3ffd272f22b170f7fd10054d7cc7",
+    "sha": "f5d0dd1028f10d9f36241fd4f01b1a05e0d02dfd",
     "version": "2016-11-23"
   },
   "sso-oidc-2019-06-10.normal.json": {
@@ -364,7 +364,7 @@
     "version": "2018-09-17"
   },
   "managedblockchain-2018-09-24.normal.json": {
-    "sha": "d86657311a2bb6a70311e0d06bd68aab99f3eb96",
+    "sha": "f3ce42dd8f7b676a5df50876454dc84db10e96bb",
     "version": "2018-09-24"
   },
   "macie2-2020-01-01.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "e5c0266709b854b37dcfeeffa89c56210eeb35a0",
+    "sha": "fb0599d853bb96d10ad5251b9de03db17451f8ec",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -656,7 +656,7 @@
     "version": "2015-04-16"
   },
   "docdb-2014-10-31.normal.json": {
-    "sha": "d8bd3feb03747e93604388e041184bfbed611eb5",
+    "sha": "298d1d8bc9834b8c8c3b0a1af36baa7dc9ab02ce",
     "version": "2014-10-31"
   },
   "dms-2016-01-01.normal.json": {

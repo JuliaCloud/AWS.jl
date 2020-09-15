@@ -4,6 +4,20 @@ using AWS.AWSServices: workspaces
 using AWS.Compat
 using AWS.UUIDs
 """
+    AssociateConnectionAlias()
+
+Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+
+# Required Parameters
+- `AliasId`: The identifier of the connection alias.
+- `ResourceId`: The identifier of the directory to associate the connection alias with.
+
+"""
+
+associate_connection_alias(AliasId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workspaces("AssociateConnectionAlias", Dict{String, Any}("AliasId"=>AliasId, "ResourceId"=>ResourceId); aws_config=aws_config)
+associate_connection_alias(AliasId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("AssociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+
+"""
     AssociateIpGroups()
 
 Associates the specified IP access control group with the specified directory.
@@ -50,6 +64,21 @@ copy_workspace_image(Name, SourceImageId, SourceRegion; aws_config::AWSConfig=gl
 copy_workspace_image(Name, SourceImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("CopyWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), args)); aws_config=aws_config)
 
 """
+    CreateConnectionAlias()
+
+Creates the specified connection alias for use with cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+
+# Required Parameters
+- `ConnectionString`: A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your AWS account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account. 
+
+# Optional Parameters
+- `Tags`: The tags to associate with the connection alias.
+"""
+
+create_connection_alias(ConnectionString; aws_config::AWSConfig=global_aws_config()) = workspaces("CreateConnectionAlias", Dict{String, Any}("ConnectionString"=>ConnectionString); aws_config=aws_config)
+create_connection_alias(ConnectionString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("CreateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionString"=>ConnectionString), args)); aws_config=aws_config)
+
+"""
     CreateIpGroup()
 
 Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
@@ -72,7 +101,7 @@ create_ip_group(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 Creates the specified tags for the specified WorkSpaces resource.
 
 # Required Parameters
-- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
 - `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
 
 """
@@ -94,6 +123,19 @@ create_workspaces(Workspaces; aws_config::AWSConfig=global_aws_config()) = works
 create_workspaces(Workspaces, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("CreateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Workspaces"=>Workspaces), args)); aws_config=aws_config)
 
 """
+    DeleteConnectionAlias()
+
+Deletes the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.   If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see  Security Considerations if You Stop Using Cross-Region Redirection.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories. 
+
+# Required Parameters
+- `AliasId`: The identifier of the connection alias to delete.
+
+"""
+
+delete_connection_alias(AliasId; aws_config::AWSConfig=global_aws_config()) = workspaces("DeleteConnectionAlias", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
+delete_connection_alias(AliasId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DeleteConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), args)); aws_config=aws_config)
+
+"""
     DeleteIpGroup()
 
 Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
@@ -112,7 +154,7 @@ delete_ip_group(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 Deletes the specified tags from the specified WorkSpaces resource.
 
 # Required Parameters
-- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
 - `TagKeys`: The tag keys.
 
 """
@@ -182,6 +224,37 @@ describe_client_properties(ResourceIds; aws_config::AWSConfig=global_aws_config(
 describe_client_properties(ResourceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIds"=>ResourceIds), args)); aws_config=aws_config)
 
 """
+    DescribeConnectionAliasPermissions()
+
+Describes the permissions that the owner of a connection alias has granted to another AWS account for the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+
+# Required Parameters
+- `AliasId`: The identifier of the connection alias.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of results to return.
+- `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+"""
+
+describe_connection_alias_permissions(AliasId; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliasPermissions", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
+describe_connection_alias_permissions(AliasId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliasPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), args)); aws_config=aws_config)
+
+"""
+    DescribeConnectionAliases()
+
+Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+
+# Optional Parameters
+- `AliasIds`: The identifiers of the connection aliases to describe.
+- `Limit`: The maximum number of connection aliases to return.
+- `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results. 
+- `ResourceId`: The identifier of the directory associated with the connection alias.
+"""
+
+describe_connection_aliases(; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliases"; aws_config=aws_config)
+describe_connection_aliases(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliases", args; aws_config=aws_config)
+
+"""
     DescribeIpGroups()
 
 Describes one or more of your IP access control groups.
@@ -201,7 +274,7 @@ describe_ip_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 Describes the specified tags for the specified WorkSpaces resource.
 
 # Required Parameters
-- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
+- `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
 
 """
 
@@ -311,6 +384,19 @@ describe_workspaces_connection_status(; aws_config::AWSConfig=global_aws_config(
 describe_workspaces_connection_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DescribeWorkspacesConnectionStatus", args; aws_config=aws_config)
 
 """
+    DisassociateConnectionAlias()
+
+Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different AWS Regions. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED. 
+
+# Required Parameters
+- `AliasId`: The identifier of the connection alias to disassociate.
+
+"""
+
+disassociate_connection_alias(AliasId; aws_config::AWSConfig=global_aws_config()) = workspaces("DisassociateConnectionAlias", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
+disassociate_connection_alias(AliasId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("DisassociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), args)); aws_config=aws_config)
+
+"""
     DisassociateIpGroups()
 
 Disassociates the specified IP access control group from the specified directory.
@@ -327,7 +413,7 @@ disassociate_ip_groups(DirectoryId, GroupIds, args::AbstractDict{String, <:Any};
 """
     ImportWorkspaceImage()
 
-Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed EC2 image that is in your AWS account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your AWS account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
 
 # Required Parameters
 - `Ec2ImageId`: The identifier of the EC2 image.
@@ -580,6 +666,20 @@ Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent acti
 
 terminate_workspaces(TerminateWorkspaceRequests; aws_config::AWSConfig=global_aws_config()) = workspaces("TerminateWorkspaces", Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests); aws_config=aws_config)
 terminate_workspaces(TerminateWorkspaceRequests, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("TerminateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests), args)); aws_config=aws_config)
+
+"""
+    UpdateConnectionAliasPermission()
+
+Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.    Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.   
+
+# Required Parameters
+- `AliasId`: The identifier of the connection alias that you want to update permissions for.
+- `ConnectionAliasPermission`: Indicates whether to share or unshare the connection alias with the specified AWS account.
+
+"""
+
+update_connection_alias_permission(AliasId, ConnectionAliasPermission; aws_config::AWSConfig=global_aws_config()) = workspaces("UpdateConnectionAliasPermission", Dict{String, Any}("AliasId"=>AliasId, "ConnectionAliasPermission"=>ConnectionAliasPermission); aws_config=aws_config)
+update_connection_alias_permission(AliasId, ConnectionAliasPermission, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workspaces("UpdateConnectionAliasPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ConnectionAliasPermission"=>ConnectionAliasPermission), args)); aws_config=aws_config)
 
 """
     UpdateRulesOfIpGroup()
