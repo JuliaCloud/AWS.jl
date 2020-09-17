@@ -1427,7 +1427,7 @@ Lists your resource data sync configurations. Includes information about the las
 # Optional Parameters
 - `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `NextToken`: A token to start the list. Use this token to get the next set of results. 
-- `SyncType`: View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 buckets. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions. 
+- `SyncType`: View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions.
 """
 
 list_resource_data_sync(; aws_config::AWSConfig=global_aws_config()) = ssm("ListResourceDataSync"; aws_config=aws_config)
