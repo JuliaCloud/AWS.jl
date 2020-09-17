@@ -44,7 +44,7 @@
     "version": "2018-11-05"
   },
   "transcribe-2017-10-26.normal.json": {
-    "sha": "6b86c57ce7e4c9f38269029b0d0e983933a23d58",
+    "sha": "81adcec6f133bf813678ced8f89ea9f47fd32da2",
     "version": "2017-10-26"
   },
   "textract-2018-06-27.normal.json": {
@@ -88,7 +88,7 @@
     "version": "2019-06-10"
   },
   "ssm-2014-11-06.normal.json": {
-    "sha": "f4b069c616922486af623175b44b2d094a65d5e9",
+    "sha": "15ecca44e38b3fce19281d04588392e8f7c6a93c",
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
@@ -128,7 +128,7 @@
     "version": "2017-03-14"
   },
   "servicecatalog-2015-12-10.normal.json": {
-    "sha": "775f606426faf9716fe456fa8437e5b23228b494",
+    "sha": "37eedbaab7ff74d0e033605e4746fab009f6d91f",
     "version": "2015-12-10"
   },
   "service-quotas-2019-06-24.normal.json": {
@@ -164,7 +164,7 @@
     "version": "2019-11-07"
   },
   "sagemaker-2017-07-24.normal.json": {
-    "sha": "93fd04d92cb9b5b72baa0d2e92bff98c8a04fea1",
+    "sha": "6910c33e884987a58b2aaf4c9c44b17220027464",
     "version": "2017-07-24"
   },
   "s3control-2018-08-20.normal.json": {
@@ -276,7 +276,7 @@
     "version": "2019-12-03"
   },
   "organizations-2016-11-28.normal.json": {
-    "sha": "cc20983d6780ebd0ffeb66aec609565ddf4f3565",
+    "sha": "4e4ae09879eaae925802a8e4800c6be1027abbc2",
     "version": "2016-11-28"
   },
   "opsworkscm-2016-11-01.normal.json": {
@@ -344,7 +344,7 @@
     "version": "2017-10-12"
   },
   "medialive-2017-10-14.normal.json": {
-    "sha": "4d26e1d7bf971cc7ec8dd7001b48053838b7ec14",
+    "sha": "9ef520461b5ce9346c0e7eb12b8f2f49c54e61e3",
     "version": "2017-10-14"
   },
   "mediaconvert-2017-08-29.normal.json": {
@@ -436,11 +436,11 @@
     "version": "2013-12-02"
   },
   "kendra-2019-02-03.normal.json": {
-    "sha": "eb46219d57d0c15584fde463a5351f1f86551d26",
+    "sha": "fc1c059f27e83da6f109987210ee01ae451dc1cb",
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
-    "sha": "0d47eb0dd1f4461a65c2a7fb0e1ecc5a3a2b57d6",
+    "sha": "b1758748e2bf1aad712774d7854600edb4b72964",
     "version": "2018-11-14"
   },
   "ivs-2020-07-14.normal.json": {
@@ -528,7 +528,7 @@
     "version": "2019-05-23"
   },
   "greengrass-2017-06-07.normal.json": {
-    "sha": "75397fdd47aab5129aebb0213dab6be7211fe37a",
+    "sha": "3c7e0c4fee3fc1c9fc97babe63e00df3aa9c289f",
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "fb0599d853bb96d10ad5251b9de03db17451f8ec",
+    "sha": "91be64e401e955666a35ff9bb69d8f6c077578e2",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -664,7 +664,7 @@
     "version": "2016-01-01"
   },
   "dlm-2018-01-12.normal.json": {
-    "sha": "babb7fbcea4392853b01dfd750d5425bdd638fe0",
+    "sha": "4927e690456caa464a7a27b6f7892867bfe08a1c",
     "version": "2018-01-12"
   },
   "discovery-2015-11-01.normal.json": {
@@ -708,7 +708,7 @@
     "version": "2018-09-07"
   },
   "connect-2017-08-08.normal.json": {
-    "sha": "8196e75f604a9a72219535da909b53f90ce82e8d",
+    "sha": "c824427ffe74853a9a884cd018daece8d2000aad",
     "version": "2017-08-08"
   },
   "config-2014-11-12.normal.json": {
@@ -824,7 +824,7 @@
     "version": "2017-10-25"
   },
   "budgets-2016-10-20.normal.json": {
-    "sha": "d6ec39470fe03b529604e6062524c868f14eb250",
+    "sha": "1df8b4452428d8d7e5b76e395c98b7211d8debc3",
     "version": "2016-10-20"
   },
   "braket-2019-09-01.normal.json": {
