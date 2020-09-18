@@ -17,6 +17,7 @@ Creates an Api resource.
 - `corsConfiguration`: A CORS configuration. Supported only for HTTP APIs. See Configuring CORS for more information.
 - `credentialsArn`: This property is part of quick create. It specifies the credentials required for the integration, if any. For a Lambda integration, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify arn:aws:iam::*:user/*. To use resource-based permissions on supported AWS services, specify null. Currently, this property is not used for HTTP integrations. Supported only for HTTP APIs.
 - `description`: The description of the API.
+- `disableExecuteApiEndpoint`: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
 - `disableSchemaValidation`: Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
 - `routeKey`: This property is part of quick create. If you don't specify a routeKey, a default route of default is created. The default route acts as a catch-all for any request made to your API, for a particular stage. The default route key can't be modified. You can add routes after creating the API, and you can update the route keys of additional routes. Supported only for HTTP APIs.
 - `routeSelectionExpression`: The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be {request.method} {request.path}. If not provided, this will be the default for HTTP APIs. This property is required for WebSocket APIs.
@@ -96,6 +97,7 @@ Creates a domain name.
 
 # Optional Parameters
 - `domainNameConfigurations`: The domain name configurations.
+- `mutualTlsAuthentication`: The mutual TLS authentication configuration for a custom domain name.
 - `tags`: The collection of tags associated with a domain name.
 """
 
@@ -967,6 +969,7 @@ Updates an Api resource.
 - `corsConfiguration`: A CORS configuration. Supported only for HTTP APIs.
 - `credentialsArn`: This property is part of quick create. It specifies the credentials required for the integration, if any. For a Lambda integration, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify arn:aws:iam::*:user/*. To use resource-based permissions on supported AWS services, specify null. Currently, this property is not used for HTTP integrations. If provided, this value replaces the credentials associated with the quick create integration. Supported only for HTTP APIs.
 - `description`: The description of the API.
+- `disableExecuteApiEndpoint`: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
 - `disableSchemaValidation`: Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
 - `name`: The name of the API.
 - `routeKey`: This property is part of quick create. If not specified, the route created using quick create is kept. Otherwise, this value replaces the route key of the quick create route. Additional routes may still be added after the API is updated. Supported only for HTTP APIs.
@@ -1048,6 +1051,7 @@ Updates a domain name.
 
 # Optional Parameters
 - `domainNameConfigurations`: The domain name configurations.
+- `mutualTlsAuthentication`: The mutual TLS authentication configuration for a custom domain name.
 """
 
 update_domain_name(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)"; aws_config=aws_config)

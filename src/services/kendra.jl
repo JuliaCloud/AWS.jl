@@ -38,10 +38,10 @@ batch_put_document(Documents, IndexId, args::AbstractDict{String, <:Any}; aws_co
 """
     CreateDataSource()
 
-Creates a data source that you use to with an Amazon Kendra index.  You specify a name, connector type and description for your data source. You can choose between an S3 connector, a SharePoint Online connector, and a database connector. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+Creates a data source that you use to with an Amazon Kendra index.  You specify a name, data source connector type and description for your data source. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
 
 # Required Parameters
-- `Configuration`: The connector configuration information that is required to access the repository.
+- `Configuration`: The data source connector configuration information that is required to access the repository.
 - `IndexId`: The identifier of the index that should be associated with this data source.
 - `Name`: A unique name for the data source. A data source name can't be changed without deleting and recreating the data source.
 - `RoleArn`: The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra.
@@ -69,6 +69,7 @@ Creates an new set of frequently asked question (FAQ) questions and answers.
 
 # Optional Parameters
 - `Description`: A description of the FAQ.
+- `FileFormat`: The format of the input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
 - `Tags`: A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
 """
 
