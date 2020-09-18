@@ -436,7 +436,7 @@
     "version": "2013-12-02"
   },
   "kendra-2019-02-03.normal.json": {
-    "sha": "fc1c059f27e83da6f109987210ee01ae451dc1cb",
+    "sha": "02ee804a911f347ae4195fa862394954f31ce778",
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
@@ -580,7 +580,7 @@
     "version": "2015-10-07"
   },
   "es-2015-01-01.normal.json": {
-    "sha": "9afb3c50cc84b3891e3603b6271216d16df2bdea",
+    "sha": "2074c610f76bb194aeb560fd72803832aae9449e",
     "version": "2015-01-01"
   },
   "entitlement.marketplace-2017-01-11.normal.json": {
@@ -724,7 +724,7 @@
     "version": "2018-10-30"
   },
   "comprehend-2017-11-27.normal.json": {
-    "sha": "153b289cefa3908e6bd176638cb413bd70e3d151",
+    "sha": "bf7c5c237dbed95f964ae3ccaaeb181a19783230",
     "version": "2017-11-27"
   },
   "cognito-sync-2014-06-30.normal.json": {
@@ -800,7 +800,7 @@
     "version": "2014-05-30"
   },
   "cloudfront-2020-05-31.normal.json": {
-    "sha": "d4f7c9df3bdfa86e698291c2989c9f4bb37215d6",
+    "sha": "93329daa8b0240347cad7400a39464c246e24dc9",
     "version": "2020-05-31"
   },
   "cloudformation-2010-05-15.normal.json": {
@@ -880,7 +880,7 @@
     "version": "2019-10-09"
   },
   "apigatewayv2-2018-11-29.normal.json": {
-    "sha": "c46f920514518f21b94fda39add74cd98ff703ef",
+    "sha": "b83a29d1cc6f3f5204f489a83d19f9779802f205",
     "version": "2018-11-29"
   },
   "apigatewaymanagementapi-2018-11-29.normal.json": {
@@ -888,7 +888,7 @@
     "version": "2018-11-29"
   },
   "apigateway-2015-07-09.normal.json": {
-    "sha": "310e2163a89f0fec25ed263325425f7c40cd6246",
+    "sha": "dcdf44e5952d44ec0b8f0425c7df96508b7596f8",
     "version": "2015-07-09"
   },
   "amplify-2017-07-25.normal.json": {
