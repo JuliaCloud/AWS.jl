@@ -6,7 +6,7 @@ using AWS.UUIDs
 """
     AttachManagedPolicyToPermissionSet()
 
-Attaches an IAM managed policy ARN to a permission set.
+Attaches an IAM managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts. 
 
 # Required Parameters
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -21,14 +21,14 @@ attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, Permissio
 """
     CreateAccountAssignment()
 
-Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in AWS SSO. 
+Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in AWS SSO.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy attached to the SSO-created IAM role. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you will need to call  ProvisionPermissionSet  to make these updates. 
 
 # Required Parameters
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 - `PermissionSetArn`: The ARN of the permission set that the admin wants to grant the principal access to.
-- `PrincipalId`: The identifier of the principal.
+- `PrincipalId`: An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
 - `PrincipalType`: The entity type for which the assignment will be created.
-- `TargetId`: The identifier for the chosen target.
+- `TargetId`: TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
 - `TargetType`: The entity type for which the assignment will be created.
 
 """
@@ -39,7 +39,7 @@ create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalT
 """
     CreatePermissionSet()
 
-Creates a permission set within a specified SSO instance.
+Creates a permission set within a specified SSO instance.  To grant users and groups access to AWS account resources, use  CreateAccountAssignment . 
 
 # Required Parameters
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
@@ -63,9 +63,9 @@ Deletes a principal's access from a specified AWS account using a specified perm
 # Required Parameters
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 - `PermissionSetArn`: The ARN of the permission set that will be used to remove access.
-- `PrincipalId`: The identifier of the principal.
+- `PrincipalId`: An identifier for an object in AWS SSO, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in AWS SSO, see the AWS SSO Identity Store API Reference.
 - `PrincipalType`: The entity type for which the assignment will be deleted.
-- `TargetId`: The identifier for the chosen target.
+- `TargetId`: TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
 - `TargetType`: The entity type for which the assignment will be deleted.
 
 """
@@ -364,7 +364,7 @@ The process by which a specified permission set is provisioned to the specified 
 - `TargetType`: The entity type for which the assignment will be created.
 
 # Optional Parameters
-- `TargetId`: The identifier for the chosen target.
+- `TargetId`: TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
 """
 
 provision_permission_set(InstanceArn, PermissionSetArn, TargetType; aws_config::AWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType); aws_config=aws_config)
@@ -373,7 +373,7 @@ provision_permission_set(InstanceArn, PermissionSetArn, TargetType, args::Abstra
 """
     PutInlinePolicyToPermissionSet()
 
-Attaches an IAM inline policy to a permission set.
+Attaches an IAM inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts. 
 
 # Required Parameters
 - `InlinePolicy`: The IAM inline policy to attach to a PermissionSet.

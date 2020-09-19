@@ -344,7 +344,7 @@
     "version": "2017-10-12"
   },
   "medialive-2017-10-14.normal.json": {
-    "sha": "9ef520461b5ce9346c0e7eb12b8f2f49c54e61e3",
+    "sha": "eb8aeb9ad2a57166c14e8b93b3b18d86182f4a31",
     "version": "2017-10-14"
   },
   "mediaconvert-2017-08-29.normal.json": {
@@ -744,7 +744,7 @@
     "version": "2019-10-15"
   },
   "codestar-connections-2019-12-01.normal.json": {
-    "sha": "6cdc0e9aca89ab566da11ce7210b1d13e7ac48f5",
+    "sha": "6492567b67aa0e7b81d4c4fd48c60c62f8d76d6a",
     "version": "2019-12-01"
   },
   "codestar-2017-04-19.normal.json": {
@@ -920,7 +920,7 @@
     "version": "2019-12-20"
   },
   "sso-admin-2020-07-20.normal.json": {
-    "sha": "7ed99283037bbd11e56ee238847252596f54aca4",
+    "sha": "b674e3389aa1f7769b5959ab278d56c6db1a0487",
     "version": "2020-07-20"
   }
 }
