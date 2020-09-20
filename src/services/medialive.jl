@@ -4,6 +4,47 @@ using AWS.AWSServices: medialive
 using AWS.Compat
 using AWS.UUIDs
 """
+    BatchDelete()
+
+Starts delete of resources.
+
+# Optional Parameters
+- `channelIds`: List of channel IDs
+- `inputIds`: List of input IDs
+- `inputSecurityGroupIds`: List of input security group IDs
+- `multiplexIds`: List of multiplex IDs
+"""
+
+batch_delete(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete"; aws_config=aws_config)
+batch_delete(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete", args; aws_config=aws_config)
+
+"""
+    BatchStart()
+
+Starts existing resources
+
+# Optional Parameters
+- `channelIds`: List of channel IDs
+- `multiplexIds`: List of multiplex IDs
+"""
+
+batch_start(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start"; aws_config=aws_config)
+batch_start(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start", args; aws_config=aws_config)
+
+"""
+    BatchStop()
+
+Stops running resources
+
+# Optional Parameters
+- `channelIds`: List of channel IDs
+- `multiplexIds`: List of multiplex IDs
+"""
+
+batch_stop(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop"; aws_config=aws_config)
+batch_stop(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop", args; aws_config=aws_config)
+
+"""
     BatchUpdateSchedule()
 
 Update a channel schedule
