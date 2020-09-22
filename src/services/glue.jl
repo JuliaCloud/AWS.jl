@@ -184,6 +184,23 @@ batch_stop_job_run(JobName, JobRunIds; aws_config::AWSConfig=global_aws_config()
 batch_stop_job_run(JobName, JobRunIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), args)); aws_config=aws_config)
 
 """
+    BatchUpdatePartition()
+
+Updates one or more partitions in a batch operation.
+
+# Required Parameters
+- `DatabaseName`: The name of the metadata database in which the partition is to be updated.
+- `Entries`: A list of up to 100 BatchUpdatePartitionRequestEntry objects to update.
+- `TableName`: The name of the metadata table in which the partition is to be updated.
+
+# Optional Parameters
+- `CatalogId`: The ID of the catalog in which the partition is to be updated. Currently, this should be the AWS account ID.
+"""
+
+batch_update_partition(DatabaseName, Entries, TableName; aws_config::AWSConfig=global_aws_config()) = glue("BatchUpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName); aws_config=aws_config)
+batch_update_partition(DatabaseName, Entries, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("BatchUpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
     CancelMLTaskRun()
 
 Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that AWS Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId. 
