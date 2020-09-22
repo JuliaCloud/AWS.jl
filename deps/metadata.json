@@ -200,11 +200,11 @@
     "version": "2018-06-29"
   },
   "resourcegroupstaggingapi-2017-01-26.normal.json": {
-    "sha": "5f2444846b6e256e7a00ca52f8e791a9e84c7d8b",
+    "sha": "75c077e0d3a9c046470246431559f5ed0969a828",
     "version": "2017-01-26"
   },
   "resource-groups-2017-11-27.normal.json": {
-    "sha": "3c728a0c5dde8c745c1d8a131e72d1418c437d4c",
+    "sha": "5235ccee89d1eaf34cdc563cd9e3e812608f7c3b",
     "version": "2017-11-27"
   },
   "rekognition-2016-06-27.normal.json": {
@@ -220,7 +220,7 @@
     "version": "2018-08-01"
   },
   "rds-2014-10-31.normal.json": {
-    "sha": "e233abcc99421c824210ef01c00f59c2d10ff052",
+    "sha": "7756e26d214ac52fff764b00e4759ff610d28ad0",
     "version": "2014-10-31"
   },
   "ram-2018-01-04.normal.json": {
@@ -452,7 +452,7 @@
     "version": "2018-09-06"
   },
   "iotsitewise-2019-12-02.normal.json": {
-    "sha": "60837de63a5e1e256b451698dd03a5a95bff5845",
+    "sha": "a661c6f580c91c7e57f521271f9842cc2dc5a999",
     "version": "2019-12-02"
   },
   "iotsecuretunneling-2018-10-05.normal.json": {
@@ -532,7 +532,7 @@
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
-    "sha": "c160660e016cb3663da0c7a78417e7813f494043",
+    "sha": "1e1a5b13bbc1b31e6d140b1fbae232aa09f8a214",
     "version": "2017-03-31"
   },
   "globalaccelerator-2018-08-08.normal.json": {
@@ -572,11 +572,11 @@
     "version": "2015-08-04"
   },
   "events-2015-10-07.normal.json": {
-    "sha": "a087c4dc064f82c2985708716f531c97b24b5330",
+    "sha": "26a159dc4f58bf7b5f67b477e2517ddbe7b470b8",
     "version": "2015-10-07"
   },
   "eventbridge-2015-10-07.normal.json": {
-    "sha": "f21fb53f7828a078d275ed98991b6b744707a9b7",
+    "sha": "869e683a40ceec08c3403dec7dc31f0ed2abb19f",
     "version": "2015-10-07"
   },
   "es-2015-01-01.normal.json": {
