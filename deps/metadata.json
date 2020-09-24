@@ -12,7 +12,7 @@
     "version": "2019-05-01"
   },
   "workmail-2017-10-01.normal.json": {
-    "sha": "50516c569caefcda4c46f55f7b16b6152e416450",
+    "sha": "1a6903cb75dcb038ead08f080df1c94bbec87be1",
     "version": "2017-10-01"
   },
   "worklink-2018-09-25.normal.json": {
@@ -36,7 +36,7 @@
     "version": "2015-08-24"
   },
   "translate-2017-07-01.normal.json": {
-    "sha": "06fe6c51787deb6f11c6fc0104c1ee2bd06222d3",
+    "sha": "94b2f5764e2fe98ca85c066f40fb679a00c79c7d",
     "version": "2017-07-01"
   },
   "transfer-2018-11-05.normal.json": {
@@ -68,7 +68,7 @@
     "version": "2011-06-15"
   },
   "streams.dynamodb-2012-08-10.normal.json": {
-    "sha": "c8112d651e345d2a7377395b6b1f35d7255bdda4",
+    "sha": "6d8cdcfa95767b1eaa1251024512e999257d1a47",
     "version": "2012-08-10"
   },
   "storagegateway-2013-06-30.normal.json": {
@@ -228,7 +228,7 @@
     "version": "2018-01-04"
   },
   "quicksight-2018-04-01.normal.json": {
-    "sha": "505bcd203a5ed631dbc5407599131a58ca49e02e",
+    "sha": "d08f62630ac38c2aa62d58daff28b78447fa5e11",
     "version": "2018-04-01"
   },
   "qldb-session-2019-07-11.normal.json": {
@@ -392,7 +392,7 @@
     "version": "2018-08-01"
   },
   "lex-models-2017-04-19.normal.json": {
-    "sha": "c5b2b8d851882fe3a17c37c74c27c523d5780e18",
+    "sha": "17c51842773ff5f84b69d663caba2a40724024f4",
     "version": "2017-04-19"
   },
   "lambda-2015-03-31.normal.json": {
@@ -724,7 +724,7 @@
     "version": "2018-10-30"
   },
   "comprehend-2017-11-27.normal.json": {
-    "sha": "bf7c5c237dbed95f964ae3ccaaeb181a19783230",
+    "sha": "9c2f647ca141df5f0991ecc54262ed1b3a430e10",
     "version": "2017-11-27"
   },
   "cognito-sync-2014-06-30.normal.json": {
@@ -820,7 +820,7 @@
     "version": "2018-05-01"
   },
   "ce-2017-10-25.normal.json": {
-    "sha": "34541d24164e5e21eb450bf8499d74cb4e8fd8fe",
+    "sha": "4f052ef318e900d0b8f227cbd3ea9770220572ff",
     "version": "2017-10-25"
   },
   "budgets-2016-10-20.normal.json": {
@@ -836,7 +836,7 @@
     "version": "2016-08-10"
   },
   "backup-2018-11-15.normal.json": {
-    "sha": "714c1252d6e7a5df53458452f110874e37e82a49",
+    "sha": "b509f69c4491a23a5b716c932b0e2b499ac20f92",
     "version": "2018-11-15"
   },
   "autoscaling-plans-2018-01-06.normal.json": {
