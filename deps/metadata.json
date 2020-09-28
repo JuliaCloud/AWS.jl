@@ -44,15 +44,15 @@
     "version": "2018-11-05"
   },
   "transcribe-2017-10-26.normal.json": {
-    "sha": "81adcec6f133bf813678ced8f89ea9f47fd32da2",
+    "sha": "eb8a11ac6ecf9b63ef96846258ca9974ed19c4aa",
     "version": "2017-10-26"
   },
   "textract-2018-06-27.normal.json": {
-    "sha": "c87d7cebe08acd426390a648f8a8380c4a361528",
+    "sha": "4fd7fcdcfd930cf3481e1fa94b352a74b9cf9831",
     "version": "2018-06-27"
   },
   "synthetics-2017-10-11.normal.json": {
-    "sha": "55ce74f7cd96ce41dfeb45e3853261ecea73fabb",
+    "sha": "ef3b7c7dc6c4007b5385cc3a92a65c51c3808795",
     "version": "2017-10-11"
   },
   "swf-2012-01-25.normal.json": {
@@ -64,7 +64,7 @@
     "version": "2013-04-15"
   },
   "sts-2011-06-15.normal.json": {
-    "sha": "5939dbae59228079006f5f8b40d5e5ea9b309388",
+    "sha": "db2dbd0595e66a031e2c416fbdf705c0ac4a9e5d",
     "version": "2011-06-15"
   },
   "streams.dynamodb-2012-08-10.normal.json": {
@@ -156,7 +156,7 @@
     "version": "2019-12-02"
   },
   "savingsplans-2019-06-28.normal.json": {
-    "sha": "0acaa3341ae612c6fa4562da3efc8ba8a3062ccc",
+    "sha": "928fba3003b61a38b4962c3e4fae07eb7222eaec",
     "version": "2019-06-28"
   },
   "sagemaker-a2i-runtime-2019-11-07.normal.json": {
@@ -552,7 +552,7 @@
     "version": "2018-03-01"
   },
   "frauddetector-2019-11-15.normal.json": {
-    "sha": "87a5381c63f13e4d255c69d0536a5282b4dca2ae",
+    "sha": "a18651bc4b781cf56c86a2ebd7371a890cc0a14b",
     "version": "2019-11-15"
   },
   "forecastquery-2018-06-26.normal.json": {
@@ -624,7 +624,7 @@
     "version": "2017-07-25"
   },
   "eks-2017-11-01.normal.json": {
-    "sha": "129ebb465a09ae5e7192d791e806048a659da947",
+    "sha": "dd0d02582b97d33da8ea082b9e9d169498296fc4",
     "version": "2017-11-01"
   },
   "ecs-2014-11-13.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "91be64e401e955666a35ff9bb69d8f6c077578e2",
+    "sha": "5f0f6e3f1b12b11552f226e951e65f4ec9b104cd",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -656,7 +656,7 @@
     "version": "2015-04-16"
   },
   "docdb-2014-10-31.normal.json": {
-    "sha": "298d1d8bc9834b8c8c3b0a1af36baa7dc9ab02ce",
+    "sha": "91f93e409ab10afaabe3cb00ab5c8c120371fecc",
     "version": "2014-10-31"
   },
   "dms-2016-01-01.normal.json": {
@@ -712,7 +712,7 @@
     "version": "2017-08-08"
   },
   "config-2014-11-12.normal.json": {
-    "sha": "c6a86b995986685e195e5182e0a03cbd437ae4be",
+    "sha": "fd6034322d19497dcc328ae30a9d6757ddef78fb",
     "version": "2014-11-12"
   },
   "compute-optimizer-2019-11-01.normal.json": {
@@ -832,7 +832,7 @@
     "version": "2019-09-01"
   },
   "batch-2016-08-10.normal.json": {
-    "sha": "0317690469b89ab7bb98e30dbb2acc28dca37fa5",
+    "sha": "79acaf1a386a07fce514846a53b90d50b54b5bdb",
     "version": "2016-08-10"
   },
   "backup-2018-11-15.normal.json": {
@@ -892,7 +892,7 @@
     "version": "2015-07-09"
   },
   "amplify-2017-07-25.normal.json": {
-    "sha": "29dfae7fa6bf0cd53a45dcc8d61b857e5146b66d",
+    "sha": "9d6e8e8a0a85339faf40902b7762551cf196a69a",
     "version": "2017-07-25"
   },
   "alexaforbusiness-2017-11-09.normal.json": {
