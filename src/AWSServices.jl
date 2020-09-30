@@ -224,6 +224,8 @@ const support = AWS.JSONService("support", "2013-04-15", "1.1", "AWSSupport_2013
 const swf = AWS.JSONService("swf", "2012-01-25", "1.0", "SimpleWorkflowService")
 const synthetics = AWS.RestJSONService("synthetics", "2017-10-11")
 const textract = AWS.JSONService("textract", "2018-06-27", "1.1", "Textract")
+const timestream_query = AWS.JSONService("query.timestream", "2018-11-01", "1.0", "Timestream_20181101")
+const timestream_write = AWS.JSONService("ingest.timestream", "2018-11-01", "1.0", "Timestream_20181101")
 const transcribe = AWS.JSONService("transcribe", "2017-10-26", "1.1", "Transcribe")
 const transfer = AWS.JSONService("transfer", "2018-11-05", "1.1", "TransferService")
 const translate = AWS.JSONService("translate", "2017-07-01", "1.1", "AWSShineFrontendService_20170701")
@@ -235,6 +237,5 @@ const worklink = AWS.RestJSONService("worklink", "2018-09-25")
 const workmail = AWS.JSONService("workmail", "2017-10-01", "1.1", "WorkMailService")
 const workmailmessageflow = AWS.RestJSONService("workmailmessageflow", "2019-05-01")
 const workspaces = AWS.JSONService("workspaces", "2015-04-08", "1.1", "WorkspacesService")
-const xray = AWS.RestJSONService("xray", "2016-04-12")
 
 end

@@ -88,7 +88,7 @@
     "version": "2019-06-10"
   },
   "ssm-2014-11-06.normal.json": {
-    "sha": "15ecca44e38b3fce19281d04588392e8f7c6a93c",
+    "sha": "80acb1c5ee981a0279fa9dccb127e230472dd211",
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
@@ -152,7 +152,7 @@
     "version": "2009-04-15"
   },
   "schemas-2019-12-02.normal.json": {
-    "sha": "0ac4bb4b5a6097454264802afa1b92b1be4a4a62",
+    "sha": "942b3234e80b153f3d4d54c6d02e95ffe83f7b2e",
     "version": "2019-12-02"
   },
   "savingsplans-2019-06-28.normal.json": {
@@ -220,7 +220,7 @@
     "version": "2018-08-01"
   },
   "rds-2014-10-31.normal.json": {
-    "sha": "7756e26d214ac52fff764b00e4759ff610d28ad0",
+    "sha": "bc6712fc409bf057fb4848b5a820c0ff7d9c460c",
     "version": "2014-10-31"
   },
   "ram-2018-01-04.normal.json": {
@@ -640,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "5f0f6e3f1b12b11552f226e951e65f4ec9b104cd",
+    "sha": "c90baa896931605a7aa5691defaead79f1af4804",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -708,7 +708,7 @@
     "version": "2018-09-07"
   },
   "connect-2017-08-08.normal.json": {
-    "sha": "c824427ffe74853a9a884cd018daece8d2000aad",
+    "sha": "98784de7258387058af0d3a8f389302e1ad359a6",
     "version": "2017-08-08"
   },
   "config-2014-11-12.normal.json": {
@@ -868,7 +868,7 @@
     "version": "2018-11-25"
   },
   "application-autoscaling-2016-02-06.normal.json": {
-    "sha": "76d5972a260117fadff8525bb7868f0088fb4e58",
+    "sha": "bb13a8d33a5e4d5f0b9d9af7f85741ab4c8be297",
     "version": "2016-02-06"
   },
   "appflow-2020-08-23.normal.json": {
@@ -922,5 +922,13 @@
   "sso-admin-2020-07-20.normal.json": {
     "sha": "b674e3389aa1f7769b5959ab278d56c6db1a0487",
     "version": "2020-07-20"
+  },
+  "timestream-write-2018-11-01.normal.json": {
+    "sha": "9732ec63b50eb063d1cf3bf3eff2bdaaac81ed9f",
+    "version": "2018-11-01"
+  },
+  "timestream-query-2018-11-01.normal.json": {
+    "sha": "bbde87d351e4d9e7b6e6c2b07edeed78d66fa275",
+    "version": "2018-11-01"
   }
 }

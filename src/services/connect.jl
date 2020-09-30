@@ -21,7 +21,7 @@ associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, arg
 """
     CreateContactFlow()
 
-Creates a contact flow for the specified Amazon Connect instance.
+Creates a contact flow for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language.
 
 # Required Parameters
 - `Content`: The content of the contact flow. 
@@ -97,7 +97,7 @@ delete_user(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     DescribeContactFlow()
 
-Describes the specified contact flow.
+Describes the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
 
 # Required Parameters
 - `ContactFlowId`: The identifier of the contact flow.
@@ -248,7 +248,7 @@ get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, args
 """
     ListContactFlows()
 
-Provides information about the contact flows for the specified Amazon Connect instance. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
+Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -540,7 +540,7 @@ suspend_contact_recording(ContactId, InitialContactId, InstanceId, args::Abstrac
 """
     TagResource()
 
-Adds the specified tags to the specified resource. The supported resource type is users. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, and contact flows. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
 
 # Required Parameters
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
@@ -568,7 +568,7 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateContactAttributes()
 
-Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
+Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. This operation is also available in the Amazon Connect Flow language. See UpdateContactAttributes.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
 
 # Required Parameters
 - `Attributes`: The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
@@ -583,11 +583,11 @@ update_contact_attributes(Attributes, InitialContactId, InstanceId, args::Abstra
 """
     UpdateContactFlowContent()
 
-Updates the specified contact flow.
+Updates the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
 
 # Required Parameters
 - `ContactFlowId`: The identifier of the contact flow.
-- `Content`: The content of the contact flow.
+- `Content`: The JSON string that represents contact flow’s content. For an example, see Example contact flow in Amazon Connect Flow language in the Amazon Connect Administrator Guide. 
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
