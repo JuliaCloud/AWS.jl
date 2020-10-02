@@ -237,5 +237,6 @@ const worklink = AWS.RestJSONService("worklink", "2018-09-25")
 const workmail = AWS.JSONService("workmail", "2017-10-01", "1.1", "WorkMailService")
 const workmailmessageflow = AWS.RestJSONService("workmailmessageflow", "2019-05-01")
 const workspaces = AWS.JSONService("workspaces", "2015-04-08", "1.1", "WorkspacesService")
+const xray = AWS.RestJSONService("xray", "2016-04-12")
 
 end
