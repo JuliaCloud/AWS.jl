@@ -51,6 +51,7 @@ function parse_aws_metadata()
     end
 
     if data_changed
+        println(typeof(files))
         _generate_low_level_wrappers(files)
         _generate_high_level_wrapper(services_modified)
         open(metadata_path, "w") do f
@@ -59,7 +60,7 @@ function parse_aws_metadata()
     end
 end
 
-function _generate_low_level_wrappers(services::AbstractArray{<:AbstractDict})
+function _generate_low_level_wrappers(services::AbstractArray)
     service_definitions = sort(_generate_low_level_definitions(services))
 
     template = """

@@ -11,7 +11,7 @@ end
         files = _get_aws_sdk_js_files()
 
         @test length(files) == 1
-        @test files[1] == OrderedDict("name" => "test-2020-01-01.normal.json")
+        @test files[1] == OrderedDict("path" => "test-2020-01-01.normal.json")
     end
 end
 

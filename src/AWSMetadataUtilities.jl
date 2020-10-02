@@ -21,7 +21,7 @@ function _get_aws_sdk_js_files()
     headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
 
     function _request(url::String)
-        response = HTTP.get(url, headers)
+        response = @mock HTTP.get(url, headers)
         return JSON.parse(String(response.body), dicttype=OrderedDict)
     end
 
@@ -125,7 +125,7 @@ Get the low-level definitions for all AWS Services.
 # Returns
 - `Vector{String}`: Array of low-level service code to be written into `AWSServices.jl`
 """
-function _generate_low_level_definitions(services::AbstractArray{<:AbstractDict})
+function _generate_low_level_definitions(services::AbstractArray)
     service_definitions = String[]
 
     for service in services
