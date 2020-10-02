@@ -1,6 +1,7 @@
 module AWSMetadataUtilities
 
 using ..AWSExceptions
+using Base64
 using OrderedCollections: OrderedDict, LittleDict
 using HTTP
 using JSON
@@ -16,13 +17,42 @@ Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub
 - `Array{OrderedDict}`: Array of Dictionaries which contains information about each AWS Service
 """
 function _get_aws_sdk_js_files()
-    headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
-    url = "https://api.github.com/repos/aws/aws-sdk-js/contents/apis"
+    aws_sdk_js_url = "https://api.github.com/repos/aws/aws-sdk-js"
 
-    req = @mock HTTP.get(url, headers)
-    files = JSON.parse(String(req.body), dicttype=OrderedDict)
-    filter!(f -> endswith(f["name"], ".normal.json"), files)  # Only get ${Service}.normal.json files
-    files = _filter_latest_service_version(files)
+    function _request(url::String)
+        response = HTTP.get(url, headers)
+        return JSON.parse(String(response.body), dicttype=OrderedDict)
+    end
+
+    function _get_master_sha()
+        url_master = string(aws_sdk_js_url, "/commits/master")
+        resp = _request(url_master)
+
+        return resp["sha"]
+    end
+
+    function _get_tree(master_sha::String)
+        url_tree = string(aws_sdk_js_url, "/git/trees/", master_sha)
+        resp = _request(url_tree)
+
+        return [t for t in resp["tree"] if t["path"] == "apis"][1]["url"]
+    end
+
+    function _get_api_files(url_apis::String)
+        resp = _request(url_apis)
+
+        if resp["truncated"]
+            throw(FileTruncated("There are more API files that GitHub can send."))
+        end
+
+        files = resp["tree"]
+        filter!(f -> endswith(f["path"], ".normal.json"), files)
+    end
+
+    headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
+    sha = _get_master_sha()
+    tree = _get_tree(sha)
+    files = _get_api_files(tree)
 
     return files
 end
@@ -95,16 +125,19 @@ Get the low-level definitions for all AWS Services.
 # Returns
 - `Vector{String}`: Array of low-level service code to be written into `AWSServices.jl`
 """
-function _generate_low_level_definitions(services::AbstractArray{OrderedDict})
+function _generate_low_level_definitions(services::AbstractArray)
     service_definitions = String[]
 
     for service in services
-        service_name = service["name"]
+        service_name = service["path"]
         @info "Generating low level wrapper for $service_name"
 
         # Get the contents of the ${Service}.normal.json file
-        request = HTTP.get(service["download_url"])
-        service_metadata = JSON.parse(String(request.body))["metadata"]
+        request = HTTP.get(service["url"])
+        response = JSON.parse(String(request.body))
+        response = JSON.parse(String(base64decode(response["content"])))
+
+        service_metadata = response["metadata"]
 
         definition = _generate_low_level_definition(service_metadata)
         push!(service_definitions, definition)

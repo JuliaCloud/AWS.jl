@@ -2,6 +2,7 @@ module AWSMetadata
 
 using ..AWSMetadataUtilities: _get_aws_sdk_js_files, _get_service_and_version,
     _generate_low_level_definitions, _generate_high_level_definitions
+using Base64
 using HTTP
 using JSON
 using OrderedCollections: OrderedDict
@@ -21,7 +22,7 @@ wrappers are written into their respective files in `src/services/{service}.jl`.
 function parse_aws_metadata()
     function _process_service(file::OrderedDict{String, Any}, version::String)
         data_changed = true
-        push!(metadata, file["name"] => Dict("version" => version, "sha" => file["sha"]))
+        push!(metadata, file["path"] => Dict("version" => version, "sha" => file["sha"]))
         push!(services_modified, file)
     end
 
@@ -33,8 +34,8 @@ function parse_aws_metadata()
     services_modified = OrderedDict[]
 
     for file in files
-        service_name, version = _get_service_and_version(file["name"])
-        filename = file["name"]
+        service_name, version = _get_service_and_version(file["path"])
+        filename = file["path"]
 
         # AWS has released a new service API
         if !haskey(metadata, filename)
@@ -58,7 +59,7 @@ function parse_aws_metadata()
     end
 end
 
-function _generate_low_level_wrappers(services::AbstractArray{<:OrderedDict})
+function _generate_low_level_wrappers(services::AbstractArray)
     service_definitions = sort(_generate_low_level_definitions(services))
 
     template = """
@@ -83,9 +84,12 @@ end
 
 function _generate_high_level_wrapper(services::AbstractArray{<:OrderedDict})
     for service in services
-        service_name = service["name"]
+        service_name = service["path"]
         println("Generating high level wrapper for $service_name")
-        service = JSON.parse(String(HTTP.get(service["download_url"]).body))
+
+        service = JSON.parse(String(HTTP.get(service["url"]).body))
+        service = JSON.parse(String(base64decode(service["content"])))
+
         service_name = lowercase(service["metadata"]["serviceId"])
         service_name = replace(service_name, ' ' => '_')
         operations = service["operations"]

@@ -5,7 +5,7 @@ using JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
-export AWSException, ProtocolNotDefined, InvalidFileName
+export AWSException, ProtocolNotDefined, InvalidFileName, FileTruncated
 
 struct ProtocolNotDefined <: Exception
     message::String
@@ -16,6 +16,11 @@ struct InvalidFileName <: Exception
     message::String
 end
 show(io::IO, e::InvalidFileName) = println(io, e.message)
+
+struct FileTruncated <: Exception
+    message::String
+end
+show(io::IO, e::FileTruncated) = println(io, e.message)
 
 
 struct AWSException <: Exception
