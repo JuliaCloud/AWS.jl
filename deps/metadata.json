@@ -24,7 +24,7 @@
     "version": "2016-05-01"
   },
   "wafv2-2019-07-29.normal.json": {
-    "sha": "b731cb71f535a68db6b40058fbc3626185c4c9ea",
+    "sha": "e57b035a09c53ac1f72791b56e72e5b2a8379caa",
     "version": "2019-07-29"
   },
   "waf-regional-2016-11-28.normal.json": {
@@ -140,7 +140,7 @@
     "version": "2017-09-08"
   },
   "securityhub-2018-10-26.normal.json": {
-    "sha": "450fff1d67877e5a8f5dad258fd424d8bddf04e4",
+    "sha": "908a5db9c2e18d510d0bdac4c9b1f41e7cd93c37",
     "version": "2018-10-26"
   },
   "secretsmanager-2017-10-17.normal.json": {
@@ -168,11 +168,11 @@
     "version": "2017-07-24"
   },
   "s3control-2018-08-20.normal.json": {
-    "sha": "1a5e004f4ee1d0060a5e15ee0ba84b49b4a015e3",
+    "sha": "ed5a1184903b2900794ae10f14e8e238947e8f9e",
     "version": "2018-08-20"
   },
   "s3-2006-03-01.normal.json": {
-    "sha": "79e617244a2caed68be5b943f546420645a491e8",
+    "sha": "0023df69a74aae371489e64cb30dc502a585724e",
     "version": "2006-03-01"
   },
   "runtime.sagemaker-2017-05-13.normal.json": {
@@ -228,7 +228,7 @@
     "version": "2018-01-04"
   },
   "quicksight-2018-04-01.normal.json": {
-    "sha": "d08f62630ac38c2aa62d58daff28b78447fa5e11",
+    "sha": "0ea42595caa4014e920b9ee21b8712c5b0ab1a8a",
     "version": "2018-04-01"
   },
   "qldb-session-2019-07-11.normal.json": {
@@ -252,7 +252,7 @@
     "version": "2018-07-26"
   },
   "pinpoint-2016-12-01.normal.json": {
-    "sha": "5a896889b02fe1e9c4919e9331a37ead69de6ac1",
+    "sha": "a2f1679b26c289b7cee597a44c476b794803a7a3",
     "version": "2016-12-01"
   },
   "pi-2018-02-27.normal.json": {
@@ -352,7 +352,7 @@
     "version": "2017-08-29"
   },
   "mediaconnect-2018-11-14.normal.json": {
-    "sha": "7cf58eb5bea8478e5585137ce0156194bd3a60d6",
+    "sha": "71c75e18c155947e33023b5aa3e3cbcf224ebddb",
     "version": "2018-11-14"
   },
   "marketplacecommerceanalytics-2015-07-01.normal.json": {
@@ -440,7 +440,7 @@
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
-    "sha": "b1758748e2bf1aad712774d7854600edb4b72964",
+    "sha": "f5352023af3d1c585a62a60fb9f341b31739060e",
     "version": "2018-11-14"
   },
   "ivs-2020-07-14.normal.json": {
@@ -488,7 +488,7 @@
     "version": "2015-05-28"
   },
   "iot-2015-05-28.normal.json": {
-    "sha": "b3359a4484dd6c50eb9bdebb7b089d68198752b3",
+    "sha": "516aafabf859dd75ccf0edea881458a53d565267",
     "version": "2015-05-28"
   },
   "inspector-2016-02-16.normal.json": {
@@ -500,7 +500,7 @@
     "version": "2010-06-01"
   },
   "imagebuilder-2019-12-02.normal.json": {
-    "sha": "c63383de8a48042124974785cf402e3b2f2bd634",
+    "sha": "ce2f368df29502d25caadc643157929e4f422b5d",
     "version": "2019-12-02"
   },
   "identitystore-2020-06-15.normal.json": {
@@ -532,7 +532,7 @@
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
-    "sha": "1e1a5b13bbc1b31e6d140b1fbae232aa09f8a214",
+    "sha": "ae04c116d736c5ced63a576ee60e5e9986107c76",
     "version": "2017-03-31"
   },
   "globalaccelerator-2018-08-08.normal.json": {
@@ -596,7 +596,7 @@
     "version": "2012-09-25"
   },
   "elasticmapreduce-2009-03-31.normal.json": {
-    "sha": "533f27797a368886ed844d5b0737e76c7ced7071",
+    "sha": "2542104d6f979031688579a5491399bb39b61182",
     "version": "2009-03-31"
   },
   "elasticloadbalancingv2-2015-12-01.normal.json": {
@@ -672,7 +672,7 @@
     "version": "2015-11-01"
   },
   "directconnect-2012-10-25.normal.json": {
-    "sha": "c411831165a312b5eb2e1cfcdce3d74a3c0ccd86",
+    "sha": "92570b1e384b5c17ff9b1aedc314dafd5b88afa0",
     "version": "2012-10-25"
   },
   "devicefarm-2015-06-23.normal.json": {
@@ -688,7 +688,7 @@
     "version": "2017-04-19"
   },
   "datasync-2018-11-09.normal.json": {
-    "sha": "b05e14ec302ef1d1f8137e86235ada34978d2265",
+    "sha": "f1c2e61c4a275f8663f3cbde4883b3327cd8a3e9",
     "version": "2018-11-09"
   },
   "datapipeline-2012-10-29.normal.json": {
@@ -852,7 +852,7 @@
     "version": "2017-05-18"
   },
   "appsync-2017-07-25.normal.json": {
-    "sha": "ef5ec03a6755215ee1e9a83a98c46b1d3b3a7762",
+    "sha": "989f412467a5b5ba8044eb5d9184725933d9be29",
     "version": "2017-07-25"
   },
   "appstream-2016-12-01.normal.json": {
@@ -868,7 +868,7 @@
     "version": "2018-11-25"
   },
   "application-autoscaling-2016-02-06.normal.json": {
-    "sha": "bb13a8d33a5e4d5f0b9d9af7f85741ab4c8be297",
+    "sha": "a6b0e6251d6b4e22ecd2114ef635fcc080bcb084",
     "version": "2016-02-06"
   },
   "appflow-2020-08-23.normal.json": {
@@ -930,5 +930,9 @@
   "timestream-query-2018-11-01.normal.json": {
     "sha": "bbde87d351e4d9e7b6e6c2b07edeed78d66fa275",
     "version": "2018-11-01"
+  },
+  "s3outposts-2017-07-25.normal.json": {
+    "sha": "a3587264de3b85713c5f0ac163b6e605719d60aa",
+    "version": "2017-07-25"
   }
 }
