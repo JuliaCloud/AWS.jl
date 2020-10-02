@@ -20,7 +20,7 @@ Low level wrappers are written into `src/AWSServices.jl`, while high level wrapp
 wrappers are written into their respective files in `src/services/{service}.jl`.
 """
 function parse_aws_metadata()
-    function _process_service(file::OrderedDict{String, Any}, version::String)
+    function _process_service(file::AbstractDict{String, Any}, version::String)
         data_changed = true
         push!(metadata, file["path"] => Dict("version" => version, "sha" => file["sha"]))
         push!(services_modified, file)
@@ -59,7 +59,7 @@ function parse_aws_metadata()
     end
 end
 
-function _generate_low_level_wrappers(services::AbstractArray)
+function _generate_low_level_wrappers(services::AbstractArray{<:AbstractDict})
     service_definitions = sort(_generate_low_level_definitions(services))
 
     template = """
@@ -82,7 +82,7 @@ function _generate_low_level_wrappers(services::AbstractArray)
     return template
 end
 
-function _generate_high_level_wrapper(services::AbstractArray{<:OrderedDict})
+function _generate_high_level_wrapper(services::AbstractArray{<:AbstractDict})
     for service in services
         service_name = service["path"]
         println("Generating high level wrapper for $service_name")

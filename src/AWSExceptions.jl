@@ -10,17 +10,17 @@ export AWSException, ProtocolNotDefined, InvalidFileName, FileTruncated
 struct ProtocolNotDefined <: Exception
     message::String
 end
-show(io::IO, e::ProtocolNotDefined) = println(io, e.message)
+Base.show(io::IO, e::ProtocolNotDefined) = println(io, e.message)
 
 struct InvalidFileName <: Exception
     message::String
 end
-show(io::IO, e::InvalidFileName) = println(io, e.message)
+Base.show(io::IO, e::InvalidFileName) = println(io, e.message)
 
 struct FileTruncated <: Exception
     message::String
 end
-show(io::IO, e::FileTruncated) = println(io, e.message)
+Base.show(io::IO, e::FileTruncated) = println(io, e.message)
 
 
 struct AWSException <: Exception
