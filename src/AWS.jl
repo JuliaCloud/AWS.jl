@@ -441,15 +441,14 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _generate_service_url(region::String, service::String, resource::String)
-    SERVICE_HOST = "amazonaws.com"
+function _generate_service_url(region::String, service::String, resource::String; service_host="amazonaws.com")
     regionless_services = ("iam", "route53")
 
     if service in regionless_services || (service == "sdb" && region == "us-east-1")
         region = ""
     end
 
-    return string("https://", service, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, resource)
+    return string("https://", service, ".", isempty(region) ? "" : "$region.", service_host, resource)
 end
 
 function _return_headers(args::AbstractDict{String, <:Any})
@@ -528,6 +527,8 @@ function (service::RestXMLService)(
         request.response_dict_type = pop!(args, "response_dict_type")
     end
 
+    service_host = pop!(args, "service_host", "")
+
     delete!(args, "headers")
     delete!(args, "body")
     return_headers = _return_headers(args)
@@ -543,7 +544,11 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    if isempty(service_host)
+        request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    else
+        request.url = _generate_service_url(aws_config.region, request.service, request.resource; service_host=service_host)
+    end
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end

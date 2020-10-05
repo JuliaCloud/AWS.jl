@@ -391,6 +391,15 @@ end
         @test result == expected_result
     end
 
+    @testset "service host" begin
+        endpoint = "sdb"
+        request.service = endpoint
+        service_host = "test_host"
+        expected_result = "https://$endpoint.$region.$service_host$resource"
+        result = AWS._generate_service_url(region, request.service, request.resource; service_host=service_host)
+
+        @test result == expected_result
+    end
 
     @testset "sdb -- us-east-1 region exception" begin
         endpoint = "sdb"
