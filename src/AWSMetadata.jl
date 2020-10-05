@@ -6,7 +6,6 @@ using Base64
 using GitHub
 using HTTP
 using JSON
-using Mocking
 using OrderedCollections: OrderedDict
 
 const metadata_path = joinpath(@__DIR__, "..", "deps", "metadata.json")
