@@ -2,59 +2,33 @@ module AWSMetadataUtilities
 
 using ..AWSExceptions
 using Base64
+using GitHub
 using OrderedCollections: OrderedDict, LittleDict
-using HTTP
 using JSON
 using Mocking
 
 
 """
-    _get_aws_sdk_js_files()
+    _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
 
 Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
+
+# Arguments
+- `repo_name::String`: aws-sdk-js repository
+- `auth::GitHub.OAuth2`: OAuth2 credentials for authenticated requests
 
 # Returns
 - `Array{OrderedDict}`: Array of Dictionaries which contains information about each AWS Service
 """
-function _get_aws_sdk_js_files()
-    aws_sdk_js_url = "https://api.github.com/repos/aws/aws-sdk-js"
-    headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
+function _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
+    master_tree = @mock tree(repo_name, "master"; auth=auth)
+    apis_sha = [t for t in master_tree.tree if t["path"]=="apis"][1]["sha"]
+    files = @mock tree(repo_name, apis_sha)
+    files = files.tree
 
-    function _request(url::String)
-        response = @mock HTTP.get(url, headers)
-        return JSON.parse(String(response.body), dicttype=OrderedDict)
-    end
+    filter!(f -> endswith(f["path"], ".normal.json"), files)
 
-    function _get_master_sha()
-        url_master = string(aws_sdk_js_url, "/commits/master")
-        resp = _request(url_master)
-
-        return resp["sha"]
-    end
-
-    function _get_tree(master_sha::String)
-        url_tree = string(aws_sdk_js_url, "/git/trees/", master_sha)
-        resp = _request(url_tree)
-
-        return [t for t in resp["tree"] if t["path"] == "apis"][1]["url"]
-    end
-
-    function _get_api_files(url_apis::String)
-        resp = _request(url_apis)
-
-        if resp["truncated"]
-            throw(FileTruncated("GitHub API file limit exceeded"))
-        end
-
-        files = resp["tree"]
-        filter!(f -> endswith(f["path"], ".normal.json"), files)
-    end
-
-    sha = _get_master_sha()
-    tree = _get_tree(sha)
-    files = _get_api_files(tree)
-
-    return files
+    return _filter_latest_service_version(files)
 end
 
 """
@@ -73,7 +47,7 @@ function _filter_latest_service_version(services::AbstractArray)
     latest_versions = OrderedDict[]
 
     for service in reverse(services)
-        service_name, _ = _get_service_and_version(service["name"])
+        service_name, _ = _get_service_and_version(service["path"])
 
         if !(service_name in seen_services)
             push!(seen_services, service_name)
@@ -115,17 +89,19 @@ function _get_service_and_version(filename::String)
 end
 
 """
-    _generate_low_level_definitions(services::AbstractArray{<:AbstractDict})
+    _generate_low_level_definitions(services::AbstractArray{<:AbstractDict}, repo_name::String, auth::GitHub.OAuth2)
 
 Get the low-level definitions for all AWS Services.
 
 # Arguments
 - `services::Abstract{<:AbstractDict}`: List of AWS Services to generate low-level definitions
+- `repo_name::String`: aws-sdk-js repository
+- `auth::GitHub.OAuth2`: OAuth2 credentials for authenticated requests
 
 # Returns
 - `Vector{String}`: Array of low-level service code to be written into `AWSServices.jl`
 """
-function _generate_low_level_definitions(services::AbstractArray)
+function _generate_low_level_definitions(services::AbstractArray, repo_name::String, auth::GitHub.OAuth2)
     service_definitions = String[]
 
     for service in services
@@ -133,10 +109,7 @@ function _generate_low_level_definitions(services::AbstractArray)
         @info "Generating low level wrapper for $service_name"
 
         # Get the contents of the ${Service}.normal.json file
-        request = HTTP.get(service["url"])
-        response = JSON.parse(String(request.body))
-        response = JSON.parse(String(base64decode(response["content"])))
-
+        response = JSON.parse(String(base64decode(blob(repo_name, service["sha"]; auth=auth).content)))
         service_metadata = response["metadata"]
 
         definition = _generate_low_level_definition(service_metadata)

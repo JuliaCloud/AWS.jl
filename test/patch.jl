@@ -2,6 +2,7 @@ module Patches
 
 using AWS
 using HTTP
+using GitHub
 using Mocking
 using OrderedCollections: LittleDict
 
@@ -54,48 +55,11 @@ _aws_http_request_patch = @patch function AWS._http_request(request::Request)
     return response
 end
 
-
-aws_sdk_files =
-    """
-    {
-        "truncated": false,
-        "tree": [
-            {"path": "test-2020-01-01.normal.json"},
-            {"path": "test-2020-01-01.min.json"},
-            {"path": "test-2020-01-01.paginators.json"},
-            {"path": "test-2020-01-01.examples.json"}
-        ]
-    }
-    """
-
-_http_get_patch = @patch function HTTP.get(url::String, headers)
-    if url == "https://api.github.com/repos/aws/aws-sdk-js/commits/master"
-        sha = """
-            {
-                "sha": "test-sha"
-            }
-        """
-
-        return HTTP.Response(200, sha)
-    elseif url == "https://api.github.com/repos/aws/aws-sdk-js/git/trees/test-sha"
-        paths = """
-        {
-            "tree": [{
-                    "path": "apis",
-                    "url": "test-url"
-                },
-                {
-
-                    "path": "foo",
-                    "url": "bar"
-                }
-            ]
-        }
-        """
-
-        return HTTP.Response(200, paths)
-    elseif url == "test-url"
-        return HTTP.Response(200, aws_sdk_files)
+_github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
+    if tree_obj == "master"
+        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"apis", "sha"=>"apis-sha")], false)
+    else
+        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"test-2020-01-01.normal.json")], false)
     end
 end
 

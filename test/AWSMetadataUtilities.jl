@@ -7,8 +7,8 @@ function _clean_high_level_definition(definition::String)
 end
 
 @testset "_get_aws_sdk_js_files" begin
-    apply(Patches._http_get_patch) do
-        files = _get_aws_sdk_js_files()
+    apply(Patches._github_tree_patch) do
+        files = _get_aws_sdk_js_files("foobar", GitHub.OAuth2("foobar"))
 
         @test length(files) == 1
         @test files[1] == OrderedDict("path" => "test-2020-01-01.normal.json")
@@ -16,11 +16,11 @@ end
 end
 
 @testset "_filter_latest_service_version" begin
-    migration_hub_v1 = Dict("name" => "AWSMigrationHub-2017-05-31.normal.json")
-    migration_hub_v2 = Dict("name" => "AWSMigrationHub-2020-01-01.normal.json")
+    migration_hub_v1 = Dict("path" => "AWSMigrationHub-2017-05-31.normal.json")
+    migration_hub_v2 = Dict("path" => "AWSMigrationHub-2020-01-01.normal.json")
 
-    access_analyzer_v1 = Dict("name" => "accessanalyzer-2019-11-01.normal.json")
-    access_analyzer_v2 = Dict("name" => "accessanalyzer-2020-01-01.normal.json")
+    access_analyzer_v1 = Dict("path" => "accessanalyzer-2019-11-01.normal.json")
+    access_analyzer_v2 = Dict("path" => "accessanalyzer-2020-01-01.normal.json")
 
     @testset "empty" begin
         @test isempty(_filter_latest_service_version([]))
