@@ -109,8 +109,9 @@ function _generate_low_level_definitions(services::AbstractArray, repo_name::Str
         @info "Generating low level wrapper for $service_name"
 
         # Get the contents of the ${Service}.normal.json file
-        response = JSON.parse(String(base64decode(blob(repo_name, service["sha"]; auth=auth).content)))
-        service_metadata = response["metadata"]
+        service_blob = blob(repo_name, service["sha"]; auth=auth)
+        service = JSON.parse(String(base64decode(service_blob.content)))
+        service_metadata = service["metadata"]
 
         definition = _generate_low_level_definition(service_metadata)
         push!(service_definitions, definition)
@@ -263,7 +264,7 @@ Get the required and optional parameters for a given operation.
 # Returns
 - `Tuple(Dict, Dict)`: (required_parameters, optional_parameters)
 """
-function _get_function_parameters(input::String, shapes::AbstractDict)
+function _get_function_parameters(input::String, shapes::AbstractDict{String})
     """
         _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
 

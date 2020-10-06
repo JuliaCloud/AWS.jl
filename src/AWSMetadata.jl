@@ -55,7 +55,6 @@ function parse_aws_metadata()
     end
 
     if data_changed
-        println(typeof(files))
         _generate_low_level_wrappers(files, repo_name, auth)
         _generate_high_level_wrapper(services_modified, repo_name, auth)
         open(metadata_path, "w") do f
