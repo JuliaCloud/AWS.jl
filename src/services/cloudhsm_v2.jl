@@ -16,8 +16,14 @@ Copy an AWS CloudHSM cluster backup to a different region.
 # Optional Parameters
 - `TagList`: Tags to apply to the destination backup during creation. If you specify tags, only these tags will be applied to the destination backup. If you do not specify tags, the service copies tags from the source backup to the destination backup.
 """
+<<<<<<< HEAD
 copy_backup_to_region(BackupId, DestinationRegion; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion); aws_config=aws_config)
 copy_backup_to_region(BackupId, DestinationRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), args)); aws_config=aws_config)
+=======
+
+copy_backup_to_region(BackupId, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion); aws_config=aws_config)
+copy_backup_to_region(BackupId, DestinationRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateCluster()
@@ -33,8 +39,14 @@ Creates a new AWS CloudHSM cluster.
 - `SourceBackupId`: The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
 - `TagList`: Tags to apply to the CloudHSM cluster during creation.
 """
+<<<<<<< HEAD
 create_cluster(HsmType, SubnetIds; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds); aws_config=aws_config)
 create_cluster(HsmType, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
+=======
+
+create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds); aws_config=aws_config)
+create_cluster(HsmType, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateHsm()
@@ -48,8 +60,14 @@ Creates a new hardware security module (HSM) in the specified AWS CloudHSM clust
 # Optional Parameters
 - `IpAddress`: The HSM's IP address. If you specify an IP address, use an available address from the subnet that maps to the Availability Zone where you are creating the HSM. If you don't specify an IP address, one is chosen for you from that subnet.
 """
+<<<<<<< HEAD
 create_hsm(AvailabilityZone, ClusterId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId); aws_config=aws_config)
 create_hsm(AvailabilityZone, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+create_hsm(AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId); aws_config=aws_config)
+create_hsm(AvailabilityZone, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteBackup()
@@ -60,8 +78,14 @@ Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days a
 - `BackupId`: The ID of the backup to be deleted. To find the ID of a backup, use the DescribeBackups operation.
 
 """
+<<<<<<< HEAD
 delete_backup(BackupId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
 delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+=======
+
+delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
+delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCluster()
@@ -72,8 +96,14 @@ Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you
 - `ClusterId`: The identifier (ID) of the cluster that you are deleting. To find the cluster ID, use DescribeClusters.
 
 """
+<<<<<<< HEAD
 delete_cluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 delete_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+delete_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+delete_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteHsm()
@@ -88,8 +118,14 @@ Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), t
 - `EniIp`: The IP address of the elastic network interface (ENI) of the HSM that you are deleting.
 - `HsmId`: The identifier (ID) of the HSM that you are deleting.
 """
+<<<<<<< HEAD
 delete_hsm(ClusterId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 delete_hsm(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+delete_hsm(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+delete_hsm(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeBackups()
@@ -102,8 +138,14 @@ Gets information about backups of AWS CloudHSM clusters. This is a paginated ope
 - `NextToken`: The NextToken value that you received in the previous response. Use this value to get more backups.
 - `SortAscending`: Designates whether or not to sort the return backups by ascending chronological order of generation.
 """
+<<<<<<< HEAD
 describe_backups(; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups"; aws_config=aws_config)
 describe_backups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups", args; aws_config=aws_config)
+=======
+
+describe_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups"; aws_config=aws_config)
+describe_backups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeClusters()
@@ -115,8 +157,14 @@ Gets information about AWS CloudHSM clusters. This is a paginated operation, whi
 - `MaxResults`: The maximum number of clusters to return in the response. When there are more clusters than the number you specify, the response contains a NextToken value.
 - `NextToken`: The NextToken value that you received in the previous response. Use this value to get more clusters.
 """
+<<<<<<< HEAD
 describe_clusters(; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters"; aws_config=aws_config)
 describe_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters", args; aws_config=aws_config)
+=======
+
+describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters"; aws_config=aws_config)
+describe_clusters(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     InitializeCluster()
@@ -129,8 +177,14 @@ Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by y
 - `TrustAnchor`: The issuing certificate of the issuing certificate authority (CA) that issued (signed) the cluster certificate. You must use a self-signed certificate. The certificate used to sign the HSM CSR must be directly available, and thus must be the root certificate. The certificate must be in PEM format and can contain a maximum of 5000 characters.
 
 """
+<<<<<<< HEAD
 initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor); aws_config=aws_config)
 initialize_cluster(ClusterId, SignedCert, TrustAnchor, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), args)); aws_config=aws_config)
+=======
+
+initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor); aws_config=aws_config)
+initialize_cluster(ClusterId, SignedCert, TrustAnchor, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTags()
@@ -144,8 +198,14 @@ Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated 
 - `MaxResults`: The maximum number of tags to return in the response. When there are more tags than the number you specify, the response contains a NextToken value.
 - `NextToken`: The NextToken value that you received in the previous response. Use this value to get more tags.
 """
+<<<<<<< HEAD
 list_tags(ResourceId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
 list_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+=======
+
+list_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+list_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ModifyBackupAttributes()
@@ -182,8 +242,14 @@ Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. 
 - `BackupId`: The ID of the backup to be restored. To find the ID of a backup, use the DescribeBackups operation.
 
 """
+<<<<<<< HEAD
 restore_backup(BackupId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
 restore_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+=======
+
+restore_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
+restore_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -195,8 +261,14 @@ Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
 - `TagList`: A list of one or more tags.
 
 """
+<<<<<<< HEAD
 tag_resource(ResourceId, TagList; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList); aws_config=aws_config)
 tag_resource(ResourceId, TagList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), args)); aws_config=aws_config)
+=======
+
+tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList); aws_config=aws_config)
+tag_resource(ResourceId, TagList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -208,5 +280,11 @@ Removes the specified tag or tags from the specified AWS CloudHSM cluster.
 - `TagKeyList`: A list of one or more tag keys for the tags that you are removing. Specify only the tag keys, not the tag values.
 
 """
+<<<<<<< HEAD
 untag_resource(ResourceId, TagKeyList; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList); aws_config=aws_config)
 untag_resource(ResourceId, TagKeyList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
+=======
+
+untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList); aws_config=aws_config)
+untag_resource(ResourceId, TagKeyList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

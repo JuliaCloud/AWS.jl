@@ -13,8 +13,14 @@ Deletes one or more worlds in a batch operation.
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 
 """
+<<<<<<< HEAD
 batch_delete_worlds(worlds; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}("worlds"=>worlds); aws_config=aws_config)
 batch_delete_worlds(worlds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("worlds"=>worlds), args)); aws_config=aws_config)
+=======
+
+batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}("worlds"=>worlds); aws_config=aws_config)
+batch_delete_worlds(worlds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("worlds"=>worlds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchDescribeSimulationJob()
@@ -25,8 +31,14 @@ Describes one or more simulation jobs.
 - `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 
 """
+<<<<<<< HEAD
 batch_describe_simulation_job(jobs; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
 batch_describe_simulation_job(jobs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws_config=aws_config)
+=======
+
+batch_describe_simulation_job(jobs; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
+batch_describe_simulation_job(jobs, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelDeploymentJob()
@@ -37,8 +49,14 @@ Cancels the specified deployment job.
 - `job`: The deployment job ARN to cancel.
 
 """
+<<<<<<< HEAD
 cancel_deployment_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 cancel_deployment_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+cancel_deployment_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelSimulationJob()
@@ -49,8 +67,14 @@ Cancels the specified simulation job.
 - `job`: The simulation job ARN to cancel.
 
 """
+<<<<<<< HEAD
 cancel_simulation_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 cancel_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+cancel_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelSimulationJobBatch()
@@ -61,8 +85,14 @@ Cancels a simulation job batch. When you cancel a simulation job batch, you are 
 - `batch`: The id of the batch to cancel.
 
 """
+<<<<<<< HEAD
 cancel_simulation_job_batch(batch; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
 cancel_simulation_job_batch(batch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws_config=aws_config)
+=======
+
+cancel_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
+cancel_simulation_job_batch(batch, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelWorldExportJob()
@@ -73,8 +103,14 @@ Cancels the specified export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 
 """
+<<<<<<< HEAD
 cancel_world_export_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 cancel_world_export_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+cancel_world_export_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelWorldGenerationJob()
@@ -85,8 +121,14 @@ Cancels the specified world generator job.
 - `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 
 """
+<<<<<<< HEAD
 cancel_world_generation_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 cancel_world_generation_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+cancel_world_generation_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDeploymentJob()
@@ -102,8 +144,14 @@ Deploys a specific version of a robot application to robots in a fleet. The robo
 - `deploymentConfig`: The requested deployment configuration.
 - `tags`: A map that contains tag keys and tag values that are attached to the deployment job.
 """
+<<<<<<< HEAD
 create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet); aws_config=aws_config)
 create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), args)); aws_config=aws_config)
+=======
+
+create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet); aws_config=aws_config)
+create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateFleet()
@@ -116,8 +164,14 @@ Creates a fleet, a logical group of robots running the same robot application.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the fleet.
 """
+<<<<<<< HEAD
 create_fleet(name; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}("name"=>name); aws_config=aws_config)
 create_fleet(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+=======
+
+create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_fleet(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRobot()
@@ -132,8 +186,14 @@ Creates a robot.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the robot.
 """
+<<<<<<< HEAD
 create_robot(architecture, greengrassGroupId, name; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name); aws_config=aws_config)
 create_robot(architecture, greengrassGroupId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), args)); aws_config=aws_config)
+=======
+
+create_robot(architecture, greengrassGroupId, name; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name); aws_config=aws_config)
+create_robot(architecture, greengrassGroupId, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRobotApplication()
@@ -148,8 +208,14 @@ Creates a robot application.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the robot application.
 """
+<<<<<<< HEAD
 create_robot_application(name, robotSoftwareSuite, sources; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 create_robot_application(name, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+=======
+
+create_robot_application(name, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
+create_robot_application(name, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRobotApplicationVersion()
@@ -162,8 +228,14 @@ Creates a version of a robot application.
 # Optional Parameters
 - `currentRevisionId`: The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
 """
+<<<<<<< HEAD
 create_robot_application_version(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
 create_robot_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+create_robot_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
+create_robot_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSimulationApplication()
@@ -180,8 +252,14 @@ Creates a simulation application.
 - `renderingEngine`: The rendering engine for the simulation application.
 - `tags`: A map that contains tag keys and tag values that are attached to the simulation application.
 """
+<<<<<<< HEAD
 create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+=======
+
+create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
+create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSimulationApplicationVersion()
@@ -194,8 +272,14 @@ Creates a simulation application with a specific revision id.
 # Optional Parameters
 - `currentRevisionId`: The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
 """
+<<<<<<< HEAD
 create_simulation_application_version(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
 create_simulation_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+create_simulation_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
+create_simulation_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSimulationJob()
@@ -218,8 +302,14 @@ Creates a simulation job.  After 90 days, simulation jobs expire and will be del
 - `tags`: A map that contains tag keys and tag values that are attached to the simulation job.
 - `vpcConfig`: If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
 """
+<<<<<<< HEAD
 create_simulation_job(iamRole, maxJobDurationInSeconds; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_simulation_job(iamRole, maxJobDurationInSeconds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_simulation_job(iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_simulation_job(iamRole, maxJobDurationInSeconds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateWorldExportJob()
@@ -235,8 +325,14 @@ Creates a world export job.
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `tags`: A map that contains tag keys and tag values that are attached to the world export job.
 """
+<<<<<<< HEAD
 create_world_export_job(iamRole, outputLocation, worlds; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_world_export_job(iamRole, outputLocation, worlds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_world_export_job(iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_world_export_job(iamRole, outputLocation, worlds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateWorldGenerationJob()
@@ -252,8 +348,14 @@ Creates worlds using the specified template.
 - `tags`: A map that contains tag keys and tag values that are attached to the world generator job.
 - `worldTags`: A map that contains tag keys and tag values that are attached to the generated worlds.
 """
+<<<<<<< HEAD
 create_world_generation_job(template, worldCount; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_world_generation_job(template, worldCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_world_generation_job(template, worldCount; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_world_generation_job(template, worldCount, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateWorldTemplate()
@@ -267,8 +369,14 @@ Creates a world template.
 - `templateBody`: The world template body.
 - `templateLocation`: The location of the world template.
 """
+<<<<<<< HEAD
 create_world_template(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate"; aws_config=aws_config)
 create_world_template(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", args; aws_config=aws_config)
+=======
+
+create_world_template(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate"; aws_config=aws_config)
+create_world_template(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFleet()
@@ -279,8 +387,14 @@ Deletes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+<<<<<<< HEAD
 delete_fleet(fleet; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
 delete_fleet(fleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws_config=aws_config)
+=======
+
+delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
+delete_fleet(fleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRobot()
@@ -291,8 +405,14 @@ Deletes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+<<<<<<< HEAD
 delete_robot(robot; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
 delete_robot(robot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws_config=aws_config)
+=======
+
+delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
+delete_robot(robot, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRobotApplication()
@@ -305,8 +425,14 @@ Deletes a robot application.
 # Optional Parameters
 - `applicationVersion`: The version of the robot application to delete.
 """
+<<<<<<< HEAD
 delete_robot_application(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
 delete_robot_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+delete_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
+delete_robot_application(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSimulationApplication()
@@ -319,8 +445,14 @@ Deletes a simulation application.
 # Optional Parameters
 - `applicationVersion`: The version of the simulation application to delete.
 """
+<<<<<<< HEAD
 delete_simulation_application(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
 delete_simulation_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+delete_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
+delete_simulation_application(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteWorldTemplate()
@@ -331,8 +463,14 @@ Deletes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 
 """
+<<<<<<< HEAD
 delete_world_template(template; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
 delete_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+=======
+
+delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
+delete_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeregisterRobot()
@@ -344,8 +482,14 @@ Deregisters a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+<<<<<<< HEAD
 deregister_robot(fleet, robot; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
 deregister_robot(fleet, robot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws_config=aws_config)
+=======
+
+deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
+deregister_robot(fleet, robot, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeDeploymentJob()
@@ -356,8 +500,14 @@ Describes a deployment job.
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
 
 """
+<<<<<<< HEAD
 describe_deployment_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 describe_deployment_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+describe_deployment_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeFleet()
@@ -368,8 +518,14 @@ Describes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
+<<<<<<< HEAD
 describe_fleet(fleet; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
 describe_fleet(fleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws_config=aws_config)
+=======
+
+describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
+describe_fleet(fleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeRobot()
@@ -380,8 +536,14 @@ Describes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
 """
+<<<<<<< HEAD
 describe_robot(robot; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
 describe_robot(robot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws_config=aws_config)
+=======
+
+describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
+describe_robot(robot, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeRobotApplication()
@@ -394,8 +556,14 @@ Describes a robot application.
 # Optional Parameters
 - `applicationVersion`: The version of the robot application to describe.
 """
+<<<<<<< HEAD
 describe_robot_application(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
 describe_robot_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+describe_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
+describe_robot_application(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSimulationApplication()
@@ -408,8 +576,14 @@ Describes a simulation application.
 # Optional Parameters
 - `applicationVersion`: The version of the simulation application to describe.
 """
+<<<<<<< HEAD
 describe_simulation_application(application; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
 describe_simulation_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+=======
+
+describe_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
+describe_simulation_application(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSimulationJob()
@@ -420,8 +594,14 @@ Describes a simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
 """
+<<<<<<< HEAD
 describe_simulation_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 describe_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+describe_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSimulationJobBatch()
@@ -432,8 +612,14 @@ Describes a simulation job batch.
 - `batch`: The id of the batch to describe.
 
 """
+<<<<<<< HEAD
 describe_simulation_job_batch(batch; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
 describe_simulation_job_batch(batch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws_config=aws_config)
+=======
+
+describe_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
+describe_simulation_job_batch(batch, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeWorld()
@@ -444,8 +630,14 @@ Describes a world.
 - `world`: The Amazon Resource Name (arn) of the world you want to describe.
 
 """
+<<<<<<< HEAD
 describe_world(world; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}("world"=>world); aws_config=aws_config)
 describe_world(world, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("world"=>world), args)); aws_config=aws_config)
+=======
+
+describe_world(world; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}("world"=>world); aws_config=aws_config)
+describe_world(world, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("world"=>world), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeWorldExportJob()
@@ -456,8 +648,14 @@ Describes a world export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to describe.
 
 """
+<<<<<<< HEAD
 describe_world_export_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 describe_world_export_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+describe_world_export_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeWorldGenerationJob()
@@ -468,8 +666,14 @@ Describes a world generation job.
 - `job`: The Amazon Resource Name (arn) of the world generation job to describe.
 
 """
+<<<<<<< HEAD
 describe_world_generation_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 describe_world_generation_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+describe_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+describe_world_generation_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeWorldTemplate()
@@ -480,8 +684,14 @@ Describes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to describe.
 
 """
+<<<<<<< HEAD
 describe_world_template(template; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
 describe_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+=======
+
+describe_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
+describe_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetWorldTemplateBody()
@@ -492,8 +702,14 @@ Gets the world template body.
 - `generationJob`: The Amazon Resource Name (arn) of the world generator job.
 - `template`: The Amazon Resource Name (arn) of the world template.
 """
+<<<<<<< HEAD
 get_world_template_body(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody"; aws_config=aws_config)
 get_world_template_body(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", args; aws_config=aws_config)
+=======
+
+get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody"; aws_config=aws_config)
+get_world_template_body(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDeploymentJobs()
@@ -505,8 +721,14 @@ Returns a list of deployment jobs for a fleet. You can optionally provide filter
 - `maxResults`: When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_deployment_jobs(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs"; aws_config=aws_config)
 list_deployment_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", args; aws_config=aws_config)
+=======
+
+list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs"; aws_config=aws_config)
+list_deployment_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFleets()
@@ -518,8 +740,14 @@ Returns a list of fleets. You can optionally provide filters to retrieve specifi
 - `maxResults`: When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
+<<<<<<< HEAD
 list_fleets(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listFleets"; aws_config=aws_config)
 list_fleets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", args; aws_config=aws_config)
+=======
+
+list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets"; aws_config=aws_config)
+list_fleets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRobotApplications()
@@ -532,8 +760,14 @@ Returns a list of robot application. You can optionally provide filters to retri
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 - `versionQualifier`: The version qualifier of the robot application.
 """
+<<<<<<< HEAD
 list_robot_applications(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications"; aws_config=aws_config)
 list_robot_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", args; aws_config=aws_config)
+=======
+
+list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications"; aws_config=aws_config)
+list_robot_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRobots()
@@ -545,8 +779,14 @@ Returns a list of robots. You can optionally provide filters to retrieve specifi
 - `maxResults`: When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_robots(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listRobots"; aws_config=aws_config)
 list_robots(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", args; aws_config=aws_config)
+=======
+
+list_robots(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots"; aws_config=aws_config)
+list_robots(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSimulationApplications()
@@ -559,8 +799,14 @@ Returns a list of simulation applications. You can optionally provide filters to
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 - `versionQualifier`: The version qualifier of the simulation application.
 """
+<<<<<<< HEAD
 list_simulation_applications(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications"; aws_config=aws_config)
 list_simulation_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", args; aws_config=aws_config)
+=======
+
+list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications"; aws_config=aws_config)
+list_simulation_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSimulationJobBatches()
@@ -572,8 +818,14 @@ Returns a list simulation job batches. You can optionally provide filters to ret
 - `maxResults`: When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_simulation_job_batches(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches"; aws_config=aws_config)
 list_simulation_job_batches(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", args; aws_config=aws_config)
+=======
+
+list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches"; aws_config=aws_config)
+list_simulation_job_batches(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSimulationJobs()
@@ -585,8 +837,14 @@ Returns a list of simulation jobs. You can optionally provide filters to retriev
 - `maxResults`: When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_simulation_jobs(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs"; aws_config=aws_config)
 list_simulation_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", args; aws_config=aws_config)
+=======
+
+list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs"; aws_config=aws_config)
+list_simulation_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -597,8 +855,14 @@ Lists all tags on a AWS RoboMaker resource.
 - `resourceArn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 
 """
+<<<<<<< HEAD
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+=======
+
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorldExportJobs()
@@ -610,8 +874,14 @@ Lists world export jobs.
 - `maxResults`: When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_world_export_jobs(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs"; aws_config=aws_config)
 list_world_export_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", args; aws_config=aws_config)
+=======
+
+list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs"; aws_config=aws_config)
+list_world_export_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorldGenerationJobs()
@@ -623,8 +893,14 @@ Lists world generator jobs.
 - `maxResults`: When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGenerationJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_world_generation_jobs(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs"; aws_config=aws_config)
 list_world_generation_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", args; aws_config=aws_config)
+=======
+
+list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs"; aws_config=aws_config)
+list_world_generation_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorldTemplates()
@@ -635,8 +911,14 @@ Lists world templates.
 - `maxResults`: When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_world_templates(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates"; aws_config=aws_config)
 list_world_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", args; aws_config=aws_config)
+=======
+
+list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates"; aws_config=aws_config)
+list_world_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorlds()
@@ -648,8 +930,14 @@ Lists worlds.
 - `maxResults`: When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable. 
 - `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
 """
+<<<<<<< HEAD
 list_worlds(; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds"; aws_config=aws_config)
 list_worlds(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", args; aws_config=aws_config)
+=======
+
+list_worlds(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds"; aws_config=aws_config)
+list_worlds(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RegisterRobot()
@@ -661,8 +949,14 @@ Registers a robot with a fleet.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
+<<<<<<< HEAD
 register_robot(fleet, robot; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
 register_robot(fleet, robot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws_config=aws_config)
+=======
+
+register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
+register_robot(fleet, robot, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RestartSimulationJob()
@@ -673,8 +967,14 @@ Restarts a running simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job.
 
 """
+<<<<<<< HEAD
 restart_simulation_job(job; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
 restart_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+=======
+
+restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
+restart_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartSimulationJobBatch()
@@ -689,8 +989,14 @@ Starts a new simulation job batch. The batch is defined using one or more Simula
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `tags`: A map that contains tag keys and tag values that are attached to the deployment job batch.
 """
+<<<<<<< HEAD
 start_simulation_job_batch(createSimulationJobRequests; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 start_simulation_job_batch(createSimulationJobRequests, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+start_simulation_job_batch(createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+start_simulation_job_batch(createSimulationJobRequests, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SyncDeploymentJob()
@@ -702,8 +1008,14 @@ Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robo
 - `fleet`: The target fleet for the synchronization.
 
 """
+<<<<<<< HEAD
 sync_deployment_job(clientRequestToken, fleet; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet); aws_config=aws_config)
 sync_deployment_job(clientRequestToken, fleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), args)); aws_config=aws_config)
+=======
+
+sync_deployment_job(clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet); aws_config=aws_config)
+sync_deployment_job(clientRequestToken, fleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -715,8 +1027,14 @@ Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key 
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
+<<<<<<< HEAD
 tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -728,8 +1046,14 @@ Removes the specified tags from the specified AWS RoboMaker resource. To remove 
 - `tagKeys`: A map that contains tag keys and tag values that will be unattached from the resource.
 
 """
+<<<<<<< HEAD
 untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+=======
+
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateRobotApplication()
@@ -744,8 +1068,14 @@ Updates a robot application.
 # Optional Parameters
 - `currentRevisionId`: The revision id for the robot application.
 """
+<<<<<<< HEAD
 update_robot_application(application, robotSoftwareSuite, sources; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 update_robot_application(application, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+=======
+
+update_robot_application(application, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
+update_robot_application(application, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateSimulationApplication()
@@ -762,8 +1092,14 @@ Updates a simulation application.
 - `currentRevisionId`: The revision id for the robot application.
 - `renderingEngine`: The rendering engine for the simulation application.
 """
+<<<<<<< HEAD
 update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+=======
+
+update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
+update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateWorldTemplate()
@@ -778,5 +1114,11 @@ Updates a world template.
 - `templateBody`: The world template body.
 - `templateLocation`: The location of the world template.
 """
+<<<<<<< HEAD
 update_world_template(template; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
 update_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+=======
+
+update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
+update_world_template(template, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

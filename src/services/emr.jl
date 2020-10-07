@@ -14,8 +14,14 @@ Adds an instance fleet to a running cluster.  The instance fleet configuration i
 - `InstanceFleet`: Specifies the configuration of the instance fleet.
 
 """
+<<<<<<< HEAD
 add_instance_fleet(ClusterId, InstanceFleet; aws_config::AWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
 add_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+=======
+
+add_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
+add_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AddInstanceGroups()
@@ -27,8 +33,14 @@ Adds one or more instance groups to a running cluster.
 - `JobFlowId`: Job flow in which to add the instance groups.
 
 """
+<<<<<<< HEAD
 add_instance_groups(InstanceGroups, JobFlowId; aws_config::AWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws_config=aws_config)
 add_instance_groups(InstanceGroups, JobFlowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), args)); aws_config=aws_config)
+=======
+
+add_instance_groups(InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws_config=aws_config)
+add_instance_groups(InstanceGroups, JobFlowId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AddJobFlowSteps()
@@ -40,8 +52,14 @@ AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are 
 - `Steps`:  A list of StepConfig to be executed by the job flow. 
 
 """
+<<<<<<< HEAD
 add_job_flow_steps(JobFlowId, Steps; aws_config::AWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws_config=aws_config)
 add_job_flow_steps(JobFlowId, Steps, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), args)); aws_config=aws_config)
+=======
+
+add_job_flow_steps(JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws_config=aws_config)
+add_job_flow_steps(JobFlowId, Steps, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AddTags()
@@ -53,8 +71,14 @@ Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters i
 - `Tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
 
 """
+<<<<<<< HEAD
 add_tags(ResourceId, Tags; aws_config::AWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
 add_tags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws_config=aws_config)
+=======
+
+add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
+add_tags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelSteps()
@@ -68,8 +92,14 @@ Cancels a pending step or steps in a running cluster. Available only in Amazon E
 # Optional Parameters
 - `StepCancellationOption`: The option to choose to cancel RUNNING steps. By default, the value is SEND_INTERRUPT.
 """
+<<<<<<< HEAD
 cancel_steps(ClusterId, StepIds; aws_config::AWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws_config=aws_config)
 cancel_steps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws_config=aws_config)
+=======
+
+cancel_steps(ClusterId, StepIds; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws_config=aws_config)
+cancel_steps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSecurityConfiguration()
@@ -81,8 +111,14 @@ Creates a security configuration, which is stored in the service and can be spec
 - `SecurityConfiguration`: The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
 
 """
+<<<<<<< HEAD
 create_security_configuration(Name, SecurityConfiguration; aws_config::AWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws_config=aws_config)
 create_security_configuration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws_config=aws_config)
+=======
+
+create_security_configuration(Name, SecurityConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws_config=aws_config)
+create_security_configuration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateStudio()
@@ -133,8 +169,14 @@ Deletes a security configuration.
 - `Name`: The name of the security configuration.
 
 """
+<<<<<<< HEAD
 delete_security_configuration(Name; aws_config::AWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteStudio()
@@ -173,8 +215,14 @@ Provides cluster-level details including status, hardware and software configura
 - `ClusterId`: The identifier of the cluster to describe.
 
 """
+<<<<<<< HEAD
 describe_cluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 describe_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+describe_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeJobFlows()
@@ -187,8 +235,14 @@ This API is no longer supported and will eventually be removed. We recommend you
 - `JobFlowIds`: Return only job flows whose job flow ID is contained in this list.
 - `JobFlowStates`: Return only job flows whose state is contained in this list.
 """
+<<<<<<< HEAD
 describe_job_flows(; aws_config::AWSConfig=global_aws_config()) = emr("DescribeJobFlows"; aws_config=aws_config)
 describe_job_flows(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeJobFlows", args; aws_config=aws_config)
+=======
+
+describe_job_flows(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeJobFlows"; aws_config=aws_config)
+describe_job_flows(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeJobFlows", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeNotebookExecution()
@@ -199,8 +253,14 @@ Provides details of a notebook execution.
 - `NotebookExecutionId`: The unique identifier of the notebook execution.
 
 """
+<<<<<<< HEAD
 describe_notebook_execution(NotebookExecutionId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
 describe_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+=======
+
+describe_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
+describe_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSecurityConfiguration()
@@ -211,8 +271,14 @@ Provides the details of a security configuration by returning the configuration 
 - `Name`: The name of the security configuration.
 
 """
+<<<<<<< HEAD
 describe_security_configuration(Name; aws_config::AWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+describe_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeStep()
@@ -224,8 +290,14 @@ Provides more detail about the cluster step.
 - `StepId`: The identifier of the step to describe.
 
 """
+<<<<<<< HEAD
 describe_step(ClusterId, StepId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws_config=aws_config)
 describe_step(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws_config=aws_config)
+=======
+
+describe_step(ClusterId, StepId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws_config=aws_config)
+describe_step(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeStudio()
@@ -245,8 +317,14 @@ describe_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 Returns the Amazon EMR block public access configuration for your AWS account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
 
 """
+<<<<<<< HEAD
 get_block_public_access_configuration(; aws_config::AWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration"; aws_config=aws_config)
 get_block_public_access_configuration(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration", args; aws_config=aws_config)
+=======
+
+get_block_public_access_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration"; aws_config=aws_config)
+get_block_public_access_configuration(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetManagedScalingPolicy()
@@ -257,8 +335,14 @@ Fetches the attached managed scaling policy for an Amazon EMR cluster.
 - `ClusterId`: Specifies the ID of the cluster for which the managed scaling policy will be fetched. 
 
 """
+<<<<<<< HEAD
 get_managed_scaling_policy(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 get_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+get_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+get_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetStudioSessionMapping()
@@ -287,8 +371,14 @@ Provides information about the bootstrap actions associated with a cluster.
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
+<<<<<<< HEAD
 list_bootstrap_actions(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_bootstrap_actions(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+list_bootstrap_actions(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+list_bootstrap_actions(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListClusters()
@@ -301,8 +391,14 @@ Provides the status of all clusters visible to this AWS account. Allows you to f
 - `CreatedBefore`: The creation date and time end value filter for listing clusters.
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
+<<<<<<< HEAD
 list_clusters(; aws_config::AWSConfig=global_aws_config()) = emr("ListClusters"; aws_config=aws_config)
 list_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListClusters", args; aws_config=aws_config)
+=======
+
+list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListClusters"; aws_config=aws_config)
+list_clusters(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListClusters", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInstanceFleets()
@@ -315,8 +411,14 @@ Lists all available details about the instance fleets in a cluster.  The instanc
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
+<<<<<<< HEAD
 list_instance_fleets(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_instance_fleets(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+list_instance_fleets(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInstanceGroups()
@@ -329,8 +431,14 @@ Provides all available details about the instance groups in a cluster.
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
+<<<<<<< HEAD
 list_instance_groups(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_instance_groups(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+list_instance_groups(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInstances()
@@ -348,8 +456,14 @@ Provides information for all active EC2 instances and EC2 instances terminated i
 - `InstanceStates`: A list of instance states that will filter the instances returned with this request.
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
+<<<<<<< HEAD
 list_instances(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_instances(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+list_instances(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+list_instances(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListNotebookExecutions()
@@ -363,8 +477,14 @@ Provides summaries of all notebook executions. You can filter the list based on 
 - `Status`: The status filter for listing notebook executions.    START_PENDING indicates that the cluster has received the execution request but execution has not begun.    STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that the execution is being processed by the cluster.    FINISHING indicates that execution processing is in the final stages.    FINISHED indicates that the execution has completed without error.    FAILING indicates that the execution is failing and will not finish successfully.    FAILED indicates that the execution failed.    STOP_PENDING indicates that the cluster has received a StopNotebookExecution request and the stop is pending.    STOPPING indicates that the cluster is in the process of stopping the execution as a result of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because of a StopNotebookExecution request.  
 - `To`: The end of time range filter for listing notebook executions. The default is the current timestamp.
 """
+<<<<<<< HEAD
 list_notebook_executions(; aws_config::AWSConfig=global_aws_config()) = emr("ListNotebookExecutions"; aws_config=aws_config)
 list_notebook_executions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListNotebookExecutions", args; aws_config=aws_config)
+=======
+
+list_notebook_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions"; aws_config=aws_config)
+list_notebook_executions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSecurityConfigurations()
@@ -374,8 +494,14 @@ Lists all the security configurations visible to this account, providing their c
 # Optional Parameters
 - `Marker`: The pagination token that indicates the set of results to retrieve.
 """
+<<<<<<< HEAD
 list_security_configurations(; aws_config::AWSConfig=global_aws_config()) = emr("ListSecurityConfigurations"; aws_config=aws_config)
 list_security_configurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListSecurityConfigurations", args; aws_config=aws_config)
+=======
+
+list_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSecurityConfigurations"; aws_config=aws_config)
+list_security_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSecurityConfigurations", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSteps()
@@ -390,8 +516,14 @@ Provides a list of steps for the cluster in reverse order unless you specify ste
 - `StepIds`: The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character constraint applies to the overall length of the array.
 - `StepStates`: The filter to limit the step list based on certain states.
 """
+<<<<<<< HEAD
 list_steps(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 list_steps(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+list_steps(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+list_steps(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListStudioSessionMappings()
@@ -428,8 +560,14 @@ Modifies the number of steps that can be executed concurrently for the cluster s
 # Optional Parameters
 - `StepConcurrencyLevel`: The number of steps that can be executed concurrently. You can specify a maximum of 256 steps. 
 """
+<<<<<<< HEAD
 modify_cluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 modify_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+modify_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+modify_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ModifyInstanceFleet()
@@ -441,8 +579,14 @@ Modifies the target On-Demand and target Spot capacities for the instance fleet 
 - `InstanceFleet`: The unique identifier of the instance fleet.
 
 """
+<<<<<<< HEAD
 modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
 modify_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+=======
+
+modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
+modify_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ModifyInstanceGroups()
@@ -453,8 +597,14 @@ ModifyInstanceGroups modifies the number of nodes and configuration settings of 
 - `ClusterId`: The ID of the cluster to which the instance group belongs.
 - `InstanceGroups`: Instance groups to change.
 """
+<<<<<<< HEAD
 modify_instance_groups(; aws_config::AWSConfig=global_aws_config()) = emr("ModifyInstanceGroups"; aws_config=aws_config)
 modify_instance_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ModifyInstanceGroups", args; aws_config=aws_config)
+=======
+
+modify_instance_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceGroups"; aws_config=aws_config)
+modify_instance_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceGroups", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutAutoScalingPolicy()
@@ -467,8 +617,14 @@ Creates or updates an automatic scaling policy for a core instance group or task
 - `InstanceGroupId`: Specifies the ID of the instance group to which the automatic scaling policy is applied.
 
 """
+<<<<<<< HEAD
 put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws_config::AWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
 put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+=======
+
+put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
+put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutBlockPublicAccessConfiguration()
@@ -479,8 +635,14 @@ Creates or updates an Amazon EMR block public access configuration for your AWS 
 - `BlockPublicAccessConfiguration`: A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region. 
 
 """
+<<<<<<< HEAD
 put_block_public_access_configuration(BlockPublicAccessConfiguration; aws_config::AWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws_config=aws_config)
 put_block_public_access_configuration(BlockPublicAccessConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), args)); aws_config=aws_config)
+=======
+
+put_block_public_access_configuration(BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws_config=aws_config)
+put_block_public_access_configuration(BlockPublicAccessConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutManagedScalingPolicy()
@@ -492,8 +654,14 @@ Creates or updates a managed scaling policy for an Amazon EMR cluster. The manag
 - `ManagedScalingPolicy`: Specifies the constraints for the managed scaling policy. 
 
 """
+<<<<<<< HEAD
 put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws_config=aws_config)
 put_managed_scaling_policy(ClusterId, ManagedScalingPolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), args)); aws_config=aws_config)
+=======
+
+put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws_config=aws_config)
+put_managed_scaling_policy(ClusterId, ManagedScalingPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveAutoScalingPolicy()
@@ -505,8 +673,14 @@ Removes an automatic scaling policy from a specified instance group within an EM
 - `InstanceGroupId`: Specifies the ID of the instance group to which the scaling policy is applied.
 
 """
+<<<<<<< HEAD
 remove_auto_scaling_policy(ClusterId, InstanceGroupId; aws_config::AWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
 remove_auto_scaling_policy(ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+=======
+
+remove_auto_scaling_policy(ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
+remove_auto_scaling_policy(ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveManagedScalingPolicy()
@@ -517,8 +691,14 @@ remove_auto_scaling_policy(ClusterId, InstanceGroupId, args::AbstractDict{String
 - `ClusterId`:  Specifies the ID of the cluster from which the managed scaling policy will be removed. 
 
 """
+<<<<<<< HEAD
 remove_managed_scaling_policy(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 remove_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+=======
+
+remove_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+remove_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveTags()
@@ -530,8 +710,14 @@ Removes tags from an Amazon EMR resource. Tags make it easier to associate clust
 - `TagKeys`: A list of tag keys to remove from a resource.
 
 """
+<<<<<<< HEAD
 remove_tags(ResourceId, TagKeys; aws_config::AWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
 remove_tags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+=======
+
+remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
+remove_tags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RunJobFlow()
@@ -569,8 +755,14 @@ RunJobFlow creates and starts running a new cluster (job flow). The cluster runs
 - `Tags`: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
 - `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
 """
+<<<<<<< HEAD
 run_job_flow(Instances, Name; aws_config::AWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws_config=aws_config)
 run_job_flow(Instances, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws_config=aws_config)
+run_job_flow(Instances, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SetTerminationProtection()
@@ -582,8 +774,14 @@ SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the 
 - `TerminationProtected`: A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
 
 """
+<<<<<<< HEAD
 set_termination_protection(JobFlowIds, TerminationProtected; aws_config::AWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws_config=aws_config)
 set_termination_protection(JobFlowIds, TerminationProtected, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), args)); aws_config=aws_config)
+=======
+
+set_termination_protection(JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws_config=aws_config)
+set_termination_protection(JobFlowIds, TerminationProtected, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SetVisibleToAllUsers()
@@ -595,8 +793,14 @@ Sets the ClusterVisibleToAllUsers value, which determines whether the cluster is
 - `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
 
 """
+<<<<<<< HEAD
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config)
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws_config=aws_config)
+=======
+
+set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config)
+set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartNotebookExecution()
@@ -615,8 +819,14 @@ Starts a notebook execution.
 - `NotebookParams`: Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
 - `Tags`: A list of tags associated with a notebook execution. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
 """
+<<<<<<< HEAD
 start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole); aws_config=aws_config)
 start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), args)); aws_config=aws_config)
+=======
+
+start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole); aws_config=aws_config)
+start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopNotebookExecution()
@@ -627,8 +837,14 @@ Stops a notebook execution.
 - `NotebookExecutionId`: The unique identifier of the notebook execution.
 
 """
+<<<<<<< HEAD
 stop_notebook_execution(NotebookExecutionId; aws_config::AWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
 stop_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+=======
+
+stop_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
+stop_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TerminateJobFlows()
@@ -639,6 +855,7 @@ TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is 
 - `JobFlowIds`: A list of job flows to be shut down.
 
 """
+<<<<<<< HEAD
 terminate_job_flows(JobFlowIds; aws_config::AWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config)
 terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws_config=aws_config)
 
@@ -658,3 +875,8 @@ terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::A
 """
 update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
 update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
+=======
+
+terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config)
+terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

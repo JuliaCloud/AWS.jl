@@ -16,8 +16,14 @@ Returns a list of accounts in the organization from AWS Organizations that are a
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_affected_accounts_for_organization(eventArn; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
 describe_affected_accounts_for_organization(eventArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), args)); aws_config=aws_config)
+=======
+
+describe_affected_accounts_for_organization(eventArn; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
+describe_affected_accounts_for_organization(eventArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeAffectedEntities()
@@ -32,8 +38,14 @@ Returns a list of entities that have been affected by the specified events, base
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_affected_entities(filter; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
 describe_affected_entities(filter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), args)); aws_config=aws_config)
+=======
+
+describe_affected_entities(filter; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
+describe_affected_entities(filter, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeAffectedEntitiesForOrganization()
@@ -48,8 +60,14 @@ Returns a list of entities that have been affected by one or more events for one
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_affected_entities_for_organization(organizationEntityFilters; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
 describe_affected_entities_for_organization(organizationEntityFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), args)); aws_config=aws_config)
+=======
+
+describe_affected_entities_for_organization(organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
+describe_affected_entities_for_organization(organizationEntityFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEntityAggregates()
@@ -59,8 +77,14 @@ Returns the number of entities that are affected by each of the specified events
 # Optional Parameters
 - `eventArns`: A list of event ARNs (unique identifiers). For example: \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456\", \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101\" 
 """
+<<<<<<< HEAD
 describe_entity_aggregates(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEntityAggregates"; aws_config=aws_config)
 describe_entity_aggregates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEntityAggregates", args; aws_config=aws_config)
+=======
+
+describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates"; aws_config=aws_config)
+describe_entity_aggregates(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventAggregates()
@@ -75,8 +99,14 @@ Returns the number of events of each event type (issue, scheduled change, and ac
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_event_aggregates(aggregateField; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
 describe_event_aggregates(aggregateField, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), args)); aws_config=aws_config)
+=======
+
+describe_event_aggregates(aggregateField; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
+describe_event_aggregates(aggregateField, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventDetails()
@@ -89,8 +119,14 @@ Returns detailed information about one or more specified events. Information inc
 # Optional Parameters
 - `locale`: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 """
+<<<<<<< HEAD
 describe_event_details(eventArns; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
 describe_event_details(eventArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), args)); aws_config=aws_config)
+=======
+
+describe_event_details(eventArns; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
+describe_event_details(eventArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventDetailsForOrganization()
@@ -103,8 +139,14 @@ Returns detailed information about one or more specified events for one or more 
 # Optional Parameters
 - `locale`: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 """
+<<<<<<< HEAD
 describe_event_details_for_organization(organizationEventDetailFilters; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
 describe_event_details_for_organization(organizationEventDetailFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), args)); aws_config=aws_config)
+=======
+
+describe_event_details_for_organization(organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
+describe_event_details_for_organization(organizationEventDetailFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventTypes()
@@ -117,8 +159,14 @@ Returns the event types that meet the specified filter criteria. If no filter cr
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_event_types(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventTypes"; aws_config=aws_config)
 describe_event_types(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventTypes", args; aws_config=aws_config)
+=======
+
+describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes"; aws_config=aws_config)
+describe_event_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEvents()
@@ -131,8 +179,14 @@ describe_event_types(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_events(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEvents"; aws_config=aws_config)
 describe_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEvents", args; aws_config=aws_config)
+=======
+
+describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents"; aws_config=aws_config)
+describe_events(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventsForOrganization()
@@ -145,8 +199,14 @@ Returns information about events across your organization in AWS Organizations. 
 - `maxResults`: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
+<<<<<<< HEAD
 describe_events_for_organization(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventsForOrganization"; aws_config=aws_config)
 describe_events_for_organization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", args; aws_config=aws_config)
+=======
+
+describe_events_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization"; aws_config=aws_config)
+describe_events_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeHealthServiceStatusForOrganization()
@@ -154,8 +214,14 @@ describe_events_for_organization(args::AbstractDict{String, <:Any}; aws_config::
 This operation provides status information on enabling or disabling AWS Health to work with your organization. To call this operation, you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master account.
 
 """
+<<<<<<< HEAD
 describe_health_service_status_for_organization(; aws_config::AWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
 describe_health_service_status_for_organization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", args; aws_config=aws_config)
+=======
+
+describe_health_service_status_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
+describe_health_service_status_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableHealthServiceAccessForOrganization()
@@ -163,8 +229,14 @@ describe_health_service_status_for_organization(args::AbstractDict{String, <:Any
 Disables AWS Health from working with AWS Organizations. To call this operation, you must sign in as an AWS Identity and Access Management (IAM) user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master AWS account. For more information, see Aggregating AWS Health events in the AWS Health User Guide. This operation doesn't remove the service-linked role (SLR) from the AWS master account in your organization. You must use the IAM console, API, or AWS Command Line Interface (AWS CLI) to remove the SLR. For more information, see Deleting a Service-Linked Role in the IAM User Guide.  You can also disable the organizational feature by using the Organizations DisableAWSServiceAccess API operation. After you call this operation, AWS Health stops aggregating events for all other AWS accounts in your organization. If you call the AWS Health API operations for organizational view, AWS Health returns an error. AWS Health continues to aggregate health events for your AWS account. 
 
 """
+<<<<<<< HEAD
 disable_health_service_access_for_organization(; aws_config::AWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
 disable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+=======
+
+disable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
+disable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableHealthServiceAccessForOrganization()
@@ -172,5 +244,11 @@ disable_health_service_access_for_organization(args::AbstractDict{String, <:Any}
 Calling this operation enables AWS Health to work with AWS Organizations. This applies a service-linked role (SLR) to the master account in the organization. To call this operation, you must sign in as an IAM user, assume an IAM role, or sign in as the root user (not recommended) in the organization's master account. For more information, see Aggregating AWS Health events in the AWS Health User Guide.
 
 """
+<<<<<<< HEAD
 enable_health_service_access_for_organization(; aws_config::AWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
 enable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+=======
+
+enable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
+enable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

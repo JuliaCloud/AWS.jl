@@ -16,8 +16,14 @@ Creates a budget and, if included, notifications and subscribers.   Only one of 
 # Optional Parameters
 - `NotificationsWithSubscribers`: A notification that you want to associate with a budget. A budget can have up to five notifications, and each notification can have one SNS subscriber and up to 10 email subscribers. If you include notifications and subscribers in your CreateBudget call, AWS creates the notifications and subscribers for you.
 """
+<<<<<<< HEAD
 create_budget(AccountId, Budget; aws_config::AWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget); aws_config=aws_config)
 create_budget(AccountId, Budget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), args)); aws_config=aws_config)
+=======
+
+create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget); aws_config=aws_config)
+create_budget(AccountId, Budget, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateBudgetAction()
@@ -51,8 +57,14 @@ Creates a notification. You must create the budget before you create the associa
 - `Subscribers`: A list of subscribers that you want to associate with the notification. Each notification can have one SNS subscriber and up to 10 email subscribers.
 
 """
+<<<<<<< HEAD
 create_notification(AccountId, BudgetName, Notification, Subscribers; aws_config::AWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers); aws_config=aws_config)
 create_notification(AccountId, BudgetName, Notification, Subscribers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), args)); aws_config=aws_config)
+=======
+
+create_notification(AccountId, BudgetName, Notification, Subscribers; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers); aws_config=aws_config)
+create_notification(AccountId, BudgetName, Notification, Subscribers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSubscriber()
@@ -66,8 +78,14 @@ Creates a subscriber. You must create the associated budget and notification bef
 - `Subscriber`: The subscriber that you want to associate with a budget notification.
 
 """
+<<<<<<< HEAD
 create_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
 create_subscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws_config=aws_config)
+=======
+
+create_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
+create_subscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteBudget()
@@ -79,8 +97,14 @@ Deletes a budget. You can delete your budget at any time.  Deleting a budget als
 - `BudgetName`: The name of the budget that you want to delete.
 
 """
+<<<<<<< HEAD
 delete_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
 delete_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+=======
+
+delete_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
+delete_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteBudgetAction()
@@ -107,8 +131,14 @@ Deletes a notification.  Deleting a notification also deletes the subscribers th
 - `Notification`: The notification that you want to delete.
 
 """
+<<<<<<< HEAD
 delete_notification(AccountId, BudgetName, Notification; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
 delete_notification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws_config=aws_config)
+=======
+
+delete_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
+delete_notification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSubscriber()
@@ -122,8 +152,14 @@ Deletes a subscriber.  Deleting the last subscriber to a notification also delet
 - `Subscriber`: The subscriber that you want to delete.
 
 """
+<<<<<<< HEAD
 delete_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
 delete_subscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws_config=aws_config)
+=======
+
+delete_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
+delete_subscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeBudget()
@@ -135,8 +171,14 @@ Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. Fo
 - `BudgetName`: The name of the budget that you want a description of.
 
 """
+<<<<<<< HEAD
 describe_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
 describe_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+=======
+
+describe_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeBudgetAction()
@@ -215,8 +257,14 @@ Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history 
 - `NextToken`: 
 - `TimePeriod`: Retrieves how often the budget went into an ALARM state for the specified time period.
 """
+<<<<<<< HEAD
 describe_budget_performance_history(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
 describe_budget_performance_history(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+=======
+
+describe_budget_performance_history(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_budget_performance_history(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeBudgets()
@@ -230,8 +278,14 @@ Lists the budgets that are associated with an account.  The Request Syntax secti
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
+<<<<<<< HEAD
 describe_budgets(AccountId; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
 describe_budgets(AccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+=======
+
+describe_budgets(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
+describe_budgets(AccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeNotificationsForBudget()
@@ -246,8 +300,14 @@ Lists the notifications that are associated with a budget.
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
+<<<<<<< HEAD
 describe_notifications_for_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
 describe_notifications_for_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+=======
+
+describe_notifications_for_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_notifications_for_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSubscribersForNotification()
@@ -263,8 +323,14 @@ Lists the subscribers that are associated with a notification.
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
+<<<<<<< HEAD
 describe_subscribers_for_notification(AccountId, BudgetName, Notification; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
 describe_subscribers_for_notification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws_config=aws_config)
+=======
+
+describe_subscribers_for_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
+describe_subscribers_for_notification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ExecuteBudgetAction()
@@ -291,8 +357,14 @@ Updates a budget. You can change every part of a budget except for the budgetNam
 - `NewBudget`: The budget that you want to update your budget to.
 
 """
+<<<<<<< HEAD
 update_budget(AccountId, NewBudget; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws_config=aws_config)
 update_budget(AccountId, NewBudget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), args)); aws_config=aws_config)
+=======
+
+update_budget(AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws_config=aws_config)
+update_budget(AccountId, NewBudget, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateBudgetAction()
@@ -327,8 +399,14 @@ Updates a notification.
 - `OldNotification`: The previous notification that is associated with a budget.
 
 """
+<<<<<<< HEAD
 update_notification(AccountId, BudgetName, NewNotification, OldNotification; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification); aws_config=aws_config)
 update_notification(AccountId, BudgetName, NewNotification, OldNotification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), args)); aws_config=aws_config)
+=======
+
+update_notification(AccountId, BudgetName, NewNotification, OldNotification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification); aws_config=aws_config)
+update_notification(AccountId, BudgetName, NewNotification, OldNotification, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateSubscriber()
@@ -343,5 +421,11 @@ Updates a subscriber.
 - `OldSubscriber`: The previous subscriber that is associated with a budget notification.
 
 """
+<<<<<<< HEAD
 update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber); aws_config=aws_config)
 update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), args)); aws_config=aws_config)
+=======
+
+update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber); aws_config=aws_config)
+update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

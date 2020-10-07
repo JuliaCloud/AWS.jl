@@ -14,8 +14,14 @@ Used to cancel an open change request. Must be sent before the status of the req
 - `changeSetId`: Required. The unique identifier of the StartChangeSet request that you want to cancel.
 
 """
+<<<<<<< HEAD
 cancel_change_set(catalog, changeSetId; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
 cancel_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+=======
+
+cancel_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
+cancel_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeChangeSet()
@@ -27,8 +33,14 @@ Provides information about a given change set.
 - `changeSetId`: Required. The unique identifier for the StartChangeSet request that you want to describe the details for.
 
 """
+<<<<<<< HEAD
 describe_change_set(catalog, changeSetId; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
 describe_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+=======
+
+describe_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
+describe_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEntity()
@@ -40,8 +52,14 @@ Returns the metadata and content of the entity.
 - `entityId`: Required. The unique ID of the entity to describe.
 
 """
+<<<<<<< HEAD
 describe_entity(catalog, entityId; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId); aws_config=aws_config)
 describe_entity(catalog, entityId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), args)); aws_config=aws_config)
+=======
+
+describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId); aws_config=aws_config)
+describe_entity(catalog, entityId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListChangeSets()
@@ -57,8 +75,14 @@ Returns the list of change sets owned by the account being used to make the call
 - `NextToken`: The token value retrieved from a previous call to access the next page of results.
 - `Sort`: An object that contains two attributes, SortBy and SortOrder.
 """
+<<<<<<< HEAD
 list_change_sets(Catalog; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}("Catalog"=>Catalog); aws_config=aws_config)
 list_change_sets(Catalog, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), args)); aws_config=aws_config)
+=======
+
+list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}("Catalog"=>Catalog); aws_config=aws_config)
+list_change_sets(Catalog, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListEntities()
@@ -75,8 +99,14 @@ Provides the list of entities of a given type.
 - `NextToken`: The value of the next token, if it exists. Null if there are no more results.
 - `Sort`: An object that contains two attributes, SortBy and SortOrder.
 """
+<<<<<<< HEAD
 list_entities(Catalog, EntityType; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType); aws_config=aws_config)
 list_entities(Catalog, EntityType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), args)); aws_config=aws_config)
+=======
+
+list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType); aws_config=aws_config)
+list_entities(Catalog, EntityType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartChangeSet()
@@ -91,5 +121,11 @@ This operation allows you to request changes for your entities. Within a single 
 - `ChangeSetName`: Optional case sensitive string of up to 100 ASCII characters. The change set name can be used to filter the list of change sets. 
 - `ClientRequestToken`: A unique token to identify the request to ensure idempotency.
 """
+<<<<<<< HEAD
 start_change_set(Catalog, ChangeSet; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet); aws_config=aws_config)
 start_change_set(Catalog, ChangeSet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet), args)); aws_config=aws_config)
+=======
+
+start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet); aws_config=aws_config)
+start_change_set(Catalog, ChangeSet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

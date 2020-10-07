@@ -16,8 +16,14 @@ An application in AppConfig is a logical unit of code that provides capabilities
 - `Description`: A description of the application.
 - `Tags`: Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
+<<<<<<< HEAD
 create_application(Name; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_application(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_application(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_application(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateConfigurationProfile()
@@ -35,8 +41,14 @@ Information that enables AppConfig to access the configuration source. Valid con
 - `Tags`: Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 - `Validators`: A list of methods for validating the configuration.
 """
+<<<<<<< HEAD
 create_configuration_profile(ApplicationId, LocationUri, Name; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name); aws_config=aws_config)
 create_configuration_profile(ApplicationId, LocationUri, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_configuration_profile(ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name); aws_config=aws_config)
+create_configuration_profile(ApplicationId, LocationUri, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDeploymentStrategy()
@@ -55,8 +67,14 @@ A deployment strategy defines important criteria for rolling out your configurat
 - `GrowthType`: The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
 - `Tags`: Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
+<<<<<<< HEAD
 create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo); aws_config=aws_config)
 create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), args)); aws_config=aws_config)
+=======
+
+create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo); aws_config=aws_config)
+create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateEnvironment()
@@ -72,8 +90,14 @@ For each application, you define one or more environments. An environment is a l
 - `Monitors`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `Tags`: Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
+<<<<<<< HEAD
 create_environment(ApplicationId, Name; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_environment(ApplicationId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_environment(ApplicationId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_environment(ApplicationId, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateHostedConfigurationVersion()
@@ -90,8 +114,14 @@ Create a new configuration in the AppConfig configuration store.
 - `Description`: A description of the configuration.
 - `Latest-Version-Number`: An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version.
 """
+<<<<<<< HEAD
 create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
 create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
+=======
+
+create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
+create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteApplication()
@@ -102,8 +132,14 @@ Delete an application. Deleting an application does not delete a configuration f
 - `ApplicationId`: The ID of the application to delete.
 
 """
+<<<<<<< HEAD
 delete_application(ApplicationId; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws_config=aws_config)
 delete_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+=======
+
+delete_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws_config=aws_config)
+delete_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteConfigurationProfile()
@@ -115,8 +151,14 @@ Delete a configuration profile. Deleting a configuration profile does not delete
 - `ConfigurationProfileId`: The ID of the configuration profile you want to delete.
 
 """
+<<<<<<< HEAD
 delete_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
 delete_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+=======
+
+delete_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
+delete_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDeploymentStrategy()
@@ -127,8 +169,14 @@ Delete a deployment strategy. Deleting a deployment strategy does not delete a c
 - `DeploymentStrategyId`: The ID of the deployment strategy you want to delete.
 
 """
+<<<<<<< HEAD
 delete_deployment_strategy(DeploymentStrategyId; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
 delete_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+=======
+
+delete_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
+delete_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteEnvironment()
@@ -140,8 +188,14 @@ Delete an environment. Deleting an environment does not delete a configuration f
 - `EnvironmentId`: The ID of the environment you want to delete.
 
 """
+<<<<<<< HEAD
 delete_environment(ApplicationId, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
 delete_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+=======
+
+delete_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
+delete_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteHostedConfigurationVersion()
@@ -154,8 +208,14 @@ Delete a version of a configuration from the AppConfig configuration store.
 - `VersionNumber`: The versions number to delete.
 
 """
+<<<<<<< HEAD
 delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
 delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws_config=aws_config)
+=======
+
+delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
+delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetApplication()
@@ -166,8 +226,14 @@ Retrieve information about an application.
 - `ApplicationId`: The ID of the application you want to get.
 
 """
+<<<<<<< HEAD
 get_application(ApplicationId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)"; aws_config=aws_config)
 get_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+=======
+
+get_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)"; aws_config=aws_config)
+get_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetConfiguration()
@@ -183,8 +249,14 @@ Receive information about a configuration.  AWS AppConfig uses the value of the 
 # Optional Parameters
 - `client_configuration_version`: The configuration version returned in the most recent GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AWS AppConfig User Guide.
 """
+<<<<<<< HEAD
 get_configuration(Application, Configuration, Environment, client_id; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id); aws_config=aws_config)
 get_configuration(Application, Configuration, Environment, client_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), args)); aws_config=aws_config)
+=======
+
+get_configuration(Application, Configuration, Environment, client_id; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id); aws_config=aws_config)
+get_configuration(Application, Configuration, Environment, client_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetConfigurationProfile()
@@ -196,8 +268,14 @@ Retrieve information about a configuration profile.
 - `ConfigurationProfileId`: The ID of the configuration profile you want to get.
 
 """
+<<<<<<< HEAD
 get_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
 get_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+=======
+
+get_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
+get_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDeployment()
@@ -210,8 +288,14 @@ Retrieve information about a configuration deployment.
 - `EnvironmentId`: The ID of the environment that includes the deployment you want to get. 
 
 """
+<<<<<<< HEAD
 get_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
 get_deployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws_config=aws_config)
+=======
+
+get_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
+get_deployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDeploymentStrategy()
@@ -222,8 +306,14 @@ Retrieve information about a deployment strategy. A deployment strategy defines 
 - `DeploymentStrategyId`: The ID of the deployment strategy to get.
 
 """
+<<<<<<< HEAD
 get_deployment_strategy(DeploymentStrategyId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
 get_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+=======
+
+get_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
+get_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetEnvironment()
@@ -235,8 +325,14 @@ Retrieve information about an environment. An environment is a logical deploymen
 - `EnvironmentId`: The ID of the environment you wnat to get.
 
 """
+<<<<<<< HEAD
 get_environment(ApplicationId, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
 get_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+=======
+
+get_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
+get_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetHostedConfigurationVersion()
@@ -249,8 +345,14 @@ Get information about a specific configuration version.
 - `VersionNumber`: The version.
 
 """
+<<<<<<< HEAD
 get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
 get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws_config=aws_config)
+=======
+
+get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
+get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListApplications()
@@ -261,8 +363,14 @@ List all applications in your AWS account.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
+<<<<<<< HEAD
 list_applications(; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications"; aws_config=aws_config)
 list_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications", args; aws_config=aws_config)
+=======
+
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications"; aws_config=aws_config)
+list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListConfigurationProfiles()
@@ -276,8 +384,14 @@ Lists the configuration profiles for an application.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
+<<<<<<< HEAD
 list_configuration_profiles(ApplicationId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws_config=aws_config)
 list_configuration_profiles(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", args; aws_config=aws_config)
+=======
+
+list_configuration_profiles(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws_config=aws_config)
+list_configuration_profiles(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDeploymentStrategies()
@@ -288,8 +402,14 @@ List deployment strategies.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
+<<<<<<< HEAD
 list_deployment_strategies(; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies"; aws_config=aws_config)
 list_deployment_strategies(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies", args; aws_config=aws_config)
+=======
+
+list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies"; aws_config=aws_config)
+list_deployment_strategies(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDeployments()
@@ -304,8 +424,14 @@ Lists the deployments for an environment.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
+<<<<<<< HEAD
 list_deployments(ApplicationId, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws_config=aws_config)
 list_deployments(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args; aws_config=aws_config)
+=======
+
+list_deployments(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws_config=aws_config)
+list_deployments(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListEnvironments()
@@ -319,8 +445,14 @@ List the environments for an application.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
+<<<<<<< HEAD
 list_environments(ApplicationId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws_config=aws_config)
 list_environments(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments", args; aws_config=aws_config)
+=======
+
+list_environments(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws_config=aws_config)
+list_environments(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListHostedConfigurationVersions()
@@ -335,8 +467,14 @@ View a list of configurations stored in the AppConfig configuration store by ver
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results. 
 """
+<<<<<<< HEAD
 list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws_config=aws_config)
 list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args; aws_config=aws_config)
+=======
+
+list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws_config=aws_config)
+list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -347,8 +485,14 @@ Retrieves the list of key-value tags assigned to the resource.
 - `ResourceArn`: The resource ARN.
 
 """
+<<<<<<< HEAD
 list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
 list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+=======
+
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartDeployment()
@@ -366,8 +510,14 @@ Starts a deployment.
 - `Description`: A description of the deployment.
 - `Tags`: Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
+<<<<<<< HEAD
 start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId); aws_config=aws_config)
 start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), args)); aws_config=aws_config)
+=======
+
+start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId); aws_config=aws_config)
+start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopDeployment()
@@ -380,8 +530,14 @@ Stops a deployment. This API action works only on deployments that have a status
 - `EnvironmentId`: The environment ID.
 
 """
+<<<<<<< HEAD
 stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
 stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws_config=aws_config)
+=======
+
+stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
+stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -393,8 +549,14 @@ Metadata to assign to an AppConfig resource. Tags help organize and categorize y
 - `Tags`: The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
 
 """
+<<<<<<< HEAD
 tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -406,8 +568,14 @@ Deletes a tag key and value from an AppConfig resource.
 - `tagKeys`: The tag keys to delete.
 
 """
+<<<<<<< HEAD
 untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+=======
+
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateApplication()
@@ -421,8 +589,14 @@ Updates an application.
 - `Description`: A description of the application.
 - `Name`: The name of the application.
 """
+<<<<<<< HEAD
 update_application(ApplicationId; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws_config=aws_config)
 update_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+=======
+
+update_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws_config=aws_config)
+update_application(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateConfigurationProfile()
@@ -439,8 +613,14 @@ Updates a configuration profile.
 - `RetrievalRoleArn`: The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
 - `Validators`: A list of methods for validating the configuration.
 """
+<<<<<<< HEAD
 update_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
 update_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+=======
+
+update_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
+update_configuration_profile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDeploymentStrategy()
@@ -457,8 +637,14 @@ Updates a deployment strategy.
 - `GrowthFactor`: The percentage of targets to receive a deployed configuration during each interval.
 - `GrowthType`: The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
 """
+<<<<<<< HEAD
 update_deployment_strategy(DeploymentStrategyId; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
 update_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+=======
+
+update_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
+update_deployment_strategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateEnvironment()
@@ -474,8 +660,14 @@ Updates an environment.
 - `Monitors`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `Name`: The name of the environment.
 """
+<<<<<<< HEAD
 update_environment(ApplicationId, EnvironmentId; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
 update_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+=======
+
+update_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
+update_environment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ValidateConfiguration()
@@ -488,5 +680,11 @@ Uses the validators in a configuration profile to validate a configuration.
 - `configuration_version`: The version of the configuration to validate.
 
 """
+<<<<<<< HEAD
 validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version); aws_config=aws_config)
 validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), args)); aws_config=aws_config)
+=======
+
+validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version); aws_config=aws_config)
+validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

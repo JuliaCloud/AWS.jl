@@ -97,8 +97,14 @@ describe_table_data_import_job(jobId, tableId, workbookId, args::AbstractDict{St
 - `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
 - `variables`:  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
 """
+<<<<<<< HEAD
 get_screen_data(appId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
 get_screen_data(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws_config=aws_config)
+=======
+
+get_screen_data(appId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
+get_screen_data(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     InvokeScreenAutomation()
@@ -116,6 +122,7 @@ get_screen_data(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; 
 - `rowId`:  The row ID for the automation if the automation is defined inside a block with source or list. 
 - `variables`:  Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. Any variables defined in a screen are required to be passed in the call. 
 """
+<<<<<<< HEAD
 invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
 invoke_screen_automation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)
 
@@ -199,3 +206,8 @@ query_table_rows(filterFormula, tableId, workbookId, args::AbstractDict{String, 
 """
 start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions); aws_config=aws_config)
 start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions), args)); aws_config=aws_config)
+=======
+
+invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
+invoke_screen_automation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

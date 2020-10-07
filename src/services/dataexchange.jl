@@ -13,8 +13,14 @@ This operation cancels a job. Jobs can be cancelled only when they are in the WA
 - `JobId`: The unique identifier for a job.
 
 """
+<<<<<<< HEAD
 cancel_job(JobId; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)"; aws_config=aws_config)
 cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+=======
+
+cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDataSet()
@@ -29,8 +35,14 @@ This operation creates a data set.
 # Optional Parameters
 - `Tags`: A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
 """
+<<<<<<< HEAD
 create_data_set(AssetType, Description, Name; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name); aws_config=aws_config)
 create_data_set(AssetType, Description, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_data_set(AssetType, Description, Name; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name); aws_config=aws_config)
+create_data_set(AssetType, Description, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateJob()
@@ -42,8 +54,14 @@ This operation creates a job.
 - `Type`: The type of job to be created.
 
 """
+<<<<<<< HEAD
 create_job(Details, Type; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}("Details"=>Details, "Type"=>Type); aws_config=aws_config)
 create_job(Details, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Details"=>Details, "Type"=>Type), args)); aws_config=aws_config)
+=======
+
+create_job(Details, Type; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}("Details"=>Details, "Type"=>Type); aws_config=aws_config)
+create_job(Details, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Details"=>Details, "Type"=>Type), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRevision()
@@ -57,8 +75,14 @@ This operation creates a revision for a data set.
 - `Comment`: An optional comment about the revision.
 - `Tags`: A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
 """
+<<<<<<< HEAD
 create_revision(DataSetId; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
 create_revision(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+=======
+
+create_revision(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
+create_revision(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteAsset()
@@ -71,8 +95,14 @@ This operation deletes an asset.
 - `RevisionId`: The unique identifier for a revision.
 
 """
+<<<<<<< HEAD
 delete_asset(AssetId, DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
 delete_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+=======
+
+delete_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
+delete_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDataSet()
@@ -83,8 +113,14 @@ This operation deletes a data set.
 - `DataSetId`: The unique identifier for a data set.
 
 """
+<<<<<<< HEAD
 delete_data_set(DataSetId; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
 delete_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+=======
+
+delete_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+delete_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRevision()
@@ -96,8 +132,14 @@ This operation deletes a revision.
 - `RevisionId`: The unique identifier for a revision.
 
 """
+<<<<<<< HEAD
 delete_revision(DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
 delete_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+=======
+
+delete_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
+delete_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAsset()
@@ -110,8 +152,14 @@ This operation returns information about an asset.
 - `RevisionId`: The unique identifier for a revision.
 
 """
+<<<<<<< HEAD
 get_asset(AssetId, DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
 get_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+=======
+
+get_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
+get_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDataSet()
@@ -122,8 +170,14 @@ This operation returns information about a data set.
 - `DataSetId`: The unique identifier for a data set.
 
 """
+<<<<<<< HEAD
 get_data_set(DataSetId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
 get_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+=======
+
+get_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+get_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetJob()
@@ -134,8 +188,14 @@ This operation returns information about a job.
 - `JobId`: The unique identifier for a job.
 
 """
+<<<<<<< HEAD
 get_job(JobId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)"; aws_config=aws_config)
 get_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+=======
+
+get_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+get_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetRevision()
@@ -147,8 +207,14 @@ This operation returns information about a revision.
 - `RevisionId`: The unique identifier for a revision.
 
 """
+<<<<<<< HEAD
 get_revision(DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
 get_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+=======
+
+get_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
+get_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDataSetRevisions()
@@ -162,8 +228,14 @@ This operation lists a data set's revisions sorted by CreatedAt in descending or
 - `maxResults`: The maximum number of results returned by a single call.
 - `nextToken`: The token value retrieved from a previous call to access the next page of results.
 """
+<<<<<<< HEAD
 list_data_set_revisions(DataSetId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
 list_data_set_revisions(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+=======
+
+list_data_set_revisions(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
+list_data_set_revisions(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDataSets()
@@ -175,8 +247,14 @@ This operation lists your data sets. When listing by origin OWNED, results are s
 - `nextToken`: The token value retrieved from a previous call to access the next page of results.
 - `origin`: A property that defines the data set as OWNED by the account (for providers) or ENTITLED to the account (for subscribers).
 """
+<<<<<<< HEAD
 list_data_sets(; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
 list_data_sets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", args; aws_config=aws_config)
+=======
+
+list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
+list_data_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListJobs()
@@ -189,8 +267,14 @@ This operation lists your jobs sorted by CreatedAt in descending order.
 - `nextToken`: The token value retrieved from a previous call to access the next page of results.
 - `revisionId`: The unique identifier for a revision.
 """
+<<<<<<< HEAD
 list_jobs(; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
 list_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", args; aws_config=aws_config)
+=======
+
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
+list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRevisionAssets()
@@ -205,8 +289,14 @@ This operation lists a revision's assets sorted alphabetically in descending ord
 - `maxResults`: The maximum number of results returned by a single call.
 - `nextToken`: The token value retrieved from a previous call to access the next page of results.
 """
+<<<<<<< HEAD
 list_revision_assets(DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets"; aws_config=aws_config)
 list_revision_assets(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", args; aws_config=aws_config)
+=======
+
+list_revision_assets(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets"; aws_config=aws_config)
+list_revision_assets(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -217,8 +307,14 @@ This operation lists the tags on the resource.
 - `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 
 """
+<<<<<<< HEAD
 list_tags_for_resource(resource_arn; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
 list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+=======
+
+list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartJob()
@@ -229,8 +325,14 @@ This operation starts a job.
 - `JobId`: The unique identifier for a job.
 
 """
+<<<<<<< HEAD
 start_job(JobId; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config)
 start_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+=======
+
+start_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config)
+start_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -242,8 +344,14 @@ This operation tags a resource.
 - `tags`: A label that consists of a customer-defined key and an optional value.
 
 """
+<<<<<<< HEAD
 tag_resource(resource_arn, tags; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -255,8 +363,14 @@ This operation removes one or more tags from a resource.
 - `tagKeys`: The key tags.
 
 """
+<<<<<<< HEAD
 untag_resource(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+=======
+
+untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateAsset()
@@ -270,8 +384,14 @@ This operation updates an asset.
 - `RevisionId`: The unique identifier for a revision.
 
 """
+<<<<<<< HEAD
 update_asset(AssetId, DataSetId, Name, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 update_asset(AssetId, DataSetId, Name, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+update_asset(AssetId, DataSetId, Name, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_asset(AssetId, DataSetId, Name, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDataSet()
@@ -285,8 +405,14 @@ This operation updates a data set.
 - `Description`: The description for the data set.
 - `Name`: The name of the data set.
 """
+<<<<<<< HEAD
 update_data_set(DataSetId; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
 update_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+=======
+
+update_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
+update_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateRevision()
@@ -301,5 +427,11 @@ This operation updates a revision.
 - `Comment`: An optional comment about the revision.
 - `Finalized`: Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products.
 """
+<<<<<<< HEAD
 update_revision(DataSetId, RevisionId; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
 update_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+=======
+
+update_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
+update_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

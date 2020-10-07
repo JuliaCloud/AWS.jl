@@ -15,8 +15,14 @@ Deletes the shadow for the specified thing. For more information, see DeleteThin
 # Optional Parameters
 - `name`: The name of the shadow.
 """
+<<<<<<< HEAD
 delete_thing_shadow(thingName; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws_config=aws_config)
 delete_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+=======
+
+delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws_config=aws_config)
+delete_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetThingShadow()
@@ -29,8 +35,14 @@ Gets the shadow for the specified thing. For more information, see GetThingShado
 # Optional Parameters
 - `name`: The name of the shadow.
 """
+<<<<<<< HEAD
 get_thing_shadow(thingName; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws_config=aws_config)
 get_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+=======
+
+get_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws_config=aws_config)
+get_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListNamedShadowsForThing()
@@ -44,8 +56,14 @@ Lists the shadows for the specified thing.
 - `nextToken`: The token to retrieve the next set of results.
 - `pageSize`: The result page size.
 """
+<<<<<<< HEAD
 list_named_shadows_for_thing(thingName; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws_config=aws_config)
 list_named_shadows_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", args; aws_config=aws_config)
+=======
+
+list_named_shadows_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws_config=aws_config)
+list_named_shadows_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     Publish()
@@ -59,8 +77,14 @@ Publishes state information. For more information, see HTTP Protocol in the AWS 
 - `payload`: The state information, in JSON format.
 - `qos`: The Quality of Service (QoS) level.
 """
+<<<<<<< HEAD
 publish(topic; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)"; aws_config=aws_config)
 publish(topic, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", args; aws_config=aws_config)
+=======
+
+publish(topic; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)"; aws_config=aws_config)
+publish(topic, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateThingShadow()
@@ -74,5 +98,11 @@ Updates the shadow for the specified thing. For more information, see UpdateThin
 # Optional Parameters
 - `name`: The name of the shadow.
 """
+<<<<<<< HEAD
 update_thing_shadow(payload, thingName; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload); aws_config=aws_config)
 update_thing_shadow(payload, thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), args)); aws_config=aws_config)
+=======
+
+update_thing_shadow(payload, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload); aws_config=aws_config)
+update_thing_shadow(payload, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

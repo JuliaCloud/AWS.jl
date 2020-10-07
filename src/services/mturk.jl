@@ -15,8 +15,14 @@ using AWS.UUIDs
 # Optional Parameters
 - `IntegerValue`:  The value of the Qualification. You can omit this value if you are using the presence or absence of the Qualification as the basis for a HIT requirement. 
 """
+<<<<<<< HEAD
 accept_qualification_request(QualificationRequestId; aws_config::AWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
 accept_qualification_request(QualificationRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), args)); aws_config=aws_config)
+=======
+
+accept_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
+accept_qualification_request(QualificationRequestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ApproveAssignment()
@@ -30,8 +36,14 @@ accept_qualification_request(QualificationRequestId, args::AbstractDict{String, 
 - `OverrideRejection`:  A flag indicating that an assignment should be approved even if it was previously rejected. Defaults to False. 
 - `RequesterFeedback`:  A message for the Worker, which the Worker can see in the Status section of the web site. 
 """
+<<<<<<< HEAD
 approve_assignment(AssignmentId; aws_config::AWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
 approve_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), args)); aws_config=aws_config)
+=======
+
+approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
+approve_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateQualificationWithWorker()
@@ -46,8 +58,14 @@ approve_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::
 - `IntegerValue`: The value of the Qualification to assign.
 - `SendNotification`:  Specifies whether to send a notification email message to the Worker saying that the qualification was assigned to the Worker. Note: this is true by default. 
 """
+<<<<<<< HEAD
 associate_qualification_with_worker(QualificationTypeId, WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
 associate_qualification_with_worker(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+associate_qualification_with_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
+associate_qualification_with_worker(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateAdditionalAssignmentsForHIT()
@@ -61,8 +79,14 @@ associate_qualification_with_worker(QualificationTypeId, WorkerId, args::Abstrac
 # Optional Parameters
 - `UniqueRequestToken`:  A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID. 
 """
+<<<<<<< HEAD
 create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments; aws_config::AWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments); aws_config=aws_config)
 create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), args)); aws_config=aws_config)
+=======
+
+create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments); aws_config=aws_config)
+create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateHIT()
@@ -89,8 +113,14 @@ The CreateHIT operation creates a new Human Intelligence Task (HIT). The new HIT
 - `RequesterAnnotation`:  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
 - `UniqueRequestToken`:  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
 """
+<<<<<<< HEAD
 create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
 create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), args)); aws_config=aws_config)
+=======
+
+create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
+create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateHITType()
@@ -108,8 +138,14 @@ create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, 
 - `Keywords`:  One or more words or phrases that describe the HIT, separated by commas. These words are used in searches to find HITs. 
 - `QualificationRequirements`:  Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure. 
 """
+<<<<<<< HEAD
 create_hittype(AssignmentDurationInSeconds, Description, Reward, Title; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
 create_hittype(AssignmentDurationInSeconds, Description, Reward, Title, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), args)); aws_config=aws_config)
+=======
+
+create_hittype(AssignmentDurationInSeconds, Description, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
+create_hittype(AssignmentDurationInSeconds, Description, Reward, Title, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateHITWithHITType()
@@ -130,8 +166,14 @@ create_hittype(AssignmentDurationInSeconds, Description, Reward, Title, args::Ab
 - `RequesterAnnotation`:  An arbitrary data field. The RequesterAnnotation parameter lets your application attach arbitrary data to the HIT for tracking purposes. For example, this parameter could be an identifier internal to the Requester's application that corresponds with the HIT.   The RequesterAnnotation parameter for a HIT is only visible to the Requester who created the HIT. It is not shown to the Worker, or any other Requester.   The RequesterAnnotation parameter may be different for each HIT you submit. It does not affect how your HITs are grouped. 
 - `UniqueRequestToken`:  A unique identifier for this request which allows you to retry the call on error without creating duplicate HITs. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the HIT already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return a AWS.MechanicalTurk.HitAlreadyExists error with a message containing the HITId.    Note: It is your responsibility to ensure uniqueness of the token. The unique token expires after 24 hours. Subsequent calls using the same UniqueRequestToken made after the 24 hour limit could create duplicate HITs.  
 """
+<<<<<<< HEAD
 create_hitwith_hittype(HITTypeId, LifetimeInSeconds; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds); aws_config=aws_config)
 create_hitwith_hittype(HITTypeId, LifetimeInSeconds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), args)); aws_config=aws_config)
+=======
+
+create_hitwith_hittype(HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds); aws_config=aws_config)
+create_hitwith_hittype(HITTypeId, LifetimeInSeconds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateQualificationType()
@@ -152,8 +194,14 @@ create_hitwith_hittype(HITTypeId, LifetimeInSeconds, args::AbstractDict{String, 
 - `Test`:  The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.  Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
 - `TestDurationInSeconds`: The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
 """
+<<<<<<< HEAD
 create_qualification_type(Description, Name, QualificationTypeStatus; aws_config::AWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus); aws_config=aws_config)
 create_qualification_type(Description, Name, QualificationTypeStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), args)); aws_config=aws_config)
+=======
+
+create_qualification_type(Description, Name, QualificationTypeStatus; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus); aws_config=aws_config)
+create_qualification_type(Description, Name, QualificationTypeStatus, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateWorkerBlock()
@@ -165,8 +213,14 @@ The CreateWorkerBlock operation allows you to prevent a Worker from working on y
 - `WorkerId`: The ID of the Worker to block.
 
 """
+<<<<<<< HEAD
 create_worker_block(Reason, WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
 create_worker_block(Reason, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+create_worker_block(Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
+create_worker_block(Reason, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteHIT()
@@ -177,8 +231,14 @@ create_worker_block(Reason, WorkerId, args::AbstractDict{String, <:Any}; aws_con
 - `HITId`: The ID of the HIT to be deleted.
 
 """
+<<<<<<< HEAD
 delete_hit(HITId; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
 delete_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
+delete_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteQualificationType()
@@ -189,8 +249,14 @@ delete_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=globa
 - `QualificationTypeId`: The ID of the QualificationType to dispose.
 
 """
+<<<<<<< HEAD
 delete_qualification_type(QualificationTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
 delete_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+=======
+
+delete_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
+delete_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteWorkerBlock()
@@ -203,8 +269,14 @@ The DeleteWorkerBlock operation allows you to reinstate a blocked Worker to work
 # Optional Parameters
 - `Reason`: A message that explains the reason for unblocking the Worker. The Worker does not see this message.
 """
+<<<<<<< HEAD
 delete_worker_block(WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}("WorkerId"=>WorkerId); aws_config=aws_config)
 delete_worker_block(WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}("WorkerId"=>WorkerId); aws_config=aws_config)
+delete_worker_block(WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateQualificationFromWorker()
@@ -218,8 +290,14 @@ delete_worker_block(WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWS
 # Optional Parameters
 - `Reason`: A text message that explains why the Qualification was revoked. The user who had the Qualification sees this message.
 """
+<<<<<<< HEAD
 disassociate_qualification_from_worker(QualificationTypeId, WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
 disassociate_qualification_from_worker(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+disassociate_qualification_from_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
+disassociate_qualification_from_worker(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAccountBalance()
@@ -227,8 +305,14 @@ disassociate_qualification_from_worker(QualificationTypeId, WorkerId, args::Abst
 The GetAccountBalance operation retrieves the amount of money in your Amazon Mechanical Turk account.
 
 """
+<<<<<<< HEAD
 get_account_balance(; aws_config::AWSConfig=global_aws_config()) = mturk("GetAccountBalance"; aws_config=aws_config)
 get_account_balance(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetAccountBalance", args; aws_config=aws_config)
+=======
+
+get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance"; aws_config=aws_config)
+get_account_balance(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAssignment()
@@ -239,8 +323,14 @@ get_account_balance(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glo
 - `AssignmentId`: The ID of the Assignment to be retrieved.
 
 """
+<<<<<<< HEAD
 get_assignment(AssignmentId; aws_config::AWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
 get_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), args)); aws_config=aws_config)
+=======
+
+get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
+get_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFileUploadURL()
@@ -252,8 +342,14 @@ get_assignment(AssignmentId, args::AbstractDict{String, <:Any}; aws_config::AWSC
 - `QuestionIdentifier`: The identifier of the question with a FileUploadAnswer, as specified in the QuestionForm of the HIT.
 
 """
+<<<<<<< HEAD
 get_file_upload_url(AssignmentId, QuestionIdentifier; aws_config::AWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier); aws_config=aws_config)
 get_file_upload_url(AssignmentId, QuestionIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), args)); aws_config=aws_config)
+=======
+
+get_file_upload_url(AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier); aws_config=aws_config)
+get_file_upload_url(AssignmentId, QuestionIdentifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetHIT()
@@ -264,8 +360,14 @@ get_file_upload_url(AssignmentId, QuestionIdentifier, args::AbstractDict{String,
 - `HITId`: The ID of the HIT to be retrieved.
 
 """
+<<<<<<< HEAD
 get_hit(HITId; aws_config::AWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
 get_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
+get_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetQualificationScore()
@@ -277,8 +379,14 @@ get_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_a
 - `WorkerId`: The ID of the Worker whose Qualification is being updated.
 
 """
+<<<<<<< HEAD
 get_qualification_score(QualificationTypeId, WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
 get_qualification_score(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+get_qualification_score(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
+get_qualification_score(QualificationTypeId, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetQualificationType()
@@ -289,8 +397,14 @@ get_qualification_score(QualificationTypeId, WorkerId, args::AbstractDict{String
 - `QualificationTypeId`: The ID of the QualificationType.
 
 """
+<<<<<<< HEAD
 get_qualification_type(QualificationTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
 get_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+=======
+
+get_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
+get_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListAssignmentsForHIT()
@@ -305,8 +419,14 @@ get_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; a
 - `MaxResults`: 
 - `NextToken`: Pagination token
 """
+<<<<<<< HEAD
 list_assignments_for_hit(HITId; aws_config::AWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
 list_assignments_for_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
+list_assignments_for_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListBonusPayments()
@@ -319,8 +439,14 @@ list_assignments_for_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::A
 - `MaxResults`: 
 - `NextToken`: Pagination token
 """
+<<<<<<< HEAD
 list_bonus_payments(; aws_config::AWSConfig=global_aws_config()) = mturk("ListBonusPayments"; aws_config=aws_config)
 list_bonus_payments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListBonusPayments", args; aws_config=aws_config)
+=======
+
+list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListBonusPayments"; aws_config=aws_config)
+list_bonus_payments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListBonusPayments", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListHITs()
@@ -331,8 +457,14 @@ list_bonus_payments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glo
 - `MaxResults`: 
 - `NextToken`: Pagination token
 """
+<<<<<<< HEAD
 list_hits(; aws_config::AWSConfig=global_aws_config()) = mturk("ListHITs"; aws_config=aws_config)
 list_hits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListHITs", args; aws_config=aws_config)
+=======
+
+list_hits(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITs"; aws_config=aws_config)
+list_hits(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListHITsForQualificationType()
@@ -346,8 +478,14 @@ list_hits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_co
 - `MaxResults`:  Limit the number of results returned. 
 - `NextToken`: Pagination Token
 """
+<<<<<<< HEAD
 list_hits_for_qualification_type(QualificationTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
 list_hits_for_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+=======
+
+list_hits_for_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
+list_hits_for_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListQualificationRequests()
@@ -359,8 +497,14 @@ list_hits_for_qualification_type(QualificationTypeId, args::AbstractDict{String,
 - `NextToken`: 
 - `QualificationTypeId`: The ID of the QualificationType.
 """
+<<<<<<< HEAD
 list_qualification_requests(; aws_config::AWSConfig=global_aws_config()) = mturk("ListQualificationRequests"; aws_config=aws_config)
 list_qualification_requests(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListQualificationRequests", args; aws_config=aws_config)
+=======
+
+list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationRequests"; aws_config=aws_config)
+list_qualification_requests(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationRequests", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListQualificationTypes()
@@ -376,8 +520,14 @@ list_qualification_requests(args::AbstractDict{String, <:Any}; aws_config::AWSCo
 - `NextToken`: 
 - `Query`:  A text query against all of the searchable attributes of Qualification types. 
 """
+<<<<<<< HEAD
 list_qualification_types(MustBeRequestable; aws_config::AWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}("MustBeRequestable"=>MustBeRequestable); aws_config=aws_config)
 list_qualification_types(MustBeRequestable, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), args)); aws_config=aws_config)
+=======
+
+list_qualification_types(MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}("MustBeRequestable"=>MustBeRequestable); aws_config=aws_config)
+list_qualification_types(MustBeRequestable, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListReviewPolicyResultsForHIT()
@@ -394,8 +544,14 @@ list_qualification_types(MustBeRequestable, args::AbstractDict{String, <:Any}; a
 - `RetrieveActions`:  Specify if the operation should retrieve a list of the actions taken executing the Review Policies and their outcomes. 
 - `RetrieveResults`:  Specify if the operation should retrieve a list of the results computed by the Review Policies. 
 """
+<<<<<<< HEAD
 list_review_policy_results_for_hit(HITId; aws_config::AWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
 list_review_policy_results_for_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+list_review_policy_results_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
+list_review_policy_results_for_hit(HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListReviewableHITs()
@@ -408,8 +564,14 @@ list_review_policy_results_for_hit(HITId, args::AbstractDict{String, <:Any}; aws
 - `NextToken`: Pagination Token
 - `Status`:  Can be either Reviewable or Reviewing. Reviewable is the default value. 
 """
+<<<<<<< HEAD
 list_reviewable_hits(; aws_config::AWSConfig=global_aws_config()) = mturk("ListReviewableHITs"; aws_config=aws_config)
 list_reviewable_hits(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListReviewableHITs", args; aws_config=aws_config)
+=======
+
+list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewableHITs"; aws_config=aws_config)
+list_reviewable_hits(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewableHITs", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorkerBlocks()
@@ -420,8 +582,14 @@ The ListWorkersBlocks operation retrieves a list of Workers who are blocked from
 - `MaxResults`: 
 - `NextToken`: Pagination token
 """
+<<<<<<< HEAD
 list_worker_blocks(; aws_config::AWSConfig=global_aws_config()) = mturk("ListWorkerBlocks"; aws_config=aws_config)
 list_worker_blocks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListWorkerBlocks", args; aws_config=aws_config)
+=======
+
+list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkerBlocks"; aws_config=aws_config)
+list_worker_blocks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkerBlocks", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListWorkersWithQualificationType()
@@ -436,8 +604,14 @@ list_worker_blocks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 - `NextToken`: Pagination Token
 - `Status`:  The status of the Qualifications to return. Can be Granted | Revoked. 
 """
+<<<<<<< HEAD
 list_workers_with_qualification_type(QualificationTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
 list_workers_with_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+=======
+
+list_workers_with_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
+list_workers_with_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     NotifyWorkers()
@@ -450,8 +624,14 @@ list_workers_with_qualification_type(QualificationTypeId, args::AbstractDict{Str
 - `WorkerIds`: A list of Worker IDs you wish to notify. You can notify upto 100 Workers at a time.
 
 """
+<<<<<<< HEAD
 notify_workers(MessageText, Subject, WorkerIds; aws_config::AWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds); aws_config=aws_config)
 notify_workers(MessageText, Subject, WorkerIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), args)); aws_config=aws_config)
+=======
+
+notify_workers(MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds); aws_config=aws_config)
+notify_workers(MessageText, Subject, WorkerIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectAssignment()
@@ -463,8 +643,14 @@ notify_workers(MessageText, Subject, WorkerIds, args::AbstractDict{String, <:Any
 - `RequesterFeedback`:  A message for the Worker, which the Worker can see in the Status section of the web site. 
 
 """
+<<<<<<< HEAD
 reject_assignment(AssignmentId, RequesterFeedback; aws_config::AWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback); aws_config=aws_config)
 reject_assignment(AssignmentId, RequesterFeedback, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), args)); aws_config=aws_config)
+=======
+
+reject_assignment(AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback); aws_config=aws_config)
+reject_assignment(AssignmentId, RequesterFeedback, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectQualificationRequest()
@@ -477,8 +663,14 @@ reject_assignment(AssignmentId, RequesterFeedback, args::AbstractDict{String, <:
 # Optional Parameters
 - `Reason`: A text message explaining why the request was rejected, to be shown to the Worker who made the request.
 """
+<<<<<<< HEAD
 reject_qualification_request(QualificationRequestId; aws_config::AWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
 reject_qualification_request(QualificationRequestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), args)); aws_config=aws_config)
+=======
+
+reject_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
+reject_qualification_request(QualificationRequestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SendBonus()
@@ -494,8 +686,14 @@ reject_qualification_request(QualificationRequestId, args::AbstractDict{String, 
 # Optional Parameters
 - `UniqueRequestToken`: A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
 """
+<<<<<<< HEAD
 send_bonus(AssignmentId, BonusAmount, Reason, WorkerId; aws_config::AWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
 send_bonus(AssignmentId, BonusAmount, Reason, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+=======
+
+send_bonus(AssignmentId, BonusAmount, Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
+send_bonus(AssignmentId, BonusAmount, Reason, WorkerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SendTestEventNotification()
@@ -507,8 +705,14 @@ send_bonus(AssignmentId, BonusAmount, Reason, WorkerId, args::AbstractDict{Strin
 - `TestEventType`:  The event to simulate to test the notification specification. This event is included in the test message even if the notification specification does not include the event type. The notification specification does not filter out the test event. 
 
 """
+<<<<<<< HEAD
 send_test_event_notification(Notification, TestEventType; aws_config::AWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType); aws_config=aws_config)
 send_test_event_notification(Notification, TestEventType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), args)); aws_config=aws_config)
+=======
+
+send_test_event_notification(Notification, TestEventType; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType); aws_config=aws_config)
+send_test_event_notification(Notification, TestEventType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateExpirationForHIT()
@@ -520,8 +724,14 @@ send_test_event_notification(Notification, TestEventType, args::AbstractDict{Str
 - `HITId`:  The HIT to update. 
 
 """
+<<<<<<< HEAD
 update_expiration_for_hit(ExpireAt, HITId; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId); aws_config=aws_config)
 update_expiration_for_hit(ExpireAt, HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+update_expiration_for_hit(ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId); aws_config=aws_config)
+update_expiration_for_hit(ExpireAt, HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateHITReviewStatus()
@@ -534,8 +744,14 @@ update_expiration_for_hit(ExpireAt, HITId, args::AbstractDict{String, <:Any}; aw
 # Optional Parameters
 - `Revert`:  Specifies how to update the HIT status. Default is False.     Setting this to false will only transition a HIT from Reviewable to Reviewing     Setting this to true will only transition a HIT from Reviewing to Reviewable   
 """
+<<<<<<< HEAD
 update_hitreview_status(HITId; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
 update_hitreview_status(HITId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+=======
+
+update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
+update_hitreview_status(HITId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateHITTypeOfHIT()
@@ -547,8 +763,14 @@ update_hitreview_status(HITId, args::AbstractDict{String, <:Any}; aws_config::AW
 - `HITTypeId`: The ID of the new HIT type.
 
 """
+<<<<<<< HEAD
 update_hittype_of_hit(HITId, HITTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId); aws_config=aws_config)
 update_hittype_of_hit(HITId, HITTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), args)); aws_config=aws_config)
+=======
+
+update_hittype_of_hit(HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId); aws_config=aws_config)
+update_hittype_of_hit(HITId, HITTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateNotificationSettings()
@@ -562,8 +784,14 @@ update_hittype_of_hit(HITId, HITTypeId, args::AbstractDict{String, <:Any}; aws_c
 - `Active`:  Specifies whether notifications are sent for HITs of this HIT type, according to the notification specification. You must specify either the Notification parameter or the Active parameter for the call to UpdateNotificationSettings to succeed. 
 - `Notification`:  The notification specification for the HIT type. 
 """
+<<<<<<< HEAD
 update_notification_settings(HITTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}("HITTypeId"=>HITTypeId); aws_config=aws_config)
 update_notification_settings(HITTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), args)); aws_config=aws_config)
+=======
+
+update_notification_settings(HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}("HITTypeId"=>HITTypeId); aws_config=aws_config)
+update_notification_settings(HITTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateQualificationType()
@@ -583,5 +811,11 @@ update_notification_settings(HITTypeId, args::AbstractDict{String, <:Any}; aws_c
 - `Test`: The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified. Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true. Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
 - `TestDurationInSeconds`: The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
 """
+<<<<<<< HEAD
 update_qualification_type(QualificationTypeId; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
 update_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+=======
+
+update_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
+update_qualification_type(QualificationTypeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

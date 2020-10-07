@@ -18,8 +18,14 @@ Adds an IAM user to the team for an AWS CodeStar project.
 - `clientRequestToken`: A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
 - `remoteAccessAllowed`: Whether the team member is allowed to use an SSH public/private key pair to remotely access project resources, for example Amazon EC2 instances.
 """
+<<<<<<< HEAD
 associate_team_member(projectId, projectRole, userArn; aws_config::AWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn); aws_config=aws_config)
 associate_team_member(projectId, projectRole, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+associate_team_member(projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn); aws_config=aws_config)
+associate_team_member(projectId, projectRole, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateProject()
@@ -37,8 +43,14 @@ Creates a project, including project resources. This action creates a project ba
 - `tags`: The tags created for the project.
 - `toolchain`: The name of the toolchain template file submitted with the project request. If this parameter is specified, the request must also include the sourceCode parameter.
 """
+<<<<<<< HEAD
 create_project(id, name; aws_config::AWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}("id"=>id, "name"=>name); aws_config=aws_config)
 create_project(id, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "name"=>name), args)); aws_config=aws_config)
+=======
+
+create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}("id"=>id, "name"=>name); aws_config=aws_config)
+create_project(id, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "name"=>name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateUserProfile()
@@ -53,8 +65,14 @@ Creates a profile for a user that includes user preferences, such as the display
 # Optional Parameters
 - `sshPublicKey`: The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
 """
+<<<<<<< HEAD
 create_user_profile(displayName, emailAddress, userArn; aws_config::AWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn); aws_config=aws_config)
 create_user_profile(displayName, emailAddress, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+create_user_profile(displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn); aws_config=aws_config)
+create_user_profile(displayName, emailAddress, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteProject()
@@ -68,8 +86,14 @@ Deletes a project, including project resources. Does not delete users associated
 - `clientRequestToken`: A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request. 
 - `deleteStack`: Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
 """
+<<<<<<< HEAD
 delete_project(id; aws_config::AWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
 delete_project(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+=======
+
+delete_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
+delete_project(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteUserProfile()
@@ -80,8 +104,14 @@ Deletes a user profile in AWS CodeStar, including all personal preference data a
 - `userArn`: The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
 
 """
+<<<<<<< HEAD
 delete_user_profile(userArn; aws_config::AWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
 delete_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
+delete_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeProject()
@@ -92,8 +122,14 @@ Describes a project and its resources.
 - `id`: The ID of the project.
 
 """
+<<<<<<< HEAD
 describe_project(id; aws_config::AWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
 describe_project(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+=======
+
+describe_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
+describe_project(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeUserProfile()
@@ -104,8 +140,14 @@ Describes a user in AWS CodeStar and the user attributes across all projects.
 - `userArn`: The Amazon Resource Name (ARN) of the user.
 
 """
+<<<<<<< HEAD
 describe_user_profile(userArn; aws_config::AWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
 describe_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
+describe_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateTeamMember()
@@ -117,8 +159,14 @@ Removes a user from a project. Removing a user from a project also removes the I
 - `userArn`: The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
 
 """
+<<<<<<< HEAD
 disassociate_team_member(projectId, userArn; aws_config::AWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
 disassociate_team_member(projectId, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+disassociate_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
+disassociate_team_member(projectId, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListProjects()
@@ -129,8 +177,14 @@ Lists all projects in AWS CodeStar associated with your AWS account.
 - `maxResults`: The maximum amount of data that can be contained in a single set of results.
 - `nextToken`: The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
 """
+<<<<<<< HEAD
 list_projects(; aws_config::AWSConfig=global_aws_config()) = codestar("ListProjects"; aws_config=aws_config)
 list_projects(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("ListProjects", args; aws_config=aws_config)
+=======
+
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListProjects"; aws_config=aws_config)
+list_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListProjects", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListResources()
@@ -144,8 +198,14 @@ Lists resources associated with a project in AWS CodeStar.
 - `maxResults`: The maximum amount of data that can be contained in a single set of results.
 - `nextToken`: The continuation token for the next set of results, if the results cannot be returned in one response.
 """
+<<<<<<< HEAD
 list_resources(projectId; aws_config::AWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
 list_resources(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+=======
+
+list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
+list_resources(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForProject()
@@ -159,8 +219,14 @@ Gets the tags for a project.
 - `maxResults`: Reserved for future use.
 - `nextToken`: Reserved for future use.
 """
+<<<<<<< HEAD
 list_tags_for_project(id; aws_config::AWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
 list_tags_for_project(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+=======
+
+list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
+list_tags_for_project(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTeamMembers()
@@ -174,8 +240,14 @@ Lists all team members associated with a project.
 - `maxResults`: The maximum number of team members you want returned in a response.
 - `nextToken`: The continuation token for the next set of results, if the results cannot be returned in one response.
 """
+<<<<<<< HEAD
 list_team_members(projectId; aws_config::AWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
 list_team_members(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+=======
+
+list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
+list_team_members(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListUserProfiles()
@@ -186,8 +258,14 @@ Lists all the user profiles configured for your AWS account in AWS CodeStar.
 - `maxResults`: The maximum number of results to return in a response.
 - `nextToken`: The continuation token for the next set of results, if the results cannot be returned in one response.
 """
+<<<<<<< HEAD
 list_user_profiles(; aws_config::AWSConfig=global_aws_config()) = codestar("ListUserProfiles"; aws_config=aws_config)
 list_user_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("ListUserProfiles", args; aws_config=aws_config)
+=======
+
+list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListUserProfiles"; aws_config=aws_config)
+list_user_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListUserProfiles", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagProject()
@@ -199,8 +277,14 @@ Adds tags to a project.
 - `tags`: The tags you want to add to the project.
 
 """
+<<<<<<< HEAD
 tag_project(id, tags; aws_config::AWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
 tag_project(id, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), args)); aws_config=aws_config)
+=======
+
+tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
+tag_project(id, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagProject()
@@ -212,8 +296,14 @@ Removes tags from a project.
 - `tags`: The tags to remove from the project.
 
 """
+<<<<<<< HEAD
 untag_project(id, tags; aws_config::AWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
 untag_project(id, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), args)); aws_config=aws_config)
+=======
+
+untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
+untag_project(id, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateProject()
@@ -227,8 +317,14 @@ Updates a project in AWS CodeStar.
 - `description`: The description of the project, if any.
 - `name`: The name of the project you want to update.
 """
+<<<<<<< HEAD
 update_project(id; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
 update_project(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+=======
+
+update_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
+update_project(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateTeamMember()
@@ -243,8 +339,14 @@ Updates a team member's attributes in an AWS CodeStar project. For example, you 
 - `projectRole`: The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
 - `remoteAccessAllowed`: Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile. Even if this is set to True, the user must associate a public key with their profile before the user can access resources.
 """
+<<<<<<< HEAD
 update_team_member(projectId, userArn; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
 update_team_member(projectId, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+update_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
+update_team_member(projectId, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateUserProfile()
@@ -259,5 +361,11 @@ Updates a user's profile in AWS CodeStar. The user profile is not project-specif
 - `emailAddress`: The email address that is displayed as part of the user's profile in AWS CodeStar.
 - `sshPublicKey`: The SSH public key associated with the user in AWS CodeStar. If a project owner allows the user remote access to project resources, this public key will be used along with the user's private key for SSH access.
 """
+<<<<<<< HEAD
 update_user_profile(userArn; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
 update_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+=======
+
+update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
+update_user_profile(userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

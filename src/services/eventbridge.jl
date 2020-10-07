@@ -13,8 +13,14 @@ Activates a partner event source that has been deactivated. Once activated, your
 - `Name`: The name of the partner event source to activate.
 
 """
+<<<<<<< HEAD
 activate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 activate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+activate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelReplay()
@@ -57,8 +63,14 @@ Creates a new event bus within your account. This can be a custom event bus whic
 - `EventSourceName`: If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
 - `Tags`: Tags to associate with the event bus.
 """
+<<<<<<< HEAD
 create_event_bus(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreatePartnerEventSource()
@@ -70,8 +82,14 @@ Called by an SaaS partner to create a partner event source. This operation is no
 - `Name`: The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
 
 """
+<<<<<<< HEAD
 create_partner_event_source(Account, Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
 create_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_partner_event_source(Account, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
+create_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeactivateEventSource()
@@ -82,8 +100,14 @@ You can use this operation to temporarily stop receiving events from the specifi
 - `Name`: The name of the partner event source to deactivate.
 
 """
+<<<<<<< HEAD
 deactivate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 deactivate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+deactivate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteArchive()
@@ -106,8 +130,14 @@ Deletes the specified custom event bus or partner event bus. All rules associate
 - `Name`: The name of the event bus to delete.
 
 """
+<<<<<<< HEAD
 delete_event_bus(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeletePartnerEventSource()
@@ -119,8 +149,14 @@ This operation is used by SaaS partners to delete a partner event source. This o
 - `Name`: The name of the event source to delete.
 
 """
+<<<<<<< HEAD
 delete_partner_event_source(Account, Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
 delete_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+delete_partner_event_source(Account, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
+delete_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRule()
@@ -134,8 +170,14 @@ Deletes the specified rule. Before you can delete the rule, you must remove all 
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
+<<<<<<< HEAD
 delete_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeArchive()
@@ -157,8 +199,14 @@ Displays details about an event bus in your account. This can include the extern
 # Optional Parameters
 - `Name`: The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
 """
+<<<<<<< HEAD
 describe_event_bus(; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeEventBus"; aws_config=aws_config)
 describe_event_bus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeEventBus", args; aws_config=aws_config)
+=======
+
+describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventBus"; aws_config=aws_config)
+describe_event_bus(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventBus", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeEventSource()
@@ -169,8 +217,14 @@ This operation lists details about a partner event source that is shared with yo
 - `Name`: The name of the partner event source to display the details of.
 
 """
+<<<<<<< HEAD
 describe_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribePartnerEventSource()
@@ -181,8 +235,14 @@ An SaaS partner can use this operation to list details about a partner event sou
 - `Name`: The name of the event source to display.
 
 """
+<<<<<<< HEAD
 describe_partner_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_partner_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+describe_partner_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_partner_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeReplay()
@@ -207,8 +267,14 @@ Describes the specified rule. DescribeRule does not list the targets of a rule. 
 # Optional Parameters
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
+<<<<<<< HEAD
 describe_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableRule()
@@ -221,8 +287,14 @@ Disables the specified rule. A disabled rule won't match any events, and won't s
 # Optional Parameters
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
+<<<<<<< HEAD
 disable_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableRule()
@@ -235,8 +307,14 @@ Enables the specified rule. If the rule does not exist, the operation fails. Whe
 # Optional Parameters
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
+<<<<<<< HEAD
 enable_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListArchives()
@@ -263,8 +341,14 @@ Lists all the event buses in your account, including the default event bus, cust
 - `NamePrefix`: Specifying this limits the results to only those event buses with names that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
+<<<<<<< HEAD
 list_event_buses(; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListEventBuses"; aws_config=aws_config)
 list_event_buses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListEventBuses", args; aws_config=aws_config)
+=======
+
+list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventBuses"; aws_config=aws_config)
+list_event_buses(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventBuses", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListEventSources()
@@ -276,8 +360,14 @@ You can use this to see all the partner event sources that have been shared with
 - `NamePrefix`: Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
+<<<<<<< HEAD
 list_event_sources(; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListEventSources"; aws_config=aws_config)
 list_event_sources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListEventSources", args; aws_config=aws_config)
+=======
+
+list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventSources"; aws_config=aws_config)
+list_event_sources(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventSources", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListPartnerEventSourceAccounts()
@@ -291,8 +381,14 @@ An SaaS partner can use this operation to display the AWS account ID that a part
 - `Limit`: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
 - `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
 """
+<<<<<<< HEAD
 list_partner_event_source_accounts(EventSourceName; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}("EventSourceName"=>EventSourceName); aws_config=aws_config)
 list_partner_event_source_accounts(EventSourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), args)); aws_config=aws_config)
+=======
+
+list_partner_event_source_accounts(EventSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}("EventSourceName"=>EventSourceName); aws_config=aws_config)
+list_partner_event_source_accounts(EventSourceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListPartnerEventSources()
@@ -306,8 +402,14 @@ An SaaS partner can use this operation to list all the partner event source name
 - `Limit`: pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
 - `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
 """
+<<<<<<< HEAD
 list_partner_event_sources(NamePrefix; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
 list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), args)); aws_config=aws_config)
+=======
+
+list_partner_event_sources(NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
+list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListReplays()
@@ -337,8 +439,14 @@ Lists the rules for the specified target. You can see which of the rules in Amaz
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
+<<<<<<< HEAD
 list_rule_names_by_target(TargetArn; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}("TargetArn"=>TargetArn); aws_config=aws_config)
 list_rule_names_by_target(TargetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetArn"=>TargetArn), args)); aws_config=aws_config)
+=======
+
+list_rule_names_by_target(TargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}("TargetArn"=>TargetArn); aws_config=aws_config)
+list_rule_names_by_target(TargetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetArn"=>TargetArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRules()
@@ -351,8 +459,14 @@ Lists your Amazon EventBridge rules. You can either list all the rules or you ca
 - `NamePrefix`: The prefix matching the rule name.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
+<<<<<<< HEAD
 list_rules(; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListRules"; aws_config=aws_config)
 list_rules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListRules", args; aws_config=aws_config)
+=======
+
+list_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRules"; aws_config=aws_config)
+list_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRules", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -363,8 +477,14 @@ Displays the tags associated with an EventBridge resource. In EventBridge, rules
 - `ResourceARN`: The ARN of the EventBridge resource for which you want to view tags.
 
 """
+<<<<<<< HEAD
 list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+=======
+
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTargetsByRule()
@@ -379,8 +499,14 @@ Lists the targets assigned to the specified rule.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
+<<<<<<< HEAD
 list_targets_by_rule(Rule; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}("Rule"=>Rule); aws_config=aws_config)
 list_targets_by_rule(Rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule), args)); aws_config=aws_config)
+=======
+
+list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}("Rule"=>Rule); aws_config=aws_config)
+list_targets_by_rule(Rule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutEvents()
@@ -391,8 +517,14 @@ Sends custom events to Amazon EventBridge so that they can be matched to rules.
 - `Entries`: The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
 
 """
+<<<<<<< HEAD
 put_events(Entries; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
 put_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+=======
+
+put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
+put_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutPartnerEvents()
@@ -403,8 +535,14 @@ This is used by SaaS partners to write events to a customer's partner event bus.
 - `Entries`: The list of events to write to the event bus.
 
 """
+<<<<<<< HEAD
 put_partner_events(Entries; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
 put_partner_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+=======
+
+put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
+put_partner_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutPermission()
@@ -419,8 +557,14 @@ Running PutPermission permits the specified AWS account or AWS organization to p
 - `Principal`: The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify \"*\" to permit any account to put events to your default event bus. If you specify \"*\" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
 - `StatementId`: An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
 """
+<<<<<<< HEAD
 put_permission(; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutPermission"; aws_config=aws_config)
 put_permission(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutPermission", args; aws_config=aws_config)
+=======
+
+put_permission(Action, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPermission", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
+put_permission(Action, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutRule()
@@ -439,8 +583,14 @@ Creates or updates the specified rule. Rules are enabled by default, or based on
 - `State`: Indicates whether the rule is enabled or disabled.
 - `Tags`: The list of key-value pairs to associate with the rule.
 """
+<<<<<<< HEAD
 put_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 put_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+=======
+
+put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+put_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutTargets()
@@ -454,8 +604,14 @@ Adds the specified targets to the specified rule, or updates the targets if they
 # Optional Parameters
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
+<<<<<<< HEAD
 put_targets(Rule, Targets; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
 put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), args)); aws_config=aws_config)
+=======
+
+put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
+put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemovePermission()
@@ -467,8 +623,14 @@ Revokes the permission of another AWS account to be able to put events to the sp
 - `RemoveAllPermissions`: Specifies whether to remove all permissions.
 - `StatementId`: The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
 """
+<<<<<<< HEAD
 remove_permission(; aws_config::AWSConfig=global_aws_config()) = eventbridge("RemovePermission"; aws_config=aws_config)
 remove_permission(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("RemovePermission", args; aws_config=aws_config)
+=======
+
+remove_permission(StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemovePermission", Dict{String, Any}("StatementId"=>StatementId); aws_config=aws_config)
+remove_permission(StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementId"=>StatementId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveTargets()
@@ -483,8 +645,14 @@ Removes the specified targets from the specified rule. When the rule is triggere
 - `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
+<<<<<<< HEAD
 remove_targets(Ids, Rule; aws_config::AWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)
 remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), args)); aws_config=aws_config)
+=======
+
+remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)
+remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartReplay()
@@ -514,8 +682,14 @@ Assigns one or more tags (key-value pairs) to the specified EventBridge resource
 - `Tags`: The list of key-value pairs to associate with the resource.
 
 """
+<<<<<<< HEAD
 tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TestEventPattern()
@@ -527,8 +701,14 @@ Tests whether the specified event pattern matches the provided event. Most servi
 - `EventPattern`: The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
 
 """
+<<<<<<< HEAD
 test_event_pattern(Event, EventPattern; aws_config::AWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern); aws_config=aws_config)
 test_event_pattern(Event, EventPattern, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern), args)); aws_config=aws_config)
+=======
+
+test_event_pattern(Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern); aws_config=aws_config)
+test_event_pattern(Event, EventPattern, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -540,6 +720,7 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 - `TagKeys`: The list of tag keys to remove from the resource.
 
 """
+<<<<<<< HEAD
 untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
@@ -558,3 +739,8 @@ Updates the specified archive.
 """
 update_archive(ArchiveName; aws_config::AWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
 update_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), args)); aws_config=aws_config)
+=======
+
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

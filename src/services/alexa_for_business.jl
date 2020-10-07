@@ -13,8 +13,14 @@ Associates a skill with the organization under the customer's AWS account. If a 
 - `SkillId`: The unique identifier of the skill.
 
 """
+<<<<<<< HEAD
 approve_skill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 approve_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+approve_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+approve_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ApproveSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateContactWithAddressBook()
@@ -26,8 +32,14 @@ Associates a contact with a given address book.
 - `ContactArn`: The ARN of the contact to associate with an address book.
 
 """
+<<<<<<< HEAD
 associate_contact_with_address_book(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
 associate_contact_with_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+=======
+
+associate_contact_with_address_book(AddressBookArn, ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
+associate_contact_with_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateContactWithAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateDeviceWithNetworkProfile()
@@ -39,8 +51,14 @@ Associates a device with the specified network profile.
 - `NetworkProfileArn`: The ARN of the network profile to associate with a device.
 
 """
+<<<<<<< HEAD
 associate_device_with_network_profile(DeviceArn, NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
 associate_device_with_network_profile(DeviceArn, NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+=======
+
+associate_device_with_network_profile(DeviceArn, NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+associate_device_with_network_profile(DeviceArn, NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateDeviceWithRoom()
@@ -51,8 +69,14 @@ Associates a device with a given room. This applies all the settings from the ro
 - `DeviceArn`: The ARN of the device to associate to a room. Required.
 - `RoomArn`: The ARN of the room with which to associate the device. Required.
 """
+<<<<<<< HEAD
 associate_device_with_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom"; aws_config=aws_config)
 associate_device_with_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom", args; aws_config=aws_config)
+=======
+
+associate_device_with_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom"; aws_config=aws_config)
+associate_device_with_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateDeviceWithRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateSkillGroupWithRoom()
@@ -63,8 +87,14 @@ Associates a skill group with a given room. This enables all skills in the assoc
 - `RoomArn`: The ARN of the room with which to associate the skill group. Required.
 - `SkillGroupArn`: The ARN of the skill group to associate with a room. Required.
 """
+<<<<<<< HEAD
 associate_skill_group_with_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom"; aws_config=aws_config)
 associate_skill_group_with_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom", args; aws_config=aws_config)
+=======
+
+associate_skill_group_with_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom"; aws_config=aws_config)
+associate_skill_group_with_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillGroupWithRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateSkillWithSkillGroup()
@@ -77,8 +107,14 @@ Associates a skill with a skill group.
 # Optional Parameters
 - `SkillGroupArn`: The ARN of the skill group to associate the skill to. Required.
 """
+<<<<<<< HEAD
 associate_skill_with_skill_group(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 associate_skill_with_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+associate_skill_with_skill_group(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+associate_skill_with_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AssociateSkillWithUsers()
@@ -89,8 +125,14 @@ Makes a private skill available for enrolled users to enable on their devices.
 - `SkillId`: The private skill ID you want to make available to enrolled users.
 
 """
+<<<<<<< HEAD
 associate_skill_with_users(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 associate_skill_with_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+associate_skill_with_users(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+associate_skill_with_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("AssociateSkillWithUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateAddressBook()
@@ -104,8 +146,14 @@ Creates an address book with the specified details.
 - `ClientRequestToken`: A unique, user-specified identifier for the request that ensures idempotency.
 - `Description`: The description of the address book.
 """
+<<<<<<< HEAD
 create_address_book(Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_address_book(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_address_book(Name; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_address_book(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateBusinessReportSchedule()
@@ -124,8 +172,14 @@ Creates a recurring schedule for usage reports to deliver to the specified S3 lo
 - `ScheduleName`: The name identifier of the schedule.
 - `Tags`: The tags for the business report schedule.
 """
+<<<<<<< HEAD
 create_business_report_schedule(ContentRange, Format; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_business_report_schedule(ContentRange, Format, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_business_report_schedule(ContentRange, Format; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_business_report_schedule(ContentRange, Format, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentRange"=>ContentRange, "Format"=>Format, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateConferenceProvider()
@@ -142,8 +196,14 @@ Adds a new conference provider under the user's AWS account.
 - `IPDialIn`: The IP endpoint and protocol for calling.
 - `PSTNDialIn`: The information for PSTN conferencing.
 """
+<<<<<<< HEAD
 create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_conference_provider(ConferenceProviderName, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderName"=>ConferenceProviderName, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateContact()
@@ -161,8 +221,14 @@ Creates a contact with the specified details.
 - `PhoneNumbers`: The list of phone numbers for the contact.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
+<<<<<<< HEAD
 create_contact(FirstName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_contact(FirstName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_contact(FirstName; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_contact(FirstName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstName"=>FirstName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateGatewayGroup()
@@ -176,8 +242,14 @@ Creates a gateway group with the specified details.
 # Optional Parameters
 - `Description`: The description of the gateway group.
 """
+<<<<<<< HEAD
 create_gateway_group(ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
 create_gateway_group(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+=======
+
+create_gateway_group(ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_gateway_group(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateNetworkProfile()
@@ -198,8 +270,14 @@ Creates a network profile with the specified details.
 - `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
 - `TrustAnchors`: The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
 """
+<<<<<<< HEAD
 create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid); aws_config=aws_config)
 create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), args)); aws_config=aws_config)
+=======
+
+create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid); aws_config=aws_config)
+create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateProfile()
@@ -223,8 +301,14 @@ Creates a new room profile with the specified details.
 - `SetupModeDisabled`: Whether room profile setup is enabled.
 - `Tags`: The tags for the profile.
 """
+<<<<<<< HEAD
 create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_profile(Address, DistanceUnit, ProfileName, TemperatureUnit, Timezone, WakeWord, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address, "DistanceUnit"=>DistanceUnit, "ProfileName"=>ProfileName, "TemperatureUnit"=>TemperatureUnit, "Timezone"=>Timezone, "WakeWord"=>WakeWord, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRoom()
@@ -241,8 +325,14 @@ Creates a room with the specified details.
 - `ProviderCalendarId`: The calendar ARN for the room.
 - `Tags`: The tags for the room.
 """
+<<<<<<< HEAD
 create_room(RoomName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_room(RoomName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_room(RoomName; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_room(RoomName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomName"=>RoomName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSkillGroup()
@@ -257,8 +347,14 @@ Creates a skill group with a specified name and description.
 - `Description`: The description for the skill group.
 - `Tags`: The tags for the skill group.
 """
+<<<<<<< HEAD
 create_skill_group(SkillGroupName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_skill_group(SkillGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_skill_group(SkillGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_skill_group(SkillGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillGroupName"=>SkillGroupName, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateUser()
@@ -275,8 +371,14 @@ Creates a user.
 - `LastName`: The last name for the user.
 - `Tags`: The tags for the user.
 """
+<<<<<<< HEAD
 create_user(UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+create_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteAddressBook()
@@ -287,8 +389,14 @@ Deletes an address book by the address book ARN.
 - `AddressBookArn`: The ARN of the address book to delete.
 
 """
+<<<<<<< HEAD
 delete_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
 delete_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+=======
+
+delete_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+delete_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteBusinessReportSchedule()
@@ -299,8 +407,14 @@ Deletes the recurring report delivery schedule with the specified schedule ARN.
 - `ScheduleArn`: The ARN of the business report schedule.
 
 """
+<<<<<<< HEAD
 delete_business_report_schedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
 delete_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+=======
+
+delete_business_report_schedule(ScheduleArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
+delete_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteConferenceProvider()
@@ -311,8 +425,14 @@ Deletes a conference provider.
 - `ConferenceProviderArn`: The ARN of the conference provider.
 
 """
+<<<<<<< HEAD
 delete_conference_provider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
 delete_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+=======
+
+delete_conference_provider(ConferenceProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
+delete_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteContact()
@@ -323,8 +443,14 @@ Deletes a contact by the contact ARN.
 - `ContactArn`: The ARN of the contact to delete.
 
 """
+<<<<<<< HEAD
 delete_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
 delete_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+=======
+
+delete_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+delete_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDevice()
@@ -335,8 +461,14 @@ Removes a device from Alexa For Business.
 - `DeviceArn`: The ARN of the device for which to request details.
 
 """
+<<<<<<< HEAD
 delete_device(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
 delete_device(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+=======
+
+delete_device(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
+delete_device(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDeviceUsageData()
@@ -348,8 +480,14 @@ When this action is called for a specified shared device, it allows authorized u
 - `DeviceUsageType`: The type of usage data to delete.
 
 """
+<<<<<<< HEAD
 delete_device_usage_data(DeviceArn, DeviceUsageType; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType); aws_config=aws_config)
 delete_device_usage_data(DeviceArn, DeviceUsageType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType), args)); aws_config=aws_config)
+=======
+
+delete_device_usage_data(DeviceArn, DeviceUsageType; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType); aws_config=aws_config)
+delete_device_usage_data(DeviceArn, DeviceUsageType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteDeviceUsageData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn, "DeviceUsageType"=>DeviceUsageType), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteGatewayGroup()
@@ -360,8 +498,14 @@ Deletes a gateway group.
 - `GatewayGroupArn`: The ARN of the gateway group to delete.
 
 """
+<<<<<<< HEAD
 delete_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
 delete_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+=======
+
+delete_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+delete_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteNetworkProfile()
@@ -372,8 +516,14 @@ Deletes a network profile by the network profile ARN.
 - `NetworkProfileArn`: The ARN of the network profile associated with a device.
 
 """
+<<<<<<< HEAD
 delete_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
 delete_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+=======
+
+delete_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+delete_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteProfile()
@@ -383,8 +533,14 @@ Deletes a room profile by the profile ARN.
 # Optional Parameters
 - `ProfileArn`: The ARN of the room profile to delete. Required.
 """
+<<<<<<< HEAD
 delete_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile"; aws_config=aws_config)
 delete_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile", args; aws_config=aws_config)
+=======
+
+delete_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile"; aws_config=aws_config)
+delete_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteProfile", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRoom()
@@ -394,8 +550,14 @@ Deletes a room by the room ARN.
 # Optional Parameters
 - `RoomArn`: The ARN of the room to delete. Required.
 """
+<<<<<<< HEAD
 delete_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom"; aws_config=aws_config)
 delete_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom", args; aws_config=aws_config)
+=======
+
+delete_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom"; aws_config=aws_config)
+delete_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRoomSkillParameter()
@@ -409,8 +571,14 @@ Deletes room skill parameter details by room, skill, and parameter key ID.
 # Optional Parameters
 - `RoomArn`: The ARN of the room from which to remove the room skill parameter details.
 """
+<<<<<<< HEAD
 delete_room_skill_parameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
 delete_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+delete_room_skill_parameter(ParameterKey, SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
+delete_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSkillAuthorization()
@@ -423,8 +591,14 @@ Unlinks a third-party account from a skill.
 # Optional Parameters
 - `RoomArn`: The room that the skill is authorized for.
 """
+<<<<<<< HEAD
 delete_skill_authorization(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 delete_skill_authorization(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+delete_skill_authorization(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+delete_skill_authorization(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSkillGroup()
@@ -434,8 +608,14 @@ Deletes a skill group by skill group ARN.
 # Optional Parameters
 - `SkillGroupArn`: The ARN of the skill group to delete. Required.
 """
+<<<<<<< HEAD
 delete_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup"; aws_config=aws_config)
 delete_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup", args; aws_config=aws_config)
+=======
+
+delete_skill_group(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup"; aws_config=aws_config)
+delete_skill_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteSkillGroup", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteUser()
@@ -448,8 +628,14 @@ Deletes a specified user by user ARN and enrollment ARN.
 # Optional Parameters
 - `UserArn`: The ARN of the user to delete in the organization. Required.
 """
+<<<<<<< HEAD
 delete_user(EnrollmentId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}("EnrollmentId"=>EnrollmentId); aws_config=aws_config)
 delete_user(EnrollmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnrollmentId"=>EnrollmentId), args)); aws_config=aws_config)
+=======
+
+delete_user(EnrollmentId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}("EnrollmentId"=>EnrollmentId); aws_config=aws_config)
+delete_user(EnrollmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnrollmentId"=>EnrollmentId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateContactFromAddressBook()
@@ -461,8 +647,14 @@ Disassociates a contact from a given address book.
 - `ContactArn`: The ARN of the contact to disassociate from an address book.
 
 """
+<<<<<<< HEAD
 disassociate_contact_from_address_book(AddressBookArn, ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
 disassociate_contact_from_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+=======
+
+disassociate_contact_from_address_book(AddressBookArn, ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn); aws_config=aws_config)
+disassociate_contact_from_address_book(AddressBookArn, ContactArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateContactFromAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn, "ContactArn"=>ContactArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateDeviceFromRoom()
@@ -472,8 +664,14 @@ Disassociates a device from its current room. The device continues to be connect
 # Optional Parameters
 - `DeviceArn`: The ARN of the device to disassociate from a room. Required.
 """
+<<<<<<< HEAD
 disassociate_device_from_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom"; aws_config=aws_config)
 disassociate_device_from_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom", args; aws_config=aws_config)
+=======
+
+disassociate_device_from_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom"; aws_config=aws_config)
+disassociate_device_from_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateDeviceFromRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateSkillFromSkillGroup()
@@ -486,8 +684,14 @@ Disassociates a skill from a skill group.
 # Optional Parameters
 - `SkillGroupArn`: The unique identifier of a skill. Required.
 """
+<<<<<<< HEAD
 disassociate_skill_from_skill_group(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 disassociate_skill_from_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+disassociate_skill_from_skill_group(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+disassociate_skill_from_skill_group(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromSkillGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateSkillFromUsers()
@@ -498,8 +702,14 @@ Makes a private skill unavailable for enrolled users and prevents them from enab
 - `SkillId`:  The private skill ID you want to make unavailable for enrolled users.
 
 """
+<<<<<<< HEAD
 disassociate_skill_from_users(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 disassociate_skill_from_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+disassociate_skill_from_users(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+disassociate_skill_from_users(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillFromUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateSkillGroupFromRoom()
@@ -510,8 +720,14 @@ Disassociates a skill group from a specified room. This disables all skills in t
 - `RoomArn`: The ARN of the room from which the skill group is to be disassociated. Required.
 - `SkillGroupArn`: The ARN of the skill group to disassociate from a room. Required.
 """
+<<<<<<< HEAD
 disassociate_skill_group_from_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
 disassociate_skill_group_from_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom", args; aws_config=aws_config)
+=======
+
+disassociate_skill_group_from_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
+disassociate_skill_group_from_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ForgetSmartHomeAppliances()
@@ -522,8 +738,14 @@ Forgets smart home appliances associated to a room.
 - `RoomArn`: The room that the appliances are associated with.
 
 """
+<<<<<<< HEAD
 forget_smart_home_appliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
 forget_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+=======
+
+forget_smart_home_appliances(RoomArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+forget_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ForgetSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAddressBook()
@@ -534,8 +756,14 @@ Gets address the book details by the address book ARN.
 - `AddressBookArn`: The ARN of the address book for which to request details.
 
 """
+<<<<<<< HEAD
 get_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
 get_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+=======
+
+get_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+get_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetConferencePreference()
@@ -543,8 +771,14 @@ get_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::
 Retrieves the existing conference preferences.
 
 """
+<<<<<<< HEAD
 get_conference_preference(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference"; aws_config=aws_config)
 get_conference_preference(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference", args; aws_config=aws_config)
+=======
+
+get_conference_preference(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference"; aws_config=aws_config)
+get_conference_preference(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetConferencePreference", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetConferenceProvider()
@@ -555,8 +789,14 @@ Gets details about a specific conference provider.
 - `ConferenceProviderArn`: The ARN of the newly created conference provider.
 
 """
+<<<<<<< HEAD
 get_conference_provider(ConferenceProviderArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
 get_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+=======
+
+get_conference_provider(ConferenceProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn); aws_config=aws_config)
+get_conference_provider(ConferenceProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetContact()
@@ -567,8 +807,14 @@ Gets the contact details by the contact ARN.
 - `ContactArn`: The ARN of the contact for which to request details.
 
 """
+<<<<<<< HEAD
 get_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
 get_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+=======
+
+get_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+get_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDevice()
@@ -578,8 +824,14 @@ Gets the details of a device by device ARN.
 # Optional Parameters
 - `DeviceArn`: The ARN of the device for which to request details. Required.
 """
+<<<<<<< HEAD
 get_device(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice"; aws_config=aws_config)
 get_device(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetDevice", args; aws_config=aws_config)
+=======
+
+get_device(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetDevice"; aws_config=aws_config)
+get_device(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetDevice", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetGateway()
@@ -590,8 +842,14 @@ Retrieves the details of a gateway.
 - `GatewayArn`: The ARN of the gateway to get.
 
 """
+<<<<<<< HEAD
 get_gateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
 get_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+=======
+
+get_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
+get_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetGatewayGroup()
@@ -602,8 +860,14 @@ Retrieves the details of a gateway group.
 - `GatewayGroupArn`: The ARN of the gateway group to get.
 
 """
+<<<<<<< HEAD
 get_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
 get_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+=======
+
+get_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+get_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInvitationConfiguration()
@@ -611,8 +875,14 @@ get_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config
 Retrieves the configured values for the user enrollment invitation email template.
 
 """
+<<<<<<< HEAD
 get_invitation_configuration(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration"; aws_config=aws_config)
 get_invitation_configuration(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration", args; aws_config=aws_config)
+=======
+
+get_invitation_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration"; aws_config=aws_config)
+get_invitation_configuration(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetInvitationConfiguration", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetNetworkProfile()
@@ -623,8 +893,14 @@ Gets the network profile details by the network profile ARN.
 - `NetworkProfileArn`: The ARN of the network profile associated with a device.
 
 """
+<<<<<<< HEAD
 get_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
 get_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+=======
+
+get_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+get_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetProfile()
@@ -634,8 +910,14 @@ Gets the details of a room profile by profile ARN.
 # Optional Parameters
 - `ProfileArn`: The ARN of the room profile for which to request details. Required.
 """
+<<<<<<< HEAD
 get_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile"; aws_config=aws_config)
 get_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetProfile", args; aws_config=aws_config)
+=======
+
+get_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetProfile"; aws_config=aws_config)
+get_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetProfile", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetRoom()
@@ -645,8 +927,14 @@ Gets room details by room ARN.
 # Optional Parameters
 - `RoomArn`: The ARN of the room for which to request details. Required.
 """
+<<<<<<< HEAD
 get_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom"; aws_config=aws_config)
 get_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoom", args; aws_config=aws_config)
+=======
+
+get_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoom"; aws_config=aws_config)
+get_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetRoomSkillParameter()
@@ -660,8 +948,14 @@ Gets room skill parameter details by room, skill, and parameter key ARN.
 # Optional Parameters
 - `RoomArn`: The ARN of the room from which to get the room skill parameter details. 
 """
+<<<<<<< HEAD
 get_room_skill_parameter(ParameterKey, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
 get_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+get_room_skill_parameter(ParameterKey, SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
+get_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetSkillGroup()
@@ -671,8 +965,14 @@ Gets skill group details by skill group ARN.
 # Optional Parameters
 - `SkillGroupArn`: The ARN of the skill group for which to get details. Required.
 """
+<<<<<<< HEAD
 get_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup"; aws_config=aws_config)
 get_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup", args; aws_config=aws_config)
+=======
+
+get_skill_group(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup"; aws_config=aws_config)
+get_skill_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetSkillGroup", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListBusinessReportSchedules()
@@ -683,8 +983,14 @@ Lists the details of the schedules that a user configured. A download URL of the
 - `MaxResults`: The maximum number of schedules listed in the call.
 - `NextToken`: The token used to list the remaining schedules from the previous API call.
 """
+<<<<<<< HEAD
 list_business_report_schedules(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules"; aws_config=aws_config)
 list_business_report_schedules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules", args; aws_config=aws_config)
+=======
+
+list_business_report_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules"; aws_config=aws_config)
+list_business_report_schedules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListBusinessReportSchedules", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListConferenceProviders()
@@ -695,8 +1001,14 @@ Lists conference providers under a specific AWS account.
 - `MaxResults`: The maximum number of conference providers to be returned, per paginated calls.
 - `NextToken`: The tokens used for pagination.
 """
+<<<<<<< HEAD
 list_conference_providers(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
 list_conference_providers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders", args; aws_config=aws_config)
+=======
+
+list_conference_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
+list_conference_providers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDeviceEvents()
@@ -711,8 +1023,14 @@ Lists the device event history, including device connection status, for up to 30
 - `MaxResults`: The maximum number of results to include in the response. The default value is 50. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
 """
+<<<<<<< HEAD
 list_device_events(DeviceArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
 list_device_events(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+=======
+
+list_device_events(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
+list_device_events(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListGatewayGroups()
@@ -723,8 +1041,14 @@ Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve det
 - `MaxResults`: The maximum number of gateway group summaries to return. The default is 50.
 - `NextToken`: The token used to paginate though multiple pages of gateway group summaries.
 """
+<<<<<<< HEAD
 list_gateway_groups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups"; aws_config=aws_config)
 list_gateway_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups", args; aws_config=aws_config)
+=======
+
+list_gateway_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups"; aws_config=aws_config)
+list_gateway_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListGatewayGroups", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListGateways()
@@ -736,8 +1060,14 @@ Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a s
 - `MaxResults`: The maximum number of gateway summaries to return. The default is 50.
 - `NextToken`: The token used to paginate though multiple pages of gateway summaries.
 """
+<<<<<<< HEAD
 list_gateways(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways"; aws_config=aws_config)
 list_gateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListGateways", args; aws_config=aws_config)
+=======
+
+list_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListGateways"; aws_config=aws_config)
+list_gateways(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListGateways", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSkills()
@@ -751,8 +1081,14 @@ Lists all enabled skills in a specific skill group.
 - `SkillGroupArn`: The ARN of the skill group for which to list enabled skills.
 - `SkillType`: Whether the skill is publicly available or is a private skill.
 """
+<<<<<<< HEAD
 list_skills(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills"; aws_config=aws_config)
 list_skills(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkills", args; aws_config=aws_config)
+=======
+
+list_skills(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkills"; aws_config=aws_config)
+list_skills(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkills", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSkillsStoreCategories()
@@ -763,8 +1099,14 @@ Lists all categories in the Alexa skill store.
 - `MaxResults`: The maximum number of categories returned, per paginated calls.
 - `NextToken`: The tokens used for pagination.
 """
+<<<<<<< HEAD
 list_skills_store_categories(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories"; aws_config=aws_config)
 list_skills_store_categories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories", args; aws_config=aws_config)
+=======
+
+list_skills_store_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories"; aws_config=aws_config)
+list_skills_store_categories(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreCategories", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSkillsStoreSkillsByCategory()
@@ -778,8 +1120,14 @@ Lists all skills in the Alexa skill store by category.
 - `MaxResults`: The maximum number of skills returned per paginated calls.
 - `NextToken`: The tokens used for pagination.
 """
+<<<<<<< HEAD
 list_skills_store_skills_by_category(CategoryId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}("CategoryId"=>CategoryId); aws_config=aws_config)
 list_skills_store_skills_by_category(CategoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryId"=>CategoryId), args)); aws_config=aws_config)
+=======
+
+list_skills_store_skills_by_category(CategoryId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}("CategoryId"=>CategoryId); aws_config=aws_config)
+list_skills_store_skills_by_category(CategoryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSkillsStoreSkillsByCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryId"=>CategoryId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSmartHomeAppliances()
@@ -793,8 +1141,14 @@ Lists all of the smart home appliances associated with a room.
 - `MaxResults`: The maximum number of appliances to be returned, per paginated calls.
 - `NextToken`: The tokens used for pagination.
 """
+<<<<<<< HEAD
 list_smart_home_appliances(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
 list_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+=======
+
+list_smart_home_appliances(RoomArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+list_smart_home_appliances(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListSmartHomeAppliances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTags()
@@ -808,8 +1162,14 @@ Lists all tags for the specified resource.
 - `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
 """
+<<<<<<< HEAD
 list_tags(Arn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
 list_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+=======
+
+list_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+list_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutConferencePreference()
@@ -820,8 +1180,14 @@ Sets the conference preferences on a specific conference provider at the account
 - `ConferencePreference`: The conference preference of a specific conference provider.
 
 """
+<<<<<<< HEAD
 put_conference_preference(ConferencePreference; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}("ConferencePreference"=>ConferencePreference); aws_config=aws_config)
 put_conference_preference(ConferencePreference, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferencePreference"=>ConferencePreference), args)); aws_config=aws_config)
+=======
+
+put_conference_preference(ConferencePreference; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}("ConferencePreference"=>ConferencePreference); aws_config=aws_config)
+put_conference_preference(ConferencePreference, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutConferencePreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferencePreference"=>ConferencePreference), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutInvitationConfiguration()
@@ -835,8 +1201,14 @@ Configures the email template for the user enrollment invitation with the specif
 - `ContactEmail`: The email ID of the organization or individual contact that the enrolled user can use. 
 - `PrivateSkillIds`: The list of private skill IDs that you want to recommend to the user to enable in the invitation.
 """
+<<<<<<< HEAD
 put_invitation_configuration(OrganizationName; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}("OrganizationName"=>OrganizationName); aws_config=aws_config)
 put_invitation_configuration(OrganizationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), args)); aws_config=aws_config)
+=======
+
+put_invitation_configuration(OrganizationName; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}("OrganizationName"=>OrganizationName); aws_config=aws_config)
+put_invitation_configuration(OrganizationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutRoomSkillParameter()
@@ -850,8 +1222,14 @@ Updates room skill parameter details by room, skill, and parameter key ID. Not a
 # Optional Parameters
 - `RoomArn`: The ARN of the room associated with the room skill parameter. Required.
 """
+<<<<<<< HEAD
 put_room_skill_parameter(RoomSkillParameter, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId); aws_config=aws_config)
 put_room_skill_parameter(RoomSkillParameter, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+put_room_skill_parameter(RoomSkillParameter, SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId); aws_config=aws_config)
+put_room_skill_parameter(RoomSkillParameter, SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomSkillParameter"=>RoomSkillParameter, "SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutSkillAuthorization()
@@ -865,8 +1243,14 @@ Links a user's account to a third-party skill provider. If this API operation is
 # Optional Parameters
 - `RoomArn`: The room that the skill is authorized for.
 """
+<<<<<<< HEAD
 put_skill_authorization(AuthorizationResult, SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId); aws_config=aws_config)
 put_skill_authorization(AuthorizationResult, SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+put_skill_authorization(AuthorizationResult, SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId); aws_config=aws_config)
+put_skill_authorization(AuthorizationResult, SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutSkillAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationResult"=>AuthorizationResult, "SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RegisterAVSDevice()
@@ -883,8 +1267,14 @@ Registers an Alexa-enabled device built by an Original Equipment Manufacturer (O
 - `DeviceSerialNumber`: The key generated by the OEM that uniquely identifies a specified instance of your AVS device.
 - `RoomArn`: The ARN of the room with which to associate your AVS device.
 """
+<<<<<<< HEAD
 register_avsdevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode); aws_config=aws_config)
 register_avsdevice(AmazonId, ClientId, ProductId, UserCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode), args)); aws_config=aws_config)
+=======
+
+register_avsdevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode); aws_config=aws_config)
+register_avsdevice(AmazonId, ClientId, ProductId, UserCode, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectSkill()
@@ -895,8 +1285,14 @@ Disassociates a skill from the organization under a user's AWS account. If the s
 - `SkillId`: The unique identifier of the skill.
 
 """
+<<<<<<< HEAD
 reject_skill(SkillId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
 reject_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+=======
+
+reject_skill(SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}("SkillId"=>SkillId); aws_config=aws_config)
+reject_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RejectSkill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ResolveRoom()
@@ -908,8 +1304,14 @@ Determines the details for the room from which a skill request was invoked. This
 - `UserId`: The ARN of the user. Required.
 
 """
+<<<<<<< HEAD
 resolve_room(SkillId, UserId; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId); aws_config=aws_config)
 resolve_room(SkillId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId), args)); aws_config=aws_config)
+=======
+
+resolve_room(SkillId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId); aws_config=aws_config)
+resolve_room(SkillId, UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ResolveRoom", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SkillId"=>SkillId, "UserId"=>UserId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RevokeInvitation()
@@ -920,8 +1322,14 @@ Revokes an invitation and invalidates the enrollment URL.
 - `EnrollmentId`: The ARN of the enrollment invitation to revoke. Required.
 - `UserArn`: The ARN of the user for whom to revoke an enrollment invitation. Required.
 """
+<<<<<<< HEAD
 revoke_invitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation"; aws_config=aws_config)
 revoke_invitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation", args; aws_config=aws_config)
+=======
+
+revoke_invitation(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation"; aws_config=aws_config)
+revoke_invitation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RevokeInvitation", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchAddressBooks()
@@ -934,8 +1342,14 @@ Searches address books and lists the ones that meet a set of filter and sort cri
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
 - `SortCriteria`: The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
 """
+<<<<<<< HEAD
 search_address_books(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
 search_address_books(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks", args; aws_config=aws_config)
+=======
+
+search_address_books(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
+search_address_books(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchContacts()
@@ -948,8 +1362,14 @@ Searches contacts and lists the ones that meet a set of filter and sort criteria
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
 - `SortCriteria`: The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
 """
+<<<<<<< HEAD
 search_contacts(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts"; aws_config=aws_config)
 search_contacts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchContacts", args; aws_config=aws_config)
+=======
+
+search_contacts(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchContacts"; aws_config=aws_config)
+search_contacts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchContacts", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchDevices()
@@ -962,8 +1382,14 @@ Searches devices and lists the ones that meet a set of filter criteria.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
 - `SortCriteria`: The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
 """
+<<<<<<< HEAD
 search_devices(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices"; aws_config=aws_config)
 search_devices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchDevices", args; aws_config=aws_config)
+=======
+
+search_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchDevices"; aws_config=aws_config)
+search_devices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchDevices", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchNetworkProfiles()
@@ -976,8 +1402,14 @@ Searches network profiles and lists the ones that meet a set of filter and sort 
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
 - `SortCriteria`: The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
 """
+<<<<<<< HEAD
 search_network_profiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
 search_network_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles", args; aws_config=aws_config)
+=======
+
+search_network_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
+search_network_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchProfiles()
@@ -990,8 +1422,14 @@ Searches room profiles and lists the ones that meet a set of filter criteria.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
 - `SortCriteria`: The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
 """
+<<<<<<< HEAD
 search_profiles(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles"; aws_config=aws_config)
 search_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles", args; aws_config=aws_config)
+=======
+
+search_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles"; aws_config=aws_config)
+search_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchRooms()
@@ -1004,8 +1442,14 @@ Searches rooms and lists the ones that meet a set of filter and sort criteria.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
 - `SortCriteria`: The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
 """
+<<<<<<< HEAD
 search_rooms(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms"; aws_config=aws_config)
 search_rooms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchRooms", args; aws_config=aws_config)
+=======
+
+search_rooms(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchRooms"; aws_config=aws_config)
+search_rooms(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchRooms", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchSkillGroups()
@@ -1018,8 +1462,14 @@ Searches skill groups and lists the ones that meet a set of filter and sort crit
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
 - `SortCriteria`: The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
 """
+<<<<<<< HEAD
 search_skill_groups(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
 search_skill_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups", args; aws_config=aws_config)
+=======
+
+search_skill_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
+search_skill_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchUsers()
@@ -1032,8 +1482,14 @@ Searches users and lists the ones that meet a set of filter and sort criteria.
 - `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
 - `SortCriteria`: The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
 """
+<<<<<<< HEAD
 search_users(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers"; aws_config=aws_config)
 search_users(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SearchUsers", args; aws_config=aws_config)
+=======
+
+search_users(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchUsers"; aws_config=aws_config)
+search_users(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchUsers", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SendAnnouncement()
@@ -1048,8 +1504,14 @@ Triggers an asynchronous flow to send text, SSML, or audio announcements to room
 # Optional Parameters
 - `TimeToLiveInSeconds`: The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
 """
+<<<<<<< HEAD
 send_announcement(ClientRequestToken, Content, RoomFilters; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters); aws_config=aws_config)
 send_announcement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), args)); aws_config=aws_config)
+=======
+
+send_announcement(ClientRequestToken, Content, RoomFilters; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters); aws_config=aws_config)
+send_announcement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SendInvitation()
@@ -1059,8 +1521,14 @@ Sends an enrollment invitation email with a URL to a user. The URL is valid for 
 # Optional Parameters
 - `UserArn`: The ARN of the user to whom to send an invitation. Required.
 """
+<<<<<<< HEAD
 send_invitation(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation"; aws_config=aws_config)
 send_invitation(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("SendInvitation", args; aws_config=aws_config)
+=======
+
+send_invitation(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendInvitation"; aws_config=aws_config)
+send_invitation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendInvitation", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartDeviceSync()
@@ -1074,8 +1542,14 @@ Resets a device and its account to the known default settings. This clears all i
 - `DeviceArn`: The ARN of the device to sync. Required.
 - `RoomArn`: The ARN of the room with which the device to sync is associated. Required.
 """
+<<<<<<< HEAD
 start_device_sync(Features; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}("Features"=>Features); aws_config=aws_config)
 start_device_sync(Features, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Features"=>Features), args)); aws_config=aws_config)
+=======
+
+start_device_sync(Features; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}("Features"=>Features); aws_config=aws_config)
+start_device_sync(Features, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("StartDeviceSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Features"=>Features), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartSmartHomeApplianceDiscovery()
@@ -1086,8 +1560,14 @@ Initiates the discovery of any smart home appliances associated with the room.
 - `RoomArn`: The room where smart home appliance discovery was initiated.
 
 """
+<<<<<<< HEAD
 start_smart_home_appliance_discovery(RoomArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
 start_smart_home_appliance_discovery(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+=======
+
+start_smart_home_appliance_discovery(RoomArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}("RoomArn"=>RoomArn); aws_config=aws_config)
+start_smart_home_appliance_discovery(RoomArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("StartSmartHomeApplianceDiscovery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoomArn"=>RoomArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -1099,8 +1579,14 @@ Adds metadata tags to a specified resource.
 - `Tags`: The tags to be added to the specified resource. Do not provide system tags. Required. 
 
 """
+<<<<<<< HEAD
 tag_resource(Arn, Tags; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -1112,8 +1598,14 @@ Removes metadata tags from a specified resource.
 - `TagKeys`: The tags to be removed from the specified resource. Do not provide system tags. Required. 
 
 """
+<<<<<<< HEAD
 untag_resource(Arn, TagKeys; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+=======
+
+untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateAddressBook()
@@ -1127,8 +1619,14 @@ Updates address book details by the address book ARN.
 - `Description`: The updated description of the room.
 - `Name`: The updated name of the room.
 """
+<<<<<<< HEAD
 update_address_book(AddressBookArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
 update_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+=======
+
+update_address_book(AddressBookArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}("AddressBookArn"=>AddressBookArn); aws_config=aws_config)
+update_address_book(AddressBookArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateAddressBook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressBookArn"=>AddressBookArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateBusinessReportSchedule()
@@ -1145,8 +1643,14 @@ Updates the configuration of the report delivery schedule with the specified sch
 - `S3KeyPrefix`: The S3 key where the report is delivered.
 - `ScheduleName`: The name identifier of the schedule.
 """
+<<<<<<< HEAD
 update_business_report_schedule(ScheduleArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
 update_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+=======
+
+update_business_report_schedule(ScheduleArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}("ScheduleArn"=>ScheduleArn); aws_config=aws_config)
+update_business_report_schedule(ScheduleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateBusinessReportSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleArn"=>ScheduleArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateConferenceProvider()
@@ -1162,8 +1666,14 @@ Updates an existing conference provider's settings.
 - `IPDialIn`: The IP endpoint and protocol for calling.
 - `PSTNDialIn`: The information for PSTN conferencing.
 """
+<<<<<<< HEAD
 update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting); aws_config=aws_config)
 update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting), args)); aws_config=aws_config)
+=======
+
+update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting); aws_config=aws_config)
+update_conference_provider(ConferenceProviderArn, ConferenceProviderType, MeetingSetting, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateConferenceProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConferenceProviderArn"=>ConferenceProviderArn, "ConferenceProviderType"=>ConferenceProviderType, "MeetingSetting"=>MeetingSetting), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateContact()
@@ -1181,8 +1691,14 @@ Updates the contact details by the contact ARN.
 - `PhoneNumbers`: The list of phone numbers for the contact.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
+<<<<<<< HEAD
 update_contact(ContactArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
 update_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+=======
+
+update_contact(ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
+update_contact(ContactArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDevice()
@@ -1193,8 +1709,14 @@ Updates the device name by device ARN.
 - `DeviceArn`: The ARN of the device to update. Required.
 - `DeviceName`: The updated device name. Required.
 """
+<<<<<<< HEAD
 update_device(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice"; aws_config=aws_config)
 update_device(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice", args; aws_config=aws_config)
+=======
+
+update_device(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice"; aws_config=aws_config)
+update_device(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateDevice", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateGateway()
@@ -1209,8 +1731,14 @@ Updates the details of a gateway. If any optional field is not provided, the exi
 - `Name`: The updated name of the gateway.
 - `SoftwareVersion`: The updated software version of the gateway. The gateway automatically updates its software version during normal operation.
 """
+<<<<<<< HEAD
 update_gateway(GatewayArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
 update_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+=======
+
+update_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
+update_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateGatewayGroup()
@@ -1224,8 +1752,14 @@ Updates the details of a gateway group. If any optional field is not provided, t
 - `Description`: The updated description of the gateway group.
 - `Name`: The updated name of the gateway group.
 """
+<<<<<<< HEAD
 update_gateway_group(GatewayGroupArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
 update_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+=======
+
+update_gateway_group(GatewayGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn); aws_config=aws_config)
+update_gateway_group(GatewayGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGatewayGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayGroupArn"=>GatewayGroupArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateNetworkProfile()
@@ -1243,8 +1777,14 @@ Updates a network profile by the network profile ARN.
 - `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
 - `TrustAnchors`: The root certificate(s) of your authentication server that will be installed on your devices and used to trust your authentication server during EAP negotiation. 
 """
+<<<<<<< HEAD
 update_network_profile(NetworkProfileArn; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
 update_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+=======
+
+update_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
+update_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateProfile()
@@ -1266,8 +1806,14 @@ Updates an existing room profile by room profile ARN.
 - `Timezone`: The updated timezone for the room profile.
 - `WakeWord`: The updated wake word for the room profile.
 """
+<<<<<<< HEAD
 update_profile(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile"; aws_config=aws_config)
 update_profile(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile", args; aws_config=aws_config)
+=======
+
+update_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile"; aws_config=aws_config)
+update_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateProfile", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateRoom()
@@ -1281,8 +1827,14 @@ Updates room details by room ARN.
 - `RoomArn`: The ARN of the room to update. 
 - `RoomName`: The updated name for the room.
 """
+<<<<<<< HEAD
 update_room(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom"; aws_config=aws_config)
 update_room(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom", args; aws_config=aws_config)
+=======
+
+update_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom"; aws_config=aws_config)
+update_room(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateSkillGroup()
@@ -1294,5 +1846,11 @@ Updates skill group details by skill group ARN.
 - `SkillGroupArn`: The ARN of the skill group to update. 
 - `SkillGroupName`: The updated name for the skill group.
 """
+<<<<<<< HEAD
 update_skill_group(; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)
 update_skill_group(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup", args; aws_config=aws_config)
+=======
+
+update_skill_group(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)
+update_skill_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

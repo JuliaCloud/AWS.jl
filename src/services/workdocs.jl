@@ -16,8 +16,14 @@ Aborts the upload of the specified document version that was previously initiate
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 abort_document_version_upload(DocumentId, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
 abort_document_version_upload(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+=======
+
+abort_document_version_upload(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
+abort_document_version_upload(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ActivateUser()
@@ -30,8 +36,14 @@ Activates the specified user. Only active users can access Amazon WorkDocs.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 activate_user(UserId; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
 activate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+=======
+
+activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
+activate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     AddResourcePermissions()
@@ -46,8 +58,14 @@ Creates a set of permissions for the specified folder or document. The resource 
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `NotificationOptions`: The notification options.
 """
+<<<<<<< HEAD
 add_resource_permissions(Principals, ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}("Principals"=>Principals); aws_config=aws_config)
 add_resource_permissions(Principals, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), args)); aws_config=aws_config)
+=======
+
+add_resource_permissions(Principals, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}("Principals"=>Principals); aws_config=aws_config)
+add_resource_permissions(Principals, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateComment()
@@ -66,8 +84,14 @@ Adds a new comment to the specified document version.
 - `ThreadId`: The ID of the root comment in the thread.
 - `Visibility`: The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
 """
+<<<<<<< HEAD
 create_comment(DocumentId, Text, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
 create_comment(DocumentId, Text, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), args)); aws_config=aws_config)
+=======
+
+create_comment(DocumentId, Text, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
+create_comment(DocumentId, Text, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateCustomMetadata()
@@ -82,8 +106,14 @@ Adds one or more custom properties to the specified resource (a folder, document
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `versionid`: The ID of the version, if the custom metadata is being added to a document version.
 """
+<<<<<<< HEAD
 create_custom_metadata(CustomMetadata, ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}("CustomMetadata"=>CustomMetadata); aws_config=aws_config)
 create_custom_metadata(CustomMetadata, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), args)); aws_config=aws_config)
+=======
+
+create_custom_metadata(CustomMetadata, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}("CustomMetadata"=>CustomMetadata); aws_config=aws_config)
+create_custom_metadata(CustomMetadata, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateFolder()
@@ -97,8 +127,14 @@ Creates a folder with the specified name and parent folder.
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `Name`: The name of the new folder.
 """
+<<<<<<< HEAD
 create_folder(ParentFolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
 create_folder(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+=======
+
+create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
+create_folder(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateLabels()
@@ -112,8 +148,14 @@ Adds the specified list of labels to the given resource (a document or folder)
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 create_labels(Labels, ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}("Labels"=>Labels); aws_config=aws_config)
 create_labels(Labels, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), args)); aws_config=aws_config)
+=======
+
+create_labels(Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}("Labels"=>Labels); aws_config=aws_config)
+create_labels(Labels, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateNotificationSubscription()
@@ -127,8 +169,14 @@ Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives
 - `SubscriptionType`: The notification type.
 
 """
+<<<<<<< HEAD
 create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
 create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), args)); aws_config=aws_config)
+=======
+
+create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
+create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateUser()
@@ -148,8 +196,14 @@ Creates a user in a Simple AD or Microsoft AD directory. The status of a newly c
 - `StorageRule`: The amount of storage for the user.
 - `TimeZoneId`: The time zone ID of the user.
 """
+<<<<<<< HEAD
 create_user(GivenName, Password, Surname, Username; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username); aws_config=aws_config)
 create_user(GivenName, Password, Surname, Username, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), args)); aws_config=aws_config)
+=======
+
+create_user(GivenName, Password, Surname, Username; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username); aws_config=aws_config)
+create_user(GivenName, Password, Surname, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeactivateUser()
@@ -162,8 +216,14 @@ Deactivates the specified user, which revokes the user's access to Amazon WorkDo
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 deactivate_user(UserId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
 deactivate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+=======
+
+deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
+deactivate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteComment()
@@ -178,8 +238,14 @@ Deletes the specified comment from the document version.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 delete_comment(CommentId, DocumentId, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)"; aws_config=aws_config)
 delete_comment(CommentId, DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", args; aws_config=aws_config)
+=======
+
+delete_comment(CommentId, DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)"; aws_config=aws_config)
+delete_comment(CommentId, DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCustomMetadata()
@@ -195,8 +261,14 @@ Deletes custom metadata from the specified resource.
 - `keys`: List of properties to remove.
 - `versionId`: The ID of the version, if the custom metadata is being deleted from a document version.
 """
+<<<<<<< HEAD
 delete_custom_metadata(ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata"; aws_config=aws_config)
 delete_custom_metadata(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", args; aws_config=aws_config)
+=======
+
+delete_custom_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata"; aws_config=aws_config)
+delete_custom_metadata(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDocument()
@@ -209,8 +281,14 @@ Permanently deletes the specified document and its associated metadata.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 delete_document(DocumentId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
 delete_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+=======
+
+delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
+delete_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFolder()
@@ -223,8 +301,14 @@ Permanently deletes the specified folder and its contents.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 delete_folder(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
 delete_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+=======
+
+delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
+delete_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFolderContents()
@@ -237,8 +321,14 @@ Deletes the contents of the specified folder.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 delete_folder_contents(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
 delete_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+=======
+
+delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
+delete_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteLabels()
@@ -253,8 +343,14 @@ Deletes the specified list of labels from a resource.
 - `deleteAll`: Flag to request removal of all labels from the specified resource.
 - `labels`: List of labels to delete from the resource.
 """
+<<<<<<< HEAD
 delete_labels(ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels"; aws_config=aws_config)
 delete_labels(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", args; aws_config=aws_config)
+=======
+
+delete_labels(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels"; aws_config=aws_config)
+delete_labels(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteNotificationSubscription()
@@ -266,8 +362,14 @@ Deletes the specified subscription from the specified organization.
 - `SubscriptionId`: The ID of the subscription.
 
 """
+<<<<<<< HEAD
 delete_notification_subscription(OrganizationId, SubscriptionId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)"; aws_config=aws_config)
 delete_notification_subscription(OrganizationId, SubscriptionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", args; aws_config=aws_config)
+=======
+
+delete_notification_subscription(OrganizationId, SubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)"; aws_config=aws_config)
+delete_notification_subscription(OrganizationId, SubscriptionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteUser()
@@ -280,8 +382,14 @@ Deletes the specified user from a Simple AD or Microsoft AD directory.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
 """
+<<<<<<< HEAD
 delete_user(UserId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)"; aws_config=aws_config)
 delete_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+=======
+
+delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)"; aws_config=aws_config)
+delete_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeActivities()
@@ -300,8 +408,14 @@ Describes the user activities in a specified time period.
 - `startTime`: The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
 - `userId`: The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
 """
+<<<<<<< HEAD
 describe_activities(; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities"; aws_config=aws_config)
 describe_activities(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", args; aws_config=aws_config)
+=======
+
+describe_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities"; aws_config=aws_config)
+describe_activities(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeComments()
@@ -317,8 +431,14 @@ List all the comments for the specified document version.
 - `limit`: The maximum number of items to return.
 - `marker`: The marker for the next set of results. This marker was received from a previous call.
 """
+<<<<<<< HEAD
 describe_comments(DocumentId, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments"; aws_config=aws_config)
 describe_comments(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", args; aws_config=aws_config)
+=======
+
+describe_comments(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments"; aws_config=aws_config)
+describe_comments(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeDocumentVersions()
@@ -335,8 +455,14 @@ Retrieves the document versions for the specified document. By default, only act
 - `limit`: The maximum number of versions to return with this call.
 - `marker`: The marker for the next set of results. (You received this marker from a previous call.)
 """
+<<<<<<< HEAD
 describe_document_versions(DocumentId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions"; aws_config=aws_config)
 describe_document_versions(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", args; aws_config=aws_config)
+=======
+
+describe_document_versions(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions"; aws_config=aws_config)
+describe_document_versions(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeFolderContents()
@@ -355,8 +481,14 @@ Describes the contents of the specified folder, including its documents and subf
 - `sort`: The sorting criteria.
 - `type`: The type of items.
 """
+<<<<<<< HEAD
 describe_folder_contents(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
 describe_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+=======
+
+describe_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
+describe_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeGroups()
@@ -372,8 +504,14 @@ Describes the groups specified by the query. Groups are defined by the underlyin
 - `marker`: The marker for the next set of results. (You received this marker from a previous call.)
 - `organizationId`: The ID of the organization.
 """
+<<<<<<< HEAD
 describe_groups(searchQuery; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}("searchQuery"=>searchQuery); aws_config=aws_config)
 describe_groups(searchQuery, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), args)); aws_config=aws_config)
+=======
+
+describe_groups(searchQuery; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}("searchQuery"=>searchQuery); aws_config=aws_config)
+describe_groups(searchQuery, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeNotificationSubscriptions()
@@ -387,8 +525,14 @@ Lists the specified notification subscriptions.
 - `limit`: The maximum number of items to return with this call.
 - `marker`: The marker for the next set of results. (You received this marker from a previous call.)
 """
+<<<<<<< HEAD
 describe_notification_subscriptions(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions"; aws_config=aws_config)
 describe_notification_subscriptions(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", args; aws_config=aws_config)
+=======
+
+describe_notification_subscriptions(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions"; aws_config=aws_config)
+describe_notification_subscriptions(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeResourcePermissions()
@@ -404,8 +548,14 @@ Describes the permissions of a specified resource.
 - `marker`: The marker for the next set of results. (You received this marker from a previous call)
 - `principalId`: The ID of the principal to filter permissions by.
 """
+<<<<<<< HEAD
 describe_resource_permissions(ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
 describe_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+=======
+
+describe_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
+describe_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeRootFolders()
@@ -419,8 +569,14 @@ Describes the current user's special folders; the RootFolder and the RecycleBin.
 - `limit`: The maximum number of items to return.
 - `marker`: The marker for the next set of results. (You received this marker from a previous call.)
 """
+<<<<<<< HEAD
 describe_root_folders(Authentication; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
 describe_root_folders(Authentication, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+=======
+
+describe_root_folders(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
+describe_root_folders(Authentication, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeUsers()
@@ -439,8 +595,14 @@ Describes the specified users. You can describe all users or filter the results 
 - `sort`: The sorting criteria.
 - `userIds`: The IDs of the users.
 """
+<<<<<<< HEAD
 describe_users(; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users"; aws_config=aws_config)
 describe_users(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", args; aws_config=aws_config)
+=======
+
+describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users"; aws_config=aws_config)
+describe_users(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCurrentUser()
@@ -451,8 +613,14 @@ Retrieves details of the current user for whom the authentication token was gene
 - `Authentication`: Amazon WorkDocs authentication token.
 
 """
+<<<<<<< HEAD
 get_current_user(Authentication; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
 get_current_user(Authentication, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+=======
+
+get_current_user(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
+get_current_user(Authentication, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDocument()
@@ -466,8 +634,14 @@ Retrieves details of a document.
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `includeCustomMetadata`: Set this to TRUE to include custom metadata in the response.
 """
+<<<<<<< HEAD
 get_document(DocumentId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
 get_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+=======
+
+get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
+get_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDocumentPath()
@@ -483,8 +657,14 @@ Retrieves the path information (the hierarchy from the root folder) for the requ
 - `limit`: The maximum number of levels in the hierarchy to return.
 - `marker`: This value is not supported.
 """
+<<<<<<< HEAD
 get_document_path(DocumentId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path"; aws_config=aws_config)
 get_document_path(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", args; aws_config=aws_config)
+=======
+
+get_document_path(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path"; aws_config=aws_config)
+get_document_path(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDocumentVersion()
@@ -500,8 +680,14 @@ Retrieves version metadata for the specified document.
 - `fields`: A comma-separated list of values. Specify \"SOURCE\" to include a URL for the source document.
 - `includeCustomMetadata`: Set this to TRUE to include custom metadata in the response.
 """
+<<<<<<< HEAD
 get_document_version(DocumentId, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
 get_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+=======
+
+get_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
+get_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFolder()
@@ -515,8 +701,14 @@ Retrieves the metadata of the specified folder.
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `includeCustomMetadata`: Set to TRUE to include custom metadata in the response.
 """
+<<<<<<< HEAD
 get_folder(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
 get_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+=======
+
+get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
+get_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFolderPath()
@@ -532,8 +724,14 @@ Retrieves the path information (the hierarchy from the root folder) for the spec
 - `limit`: The maximum number of levels in the hierarchy to return.
 - `marker`: This value is not supported.
 """
+<<<<<<< HEAD
 get_folder_path(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path"; aws_config=aws_config)
 get_folder_path(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", args; aws_config=aws_config)
+=======
+
+get_folder_path(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path"; aws_config=aws_config)
+get_folder_path(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetResources()
@@ -547,8 +745,14 @@ Retrieves a collection of resources, including folders and documents. The only C
 - `marker`: The marker for the next set of results. This marker was received from a previous call.
 - `userId`: The user ID for the resource collection. This is a required field for accessing the API operation using IAM credentials.
 """
+<<<<<<< HEAD
 get_resources(; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources"; aws_config=aws_config)
 get_resources(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", args; aws_config=aws_config)
+=======
+
+get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources"; aws_config=aws_config)
+get_resources(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     InitiateDocumentVersionUpload()
@@ -567,8 +771,14 @@ Creates a new document object and version object. The client specifies the paren
 - `Id`: The ID of the document.
 - `Name`: The name of the document.
 """
+<<<<<<< HEAD
 initiate_document_version_upload(ParentFolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
 initiate_document_version_upload(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+=======
+
+initiate_document_version_upload(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
+initiate_document_version_upload(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveAllResourcePermissions()
@@ -581,8 +791,14 @@ Removes all the permissions from the specified resource.
 # Optional Parameters
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 """
+<<<<<<< HEAD
 remove_all_resource_permissions(ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
 remove_all_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+=======
+
+remove_all_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
+remove_all_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveResourcePermission()
@@ -597,8 +813,14 @@ Removes the permission for the specified principal from the specified resource.
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `type`: The principal type of the resource.
 """
+<<<<<<< HEAD
 remove_resource_permission(PrincipalId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)"; aws_config=aws_config)
 remove_resource_permission(PrincipalId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", args; aws_config=aws_config)
+=======
+
+remove_resource_permission(PrincipalId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)"; aws_config=aws_config)
+remove_resource_permission(PrincipalId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDocument()
@@ -614,8 +836,14 @@ Updates the specified attributes of a document. The user must have access to bot
 - `ParentFolderId`: The ID of the parent folder.
 - `ResourceState`: The resource state of the document. Only ACTIVE and RECYCLED are supported.
 """
+<<<<<<< HEAD
 update_document(DocumentId; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
 update_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+=======
+
+update_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
+update_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDocumentVersion()
@@ -630,8 +858,14 @@ Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets
 - `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
 - `VersionStatus`: The status of the version.
 """
+<<<<<<< HEAD
 update_document_version(DocumentId, VersionId; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
 update_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+=======
+
+update_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
+update_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFolder()
@@ -647,8 +881,14 @@ Updates the specified attributes of the specified folder. The user must have acc
 - `ParentFolderId`: The ID of the parent folder.
 - `ResourceState`: The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API.
 """
+<<<<<<< HEAD
 update_folder(FolderId; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
 update_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+=======
+
+update_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
+update_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateUser()
@@ -668,5 +908,11 @@ Updates the specified attributes of the specified user, and grants or revokes ad
 - `TimeZoneId`: The time zone ID of the user.
 - `Type`: The type of the user.
 """
+<<<<<<< HEAD
 update_user(UserId; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)"; aws_config=aws_config)
 update_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+=======
+
+update_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)"; aws_config=aws_config)
+update_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

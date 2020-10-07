@@ -16,8 +16,14 @@ Creates a discoverer.
 - `Description`: A description for the discoverer.
 - `tags`: Tags associated with the resource.
 """
+<<<<<<< HEAD
 create_discoverer(SourceArn; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}("SourceArn"=>SourceArn); aws_config=aws_config)
 create_discoverer(SourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceArn"=>SourceArn), args)); aws_config=aws_config)
+=======
+
+create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}("SourceArn"=>SourceArn); aws_config=aws_config)
+create_discoverer(SourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceArn"=>SourceArn), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRegistry()
@@ -31,8 +37,14 @@ Creates a registry.
 - `Description`: A description of the registry to be created.
 - `tags`: Tags to associate with the registry.
 """
+<<<<<<< HEAD
 create_registry(registryName; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
 create_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+=======
+
+create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+create_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSchema()
@@ -49,8 +61,14 @@ Creates a schema definition. Inactive schemas will be deleted after two years.
 - `Description`: A description of the schema.
 - `tags`: Tags associated with the schema.
 """
+<<<<<<< HEAD
 create_schema(Content, Type, registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("Content"=>Content, "Type"=>Type); aws_config=aws_config)
 create_schema(Content, Type, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Type"=>Type), args)); aws_config=aws_config)
+=======
+
+create_schema(Content, Type, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("Content"=>Content, "Type"=>Type); aws_config=aws_config)
+create_schema(Content, Type, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Type"=>Type), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDiscoverer()
@@ -61,8 +79,14 @@ Deletes a discoverer.
 - `discovererId`: The ID of the discoverer.
 
 """
+<<<<<<< HEAD
 delete_discoverer(discovererId; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
 delete_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+=======
+
+delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+delete_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRegistry()
@@ -73,8 +97,14 @@ Deletes a Registry.
 - `registryName`: The name of the registry.
 
 """
+<<<<<<< HEAD
 delete_registry(registryName; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
 delete_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+=======
+
+delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+delete_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteResourcePolicy()
@@ -84,8 +114,14 @@ Delete the resource-based policy attached to the specified registry.
 # Optional Parameters
 - `registryName`: The name of the registry.
 """
+<<<<<<< HEAD
 delete_resource_policy(; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy"; aws_config=aws_config)
 delete_resource_policy(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy", args; aws_config=aws_config)
+=======
+
+delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy"; aws_config=aws_config)
+delete_resource_policy(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSchema()
@@ -97,8 +133,14 @@ Delete a schema definition.
 - `schemaName`: The name of the schema.
 
 """
+<<<<<<< HEAD
 delete_schema(registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
 delete_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws_config=aws_config)
+=======
+
+delete_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
+delete_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSchemaVersion()
@@ -111,8 +153,14 @@ Delete the schema version definition
 - `schemaVersion`: The version number of the schema
 
 """
+<<<<<<< HEAD
 delete_schema_version(registryName, schemaName, schemaVersion; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)"; aws_config=aws_config)
 delete_schema_version(registryName, schemaName, schemaVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", args; aws_config=aws_config)
+=======
+
+delete_schema_version(registryName, schemaName, schemaVersion; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)"; aws_config=aws_config)
+delete_schema_version(registryName, schemaName, schemaVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeCodeBinding()
@@ -127,8 +175,14 @@ Describe the code binding URI.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
+<<<<<<< HEAD
 describe_code_binding(language, registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
 describe_code_binding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws_config=aws_config)
+=======
+
+describe_code_binding(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
+describe_code_binding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeDiscoverer()
@@ -139,8 +193,14 @@ Describes the discoverer.
 - `discovererId`: The ID of the discoverer.
 
 """
+<<<<<<< HEAD
 describe_discoverer(discovererId; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
 describe_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+=======
+
+describe_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+describe_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeRegistry()
@@ -151,8 +211,14 @@ Describes the registry.
 - `registryName`: The name of the registry.
 
 """
+<<<<<<< HEAD
 describe_registry(registryName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
 describe_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+=======
+
+describe_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+describe_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSchema()
@@ -166,8 +232,14 @@ Retrieve the schema definition.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
+<<<<<<< HEAD
 describe_schema(registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
 describe_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws_config=aws_config)
+=======
+
+describe_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
+describe_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ExportSchema()
@@ -182,8 +254,14 @@ describe_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
+<<<<<<< HEAD
 export_schema(registryName, schemaName, type; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}("type"=>type); aws_config=aws_config)
 export_schema(registryName, schemaName, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), args)); aws_config=aws_config)
+=======
+
+export_schema(registryName, schemaName, type; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}("type"=>type); aws_config=aws_config)
+export_schema(registryName, schemaName, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCodeBindingSource()
@@ -198,8 +276,14 @@ Get the code binding source URI.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
+<<<<<<< HEAD
 get_code_binding_source(language, registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source"; aws_config=aws_config)
 get_code_binding_source(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", args; aws_config=aws_config)
+=======
+
+get_code_binding_source(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source"; aws_config=aws_config)
+get_code_binding_source(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDiscoveredSchema()
@@ -211,8 +295,14 @@ Get the discovered schema that was generated based on sampled events.
 - `Type`: The type of event.
 
 """
+<<<<<<< HEAD
 get_discovered_schema(Events, Type; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}("Events"=>Events, "Type"=>Type); aws_config=aws_config)
 get_discovered_schema(Events, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events, "Type"=>Type), args)); aws_config=aws_config)
+=======
+
+get_discovered_schema(Events, Type; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}("Events"=>Events, "Type"=>Type); aws_config=aws_config)
+get_discovered_schema(Events, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events, "Type"=>Type), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetResourcePolicy()
@@ -222,8 +312,14 @@ Retrieves the resource-based policy attached to a given registry.
 # Optional Parameters
 - `registryName`: The name of the registry.
 """
+<<<<<<< HEAD
 get_resource_policy(; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/policy"; aws_config=aws_config)
 get_resource_policy(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/policy", args; aws_config=aws_config)
+=======
+
+get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy"; aws_config=aws_config)
+get_resource_policy(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDiscoverers()
@@ -236,8 +332,14 @@ List the discoverers.
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 - `sourceArnPrefix`: Specifying this limits the results to only those ARNs that start with the specified prefix.
 """
+<<<<<<< HEAD
 list_discoverers(; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers"; aws_config=aws_config)
 list_discoverers(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", args; aws_config=aws_config)
+=======
+
+list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers"; aws_config=aws_config)
+list_discoverers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRegistries()
@@ -250,8 +352,14 @@ List the registries.
 - `registryNamePrefix`: Specifying this limits the results to only those registry names that start with the specified prefix.
 - `scope`: Can be set to Local or AWS to limit responses to your custom registries, or the ones provided by AWS.
 """
+<<<<<<< HEAD
 list_registries(; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries"; aws_config=aws_config)
 list_registries(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", args; aws_config=aws_config)
+=======
+
+list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries"; aws_config=aws_config)
+list_registries(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSchemaVersions()
@@ -266,8 +374,14 @@ Provides a list of the schema versions and related information.
 - `limit`: 
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 """
+<<<<<<< HEAD
 list_schema_versions(registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws_config=aws_config)
 list_schema_versions(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args; aws_config=aws_config)
+=======
+
+list_schema_versions(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws_config=aws_config)
+list_schema_versions(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSchemas()
@@ -282,8 +396,14 @@ List the schemas.
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 - `schemaNamePrefix`: Specifying this limits the results to only those schema names that start with the specified prefix.
 """
+<<<<<<< HEAD
 list_schemas(registryName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws_config=aws_config)
 list_schemas(registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args; aws_config=aws_config)
+=======
+
+list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws_config=aws_config)
+list_schemas(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -294,8 +414,14 @@ Get tags for resource.
 - `resource-arn`: The ARN of the resource.
 
 """
+<<<<<<< HEAD
 list_tags_for_resource(resource_arn; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
 list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+=======
+
+list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutCodeBinding()
@@ -310,8 +436,14 @@ Put code binding URI
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
+<<<<<<< HEAD
 put_code_binding(language, registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
 put_code_binding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws_config=aws_config)
+=======
+
+put_code_binding(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
+put_code_binding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutResourcePolicy()
@@ -325,8 +457,14 @@ The name of the policy.
 - `RevisionId`: The revision ID of the policy.
 - `registryName`: The name of the registry.
 """
+<<<<<<< HEAD
 put_resource_policy(Policy; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
 put_resource_policy(Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+=======
+
+put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+put_resource_policy(Policy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     SearchSchemas()
@@ -341,8 +479,14 @@ Search the schemas
 - `limit`: 
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 """
+<<<<<<< HEAD
 search_schemas(keywords, registryName; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords); aws_config=aws_config)
 search_schemas(keywords, registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), args)); aws_config=aws_config)
+=======
+
+search_schemas(keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords); aws_config=aws_config)
+search_schemas(keywords, registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartDiscoverer()
@@ -353,8 +497,14 @@ Starts the discoverer
 - `discovererId`: The ID of the discoverer.
 
 """
+<<<<<<< HEAD
 start_discoverer(discovererId; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start"; aws_config=aws_config)
 start_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", args; aws_config=aws_config)
+=======
+
+start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start"; aws_config=aws_config)
+start_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopDiscoverer()
@@ -365,8 +515,14 @@ Stops the discoverer
 - `discovererId`: The ID of the discoverer.
 
 """
+<<<<<<< HEAD
 stop_discoverer(discovererId; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws_config=aws_config)
 stop_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", args; aws_config=aws_config)
+=======
+
+stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws_config=aws_config)
+stop_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -378,8 +534,14 @@ Add tags to a resource.
 - `tags`: Tags associated with the resource.
 
 """
+<<<<<<< HEAD
 tag_resource(resource_arn, tags; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+=======
+
+tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -391,8 +553,14 @@ Removes tags from a resource.
 - `tagKeys`: Keys of key-value pairs.
 
 """
+<<<<<<< HEAD
 untag_resource(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+=======
+
+untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDiscoverer()
@@ -405,8 +573,14 @@ Updates the discoverer
 # Optional Parameters
 - `Description`: The description of the discoverer to update.
 """
+<<<<<<< HEAD
 update_discoverer(discovererId; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
 update_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+=======
+
+update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+update_discoverer(discovererId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateRegistry()
@@ -419,8 +593,14 @@ Updates a registry.
 # Optional Parameters
 - `Description`: The description of the registry to update.
 """
+<<<<<<< HEAD
 update_registry(registryName; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
 update_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+=======
+
+update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+update_registry(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)", args; aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateSchema()
@@ -437,5 +617,11 @@ Updates the schema definition Inactive schemas will be deleted after two years.
 - `Description`: The description of the schema.
 - `Type`: The schema type for the events schema.
 """
+<<<<<<< HEAD
 update_schema(registryName, schemaName; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("ClientTokenId"=>string(uuid4())); aws_config=aws_config)
 update_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientTokenId"=>string(uuid4())), args)); aws_config=aws_config)
+=======
+
+update_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("ClientTokenId"=>string(uuid4())); aws_config=aws_config)
+update_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientTokenId"=>string(uuid4())), args)); aws_config=aws_config)
+>>>>>>> Give AWSConfig an abstract supertype

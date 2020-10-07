@@ -1,8 +1,14 @@
-mutable struct AWSConfig
-    credentials::Union{AWSCredentials, Nothing}
+abstract type AbstractAWSConfig end
+
+mutable struct AWSConfig <:AbstractAWSConfig
+    credentials::AWSCredentials
     region::String
     output::String
 end
+
+credentials(aws::AWSConfig) = aws.credentials
+region(aws::AWSConfig) = aws.region
+
 
 function AWSConfig(;
     profile=nothing,
