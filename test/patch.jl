@@ -2,6 +2,7 @@ module Patches
 
 using AWS
 using HTTP
+using GitHub
 using Mocking
 using OrderedCollections: LittleDict
 
@@ -54,19 +55,12 @@ _aws_http_request_patch = @patch function AWS._http_request(request::Request)
     return response
 end
 
-
-aws_sdk_files =
-    """
-    [
-        {"name": "test-2020-01-01.normal.json"},
-        {"name": "test-2020-01-01.min.json"},
-        {"name": "test-2020-01-01.paginators.json"},
-        {"name": "test-2020-01-01.examples.json"}
-    ]
-    """
-
-_http_get_patch = @patch function HTTP.get(url::String, headers)
-    return HTTP.Response(200, aws_sdk_files)
+_github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
+    if tree_obj == "master"
+        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"apis", "sha"=>"apis-sha")], false)
+    else
+        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"test-2020-01-01.normal.json")], false)
+    end
 end
 
 end
