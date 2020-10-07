@@ -1,30 +1,34 @@
 module AWSMetadataUtilities
 
 using ..AWSExceptions
+using Base64
+using GitHub
 using OrderedCollections: OrderedDict, LittleDict
-using HTTP
 using JSON
 using Mocking
 
 
 """
-    _get_aws_sdk_js_files()
+    _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
 
 Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
+
+# Arguments
+- `repo_name::String`: aws-sdk-js repository
+- `auth::GitHub.OAuth2`: OAuth2 credentials for authenticated requests
 
 # Returns
 - `Array{OrderedDict}`: Array of Dictionaries which contains information about each AWS Service
 """
-function _get_aws_sdk_js_files()
-    headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
-    url = "https://api.github.com/repos/aws/aws-sdk-js/contents/apis"
+function _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
+    master_tree = @mock tree(repo_name, "master"; auth=auth)
+    apis_sha = [t for t in master_tree.tree if t["path"]=="apis"][1]["sha"]
+    files = @mock tree(repo_name, apis_sha)
+    files = files.tree
 
-    req = @mock HTTP.get(url, headers)
-    files = JSON.parse(String(req.body), dicttype=OrderedDict)
-    filter!(f -> endswith(f["name"], ".normal.json"), files)  # Only get ${Service}.normal.json files
-    files = _filter_latest_service_version(files)
+    filter!(f -> endswith(f["path"], ".normal.json"), files)
 
-    return files
+    return _filter_latest_service_version(files)
 end
 
 """
@@ -43,7 +47,7 @@ function _filter_latest_service_version(services::AbstractArray)
     latest_versions = OrderedDict[]
 
     for service in reverse(services)
-        service_name, _ = _get_service_and_version(service["name"])
+        service_name, _ = _get_service_and_version(service["path"])
 
         if !(service_name in seen_services)
             push!(seen_services, service_name)
@@ -85,26 +89,29 @@ function _get_service_and_version(filename::String)
 end
 
 """
-    _generate_low_level_definitions(services::AbstractArray{OrderedDict})
+    _generate_low_level_definitions(services::AbstractArray{<:AbstractDict}, repo_name::String, auth::GitHub.OAuth2)
 
 Get the low-level definitions for all AWS Services.
 
 # Arguments
-- `services::Abstract{OrderedDict}`: List of AWS Services to generate low-level definitions
+- `services::Abstract{<:AbstractDict}`: List of AWS Services to generate low-level definitions
+- `repo_name::String`: aws-sdk-js repository
+- `auth::GitHub.OAuth2`: OAuth2 credentials for authenticated requests
 
 # Returns
 - `Vector{String}`: Array of low-level service code to be written into `AWSServices.jl`
 """
-function _generate_low_level_definitions(services::AbstractArray{OrderedDict})
+function _generate_low_level_definitions(services::AbstractArray, repo_name::String, auth::GitHub.OAuth2)
     service_definitions = String[]
 
     for service in services
-        service_name = service["name"]
+        service_name = service["path"]
         @info "Generating low level wrapper for $service_name"
 
         # Get the contents of the ${Service}.normal.json file
-        request = HTTP.get(service["download_url"])
-        service_metadata = JSON.parse(String(request.body))["metadata"]
+        service_blob = blob(repo_name, service["sha"]; auth=auth)
+        service = JSON.parse(String(base64decode(service_blob.content)))
+        service_metadata = service["metadata"]
 
         definition = _generate_low_level_definition(service_metadata)
         push!(service_definitions, definition)
@@ -252,12 +259,12 @@ Get the required and optional parameters for a given operation.
 
 # Arguments
 - `input::String`: The input object for the given operation
-- `shapes::Dict{String, Any}`: Dictionary of all shapes for this AWS Service
+- `shapes::AbstractDict{String, Any}`: Dictionary of all shapes for this AWS Service
 
 # Returns
 - `Tuple(Dict, Dict)`: (required_parameters, optional_parameters)
 """
-function _get_function_parameters(input::String, shapes::Dict)
+function _get_function_parameters(input::String, shapes::AbstractDict{String})
     """
         _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
 
@@ -327,8 +334,8 @@ end
     _generate_high_level_definitions(
         service_name::String,
         protocol::String,
-        operations::Dict{String, Any},
-        shapes::Dict{String, Any}
+        operations::AbstractDict{String, Any},
+        shapes::AbstractDict{String, Any}
     )
 
 Generate high-level definitions for the `service`.
@@ -336,8 +343,8 @@ Generate high-level definitions for the `service`.
 # Arguments
 - `service_name::String`: AWS `service`
 - `protocol::String`: API protocol type
-- `operations::Dict{String, Any}`: Service API operations
-- `shapes::Dict{String, Any}`: All input shapes for this service
+- `operations::AbstractDict{String, Any}`: Service API operations
+- `shapes::AbstractDict{String, Any}`: All input shapes for this service
 
 # Return
 - `Array`: Array of all high-level definitions and documentation to be written into `services/{Service}.jl`
@@ -345,8 +352,8 @@ Generate high-level definitions for the `service`.
 function _generate_high_level_definitions(
     service_name::String,
     protocol::String,
-    operations::Dict,
-    shapes::Dict
+    operations::AbstractDict,
+    shapes::AbstractDict
 )
     operation_definitions = String[]
 
@@ -405,8 +412,8 @@ Generate the high-level definition for a services function.
 - `protocol::String`: Request protocol for the AWS Service
 - `method::String`: Request method for this services function
 - `request_uri::String`: Endpoint for this services function
-- `required_parameters::Dict{Any, Any}`: Required parameters for this services function
-- `optional_parameters::Dict{Any, Any}`: Optional parameters for this services function
+- `required_parameters::AbstractDict{Any, Any}`: Required parameters for this services function
+- `optional_parameters::AbstractDict{Any, Any}`: Optional parameters for this services function
 - `documentation::String`: Documentation for this services function
 
 # Return
@@ -423,13 +430,13 @@ function _generate_high_level_definition(
     documentation::String
 )
     """
-        _generate_rest_operation_defintion(required_params::LittleDict{String, Any}, optional_params::LittleDict{String, Any}, function_name::String, service_name::String, method::String, request_uri::String)
+        _generate_rest_operation_defintion(required_params::AbstractDict{String, Any}, optional_params::AbstractDict{String, Any}, function_name::String, service_name::String, method::String, request_uri::String)
 
     Generate function definition for a service request given required, header and idempotent parameters.
     
     # Arguments
-    - `required_params::LittleDict{String, Any}`: All required parameters which the function needs
-    - `optional_params::LittleDict{String, Any}`: All optional parameters which can be passed in
+    - `required_params::AbstractDict{String, Any}`: All required parameters which the function needs
+    - `optional_params::AbstractDict{String, Any}`: All optional parameters which can be passed in
     - `function_name::String`: Name of the function which we are generating a definition for
     - `service_name::String`: Name of the AWS service which this function is being defined for
     - `method::String`: The REST method that this function requires

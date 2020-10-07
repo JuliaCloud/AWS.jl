@@ -9,6 +9,7 @@ using AWS.AWSMetadataUtilities: _clean_documentation, _filter_latest_service_ver
 using Base64
 using Compat: mergewith
 using Dates
+using GitHub
 using HTTP
 using JSON
 using OrderedCollections: LittleDict, OrderedDict
