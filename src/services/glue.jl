@@ -1173,6 +1173,7 @@ Gets code to perform a specified mapping.
 - `Source`: The source table.
 
 # Optional Parameters
+- `AdditionalPlanOptionsMap`: A map to hold additional optional key-value parameters.
 - `Language`: The programming language of the code to perform the mapping.
 - `Location`: The parameters for the mapping.
 - `Sinks`: The target tables.

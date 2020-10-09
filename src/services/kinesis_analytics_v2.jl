@@ -21,7 +21,7 @@ add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOpt
 """
     AddApplicationInput()
 
- Adds a streaming source to your SQL-based Amazon Kinesis Data Analytics application.  You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. 
+ Adds a streaming source to your SQL-based Kinesis Data Analytics application.  You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see CreateApplication. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version. 
 
 # Required Parameters
 - `ApplicationName`: The name of your existing application to which you want to add the streaming source.
@@ -36,7 +36,7 @@ add_application_input(ApplicationName, CurrentApplicationVersionId, Input, args:
 """
     AddApplicationInputProcessingConfiguration()
 
-Adds an InputProcessingConfiguration to an SQL-based Kinesis Data Analytics application. An input processor pre-processes records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda.
+Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Analytics application. An input processor pre-processes records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda.
 
 # Required Parameters
 - `ApplicationName`: The name of the application to which you want to add the input processing configuration.
@@ -52,7 +52,7 @@ add_application_input_processing_configuration(ApplicationName, CurrentApplicati
 """
     AddApplicationOutput()
 
-Adds an external destination to your SQL-based Amazon Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an AWS Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination.  You can use one of the output configurations to deliver data from your in-application error stream to an external destination so that you can analyze the errors.   Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version.
+Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an AWS Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination.  You can use one of the output configurations to deliver data from your in-application error stream to an external destination so that you can analyze the errors.   Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the DescribeApplication operation to find the current application version.
 
 # Required Parameters
 - `ApplicationName`: The name of the application to which you want to add the output configuration.
@@ -67,7 +67,7 @@ add_application_output(ApplicationName, CurrentApplicationVersionId, Output, arg
 """
     AddApplicationReferenceDataSource()
 
-Adds a reference data source to an existing SQL-based Amazon Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
+Adds a reference data source to an existing SQL-based Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
 
 # Required Parameters
 - `ApplicationName`: The name of an existing application.
@@ -86,7 +86,7 @@ Adds a Virtual Private Cloud (VPC) configuration to the application. Application
 
 # Required Parameters
 - `ApplicationName`: The name of an existing application.
-- `CurrentApplicationVersionId`: The version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+- `CurrentApplicationVersionId`: The version of the application to which you want to add the VPC configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
 - `VpcConfiguration`: Description of the VPC to add to the application.
 
 """
@@ -97,11 +97,11 @@ add_application_vpc_configuration(ApplicationName, CurrentApplicationVersionId, 
 """
     CreateApplication()
 
-Creates an Amazon Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application. 
+Creates a Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see Creating an Application.
 
 # Required Parameters
 - `ApplicationName`: The name of your application (for example, sample-app).
-- `RuntimeEnvironment`: The runtime environment for the application (SQL-1.0 or FLINK-1_6).
+- `RuntimeEnvironment`: The runtime environment for the application (SQL-1.0, FLINK-1_6, or FLINK-1_8).
 - `ServiceExecutionRole`: The IAM role used by the application to access Kinesis data streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external resources.
 
 # Optional Parameters
@@ -145,7 +145,7 @@ delete_application(ApplicationName, CreateTimestamp, args::AbstractDict{String, 
 """
     DeleteApplicationCloudWatchLoggingOption()
 
-Deletes an Amazon CloudWatch log stream from an Amazon Kinesis Data Analytics application. 
+Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application. 
 
 # Required Parameters
 - `ApplicationName`: The application name.
@@ -175,7 +175,7 @@ delete_application_input_processing_configuration(ApplicationName, CurrentApplic
 """
     DeleteApplicationOutput()
 
-Deletes the output destination configuration from your SQL-based Amazon Kinesis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination.
+Deletes the output destination configuration from your SQL-based Kinesis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination.
 
 # Required Parameters
 - `ApplicationName`: The application name.
@@ -190,7 +190,7 @@ delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId
 """
     DeleteApplicationReferenceDataSource()
 
-Deletes a reference data source configuration from the specified SQL-based Amazon Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation. 
+Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the AddApplicationReferenceDataSource operation. 
 
 # Required Parameters
 - `ApplicationName`: The name of an existing application.
@@ -235,7 +235,7 @@ delete_application_vpc_configuration(ApplicationName, CurrentApplicationVersionI
 """
     DescribeApplication()
 
-Returns information about a specific Amazon Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
+Returns information about a specific Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the ListApplications operation.
 
 # Required Parameters
 - `ApplicationName`: The name of the application.
@@ -264,7 +264,7 @@ describe_application_snapshot(ApplicationName, SnapshotName, args::AbstractDict{
 """
     DiscoverInputSchema()
 
-Infers a schema for an SQL-based Amazon Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema.  You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics console, the console uses this operation to infer a schema and show it in the console user interface. 
+Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema.  You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics console, the console uses this operation to infer a schema and show it in the console user interface. 
 
 # Required Parameters
 - `ServiceExecutionRole`: The ARN of the role that is used to access the streaming source.
@@ -298,7 +298,7 @@ list_application_snapshots(ApplicationName, args::AbstractDict{String, <:Any}; a
 """
     ListApplications()
 
-Returns a list of Amazon Kinesis Data Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status.  If you want detailed information about a specific application, use DescribeApplication.
+Returns a list of Kinesis Data Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status.  If you want detailed information about a specific application, use DescribeApplication.
 
 # Optional Parameters
 - `Limit`: The maximum number of applications to list.
@@ -324,7 +324,7 @@ list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_confi
 """
     StartApplication()
 
-Starts the specified Amazon Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.
+Starts the specified Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.
 
 # Required Parameters
 - `ApplicationName`: The name of the application.
@@ -343,6 +343,8 @@ Stops the application from processing data. You can stop an application only if 
 # Required Parameters
 - `ApplicationName`: The name of the running application to stop.
 
+# Optional Parameters
+- `Force`: Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING state. 
 """
 
 stop_application(ApplicationName; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("StopApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
@@ -351,7 +353,7 @@ stop_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config:
 """
     TagResource()
 
-Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
+Adds one or more key-value tags to a Kinesis Data Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
 
 # Required Parameters
 - `ResourceARN`: The ARN of the application to assign the tags.
@@ -365,10 +367,10 @@ tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
+Removes one or more tags from a Kinesis Data Analytics application. For more information, see Using Tagging.
 
 # Required Parameters
-- `ResourceARN`: The ARN of the Kinesis Analytics application from which to remove the tags.
+- `ResourceARN`: The ARN of the Kinesis Data Analytics application from which to remove the tags.
 - `TagKeys`: A list of keys of tags to remove from the specified application.
 
 """
@@ -379,7 +381,7 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateApplication()
 
-Updates an existing Amazon Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration.  Kinesis Data Analytics updates the ApplicationVersionId each time you update your application. 
+Updates an existing Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration.  Kinesis Data Analytics updates the ApplicationVersionId each time you update your application.   You cannot update the RuntimeEnvironment of an existing application. If you need to update an application's RuntimeEnvironment, you must delete the application and create it again. 
 
 # Required Parameters
 - `ApplicationName`: The name of the application to update.
