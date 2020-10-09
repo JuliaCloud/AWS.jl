@@ -4,6 +4,22 @@ using AWS.AWSServices: mediapackage
 using AWS.Compat
 using AWS.UUIDs
 """
+    ConfigureLogs()
+
+Changes the Channel's properities to configure log subscription
+
+# Required Parameters
+- `id`: The ID of the channel to log subscription.
+
+# Optional Parameters
+- `egressAccessLogs`: 
+- `ingressAccessLogs`: 
+"""
+
+configure_logs(id; aws_config::AWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/configure_logs"; aws_config=aws_config)
+configure_logs(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/configure_logs", args; aws_config=aws_config)
+
+"""
     CreateChannel()
 
 Creates a new Channel.

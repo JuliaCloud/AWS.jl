@@ -30,6 +30,7 @@ Creates an AWS Batch compute environment. You can create MANAGED or UNMANAGED co
 # Optional Parameters
 - `computeResources`: Details of the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the AWS Batch User Guide.
 - `state`: The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
+- `tags`: The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags do not propagate to the underlying compute resources.
 """
 
 create_compute_environment(computeEnvironmentName, serviceRole, type; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "serviceRole"=>serviceRole, "type"=>type); aws_config=aws_config)
@@ -47,6 +48,7 @@ Creates an AWS Batch job queue. When you create a job queue, you associate one o
 
 # Optional Parameters
 - `state`: The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs cannot be added to the queue, but jobs already in the queue can finish.
+- `tags`: The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
 """
 
 create_job_queue(computeEnvironmentOrder, jobQueueName, priority; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority); aws_config=aws_config)
@@ -166,6 +168,19 @@ list_jobs(; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/list
 list_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", args; aws_config=aws_config)
 
 """
+    ListTagsForResource()
+
+List the tags for an AWS Batch resource. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+
+"""
+
+list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
+
+"""
     RegisterJobDefinition()
 
 Registers an AWS Batch job definition.
@@ -179,6 +194,7 @@ Registers an AWS Batch job definition.
 - `nodeProperties`: An object with various properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see Multi-node Parallel Jobs in the AWS Batch User Guide. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties.
 - `parameters`: Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
 - `retryStrategy`: The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it is not retried.
+- `tags`: The tags that you apply to the job definition to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
 - `timeout`: The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
 """
 
@@ -202,11 +218,26 @@ Submits an AWS Batch job from a job definition. Parameters specified during Subm
 - `nodeOverrides`: A list of node overrides in JSON format that specify the node range to target and the container overrides for that node range.
 - `parameters`: Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition. Parameters are specified as a key and value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
 - `retryStrategy`: The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
+- `tags`: The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
 - `timeout`: The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
 """
 
 submit_job(jobDefinition, jobName, jobQueue; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue); aws_config=aws_config)
 submit_job(jobDefinition, jobName, jobQueue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue), args)); aws_config=aws_config)
+
+"""
+    TagResource()
+
+Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource to which to add tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+- `tags`: The tags that you apply to the resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
+
+"""
+
+tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     TerminateJob()
@@ -221,6 +252,20 @@ Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state 
 
 terminate_job(jobId, reason; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
 terminate_job(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), args)); aws_config=aws_config)
+
+"""
+    UntagResource()
+
+Deletes specified tags from an AWS Batch resource.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource from which to delete tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+- `tagKeys`: The keys of the tags to be removed.
+
+"""
+
+untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateComputeEnvironment()

@@ -76,7 +76,7 @@ Creates an Autopilot job. Find the best performing model after you run an Autopi
 
 # Required Parameters
 - `AutoMLJobName`: Identifies an Autopilot job. Must be unique to your account and is case-insensitive.
-- `InputDataConfig`: Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 1000 rows.
+- `InputDataConfig`: Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 500 rows.
 - `OutputDataConfig`: Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
 - `RoleArn`: The ARN of the role that is used to access the data.
 
@@ -125,16 +125,17 @@ create_compilation_job(CompilationJobName, InputConfig, OutputConfig, RoleArn, S
 """
     CreateDomain()
 
-Creates a Domain used by SageMaker Studio. A domain consists of an associated directory, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an Amazon Elastic File System (EFS) volume is also created for use by all of the users within the domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. All traffic between the domain and the EFS volume is communicated through the specified subnet IDs. All other traffic goes over the Internet through an Amazon SageMaker system VPC. The EFS traffic uses the NFS/TCP protocol over port 2049.  NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a SageMaker Studio app successfully. 
+Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All Studio traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to train or host models unless your VPC has an interface endpoint (PrivateLink) or a NAT gateway and your security groups allow outbound connections.     VpcOnly network access type  When you choose VpcOnly, you must specify the following:   Security group inbound and outbound rules to allow NFS traffic over TCP on port 2049 between the domain and the EFS volume   Security group inbound and outbound rules to allow traffic between the JupyterServer app and the KernelGateway apps   Interface endpoints to access the SageMaker API and SageMaker runtime   For more information, see:    Security groups for your VPC     VPC with public and private subnets (NAT)     Connect to SageMaker through a VPC interface endpoint   
 
 # Required Parameters
 - `AuthMode`: The mode of authentication that members use to access the domain.
 - `DefaultUserSettings`: The default user settings.
 - `DomainName`: A name for the domain.
-- `SubnetIds`: The VPC subnets to use for communication with the EFS volume.
-- `VpcId`: The ID of the Amazon Virtual Private Cloud (VPC) to use for communication with the EFS volume.
+- `SubnetIds`: The VPC subnets that Studio uses for communication.
+- `VpcId`: The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
 
 # Optional Parameters
+- `AppNetworkAccessType`: Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets  
 - `HomeEfsFileSystemKmsKeyId`: The AWS Key Management Service (KMS) encryption key ID. Encryption with a customer master key (CMK) is not supported.
 - `Tags`: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
 """
@@ -372,7 +373,7 @@ create_notebook_instance_lifecycle_config(NotebookInstanceLifecycleConfigName, a
 """
     CreatePresignedDomainUrl()
 
-Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM. 
+Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM.   The URL that you get from a call to CreatePresignedDomainUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
 
 # Required Parameters
 - `DomainId`: The domain ID.

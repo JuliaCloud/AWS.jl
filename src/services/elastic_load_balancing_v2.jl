@@ -20,7 +20,7 @@ add_listener_certificates(Certificates, ListenerArn, args::AbstractDict{String, 
 """
     AddTags()
 
-Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, and your target groups. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
+Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, target groups, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
 
 # Required Parameters
 - `ResourceArns`: The Amazon Resource Name (ARN) of the resource.
@@ -46,6 +46,7 @@ Creates a listener for the specified Application Load Balancer or Network Load B
 - `AlpnPolicy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
 - `Certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault. To create a certificate list for the listener, use AddListenerCertificates.
 - `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
+- `Tags`: The tags to assign to the listener.
 """
 
 create_listener(DefaultActions, LoadBalancerArn, Port, Protocol; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn, "Port"=>Port, "Protocol"=>Protocol); aws_config=aws_config)
@@ -66,7 +67,7 @@ Creates an Application Load Balancer or a Network Load Balancer. When you create
 - `SecurityGroups`: [Application Load Balancers] The IDs of the security groups for the load balancer.
 - `SubnetMappings`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
 - `Subnets`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
-- `Tags`: One or more tags to assign to the load balancer.
+- `Tags`: The tags to assign to the load balancer.
 - `Type`: The type of load balancer. The default is application.
 """
 
@@ -84,6 +85,8 @@ Creates a rule for the specified listener. The listener must be associated with 
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 - `Priority`: The rule priority. A listener can't have multiple rules with the same priority.
 
+# Optional Parameters
+- `Tags`: The tags to assign to the rule.
 """
 
 create_rule(Actions, Conditions, ListenerArn, Priority; aws_config::AWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateRule", Dict{String, Any}("Actions"=>Actions, "Conditions"=>Conditions, "ListenerArn"=>ListenerArn, "Priority"=>Priority); aws_config=aws_config)
@@ -108,6 +111,7 @@ Creates a target group. To register targets with the target group, use RegisterT
 - `Matcher`: [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
 - `Port`: The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply.
 - `Protocol`: The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
+- `Tags`: The tags to assign to the target group.
 - `TargetType`: The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
 - `UnhealthyThresholdCount`: The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
 - `VpcId`: The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
@@ -286,7 +290,7 @@ describe_sslpolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 """
     DescribeTags()
 
-Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, and target groups.
+Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, target groups, listeners, or rules.
 
 # Required Parameters
 - `ResourceArns`: The Amazon Resource Names (ARN) of the resources. You can specify up to 20 resources in a single call.
@@ -458,7 +462,7 @@ remove_listener_certificates(Certificates, ListenerArn, args::AbstractDict{Strin
 """
     RemoveTags()
 
-Removes the specified tags from the specified Elastic Load Balancing resource. To list the current tags for your resources, use DescribeTags.
+Removes the specified tags from the specified Elastic Load Balancing resources. You can remove the tags for one or more Application Load Balancers, Network Load Balancers, target groups, listeners, or rules. To list the current tags for your resources, use DescribeTags.
 
 # Required Parameters
 - `ResourceArns`: The Amazon Resource Name (ARN) of the resource.
