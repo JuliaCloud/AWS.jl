@@ -69,6 +69,7 @@ create_backend_environment(appId, environmentName, args::AbstractDict{String, <:
 - `enableAutoBuild`:  Enables auto building for the branch. 
 - `enableBasicAuth`:  Enables basic authorization for the branch. 
 - `enableNotification`:  Enables notifications for the branch. 
+- `enablePerformanceMode`:  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
 - `enablePullRequestPreview`:  Enables pull request preview for this branch. 
 - `environmentVariables`:  The environment variables for the branch. 
 - `framework`:  The framework for the branch. 
@@ -584,6 +585,7 @@ update_app(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=globa
 - `enableAutoBuild`:  Enables auto building for the branch. 
 - `enableBasicAuth`:  Enables basic authorization for the branch. 
 - `enableNotification`:  Enables notifications for the branch. 
+- `enablePerformanceMode`:  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
 - `enablePullRequestPreview`:  Enables pull request preview for this branch. 
 - `environmentVariables`:  The environment variables for the branch. 
 - `framework`:  The framework for the branch. 

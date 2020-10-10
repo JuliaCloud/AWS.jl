@@ -100,7 +100,7 @@
     "version": "2010-03-31"
   },
   "snowball-2016-06-30.normal.json": {
-    "sha": "3e65023eab2b06c38b5a17850ac18b37f70a8a8a",
+    "sha": "da38f1ac246a3e9929b7dcf6caaacdbb53a2ddce",
     "version": "2016-06-30"
   },
   "sms-voice-2018-09-05.normal.json": {
@@ -128,7 +128,7 @@
     "version": "2017-03-14"
   },
   "servicecatalog-2015-12-10.normal.json": {
-    "sha": "37eedbaab7ff74d0e033605e4746fab009f6d91f",
+    "sha": "655f2f5f84d6ea109f2ba64069fb6cbd51e57941",
     "version": "2015-12-10"
   },
   "service-quotas-2019-06-24.normal.json": {
@@ -344,7 +344,7 @@
     "version": "2017-10-12"
   },
   "medialive-2017-10-14.normal.json": {
-    "sha": "eb8aeb9ad2a57166c14e8b93b3b18d86182f4a31",
+    "sha": "bfe31441baf740fb6603140ed29dd72680a9888e",
     "version": "2017-10-14"
   },
   "mediaconvert-2017-08-29.normal.json": {
@@ -624,7 +624,7 @@
     "version": "2017-07-25"
   },
   "eks-2017-11-01.normal.json": {
-    "sha": "dd0d02582b97d33da8ea082b9e9d169498296fc4",
+    "sha": "4f8293b4b33f9fd013ecdd243df4b3513b18cb57",
     "version": "2017-11-01"
   },
   "ecs-2014-11-13.normal.json": {
@@ -892,7 +892,7 @@
     "version": "2015-07-09"
   },
   "amplify-2017-07-25.normal.json": {
-    "sha": "9d6e8e8a0a85339faf40902b7762551cf196a69a",
+    "sha": "087ac44e6dbfddb2ee0bf59ecb28335c6bf55d19",
     "version": "2017-07-25"
   },
   "alexaforbusiness-2017-11-09.normal.json": {

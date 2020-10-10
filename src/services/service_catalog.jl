@@ -13,7 +13,7 @@ Accepts an offer to share the specified portfolio.
 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-- `PortfolioShareType`: The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
+- `PortfolioShareType`: The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
 """
 
 accept_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AcceptPortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
@@ -190,7 +190,7 @@ create_portfolio(DisplayName, IdempotencyToken, ProviderName, args::AbstractDict
 """
     CreatePortfolioShare()
 
-Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource. This includes portfolios that contain a shared product.
+Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource. This includes portfolios that contain a shared product.
 
 # Required Parameters
 - `PortfolioId`: The portfolio identifier.
@@ -198,7 +198,7 @@ Shares the specified portfolio with the specified account or organization node. 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `AccountId`: The AWS account ID. For example, 123456789012.
-- `OrganizationNode`: The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node and its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
+- `OrganizationNode`: The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node an ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
 """
 
 create_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
@@ -336,7 +336,7 @@ delete_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 """
     DeletePortfolioShare()
 
-Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
+Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the management account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
 
 # Required Parameters
 - `PortfolioId`: The portfolio identifier.
@@ -473,7 +473,7 @@ describe_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 """
     DescribePortfolioShareStatus()
 
-Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization or by a delegated admin.
+Gets the status of the specified portfolio share operation. This API can only be called by the management account in the organization or by a delegated admin.
 
 # Required Parameters
 - `PortfolioShareToken`: The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
@@ -533,8 +533,8 @@ Gets information about the specified provisioned product.
 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-- `Id`: The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
-- `Name`: The name of the provisioned product. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
+- `Id`: The provisioned product identifier.
+- `Name`: The name of the provisioned product.
 """
 
 describe_provisioned_product(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisionedProduct"; aws_config=aws_config)
@@ -656,7 +656,7 @@ describe_tag_option(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 """
     DisableAWSOrganizationsAccess()
 
-Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
+Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the management account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
 
 """
 
@@ -743,7 +743,7 @@ disassociate_tag_option_from_resource(ResourceId, TagOptionId, args::AbstractDic
 """
     EnableAWSOrganizationsAccess()
 
-Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
+Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
 
 """
 
@@ -787,12 +787,29 @@ execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, S
 """
     GetAWSOrganizationsAccessStatus()
 
-Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization or by a delegated admin.
+Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
 
 """
 
 get_awsorganizations_access_status(; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetAWSOrganizationsAccessStatus"; aws_config=aws_config)
 get_awsorganizations_access_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetAWSOrganizationsAccessStatus", args; aws_config=aws_config)
+
+"""
+    GetProvisionedProductOutputs()
+
+This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
+
+# Optional Parameters
+- `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+- `OutputKeys`: The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provisioned product.
+- `PageSize`: The maximum number of items to return with this call.
+- `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
+- `ProvisionedProductId`: The identifier of the provisioned product that you want the outputs from.
+- `ProvisionedProductName`: The name of the provisioned product that you want the outputs from.
+"""
+
+get_provisioned_product_outputs(; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetProvisionedProductOutputs"; aws_config=aws_config)
+get_provisioned_product_outputs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetProvisionedProductOutputs", args; aws_config=aws_config)
 
 """
     ListAcceptedPortfolioShares()
@@ -803,7 +820,7 @@ Lists all portfolios for which sharing was accepted by this account.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
-- `PortfolioShareType`: The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
+- `PortfolioShareType`: The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
 """
 
 list_accepted_portfolio_shares(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListAcceptedPortfolioShares"; aws_config=aws_config)
@@ -864,7 +881,7 @@ list_launch_paths(ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     ListOrganizationPortfolioAccess()
 
-Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
+Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
 
 # Required Parameters
 - `OrganizationNodeType`: The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.  
@@ -1125,7 +1142,7 @@ Rejects an offer to share the specified portfolio.
 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
-- `PortfolioShareType`: The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
+- `PortfolioShareType`: The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
 """
 
 reject_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("RejectPortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
