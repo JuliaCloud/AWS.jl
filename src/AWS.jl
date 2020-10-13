@@ -155,7 +155,7 @@ Base.@kwdef mutable struct Request
     request_method::String
 
     headers::AbstractDict{String, String}=LittleDict{String, String}()
-    content::String=""
+    content::Union{String, Array{UInt8}}=""
     resource::String=""
     url::String=""
 

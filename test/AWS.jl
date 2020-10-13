@@ -769,9 +769,9 @@ end
 
         try
             # PUT with parameters operation
-            body = "sample-file-body"
+            body = Array{UInt8}("sample-file-body")
             AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
-            @test !isempty(AWSServices.s3("GET", "/$bucket_name/$file_name"))
+            @test body == AWSServices.s3("GET", "/$bucket_name/$file_name")
 
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")
