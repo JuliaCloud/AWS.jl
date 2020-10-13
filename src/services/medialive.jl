@@ -66,11 +66,12 @@ batch_update_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::
 Creates a new channel
 
 # Optional Parameters
+- `cdiInputSpecification`: Specification of CDI inputs for this channel
 - `channelClass`: The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
 - `destinations`: 
 - `encoderSettings`: 
 - `inputAttachments`: List of input attachments for channel.
-- `inputSpecification`: Specification of input for this channel (max. bitrate, resolution, codec, etc.)
+- `inputSpecification`: Specification of network and file inputs for this channel
 - `logLevel`: The log level to write to CloudWatch Logs.
 - `name`: Name of channel.
 - `requestId`: Unique request ID to be specified. This is needed to prevent retries from
@@ -648,10 +649,11 @@ Updates a channel.
 - `channelId`: channel ID
 
 # Optional Parameters
+- `cdiInputSpecification`: Specification of CDI inputs for this channel
 - `destinations`: A list of output destinations for this channel.
 - `encoderSettings`: The encoder settings for this channel.
 - `inputAttachments`: 
-- `inputSpecification`: Specification of input for this channel (max. bitrate, resolution, codec, etc.)
+- `inputSpecification`: Specification of network and file inputs for this channel
 - `logLevel`: The log level to write to CloudWatch Logs.
 - `name`: The name of the channel.
 - `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
