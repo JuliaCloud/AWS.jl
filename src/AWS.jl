@@ -289,6 +289,10 @@ function _http_request(request::Request)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
 
+        if request.return_stream && request.response_stream === nothing
+            request.response_stream = Base.BufferStream()
+        end
+
         return HTTP.request(
             http_stack,
             request.request_method,
