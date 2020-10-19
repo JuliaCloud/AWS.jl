@@ -1,7 +1,3 @@
-function _now_formatted()
-    return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
-end
-
 @testset "service module" begin
     @service S3
     @test :S3 in names(Main)

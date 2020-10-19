@@ -350,6 +350,7 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
+    request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
         _sign!(aws, request)
