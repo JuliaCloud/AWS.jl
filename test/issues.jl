@@ -18,3 +18,11 @@ S3.create_bucket(bucket_name)
         S3.delete_bucket(bucket_name)
     end
 end
+
+@testset "issue 227" begin
+    # https://github.com/JuliaCloud/AWS.jl/issues/227
+    config = AWSConfig(creds=nothing)
+    resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config)
+
+    @test !isempty(resp)
+end

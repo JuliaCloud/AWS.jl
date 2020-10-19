@@ -161,7 +161,6 @@ function AWSCredentials(; profile=nothing)
         creds === nothing || break
     end
 
-    creds === nothing && error("Can't find AWS credentials!")
     creds.renew = credential_function
 
     return creds
@@ -269,6 +268,8 @@ function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
 
     return aws_creds
 end
+
+check_credentials(aws_creds::Nothing) = aws_creds
 
 
 function _will_expire(aws_creds::AWSCredentials)
