@@ -9,7 +9,11 @@ S3.create_bucket(bucket_name)
     file_name = "contains spaces"
     S3.put_object(bucket_name, file_name, Dict("body" => body))
 
-    resp = S3.get_object(bucket_name, file_name)
+    try
+        resp = S3.get_object(bucket_name, file_name)
 
-    @test String(resp) == body
+        @test String(resp) == body
+    finally
+        S3.delete_bucket(bucket_name)
+    end
 end
