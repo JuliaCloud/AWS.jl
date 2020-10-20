@@ -28,11 +28,16 @@ include("patch.jl")
 
 aws = AWSConfig()
 
+function _now_formatted()
+    return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
+end
+
 @testset "AWS.jl" begin
-    include("utilities.jl")
     include("AWS.jl")
     include("AWSCredentials.jl")
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
+    include("issues.jl")
     include("test_pkg.jl")
+    include("utilities.jl")
 end
