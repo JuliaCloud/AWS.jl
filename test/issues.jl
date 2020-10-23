@@ -14,6 +14,7 @@ S3.create_bucket(bucket_name)
 
         @test String(resp) == body
     finally
+        S3.delete_object(bucket_name, file_name)
         S3.delete_bucket(bucket_name)
     end
 end
