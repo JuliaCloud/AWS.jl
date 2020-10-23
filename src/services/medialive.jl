@@ -4,6 +4,19 @@ using AWS.AWSServices: medialive
 using AWS.Compat
 using AWS.UUIDs
 """
+    AcceptInputDeviceTransfer()
+
+Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+
+# Required Parameters
+- `inputDeviceId`: The unique ID of the input device to accept. For example, hd-123456789abcdef.
+
+"""
+
+accept_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept"; aws_config=aws_config)
+accept_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept", args; aws_config=aws_config)
+
+"""
     BatchDelete()
 
 Starts delete of resources.
@@ -59,6 +72,19 @@ Update a channel schedule
 
 batch_update_schedule(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
 batch_update_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
+
+"""
+    CancelInputDeviceTransfer()
+
+Cancel an input device transfer that you have requested.
+
+# Required Parameters
+- `inputDeviceId`: The unique ID of the input device to cancel. For example, hd-123456789abcdef.
+
+"""
+
+cancel_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel"; aws_config=aws_config)
+cancel_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel", args; aws_config=aws_config)
 
 """
     CreateChannel()
@@ -436,6 +462,22 @@ list_channels(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/
 list_channels(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", args; aws_config=aws_config)
 
 """
+    ListInputDeviceTransfers()
+
+List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+
+# Required Parameters
+- `transferType`: 
+
+# Optional Parameters
+- `maxResults`: 
+- `nextToken`: 
+"""
+
+list_input_device_transfers(transferType; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}("transferType"=>transferType); aws_config=aws_config)
+list_input_device_transfers(transferType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), args)); aws_config=aws_config)
+
+"""
     ListInputDevices()
 
 List input devices
@@ -589,6 +631,19 @@ purchase_offering(count, offeringId; aws_config::AWSConfig=global_aws_config()) 
 purchase_offering(count, offeringId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
+    RejectInputDeviceTransfer()
+
+Reject the transfer of the specified input device to your AWS account.
+
+# Required Parameters
+- `inputDeviceId`: The unique ID of the input device to reject. For example, hd-123456789abcdef.
+
+"""
+
+reject_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject"; aws_config=aws_config)
+reject_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject", args; aws_config=aws_config)
+
+"""
     StartChannel()
 
 Starts an existing channel
@@ -639,6 +694,22 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 
 stop_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws_config=aws_config)
 stop_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args; aws_config=aws_config)
+
+"""
+    TransferInputDevice()
+
+Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+
+# Required Parameters
+- `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
+
+# Optional Parameters
+- `targetCustomerId`: The AWS account ID (12 digits) for the recipient of the device transfer.
+- `transferMessage`: An optional message for the recipient. Maximum 280 characters.
+"""
+
+transfer_input_device(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config)
+transfer_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer", args; aws_config=aws_config)
 
 """
     UpdateChannel()

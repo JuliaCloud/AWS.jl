@@ -96,6 +96,19 @@ create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AWS
 create_invalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws_config=aws_config)
 
 """
+    CreateKeyGroup2020_05_31()
+
+Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+
+# Required Parameters
+- `KeyGroupConfig`: A key group configuration.
+
+"""
+
+create_key_group2020_05_31(KeyGroupConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
+create_key_group2020_05_31(KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
+
+"""
     CreateMonitoringSubscription2020_05_31()
 
 Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
@@ -125,10 +138,10 @@ create_origin_request_policy2020_05_31(OriginRequestPolicyConfig, args::Abstract
 """
     CreatePublicKey2020_05_31()
 
-Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
+Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
 
 # Required Parameters
-- `PublicKeyConfig`: The request to add a public key to CloudFront.
+- `PublicKeyConfig`: A CloudFront public key configuration.
 
 """
 
@@ -253,6 +266,21 @@ Remove a field-level encryption profile.
 
 delete_field_level_encryption_profile2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
 delete_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
+
+"""
+    DeleteKeyGroup2020_05_31()
+
+Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group’s identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
+
+# Required Parameters
+- `Id`: The identifier of the key group that you are deleting. To get the identifier, use ListKeyGroups.
+
+# Optional Parameters
+- `If-Match`: The version of the key group that you are deleting. The version is the key group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
+"""
+
+delete_key_group2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+delete_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteMonitoringSubscription2020_05_31()
@@ -470,6 +498,32 @@ get_invalidation2020_05_31(DistributionId, Id; aws_config::AWSConfig=global_aws_
 get_invalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws_config=aws_config)
 
 """
+    GetKeyGroup2020_05_31()
+
+Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+
+# Required Parameters
+- `Id`: The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
+
+"""
+
+get_key_group2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+get_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
+
+"""
+    GetKeyGroupConfig2020_05_31()
+
+Gets a key group configuration. To get a key group configuration, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+
+# Required Parameters
+- `Id`: The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups.
+
+"""
+
+get_key_group_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config"; aws_config=aws_config)
+get_key_group_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config", args; aws_config=aws_config)
+
+"""
     GetMonitoringSubscription2020_05_31()
 
 Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
@@ -511,10 +565,10 @@ get_origin_request_policy_config2020_05_31(Id, args::AbstractDict{String, <:Any}
 """
     GetPublicKey2020_05_31()
 
-Get the public key information.
+Gets a public key.
 
 # Required Parameters
-- `Id`: Request the ID for the public key.
+- `Id`: The identifier of the public key you are getting.
 
 """
 
@@ -524,10 +578,10 @@ get_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     GetPublicKeyConfig2020_05_31()
 
-Return public key configuration informaation
+Gets a public key configuration.
 
 # Required Parameters
-- `Id`: Request the ID for the public key configuration.
+- `Id`: The identifier of the public key whose configuration you are getting.
 
 """
 
@@ -630,6 +684,22 @@ list_distributions_by_cache_policy_id2020_05_31(CachePolicyId; aws_config::AWSCo
 list_distributions_by_cache_policy_id2020_05_31(CachePolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", args; aws_config=aws_config)
 
 """
+    ListDistributionsByKeyGroup2020_05_31()
+
+Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+
+# Required Parameters
+- `KeyGroupId`: The ID of the key group whose associated distribution IDs you are listing.
+
+# Optional Parameters
+- `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+- `MaxItems`: The maximum number of distribution IDs that you want in the response.
+"""
+
+list_distributions_by_key_group2020_05_31(KeyGroupId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)"; aws_config=aws_config)
+list_distributions_by_key_group2020_05_31(KeyGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)", args; aws_config=aws_config)
+
+"""
     ListDistributionsByOriginRequestPolicyId2020_05_31()
 
 Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
@@ -717,6 +787,19 @@ Lists invalidation batches.
 
 list_invalidations2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws_config=aws_config)
 list_invalidations2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", args; aws_config=aws_config)
+
+"""
+    ListKeyGroups2020_05_31()
+
+Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+
+# Optional Parameters
+- `Marker`: Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+- `MaxItems`: The maximum number of key groups that you want in the response.
+"""
+
+list_key_groups2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
+list_key_groups2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", args; aws_config=aws_config)
 
 """
     ListOriginRequestPolicies2020_05_31()
@@ -893,6 +976,22 @@ update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfi
 update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
 
 """
+    UpdateKeyGroup2020_05_31()
+
+Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn’t.  
+
+# Required Parameters
+- `Id`: The identifier of the key group that you are updating.
+- `KeyGroupConfig`: The key group configuration.
+
+# Optional Parameters
+- `If-Match`: The version of the key group that you are updating. The version is the key group’s ETag value.
+"""
+
+update_key_group2020_05_31(Id, KeyGroupConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
+update_key_group2020_05_31(Id, KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
+
+"""
     UpdateOriginRequestPolicy2020_05_31()
 
 Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn’t.  
@@ -914,8 +1013,8 @@ update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig, args::Abst
 Update public key information. Note that the only value you can change is the comment.
 
 # Required Parameters
-- `Id`: ID of the public key to be updated.
-- `PublicKeyConfig`: Request to update public key information.
+- `Id`: The identifier of the public key that you are updating.
+- `PublicKeyConfig`: A public key configuration.
 
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.

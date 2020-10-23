@@ -78,6 +78,25 @@ create_group(Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = 
 create_group(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
+    CreateOrganization()
+
+Creates a new Amazon WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new Amazon WorkMail directory for you. For more information, see Adding an organization in the Amazon WorkMail Administrator Guide. You can associate multiple email domains with an organization, then set your default email domain from the Amazon WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see Adding a domain and Choosing the default domain in the Amazon WorkMail Administrator Guide. Optionally, you can use a customer managed master key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, Amazon WorkMail creates a default AWS managed master key for you.
+
+# Required Parameters
+- `Alias`: The organization alias.
+
+# Optional Parameters
+- `ClientToken`: The idempotency token associated with the request.
+- `DirectoryId`: The AWS Directory Service directory ID.
+- `Domains`: The email domains to associate with the organization.
+- `EnableInteroperability`: When true, allows organization interoperability between Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is included in the request.
+- `KmsKeyArn`: The Amazon Resource Name (ARN) of a customer managed master key from AWS KMS.
+"""
+
+create_organization(Alias; aws_config::AWSConfig=global_aws_config()) = workmail("CreateOrganization", Dict{String, Any}("Alias"=>Alias, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_organization(Alias, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     CreateResource()
 
 Creates a new Amazon WorkMail resource. 
@@ -157,7 +176,7 @@ delete_group(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_con
 Deletes permissions granted to a member (user or group).
 
 # Required Parameters
-- `EntityId`: The identifier of the member (user or group)that owns the mailbox.
+- `EntityId`: The identifier of the member (user or group) that owns the mailbox.
 - `GranteeId`: The identifier of the member (user or group) for which to delete granted permissions.
 - `OrganizationId`: The identifier of the organization under which the member (user or group) exists.
 
@@ -165,6 +184,22 @@ Deletes permissions granted to a member (user or group).
 
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+
+"""
+    DeleteOrganization()
+
+Deletes an Amazon WorkMail organization and all underlying AWS resources managed by Amazon WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the Amazon WorkMail Administrator Guide.
+
+# Required Parameters
+- `DeleteDirectory`: If true, deletes the AWS Directory Service directory associated with the organization.
+- `OrganizationId`: The organization ID.
+
+# Optional Parameters
+- `ClientToken`: The idempotency token associated with the request.
+"""
+
+delete_organization(DeleteDirectory, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteOrganization", Dict{String, Any}("DeleteDirectory"=>DeleteDirectory, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+delete_organization(DeleteDirectory, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteDirectory"=>DeleteDirectory, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteResource()

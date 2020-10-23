@@ -550,7 +550,7 @@ Creates a Device Defender security profile.
 - `securityProfileName`: The name you are giving to the security profile.
 
 # Optional Parameters
-- `additionalMetricsToRetain`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.  Note: This API field is deprecated. Please use CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.
+- `additionalMetricsToRetain`:  Please use CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
 - `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
 - `alertTargets`: Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
@@ -3062,7 +3062,7 @@ Updates a Device Defender security profile.
 - `securityProfileName`: The name of the security profile you want to update.
 
 # Optional Parameters
-- `additionalMetricsToRetain`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.  Note: This API field is deprecated. Please use UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.
+- `additionalMetricsToRetain`:  Please use UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
 - `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
 - `alertTargets`: Where the alerts are sent. (Alerts are always sent to the console.)
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.

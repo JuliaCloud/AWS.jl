@@ -267,6 +267,21 @@ detect_moderation_labels(Image; aws_config::AWSConfig=global_aws_config()) = rek
 detect_moderation_labels(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
+    DetectProtectiveEquipment()
+
+Detects Personal Protective Equipment (PPE) worn by people detected in an image. Amazon Rekognition can detect the following types of PPE.   Face cover   Hand cover   Head cover   You pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. The image must be either a PNG or JPG formatted file.   DetectProtectiveEquipment detects PPE worn by up to 15 persons detected in an image. For each person detected in the image the API returns an array of body parts (face, head, left-hand, right-hand). For each body part, an array of detected items of PPE is returned, including an indicator of whether or not the PPE covers the body part. The API returns the confidence it has in each detection (person, PPE, body part and body part coverage). It also returns a bounding box (BoundingBox) for each detected person and each detected item of PPE.  You can optionally request a summary of detected PPE items with the SummarizationAttributes input parameter. The summary provides the following information.    The persons detected as wearing all of the types of PPE that you specify.   The persons detected as not wearing all of the types PPE that you specify.   The persons detected where PPE adornment could not be determined.    This is a stateless API operation. That is, the operation does not persist any data. This operation requires permissions to perform the rekognition:DetectProtectiveEquipment action. 
+
+# Required Parameters
+- `Image`: The image in which you want to detect PPE on detected persons. The image can be passed as image bytes or you can reference an image stored in an Amazon S3 bucket. 
+
+# Optional Parameters
+- `SummarizationAttributes`: An array of PPE types that you want to summarize.
+"""
+
+detect_protective_equipment(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_protective_equipment(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+
+"""
     DetectText()
 
 Detects text in the input image and converts it into machine-readable text. Pass the input image as base64-encoded image bytes or as a reference to an image in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations, you must pass it as a reference to an image in an Amazon S3 bucket. For the AWS CLI, passing image bytes is not supported. The image must be either a .png or .jpeg formatted file.  The DetectText operation returns text in an array of TextDetection elements, TextDetections. Each TextDetection element provides information about a single word or line of text that was detected in the image.  A word is one or more ISO basic latin script characters that are not separated by spaces. DetectText can detect up to 50 words in an image. A line is a string of equally spaced words. A line isn't necessarily a complete sentence. For example, a driver's license number is detected as a line. A line ends when there is no aligned text after it. Also, a line ends when there is a large gap between words, relative to the length of the words. This means, depending on the gap between words, Amazon Rekognition may detect multiple lines in text aligned in the same direction. Periods don't represent the end of a line. If a sentence spans multiple lines, the DetectText operation returns multiple lines. To determine whether a TextDetection element is a line of text or a word, use the TextDetection object Type field.  To be detected, text must be within +/- 90 degrees orientation of the horizontal axis. For more information, see DetectText in the Amazon Rekognition Developer Guide.

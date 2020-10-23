@@ -28,7 +28,7 @@ Creates a group resource with a name and a filter expression.
 
 # Optional Parameters
 - `FilterExpression`: The filter expression defining criteria by which to group traces.
-- `InsightsConfiguration`: The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.
+- `InsightsConfiguration`: The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.  
 - `Tags`: A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.  
 """
 
@@ -158,8 +158,8 @@ Retrieves a document that describes services that process incoming requests, and
 - `StartTime`: The start of the time frame for which to generate a graph.
 
 # Optional Parameters
-- `GroupARN`: The ARN of a group to generate a graph based on.
-- `GroupName`: The name of a group to generate a graph based on.
+- `GroupARN`: The Amazon Resource Name (ARN) of a group based on which you want to generate a graph.
+- `GroupName`: The name of a group based on which you want to generate a graph.
 - `NextToken`: Pagination token.
 """
 
@@ -177,7 +177,7 @@ Get an aggregation of service statistics defined by a specific time range.
 
 # Optional Parameters
 - `EntitySelectorExpression`: A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. 
-- `GroupARN`: The ARN of the group for which to pull statistics from.
+- `GroupARN`: The Amazon Resource Name (ARN) of the group for which to pull statistics from.
 - `GroupName`: The case-sensitive name of the group for which to pull statistics from.
 - `NextToken`: Pagination token.
 - `Period`: Aggregation period in seconds.
@@ -214,7 +214,7 @@ Retrieves IDs and annotations for traces available for a specified time frame us
 - `FilterExpression`: Specify a filter expression to retrieve trace summaries for services or requests that meet certain requirements.
 - `NextToken`: Specify the pagination token returned by a previous request to retrieve the next page of results.
 - `Sampling`: Set to true to get summaries for only a subset of available traces.
-- `SamplingStrategy`: A paramater to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
+- `SamplingStrategy`: A parameter to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
 - `TimeRangeType`: A parameter to indicate whether to query trace summaries by TraceId or Event time.
 """
 
@@ -271,7 +271,7 @@ put_telemetry_records(TelemetryRecords, args::AbstractDict{String, <:Any}; aws_c
 """
     PutTraceSegments()
 
-Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see AWS X-Ray Segment Documents in the AWS X-Ray Developer Guide.  Required Segment Document Fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, i.e. 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
+Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments. Segments must include the following fields. For the full segment document schema, see AWS X-Ray Segment Documents in the AWS X-Ray Developer Guide.  Required segment document fields     name - The name of the service that handled the request.    id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.    start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify either an end_time or in_progress.    in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in-progress segment when your application receives a request that will take a long time to serve, to trace that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.   A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:  Trace ID Format    The version number, for instance, 1.   The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.  
 
 # Required Parameters
 - `TraceSegmentDocuments`: A string containing a JSON document defining one or more segments or subsegments.
@@ -318,7 +318,7 @@ Updates a group resource.
 - `FilterExpression`: The updated filter expression defining criteria by which to group traces.
 - `GroupARN`: The ARN that was generated upon creation.
 - `GroupName`: The case-sensitive name of the group.
-- `InsightsConfiguration`: The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
+- `InsightsConfiguration`: The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.  
 """
 
 update_group(; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup"; aws_config=aws_config)
