@@ -17,9 +17,9 @@ export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
+include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include("AWSExceptions.jl")
 include("AWSMetadataUtilities.jl")
 include("AWSMetadata.jl")
 
@@ -387,7 +387,7 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
         end
 
         if e isa AWSException && occursin("Missing Authentication Token", e.message) && aws.credentials === nothing
-            throw(error("You're attempting to perform a request without credentials set."))
+            return throw(NoCredentials("You're attempting to perform a request without credentials set."))
         end
     end
 
