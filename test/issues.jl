@@ -38,6 +38,7 @@ end
 
             @test_throws AWSException S3.get_object(bucket_name, file_name; aws_config=AWSConfig(creds=nothing))
         finally
+            S3.delete_object(bucket_name, file_name)
             S3.delete_bucket(bucket_name)
         end
     end
