@@ -1,5 +1,5 @@
 mutable struct AWSConfig
-    credentials::AWSCredentials
+    credentials::Union{AWSCredentials, Nothing}
     region::String
     output::String
 end

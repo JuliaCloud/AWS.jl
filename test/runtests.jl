@@ -1,7 +1,7 @@
 using AWS
 using AWS: AWSCredentials
 using AWS: AWSServices
-using AWS.AWSExceptions: AWSException
+using AWS.AWSExceptions: AWSException, NoCredentials
 using AWS.AWSMetadataUtilities: _clean_documentation, _filter_latest_service_version,
     _generate_low_level_definition, _generate_high_level_definition, _generate_high_level_definitions,
     _get_aws_sdk_js_files, _get_service_and_version, _get_function_parameters, _clean_uri, _format_function_name,

@@ -62,7 +62,7 @@ end
 
         # Creds should error if the renew function returns nothing
         creds = AWSCredentials("access_key_id", "secret_key", renew=() -> nothing)
-        @test_throws ErrorException check_credentials(creds, force_refresh=true)
+        @test_throws NoCredentials check_credentials(creds, force_refresh=true)
 
         # Creds should remain unchanged
         @test creds.access_key_id == "access_key_id"

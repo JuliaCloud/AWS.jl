@@ -17,9 +17,9 @@ export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
+include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include("AWSExceptions.jl")
 include("AWSMetadataUtilities.jl")
 include("AWSMetadata.jl")
 
@@ -353,7 +353,7 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
     request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
-        _sign!(aws, request)
+        aws.credentials === nothing || _sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
@@ -384,6 +384,10 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
             _header(e.cause, "crc32body") == "x-amz-crc32" ||
             ecode(e) in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
         )
+        end
+
+        if e isa AWSException && occursin("Missing Authentication Token", e.message) && aws.credentials === nothing
+            return throw(NoCredentials("You're attempting to perform a request without credentials set."))
         end
     end
 

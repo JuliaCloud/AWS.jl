@@ -4,6 +4,7 @@ using IniFile
 using JSON
 using Mocking
 
+using ..AWSExceptions
 
 export AWSCredentials,
        aws_account_number,
@@ -161,7 +162,6 @@ function AWSCredentials(; profile=nothing)
         creds === nothing || break
     end
 
-    creds === nothing && error("Can't find AWS credentials!")
     creds.renew = credential_function
 
     return creds
@@ -259,7 +259,7 @@ function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
         if credential_method !== nothing
             new_aws_creds = credential_method()
 
-            new_aws_creds === nothing && error("Can't find AWS credentials!")
+            new_aws_creds === nothing && throw(NoCredentials("Can't find AWS credentials!"))
             copyto!(aws_creds, new_aws_creds)
 
             # Ensure credential_method is not overwritten by the new credentials
@@ -269,6 +269,8 @@ function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
 
     return aws_creds
 end
+
+check_credentials(aws_creds::Nothing) = aws_creds
 
 
 function _will_expire(aws_creds::AWSCredentials)
