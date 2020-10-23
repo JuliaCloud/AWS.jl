@@ -17,7 +17,12 @@ branches:
   - trying
   - "/^v[0-9]+\\.[0-9]+\\.[0-9]+$/"
 notifications:
-  email: false
+  email:
+    recipients:
+      - nightly-dev@invenia.ca
+    on_success: never
+    on_failure: always
+    if: type = cron
 env:
   global:
   - secure: XevHMVzJcz0Z7W9C1va13ISCKNJOwqeJMDr8Z7CbhIi01cHYOyKMnCdyTHrr54AStxBKfNVZsJoK5mTSnAY0xd3JSWSk/9GnD5qeRmq0BChH7X8cnlqQNF+i5F/6/9q4bMeLeWtqwJVTNaot8OjQfbcLvRsgEKNJY7E4k9Pms60=
