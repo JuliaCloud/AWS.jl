@@ -475,27 +475,27 @@ function _generate_high_level_definition(
         formatted_function_name = _format_function_name(function_name)
         
         if required_keys && (idempotent || headers)
-            return """\n
+            return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
                 $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif !required_keys && (idempotent || headers)
-            return """\n
+            return """
                 $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
                 $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif required_keys && !isempty(req_kv)
-            return """\n
+            return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
                 $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
                 """
         elseif required_keys
-            return """\n
+            return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
                 $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
         else
-            return """\n
+            return """
                 $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
                 $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
@@ -530,22 +530,22 @@ function _generate_high_level_definition(
         formatted_function_name = _format_function_name(function_name)
 
         if required && idempotent
-            return """\n
+            return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
                 $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif required
-            return """\n
+            return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
                 $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif idempotent
-            return """\n
+            return """
                 $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
                 $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         else
-            return """\n
+            return """
                 $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
                 $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
                 """
@@ -597,16 +597,16 @@ function _generate_high_level_definition(
         operation_definition *= repeat('"', 3)
     end
 
-    operation_definition = _generate_docstring(name, documentation, required_parameters, optional_parameters)
+    doc_string = _generate_docstring(name, documentation, required_parameters, optional_parameters)
 
     if protocol in ("json", "query", "ec2")
-        operation_definition *= _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
+        function_string = _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
     elseif protocol in ("rest-json", "rest-xml")
-        operation_definition *= _generate_rest_operation_defintion(required_parameters, optional_parameters, name, service_name, method, request_uri)
+        function_string = _generate_rest_operation_defintion(required_parameters, optional_parameters, name, service_name, method, request_uri)
     else
         throw(ProtocolNotDefined("$function_name is using a new protocol; $protocol which is not supported."))
     end
 
-    return operation_definition
+    return string(doc_string, '\n', function_string)
 end
 end  # Module
