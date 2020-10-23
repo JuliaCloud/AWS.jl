@@ -385,6 +385,10 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
             ecode(e) in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
         )
         end
+
+        if e isa AWSException && occursin("Missing Authentication Token", e.message) && aws.credentials === nothing
+            throw(error("You're attempting to perform a request without credentials set."))
+        end
     end
 
     response_dict_type = request.response_dict_type
