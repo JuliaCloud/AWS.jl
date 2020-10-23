@@ -48,7 +48,7 @@ authorize_ip_rules(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws_co
 """
     CopyWorkspaceImage()
 
-Copies the specified image from the specified Region to the current Region.
+Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image.  Before copying a shared image, be sure to verify that it has been shared from the correct AWS account. To determine if an image has been shared and to see the AWS account ID that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.  
 
 # Required Parameters
 - `Name`: The name of the image.
@@ -102,7 +102,7 @@ Creates the specified tags for the specified WorkSpaces resource.
 
 # Required Parameters
 - `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
-- `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
+- `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 
 """
 
@@ -432,7 +432,7 @@ import_workspace_image(Ec2ImageId, ImageDescription, ImageName, IngestionProcess
 """
     ListAvailableManagementCidrRanges()
 
-Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
+Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  This operation can be run only by AWS accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
 
 # Required Parameters
 - `ManagementCidrRangeConstraint`: The IP address range to search. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
@@ -657,7 +657,7 @@ stop_workspaces(StopWorkspaceRequests, args::AbstractDict{String, <:Any}; aws_co
 """
     TerminateWorkspaces()
 
-Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated.
+Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact AWS Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
 
 # Required Parameters
 - `TerminateWorkspaceRequests`: The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
@@ -698,12 +698,12 @@ update_rules_of_ip_group(GroupId, UserRules, args::AbstractDict{String, <:Any}; 
 """
     UpdateWorkspaceImagePermission()
 
-Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
+Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
 
 # Required Parameters
 - `AllowCopyImage`: The permission to copy the image. This permission can be revoked only after an image has been shared.
 - `ImageId`: The identifier of the image.
-- `SharedAccountId`: The identifier of the AWS account to share or unshare the image with.
+- `SharedAccountId`: The identifier of the AWS account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct AWS account ID. 
 
 """
 

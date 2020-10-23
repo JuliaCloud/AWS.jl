@@ -176,7 +176,7 @@ Retrieves cost and usage metrics with resources for your account. You can specif
 
 # Optional Parameters
 - `Granularity`: Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY. 
-- `GroupBy`: You can group Amazon Web Services costs using up to two different groups: either dimensions, tag keys, or both.
+- `GroupBy`: You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
 - `Metrics`: Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the \"blended\" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """

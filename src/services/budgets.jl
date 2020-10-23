@@ -20,6 +20,27 @@ create_budget(AccountId, Budget; aws_config::AWSConfig=global_aws_config()) = bu
 create_budget(AccountId, Budget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), args)); aws_config=aws_config)
 
 """
+    CreateBudgetAction()
+
+ Creates a budget action. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionThreshold`: 
+- `ActionType`:  The type of action. This defines the type of tasks that can be carried out by this action. This field also determines the format for definition. 
+- `ApprovalModel`:  This specifies if the action needs manual or automatic approval. 
+- `BudgetName`: 
+- `Definition`: 
+- `ExecutionRoleArn`:  The role passed for action execution and reversion. Roles and actions must be in the same account. 
+- `NotificationType`: 
+- `Subscribers`: 
+
+"""
+
+create_budget_action(AccountId, ActionThreshold, ActionType, ApprovalModel, BudgetName, Definition, ExecutionRoleArn, NotificationType, Subscribers; aws_config::AWSConfig=global_aws_config()) = budgets("CreateBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionThreshold"=>ActionThreshold, "ActionType"=>ActionType, "ApprovalModel"=>ApprovalModel, "BudgetName"=>BudgetName, "Definition"=>Definition, "ExecutionRoleArn"=>ExecutionRoleArn, "NotificationType"=>NotificationType, "Subscribers"=>Subscribers); aws_config=aws_config)
+create_budget_action(AccountId, ActionThreshold, ActionType, ApprovalModel, BudgetName, Definition, ExecutionRoleArn, NotificationType, Subscribers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("CreateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionThreshold"=>ActionThreshold, "ActionType"=>ActionType, "ApprovalModel"=>ApprovalModel, "BudgetName"=>BudgetName, "Definition"=>Definition, "ExecutionRoleArn"=>ExecutionRoleArn, "NotificationType"=>NotificationType, "Subscribers"=>Subscribers), args)); aws_config=aws_config)
+
+"""
     CreateNotification()
 
 Creates a notification. You must create the budget before you create the associated notification.
@@ -66,6 +87,21 @@ delete_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) 
 delete_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
 
 """
+    DeleteBudgetAction()
+
+ Deletes a budget action. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionId`:  A system-generated universally unique identifier (UUID) for the action. 
+- `BudgetName`: 
+
+"""
+
+delete_budget_action(AccountId, ActionId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
+delete_budget_action(AccountId, ActionId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DeleteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+
+"""
     DeleteNotification()
 
 Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification. 
@@ -109,6 +145,73 @@ Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. Fo
 
 describe_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
 describe_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+
+"""
+    DescribeBudgetAction()
+
+ Describes a budget action detail. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionId`:  A system-generated universally unique identifier (UUID) for the action. 
+- `BudgetName`: 
+
+"""
+
+describe_budget_action(AccountId, ActionId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_budget_action(AccountId, ActionId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+
+"""
+    DescribeBudgetActionHistories()
+
+ Describes a budget action history detail. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionId`:  A system-generated universally unique identifier (UUID) for the action. 
+- `BudgetName`: 
+
+# Optional Parameters
+- `MaxResults`: 
+- `NextToken`: 
+- `TimePeriod`: 
+"""
+
+describe_budget_action_histories(AccountId, ActionId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionHistories", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_budget_action_histories(AccountId, ActionId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionHistories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
+
+"""
+    DescribeBudgetActionsForAccount()
+
+ Describes all of the budget actions for an account. 
+
+# Required Parameters
+- `AccountId`: 
+
+# Optional Parameters
+- `MaxResults`: 
+- `NextToken`: 
+"""
+
+describe_budget_actions_for_account(AccountId; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
+describe_budget_actions_for_account(AccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+
+"""
+    DescribeBudgetActionsForBudget()
+
+ Describes all of the budget actions for a budget. 
+
+# Required Parameters
+- `AccountId`: 
+- `BudgetName`: 
+
+# Optional Parameters
+- `MaxResults`: 
+- `NextToken`: 
+"""
+
+describe_budget_actions_for_budget(AccountId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
+describe_budget_actions_for_budget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
 
 """
     DescribeBudgetPerformanceHistory()
@@ -180,6 +283,22 @@ describe_subscribers_for_notification(AccountId, BudgetName, Notification; aws_c
 describe_subscribers_for_notification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws_config=aws_config)
 
 """
+    ExecuteBudgetAction()
+
+ Executes a budget action. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionId`:  A system-generated universally unique identifier (UUID) for the action. 
+- `BudgetName`: 
+- `ExecutionType`:  The type of execution. 
+
+"""
+
+execute_budget_action(AccountId, ActionId, BudgetName, ExecutionType; aws_config::AWSConfig=global_aws_config()) = budgets("ExecuteBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName, "ExecutionType"=>ExecutionType); aws_config=aws_config)
+execute_budget_action(AccountId, ActionId, BudgetName, ExecutionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("ExecuteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName, "ExecutionType"=>ExecutionType), args)); aws_config=aws_config)
+
+"""
     UpdateBudget()
 
 Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
@@ -192,6 +311,28 @@ Updates a budget. You can change every part of a budget except for the budgetNam
 
 update_budget(AccountId, NewBudget; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws_config=aws_config)
 update_budget(AccountId, NewBudget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), args)); aws_config=aws_config)
+
+"""
+    UpdateBudgetAction()
+
+ Updates a budget action. 
+
+# Required Parameters
+- `AccountId`: 
+- `ActionId`:  A system-generated universally unique identifier (UUID) for the action. 
+- `BudgetName`: 
+
+# Optional Parameters
+- `ActionThreshold`: 
+- `ApprovalModel`:  This specifies if the action needs manual or automatic approval. 
+- `Definition`: 
+- `ExecutionRoleArn`:  The role passed for action execution and reversion. Roles and actions must be in the same account. 
+- `NotificationType`: 
+- `Subscribers`: 
+"""
+
+update_budget_action(AccountId, ActionId, BudgetName; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
+update_budget_action(AccountId, ActionId, BudgetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = budgets("UpdateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), args)); aws_config=aws_config)
 
 """
     UpdateNotification()

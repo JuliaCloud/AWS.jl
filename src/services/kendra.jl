@@ -41,20 +41,21 @@ batch_put_document(Documents, IndexId, args::AbstractDict{String, <:Any}; aws_co
 Creates a data source that you use to with an Amazon Kendra index.  You specify a name, data source connector type and description for your data source. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
 
 # Required Parameters
-- `Configuration`: The data source connector configuration information that is required to access the repository.
 - `IndexId`: The identifier of the index that should be associated with this data source.
 - `Name`: A unique name for the data source. A data source name can't be changed without deleting and recreating the data source.
-- `RoleArn`: The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra.
 - `Type`: The type of repository that contains the data source.
 
 # Optional Parameters
+- `ClientToken`: A token that you provide to identify the request to create a data source. Multiple calls to the CreateDataSource operation with the same client token will create only one data source.
+- `Configuration`: The connector configuration information that is required to access the repository. You can't specify the Configuration parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter is required for all other data sources.
 - `Description`: A description for the data source.
-- `Schedule`: Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index.
+- `RoleArn`: The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
+- `Schedule`: Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
 - `Tags`: A list of key-value pairs that identify the data source. You can use the tags to identify and organize your resources and to control access to resources.
 """
 
-create_data_source(Configuration, IndexId, Name, RoleArn, Type; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}("Configuration"=>Configuration, "IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "Type"=>Type); aws_config=aws_config)
-create_data_source(Configuration, IndexId, Name, RoleArn, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "Type"=>Type), args)); aws_config=aws_config)
+create_data_source(IndexId, Name, Type; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_data_source(IndexId, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateFaq()
@@ -68,13 +69,14 @@ Creates an new set of frequently asked question (FAQ) questions and answers.
 - `S3Path`: The S3 location of the FAQ input data.
 
 # Optional Parameters
+- `ClientToken`: A token that you provide to identify the request to create a FAQ. Multiple calls to the CreateFaqRequest operation with the same client token will create only one FAQ. 
 - `Description`: A description of the FAQ.
 - `FileFormat`: The format of the input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
 - `Tags`: A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
 """
 
-create_faq(IndexId, Name, RoleArn, S3Path; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path); aws_config=aws_config)
-create_faq(IndexId, Name, RoleArn, S3Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path), args)); aws_config=aws_config)
+create_faq(IndexId, Name, RoleArn, S3Path; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_faq(IndexId, Name, RoleArn, S3Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateIndex()
@@ -83,10 +85,10 @@ Creates a new Amazon Kendra index. Index creation is an asynchronous operation. 
 
 # Required Parameters
 - `Name`: The name for the new index.
-- `RoleArn`: An IAM role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
+- `RoleArn`: An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
 
 # Optional Parameters
-- `ClientToken`: A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.”
+- `ClientToken`: A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.
 - `Description`: A description for the index.
 - `Edition`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
 - `ServerSideEncryptionConfiguration`: The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
