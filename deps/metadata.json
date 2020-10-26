@@ -228,7 +228,7 @@
     "version": "2018-01-04"
   },
   "quicksight-2018-04-01.normal.json": {
-    "sha": "0ea42595caa4014e920b9ee21b8712c5b0ab1a8a",
+    "sha": "d2b5b4f7b4a8a97bb2b76bdee067135a5dae614f",
     "version": "2018-04-01"
   },
   "qldb-session-2019-07-11.normal.json": {
@@ -324,7 +324,7 @@
     "version": "2016-01-14"
   },
   "mediatailor-2018-04-23.normal.json": {
-    "sha": "80a1e0fca412b983301dd08435ec3a8df1dd78d4",
+    "sha": "7cf25ed5a321afb9e18f03639bd9a3d0d2727f90",
     "version": "2018-04-23"
   },
   "mediastore-data-2017-09-01.normal.json": {
@@ -368,7 +368,7 @@
     "version": "2018-09-24"
   },
   "macie2-2020-01-01.normal.json": {
-    "sha": "83573c3a9b1119ae7739bbb8d4d155b66523cb5d",
+    "sha": "2ef18d5b98061389dae397455add14284843755b",
     "version": "2020-01-01"
   },
   "macie-2017-12-19.normal.json": {
