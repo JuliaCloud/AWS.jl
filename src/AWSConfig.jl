@@ -2,6 +2,7 @@ mutable struct AWSConfig
     credentials::Union{AWSCredentials, Nothing}
     region::String
     output::String
+    host::String
 end
 
 function AWSConfig(;
@@ -9,8 +10,9 @@ function AWSConfig(;
     creds=AWSCredentials(profile=profile),
     region=get(ENV, "AWS_DEFAULT_REGION", "us-east-1"),
     output="json",
+    endpoint="",
 )
-    return AWSConfig(creds, region, output)
+    return AWSConfig(creds, region, output, endpoint)
 end
 
 """

@@ -450,12 +450,22 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _generate_service_url(region::String, service::String, resource::String)
+"""
+    service_url(aws::AWSConfig, service="")
+
+Generate the URL for the service.  If the `host` field of the `AWSConfig` is set, will return this
+value unmodified.
+"""
+function service_url(aws::AWSConfig, service::String="")
+    isempty(aws.host) || return aws.host
+
     SERVICE_HOST = "amazonaws.com"
     regionless_services = ("iam", "route53")
 
-    if service in regionless_services || (service == "sdb" && region == "us-east-1")
-        region = ""
+    region = if service in regionless_services || (service == "sdb" && region == "us-east-1")
+        ""
+    else
+        aws.region
     end
 
     return string("https://", service, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, resource)
@@ -552,7 +562,7 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    request.url = service_url(aws_config, request.service)*request.resource
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
@@ -589,7 +599,7 @@ function (service::QueryService)(
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        url=service_url(aws_config, service.name)*POST_RESOURCE,
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -641,7 +651,7 @@ function (service::JSONService)(
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
-        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        url=service_url(aws_config, service.name)*POST_RESOURCE,
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -699,7 +709,7 @@ function (service::RestJSONService)(
         request.response_dict_type = pop!(args, "response_dict_type")
     end
 
-    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    request.url = service_url(aws_config, request.service)*request.resource
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)
