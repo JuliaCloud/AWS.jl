@@ -8,7 +8,6 @@ using HTTP
 using JSON
 using OrderedCollections: OrderedDict
 
-const metadata_path = joinpath(@__DIR__, "..", "deps", "metadata.json")
 const services_path = joinpath(@__DIR__, "AWSServices.jl")
 
 """
@@ -21,46 +20,13 @@ Low level wrappers are written into `src/AWSServices.jl`, while high level wrapp
 wrappers are written into their respective files in `src/services/{service}.jl`.
 """
 function parse_aws_metadata()
-    function _process_service(file::AbstractDict{String, Any}, version::String)
-        data_changed = true
-        push!(metadata, file["path"] => Dict("version" => version, "sha" => file["sha"]))
-        push!(services_modified, file)
-    end
-
-    metadata = JSON.parsefile(metadata_path, dicttype=OrderedDict)
-
     auth = GitHub.authenticate(ENV["GITHUB_AUTH"])
     repo_name = "aws/aws-sdk-js"
 
     files = _get_aws_sdk_js_files(repo_name, auth)
 
-    data_changed = false
-    services_modified = OrderedDict[]
-
-    for file in files
-        service_name, version = _get_service_and_version(file["path"])
-        filename = file["path"]
-
-        # AWS has released a new service API
-        if !haskey(metadata, filename)
-            @info "$service_name does not exist in metadata."
-            _process_service(file, version)
-        else
-            # Check if the service API has changed since the last run
-            if metadata[filename]["sha"] != file["sha"]
-                @info "$service_name sha hashes do not match, updating defintions."
-                _process_service(file, version)
-            end
-        end
-    end
-
-    if data_changed
-        _generate_low_level_wrappers(files, repo_name, auth)
-        _generate_high_level_wrapper(services_modified, repo_name, auth)
-        open(metadata_path, "w") do f
-            JSON.print(f, metadata, 2)
-        end
-    end
+    _generate_low_level_wrappers(files, repo_name, auth)
+    _generate_high_level_wrapper(files, repo_name, auth)
 end
 
 function _generate_low_level_wrappers(services::AbstractArray, repo_name::String, auth::GitHub.OAuth2)
