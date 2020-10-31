@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: elasticache
 using AWS.Compat
 using AWS.UUIDs
+
 """
     AddTagsToResource()
 
@@ -15,7 +16,6 @@ Adds up to 50 cost allocation tags to the named resource. A cost allocation tag 
 # Optional Parameters
 - `Tags`: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
 """
-
 add_tags_to_resource(ResourceName, Tag; aws_config::AWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
 add_tags_to_resource(ResourceName, Tag, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), args)); aws_config=aws_config)
 
@@ -30,7 +30,6 @@ Allows network ingress to a cache security group. Applications using ElastiCache
 - `EC2SecurityGroupOwnerId`: The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
 
 """
-
 authorize_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AWSConfig=global_aws_config()) = elasticache("AuthorizeCacheSecurityGroupIngress", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId); aws_config=aws_config)
 authorize_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("AuthorizeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), args)); aws_config=aws_config)
 
@@ -46,7 +45,6 @@ Apply the service update. For more information on service updates and applying t
 - `CacheClusterIds`: The cache cluster IDs
 - `ReplicationGroupIds`: The replication group IDs
 """
-
 batch_apply_update_action(ServiceUpdateName; aws_config::AWSConfig=global_aws_config()) = elasticache("BatchApplyUpdateAction", Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName); aws_config=aws_config)
 batch_apply_update_action(ServiceUpdateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("BatchApplyUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), args)); aws_config=aws_config)
 
@@ -62,7 +60,6 @@ Stop the service update. For more information on service updates and stopping th
 - `CacheClusterIds`: The cache cluster IDs
 - `ReplicationGroupIds`: The replication group IDs
 """
-
 batch_stop_update_action(ServiceUpdateName; aws_config::AWSConfig=global_aws_config()) = elasticache("BatchStopUpdateAction", Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName); aws_config=aws_config)
 batch_stop_update_action(ServiceUpdateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("BatchStopUpdateAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceUpdateName"=>ServiceUpdateName), args)); aws_config=aws_config)
 
@@ -77,7 +74,6 @@ Complete the migration of data.
 # Optional Parameters
 - `Force`: Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
 """
-
 complete_migration(ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("CompleteMigration", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 complete_migration(ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CompleteMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -94,7 +90,6 @@ Makes a copy of an existing snapshot.  This operation is valid for Redis only.  
 - `KmsKeyId`: The ID of the KMS key used to encrypt the target snapshot.
 - `TargetBucket`: The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
 """
-
 copy_snapshot(SourceSnapshotName, TargetSnapshotName; aws_config::AWSConfig=global_aws_config()) = elasticache("CopySnapshot", Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName); aws_config=aws_config)
 copy_snapshot(SourceSnapshotName, TargetSnapshotName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName), args)); aws_config=aws_config)
 
@@ -110,7 +105,7 @@ Creates a cluster. All nodes in the cluster run the same protocol-compliant cach
 - `AZMode`: Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
 - `AuthToken`:  Reserved parameter. The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
 - `AutoMinorVersionUpgrade`: This parameter is currently disabled.
-- `CacheNodeType`: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+- `CacheNodeType`: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   At this time, M6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   At this time, R6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
 - `CacheParameterGroupName`: The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
 - `CacheSecurityGroupNames`: A list of security group names to associate with this cluster. Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
 - `CacheSubnetGroupName`: The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups. 
@@ -133,7 +128,6 @@ Creates a cluster. All nodes in the cluster run the same protocol-compliant cach
 - `SnapshotWindow`: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.  This parameter is only valid if the Engine parameter is redis. 
 - `Tags`: A list of cost allocation tags to be added to this resource.
 """
-
 create_cache_cluster(CacheClusterId; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
 create_cache_cluster(CacheClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), args)); aws_config=aws_config)
 
@@ -143,12 +137,11 @@ create_cache_cluster(CacheClusterId, args::AbstractDict{String, <:Any}; aws_conf
 Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.  
 
 # Required Parameters
-- `CacheParameterGroupFamily`: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | 
+- `CacheParameterGroupFamily`: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | 
 - `CacheParameterGroupName`: A user-specified name for the cache parameter group.
 - `Description`: A user-specified description for the cache parameter group.
 
 """
-
 create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description); aws_config=aws_config)
 create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description), args)); aws_config=aws_config)
 
@@ -162,7 +155,6 @@ Creates a new cache security group. Use a cache security group to control access
 - `Description`: A description for the cache security group.
 
 """
-
 create_cache_security_group(CacheSecurityGroupName, Description; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description); aws_config=aws_config)
 create_cache_security_group(CacheSecurityGroupName, Description, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description), args)); aws_config=aws_config)
 
@@ -179,7 +171,6 @@ Creates a new cache subnet group. Use this parameter only when you are creating 
 # Optional Parameters
 - `SubnetIds`: A list of VPC subnet IDs for the cache subnet group.
 """
-
 create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
 create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws_config=aws_config)
 
@@ -195,7 +186,6 @@ Global Datastore for Redis offers fully managed, fast, reliable and secure cross
 # Optional Parameters
 - `GlobalReplicationGroupDescription`: Provides details of the Global Datastore
 """
-
 create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId); aws_config=aws_config)
 create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), args)); aws_config=aws_config)
 
@@ -213,7 +203,7 @@ Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replic
 - `AuthToken`:  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
 - `AutoMinorVersionUpgrade`: This parameter is currently disabled.
 - `AutomaticFailoverEnabled`: Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups. Default: false
-- `CacheNodeType`: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+- `CacheNodeType`: The compute and memory capacity of the nodes in the node group (shard). The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   At this time, M6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   At this time, R6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
 - `CacheParameterGroupName`: The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used.  If you are restoring to an engine version that is different than the original, you must specify the default version of that version. For example, CacheParameterGroupName=default.redis4.0.  If you are running Redis version 3.2.4 or later, only one node group (shard), and want to use a default parameter group, we recommend that you specify the parameter group by name.    To create a Redis (cluster mode disabled) replication group, use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled) replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.  
 - `CacheSecurityGroupNames`: A list of cache security group names to associate with this replication group.
 - `CacheSubnetGroupName`: The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups. 
@@ -240,7 +230,6 @@ Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replic
 - `TransitEncryptionEnabled`: A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. 
 - `UserGroupIds`: The list of user groups to associate with the replication group.
 """
-
 create_replication_group(ReplicationGroupDescription, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 create_replication_group(ReplicationGroupDescription, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -257,14 +246,13 @@ Creates a copy of an entire cluster or replication group at a specific moment in
 - `KmsKeyId`: The ID of the KMS key used to encrypt the snapshot.
 - `ReplicationGroupId`: The identifier of an existing replication group. The snapshot is created from this replication group.
 """
-
 create_snapshot(SnapshotName; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config)
 create_snapshot(SnapshotName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), args)); aws_config=aws_config)
 
 """
     CreateUser()
 
-For Redis engine version 6.04 onwards: Creates a Redis user. For more information, see Using Role Based Access Control (RBAC).
+For Redis engine version 6.x onwards: Creates a Redis user. For more information, see Using Role Based Access Control (RBAC).
 
 # Required Parameters
 - `AccessString`: Access permissions string used for this user account.
@@ -276,14 +264,13 @@ For Redis engine version 6.04 onwards: Creates a Redis user. For more informatio
 - `NoPasswordRequired`: Indicates a password is not required for this user account.
 - `Passwords`: Passwords used for this user account. You can create up to two passwords for each user.
 """
-
 create_user(AccessString, Engine, UserId, UserName; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName); aws_config=aws_config)
 create_user(AccessString, Engine, UserId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     CreateUserGroup()
 
-For Redis engine version 6.04 onwards: Creates a Redis user group. For more information, see Using Role Based Access Control (RBAC) 
+For Redis engine version 6.x onwards: Creates a Redis user group. For more information, see Using Role Based Access Control (RBAC) 
 
 # Required Parameters
 - `Engine`: Must be Redis. 
@@ -292,7 +279,6 @@ For Redis engine version 6.04 onwards: Creates a Redis user group. For more info
 # Optional Parameters
 - `UserIds`: The list of user IDs that belong to the user group.
 """
-
 create_user_group(Engine, UserGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUserGroup", Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId); aws_config=aws_config)
 create_user_group(Engine, UserGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId), args)); aws_config=aws_config)
 
@@ -310,7 +296,6 @@ Decreases the number of node groups in a Global Datastore
 - `GlobalNodeGroupsToRemove`: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster. 
 - `GlobalNodeGroupsToRetain`: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster. 
 """
-
 decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
 decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), args)); aws_config=aws_config)
 
@@ -328,7 +313,6 @@ Dynamically decreases the number of replicas in a Redis (cluster mode disabled) 
 - `ReplicaConfiguration`: A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
 - `ReplicasToRemove`: A list of the node ids to remove from the replication group or node group (shard).
 """
-
 decrease_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("DecreaseReplicaCount", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 decrease_replica_count(ApplyImmediately, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DecreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -343,7 +327,6 @@ Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associa
 # Optional Parameters
 - `FinalSnapshotIdentifier`: The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
 """
-
 delete_cache_cluster(CacheClusterId; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
 delete_cache_cluster(CacheClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), args)); aws_config=aws_config)
 
@@ -356,7 +339,6 @@ Deletes the specified cache parameter group. You cannot delete a cache parameter
 - `CacheParameterGroupName`: The name of the cache parameter group to delete.  The specified cache security group must not be associated with any clusters. 
 
 """
-
 delete_cache_parameter_group(CacheParameterGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
 delete_cache_parameter_group(CacheParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), args)); aws_config=aws_config)
 
@@ -369,7 +351,6 @@ Deletes a cache security group.  You cannot delete a cache security group if it 
 - `CacheSecurityGroupName`: The name of the cache security group to delete.  You cannot delete the default security group. 
 
 """
-
 delete_cache_security_group(CacheSecurityGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheSecurityGroup", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName); aws_config=aws_config)
 delete_cache_security_group(CacheSecurityGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName), args)); aws_config=aws_config)
 
@@ -382,7 +363,6 @@ Deletes a cache subnet group.  You cannot delete a cache subnet group if it is a
 - `CacheSubnetGroupName`: The name of the cache subnet group to delete. Constraints: Must contain no more than 255 alphanumeric characters or hyphens.
 
 """
-
 delete_cache_subnet_group(CacheSubnetGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName); aws_config=aws_config)
 delete_cache_subnet_group(CacheSubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), args)); aws_config=aws_config)
 
@@ -396,7 +376,6 @@ Deleting a Global Datastore is a two-step process:    First, you must Disassocia
 - `RetainPrimaryReplicationGroup`: The primary replication group is retained as a standalone replication group. 
 
 """
-
 delete_global_replication_group(GlobalReplicationGroupId, RetainPrimaryReplicationGroup; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "RetainPrimaryReplicationGroup"=>RetainPrimaryReplicationGroup); aws_config=aws_config)
 delete_global_replication_group(GlobalReplicationGroupId, RetainPrimaryReplicationGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "RetainPrimaryReplicationGroup"=>RetainPrimaryReplicationGroup), args)); aws_config=aws_config)
 
@@ -412,7 +391,6 @@ Deletes an existing replication group. By default, this operation deletes the en
 - `FinalSnapshotIdentifier`: The name of a final node group (shard) snapshot. ElastiCache creates the snapshot from the primary node in the cluster, rather than one of the replicas; this is to ensure that it captures the freshest data. After the final snapshot is taken, the replication group is immediately deleted.
 - `RetainPrimaryCluster`: If set to true, all of the read replicas are deleted, but the primary node is retained.
 """
-
 delete_replication_group(ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteReplicationGroup", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 delete_replication_group(ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -425,7 +403,6 @@ Deletes an existing snapshot. When you receive a successful response from this o
 - `SnapshotName`: The name of the snapshot to be deleted.
 
 """
-
 delete_snapshot(SnapshotName; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config)
 delete_snapshot(SnapshotName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), args)); aws_config=aws_config)
 
@@ -438,7 +415,6 @@ For Redis engine version 6.04 onwards: Deletes a user. The user will be removed 
 - `UserId`: The ID of the user.
 
 """
-
 delete_user(UserId; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteUser", Dict{String, Any}("UserId"=>UserId); aws_config=aws_config)
 delete_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -451,7 +427,6 @@ For Redis engine version 6.04 onwards: Deletes a ser group. The user group must 
 - `UserGroupId`: The ID of the user group.
 
 """
-
 delete_user_group(UserGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteUserGroup", Dict{String, Any}("UserGroupId"=>UserGroupId); aws_config=aws_config)
 delete_user_group(UserGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DeleteUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), args)); aws_config=aws_config)
 
@@ -467,7 +442,6 @@ Returns information about all provisioned clusters if no cluster identifier is s
 - `ShowCacheClustersNotInReplicationGroups`: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
 - `ShowCacheNodeInfo`: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
 """
-
 describe_cache_clusters(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheClusters"; aws_config=aws_config)
 describe_cache_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheClusters", args; aws_config=aws_config)
 
@@ -477,14 +451,13 @@ describe_cache_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 Returns a list of the available cache engines and their versions.
 
 # Optional Parameters
-- `CacheParameterGroupFamily`: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 |  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+- `CacheParameterGroupFamily`: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 |  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
 - `DefaultOnly`: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
 - `Engine`: The cache engine to return. Valid values: memcached | redis 
 - `EngineVersion`: The cache engine version to return. Example: 1.4.14 
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-
 describe_cache_engine_versions(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheEngineVersions"; aws_config=aws_config)
 describe_cache_engine_versions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheEngineVersions", args; aws_config=aws_config)
 
@@ -498,7 +471,6 @@ Returns a list of cache parameter group descriptions. If a cache parameter group
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-
 describe_cache_parameter_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheParameterGroups"; aws_config=aws_config)
 describe_cache_parameter_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheParameterGroups", args; aws_config=aws_config)
 
@@ -515,7 +487,6 @@ Returns the detailed parameter list for a particular cache parameter group.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 - `Source`: The parameter types to return. Valid values: user | system | engine-default 
 """
-
 describe_cache_parameters(CacheParameterGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheParameters", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
 describe_cache_parameters(CacheParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), args)); aws_config=aws_config)
 
@@ -529,7 +500,6 @@ Returns a list of cache security group descriptions. If a cache security group n
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-
 describe_cache_security_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheSecurityGroups"; aws_config=aws_config)
 describe_cache_security_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheSecurityGroups", args; aws_config=aws_config)
 
@@ -543,7 +513,6 @@ Returns a list of cache subnet group descriptions. If a subnet group name is spe
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-
 describe_cache_subnet_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheSubnetGroups"; aws_config=aws_config)
 describe_cache_subnet_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeCacheSubnetGroups", args; aws_config=aws_config)
 
@@ -553,13 +522,12 @@ describe_cache_subnet_groups(args::AbstractDict{String, <:Any}; aws_config::AWSC
 Returns the default engine and system parameter information for the specified cache engine.
 
 # Required Parameters
-- `CacheParameterGroupFamily`: The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | 
+- `CacheParameterGroupFamily`: The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | 
 
 # Optional Parameters
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 """
-
 describe_engine_default_parameters(CacheParameterGroupFamily; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeEngineDefaultParameters", Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily); aws_config=aws_config)
 describe_engine_default_parameters(CacheParameterGroupFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily), args)); aws_config=aws_config)
 
@@ -577,7 +545,6 @@ Returns events related to clusters, cache security groups, and cache parameter g
 - `SourceType`: The event source to retrieve events for. If no value is specified, all events are returned.
 - `StartTime`: The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
 """
-
 describe_events(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeEvents"; aws_config=aws_config)
 describe_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeEvents", args; aws_config=aws_config)
 
@@ -592,7 +559,6 @@ Returns information about a particular global replication group. If no identifie
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. 
 - `ShowMemberInfo`: Returns the list of members that comprise the Global Datastore.
 """
-
 describe_global_replication_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups"; aws_config=aws_config)
 describe_global_replication_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups", args; aws_config=aws_config)
 
@@ -606,7 +572,6 @@ Returns information about a particular replication group. If no identifier is sp
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
 - `ReplicationGroupId`: The identifier for the replication group to be described. This parameter is not case sensitive. If you do not specify this parameter, information about all replication groups is returned.
 """
-
 describe_replication_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReplicationGroups"; aws_config=aws_config)
 describe_replication_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReplicationGroups", args; aws_config=aws_config)
 
@@ -616,16 +581,15 @@ describe_replication_groups(args::AbstractDict{String, <:Any}; aws_config::AWSCo
 Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
 
 # Optional Parameters
-- `CacheNodeType`: The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+- `CacheNodeType`: The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   At this time, M6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   At this time, R6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
 - `Duration`: The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `OfferingType`: The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: \"Light Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\" 
+- `OfferingType`: The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid values: \"Light Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\"|\"All Upfront\"|\"Partial Upfront\"| \"No Upfront\" 
 - `ProductDescription`: The product description filter value. Use this parameter to show only those reservations matching the specified product description.
 - `ReservedCacheNodeId`: The reserved cache node identifier filter value. Use this parameter to show only the reservation that matches the specified reservation ID.
 - `ReservedCacheNodesOfferingId`: The offering identifier filter value. Use this parameter to show only purchased reservations matching the specified offering identifier.
 """
-
 describe_reserved_cache_nodes(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodes"; aws_config=aws_config)
 describe_reserved_cache_nodes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodes", args; aws_config=aws_config)
 
@@ -635,7 +599,7 @@ describe_reserved_cache_nodes(args::AbstractDict{String, <:Any}; aws_config::AWS
 Lists available reserved cache node offerings.
 
 # Optional Parameters
-- `CacheNodeType`: The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
+- `CacheNodeType`: The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type. The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.   General purpose:   Current generation:   M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.m6g.large, cache.m6g.xlarge, cache.m6g.2xlarge, cache.m6g.4xlarge, cache.m6g.8xlarge, cache.m6g.12xlarge, cache.m6g.16xlarge   At this time, M6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   M5 node types: cache.m5.large, cache.m5.xlarge, cache.m5.2xlarge, cache.m5.4xlarge, cache.m5.12xlarge, cache.m5.24xlarge   M4 node types: cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge   T3 node types: cache.t3.micro, cache.t3.small, cache.t3.medium   T2 node types: cache.t2.micro, cache.t2.small, cache.t2.medium    Previous generation: (not recommended)  T1 node types: cache.t1.micro   M1 node types: cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge   M3 node types: cache.m3.medium, cache.m3.large, cache.m3.xlarge, cache.m3.2xlarge      Compute optimized:   Previous generation: (not recommended)  C1 node types: cache.c1.xlarge      Memory optimized:   Current generation:   R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).  cache.r6g.large, cache.r6g.xlarge, cache.r6g.2xlarge, cache.r6g.4xlarge, cache.r6g.8xlarge, cache.r6g.12xlarge, cache.r6g.16xlarge   At this time, R6g node types are available in the following regions: us-east-1, us-west-2, us-east-2, eu-central-1, eu-west-1 and ap-northeast-1.   R5 node types: cache.r5.large, cache.r5.xlarge, cache.r5.2xlarge, cache.r5.4xlarge, cache.r5.12xlarge, cache.r5.24xlarge   R4 node types: cache.r4.large, cache.r4.xlarge, cache.r4.2xlarge, cache.r4.4xlarge, cache.r4.8xlarge, cache.r4.16xlarge    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge   R3 node types: cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge       Additional node type info    All current generation instance types are created in Amazon VPC by default.   Redis append-only files (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is not supported on T1 instances.   Redis configuration variables appendonly and appendfsync are not supported on Redis version 2.8.22 and later.  
 - `Duration`: Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
@@ -643,7 +607,6 @@ Lists available reserved cache node offerings.
 - `ProductDescription`: The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
 - `ReservedCacheNodesOfferingId`: The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
 """
-
 describe_reserved_cache_nodes_offerings(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodesOfferings"; aws_config=aws_config)
 describe_reserved_cache_nodes_offerings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeReservedCacheNodesOfferings", args; aws_config=aws_config)
 
@@ -658,7 +621,6 @@ Returns details of the service updates
 - `ServiceUpdateName`: The unique ID of the service update
 - `ServiceUpdateStatus`: The status of the service update
 """
-
 describe_service_updates(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeServiceUpdates"; aws_config=aws_config)
 describe_service_updates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeServiceUpdates", args; aws_config=aws_config)
 
@@ -676,7 +638,6 @@ Returns information about cluster or replication group snapshots. By default, De
 - `SnapshotName`: A user-supplied name of the snapshot. If this parameter is specified, only this snapshot are described.
 - `SnapshotSource`: If set to system, the output shows snapshots that were automatically created by ElastiCache. If set to user the output shows snapshots that were manually created. If omitted, the output shows both automatically and manually created snapshots.
 """
-
 describe_snapshots(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeSnapshots"; aws_config=aws_config)
 describe_snapshots(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeSnapshots", args; aws_config=aws_config)
 
@@ -697,7 +658,6 @@ Returns details of the update actions
 - `ShowNodeLevelUpdateStatus`: Dictates whether to include node level update status in the response 
 - `UpdateActionStatus`: The status of the update action.
 """
-
 describe_update_actions(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUpdateActions"; aws_config=aws_config)
 describe_update_actions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUpdateActions", args; aws_config=aws_config)
 
@@ -711,7 +671,6 @@ Returns a list of user groups.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. 
 - `UserGroupId`: The ID of the user group.
 """
-
 describe_user_groups(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUserGroups"; aws_config=aws_config)
 describe_user_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUserGroups", args; aws_config=aws_config)
 
@@ -727,7 +686,6 @@ Returns a list of users.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. 
 - `UserId`: The ID of the user.
 """
-
 describe_users(; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUsers"; aws_config=aws_config)
 describe_users(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DescribeUsers", args; aws_config=aws_config)
 
@@ -742,7 +700,6 @@ Remove a secondary cluster from the Global Datastore using the Global Datastore 
 - `ReplicationGroupRegion`: The AWS region of secondary cluster you wish to remove from the Global Datastore
 
 """
-
 disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion; aws_config::AWSConfig=global_aws_config()) = elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion); aws_config=aws_config)
 disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion), args)); aws_config=aws_config)
 
@@ -757,7 +714,6 @@ Used to failover the primary region to a selected secondary region. The selected
 - `PrimaryReplicationGroupId`: The name of the primary replication group
 
 """
-
 failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, PrimaryReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("FailoverGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "PrimaryRegion"=>PrimaryRegion, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId); aws_config=aws_config)
 failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, PrimaryReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("FailoverGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "PrimaryRegion"=>PrimaryRegion, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), args)); aws_config=aws_config)
 
@@ -774,7 +730,6 @@ Increase the number of node groups in the Global Datastore
 # Optional Parameters
 - `RegionalConfigurations`: Describes the replication group IDs, the AWS regions where they are stored and the shard configuration for each that comprise the Global Datastore
 """
-
 increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
 increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), args)); aws_config=aws_config)
 
@@ -791,7 +746,6 @@ Dynamically increases the number of replics in a Redis (cluster mode disabled) r
 - `NewReplicaCount`: The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
 - `ReplicaConfiguration`: A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
 """
-
 increase_replica_count(ApplyImmediately, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("IncreaseReplicaCount", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 increase_replica_count(ApplyImmediately, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("IncreaseReplicaCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -804,7 +758,6 @@ Lists all available node types that you can scale your Redis cluster's or replic
 - `CacheClusterId`: The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
 - `ReplicationGroupId`: The name of the replication group want to scale up to a larger node type. ElastiCache uses the replication group id to identify the current node type being used by this replication group, and from that to create a list of node types you can scale up to.  You must provide a value for either the CacheClusterId or the ReplicationGroupId. 
 """
-
 list_allowed_node_type_modifications(; aws_config::AWSConfig=global_aws_config()) = elasticache("ListAllowedNodeTypeModifications"; aws_config=aws_config)
 list_allowed_node_type_modifications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ListAllowedNodeTypeModifications", args; aws_config=aws_config)
 
@@ -817,7 +770,6 @@ Lists all cost allocation tags currently on the named resource. A cost allocatio
 - `ResourceName`: The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 
 """
-
 list_tags_for_resource(ResourceName; aws_config::AWSConfig=global_aws_config()) = elasticache("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
 list_tags_for_resource(ResourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws_config=aws_config)
 
@@ -849,7 +801,6 @@ Modifies the settings for a cluster. You can use this operation to change one or
 - `SnapshotRetentionLimit`: The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. 
 - `SnapshotWindow`: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. 
 """
-
 modify_cache_cluster(CacheClusterId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
 modify_cache_cluster(CacheClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), args)); aws_config=aws_config)
 
@@ -865,7 +816,6 @@ Modifies the parameters of a cache parameter group. You can modify up to 20 para
 # Optional Parameters
 - `ParameterNameValues`: An array of parameter names and values for the parameter update. You must supply at least one parameter name and value; subsequent arguments are optional. A maximum of 20 parameters may be modified per request.
 """
-
 modify_cache_parameter_group(CacheParameterGroupName, ParameterNameValue; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName, "ParameterNameValue"=>ParameterNameValue); aws_config=aws_config)
 modify_cache_parameter_group(CacheParameterGroupName, ParameterNameValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName, "ParameterNameValue"=>ParameterNameValue), args)); aws_config=aws_config)
 
@@ -881,7 +831,6 @@ Modifies an existing cache subnet group.
 - `CacheSubnetGroupDescription`: A description of the cache subnet group.
 - `SubnetIds`: The EC2 subnet IDs for the cache subnet group.
 """
-
 modify_cache_subnet_group(CacheSubnetGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName); aws_config=aws_config)
 modify_cache_subnet_group(CacheSubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupName"=>CacheSubnetGroupName), args)); aws_config=aws_config)
 
@@ -900,7 +849,6 @@ Modifies the settings for a Global Datastore.
 - `EngineVersion`: The upgraded version of the cache engine to be run on the clusters in the Global Datastore. 
 - `GlobalReplicationGroupDescription`: A description of the Global Datastore
 """
-
 modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
 modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), args)); aws_config=aws_config)
 
@@ -937,7 +885,6 @@ Modifies the settings for a replication group.    Scaling for Amazon ElastiCache
 - `UserGroupIdsToAdd`: A list of user group IDs.
 - `UserGroupIdsToRemove`: A list of users groups to remove, meaning the users in the group no longer can access thereplication group.
 """
-
 modify_replication_group(ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 modify_replication_group(ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -956,7 +903,6 @@ Modifies a replication group's shards (node groups) by allowing you to add shard
 - `NodeGroupsToRetain`: If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
 - `ReshardingConfiguration`: Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you. You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
 """
-
 modify_replication_group_shard_configuration(ApplyImmediately, NodeGroupCount, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroupShardConfiguration", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "NodeGroupCount"=>NodeGroupCount, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 modify_replication_group_shard_configuration(ApplyImmediately, NodeGroupCount, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroupShardConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "NodeGroupCount"=>NodeGroupCount, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
@@ -974,7 +920,6 @@ Changes user password(s) and/or access string.
 - `NoPasswordRequired`: Indicates no password is required for the user account.
 - `Passwords`: The passwords belonging to the user account. You are allowed up to two.
 """
-
 modify_user(UserId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}("UserId"=>UserId); aws_config=aws_config)
 modify_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -990,7 +935,6 @@ Changes the list of users that belong to the user group.
 - `UserIdsToAdd`: The list of user IDs to add to the user group.
 - `UserIdsToRemove`: The list of user IDs to remove from the user group.
 """
-
 modify_user_group(UserGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUserGroup", Dict{String, Any}("UserGroupId"=>UserGroupId); aws_config=aws_config)
 modify_user_group(UserGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUserGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserGroupId"=>UserGroupId), args)); aws_config=aws_config)
 
@@ -1006,7 +950,6 @@ Allows you to purchase a reserved cache node offering.
 - `CacheNodeCount`: The number of cache node instances to reserve. Default: 1 
 - `ReservedCacheNodeId`: A customer-specified identifier to track this reservation.  The Reserved Cache Node ID is an unique customer-specified identifier to track this reservation. If this parameter is not specified, ElastiCache automatically generates an identifier for the reservation.  Example: myreservationID
 """
-
 purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId; aws_config::AWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId); aws_config=aws_config)
 purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId), args)); aws_config=aws_config)
 
@@ -1020,7 +963,6 @@ Redistribute slots to ensure uniform distribution across existing shards in the 
 - `GlobalReplicationGroupId`: The name of the Global Datastore
 
 """
-
 rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
 rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), args)); aws_config=aws_config)
 
@@ -1036,7 +978,6 @@ Reboots some, or all, of the cache nodes within a provisioned cluster. This oper
 # Optional Parameters
 - `CacheNodeIdsToReboot`: A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
 """
-
 reboot_cache_cluster(CacheClusterId, CacheNodeId; aws_config::AWSConfig=global_aws_config()) = elasticache("RebootCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId, "CacheNodeId"=>CacheNodeId); aws_config=aws_config)
 reboot_cache_cluster(CacheClusterId, CacheNodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("RebootCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId, "CacheNodeId"=>CacheNodeId), args)); aws_config=aws_config)
 
@@ -1050,7 +991,6 @@ Removes the tags identified by the TagKeys list from the named resource.
 - `TagKeys`: A list of TagKeys identifying the tags you want removed from the named resource.
 
 """
-
 remove_tags_from_resource(ResourceName, TagKeys; aws_config::AWSConfig=global_aws_config()) = elasticache("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
 remove_tags_from_resource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
@@ -1066,7 +1006,6 @@ Modifies the parameters of a cache parameter group to the engine or system defau
 - `ParameterNameValues`: An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
 - `ResetAllParameters`: If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false 
 """
-
 reset_cache_parameter_group(CacheParameterGroupName; aws_config::AWSConfig=global_aws_config()) = elasticache("ResetCacheParameterGroup", Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName); aws_config=aws_config)
 reset_cache_parameter_group(CacheParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ResetCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupName"=>CacheParameterGroupName), args)); aws_config=aws_config)
 
@@ -1081,7 +1020,6 @@ Revokes ingress from a cache security group. Use this operation to disallow acce
 - `EC2SecurityGroupOwnerId`: The AWS account number of the Amazon EC2 security group owner. Note that this is not the same thing as an AWS access key ID - you must provide a valid AWS account number for this parameter.
 
 """
-
 revoke_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId; aws_config::AWSConfig=global_aws_config()) = elasticache("RevokeCacheSecurityGroupIngress", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId); aws_config=aws_config)
 revoke_cache_security_group_ingress(CacheSecurityGroupName, EC2SecurityGroupName, EC2SecurityGroupOwnerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("RevokeCacheSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "EC2SecurityGroupName"=>EC2SecurityGroupName, "EC2SecurityGroupOwnerId"=>EC2SecurityGroupOwnerId), args)); aws_config=aws_config)
 
@@ -1095,20 +1033,18 @@ Start the migration of data.
 - `ReplicationGroupId`: The ID of the replication group to which data should be migrated.
 
 """
-
 start_migration(CustomerNodeEndpointList, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("StartMigration", Dict{String, Any}("CustomerNodeEndpointList"=>CustomerNodeEndpointList, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 start_migration(CustomerNodeEndpointList, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("StartMigration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerNodeEndpointList"=>CustomerNodeEndpointList, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)
 
 """
     TestFailover()
 
-Represents the input of a TestFailover operation which test automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).  Note the following    A customer can use this operation to test automatic failover on up to 5 shards (called node groups in the ElastiCache API and AWS CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.     If calling this operation multiple times on different shards in the same Redis (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the AWS CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group &lt;node-group-id&gt;    Cache cluster message: Failover from master node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Replication group message: Failover from master node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
+Represents the input of a TestFailover operation which test automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).  Note the following    A customer can use this operation to test automatic failover on up to 5 shards (called node groups in the ElastiCache API and AWS CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.     If calling this operation multiple times on different shards in the same Redis (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the AWS CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group &lt;node-group-id&gt;    Cache cluster message: Failover from primary node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Replication group message: Failover from primary node &lt;primary-node-id&gt; to replica node &lt;node-id&gt; completed    Cache cluster message: Recovering cache nodes &lt;node-id&gt;    Cache cluster message: Finished recovery for cache nodes &lt;node-id&gt;    For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.
 
 # Required Parameters
 - `NodeGroupId`: The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
 - `ReplicationGroupId`: The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
 
 """
-
 test_failover(NodeGroupId, ReplicationGroupId; aws_config::AWSConfig=global_aws_config()) = elasticache("TestFailover", Dict{String, Any}("NodeGroupId"=>NodeGroupId, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 test_failover(NodeGroupId, ReplicationGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("TestFailover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeGroupId"=>NodeGroupId, "ReplicationGroupId"=>ReplicationGroupId), args)); aws_config=aws_config)

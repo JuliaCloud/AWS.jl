@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: s3outposts
 using AWS.Compat
 using AWS.UUIDs
+
 """
     CreateEndpoint()
 
@@ -14,7 +15,6 @@ S3 on Outposts access points simplify managing data access at scale for shared d
 - `SubnetId`: The ID of the subnet in the selected VPC.
 
 """
-
 create_endpoint(OutpostId, SecurityGroupId, SubnetId; aws_config::AWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId); aws_config=aws_config)
 create_endpoint(OutpostId, SecurityGroupId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId), args)); aws_config=aws_config)
 
@@ -28,7 +28,6 @@ S3 on Outposts access points simplify managing data access at scale for shared d
 - `outpostId`: The ID of the AWS Outpost. 
 
 """
-
 delete_endpoint(endpointId, outpostId; aws_config::AWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId); aws_config=aws_config)
 delete_endpoint(endpointId, outpostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId), args)); aws_config=aws_config)
 
@@ -41,6 +40,5 @@ S3 on Outposts access points simplify managing data access at scale for shared d
 - `maxResults`: The max number of endpoints that can be returned on the request.
 - `nextToken`: The next endpoint requested in the list.
 """
-
 list_endpoints(; aws_config::AWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints"; aws_config=aws_config)
 list_endpoints(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", args; aws_config=aws_config)

@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: cloudwatch_events
 using AWS.Compat
 using AWS.UUIDs
+
 """
     ActivateEventSource()
 
@@ -12,7 +13,6 @@ Activates a partner event source that has been deactivated. Once activated, your
 - `Name`: The name of the partner event source to activate.
 
 """
-
 activate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ActivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 activate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -28,7 +28,6 @@ Creates a new event bus within your account. This can be a custom event bus whic
 - `EventSourceName`: If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
 - `Tags`: Tags to associate with the event bus.
 """
-
 create_event_bus(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("CreateEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("CreateEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -42,7 +41,6 @@ Called by an SaaS partner to create a partner event source. This operation is no
 - `Name`: The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
 
 """
-
 create_partner_event_source(Account, Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("CreatePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
 create_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("CreatePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
 
@@ -55,7 +53,6 @@ You can use this operation to temporarily stop receiving events from the specifi
 - `Name`: The name of the partner event source to deactivate.
 
 """
-
 deactivate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeactivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 deactivate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -68,7 +65,6 @@ Deletes the specified custom event bus or partner event bus. All rules associate
 - `Name`: The name of the event bus to delete.
 
 """
-
 delete_event_bus(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeleteEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeleteEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -82,7 +78,6 @@ This operation is used by SaaS partners to delete a partner event source. This o
 - `Name`: The name of the event source to delete.
 
 """
-
 delete_partner_event_source(Account, Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeletePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
 delete_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeletePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), args)); aws_config=aws_config)
 
@@ -98,7 +93,6 @@ Deletes the specified rule. Before you can delete the rule, you must remove all 
 - `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-
 delete_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -110,7 +104,6 @@ Displays details about an event bus in your account. This can include the extern
 # Optional Parameters
 - `Name`: The name of the event bus to show details for. If you omit this, the default event bus is displayed.
 """
-
 describe_event_bus(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus"; aws_config=aws_config)
 describe_event_bus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus", args; aws_config=aws_config)
 
@@ -123,7 +116,6 @@ This operation lists details about a partner event source that is shared with yo
 - `Name`: The name of the partner event source to display the details of.
 
 """
-
 describe_event_source(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -136,7 +128,6 @@ An SaaS partner can use this operation to list details about a partner event sou
 - `Name`: The name of the event source to display.
 
 """
-
 describe_partner_event_source(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribePartnerEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_partner_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -151,7 +142,6 @@ Describes the specified rule. DescribeRule does not list the targets of a rule. 
 # Optional Parameters
 - `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 """
-
 describe_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -166,7 +156,6 @@ Disables the specified rule. A disabled rule won't match any events, and won't s
 # Optional Parameters
 - `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 """
-
 disable_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -181,7 +170,6 @@ Enables the specified rule. If the rule does not exist, the operation fails. Whe
 # Optional Parameters
 - `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 """
-
 enable_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -195,7 +183,6 @@ Lists all the event buses in your account, including the default event bus, cust
 - `NamePrefix`: Specifying this limits the results to only those event buses with names that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
-
 list_event_buses(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListEventBuses"; aws_config=aws_config)
 list_event_buses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListEventBuses", args; aws_config=aws_config)
 
@@ -209,7 +196,6 @@ You can use this to see all the partner event sources that have been shared with
 - `NamePrefix`: Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
-
 list_event_sources(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListEventSources"; aws_config=aws_config)
 list_event_sources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListEventSources", args; aws_config=aws_config)
 
@@ -225,7 +211,6 @@ An SaaS partner can use this operation to display the AWS account ID that a part
 - `Limit`: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
 - `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
 """
-
 list_partner_event_source_accounts(EventSourceName; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSourceAccounts", Dict{String, Any}("EventSourceName"=>EventSourceName); aws_config=aws_config)
 list_partner_event_source_accounts(EventSourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), args)); aws_config=aws_config)
 
@@ -241,7 +226,6 @@ An SaaS partner can use this operation to list all the partner event source name
 - `Limit`: pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
 - `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
 """
-
 list_partner_event_sources(NamePrefix; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
 list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), args)); aws_config=aws_config)
 
@@ -258,7 +242,6 @@ Lists the rules for the specified target. You can see which of the rules in Amaz
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
-
 list_rule_names_by_target(TargetArn; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListRuleNamesByTarget", Dict{String, Any}("TargetArn"=>TargetArn); aws_config=aws_config)
 list_rule_names_by_target(TargetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListRuleNamesByTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetArn"=>TargetArn), args)); aws_config=aws_config)
 
@@ -273,7 +256,6 @@ Lists your Amazon EventBridge rules. You can either list all the rules or you ca
 - `NamePrefix`: The prefix matching the rule name.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
-
 list_rules(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListRules"; aws_config=aws_config)
 list_rules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListRules", args; aws_config=aws_config)
 
@@ -286,7 +268,6 @@ Displays the tags associated with an EventBridge resource. In EventBridge, rules
 - `ResourceARN`: The ARN of the EventBridge resource for which you want to view tags.
 
 """
-
 list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
@@ -303,7 +284,6 @@ Lists the targets assigned to the specified rule.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
-
 list_targets_by_rule(Rule; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListTargetsByRule", Dict{String, Any}("Rule"=>Rule); aws_config=aws_config)
 list_targets_by_rule(Rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("ListTargetsByRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule), args)); aws_config=aws_config)
 
@@ -316,7 +296,6 @@ Sends custom events to Amazon EventBridge so that they can be matched to rules.
 - `Entries`: The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
 
 """
-
 put_events(Entries; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
 put_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
 
@@ -329,7 +308,6 @@ This is used by SaaS partners to write events to a customer's partner event bus.
 - `Entries`: The list of events to write to the event bus.
 
 """
-
 put_partner_events(Entries; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPartnerEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
 put_partner_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPartnerEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), args)); aws_config=aws_config)
 
@@ -347,7 +325,6 @@ Running PutPermission permits the specified AWS account or AWS organization to p
 - `Condition`: This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify \"*\" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
 - `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 """
-
 put_permission(Action, Principal, StatementId; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
 put_permission(Action, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
 
@@ -368,7 +345,6 @@ Creates or updates the specified rule. Rules are enabled by default, or based on
 - `State`: Indicates whether the rule is enabled or disabled.
 - `Tags`: The list of key-value pairs to associate with the rule.
 """
-
 put_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 put_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
@@ -384,7 +360,6 @@ Adds the specified targets to the specified rule, or updates the targets if they
 # Optional Parameters
 - `EventBusName`: The name of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
-
 put_targets(Rule, Targets; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
 put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), args)); aws_config=aws_config)
 
@@ -399,7 +374,6 @@ Revokes the permission of another AWS account to be able to put events to the sp
 # Optional Parameters
 - `EventBusName`: The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
 """
-
 remove_permission(StatementId; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}("StatementId"=>StatementId); aws_config=aws_config)
 remove_permission(StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementId"=>StatementId), args)); aws_config=aws_config)
 
@@ -416,7 +390,6 @@ Removes the specified targets from the specified rule. When the rule is triggere
 - `EventBusName`: The name of the event bus associated with the rule.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-
 remove_targets(Ids, Rule; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)
 remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), args)); aws_config=aws_config)
 
@@ -430,7 +403,6 @@ Assigns one or more tags (key-value pairs) to the specified EventBridge resource
 - `Tags`: The list of key-value pairs to associate with the resource.
 
 """
-
 tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
@@ -444,7 +416,6 @@ Tests whether the specified event pattern matches the provided event. Most servi
 - `EventPattern`: The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
 
 """
-
 test_event_pattern(Event, EventPattern; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("TestEventPattern", Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern); aws_config=aws_config)
 test_event_pattern(Event, EventPattern, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("TestEventPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern), args)); aws_config=aws_config)
 
@@ -458,6 +429,5 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 - `TagKeys`: The list of tag keys to remove from the resource.
 
 """
-
 untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)

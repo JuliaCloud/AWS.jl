@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: service_catalog
 using AWS.Compat
 using AWS.UUIDs
+
 """
     AcceptPortfolioShare()
 
@@ -15,7 +16,6 @@ Accepts an offer to share the specified portfolio.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `PortfolioShareType`: The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
 """
-
 accept_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AcceptPortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 accept_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AcceptPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -29,7 +29,6 @@ Associates the specified budget with the specified resource.
 - `ResourceId`:  The resource identifier. Either a portfolio-id or a product-id.
 
 """
-
 associate_budget_with_resource(BudgetName, ResourceId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateBudgetWithResource", Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId); aws_config=aws_config)
 associate_budget_with_resource(BudgetName, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateBudgetWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -46,7 +45,6 @@ Associates the specified principal ARN with the specified portfolio.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 associate_principal_with_portfolio(PortfolioId, PrincipalARN, PrincipalType; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociatePrincipalWithPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN, "PrincipalType"=>PrincipalType); aws_config=aws_config)
 associate_principal_with_portfolio(PortfolioId, PrincipalARN, PrincipalType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociatePrincipalWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN, "PrincipalType"=>PrincipalType), args)); aws_config=aws_config)
 
@@ -63,7 +61,6 @@ Associates the specified product with the specified portfolio. A delegated admin
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `SourcePortfolioId`: The identifier of the source portfolio.
 """
-
 associate_product_with_portfolio(PortfolioId, ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateProductWithPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId); aws_config=aws_config)
 associate_product_with_portfolio(PortfolioId, ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateProductWithPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -80,7 +77,6 @@ Associates a self-service action with a provisioning artifact.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 associate_service_action_with_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateServiceActionWithProvisioningArtifact", Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId); aws_config=aws_config)
 associate_service_action_with_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), args)); aws_config=aws_config)
 
@@ -94,7 +90,6 @@ Associate the specified TagOption with the specified portfolio or product.
 - `TagOptionId`: The TagOption identifier.
 
 """
-
 associate_tag_option_with_resource(ResourceId, TagOptionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateTagOptionWithResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId); aws_config=aws_config)
 associate_tag_option_with_resource(ResourceId, TagOptionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("AssociateTagOptionWithResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), args)); aws_config=aws_config)
 
@@ -109,7 +104,6 @@ Associates multiple self-service actions with provisioning artifacts.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 batch_associate_service_action_with_provisioning_artifact(ServiceActionAssociations; aws_config::AWSConfig=global_aws_config()) = service_catalog("BatchAssociateServiceActionWithProvisioningArtifact", Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations); aws_config=aws_config)
 batch_associate_service_action_with_provisioning_artifact(ServiceActionAssociations, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("BatchAssociateServiceActionWithProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), args)); aws_config=aws_config)
 
@@ -124,7 +118,6 @@ Disassociates a batch of self-service actions from the specified provisioning ar
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 batch_disassociate_service_action_from_provisioning_artifact(ServiceActionAssociations; aws_config::AWSConfig=global_aws_config()) = service_catalog("BatchDisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations); aws_config=aws_config)
 batch_disassociate_service_action_from_provisioning_artifact(ServiceActionAssociations, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("BatchDisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionAssociations"=>ServiceActionAssociations), args)); aws_config=aws_config)
 
@@ -144,7 +137,6 @@ Copies the specified source product to the specified target product or a new pro
 - `TargetProductId`: The identifier of the target product. By default, a new product is created.
 - `TargetProductName`: A name for the target product. The default is the name of the source product.
 """
-
 copy_product(IdempotencyToken, SourceProductArn; aws_config::AWSConfig=global_aws_config()) = service_catalog("CopyProduct", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "SourceProductArn"=>SourceProductArn); aws_config=aws_config)
 copy_product(IdempotencyToken, SourceProductArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CopyProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "SourceProductArn"=>SourceProductArn), args)); aws_config=aws_config)
 
@@ -164,7 +156,6 @@ Creates a constraint. A delegated admin is authorized to invoke this command.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `Description`: The description of the constraint.
 """
-
 create_constraint(IdempotencyToken, Parameters, PortfolioId, ProductId, Type; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateConstraint", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "PortfolioId"=>PortfolioId, "ProductId"=>ProductId, "Type"=>Type); aws_config=aws_config)
 create_constraint(IdempotencyToken, Parameters, PortfolioId, ProductId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "PortfolioId"=>PortfolioId, "ProductId"=>ProductId, "Type"=>Type), args)); aws_config=aws_config)
 
@@ -183,7 +174,6 @@ Creates a portfolio. A delegated admin is authorized to invoke this command.
 - `Description`: The description of the portfolio.
 - `Tags`: One or more tags.
 """
-
 create_portfolio(DisplayName, IdempotencyToken, ProviderName; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolio", Dict{String, Any}("DisplayName"=>DisplayName, "IdempotencyToken"=>IdempotencyToken, "ProviderName"=>ProviderName); aws_config=aws_config)
 create_portfolio(DisplayName, IdempotencyToken, ProviderName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "IdempotencyToken"=>IdempotencyToken, "ProviderName"=>ProviderName), args)); aws_config=aws_config)
 
@@ -200,7 +190,6 @@ Shares the specified portfolio with the specified account or organization node. 
 - `AccountId`: The AWS account ID. For example, 123456789012.
 - `OrganizationNode`: The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node an ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
 """
-
 create_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 create_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -225,7 +214,6 @@ Creates a product. A delegated admin is authorized to invoke this command.
 - `SupportUrl`: The contact URL for product support.
 - `Tags`: One or more tags.
 """
-
 create_product(IdempotencyToken, Name, Owner, ProductType, ProvisioningArtifactParameters; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProduct", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name, "Owner"=>Owner, "ProductType"=>ProductType, "ProvisioningArtifactParameters"=>ProvisioningArtifactParameters); aws_config=aws_config)
 create_product(IdempotencyToken, Name, Owner, ProductType, ProvisioningArtifactParameters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name, "Owner"=>Owner, "ProductType"=>ProductType, "ProvisioningArtifactParameters"=>ProvisioningArtifactParameters), args)); aws_config=aws_config)
 
@@ -249,7 +237,6 @@ Creates a plan. A plan includes the list of resources to be created (when provis
 - `ProvisioningParameters`: Parameters specified by the administrator that are required for provisioning the product.
 - `Tags`: One or more tags. If the plan is for an existing provisioned product, the product must have a RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
-
 create_provisioned_product_plan(IdempotencyToken, PlanName, PlanType, ProductId, ProvisionedProductName, ProvisioningArtifactId; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProvisionedProductPlan", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanName"=>PlanName, "PlanType"=>PlanType, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId); aws_config=aws_config)
 create_provisioned_product_plan(IdempotencyToken, PlanName, PlanType, ProductId, ProvisionedProductName, ProvisioningArtifactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanName"=>PlanName, "PlanType"=>PlanType, "ProductId"=>ProductId, "ProvisionedProductName"=>ProvisionedProductName, "ProvisioningArtifactId"=>ProvisioningArtifactId), args)); aws_config=aws_config)
 
@@ -266,7 +253,6 @@ Creates a provisioning artifact (also known as a version) for the specified prod
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 create_provisioning_artifact(IdempotencyToken, Parameters, ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProvisioningArtifact", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "ProductId"=>ProductId); aws_config=aws_config)
 create_provisioning_artifact(IdempotencyToken, Parameters, ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Parameters"=>Parameters, "ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -285,7 +271,6 @@ Creates a self-service action.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `Description`: The self-service action description.
 """
-
 create_service_action(Definition, DefinitionType, IdempotencyToken, Name; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateServiceAction", Dict{String, Any}("Definition"=>Definition, "DefinitionType"=>DefinitionType, "IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
 create_service_action(Definition, DefinitionType, IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Definition"=>Definition, "DefinitionType"=>DefinitionType, "IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws_config=aws_config)
 
@@ -299,7 +284,6 @@ Creates a TagOption.
 - `Value`: The TagOption value.
 
 """
-
 create_tag_option(Key, Value; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateTagOption", Dict{String, Any}("Key"=>Key, "Value"=>Value); aws_config=aws_config)
 create_tag_option(Key, Value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "Value"=>Value), args)); aws_config=aws_config)
 
@@ -314,7 +298,6 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 delete_constraint(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteConstraint", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_constraint(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -329,7 +312,6 @@ Deletes the specified portfolio. You cannot delete a portfolio if it was shared 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 delete_portfolio(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeletePortfolio", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeletePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -346,7 +328,6 @@ Stops sharing the specified portfolio with the specified account or organization
 - `AccountId`: The AWS account ID.
 - `OrganizationNode`: The organization node to whom you are going to stop sharing.
 """
-
 delete_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeletePortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 delete_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeletePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -361,7 +342,6 @@ Deletes the specified product. You cannot delete a product if it was shared with
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 delete_product(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProduct", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_product(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -377,7 +357,6 @@ Deletes the specified plan.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `IgnoreErrors`: If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
 """
-
 delete_provisioned_product_plan(PlanId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProvisionedProductPlan", Dict{String, Any}("PlanId"=>PlanId); aws_config=aws_config)
 delete_provisioned_product_plan(PlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), args)); aws_config=aws_config)
 
@@ -393,7 +372,6 @@ Deletes the specified provisioning artifact (also known as a version) for the sp
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 delete_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProvisioningArtifact", Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId); aws_config=aws_config)
 delete_provisioning_artifact(ProductId, ProvisioningArtifactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), args)); aws_config=aws_config)
 
@@ -408,7 +386,6 @@ Deletes a self-service action.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 delete_service_action(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteServiceAction", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_service_action(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -421,7 +398,6 @@ Deletes the specified TagOption. You cannot delete a TagOption if it is associat
 - `Id`: The TagOption identifier.
 
 """
-
 delete_tag_option(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteTagOption", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_tag_option(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DeleteTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -436,7 +412,6 @@ Gets information about the specified constraint.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_constraint(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeConstraint", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_constraint(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -451,7 +426,6 @@ Gets the status of the specified copy product operation.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_copy_product_status(CopyProductToken; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeCopyProductStatus", Dict{String, Any}("CopyProductToken"=>CopyProductToken); aws_config=aws_config)
 describe_copy_product_status(CopyProductToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeCopyProductStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CopyProductToken"=>CopyProductToken), args)); aws_config=aws_config)
 
@@ -466,7 +440,6 @@ Gets information about the specified portfolio. A delegated admin is authorized 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_portfolio(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolio", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -479,7 +452,6 @@ Gets the status of the specified portfolio share operation. This API can only be
 - `PortfolioShareToken`: The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
 
 """
-
 describe_portfolio_share_status(PortfolioShareToken; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolioShareStatus", Dict{String, Any}("PortfolioShareToken"=>PortfolioShareToken); aws_config=aws_config)
 describe_portfolio_share_status(PortfolioShareToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolioShareStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioShareToken"=>PortfolioShareToken), args)); aws_config=aws_config)
 
@@ -493,7 +465,6 @@ Gets information about the specified product.
 - `Id`: The product identifier.
 - `Name`: The product name.
 """
-
 describe_product(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProduct"; aws_config=aws_config)
 describe_product(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProduct", args; aws_config=aws_config)
 
@@ -507,7 +478,6 @@ Gets information about the specified product. This operation is run with adminis
 - `Id`: The product identifier.
 - `Name`: The product name.
 """
-
 describe_product_as_admin(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductAsAdmin"; aws_config=aws_config)
 describe_product_as_admin(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductAsAdmin", args; aws_config=aws_config)
 
@@ -522,7 +492,6 @@ Gets information about the specified product.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_product_view(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductView", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_product_view(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductView", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -536,7 +505,6 @@ Gets information about the specified provisioned product.
 - `Id`: The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
 - `Name`: The name of the provisioned product. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
 """
-
 describe_provisioned_product(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisionedProduct"; aws_config=aws_config)
 describe_provisioned_product(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisionedProduct", args; aws_config=aws_config)
 
@@ -553,7 +521,6 @@ Gets information about the resource changes for the specified plan.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 describe_provisioned_product_plan(PlanId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisionedProductPlan", Dict{String, Any}("PlanId"=>PlanId); aws_config=aws_config)
 describe_provisioned_product_plan(PlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlanId"=>PlanId), args)); aws_config=aws_config)
 
@@ -570,7 +537,6 @@ Gets information about the specified provisioning artifact (also known as a vers
 - `ProvisioningArtifactName`: The provisioning artifact name.
 - `Verbose`: Indicates whether a verbose level of detail is enabled.
 """
-
 describe_provisioning_artifact(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisioningArtifact"; aws_config=aws_config)
 describe_provisioning_artifact(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisioningArtifact", args; aws_config=aws_config)
 
@@ -588,7 +554,6 @@ Gets information about the configuration required to provision the specified pro
 - `ProvisioningArtifactId`: The identifier of the provisioning artifact. You must provide the name or ID, but not both.
 - `ProvisioningArtifactName`: The name of the provisioning artifact. You must provide the name or ID, but not both.
 """
-
 describe_provisioning_parameters(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisioningParameters"; aws_config=aws_config)
 describe_provisioning_parameters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProvisioningParameters", args; aws_config=aws_config)
 
@@ -605,7 +570,6 @@ Gets information about the specified request operation. Use this operation after
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 describe_record(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeRecord", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_record(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -620,7 +584,6 @@ Describes a self-service action.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_service_action(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeServiceAction", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_service_action(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -636,7 +599,6 @@ Finds the default parameters for a specific self-service action on a specific pr
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 describe_service_action_execution_parameters(ProvisionedProductId, ServiceActionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeServiceActionExecutionParameters", Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId); aws_config=aws_config)
 describe_service_action_execution_parameters(ProvisionedProductId, ServiceActionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeServiceActionExecutionParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), args)); aws_config=aws_config)
 
@@ -649,7 +611,6 @@ Gets information about the specified TagOption.
 - `Id`: The TagOption identifier.
 
 """
-
 describe_tag_option(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeTagOption", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_tag_option(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -659,7 +620,6 @@ describe_tag_option(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the management account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
 
 """
-
 disable_awsorganizations_access(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisableAWSOrganizationsAccess"; aws_config=aws_config)
 disable_awsorganizations_access(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisableAWSOrganizationsAccess", args; aws_config=aws_config)
 
@@ -673,7 +633,6 @@ Disassociates the specified budget from the specified resource.
 - `ResourceId`: The resource identifier you want to disassociate from. Either a portfolio-id or a product-id.
 
 """
-
 disassociate_budget_from_resource(BudgetName, ResourceId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateBudgetFromResource", Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId); aws_config=aws_config)
 disassociate_budget_from_resource(BudgetName, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateBudgetFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BudgetName"=>BudgetName, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -689,7 +648,6 @@ Disassociates a previously associated principal ARN from a specified portfolio.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 disassociate_principal_from_portfolio(PortfolioId, PrincipalARN; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociatePrincipalFromPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN); aws_config=aws_config)
 disassociate_principal_from_portfolio(PortfolioId, PrincipalARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociatePrincipalFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "PrincipalARN"=>PrincipalARN), args)); aws_config=aws_config)
 
@@ -705,7 +663,6 @@ Disassociates the specified product from the specified portfolio.  A delegated a
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 disassociate_product_from_portfolio(PortfolioId, ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateProductFromPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId); aws_config=aws_config)
 disassociate_product_from_portfolio(PortfolioId, ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateProductFromPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -722,7 +679,6 @@ Disassociates the specified self-service action association from the specified p
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 disassociate_service_action_from_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId); aws_config=aws_config)
 disassociate_service_action_from_provisioning_artifact(ProductId, ProvisioningArtifactId, ServiceActionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateServiceActionFromProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId, "ServiceActionId"=>ServiceActionId), args)); aws_config=aws_config)
 
@@ -736,7 +692,6 @@ Disassociates the specified TagOption from the specified resource.
 - `TagOptionId`: The TagOption identifier.
 
 """
-
 disassociate_tag_option_from_resource(ResourceId, TagOptionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateTagOptionFromResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId); aws_config=aws_config)
 disassociate_tag_option_from_resource(ResourceId, TagOptionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DisassociateTagOptionFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagOptionId"=>TagOptionId), args)); aws_config=aws_config)
 
@@ -746,7 +701,6 @@ disassociate_tag_option_from_resource(ResourceId, TagOptionId, args::AbstractDic
 Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the management account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
 
 """
-
 enable_awsorganizations_access(; aws_config::AWSConfig=global_aws_config()) = service_catalog("EnableAWSOrganizationsAccess"; aws_config=aws_config)
 enable_awsorganizations_access(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("EnableAWSOrganizationsAccess", args; aws_config=aws_config)
 
@@ -762,7 +716,6 @@ Provisions or modifies a product based on the resource changes for the specified
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 execute_provisioned_product_plan(IdempotencyToken, PlanId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ExecuteProvisionedProductPlan", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanId"=>PlanId); aws_config=aws_config)
 execute_provisioned_product_plan(IdempotencyToken, PlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ExecuteProvisionedProductPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "PlanId"=>PlanId), args)); aws_config=aws_config)
 
@@ -780,7 +733,6 @@ Executes a self-service action against a provisioned product.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `Parameters`: A map of all self-service action parameters and their values. If a provided parameter is of a special type, such as TARGET, the provided value will override the default value generated by AWS Service Catalog. If the parameters field is not provided, no additional parameters are passed and default values will be used for any special parameters such as TARGET.
 """
-
 execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, ServiceActionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ExecuteProvisionedProductServiceAction", Dict{String, Any}("ExecuteToken"=>ExecuteToken, "ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId); aws_config=aws_config)
 execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, ServiceActionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ExecuteProvisionedProductServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecuteToken"=>ExecuteToken, "ProvisionedProductId"=>ProvisionedProductId, "ServiceActionId"=>ServiceActionId), args)); aws_config=aws_config)
 
@@ -790,7 +742,6 @@ execute_provisioned_product_service_action(ExecuteToken, ProvisionedProductId, S
 Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the management account in the organization or by a delegated admin.
 
 """
-
 get_awsorganizations_access_status(; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetAWSOrganizationsAccessStatus"; aws_config=aws_config)
 get_awsorganizations_access_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetAWSOrganizationsAccessStatus", args; aws_config=aws_config)
 
@@ -807,7 +758,6 @@ This API takes either a ProvisonedProductId or a ProvisionedProductName, along w
 - `ProvisionedProductId`: The identifier of the provisioned product that you want the outputs from.
 - `ProvisionedProductName`: The name of the provisioned product that you want the outputs from.
 """
-
 get_provisioned_product_outputs(; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetProvisionedProductOutputs"; aws_config=aws_config)
 get_provisioned_product_outputs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("GetProvisionedProductOutputs", args; aws_config=aws_config)
 
@@ -822,7 +772,6 @@ Lists all portfolios for which sharing was accepted by this account.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 - `PortfolioShareType`: The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
 """
-
 list_accepted_portfolio_shares(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListAcceptedPortfolioShares"; aws_config=aws_config)
 list_accepted_portfolio_shares(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListAcceptedPortfolioShares", args; aws_config=aws_config)
 
@@ -839,7 +788,6 @@ Lists all the budgets associated to the specified resource.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_budgets_for_resource(ResourceId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListBudgetsForResource", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
 list_budgets_for_resource(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListBudgetsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -857,7 +805,6 @@ Lists the constraints for the specified portfolio and product.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 - `ProductId`: The product identifier.
 """
-
 list_constraints_for_portfolio(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListConstraintsForPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 list_constraints_for_portfolio(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListConstraintsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -874,7 +821,6 @@ Lists the paths to the specified product. A path is how the user has access to a
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_launch_paths(ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListLaunchPaths", Dict{String, Any}("ProductId"=>ProductId); aws_config=aws_config)
 list_launch_paths(ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListLaunchPaths", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -892,7 +838,6 @@ Lists the organization nodes that have access to the specified portfolio. This A
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_organization_portfolio_access(OrganizationNodeType, PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListOrganizationPortfolioAccess", Dict{String, Any}("OrganizationNodeType"=>OrganizationNodeType, "PortfolioId"=>PortfolioId); aws_config=aws_config)
 list_organization_portfolio_access(OrganizationNodeType, PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListOrganizationPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationNodeType"=>OrganizationNodeType, "PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -910,7 +855,6 @@ Lists the account IDs that have access to the specified portfolio. A delegated a
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_portfolio_access(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfolioAccess", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 list_portfolio_access(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfolioAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -924,7 +868,6 @@ Lists all portfolios in the catalog.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_portfolios(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfolios"; aws_config=aws_config)
 list_portfolios(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfolios", args; aws_config=aws_config)
 
@@ -941,7 +884,6 @@ Lists all portfolios that the specified product is associated with.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_portfolios_for_product(ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfoliosForProduct", Dict{String, Any}("ProductId"=>ProductId); aws_config=aws_config)
 list_portfolios_for_product(ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPortfoliosForProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -958,7 +900,6 @@ Lists all principal ARNs associated with the specified portfolio.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_principals_for_portfolio(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPrincipalsForPortfolio", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 list_principals_for_portfolio(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListPrincipalsForPortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -974,7 +915,6 @@ Lists the plans for the specified provisioned product or all plans to which the 
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 - `ProvisionProductId`: The product identifier.
 """
-
 list_provisioned_product_plans(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisionedProductPlans"; aws_config=aws_config)
 list_provisioned_product_plans(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisionedProductPlans", args; aws_config=aws_config)
 
@@ -989,7 +929,6 @@ Lists all provisioning artifacts (also known as versions) for the specified prod
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 list_provisioning_artifacts(ProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisioningArtifacts", Dict{String, Any}("ProductId"=>ProductId); aws_config=aws_config)
 list_provisioning_artifacts(ProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisioningArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId), args)); aws_config=aws_config)
 
@@ -1006,7 +945,6 @@ Lists all provisioning artifacts (also known as versions) for the specified self
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_provisioning_artifacts_for_service_action(ServiceActionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisioningArtifactsForServiceAction", Dict{String, Any}("ServiceActionId"=>ServiceActionId); aws_config=aws_config)
 list_provisioning_artifacts_for_service_action(ServiceActionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListProvisioningArtifactsForServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceActionId"=>ServiceActionId), args)); aws_config=aws_config)
 
@@ -1022,7 +960,6 @@ Lists the specified requests or all performed requests.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 - `SearchFilter`: The search filter to scope the results.
 """
-
 list_record_history(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListRecordHistory"; aws_config=aws_config)
 list_record_history(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListRecordHistory", args; aws_config=aws_config)
 
@@ -1039,7 +976,6 @@ Lists the resources associated with the specified TagOption.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 - `ResourceType`: The resource type.    Portfolio     Product   
 """
-
 list_resources_for_tag_option(TagOptionId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListResourcesForTagOption", Dict{String, Any}("TagOptionId"=>TagOptionId); aws_config=aws_config)
 list_resources_for_tag_option(TagOptionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListResourcesForTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagOptionId"=>TagOptionId), args)); aws_config=aws_config)
 
@@ -1053,7 +989,6 @@ Lists all self-service actions.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_service_actions(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListServiceActions"; aws_config=aws_config)
 list_service_actions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListServiceActions", args; aws_config=aws_config)
 
@@ -1071,7 +1006,6 @@ Returns a paginated list of self-service actions associated with the specified P
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_service_actions_for_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListServiceActionsForProvisioningArtifact", Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId); aws_config=aws_config)
 list_service_actions_for_provisioning_artifact(ProductId, ProvisioningArtifactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListServiceActionsForProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), args)); aws_config=aws_config)
 
@@ -1088,7 +1022,6 @@ Returns summary information about stack instances that are associated with the s
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_stack_instances_for_provisioned_product(ProvisionedProductId; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListStackInstancesForProvisionedProduct", Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId); aws_config=aws_config)
 list_stack_instances_for_provisioned_product(ProvisionedProductId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListStackInstancesForProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedProductId"=>ProvisionedProductId), args)); aws_config=aws_config)
 
@@ -1102,7 +1035,6 @@ Lists the specified TagOptions or all TagOptions.
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 list_tag_options(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListTagOptions"; aws_config=aws_config)
 list_tag_options(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ListTagOptions", args; aws_config=aws_config)
 
@@ -1128,7 +1060,6 @@ Provisions the specified product. A provisioned product is a resourced instance 
 - `ProvisioningPreferences`: An object that contains information about the provisioning preferences for a stack set.
 - `Tags`: One or more tags.
 """
-
 provision_product(ProvisionToken, ProvisionedProductName; aws_config::AWSConfig=global_aws_config()) = service_catalog("ProvisionProduct", Dict{String, Any}("ProvisionToken"=>ProvisionToken, "ProvisionedProductName"=>ProvisionedProductName); aws_config=aws_config)
 provision_product(ProvisionToken, ProvisionedProductName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ProvisionProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionToken"=>ProvisionToken, "ProvisionedProductName"=>ProvisionedProductName), args)); aws_config=aws_config)
 
@@ -1144,7 +1075,6 @@ Rejects an offer to share the specified portfolio.
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `PortfolioShareType`: The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id \"port-2qwzkwxt3y5fk\" --portfolio-share-type AWS_ORGANIZATIONS 
 """
-
 reject_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("RejectPortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 reject_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("RejectPortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
@@ -1159,7 +1089,6 @@ Lists the provisioned products that are available (not terminated). To use addit
 - `PageSize`: The maximum number of items to return with this call.
 - `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
 """
-
 scan_provisioned_products(; aws_config::AWSConfig=global_aws_config()) = service_catalog("ScanProvisionedProducts"; aws_config=aws_config)
 scan_provisioned_products(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("ScanProvisionedProducts", args; aws_config=aws_config)
 
@@ -1176,7 +1105,6 @@ Gets information about the products to which the caller has access.
 - `SortBy`: The sort field. If no value is specified, the results are not sorted.
 - `SortOrder`: The sort order. If no value is specified, the results are not sorted.
 """
-
 search_products(; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProducts"; aws_config=aws_config)
 search_products(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProducts", args; aws_config=aws_config)
 
@@ -1195,7 +1123,6 @@ Gets information about the products for the specified portfolio or all products.
 - `SortBy`: The sort field. If no value is specified, the results are not sorted.
 - `SortOrder`: The sort order. If no value is specified, the results are not sorted.
 """
-
 search_products_as_admin(; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProductsAsAdmin"; aws_config=aws_config)
 search_products_as_admin(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProductsAsAdmin", args; aws_config=aws_config)
 
@@ -1213,7 +1140,6 @@ Gets information about the provisioned products that meet the specified criteria
 - `SortBy`: The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
 - `SortOrder`: The sort order. If no value is specified, the results are not sorted.
 """
-
 search_provisioned_products(; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProvisionedProducts"; aws_config=aws_config)
 search_provisioned_products(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("SearchProvisionedProducts", args; aws_config=aws_config)
 
@@ -1231,7 +1157,6 @@ Terminates the specified provisioned product. This operation does not delete any
 - `ProvisionedProductId`: The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
 - `ProvisionedProductName`: The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
 """
-
 terminate_provisioned_product(TerminateToken; aws_config::AWSConfig=global_aws_config()) = service_catalog("TerminateProvisionedProduct", Dict{String, Any}("TerminateToken"=>TerminateToken); aws_config=aws_config)
 terminate_provisioned_product(TerminateToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("TerminateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateToken"=>TerminateToken), args)); aws_config=aws_config)
 
@@ -1248,7 +1173,6 @@ Updates the specified constraint.
 - `Description`: The updated description of the constraint.
 - `Parameters`: The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {\"RoleArn\" : \"arn:aws:iam::123456789012:role/LaunchRole\"}  Specify the LocalRoleName property as follows:  {\"LocalRoleName\": \"SCBasicLaunchRole\"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {\"NotificationArns\" : [\"arn:aws:sns:us-east-1:123456789012:Topic\"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {\"Version\":\"2.0\",\"Properties\":{\"TagUpdateOnProvisionedProduct\":\"String\"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {\"Version\": \"String\", \"Properties\": {\"AccountList\": [ \"String\" ], \"RegionList\": [ \"String\" ], \"AdminRole\": \"String\", \"ExecutionRole\": \"String\"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
 """
-
 update_constraint(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateConstraint", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_constraint(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateConstraint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -1268,7 +1192,6 @@ Updates the specified portfolio. You cannot update a product that was shared wit
 - `ProviderName`: The updated name of the portfolio provider.
 - `RemoveTags`: The tags to remove.
 """
-
 update_portfolio(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolio", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -1292,7 +1215,6 @@ Updates the specified product.
 - `SupportEmail`: The updated support email for the product.
 - `SupportUrl`: The updated support URL for the product.
 """
-
 update_product(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProduct", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_product(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -1318,7 +1240,6 @@ Requests updates to the configuration of the specified provisioned product. If t
 - `ProvisioningPreferences`: An object that contains information about the provisioning preferences for a stack set.
 - `Tags`: One or more tags. Requires the product to have RESOURCE_UPDATE constraint with TagUpdatesOnProvisionedProduct set to ALLOWED to allow tag updates.
 """
-
 update_provisioned_product(UpdateToken; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisionedProduct", Dict{String, Any}("UpdateToken"=>UpdateToken); aws_config=aws_config)
 update_provisioned_product(UpdateToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisionedProduct", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), args)); aws_config=aws_config)
 
@@ -1335,7 +1256,6 @@ Requests updates to the properties of the specified provisioned product.
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 """
-
 update_provisioned_product_properties(IdempotencyToken, ProvisionedProductId, ProvisionedProductProperties; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisionedProductProperties", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "ProvisionedProductId"=>ProvisionedProductId, "ProvisionedProductProperties"=>ProvisionedProductProperties); aws_config=aws_config)
 update_provisioned_product_properties(IdempotencyToken, ProvisionedProductId, ProvisionedProductProperties, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisionedProductProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "ProvisionedProductId"=>ProvisionedProductId, "ProvisionedProductProperties"=>ProvisionedProductProperties), args)); aws_config=aws_config)
 
@@ -1355,7 +1275,6 @@ Updates the specified provisioning artifact (also known as a version) for the sp
 - `Guidance`: Information set by the administrator to provide guidance to end users about which provisioning artifacts to use. The DEFAULT value indicates that the product version is active. The administrator can set the guidance to DEPRECATED to inform users that the product version is deprecated. Users are able to make updates to a provisioned product of a deprecated version but cannot launch new provisioned products using a deprecated version.
 - `Name`: The updated name of the provisioning artifact.
 """
-
 update_provisioning_artifact(ProductId, ProvisioningArtifactId; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisioningArtifact", Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId); aws_config=aws_config)
 update_provisioning_artifact(ProductId, ProvisioningArtifactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateProvisioningArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductId"=>ProductId, "ProvisioningArtifactId"=>ProvisioningArtifactId), args)); aws_config=aws_config)
 
@@ -1373,7 +1292,6 @@ Updates a self-service action.
 - `Description`: The self-service action description.
 - `Name`: The self-service action name.
 """
-
 update_service_action(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateServiceAction", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_service_action(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateServiceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -1389,6 +1307,5 @@ Updates the specified TagOption.
 - `Active`: The updated active state.
 - `Value`: The updated value.
 """
-
 update_tag_option(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateTagOption", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_tag_option(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdateTagOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)

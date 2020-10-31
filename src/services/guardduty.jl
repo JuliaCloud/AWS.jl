@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: guardduty
 using AWS.Compat
 using AWS.UUIDs
+
 """
     AcceptInvitation()
 
@@ -14,7 +15,6 @@ Accepts the invitation to be monitored by a master GuardDuty account.
 - `masterId`: The account ID of the master GuardDuty account whose invitation you're accepting.
 
 """
-
 accept_invitation(detectorId, invitationId, masterId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/master", Dict{String, Any}("invitationId"=>invitationId, "masterId"=>masterId); aws_config=aws_config)
 accept_invitation(detectorId, invitationId, masterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId, "masterId"=>masterId), args)); aws_config=aws_config)
 
@@ -28,7 +28,6 @@ Archives GuardDuty findings that are specified by the list of finding IDs.  Only
 - `findingIds`: The IDs of the findings that you want to archive.
 
 """
-
 archive_findings(detectorId, findingIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/archive", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
 archive_findings(detectorId, findingIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/archive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), args)); aws_config=aws_config)
 
@@ -46,7 +45,6 @@ Creates a single Amazon GuardDuty detector. A detector is a resource that repres
 - `findingPublishingFrequency`: An enum value that specifies how frequently updated findings are exported.
 - `tags`: The tags to be added to a new detector resource.
 """
-
 create_detector(enable; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector", Dict{String, Any}("enable"=>enable, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_detector(enable, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enable"=>enable, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -67,7 +65,6 @@ Creates a filter using the specified finding criteria.
 - `rank`: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
 - `tags`: The tags to be added to a new filter resource.
 """
-
 create_filter(detectorId, findingCriteria, name; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter", Dict{String, Any}("findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_filter(detectorId, findingCriteria, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -87,7 +84,6 @@ Creates a new IPSet, which is called a trusted IP list in the console user inter
 - `clientToken`: The idempotency token for the create request.
 - `tags`: The tags to be added to a new IP set resource.
 """
-
 create_ipset(activate, detectorId, format, location, name; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/ipset", Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_ipset(activate, detectorId, format, location, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/ipset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -101,7 +97,6 @@ Creates member accounts of the current AWS account by specifying a list of AWS a
 - `detectorId`: The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
 
 """
-
 create_members(accountDetails, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member", Dict{String, Any}("accountDetails"=>accountDetails); aws_config=aws_config)
 create_members(accountDetails, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountDetails"=>accountDetails), args)); aws_config=aws_config)
 
@@ -118,7 +113,6 @@ Creates a publishing destination to export findings to. The resource to export f
 # Optional Parameters
 - `clientToken`: The idempotency token for the request.
 """
-
 create_publishing_destination(destinationProperties, destinationType, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination", Dict{String, Any}("destinationProperties"=>destinationProperties, "destinationType"=>destinationType, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_publishing_destination(destinationProperties, destinationType, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationProperties"=>destinationProperties, "destinationType"=>destinationType, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -133,7 +127,6 @@ Generates example findings of types specified by the list of finding types. If '
 # Optional Parameters
 - `findingTypes`: The types of sample findings to generate.
 """
-
 create_sample_findings(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/create"; aws_config=aws_config)
 create_sample_findings(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/create", args; aws_config=aws_config)
 
@@ -153,7 +146,6 @@ Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addr
 - `clientToken`: The idempotency token for the create request.
 - `tags`: The tags to be added to a new threat list resource.
 """
-
 create_threat_intel_set(activate, detectorId, format, location, name; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/threatintelset", Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_threat_intel_set(activate, detectorId, format, location, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/threatintelset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activate"=>activate, "format"=>format, "location"=>location, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -166,7 +158,6 @@ Declines invitations sent to the current member account by AWS accounts specifie
 - `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
 
 """
-
 decline_invitations(accountIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/invitation/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 decline_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/invitation/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -179,7 +170,6 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 - `detectorId`: The unique ID of the detector that you want to delete.
 
 """
-
 delete_detector(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)"; aws_config=aws_config)
 delete_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)", args; aws_config=aws_config)
 
@@ -193,7 +183,6 @@ Deletes the filter specified by the filter name.
 - `filterName`: The name of the filter that you want to delete.
 
 """
-
 delete_filter(detectorId, filterName; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/filter/$(filterName)"; aws_config=aws_config)
 delete_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/filter/$(filterName)", args; aws_config=aws_config)
 
@@ -207,7 +196,6 @@ Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists i
 - `ipSetId`: The unique ID of the IPSet to delete.
 
 """
-
 delete_ipset(detectorId, ipSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/ipset/$(ipSetId)"; aws_config=aws_config)
 delete_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/ipset/$(ipSetId)", args; aws_config=aws_config)
 
@@ -220,7 +208,6 @@ Deletes invitations sent to the current member account by AWS accounts specified
 - `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
 
 """
-
 delete_invitations(accountIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/invitation/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 delete_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/invitation/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -234,7 +221,6 @@ Deletes GuardDuty member accounts (to the current GuardDuty master account) spec
 - `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to delete.
 
 """
-
 delete_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 delete_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -248,7 +234,6 @@ Deletes the publishing definition with the specified destinationId.
 - `detectorId`: The unique ID of the detector associated with the publishing destination to delete.
 
 """
-
 delete_publishing_destination(destinationId, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
 delete_publishing_destination(destinationId, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args; aws_config=aws_config)
 
@@ -262,7 +247,6 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 - `threatIntelSetId`: The unique ID of the threatIntelSet that you want to delete.
 
 """
-
 delete_threat_intel_set(detectorId, threatIntelSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)"; aws_config=aws_config)
 delete_threat_intel_set(detectorId, threatIntelSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args; aws_config=aws_config)
 
@@ -275,7 +259,6 @@ Returns information about the account selected as the delegated administrator fo
 - `detectorId`: The ID of the detector to retrieve information about the delegated administrator from.
 
 """
-
 describe_organization_configuration(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/admin"; aws_config=aws_config)
 describe_organization_configuration(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/admin", args; aws_config=aws_config)
 
@@ -289,7 +272,6 @@ Returns information about the publishing destination specified by the provided d
 - `detectorId`: The unique ID of the detector associated with the publishing destination to retrieve.
 
 """
-
 describe_publishing_destination(destinationId, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
 describe_publishing_destination(destinationId, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args; aws_config=aws_config)
 
@@ -302,7 +284,6 @@ Disables an AWS account within the Organization as the GuardDuty delegated admin
 - `adminAccountId`: The AWS Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
 
 """
-
 disable_organization_admin_account(adminAccountId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/admin/disable", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
 disable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
 
@@ -315,7 +296,6 @@ Disassociates the current GuardDuty member account from its master account.
 - `detectorId`: The unique ID of the detector of the GuardDuty member account.
 
 """
-
 disassociate_from_master_account(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/master/disassociate"; aws_config=aws_config)
 disassociate_from_master_account(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/master/disassociate", args; aws_config=aws_config)
 
@@ -329,7 +309,6 @@ Disassociates GuardDuty member accounts (to the current GuardDuty master account
 - `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the master account.
 
 """
-
 disassociate_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/disassociate", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 disassociate_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -342,7 +321,6 @@ Enables an AWS account within the organization as the GuardDuty delegated admini
 - `adminAccountId`: The AWS Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
 
 """
-
 enable_organization_admin_account(adminAccountId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/admin/enable", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
 enable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
 
@@ -355,7 +333,6 @@ Retrieves an Amazon GuardDuty detector specified by the detectorId.
 - `detectorId`: The unique ID of the detector that you want to get.
 
 """
-
 get_detector(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)"; aws_config=aws_config)
 get_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)", args; aws_config=aws_config)
 
@@ -369,7 +346,6 @@ Returns the details of the filter specified by the filter name.
 - `filterName`: The name of the filter you want to get.
 
 """
-
 get_filter(detectorId, filterName; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter/$(filterName)"; aws_config=aws_config)
 get_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter/$(filterName)", args; aws_config=aws_config)
 
@@ -385,7 +361,6 @@ Describes Amazon GuardDuty findings specified by finding IDs.
 # Optional Parameters
 - `sortCriteria`: Represents the criteria used for sorting findings.
 """
-
 get_findings(detectorId, findingIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/get", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
 get_findings(detectorId, findingIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), args)); aws_config=aws_config)
 
@@ -401,7 +376,6 @@ Lists Amazon GuardDuty findings statistics for the specified detector ID.
 # Optional Parameters
 - `findingCriteria`: Represents the criteria that is used for querying findings.
 """
-
 get_findings_statistics(detectorId, findingStatisticTypes; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/statistics", Dict{String, Any}("findingStatisticTypes"=>findingStatisticTypes); aws_config=aws_config)
 get_findings_statistics(detectorId, findingStatisticTypes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingStatisticTypes"=>findingStatisticTypes), args)); aws_config=aws_config)
 
@@ -415,7 +389,6 @@ Retrieves the IPSet specified by the ipSetId.
 - `ipSetId`: The unique ID of the IPSet to retrieve.
 
 """
-
 get_ipset(detectorId, ipSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset/$(ipSetId)"; aws_config=aws_config)
 get_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset/$(ipSetId)", args; aws_config=aws_config)
 
@@ -425,7 +398,6 @@ get_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config::AW
 Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
 
 """
-
 get_invitations_count(; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count"; aws_config=aws_config)
 get_invitations_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count", args; aws_config=aws_config)
 
@@ -438,7 +410,6 @@ Provides the details for the GuardDuty master account associated with the curren
 - `detectorId`: The unique ID of the detector of the GuardDuty member account.
 
 """
-
 get_master_account(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/master"; aws_config=aws_config)
 get_master_account(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/master", args; aws_config=aws_config)
 
@@ -452,7 +423,6 @@ Describes which data sources are enabled for the member account's detector.
 - `detectorId`: The detector ID for the master account.
 
 """
-
 get_member_detectors(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/detector/get", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 get_member_detectors(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/detector/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -466,7 +436,6 @@ Retrieves GuardDuty member accounts (to the current GuardDuty master account) sp
 - `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
 
 """
-
 get_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/get", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 get_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -480,7 +449,6 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 - `threatIntelSetId`: The unique ID of the threatIntelSet that you want to get.
 
 """
-
 get_threat_intel_set(detectorId, threatIntelSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)"; aws_config=aws_config)
 get_threat_intel_set(detectorId, threatIntelSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args; aws_config=aws_config)
 
@@ -499,7 +467,6 @@ Lists Amazon GuardDuty usage statistics over the last 30 days for the specified 
 - `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
 - `unit`: The currency unit you would like to view your usage statistics in. Current valid values are USD.
 """
-
 get_usage_statistics(detectorId, usageCriteria, usageStatisticsType; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/usage/statistics", Dict{String, Any}("usageCriteria"=>usageCriteria, "usageStatisticsType"=>usageStatisticsType); aws_config=aws_config)
 get_usage_statistics(detectorId, usageCriteria, usageStatisticsType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/usage/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("usageCriteria"=>usageCriteria, "usageStatisticsType"=>usageStatisticsType), args)); aws_config=aws_config)
 
@@ -516,7 +483,6 @@ Invites other AWS accounts (created as members of the current AWS account by Cre
 - `disableEmailNotification`: A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
 - `message`: The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
 """
-
 invite_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/invite", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 invite_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -529,7 +495,6 @@ Lists detectorIds of all the existing Amazon GuardDuty detector resources.
 - `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 """
-
 list_detectors(; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector"; aws_config=aws_config)
 list_detectors(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector", args; aws_config=aws_config)
 
@@ -545,7 +510,6 @@ Returns a paginated list of the current filters.
 - `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 """
-
 list_filters(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter"; aws_config=aws_config)
 list_filters(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter", args; aws_config=aws_config)
 
@@ -563,7 +527,6 @@ Lists Amazon GuardDuty findings for the specified detector ID.
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 - `sortCriteria`: Represents the criteria used for sorting findings.
 """
-
 list_findings(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings"; aws_config=aws_config)
 list_findings(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings", args; aws_config=aws_config)
 
@@ -579,7 +542,6 @@ Lists the IPSets of the GuardDuty service specified by the detector ID. If you u
 - `maxResults`: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 """
-
 list_ipsets(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset"; aws_config=aws_config)
 list_ipsets(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset", args; aws_config=aws_config)
 
@@ -592,7 +554,6 @@ Lists all GuardDuty membership invitations that were sent to the current AWS acc
 - `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 """
-
 list_invitations(; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/invitation"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/invitation", args; aws_config=aws_config)
 
@@ -609,7 +570,6 @@ Lists details about all member accounts for the current GuardDuty master account
 - `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 - `onlyAssociated`: Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated).
 """
-
 list_members(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/member"; aws_config=aws_config)
 list_members(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/member", args; aws_config=aws_config)
 
@@ -622,7 +582,6 @@ Lists the accounts configured as GuardDuty delegated administrators.
 - `maxResults`: The maximum number of results to return in the response.
 - `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
 """
-
 list_organization_admin_accounts(; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/admin"; aws_config=aws_config)
 list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/admin", args; aws_config=aws_config)
 
@@ -638,7 +597,6 @@ Returns a list of publishing destinations associated with the specified dectecto
 - `maxResults`: The maximum number of results to return in the response.
 - `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
 """
-
 list_publishing_destinations(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination"; aws_config=aws_config)
 list_publishing_destinations(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination", args; aws_config=aws_config)
 
@@ -651,7 +609,6 @@ Lists tags for a resource. Tagging is currently supported for detectors, finding
 - `resourceArn`: The Amazon Resource Name (ARN) for the given GuardDuty resource. 
 
 """
-
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
@@ -667,7 +624,6 @@ Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID.
 - `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
 - `nextToken`: You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
 """
-
 list_threat_intel_sets(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset"; aws_config=aws_config)
 list_threat_intel_sets(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset", args; aws_config=aws_config)
 
@@ -681,7 +637,6 @@ Turns on GuardDuty monitoring of the specified member accounts. Use this operati
 - `detectorId`: The unique ID of the detector of the GuardDuty master account associated with the member accounts to monitor.
 
 """
-
 start_monitoring_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/start", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 start_monitoring_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -695,7 +650,6 @@ Stops GuardDuty monitoring for the specified member accounts. Use the StartMonit
 - `detectorId`: The unique ID of the detector associated with the GuardDuty master account that is monitoring member accounts.
 
 """
-
 stop_monitoring_members(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/stop", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 stop_monitoring_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -709,7 +663,6 @@ Adds tags to a resource.
 - `tags`: The tags to be added to a resource.
 
 """
-
 tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
@@ -723,7 +676,6 @@ Unarchives GuardDuty findings specified by the findingIds.
 - `findingIds`: The IDs of the findings to unarchive.
 
 """
-
 unarchive_findings(detectorId, findingIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/unarchive", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
 unarchive_findings(detectorId, findingIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/unarchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), args)); aws_config=aws_config)
 
@@ -737,7 +689,6 @@ Removes tags from a resource.
 - `tagKeys`: The tag keys to remove from the resource.
 
 """
-
 untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
@@ -754,7 +705,6 @@ Updates the Amazon GuardDuty detector specified by the detectorId.
 - `enable`: Specifies whether the detector is enabled or not enabled.
 - `findingPublishingFrequency`: An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
 """
-
 update_detector(detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)"; aws_config=aws_config)
 update_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)", args; aws_config=aws_config)
 
@@ -773,7 +723,6 @@ Updates the filter specified by the filter name.
 - `findingCriteria`: Represents the criteria to be used in the filter for querying findings.
 - `rank`: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
 """
-
 update_filter(detectorId, filterName; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)"; aws_config=aws_config)
 update_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)", args; aws_config=aws_config)
 
@@ -790,7 +739,6 @@ Marks the specified GuardDuty findings as useful or not useful.
 # Optional Parameters
 - `comments`: Additional feedback about the GuardDuty findings.
 """
-
 update_findings_feedback(detectorId, feedback, findingIds; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/feedback", Dict{String, Any}("feedback"=>feedback, "findingIds"=>findingIds); aws_config=aws_config)
 update_findings_feedback(detectorId, feedback, findingIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("feedback"=>feedback, "findingIds"=>findingIds), args)); aws_config=aws_config)
 
@@ -808,7 +756,6 @@ Updates the IPSet specified by the IPSet ID.
 - `location`: The updated URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
 - `name`: The unique ID that specifies the IPSet that you want to update.
 """
-
 update_ipset(detectorId, ipSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)"; aws_config=aws_config)
 update_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)", args; aws_config=aws_config)
 
@@ -824,7 +771,6 @@ Contains information on member accounts to be updated.
 # Optional Parameters
 - `dataSources`: An object describes which data sources will be updated.
 """
-
 update_member_detectors(accountIds, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/detector/update", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 update_member_detectors(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/detector/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
 
@@ -840,7 +786,6 @@ Updates the delegated administrator account with the values provided.
 # Optional Parameters
 - `dataSources`: An object describes which data sources will be updated.
 """
-
 update_organization_configuration(autoEnable, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/admin", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)
 update_organization_configuration(autoEnable, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), args)); aws_config=aws_config)
 
@@ -856,7 +801,6 @@ Updates information about the publishing destination specified by the destinatio
 # Optional Parameters
 - `destinationProperties`: A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
 """
-
 update_publishing_destination(destinationId, detectorId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
 update_publishing_destination(destinationId, detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args; aws_config=aws_config)
 
@@ -874,6 +818,5 @@ Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
 - `location`: The updated URI of the file that contains the ThreateIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
 - `name`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
-
 update_threat_intel_set(detectorId, threatIntelSetId; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)"; aws_config=aws_config)
 update_threat_intel_set(detectorId, threatIntelSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args; aws_config=aws_config)
