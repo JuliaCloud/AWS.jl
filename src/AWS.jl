@@ -350,11 +350,8 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
-<<<<<<< HEAD
     request.url = replace(request.url, " " => "%20")
 
-=======
->>>>>>> Give AWSConfig an abstract supertype
     @repeat 3 try
         aws.credentials === nothing || _sign!(aws, request)
         response = @mock _http_request(request)

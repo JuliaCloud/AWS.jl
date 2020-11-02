@@ -38,6 +38,7 @@ end
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
     include("issues.jl")
+    include("minio.jl")
     include("test_pkg.jl")
     include("utilities.jl")
 end
