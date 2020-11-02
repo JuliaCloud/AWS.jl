@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: connect
 using AWS.Compat
 using AWS.UUIDs
+
 """
     AssociateRoutingProfileQueues()
 
@@ -14,7 +15,6 @@ Associates a set of queues with a routing profile.
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues", Dict{String, Any}("QueueConfigs"=>QueueConfigs); aws_config=aws_config)
 associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueConfigs"=>QueueConfigs), args)); aws_config=aws_config)
 
@@ -33,7 +33,6 @@ Creates a contact flow for the specified Amazon Connect instance. You can also c
 - `Description`: The description of the contact flow. 
 - `Tags`: One or more tags.
 """
-
 create_contact_flow(Content, InstanceId, Name, Type; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
 create_contact_flow(Content, InstanceId, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
 
@@ -53,7 +52,6 @@ Creates a new routing profile.
 - `QueueConfigs`: The inbound queues associated with the routing profile. If no queue is added, the agent can only make outbound calls.
 - `Tags`: One or more tags.
 """
-
 create_routing_profile(DefaultOutboundQueueId, Description, InstanceId, MediaConcurrencies, Name; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/routing-profiles/$(InstanceId)", Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId, "Description"=>Description, "MediaConcurrencies"=>MediaConcurrencies, "Name"=>Name); aws_config=aws_config)
 create_routing_profile(DefaultOutboundQueueId, Description, InstanceId, MediaConcurrencies, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/routing-profiles/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId, "Description"=>Description, "MediaConcurrencies"=>MediaConcurrencies, "Name"=>Name), args)); aws_config=aws_config)
 
@@ -76,7 +74,6 @@ Creates a user account for the specified Amazon Connect instance. For informatio
 - `Password`: The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
 - `Tags`: One or more tags.
 """
-
 create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/users/$(InstanceId)", Dict{String, Any}("PhoneConfig"=>PhoneConfig, "RoutingProfileId"=>RoutingProfileId, "SecurityProfileIds"=>SecurityProfileIds, "Username"=>Username); aws_config=aws_config)
 create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/users/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneConfig"=>PhoneConfig, "RoutingProfileId"=>RoutingProfileId, "SecurityProfileIds"=>SecurityProfileIds, "Username"=>Username), args)); aws_config=aws_config)
 
@@ -90,7 +87,6 @@ Deletes a user account from the specified Amazon Connect instance. For informati
 - `UserId`: The identifier of the user.
 
 """
-
 delete_user(InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/users/$(InstanceId)/$(UserId)"; aws_config=aws_config)
 delete_user(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/users/$(InstanceId)/$(UserId)", args; aws_config=aws_config)
 
@@ -104,7 +100,6 @@ Describes the specified contact flow. You can also create and update contact flo
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 describe_contact_flow(ContactFlowId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows/$(InstanceId)/$(ContactFlowId)"; aws_config=aws_config)
 describe_contact_flow(ContactFlowId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows/$(InstanceId)/$(ContactFlowId)", args; aws_config=aws_config)
 
@@ -118,7 +113,6 @@ Describes the specified routing profile.
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 describe_routing_profile(InstanceId, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)"; aws_config=aws_config)
 describe_routing_profile(InstanceId, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)", args; aws_config=aws_config)
 
@@ -132,7 +126,6 @@ Describes the specified user account. You can find the instance ID in the consol
 - `UserId`: The identifier of the user account.
 
 """
-
 describe_user(InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/users/$(InstanceId)/$(UserId)"; aws_config=aws_config)
 describe_user(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/users/$(InstanceId)/$(UserId)", args; aws_config=aws_config)
 
@@ -146,7 +139,6 @@ Describes the specified hierarchy group.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 describe_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
 describe_user_hierarchy_group(HierarchyGroupId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", args; aws_config=aws_config)
 
@@ -159,7 +151,6 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 describe_user_hierarchy_structure(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-structure/$(InstanceId)"; aws_config=aws_config)
 describe_user_hierarchy_structure(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-structure/$(InstanceId)", args; aws_config=aws_config)
 
@@ -174,7 +165,6 @@ Disassociates a set of queues from a routing profile.
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues", Dict{String, Any}("QueueReferences"=>QueueReferences); aws_config=aws_config)
 disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueReferences"=>QueueReferences), args)); aws_config=aws_config)
 
@@ -188,7 +178,6 @@ Retrieves the contact attributes for the specified contact.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 get_contact_attributes(InitialContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact/attributes/$(InstanceId)/$(InitialContactId)"; aws_config=aws_config)
 get_contact_attributes(InitialContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact/attributes/$(InstanceId)/$(InitialContactId)", args; aws_config=aws_config)
 
@@ -207,7 +196,6 @@ Gets the real-time metric data from the specified Amazon Connect instance. For a
 - `MaxResults`: The maximimum number of results to return per page.
 - `NextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
 """
-
 get_current_metric_data(CurrentMetrics, Filters, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/metrics/current/$(InstanceId)", Dict{String, Any}("CurrentMetrics"=>CurrentMetrics, "Filters"=>Filters); aws_config=aws_config)
 get_current_metric_data(CurrentMetrics, Filters, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/metrics/current/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentMetrics"=>CurrentMetrics, "Filters"=>Filters), args)); aws_config=aws_config)
 
@@ -220,7 +208,6 @@ Retrieves a token for federation.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 get_federation_token(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user/federate/$(InstanceId)"; aws_config=aws_config)
 get_federation_token(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user/federate/$(InstanceId)", args; aws_config=aws_config)
 
@@ -241,7 +228,6 @@ Gets historical metric data from the specified Amazon Connect instance. For a de
 - `MaxResults`: The maximimum number of results to return per page.
 - `NextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime); aws_config=aws_config)
 get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
@@ -258,7 +244,6 @@ Provides information about the contact flows for the specified Amazon Connect in
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_contact_flows(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows-summary/$(InstanceId)"; aws_config=aws_config)
 list_contact_flows(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -274,7 +259,6 @@ Provides information about the hours of operation for the specified Amazon Conne
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_hours_of_operations(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/hours-of-operations-summary/$(InstanceId)"; aws_config=aws_config)
 list_hours_of_operations(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/hours-of-operations-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -292,7 +276,6 @@ Provides information about the phone numbers for the specified Amazon Connect in
 - `phoneNumberCountryCodes`: The ISO country code.
 - `phoneNumberTypes`: The type of phone number.
 """
-
 list_phone_numbers(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/phone-numbers-summary/$(InstanceId)"; aws_config=aws_config)
 list_phone_numbers(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/phone-numbers-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -308,7 +291,6 @@ Provides information about the prompts for the specified Amazon Connect instance
 - `maxResults`: The maximum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_prompts(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/prompts-summary/$(InstanceId)"; aws_config=aws_config)
 list_prompts(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/prompts-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -325,7 +307,6 @@ Provides information about the queues for the specified Amazon Connect instance.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 - `queueTypes`: The type of queue.
 """
-
 list_queues(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/queues-summary/$(InstanceId)"; aws_config=aws_config)
 list_queues(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/queues-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -342,7 +323,6 @@ List the queues associated with a routing profile.
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_routing_profile_queues(InstanceId, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues"; aws_config=aws_config)
 list_routing_profile_queues(InstanceId, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues", args; aws_config=aws_config)
 
@@ -358,7 +338,6 @@ Provides summary information about the routing profiles for the specified Amazon
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_routing_profiles(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles-summary/$(InstanceId)"; aws_config=aws_config)
 list_routing_profiles(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -374,7 +353,6 @@ Provides summary information about the security profiles for the specified Amazo
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_security_profiles(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/security-profiles-summary/$(InstanceId)"; aws_config=aws_config)
 list_security_profiles(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/security-profiles-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -387,7 +365,6 @@ Lists the tags for the specified resource. For sample policies that use tags, se
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
@@ -403,7 +380,6 @@ Provides summary information about the hierarchy groups for the specified Amazon
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_user_hierarchy_groups(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-groups-summary/$(InstanceId)"; aws_config=aws_config)
 list_user_hierarchy_groups(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-groups-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -419,7 +395,6 @@ Provides summary information about the users for the specified Amazon Connect in
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-
 list_users(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/users-summary/$(InstanceId)"; aws_config=aws_config)
 list_users(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/users-summary/$(InstanceId)", args; aws_config=aws_config)
 
@@ -434,7 +409,6 @@ When a contact is being recorded, and the recording has been suspended using Sus
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 resume_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/resume-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
 resume_contact_recording(ContactId, InitialContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/resume-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
@@ -453,7 +427,6 @@ Initiates a contact flow to start a new chat for the customer. Response of this 
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `InitialMessage`: The initial message to be sent to the newly created chat.
 """
-
 start_chat_contact(ContactFlowId, InstanceId, ParticipantDetails; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/chat", Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "ParticipantDetails"=>ParticipantDetails, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 start_chat_contact(ContactFlowId, InstanceId, ParticipantDetails, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/chat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "ParticipantDetails"=>ParticipantDetails, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -469,7 +442,6 @@ This API starts recording the contact when the agent joins the call. StartContac
 - `VoiceRecordingConfiguration`: Who is being recorded.
 
 """
-
 start_contact_recording(ContactId, InitialContactId, InstanceId, VoiceRecordingConfiguration; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/start-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId, "VoiceRecordingConfiguration"=>VoiceRecordingConfiguration); aws_config=aws_config)
 start_contact_recording(ContactId, InitialContactId, InstanceId, VoiceRecordingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/start-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId, "VoiceRecordingConfiguration"=>VoiceRecordingConfiguration), args)); aws_config=aws_config)
 
@@ -489,7 +461,6 @@ This API places an outbound call to a contact, and then initiates the contact fl
 - `QueueId`: The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.
 - `SourcePhoneNumber`: The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
 """
-
 start_outbound_voice_contact(ContactFlowId, DestinationPhoneNumber, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/outbound-voice", Dict{String, Any}("ContactFlowId"=>ContactFlowId, "DestinationPhoneNumber"=>DestinationPhoneNumber, "InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 start_outbound_voice_contact(ContactFlowId, DestinationPhoneNumber, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/outbound-voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "DestinationPhoneNumber"=>DestinationPhoneNumber, "InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -503,7 +474,6 @@ Ends the specified contact.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 stop_contact(ContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/stop", Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
 stop_contact(ContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
@@ -518,7 +488,6 @@ When a contact is being recorded, this API stops recording the call. StopContact
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 stop_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/stop-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
 stop_contact_recording(ContactId, InitialContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/stop-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
@@ -533,7 +502,6 @@ When a contact is being recorded, this API suspends recording the call. For exam
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 suspend_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/suspend-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
 suspend_contact_recording(ContactId, InitialContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/suspend-recording", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
@@ -547,7 +515,6 @@ Adds the specified tags to the specified resource. The supported resource types 
 - `tags`: One or more tags. For example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
-
 tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
@@ -561,7 +528,6 @@ Removes the specified tags from the specified resource.
 - `tagKeys`: The tag keys.
 
 """
-
 untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
@@ -576,7 +542,6 @@ Creates or updates the contact attributes associated with the specified contact.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 update_contact_attributes(Attributes, InitialContactId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/attributes", Dict{String, Any}("Attributes"=>Attributes, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
 update_contact_attributes(Attributes, InitialContactId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
 
@@ -591,7 +556,6 @@ Updates the specified contact flow. You can also create and update contact flows
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-
 update_contact_flow_content(ContactFlowId, Content, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/content", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
 update_contact_flow_content(ContactFlowId, Content, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/content", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
 
@@ -608,7 +572,6 @@ The name of the contact flow.
 - `Description`: The description of the contact flow.
 - `Name`: The name of the contact flow.
 """
-
 update_contact_flow_name(ContactFlowId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name"; aws_config=aws_config)
 update_contact_flow_name(ContactFlowId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name", args; aws_config=aws_config)
 
@@ -623,7 +586,6 @@ Updates the channels that agents can handle in the Contact Control Panel (CCP) f
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 update_routing_profile_concurrency(InstanceId, MediaConcurrencies, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency", Dict{String, Any}("MediaConcurrencies"=>MediaConcurrencies); aws_config=aws_config)
 update_routing_profile_concurrency(InstanceId, MediaConcurrencies, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MediaConcurrencies"=>MediaConcurrencies), args)); aws_config=aws_config)
 
@@ -638,7 +600,6 @@ Updates the default outbound queue of a routing profile.
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 update_routing_profile_default_outbound_queue(DefaultOutboundQueueId, InstanceId, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue", Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId); aws_config=aws_config)
 update_routing_profile_default_outbound_queue(DefaultOutboundQueueId, InstanceId, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultOutboundQueueId"=>DefaultOutboundQueueId), args)); aws_config=aws_config)
 
@@ -655,7 +616,6 @@ Updates the name and description of a routing profile. The request accepts the f
 - `Description`: The description of the routing profile. Must not be more than 250 characters.
 - `Name`: The name of the routing profile. Must not be more than 127 characters.
 """
-
 update_routing_profile_name(InstanceId, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name"; aws_config=aws_config)
 update_routing_profile_name(InstanceId, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name", args; aws_config=aws_config)
 
@@ -670,7 +630,6 @@ Updates the properties associated with a set of queues for a routing profile.
 - `RoutingProfileId`: The identifier of the routing profile.
 
 """
-
 update_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues", Dict{String, Any}("QueueConfigs"=>QueueConfigs); aws_config=aws_config)
 update_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueConfigs"=>QueueConfigs), args)); aws_config=aws_config)
 
@@ -686,7 +645,6 @@ Assigns the specified hierarchy group to the specified user.
 # Optional Parameters
 - `HierarchyGroupId`: The identifier of the hierarchy group.
 """
-
 update_user_hierarchy(InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy"; aws_config=aws_config)
 update_user_hierarchy(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy", args; aws_config=aws_config)
 
@@ -701,7 +659,6 @@ Updates the identity information for the specified user.  Someone with the abili
 - `UserId`: The identifier of the user account.
 
 """
-
 update_user_identity_info(IdentityInfo, InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/identity-info", Dict{String, Any}("IdentityInfo"=>IdentityInfo); aws_config=aws_config)
 update_user_identity_info(IdentityInfo, InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/identity-info", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityInfo"=>IdentityInfo), args)); aws_config=aws_config)
 
@@ -716,7 +673,6 @@ Updates the phone configuration settings for the specified user.
 - `UserId`: The identifier of the user account.
 
 """
-
 update_user_phone_config(InstanceId, PhoneConfig, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/phone-config", Dict{String, Any}("PhoneConfig"=>PhoneConfig); aws_config=aws_config)
 update_user_phone_config(InstanceId, PhoneConfig, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/phone-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneConfig"=>PhoneConfig), args)); aws_config=aws_config)
 
@@ -731,7 +687,6 @@ Assigns the specified routing profile to the specified user.
 - `UserId`: The identifier of the user account.
 
 """
-
 update_user_routing_profile(InstanceId, RoutingProfileId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/routing-profile", Dict{String, Any}("RoutingProfileId"=>RoutingProfileId); aws_config=aws_config)
 update_user_routing_profile(InstanceId, RoutingProfileId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/routing-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingProfileId"=>RoutingProfileId), args)); aws_config=aws_config)
 
@@ -746,6 +701,5 @@ Assigns the specified security profiles to the specified user.
 - `UserId`: The identifier of the user account.
 
 """
-
 update_user_security_profiles(InstanceId, SecurityProfileIds, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/security-profiles", Dict{String, Any}("SecurityProfileIds"=>SecurityProfileIds); aws_config=aws_config)
 update_user_security_profiles(InstanceId, SecurityProfileIds, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/security-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityProfileIds"=>SecurityProfileIds), args)); aws_config=aws_config)

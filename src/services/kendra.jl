@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: kendra
 using AWS.Compat
 using AWS.UUIDs
+
 """
     BatchDeleteDocument()
 
@@ -15,7 +16,6 @@ Removes one or more documents from an index. The documents must have been added 
 # Optional Parameters
 - `DataSourceSyncJobMetricTarget`: 
 """
-
 batch_delete_document(DocumentIdList, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("BatchDeleteDocument", Dict{String, Any}("DocumentIdList"=>DocumentIdList, "IndexId"=>IndexId); aws_config=aws_config)
 batch_delete_document(DocumentIdList, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("BatchDeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentIdList"=>DocumentIdList, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -31,7 +31,6 @@ Adds one or more documents to an index. The BatchPutDocument operation enables y
 # Optional Parameters
 - `RoleArn`: The Amazon Resource Name (ARN) of a role that is allowed to run the BatchPutDocument operation. For more information, see IAM Roles for Amazon Kendra.
 """
-
 batch_put_document(Documents, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId); aws_config=aws_config)
 batch_put_document(Documents, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -53,7 +52,6 @@ Creates a data source that you use to with an Amazon Kendra index.  You specify 
 - `Schedule`: Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
 - `Tags`: A list of key-value pairs that identify the data source. You can use the tags to identify and organize your resources and to control access to resources.
 """
-
 create_data_source(IndexId, Name, Type; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_data_source(IndexId, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -74,7 +72,6 @@ Creates an new set of frequently asked question (FAQ) questions and answers.
 - `FileFormat`: The format of the input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
 - `Tags`: A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
 """
-
 create_faq(IndexId, Name, RoleArn, S3Path; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_faq(IndexId, Name, RoleArn, S3Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -94,7 +91,6 @@ Creates a new Amazon Kendra index. Index creation is an asynchronous operation. 
 - `ServerSideEncryptionConfiguration`: The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
 - `Tags`: A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
 """
-
 create_index(Name, RoleArn; aws_config::AWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_index(Name, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -108,7 +104,6 @@ Deletes an Amazon Kendra data source. An exception is not thrown if the data sou
 - `IndexId`: The unique identifier of the index associated with the data source.
 
 """
-
 delete_data_source(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 delete_data_source(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -122,7 +117,6 @@ Removes an FAQ from an index.
 - `IndexId`: The index to remove the FAQ from.
 
 """
-
 delete_faq(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteFaq", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 delete_faq(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -135,7 +129,6 @@ Deletes an existing Amazon Kendra index. An exception is not thrown if the index
 - `Id`: The identifier of the index to delete.
 
 """
-
 delete_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 delete_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -149,7 +142,6 @@ Gets information about a Amazon Kendra data source.
 - `IndexId`: The identifier of the index that contains the data source.
 
 """
-
 describe_data_source(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 describe_data_source(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -163,7 +155,6 @@ Gets information about an FAQ list.
 - `IndexId`: The identifier of the index that contains the FAQ.
 
 """
-
 describe_faq(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeFaq", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 describe_faq(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -176,7 +167,6 @@ Describes an existing Amazon Kendra index
 - `Id`: The name of the index to describe.
 
 """
-
 describe_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
@@ -195,7 +185,6 @@ Gets statistics about synchronizing Amazon Kendra with a data source.
 - `StartTimeFilter`: When specified, the synchronization jobs returned in the list are limited to jobs between the specified dates. 
 - `StatusFilter`: When specified, only returns synchronization jobs with the Status field equal to the specified status.
 """
-
 list_data_source_sync_jobs(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("ListDataSourceSyncJobs", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 list_data_source_sync_jobs(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListDataSourceSyncJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -211,7 +200,6 @@ Lists the data sources that you have created.
 - `MaxResults`: The maximum number of data sources to return.
 - `NextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of data sources (DataSourceSummaryItems). 
 """
-
 list_data_sources(IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("ListDataSources", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
 list_data_sources(IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListDataSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -227,7 +215,6 @@ Gets a list of FAQ lists associated with an index.
 - `MaxResults`: The maximum number of FAQs to return in the response. If there are fewer results in the list, this response contains only the actual results.
 - `NextToken`: If the result of the previous request to ListFaqs was truncated, include the NextToken to fetch the next set of FAQs.
 """
-
 list_faqs(IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("ListFaqs", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
 list_faqs(IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListFaqs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -240,7 +227,6 @@ Lists the Amazon Kendra indexes that you have created.
 - `MaxResults`: The maximum number of data sources to return.
 - `NextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of indexes (DataSourceSummaryItems). 
 """
-
 list_indices(; aws_config::AWSConfig=global_aws_config()) = kendra("ListIndices"; aws_config=aws_config)
 list_indices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListIndices", args; aws_config=aws_config)
 
@@ -253,7 +239,6 @@ Gets a list of tags associated with a specified resource. Indexes, FAQs, and dat
 - `ResourceARN`: The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a list of tags for.
 
 """
-
 list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = kendra("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
@@ -275,7 +260,6 @@ Searches an active index. Use this API to search your documents using query. The
 - `RequestedDocumentAttributes`: An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
 - `SortingConfiguration`: Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
 """
-
 query(IndexId, QueryText; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
 query(IndexId, QueryText, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), args)); aws_config=aws_config)
 
@@ -289,7 +273,6 @@ Starts a synchronization job for a data source. If a synchronization job is alre
 - `IndexId`: The identifier of the index that contains the data source.
 
 """
-
 start_data_source_sync_job(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("StartDataSourceSyncJob", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 start_data_source_sync_job(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("StartDataSourceSyncJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -303,7 +286,6 @@ Stops a running synchronization job. You can't stop a scheduled synchronization 
 - `IndexId`: The identifier of the index that contains the data source.
 
 """
-
 stop_data_source_sync_job(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("StopDataSourceSyncJob", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 stop_data_source_sync_job(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("StopDataSourceSyncJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -320,7 +302,6 @@ Enables you to provide feedback to Amazon Kendra to improve the performance of t
 - `ClickFeedbackItems`: Tells Amazon Kendra that a particular search result link was chosen by the user. 
 - `RelevanceFeedbackItems`: Provides Amazon Kendra with relevant or not relevant feedback for whether a particular item was relevant to the search.
 """
-
 submit_feedback(IndexId, QueryId; aws_config::AWSConfig=global_aws_config()) = kendra("SubmitFeedback", Dict{String, Any}("IndexId"=>IndexId, "QueryId"=>QueryId); aws_config=aws_config)
 submit_feedback(IndexId, QueryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("SubmitFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryId"=>QueryId), args)); aws_config=aws_config)
 
@@ -334,7 +315,6 @@ Adds the specified tag to the specified index, FAQ, or data source resource. If 
 - `Tags`: A list of tag keys to add to the index, FAQ, or data source. If a tag already exists, the existing value is replaced with the new value.
 
 """
-
 tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = kendra("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
@@ -348,7 +328,6 @@ Removes a tag from an index, FAQ, or a data source.
 - `TagKeys`: A list of tag keys to remove from the index, FAQ, or data source. If a tag key does not exist on the resource, it is ignored.
 
 """
-
 untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = kendra("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
@@ -368,7 +347,6 @@ Updates an existing Amazon Kendra data source.
 - `RoleArn`: The Amazon Resource Name (ARN) of the new role to use when the data source is accessing resources on your behalf.
 - `Schedule`: The new update schedule for the data source.
 """
-
 update_data_source(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 update_data_source(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
@@ -387,6 +365,5 @@ Updates an existing Amazon Kendra index.
 - `Name`: The name of the index to update.
 - `RoleArn`: A new IAM role that gives Amazon Kendra permission to access your Amazon CloudWatch logs.
 """
-
 update_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)

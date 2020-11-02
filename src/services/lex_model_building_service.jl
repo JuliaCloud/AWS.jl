@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: lex_model_building_service
 using AWS.Compat
 using AWS.UUIDs
+
 """
     CreateBotVersion()
 
@@ -14,7 +15,6 @@ Creates a new version of the bot based on the LATEST version. If the LATEST vers
 # Optional Parameters
 - `checksum`: Identifies a specific revision of the LATEST version of the bot. If you specify a checksum and the LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-
 create_bot_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions"; aws_config=aws_config)
 create_bot_version(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/bots/$(name)/versions", args; aws_config=aws_config)
 
@@ -29,7 +29,6 @@ Creates a new version of an intent based on the LATEST version of the intent. If
 # Optional Parameters
 - `checksum`: Checksum of the LATEST version of the intent that should be used to create the new version. If you specify a checksum and the LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-
 create_intent_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions"; aws_config=aws_config)
 create_intent_version(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/intents/$(name)/versions", args; aws_config=aws_config)
 
@@ -44,7 +43,6 @@ Creates a new version of a slot type based on the LATEST version of the specifie
 # Optional Parameters
 - `checksum`: Checksum for the LATEST version of the slot type that you want to publish. If you specify a checksum and the LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the LATEST version.
 """
-
 create_slot_type_version(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions"; aws_config=aws_config)
 create_slot_type_version(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/slottypes/$(name)/versions", args; aws_config=aws_config)
 
@@ -57,7 +55,6 @@ Deletes all versions of the bot, including the LATEST version. To delete a speci
 - `name`: The name of the bot. The name is case sensitive. 
 
 """
-
 delete_bot(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)"; aws_config=aws_config)
 delete_bot(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)", args; aws_config=aws_config)
 
@@ -71,7 +68,6 @@ Deletes an alias for the specified bot.  You can't delete an alias that is used 
 - `name`: The name of the alias to delete. The name is case sensitive. 
 
 """
-
 delete_bot_alias(botName, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config)
 delete_bot_alias(botName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", args; aws_config=aws_config)
 
@@ -86,7 +82,6 @@ Deletes the association between an Amazon Lex bot and a messaging platform. This
 - `name`: The name of the association. The name is case sensitive. 
 
 """
-
 delete_bot_channel_association(aliasName, botName, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config)
 delete_bot_channel_association(aliasName, botName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", args; aws_config=aws_config)
 
@@ -100,7 +95,6 @@ Deletes a specific version of a bot. To delete all versions of a bot, use the De
 - `version`: The version of the bot to delete. You cannot delete the LATEST version of the bot. To delete the LATEST version, use the DeleteBot operation.
 
 """
-
 delete_bot_version(name, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)"; aws_config=aws_config)
 delete_bot_version(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", args; aws_config=aws_config)
 
@@ -113,7 +107,6 @@ Deletes all versions of the intent, including the LATEST version. To delete a sp
 - `name`: The name of the intent. The name is case sensitive. 
 
 """
-
 delete_intent(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)"; aws_config=aws_config)
 delete_intent(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)", args; aws_config=aws_config)
 
@@ -127,7 +120,6 @@ Deletes a specific version of an intent. To delete all versions of a intent, use
 - `version`: The version of the intent to delete. You cannot delete the LATEST version of the intent. To delete the LATEST version, use the DeleteIntent operation.
 
 """
-
 delete_intent_version(name, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)"; aws_config=aws_config)
 delete_intent_version(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", args; aws_config=aws_config)
 
@@ -140,7 +132,6 @@ Deletes all versions of the slot type, including the LATEST version. To delete a
 - `name`: The name of the slot type. The name is case sensitive. 
 
 """
-
 delete_slot_type(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)"; aws_config=aws_config)
 delete_slot_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)", args; aws_config=aws_config)
 
@@ -154,7 +145,6 @@ Deletes a specific version of a slot type. To delete all versions of a slot type
 - `version`: The version of the slot type to delete. You cannot delete the LATEST version of the slot type. To delete the LATEST version, use the DeleteSlotType operation.
 
 """
-
 delete_slot_type_version(name, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)"; aws_config=aws_config)
 delete_slot_type_version(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", args; aws_config=aws_config)
 
@@ -168,7 +158,6 @@ Deletes stored utterances. Amazon Lex stores the utterances that users send to y
 - `userId`:  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
 
 """
-
 delete_utterances(botName, userId; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)"; aws_config=aws_config)
 delete_utterances(botName, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", args; aws_config=aws_config)
 
@@ -182,7 +171,6 @@ Returns metadata information for a specific bot. You must provide the bot name a
 - `versionoralias`: The version or alias of the bot.
 
 """
-
 get_bot(name, versionoralias; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)"; aws_config=aws_config)
 get_bot(name, versionoralias, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", args; aws_config=aws_config)
 
@@ -196,7 +184,6 @@ Returns information about an Amazon Lex bot alias. For more information about al
 - `name`: The name of the bot alias. The name is case sensitive.
 
 """
-
 get_bot_alias(botName, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)"; aws_config=aws_config)
 get_bot_alias(botName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", args; aws_config=aws_config)
 
@@ -213,7 +200,6 @@ Returns a list of aliases for a specified Amazon Lex bot. This operation require
 - `nameContains`: Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
 - `nextToken`: A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. 
 """
-
 get_bot_aliases(botName; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/"; aws_config=aws_config)
 get_bot_aliases(botName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/", args; aws_config=aws_config)
 
@@ -228,7 +214,6 @@ Returns information about the association between an Amazon Lex bot and a messag
 - `name`: The name of the association between the bot and the channel. The name is case sensitive. 
 
 """
-
 get_bot_channel_association(aliasName, botName, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)"; aws_config=aws_config)
 get_bot_channel_association(aliasName, botName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", args; aws_config=aws_config)
 
@@ -246,7 +231,6 @@ get_bot_channel_association(aliasName, botName, name, args::AbstractDict{String,
 - `nameContains`: Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\" To return all bot channel associations, use a hyphen (\"-\") as the nameContains parameter.
 - `nextToken`: A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. 
 """
-
 get_bot_channel_associations(aliasName, botName; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/"; aws_config=aws_config)
 get_bot_channel_associations(aliasName, botName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", args; aws_config=aws_config)
 
@@ -262,7 +246,6 @@ Gets information about all of the versions of a bot. The GetBotVersions operatio
 - `maxResults`: The maximum number of bot versions to return in the response. The default is 10.
 - `nextToken`: A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
 """
-
 get_bot_versions(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/"; aws_config=aws_config)
 get_bot_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(name)/versions/", args; aws_config=aws_config)
 
@@ -276,7 +259,6 @@ Returns bot information as follows:    If you provide the nameContains field, th
 - `nameContains`: Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
 - `nextToken`: A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request. 
 """
-
 get_bots(; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/"; aws_config=aws_config)
 get_bots(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/", args; aws_config=aws_config)
 
@@ -289,7 +271,6 @@ Returns information about a built-in intent. This operation requires permission 
 - `signature`: The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
 
 """
-
 get_builtin_intent(signature; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)"; aws_config=aws_config)
 get_builtin_intent(signature, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/$(signature)", args; aws_config=aws_config)
 
@@ -304,7 +285,6 @@ Gets a list of built-in intents that meet the specified criteria. This operation
 - `nextToken`: A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
 - `signatureContains`: Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\" To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
 """
-
 get_builtin_intents(; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/"; aws_config=aws_config)
 get_builtin_intents(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/", args; aws_config=aws_config)
 
@@ -319,7 +299,6 @@ Gets a list of built-in slot types that meet the specified criteria. For a list 
 - `nextToken`: A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
 - `signatureContains`: Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
 """
-
 get_builtin_slot_types(; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/"; aws_config=aws_config)
 get_builtin_slot_types(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/", args; aws_config=aws_config)
 
@@ -335,7 +314,6 @@ Exports the contents of a Amazon Lex resource in a specified format.
 - `version`: The version of the bot to export.
 
 """
-
 get_export(exportType, name, resourceType, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version); aws_config=aws_config)
 get_export(exportType, name, resourceType, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportType"=>exportType, "name"=>name, "resourceType"=>resourceType, "version"=>version), args)); aws_config=aws_config)
 
@@ -348,7 +326,6 @@ Gets information about an import job started with the StartImport operation.
 - `importId`: The identifier of the import job information to return.
 
 """
-
 get_import(importId; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)"; aws_config=aws_config)
 get_import(importId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/imports/$(importId)", args; aws_config=aws_config)
 
@@ -362,7 +339,6 @@ get_import(importId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 - `version`: The version of the intent.
 
 """
-
 get_intent(name, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)"; aws_config=aws_config)
 get_intent(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", args; aws_config=aws_config)
 
@@ -378,7 +354,6 @@ Gets information about all of the versions of an intent. The GetIntentVersions o
 - `maxResults`: The maximum number of intent versions to return in the response. The default is 10.
 - `nextToken`: A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
 """
-
 get_intent_versions(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/"; aws_config=aws_config)
 get_intent_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/$(name)/versions/", args; aws_config=aws_config)
 
@@ -392,7 +367,6 @@ Returns intent information as follows:    If you specify the nameContains field,
 - `nameContains`: Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
 - `nextToken`: A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request. 
 """
-
 get_intents(; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/"; aws_config=aws_config)
 get_intents(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/", args; aws_config=aws_config)
 
@@ -406,7 +380,6 @@ Returns information about a specific version of a slot type. In addition to spec
 - `version`: The version of the slot type. 
 
 """
-
 get_slot_type(name, version; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)"; aws_config=aws_config)
 get_slot_type(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", args; aws_config=aws_config)
 
@@ -422,7 +395,6 @@ Gets information about all versions of a slot type. The GetSlotTypeVersions oper
 - `maxResults`: The maximum number of slot type versions to return in the response. The default is 10.
 - `nextToken`: A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. 
 """
-
 get_slot_type_versions(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/"; aws_config=aws_config)
 get_slot_type_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/$(name)/versions/", args; aws_config=aws_config)
 
@@ -436,7 +408,6 @@ Returns slot type information as follows:    If you specify the nameContains fie
 - `nameContains`: Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, \"xyz\" matches both \"xyzabc\" and \"abcxyz.\"
 - `nextToken`: A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
 """
-
 get_slot_types(; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/"; aws_config=aws_config)
 get_slot_types(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/", args; aws_config=aws_config)
 
@@ -451,7 +422,6 @@ Use the GetUtterancesView operation to get information about the utterances that
 - `status_type`: To return utterances that were recognized and handled, use Detected. To return utterances that were not recognized, use Missed.
 
 """
-
 get_utterances_view(bot_versions, botname, status_type; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type); aws_config=aws_config)
 get_utterances_view(bot_versions, botname, status_type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bot_versions"=>bot_versions, "status_type"=>status_type), args)); aws_config=aws_config)
 
@@ -464,7 +434,6 @@ Gets a list of tags associated with the specified resource. Only bots, bot alias
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
 
 """
-
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
@@ -493,7 +462,6 @@ Creates an Amazon Lex conversational bot or replaces an existing bot. When you c
 - `tags`: A list of tags to add to the bot. You can only add tags when you create a bot, you can't use the PutBot operation to update the tags on a bot. To update tags, use the TagResource operation.
 - `voiceId`: The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
 """
-
 put_bot(childDirected, locale, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale); aws_config=aws_config)
 put_bot(childDirected, locale, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childDirected"=>childDirected, "locale"=>locale), args)); aws_config=aws_config)
 
@@ -513,7 +481,6 @@ Creates an alias for the specified version of the bot or replaces an alias for t
 - `description`: A description of the alias.
 - `tags`: A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
 """
-
 put_bot_alias(botName, botVersion, name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}("botVersion"=>botVersion); aws_config=aws_config)
 put_bot_alias(botName, botVersion, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersion"=>botVersion), args)); aws_config=aws_config)
 
@@ -540,7 +507,6 @@ Creates an intent or replaces an existing intent. To define the interaction betw
 - `sampleUtterances`: An array of utterances (strings) that a user might say to signal the intent. For example, \"I want {PizzaSize} pizza\", \"Order {Quantity} {PizzaSize} pizzas\".  In each utterance, a slot name is enclosed in curly braces. 
 - `slots`: An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works. 
 """
-
 put_intent(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST"; aws_config=aws_config)
 put_intent(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", args; aws_config=aws_config)
 
@@ -561,7 +527,6 @@ Creates a custom slot type or replaces an existing custom slot type. To create a
 - `slotTypeConfigurations`: Configuration information that extends the parent built-in slot type. The configuration is added to the settings for the parent slot type.
 - `valueSelectionStrategy`: Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
 """
-
 put_slot_type(name; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST"; aws_config=aws_config)
 put_slot_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", args; aws_config=aws_config)
 
@@ -578,7 +543,6 @@ Starts a job to import a resource to Amazon Lex.
 # Optional Parameters
 - `tags`: A list of tags to add to the imported bot. You can only add tags when you import a bot, you can't add tags to an intent or slot type.
 """
-
 start_import(mergeStrategy, payload, resourceType; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType); aws_config=aws_config)
 start_import(mergeStrategy, payload, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), args)); aws_config=aws_config)
 
@@ -592,7 +556,6 @@ Adds the specified tags to the specified resource. If a tag key already exists, 
 - `tags`: A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
 
 """
-
 tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
@@ -606,6 +569,5 @@ Removes tags from a bot, bot alias or bot channel.
 - `tagKeys`: A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
 
 """
-
 untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

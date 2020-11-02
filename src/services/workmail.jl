@@ -3,6 +3,7 @@ using AWS
 using AWS.AWSServices: workmail
 using AWS.Compat
 using AWS.UUIDs
+
 """
     AssociateDelegateToResource()
 
@@ -14,7 +15,6 @@ Adds a member (user or group) to the resource's set of delegates.
 - `ResourceId`: The resource for which members (users or groups) are associated.
 
 """
-
 associate_delegate_to_resource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateDelegateToResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 associate_delegate_to_resource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateDelegateToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -29,7 +29,6 @@ Adds a member (user or group) to the group's set.
 - `OrganizationId`: The organization under which the group exists.
 
 """
-
 associate_member_to_group(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateMemberToGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 associate_member_to_group(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateMemberToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -44,7 +43,6 @@ Cancels a mailbox export job.  If the mailbox export job is near completion, it 
 - `OrganizationId`: The organization ID.
 
 """
-
 cancel_mailbox_export_job(ClientToken, JobId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("CancelMailboxExportJob", Dict{String, Any}("ClientToken"=>ClientToken, "JobId"=>JobId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 cancel_mailbox_export_job(ClientToken, JobId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CancelMailboxExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "JobId"=>JobId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -59,7 +57,6 @@ Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
 - `OrganizationId`: The organization under which the member (user or group) exists.
 
 """
-
 create_alias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("CreateAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 create_alias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -73,7 +70,6 @@ Creates a group that can be used in Amazon WorkMail by calling the RegisterToWor
 - `OrganizationId`: The organization under which the group is to be created.
 
 """
-
 create_group(Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 create_group(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -92,7 +88,6 @@ Creates a new Amazon WorkMail organization. Optionally, you can choose to associ
 - `EnableInteroperability`: When true, allows organization interoperability between Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is included in the request.
 - `KmsKeyArn`: The Amazon Resource Name (ARN) of a customer managed master key from AWS KMS.
 """
-
 create_organization(Alias; aws_config::AWSConfig=global_aws_config()) = workmail("CreateOrganization", Dict{String, Any}("Alias"=>Alias, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_organization(Alias, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -107,7 +102,6 @@ Creates a new Amazon WorkMail resource.
 - `Type`: The type of the new resource. The available types are equipment and room.
 
 """
-
 create_resource(Name, OrganizationId, Type; aws_config::AWSConfig=global_aws_config()) = workmail("CreateResource", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type); aws_config=aws_config)
 create_resource(Name, OrganizationId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type), args)); aws_config=aws_config)
 
@@ -118,12 +112,11 @@ Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkM
 
 # Required Parameters
 - `DisplayName`: The display name for the new user.
-- `Name`: The name for the new user. Simple AD or AD Connector user names have a maximum length of 20. All others have a maximum length of 64.
+- `Name`: The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
 - `OrganizationId`: The identifier of the organization for which the user is created.
 - `Password`: The password for the new user.
 
 """
-
 create_user(DisplayName, Name, OrganizationId, Password; aws_config::AWSConfig=global_aws_config()) = workmail("CreateUser", Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password); aws_config=aws_config)
 create_user(DisplayName, Name, OrganizationId, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password), args)); aws_config=aws_config)
 
@@ -137,7 +130,6 @@ Deletes an access control rule for the specified WorkMail organization.
 - `OrganizationId`: The identifier for the organization.
 
 """
-
 delete_access_control_rule(Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAccessControlRule", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_access_control_rule(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -152,7 +144,6 @@ Remove one or more specified aliases from a set of aliases for a given user.
 - `OrganizationId`: The identifier for the organization under which the user exists.
 
 """
-
 delete_alias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_alias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -166,7 +157,6 @@ Deletes a group from Amazon WorkMail.
 - `OrganizationId`: The organization that contains the group.
 
 """
-
 delete_group(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_group(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -181,7 +171,6 @@ Deletes permissions granted to a member (user or group).
 - `OrganizationId`: The identifier of the organization under which the member (user or group) exists.
 
 """
-
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -197,7 +186,6 @@ Deletes an Amazon WorkMail organization and all underlying AWS resources managed
 # Optional Parameters
 - `ClientToken`: The idempotency token associated with the request.
 """
-
 delete_organization(DeleteDirectory, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteOrganization", Dict{String, Any}("DeleteDirectory"=>DeleteDirectory, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 delete_organization(DeleteDirectory, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteDirectory"=>DeleteDirectory, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
@@ -211,7 +199,6 @@ Deletes the specified resource.
 - `ResourceId`: The identifier of the resource to be deleted.
 
 """
-
 delete_resource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 delete_resource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -225,7 +212,6 @@ Deletes the specified retention policy from the specified organization.
 - `OrganizationId`: The organization ID.
 
 """
-
 delete_retention_policy(Id, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteRetentionPolicy", Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_retention_policy(Id, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -239,7 +225,6 @@ Deletes a user from Amazon WorkMail and all subsequent systems. Before you can d
 - `UserId`: The identifier of the user to be deleted.
 
 """
-
 delete_user(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 delete_user(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -253,7 +238,6 @@ Mark a user, group, or resource as no longer used in Amazon WorkMail. This actio
 - `OrganizationId`: The identifier for the organization under which the Amazon WorkMail entity exists.
 
 """
-
 deregister_from_work_mail(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeregisterFromWorkMail", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 deregister_from_work_mail(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeregisterFromWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -267,7 +251,6 @@ Returns the data available for the group.
 - `OrganizationId`: The identifier for the organization under which the group exists.
 
 """
-
 describe_group(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 describe_group(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -281,7 +264,6 @@ Describes the current status of a mailbox export job.
 - `OrganizationId`: The organization ID.
 
 """
-
 describe_mailbox_export_job(JobId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeMailboxExportJob", Dict{String, Any}("JobId"=>JobId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 describe_mailbox_export_job(JobId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeMailboxExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -294,7 +276,6 @@ Provides more information regarding a given organization based on its identifier
 - `OrganizationId`: The identifier for the organization to be described.
 
 """
-
 describe_organization(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeOrganization", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 describe_organization(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -308,7 +289,6 @@ Returns the data available for the resource.
 - `ResourceId`: The identifier of the resource to be described.
 
 """
-
 describe_resource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 describe_resource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -322,7 +302,6 @@ Provides information regarding the user.
 - `UserId`: The identifier for the user to be described.
 
 """
-
 describe_user(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 describe_user(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -337,7 +316,6 @@ Removes a member from the resource's set of delegates.
 - `ResourceId`: The identifier of the resource from which delegates' set members are removed. 
 
 """
-
 disassociate_delegate_from_resource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateDelegateFromResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 disassociate_delegate_from_resource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateDelegateFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -352,7 +330,6 @@ Removes a member from a group.
 - `OrganizationId`: The identifier for the organization under which the group exists.
 
 """
-
 disassociate_member_from_group(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateMemberFromGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 disassociate_member_from_group(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateMemberFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -368,7 +345,6 @@ Gets the effects of an organization's access control rules as they apply to a sp
 - `UserId`: The user ID.
 
 """
-
 get_access_control_effect(Action, IpAddress, OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("GetAccessControlEffect", Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 get_access_control_effect(Action, IpAddress, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetAccessControlEffect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -381,7 +357,6 @@ Gets the default retention policy details for the specified organization.
 - `OrganizationId`: The organization ID.
 
 """
-
 get_default_retention_policy(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 get_default_retention_policy(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -395,7 +370,6 @@ Requests a user's mailbox details for a specified organization and user.
 - `UserId`: The identifier for the user whose mailbox details are being requested.
 
 """
-
 get_mailbox_details(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("GetMailboxDetails", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 get_mailbox_details(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetMailboxDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -408,7 +382,6 @@ Lists the access control rules for the specified organization.
 - `OrganizationId`: The identifier for the organization.
 
 """
-
 list_access_control_rules(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListAccessControlRules", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_access_control_rules(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListAccessControlRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -425,7 +398,6 @@ Creates a paginated call to list the aliases associated with a given entity.
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_aliases(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_aliases(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -442,7 +414,6 @@ Returns an overview of the members of a group. Users and groups can be members o
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`:  The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_group_members(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_group_members(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -458,7 +429,6 @@ Returns summaries of the organization's groups.
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_groups(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_groups(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -474,7 +444,6 @@ Lists the mailbox export jobs started for the specified organization within the 
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results.
 """
-
 list_mailbox_export_jobs(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxExportJobs", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_mailbox_export_jobs(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxExportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -491,7 +460,6 @@ Lists the mailbox permissions associated with a user, group, or resource mailbox
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_mailbox_permissions(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_mailbox_permissions(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -504,7 +472,6 @@ Returns summaries of the customer's organizations.
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_organizations(; aws_config::AWSConfig=global_aws_config()) = workmail("ListOrganizations"; aws_config=aws_config)
 list_organizations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListOrganizations", args; aws_config=aws_config)
 
@@ -521,7 +488,6 @@ Lists the delegates associated with a resource. Users and groups can be resource
 - `MaxResults`: The number of maximum results in a page.
 - `NextToken`: The token used to paginate through the delegates associated with a resource.
 """
-
 list_resource_delegates(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("ListResourceDelegates", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 list_resource_delegates(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListResourceDelegates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
@@ -537,7 +503,6 @@ Returns summaries of the organization's resources.
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_resources(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_resources(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -550,7 +515,6 @@ Lists the tags applied to an Amazon WorkMail organization resource.
 - `ResourceARN`: The resource ARN.
 
 """
-
 list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = workmail("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
@@ -566,7 +530,6 @@ Returns summaries of the organization's users.
 - `MaxResults`: The maximum number of results to return in a single call.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
-
 list_users(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_users(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -589,7 +552,6 @@ Adds a new access control rule for the specified organization. The rule allows o
 - `NotUserIds`: User IDs to exclude from the rule.
 - `UserIds`: User IDs to include in the rule.
 """
-
 put_access_control_rule(Description, Effect, Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("PutAccessControlRule", Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 put_access_control_rule(Description, Effect, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -605,7 +567,6 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
 - `PermissionValues`: The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
 
 """
-
 put_mailbox_permissions(EntityId, GranteeId, OrganizationId, PermissionValues; aws_config::AWSConfig=global_aws_config()) = workmail("PutMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues); aws_config=aws_config)
 put_mailbox_permissions(EntityId, GranteeId, OrganizationId, PermissionValues, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues), args)); aws_config=aws_config)
 
@@ -623,7 +584,6 @@ Puts a retention policy to the specified organization.
 - `Description`: The retention policy description.
 - `Id`: The retention policy ID.
 """
-
 put_retention_policy(FolderConfigurations, Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("PutRetentionPolicy", Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 put_retention_policy(FolderConfigurations, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -638,7 +598,6 @@ Registers an existing and disabled user, group, or resource for Amazon WorkMail 
 - `OrganizationId`: The identifier for the organization under which the user, group, or resource exists.
 
 """
-
 register_to_work_mail(Email, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("RegisterToWorkMail", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 register_to_work_mail(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("RegisterToWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -653,7 +612,6 @@ Allows the administrator to reset the password for a user.
 - `UserId`: The identifier of the user for whom the password is reset.
 
 """
-
 reset_password(OrganizationId, Password, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("ResetPassword", Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId); aws_config=aws_config)
 reset_password(OrganizationId, Password, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ResetPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -674,7 +632,6 @@ Starts a mailbox export job to export MIME-format email messages and calendar it
 # Optional Parameters
 - `Description`: The mailbox export job description.
 """
-
 start_mailbox_export_job(ClientToken, EntityId, KmsKeyArn, OrganizationId, RoleArn, S3BucketName, S3Prefix; aws_config::AWSConfig=global_aws_config()) = workmail("StartMailboxExportJob", Dict{String, Any}("ClientToken"=>ClientToken, "EntityId"=>EntityId, "KmsKeyArn"=>KmsKeyArn, "OrganizationId"=>OrganizationId, "RoleArn"=>RoleArn, "S3BucketName"=>S3BucketName, "S3Prefix"=>S3Prefix); aws_config=aws_config)
 start_mailbox_export_job(ClientToken, EntityId, KmsKeyArn, OrganizationId, RoleArn, S3BucketName, S3Prefix, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("StartMailboxExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "EntityId"=>EntityId, "KmsKeyArn"=>KmsKeyArn, "OrganizationId"=>OrganizationId, "RoleArn"=>RoleArn, "S3BucketName"=>S3BucketName, "S3Prefix"=>S3Prefix), args)); aws_config=aws_config)
 
@@ -688,7 +645,6 @@ Applies the specified tags to the specified Amazon WorkMail organization resourc
 - `Tags`: The tag key-value pairs.
 
 """
-
 tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = workmail("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
@@ -702,7 +658,6 @@ Untags the specified tags from the specified Amazon WorkMail organization resour
 - `TagKeys`: The tag keys.
 
 """
-
 untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = workmail("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
@@ -717,7 +672,6 @@ Updates a user's current mailbox quota for a specified organization and user.
 - `UserId`: The identifer for the user for whom to update the mailbox quota.
 
 """
-
 update_mailbox_quota(MailboxQuota, OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 update_mailbox_quota(MailboxQuota, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
@@ -732,7 +686,6 @@ Updates the primary email for a user, group, or resource. The current email is m
 - `OrganizationId`: The organization that contains the user, group, or resource to update.
 
 """
-
 update_primary_email_address(Email, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 update_primary_email_address(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
@@ -749,6 +702,5 @@ Updates data for the resource. To have the latest information, it must be preced
 - `BookingOptions`: The resource's booking options to be updated.
 - `Name`: The name of the resource to be updated.
 """
-
 update_resource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
 update_resource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
