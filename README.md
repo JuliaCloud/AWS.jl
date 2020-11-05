@@ -108,6 +108,64 @@ S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
 ```
 There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
 
+## Modifying some functionality
+
+There are sometimes situations, in which default behavior of AWS.jl might be overridden, for example when this package is used to access S3-compatible object storage of a different cloud service provider, which might have different ways of joining the endpoint url, encoding the region in the signature etc. 
+In many cases this can be achieved by creating a user-defined subtype of `AbstractAWSConfig` where some of the default methods are overwritten. 
+For example, if you want to use the S3 high-level interface to access public data from GCS without authorisation, you could define:
+
+````julia
+struct AnonymousGCS <:AbstractAWSConfig end
+struct NoCredentials end
+AWS.region(aws::AnonymousGCS) = "" # No region
+AWS.credentials(aws::AnonymousGCS) = NoCredentials() # No credentials
+AWS.check_credentials(c::NoCredentials) = c # Skip credentials check
+AWS._sign!(aws::AnonymousGCS, ::AWS.Request) = nothing # Don't sign request
+function AWS._generate_service_url(aws::AnonymousGCS, service::String, resource::String)
+    service == "s3" || throw(ArgumentError("Can only handle s3 requests to GCS"))
+    return string("https://storage.googleapis.com.", resource)
+end
+AWS.global_aws_config(AnonymousGCS())
+````
+
+which skips some of the signature and credentials checking and modifies the generation of the endpoint url. 
+
+A more extended example would be to use this package to access a custom minio server, we can define:
+
+````julia
+struct MinioConfig <: AbstractAWSConfig 
+endpoint::String
+region::String
+creds
+end
+AWS.region(c::MinioConfig) = c.region
+AWS.credentials(c::MinioConfig) = c.creds
+````
+
+and we define our own credentials type:
+
+````julia
+struct SimpleCredentials
+    access_key_id::String
+    secret_key::String
+    token::String
+end
+AWS.check_credentials(c::SimpleCredentials) = c
+````
+
+as well as a custom url generator:
+
+````julia
+function AWS._generate_service_url(aws::MinioConfig, service::String, resource::String)
+    service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
+    return string(aws.endpoint, resource)
+end
+AWS.global_aws_config(MinioConfig("http://127.0.0.1:9000","aregion",SimpleCredentials("minio", "minio123","")))
+````
+
+Now we are ready to use AWS.jl to do S3-compatible requests to a minio server. 
+
+
 ## Alternative Solutions
 There are a few alternatives to this package, the two below are being deprecated in favour of this package:
 * [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) - Low-level AWS interface
