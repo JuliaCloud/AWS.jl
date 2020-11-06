@@ -90,6 +90,8 @@ Creates a new Amazon Kendra index. Index creation is an asynchronous operation. 
 - `Edition`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
 - `ServerSideEncryptionConfiguration`: The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
 - `Tags`: A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
+- `UserContextPolicy`: The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If there is an access control list, it is ignored. You can filter on user and group attributes.   USER_TOKEN  Enables SSO and token-based user access control. All documents with no access control and all documents accessible to the user will be searchable and displayable.   
+- `UserTokenConfigurations`: The user token configuration.
 """
 create_index(Name, RoleArn; aws_config::AWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_index(Name, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -259,6 +261,7 @@ Searches an active index. Use this API to search your documents using query. The
 - `QueryResultTypeFilter`: Sets the type of query. Only results for the specified query type are returned.
 - `RequestedDocumentAttributes`: An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
 - `SortingConfiguration`: Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
+- `UserContext`: The user context token.
 """
 query(IndexId, QueryText; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
 query(IndexId, QueryText, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), args)); aws_config=aws_config)
@@ -364,6 +367,8 @@ Updates an existing Amazon Kendra index.
 - `DocumentMetadataConfigurationUpdates`: The document metadata to update. 
 - `Name`: The name of the index to update.
 - `RoleArn`: A new IAM role that gives Amazon Kendra permission to access your Amazon CloudWatch logs.
+- `UserContextPolicy`: The user user token context policy.
+- `UserTokenConfigurations`: The user token configuration.
 """
 update_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)

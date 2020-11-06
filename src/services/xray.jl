@@ -105,6 +105,68 @@ get_groups(; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/Groups"
 get_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/Groups", args; aws_config=aws_config)
 
 """
+    GetInsight()
+
+Retrieves the summary information of an insight. This includes impact to clients and root cause services, the top anomalous services, the category, the state of the insight, and the start and end time of the insight.
+
+# Required Parameters
+- `InsightId`: The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+
+"""
+get_insight(InsightId; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/Insight", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
+get_insight(InsightId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/Insight", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), args)); aws_config=aws_config)
+
+"""
+    GetInsightEvents()
+
+X-Ray reevaluates insights periodically until they're resolved, and records each intermediate state as an event. You can review an insight's events in the Impact Timeline on the Inspect page in the X-Ray console.
+
+# Required Parameters
+- `InsightId`: The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+
+# Optional Parameters
+- `MaxResults`: Used to retrieve at most the specified value of events.
+- `NextToken`: Specify the pagination token returned by a previous request to retrieve the next page of events. 
+"""
+get_insight_events(InsightId; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightEvents", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
+get_insight_events(InsightId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), args)); aws_config=aws_config)
+
+"""
+    GetInsightImpactGraph()
+
+Retrieves a service graph structure filtered by the specified insight. The service graph is limited to only structural information. For a complete service graph, use this API with the GetServiceGraph API.
+
+# Required Parameters
+- `EndTime`: The estimated end time of the insight, in Unix time seconds. The EndTime is exclusive of the value provided. The time range between the start time and end time can't be more than six hours. 
+- `InsightId`: The insight's unique identifier. Use the GetInsightSummaries action to retrieve an InsightId.
+- `StartTime`: The estimated start time of the insight, in Unix time seconds. The StartTime is inclusive of the value provided and can't be more than 30 days old.
+
+# Optional Parameters
+- `NextToken`: Specify the pagination token returned by a previous request to retrieve the next page of results. 
+"""
+get_insight_impact_graph(EndTime, InsightId, StartTime; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightImpactGraph", Dict{String, Any}("EndTime"=>EndTime, "InsightId"=>InsightId, "StartTime"=>StartTime); aws_config=aws_config)
+get_insight_impact_graph(EndTime, InsightId, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightImpactGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "InsightId"=>InsightId, "StartTime"=>StartTime), args)); aws_config=aws_config)
+
+"""
+    GetInsightSummaries()
+
+Retrieves the summaries of all insights in the specified group matching the provided filter values.
+
+# Required Parameters
+- `EndTime`: The end of the time frame in which the insights ended. The end time can't be more than 30 days old.
+- `StartTime`: The beginning of the time frame in which the insights started. The start time can't be more than 30 days old.
+
+# Optional Parameters
+- `GroupARN`: The Amazon Resource Name (ARN) of the group. Required if the GroupName isn't provided.
+- `GroupName`: The name of the group. Required if the GroupARN isn't provided.
+- `MaxResults`: The maximum number of results to display.
+- `NextToken`: Pagination token.
+- `States`: The list of insight states. 
+"""
+get_insight_summaries(EndTime, StartTime; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightSummaries", Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime); aws_config=aws_config)
+get_insight_summaries(EndTime, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = xray("POST", "/InsightSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), args)); aws_config=aws_config)
+
+"""
     GetSamplingRules()
 
 Retrieves all sampling rules.
@@ -166,6 +228,7 @@ Get an aggregation of service statistics defined by a specific time range.
 
 # Optional Parameters
 - `EntitySelectorExpression`: A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. 
+- `ForecastStatistics`: The forecasted high and low fault count values. Forecast enabled requests require the EntitySelectorExpression ID be provided.
 - `GroupARN`: The Amazon Resource Name (ARN) of the group for which to pull statistics from.
 - `GroupName`: The case-sensitive name of the group for which to pull statistics from.
 - `NextToken`: Pagination token.

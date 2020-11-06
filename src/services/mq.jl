@@ -17,7 +17,7 @@ Creates a broker. Note: This API is asynchronous.
 - `creatorRequestId`: The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
 - `deploymentMode`: Required. The deployment mode of the broker.
 - `encryptionOptions`: Encryption options for the broker.
-- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
 - `engineVersion`: Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
 - `hostInstanceType`: Required. The broker's instance type.
 - `ldapServerMetadata`: The metadata of the LDAP server used to authenticate and authorize connections to the broker.
@@ -26,9 +26,9 @@ Creates a broker. Note: This API is asynchronous.
 - `publiclyAccessible`: Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
 - `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
 - `storageType`: The broker's storage type.
-- `subnetIds`: The list of groups (2 maximum) that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+- `subnetIds`: The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ) requires two subnets. A CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements when deployed with public accessibility, deployment without public accessibility requires at least one subnet.
 - `tags`: Create tags when creating the broker.
-- `users`: Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `users`: Required. The list of broker users (persons or applications) who can access queues and topics. For RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ Web Console. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 """
 create_broker(; aws_config::AWSConfig=global_aws_config()) = mq("POST", "/v1/brokers", Dict{String, Any}("creatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_broker(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
@@ -40,7 +40,7 @@ Creates a new configuration for the specified configuration name. Amazon MQ uses
 
 # Optional Parameters
 - `authenticationStrategy`: The authentication strategy associated with the configuration.
-- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports only ACTIVEMQ.
+- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
 - `engineVersion`: Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
 - `tags`: Create tags when creating the configuration.

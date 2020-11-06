@@ -1711,7 +1711,7 @@ Lists the billing groups you have created.
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
 - `namePrefixFilter`: Limit the results to billing groups whose names have the given prefix.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_billing_groups(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/billing-groups"; aws_config=aws_config)
 list_billing_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/billing-groups", args; aws_config=aws_config)
@@ -1951,7 +1951,7 @@ Lists the things associated with the specified principal. A principal can be X.5
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_principal_things(x_amzn_principal; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/principals/things", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)); aws_config=aws_config)
 list_principal_things(x_amzn_principal, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/principals/things", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)), args)); aws_config=aws_config)
@@ -2059,7 +2059,7 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resourceArn`: The ARN of the resource.
 
 # Optional Parameters
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
@@ -2102,7 +2102,7 @@ List the thing groups in your account.
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
 - `namePrefixFilter`: A filter that limits the results to those with the specified name prefix.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `parentGroup`: A filter that limits the results to those with the specified parent group.
 - `recursive`: If true, return child groups as well.
 """
@@ -2119,7 +2119,7 @@ List the thing groups to which the specified thing belongs.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_thing_groups_for_thing(thingName; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/thing-groups"; aws_config=aws_config)
 list_thing_groups_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/thing-groups", args; aws_config=aws_config)
@@ -2132,6 +2132,9 @@ Lists the principals associated with the specified thing. A principal can be X.5
 # Required Parameters
 - `thingName`: The name of the thing.
 
+# Optional Parameters
+- `maxResults`: The maximum number of results to return in this operation.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_thing_principals(thingName; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/principals"; aws_config=aws_config)
 list_thing_principals(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/principals", args; aws_config=aws_config)
@@ -2147,7 +2150,7 @@ Information about the thing registration tasks.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_thing_registration_task_reports(reportType, taskId; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks/$(taskId)/reports", Dict{String, Any}("reportType"=>reportType); aws_config=aws_config)
 list_thing_registration_task_reports(reportType, taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks/$(taskId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportType"=>reportType), args)); aws_config=aws_config)
@@ -2159,7 +2162,7 @@ List bulk thing provisioning tasks.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `status`: The status of the bulk thing provisioning task.
 """
 list_thing_registration_tasks(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks"; aws_config=aws_config)
@@ -2172,7 +2175,7 @@ Lists the existing thing types.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `thingTypeName`: The name of the thing type.
 """
 list_thing_types(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/thing-types"; aws_config=aws_config)
@@ -2187,7 +2190,7 @@ Lists your things. Use the attributeName and attributeValue parameters to filter
 - `attributeName`: The attribute name used to search for things.
 - `attributeValue`: The attribute value used to search for things.
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `thingTypeName`: The name of the thing type used to search for things.
 """
 list_things(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/things"; aws_config=aws_config)
@@ -2203,7 +2206,7 @@ Lists the things you have added to the given billing group.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_things_in_billing_group(billingGroupName; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/billing-groups/$(billingGroupName)/things"; aws_config=aws_config)
 list_things_in_billing_group(billingGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/billing-groups/$(billingGroupName)/things", args; aws_config=aws_config)
@@ -2218,7 +2221,7 @@ Lists the things in the specified group.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `recursive`: When true, list things in this thing group and in all child groups as well.
 """
 list_things_in_thing_group(thingGroupName; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/thing-groups/$(thingGroupName)/things"; aws_config=aws_config)
@@ -2231,7 +2234,7 @@ Lists all the topic rule destinations in your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token to retrieve the next set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 """
 list_topic_rule_destinations(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/destinations"; aws_config=aws_config)
 list_topic_rule_destinations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/destinations", args; aws_config=aws_config)
@@ -2243,7 +2246,7 @@ Lists the rules for the specific topic.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return.
-- `nextToken`: A token used to retrieve the next value.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `ruleDisabled`: Specifies whether the rule is disabled.
 - `topic`: The topic.
 """
@@ -2257,7 +2260,7 @@ Lists logging levels.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token used to get the next set of results, or null if there are no additional results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
 - `targetType`: The type of resource for which you are configuring logging. Must be THING_Group.
 """
 list_v2_logging_levels(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel"; aws_config=aws_config)

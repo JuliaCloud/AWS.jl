@@ -125,7 +125,7 @@ create_variable(dataSource, dataType, defaultValue, name, args::AbstractDict{Str
 """
     DeleteDetector()
 
-Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector.
+Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `detectorId`: The ID of the detector to delete.
@@ -137,7 +137,7 @@ delete_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     DeleteDetectorVersion()
 
-Deletes the detector version. You cannot delete detector versions that are in ACTIVE status.
+Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `detectorId`: The ID of the parent detector for the detector version to delete.
@@ -148,9 +148,21 @@ delete_detector_version(detectorId, detectorVersionId; aws_config::AWSConfig=glo
 delete_detector_version(detectorId, detectorVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), args)); aws_config=aws_config)
 
 """
+    DeleteEntityType()
+
+Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `name`: The name of the entity type to delete.
+
+"""
+delete_entity_type(name; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteEntityType", Dict{String, Any}("name"=>name); aws_config=aws_config)
+delete_entity_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteEntityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+
+"""
     DeleteEvent()
 
-Deletes the specified event.
+Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event from the evaluation history, and the event data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `eventId`: The ID of the event to delete.
@@ -161,9 +173,84 @@ delete_event(eventId, eventTypeName; aws_config::AWSConfig=global_aws_config()) 
 delete_event(eventId, eventTypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName), args)); aws_config=aws_config)
 
 """
+    DeleteEventType()
+
+Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `name`: The name of the event type to delete.
+
+"""
+delete_event_type(name; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteEventType", Dict{String, Any}("name"=>name); aws_config=aws_config)
+delete_event_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+
+"""
+    DeleteExternalModel()
+
+Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
+
+# Required Parameters
+- `modelEndpoint`: The endpoint of the Amazon Sagemaker model to delete.
+
+"""
+delete_external_model(modelEndpoint; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteExternalModel", Dict{String, Any}("modelEndpoint"=>modelEndpoint); aws_config=aws_config)
+delete_external_model(modelEndpoint, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteExternalModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelEndpoint"=>modelEndpoint), args)); aws_config=aws_config)
+
+"""
+    DeleteLabel()
+
+Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `name`: The name of the label to delete.
+
+"""
+delete_label(name; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteLabel", Dict{String, Any}("name"=>name); aws_config=aws_config)
+delete_label(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+
+"""
+    DeleteModel()
+
+Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model, Amazon Fraud Detector permanently deletes that model from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `modelId`: The model ID of the model to delete.
+- `modelType`: The model type of the model to delete.
+
+"""
+delete_model(modelId, modelType; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteModel", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config)
+delete_model(modelId, modelType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType), args)); aws_config=aws_config)
+
+"""
+    DeleteModelVersion()
+
+Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model version, Amazon Fraud Detector permanently deletes that model version from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `modelId`: The model ID of the model version to delete.
+- `modelType`: The model type of the model version to delete.
+- `modelVersionNumber`: The model version number of the model version to delete.
+
+"""
+delete_model_version(modelId, modelType, modelVersionNumber; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteModelVersion", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber); aws_config=aws_config)
+delete_model_version(modelId, modelType, modelVersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber), args)); aws_config=aws_config)
+
+"""
+    DeleteOutcome()
+
+Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `name`: The name of the outcome to delete.
+
+"""
+delete_outcome(name; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteOutcome", Dict{String, Any}("name"=>name); aws_config=aws_config)
+delete_outcome(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteOutcome", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+
+"""
     DeleteRule()
 
-Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version.
+Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `rule`: 
@@ -171,6 +258,18 @@ Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIV
 """
 delete_rule(rule; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteRule", Dict{String, Any}("rule"=>rule); aws_config=aws_config)
 delete_rule(rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rule"=>rule), args)); aws_config=aws_config)
+
+"""
+    DeleteVariable()
+
+Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+
+# Required Parameters
+- `name`: The name of the variable to delete.
+
+"""
+delete_variable(name; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteVariable", Dict{String, Any}("name"=>name); aws_config=aws_config)
+delete_variable(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = frauddetector("DeleteVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DescribeDetector()
