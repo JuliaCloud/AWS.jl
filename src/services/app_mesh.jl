@@ -7,29 +7,18 @@ using AWS.UUIDs
 """
     CreateGatewayRoute()
 
-Creates a gateway route.
-         A gateway route is attached to a virtual gateway and routes traffic to an existing
-         virtual service. If a route matches a request, it can distribute traffic to a target virtual service.
-         For more information about gateway routes, see Gateway routes.
+Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see Gateway routes.
 
 # Required Parameters
 - `gatewayRouteName`: The name to use for the gateway route.
 - `meshName`: The name of the service mesh to create the gateway route in.
 - `spec`: The gateway route specification to apply.
-- `virtualGatewayName`: The name of the virtual gateway to associate the gateway route with. If the virtual
-         gateway is in a shared mesh, then you must be the owner of the virtual gateway
-         resource.
+- `virtualGatewayName`: The name of the virtual gateway to associate the gateway route with. If the virtual gateway is in a shared mesh, then you must be the owner of the virtual gateway resource.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the gateway route to assist with categorization
-         and organization. Each tag consists of a key and an optional value, both of which you
-         define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the gateway route to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -37,24 +26,15 @@ create_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName, args:
 """
     CreateMesh()
 
-Creates a service mesh.
-          A service mesh is a logical boundary for network traffic between services that are
-         represented by resources within the mesh. After you create your service mesh, you can
-         create virtual services, virtual nodes, virtual routers, and routes to distribute traffic
-         between the applications in your mesh.
-         For more information about service meshes, see Service meshes.
+Creates a service mesh.  A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see Service meshes.
 
 # Required Parameters
 - `meshName`: The name to use for the service mesh.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `spec`: The service mesh specification to apply.
-- `tags`: Optional metadata that you can apply to the service mesh to assist with categorization
-         and organization. Each tag consists of a key and an optional value, both of which you
-         define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `tags`: Optional metadata that you can apply to the service mesh to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_mesh(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_mesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -62,28 +42,18 @@ create_mesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 """
     CreateRoute()
 
-Creates a route that is associated with a virtual router.
-          You can route several different protocols and define a retry policy for a route.
-         Traffic can be routed to one or more virtual nodes.
-         For more information about routes, see Routes.
+Creates a route that is associated with a virtual router.  You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see Routes.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to create the route in.
 - `routeName`: The name to use for the route.
 - `spec`: The route specification to apply.
-- `virtualRouterName`: The name of the virtual router in which to create the route. If the virtual router is in
-         a shared mesh, then you must be the owner of the virtual router resource.
+- `virtualRouterName`: The name of the virtual router in which to create the route. If the virtual router is in a shared mesh, then you must be the owner of the virtual router resource.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the route to assist with categorization and
-         organization. Each tag consists of a key and an optional value, both of which you define.
-         Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the route to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_route(meshName, routeName, spec, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_route(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -91,12 +61,7 @@ create_route(meshName, routeName, spec, virtualRouterName, args::AbstractDict{St
 """
     CreateVirtualGateway()
 
-Creates a virtual gateway.
-         A virtual gateway allows resources outside your mesh to communicate to resources that
-         are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS
-         task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which
-         represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself.
-         For more information about virtual gateways, see Virtual gateways.
+Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see Virtual gateways. 
 
 # Required Parameters
 - `meshName`: The name of the service mesh to create the virtual gateway in.
@@ -104,15 +69,9 @@ Creates a virtual gateway.
 - `virtualGatewayName`: The name to use for the virtual gateway.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the virtual gateway to assist with
-         categorization and organization. Each tag consists of a key and an optional value, both of
-         which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the virtual gateway to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_virtual_gateway(meshName, spec, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_virtual_gateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -120,27 +79,7 @@ create_virtual_gateway(meshName, spec, virtualGatewayName, args::AbstractDict{St
 """
     CreateVirtualNode()
 
-Creates a virtual node within a service mesh.
-          A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS
-         service or a Kubernetes deployment. When you create a virtual node, you can specify the
-         service discovery information for your task group, and whether the proxy running in a task
-         group will communicate with other proxies using Transport Layer Security (TLS).
-         You define a listener for any inbound traffic that your virtual node
-         expects. Any virtual service that your virtual node expects to communicate to is specified
-         as a backend.
-         The response metadata for your new virtual node contains the arn that is
-         associated with the virtual node. Set this value (either the full ARN or the truncated
-         resource name: for example, mesh/default/virtualNode/simpleapp) as the
-            APPMESH_VIRTUAL_NODE_NAME environment variable for your task group's Envoy
-         proxy container in your task definition or pod spec. This is then mapped to the
-            node.id and node.cluster Envoy parameters.
-         
-            If you require your Envoy stats or tracing to use a different name, you can override
-            the node.cluster value that is set by
-               APPMESH_VIRTUAL_NODE_NAME with the
-               APPMESH_VIRTUAL_NODE_CLUSTER environment variable.
-         
-         For more information about virtual nodes, see Virtual nodes.
+Creates a virtual node within a service mesh.  A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters.  By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name. AWS Cloud Map is not available in the eu-south-1 Region.  For more information about virtual nodes, see Virtual nodes. You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information about App Mesh Envoy variables, see Envoy image in the AWS App Mesh User Guide.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to create the virtual node in.
@@ -148,15 +87,9 @@ Creates a virtual node within a service mesh.
 - `virtualNodeName`: The name to use for the virtual node.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the virtual node to assist with categorization
-         and organization. Each tag consists of a key and an optional value, both of which you
-         define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the virtual node to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_virtual_node(meshName, spec, virtualNodeName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_virtual_node(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -164,13 +97,7 @@ create_virtual_node(meshName, spec, virtualNodeName, args::AbstractDict{String, 
 """
     CreateVirtualRouter()
 
-Creates a virtual router within a service mesh.
-         Specify a listener for any inbound traffic that your virtual router
-         receives. Create a virtual router for each protocol and port that you need to route.
-         Virtual routers handle traffic for one or more virtual services within your mesh. After you
-         create your virtual router, create and associate routes for your virtual router that direct
-         incoming requests to different virtual nodes.
-         For more information about virtual routers, see Virtual routers.
+Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see Virtual routers.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to create the virtual router in.
@@ -178,15 +105,9 @@ Creates a virtual router within a service mesh.
 - `virtualRouterName`: The name to use for the virtual router.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the virtual router to assist with categorization
-         and organization. Each tag consists of a key and an optional value, both of which you
-         define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the virtual router to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_virtual_router(meshName, spec, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_virtual_router(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -194,13 +115,7 @@ create_virtual_router(meshName, spec, virtualRouterName, args::AbstractDict{Stri
 """
     CreateVirtualService()
 
-Creates a virtual service within a service mesh.
-         A virtual service is an abstraction of a real service that is provided by a virtual node
-         directly or indirectly by means of a virtual router. Dependent services call your virtual
-         service by its virtualServiceName, and those requests are routed to the
-         virtual node or virtual router that is specified as the provider for the virtual
-         service.
-         For more information about virtual services, see Virtual services.
+Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see Virtual services.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to create the virtual service in.
@@ -208,15 +123,9 @@ Creates a virtual service within a service mesh.
 - `virtualServiceName`: The name to use for the virtual service.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then
-               the account that you specify must share the mesh with your account before you can create 
-             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
-- `tags`: Optional metadata that you can apply to the virtual service to assist with
-         categorization and organization. Each tag consists of a key and an optional value, both of
-         which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+- `tags`: Optional metadata that you can apply to the virtual service to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
 create_virtual_service(meshName, spec, virtualServiceName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_virtual_service(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -232,8 +141,7 @@ Deletes an existing gateway route.
 - `virtualGatewayName`: The name of the virtual gateway to delete the route from.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_gateway_route(gatewayRouteName, meshName, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws_config=aws_config)
 delete_gateway_route(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws_config=aws_config)
@@ -241,9 +149,7 @@ delete_gateway_route(gatewayRouteName, meshName, virtualGatewayName, args::Abstr
 """
     DeleteMesh()
 
-Deletes an existing service mesh.
-         You must delete all resources (virtual services, routes, virtual routers, and virtual
-         nodes) in the service mesh before you can delete the mesh itself.
+Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to delete.
@@ -263,8 +169,7 @@ Deletes an existing route.
 - `virtualRouterName`: The name of the virtual router to delete the route in.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_route(meshName, routeName, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws_config=aws_config)
 delete_route(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws_config=aws_config)
@@ -272,16 +177,14 @@ delete_route(meshName, routeName, virtualRouterName, args::AbstractDict{String, 
 """
     DeleteVirtualGateway()
 
-Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
-         routes are associated to it.
+Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to delete the virtual gateway from.
 - `virtualGatewayName`: The name of the virtual gateway to delete.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_virtual_gateway(meshName, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws_config=aws_config)
 delete_virtual_gateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws_config=aws_config)
@@ -289,17 +192,14 @@ delete_virtual_gateway(meshName, virtualGatewayName, args::AbstractDict{String, 
 """
     DeleteVirtualNode()
 
-Deletes an existing virtual node.
-         You must delete any virtual services that list a virtual node as a service provider
-         before you can delete the virtual node itself.
+Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to delete the virtual node in.
 - `virtualNodeName`: The name of the virtual node to delete.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_virtual_node(meshName, virtualNodeName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws_config=aws_config)
 delete_virtual_node(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws_config=aws_config)
@@ -307,17 +207,14 @@ delete_virtual_node(meshName, virtualNodeName, args::AbstractDict{String, <:Any}
 """
     DeleteVirtualRouter()
 
-Deletes an existing virtual router.
-         You must delete any routes associated with the virtual router before you can delete the
-         router itself.
+Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to delete the virtual router in.
 - `virtualRouterName`: The name of the virtual router to delete.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_virtual_router(meshName, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws_config=aws_config)
 delete_virtual_router(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws_config=aws_config)
@@ -332,8 +229,7 @@ Deletes an existing virtual service.
 - `virtualServiceName`: The name of the virtual service to delete.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 delete_virtual_service(meshName, virtualServiceName; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws_config=aws_config)
 delete_virtual_service(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws_config=aws_config)
@@ -349,8 +245,7 @@ Describes an existing gateway route.
 - `virtualGatewayName`: The name of the virtual gateway that the gateway route is associated with.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_gateway_route(gatewayRouteName, meshName, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws_config=aws_config)
 describe_gateway_route(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws_config=aws_config)
@@ -364,8 +259,7 @@ Describes an existing service mesh.
 - `meshName`: The name of the service mesh to describe.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_mesh(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)"; aws_config=aws_config)
 describe_mesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)", args; aws_config=aws_config)
@@ -381,8 +275,7 @@ Describes an existing route.
 - `virtualRouterName`: The name of the virtual router that the route is associated with.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_route(meshName, routeName, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws_config=aws_config)
 describe_route(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws_config=aws_config)
@@ -397,8 +290,7 @@ Describes an existing virtual gateway.
 - `virtualGatewayName`: The name of the virtual gateway to describe.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_virtual_gateway(meshName, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws_config=aws_config)
 describe_virtual_gateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws_config=aws_config)
@@ -413,8 +305,7 @@ Describes an existing virtual node.
 - `virtualNodeName`: The name of the virtual node to describe.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_virtual_node(meshName, virtualNodeName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws_config=aws_config)
 describe_virtual_node(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws_config=aws_config)
@@ -429,8 +320,7 @@ Describes an existing virtual router.
 - `virtualRouterName`: The name of the virtual router to describe.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_virtual_router(meshName, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws_config=aws_config)
 describe_virtual_router(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws_config=aws_config)
@@ -445,8 +335,7 @@ Describes an existing virtual service.
 - `virtualServiceName`: The name of the virtual service to describe.
 
 # Optional Parameters
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 describe_virtual_service(meshName, virtualServiceName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws_config=aws_config)
 describe_virtual_service(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws_config=aws_config)
@@ -454,28 +343,16 @@ describe_virtual_service(meshName, virtualServiceName, args::AbstractDict{String
 """
     ListGatewayRoutes()
 
-Returns a list of existing gateway routes that are associated to a virtual
-         gateway.
+Returns a list of existing gateway routes that are associated to a virtual gateway.
 
 # Required Parameters
 - `meshName`: The name of the service mesh to list gateway routes in.
 - `virtualGatewayName`: The name of the virtual gateway to list gateway routes in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListGatewayRoutes in paginated
-         output. When you use this parameter, ListGatewayRoutes returns only
-            limit results in a single page along with a nextToken response
-         element. You can see the remaining results of the initial request by sending another
-            ListGatewayRoutes request with the returned nextToken value.
-         This value can be between 1 and 100. If you don't use this
-         parameter, ListGatewayRoutes returns up to 100 results and a
-            nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListGatewayRoutes request where limit was used and the results
-         exceeded the value of that parameter. Pagination continues from the end of the previous
-         results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListGatewayRoutes in paginated output. When you use this parameter, ListGatewayRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListGatewayRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListGatewayRoutes returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListGatewayRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_gateway_routes(meshName, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes"; aws_config=aws_config)
 list_gateway_routes(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", args; aws_config=aws_config)
@@ -486,22 +363,8 @@ list_gateway_routes(meshName, virtualGatewayName, args::AbstractDict{String, <:A
 Returns a list of existing service meshes.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListMeshes in paginated output.
-         When you use this parameter, ListMeshes returns only limit
-         results in a single page along with a nextToken response element. You can see
-         the remaining results of the initial request by sending another ListMeshes
-         request with the returned nextToken value. This value can be between
-         1 and 100. If you don't use this parameter,
-            ListMeshes returns up to 100 results and a
-            nextToken value if applicable.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListMeshes request where limit was used and the results
-         exceeded the value of that parameter. Pagination continues from the end of the previous
-         results that returned the nextToken value. 
-         
-            This token should be treated as an opaque identifier that is used only to
-                retrieve the next items in a list and not for other programmatic purposes.
-        
+- `limit`: The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
+- `nextToken`: The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
 """
 list_meshes(; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes"; aws_config=aws_config)
 list_meshes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes", args; aws_config=aws_config)
@@ -516,20 +379,9 @@ Returns a list of existing routes in a service mesh.
 - `virtualRouterName`: The name of the virtual router to list routes in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListRoutes in paginated output.
-         When you use this parameter, ListRoutes returns only limit
-         results in a single page along with a nextToken response element. You can see
-         the remaining results of the initial request by sending another ListRoutes
-         request with the returned nextToken value. This value can be between
-         1 and 100. If you don't use this parameter,
-            ListRoutes returns up to 100 results and a
-            nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListRoutes request where limit was used and the results
-         exceeded the value of that parameter. Pagination continues from the end of the previous
-         results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListRoutes in paginated output. When you use this parameter, ListRoutes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListRoutes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListRoutes returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_routes(meshName, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes"; aws_config=aws_config)
 list_routes(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", args; aws_config=aws_config)
@@ -543,18 +395,8 @@ List the tags for an App Mesh resource.
 - `resourceArn`: The Amazon Resource Name (ARN) that identifies the resource to list the tags for.
 
 # Optional Parameters
-- `limit`: The maximum number of tag results returned by ListTagsForResource in
-         paginated output. When this parameter is used, ListTagsForResource returns
-         only limit results in a single page along with a nextToken
-         response element. You can see the remaining results of the initial request by sending
-         another ListTagsForResource request with the returned nextToken
-         value. This value can be between 1 and 100. If you don't use
-         this parameter, ListTagsForResource returns up to 100
-         results and a nextToken value if applicable.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListTagsForResource request where limit was used and the
-         results exceeded the value of that parameter. Pagination continues from the end of the
-         previous results that returned the nextToken value.
+- `limit`: The maximum number of tag results returned by ListTagsForResource in paginated output. When this parameter is used, ListTagsForResource returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListTagsForResource request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListTagsForResource returns up to 100 results and a nextToken value if applicable.
+- `nextToken`: The nextToken value returned from a previous paginated ListTagsForResource request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
@@ -568,20 +410,9 @@ Returns a list of existing virtual gateways in a service mesh.
 - `meshName`: The name of the service mesh to list virtual gateways in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListVirtualGateways in paginated
-         output. When you use this parameter, ListVirtualGateways returns only
-            limit results in a single page along with a nextToken response
-         element. You can see the remaining results of the initial request by sending another
-            ListVirtualGateways request with the returned nextToken value.
-         This value can be between 1 and 100. If you don't use this
-         parameter, ListVirtualGateways returns up to 100 results and
-         a nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListVirtualGateways request where limit was used and the
-         results exceeded the value of that parameter. Pagination continues from the end of the
-         previous results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListVirtualGateways in paginated output. When you use this parameter, ListVirtualGateways returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualGateways request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualGateways returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListVirtualGateways request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_virtual_gateways(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways"; aws_config=aws_config)
 list_virtual_gateways(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways", args; aws_config=aws_config)
@@ -595,20 +426,9 @@ Returns a list of existing virtual nodes.
 - `meshName`: The name of the service mesh to list virtual nodes in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListVirtualNodes in paginated
-         output. When you use this parameter, ListVirtualNodes returns only
-            limit results in a single page along with a nextToken response
-         element. You can see the remaining results of the initial request by sending another
-            ListVirtualNodes request with the returned nextToken value.
-         This value can be between 1 and 100. If you don't use this
-         parameter, ListVirtualNodes returns up to 100 results and a
-            nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListVirtualNodes request where limit was used and the results
-         exceeded the value of that parameter. Pagination continues from the end of the previous
-         results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListVirtualNodes in paginated output. When you use this parameter, ListVirtualNodes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualNodes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualNodes returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListVirtualNodes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_virtual_nodes(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes"; aws_config=aws_config)
 list_virtual_nodes(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes", args; aws_config=aws_config)
@@ -622,20 +442,9 @@ Returns a list of existing virtual routers in a service mesh.
 - `meshName`: The name of the service mesh to list virtual routers in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListVirtualRouters in paginated
-         output. When you use this parameter, ListVirtualRouters returns only
-            limit results in a single page along with a nextToken response
-         element. You can see the remaining results of the initial request by sending another
-            ListVirtualRouters request with the returned nextToken value.
-         This value can be between 1 and 100. If you don't use this
-         parameter, ListVirtualRouters returns up to 100 results and
-         a nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListVirtualRouters request where limit was used and the
-         results exceeded the value of that parameter. Pagination continues from the end of the
-         previous results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListVirtualRouters in paginated output. When you use this parameter, ListVirtualRouters returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualRouters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualRouters returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListVirtualRouters request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_virtual_routers(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters"; aws_config=aws_config)
 list_virtual_routers(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters", args; aws_config=aws_config)
@@ -649,20 +458,9 @@ Returns a list of existing virtual services in a service mesh.
 - `meshName`: The name of the service mesh to list virtual services in.
 
 # Optional Parameters
-- `limit`: The maximum number of results returned by ListVirtualServices in paginated
-         output. When you use this parameter, ListVirtualServices returns only
-            limit results in a single page along with a nextToken response
-         element. You can see the remaining results of the initial request by sending another
-            ListVirtualServices request with the returned nextToken value.
-         This value can be between 1 and 100. If you don't use this
-         parameter, ListVirtualServices returns up to 100 results and
-         a nextToken value if applicable.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
-- `nextToken`: The nextToken value returned from a previous paginated
-            ListVirtualServices request where limit was used and the
-         results exceeded the value of that parameter. Pagination continues from the end of the
-         previous results that returned the nextToken value.
+- `limit`: The maximum number of results returned by ListVirtualServices in paginated output. When you use this parameter, ListVirtualServices returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListVirtualServices request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListVirtualServices returns up to 100 results and a nextToken value if applicable.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `nextToken`: The nextToken value returned from a previous paginated ListVirtualServices request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_virtual_services(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices"; aws_config=aws_config)
 list_virtual_services(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices", args; aws_config=aws_config)
@@ -670,16 +468,11 @@ list_virtual_services(meshName, args::AbstractDict{String, <:Any}; aws_config::A
 """
     TagResource()
 
-Associates the specified tags to a resource with the specified resourceArn.
-         If existing tags on a resource aren't specified in the request parameters, they aren't
-         changed. When a resource is deleted, the tags associated with that resource are also
-         deleted.
+Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
 
 # Required Parameters
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource to add tags to.
-- `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
-         Tag keys can have a maximum character length of 128 characters, and tag values can have
-            a maximum length of 256 characters.
+- `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 
 """
 tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/tag", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
@@ -701,8 +494,7 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateGatewayRoute()
 
-Updates an existing gateway route that is associated to a specified virtual gateway in a
-         service mesh.
+Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
 
 # Required Parameters
 - `gatewayRouteName`: The name of the gateway route to update.
@@ -711,10 +503,8 @@ Updates an existing gateway route that is associated to a specified virtual gate
 - `virtualGatewayName`: The name of the virtual gateway that the gateway route is associated with.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_gateway_route(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -728,8 +518,7 @@ Updates an existing service mesh.
 - `meshName`: The name of the service mesh to update.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `spec`: The service mesh specification to apply.
 """
 update_mesh(meshName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
@@ -747,10 +536,8 @@ Updates an existing route for a specified service mesh and virtual router.
 - `virtualRouterName`: The name of the virtual router that the route is associated with.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_route(meshName, routeName, spec, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_route(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -762,15 +549,12 @@ Updates an existing virtual gateway in a specified service mesh.
 
 # Required Parameters
 - `meshName`: The name of the service mesh that the virtual gateway resides in.
-- `spec`: The new virtual gateway specification to apply. This overwrites the existing
-         data.
+- `spec`: The new virtual gateway specification to apply. This overwrites the existing data.
 - `virtualGatewayName`: The name of the virtual gateway to update.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_virtual_gateway(meshName, spec, virtualGatewayName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_virtual_gateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -786,10 +570,8 @@ Updates an existing virtual node in a specified service mesh.
 - `virtualNodeName`: The name of the virtual node to update.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_virtual_node(meshName, spec, virtualNodeName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_virtual_node(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -805,10 +587,8 @@ Updates an existing virtual router in a specified service mesh.
 - `virtualRouterName`: The name of the virtual router to update.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_virtual_router(meshName, spec, virtualRouterName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_virtual_router(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -820,15 +600,12 @@ Updates an existing virtual service in a specified service mesh.
 
 # Required Parameters
 - `meshName`: The name of the service mesh that the virtual service resides in.
-- `spec`: The new virtual service specification to apply. This overwrites the existing
-         data.
+- `spec`: The new virtual service specification to apply. This overwrites the existing data.
 - `virtualServiceName`: The name of the virtual service to update.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the
-request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
-- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
-               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
+- `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
 update_virtual_service(meshName, spec, virtualServiceName; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_virtual_service(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)

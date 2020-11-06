@@ -17,6 +17,35 @@ activate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbr
 activate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
+    CancelReplay()
+
+Cancels the specified replay.
+
+# Required Parameters
+- `ReplayName`: The name of the replay to cancel.
+
+"""
+cancel_replay(ReplayName; aws_config::AWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}("ReplayName"=>ReplayName); aws_config=aws_config)
+cancel_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), args)); aws_config=aws_config)
+
+"""
+    CreateArchive()
+
+Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect.
+
+# Required Parameters
+- `ArchiveName`: The name for the archive to create.
+- `EventSourceArn`: The ARN of the event source associated with the archive.
+
+# Optional Parameters
+- `Description`: A description for the archive.
+- `EventPattern`: An event pattern to use to filter events sent to the archive.
+- `RetentionDays`: The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
+"""
+create_archive(ArchiveName, EventSourceArn; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn); aws_config=aws_config)
+create_archive(ArchiveName, EventSourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn), args)); aws_config=aws_config)
+
+"""
     CreateEventBus()
 
 Creates a new event bus within your account. This can be a custom event bus which you can use to receive events from your custom applications and services, or it can be a partner event bus which can be matched to a partner event source.
@@ -55,6 +84,18 @@ You can use this operation to temporarily stop receiving events from the specifi
 """
 deactivate_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 deactivate_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    DeleteArchive()
+
+Deletes the specified archive.
+
+# Required Parameters
+- `ArchiveName`: The name of the archive to delete.
+
+"""
+delete_archive(ArchiveName; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
+delete_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), args)); aws_config=aws_config)
 
 """
     DeleteEventBus()
@@ -97,6 +138,18 @@ delete_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("Dele
 delete_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
+    DescribeArchive()
+
+Retrieves details about an archive.
+
+# Required Parameters
+- `ArchiveName`: The name of the archive to retrieve.
+
+"""
+describe_archive(ArchiveName; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
+describe_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), args)); aws_config=aws_config)
+
+"""
     DescribeEventBus()
 
 Displays details about an event bus in your account. This can include the external AWS accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time.  To enable your account to receive events from other accounts on its default event bus, use PutPermission. For more information about partner event buses, see CreateEventBus.
@@ -130,6 +183,18 @@ An SaaS partner can use this operation to list details about a partner event sou
 """
 describe_partner_event_source(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_partner_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    DescribeReplay()
+
+Retrieves details about a replay. Use DescribeReplay to determine the progress of a running replay. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you use StartReplay and specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
+
+# Required Parameters
+- `ReplayName`: The name of the replay to retrieve.
+
+"""
+describe_replay(ReplayName; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeReplay", Dict{String, Any}("ReplayName"=>ReplayName); aws_config=aws_config)
+describe_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("DescribeReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), args)); aws_config=aws_config)
 
 """
     DescribeRule()
@@ -172,6 +237,21 @@ Enables the specified rule. If the rule does not exist, the operation fails. Whe
 """
 enable_rule(Name; aws_config::AWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    ListArchives()
+
+Lists your archives. You can either list all the archives or you can provide a prefix to match to the archive names. Filter parameters are exclusive.
+
+# Optional Parameters
+- `EventSourceArn`: The ARN of the event source associated with the archive.
+- `Limit`: The maximum number of results to return.
+- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+- `NextToken`: The token returned by a previous call to retrieve the next set of results.
+- `State`: The state of the archive.
+"""
+list_archives(; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListArchives"; aws_config=aws_config)
+list_archives(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListArchives", args; aws_config=aws_config)
 
 """
     ListEventBuses()
@@ -228,6 +308,21 @@ An SaaS partner can use this operation to list all the partner event source name
 """
 list_partner_event_sources(NamePrefix; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
 list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), args)); aws_config=aws_config)
+
+"""
+    ListReplays()
+
+Lists your replays. You can either list all the replays or you can provide a prefix to match to the replay names. Filter parameters are exclusive.
+
+# Optional Parameters
+- `EventSourceArn`: The ARN of the event source associated with the replay.
+- `Limit`: The maximum number of replays to retrieve.
+- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+- `NextToken`: The token returned by a previous call to retrieve the next set of results.
+- `State`: The state of the replay.
+"""
+list_replays(; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListReplays"; aws_config=aws_config)
+list_replays(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("ListReplays", args; aws_config=aws_config)
 
 """
     ListRuleNamesByTarget()
@@ -394,6 +489,24 @@ remove_targets(Ids, Rule; aws_config::AWSConfig=global_aws_config()) = eventbrid
 remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), args)); aws_config=aws_config)
 
 """
+    StartReplay()
+
+Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
+
+# Required Parameters
+- `Destination`: A ReplayDestination object that includes details about the destination for the replay.
+- `EventEndTime`: A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+- `EventSourceArn`: The ARN of the archive to replay events from.
+- `EventStartTime`: A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+- `ReplayName`: The name of the replay to start.
+
+# Optional Parameters
+- `Description`: A description for the replay to start.
+"""
+start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayName; aws_config::AWSConfig=global_aws_config()) = eventbridge("StartReplay", Dict{String, Any}("Destination"=>Destination, "EventEndTime"=>EventEndTime, "EventSourceArn"=>EventSourceArn, "EventStartTime"=>EventStartTime, "ReplayName"=>ReplayName); aws_config=aws_config)
+start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("StartReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "EventEndTime"=>EventEndTime, "EventSourceArn"=>EventSourceArn, "EventStartTime"=>EventStartTime, "ReplayName"=>ReplayName), args)); aws_config=aws_config)
+
+"""
     TagResource()
 
 Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
@@ -431,3 +544,19 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateArchive()
+
+Updates the specified archive.
+
+# Required Parameters
+- `ArchiveName`: The name of the archive to update.
+
+# Optional Parameters
+- `Description`: The description for the archive.
+- `EventPattern`: The event pattern to use to filter events sent to the archive.
+- `RetentionDays`: The number of days to retain events in the archive.
+"""
+update_archive(ArchiveName; aws_config::AWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
+update_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), args)); aws_config=aws_config)
