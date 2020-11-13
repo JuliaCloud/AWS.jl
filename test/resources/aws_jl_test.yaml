@@ -23,9 +23,9 @@ Resources:
             Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
 
   IAMPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: IAMPolicy
+      ManagedPolicyName: IAMPolicy
       Users:
         - !Ref PublicCIUser
       PolicyDocument:
@@ -39,9 +39,9 @@ Resources:
             Resource:
               - !Sub arn:aws:iam::${AWS::AccountId}:policy/aws-jl-test-*
   SecretsManagerPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: SecretsManagerTestPolicy
+      ManagedPolicyName: SecretsManagerTestPolicy
       Users:
         - !Ref PublicCIUser
       PolicyDocument:
@@ -56,9 +56,9 @@ Resources:
             Action: secretsmanager:CreateSecret
             Resource: "*"
   GlacierTestPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: GlacierTestPolicy
+      ManagedPolicyName: GlacierTestPolicy
       Users:
         - !Ref PublicCIUser
       PolicyDocument:
@@ -69,15 +69,15 @@ Resources:
               - glacier:AddTagsToVault
               - glacier:CreateVault
               - glacier:DeleteVault
-              - ListTagsForVault
+              - glacier:ListTagsForVault
             Resource: !Sub arn:aws:glacier:*:${AWS::AccountId}:vaults/aws-jl-test-*
           - Effect: Allow
             Action: glacier:ListVaults
             Resource: "*"
   S3TestPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: S3TestPolicy
+      ManagedPolicyName: S3TestPolicy
       Users:
         - !Ref PublicCIUser
       PolicyDocument:
@@ -114,9 +114,9 @@ Resources:
               - s3:GetObjectVersion
             Resource: arn:aws:s3:::aws-jl-test-*/*
   SQSTestPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: SQSTestPolicy
+      ManagedPolicyName: SQSTestPolicy
       Users:
         - !Ref PublicCIUser
       PolicyDocument:
@@ -138,3 +138,20 @@ Resources:
               - sqs:SendMessageBatch
               - sqs:SetQueueAttributes
             Resource: !Sub arn:aws:sqs:*:${AWS::AccountId}:aws-jl-test-*
+  DynamoDBTestPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: DynamoDBTestPolicy
+      Users:
+        - !Ref PublicCIUser
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - dynamodb:CreateTable
+          - dynamodb:PutItem
+          - dynamodb:DescribeTable
+          - dynamodb:Scan
+          - dynamodb:DeleteTable
+          Resource: arn:aws:dynamodb:*:351396300852:table/aws-jl-test-*

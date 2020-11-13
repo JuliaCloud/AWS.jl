@@ -455,7 +455,48 @@ end
     end
 end
 
+@testset "_children_to_dict" begin
+    dict = Dict("Item"=>["k1"=>["S"=>"v1"], "k2" =>["S"=>"v2"]])
+    expected = Dict("Item" => Dict("k1"=>Dict("S"=>"v1"),"k2"=>Dict("S"=>"v2")))
+
+    @test AWS._children_to_dict(dict) == expected
+end
+
 @testset "json" begin
+    @testset "dynamodb" begin
+        @service DynamoDB
+        table_name = "aws-jl-test---" * _now_formatted()
+        item_name = "item"
+        table_inactive = true
+        partition_key = "pk"
+
+        args = Dict(
+            "content"=>"{\"BillingMode\": \"PAY_PER_REQUEST\",\"AttributeDefinitions\":[{\"AttributeName\":\"$(partition_key)\",\"AttributeType\":\"S\"}],\"TableName\":\"$(table_name)\",\"KeySchema\":[{\"AttributeName\":\"$(partition_key)\",\"KeyType\":\"HASH\"}]}"
+        )
+
+        AWSServices.dynamodb("CreateTable", args)
+
+        try
+            while table_inactive
+                resp = DynamoDB.describe_table(table_name)
+
+                if resp["Table"]["TableStatus"] == "ACTIVE"
+                    table_inactive = false
+                end
+
+                sleep(3)
+            end
+
+            item = [partition_key => ["S" => "example2"]]
+            DynamoDB.put_item(item, table_name)
+
+            resp = DynamoDB.scan(table_name)
+            @test resp["Count"] == 1
+        finally
+            DynamoDB.delete_table(table_name)
+        end
+    end
+
     @testset "high-level secrets manager" begin
         @service Secrets_Manager
 

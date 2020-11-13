@@ -498,6 +498,23 @@ function _flatten_query!(result::Vector{Pair{String, String}}, service::String, 
     return result
 end
 
+function _children_to_dict(args::Union{AbstractDict, Vector, Pair})
+    _stringdict(kv) = Dict{String, Any}(string(k)=>v for (k,v) in kv)
+    _dictlike(t) = (t <: AbstractDict || t <: Vector && t.parameters[1] <: Pair{String})
+
+    result = _stringdict(args)
+
+    for (k, v) in result
+        if _dictlike(typeof(v))
+            result[k] = _children_to_dict(v)
+        elseif isa(v, Vector)
+            result[k] = [_dictlike(typeof(i)) ? _children_to_dict(i) : i for i in v]
+        end
+    end
+
+    return result
+end
+
 """
     (service::RestXMLService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
@@ -640,7 +657,7 @@ function (service::JSONService)(
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        content=json(args),
+        content=get(args, "content", json(_children_to_dict(args))),
         url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
