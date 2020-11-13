@@ -167,20 +167,6 @@ create_portal(portalContactEmail, portalName, roleArn; aws_config::AWSConfig=glo
 create_portal(portalContactEmail, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/portals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
-    CreatePresignedPortalUrl()
-
-Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains a session token that lets the IAM user access the portal.
-
-# Required Parameters
-- `portalId`: The ID of the portal to access.
-
-# Optional Parameters
-- `sessionDurationSeconds`: The duration (in seconds) for which the session at the URL is valid. Default: 900 seconds (15 minutes)
-"""
-create_presigned_portal_url(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url"; aws_config=aws_config)
-create_presigned_portal_url(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url", args; aws_config=aws_config)
-
-"""
     CreateProject()
 
 Creates a project in the specified portal.

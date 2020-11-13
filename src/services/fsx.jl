@@ -5,6 +5,21 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    AssociateFileSystemAliases()
+
+Use this action to associate one or more Domain Name Server (DNS) aliases with an existing Amazon FSx for Windows File Server file system. A file systen can have a maximum of 50 DNS aliases associated with it at any one time. If you try to associate a DNS alias that is already associated with the file system, FSx takes no action on that alias in the request. For more information, see Working with DNS Aliases and Walkthrough 5: Using DNS aliases to access your file system, including additional steps you must take to be able to access your file system using a DNS alias. The system response shows the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system.
+
+# Required Parameters
+- `Aliases`: An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements:   Formatted as a fully-qualified domain name (FQDN),  hostname.domain , for example, accounting.corp.example.com.   Can contain alphanumeric characters and the hyphen (-).   Cannot start or end with a hyphen.   Can start with a numeric.   For DNS alias names, Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you specify them: as uppercase letters, lowercase letters, or the corresponding letters in escape codes.
+- `FileSystemId`: Specifies the file system with which you want to associate one or more DNS aliases.
+
+# Optional Parameters
+- `ClientRequestToken`: 
+"""
+associate_file_system_aliases(Aliases, FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+associate_file_system_aliases(Aliases, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     CancelDataRepositoryTask()
 
 Cancels an existing Amazon FSx for Lustre data repository task if that task is in either the PENDING or EXECUTING state. When you cancel a task, Amazon FSx does the following.   Any files that FSx has already exported are not reverted.   FSx continues to export any files that are \"in-flight\" when the cancel operation is received.   FSx does not export any files that have not yet been exported.  
@@ -150,6 +165,22 @@ describe_data_repository_tasks(; aws_config::AWSConfig=global_aws_config()) = fs
 describe_data_repository_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks", args; aws_config=aws_config)
 
 """
+    DescribeFileSystemAliases()
+
+Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File Server file system. A history of all DNS aliases that have been associated with and disassociated from the file system is available in the list of AdministrativeAction provided in the DescribeFileSystems operation response.
+
+# Required Parameters
+- `FileSystemId`: The ID of the file system to return the associated DNS aliases for (String).
+
+# Optional Parameters
+- `ClientRequestToken`: 
+- `MaxResults`: Maximum number of DNS aliases to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
+- `NextToken`: Opaque pagination token returned from a previous DescribeFileSystemAliases operation (String). If a token is included in the request, the action continues the list from where the previous returning call left off.
+"""
+describe_file_system_aliases(FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+describe_file_system_aliases(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     DescribeFileSystems()
 
 Returns the description of specific Amazon FSx file systems, if a FileSystemIds value is provided for that file system. Otherwise, it returns descriptions of all file systems owned by your AWS account in the AWS Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally specify the MaxResults parameter to limit the number of descriptions in a response. If more file system descriptions remain, Amazon FSx returns a NextToken value in the response. In this case, send a later request with the NextToken request parameter set to the value of NextToken from the last response. This action is used in an iterative process to retrieve a list of your file system descriptions. DescribeFileSystems is called first without a NextTokenvalue. Then the action continues to be called with the NextToken parameter set to the value of the last NextToken value until a response has no NextToken. When using this action, keep the following in mind:   The implementation might return fewer than MaxResults file system descriptions while still including a NextToken value.   The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multicall iteration is unspecified.  
@@ -161,6 +192,21 @@ Returns the description of specific Amazon FSx file systems, if a FileSystemIds 
 """
 describe_file_systems(; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystems"; aws_config=aws_config)
 describe_file_systems(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystems", args; aws_config=aws_config)
+
+"""
+    DisassociateFileSystemAliases()
+
+Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a DNS alias that is not associated with the file system, Amazon FSx responds with a 400 Bad Request. For more information, see Working with DNS Aliases. The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is disassociating with the file system.
+
+# Required Parameters
+- `Aliases`: An array of one or more DNS alias names to disassociate, or remove, from the file system.
+- `FileSystemId`: Specifies the file system from which to disassociate the DNS aliases.
+
+# Optional Parameters
+- `ClientRequestToken`: 
+"""
+disassociate_file_system_aliases(Aliases, FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+disassociate_file_system_aliases(Aliases, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()

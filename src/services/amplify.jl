@@ -10,17 +10,18 @@ using AWS.UUIDs
  Creates a new Amplify app. 
 
 # Required Parameters
-- `name`:  The name for the Amplify app. 
+- `name`:  The name for an Amplify app. 
 
 # Optional Parameters
 - `accessToken`:  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored. 
-- `autoBranchCreationConfig`:  The automated branch creation configuration for the Amplify app. 
-- `autoBranchCreationPatterns`:  The automated branch creation glob patterns for the Amplify app. 
+- `autoBranchCreationConfig`:  The automated branch creation configuration for an Amplify app. 
+- `autoBranchCreationPatterns`:  The automated branch creation glob patterns for an Amplify app. 
 - `basicAuthCredentials`:  The credentials for basic authorization for an Amplify app. 
 - `buildSpec`:  The build specification (build spec) for an Amplify app. 
+- `customHeaders`: The custom HTTP headers for an Amplify app.
 - `customRules`:  The custom rewrite and redirect rules for an Amplify app. 
 - `description`:  The description for an Amplify app. 
-- `enableAutoBranchCreation`:  Enables automated branch creation for the Amplify app. 
+- `enableAutoBranchCreation`:  Enables automated branch creation for an Amplify app. 
 - `enableBasicAuth`:  Enables basic authorization for an Amplify app. This will apply to all branches that are part of this app. 
 - `enableBranchAutoBuild`:  Enables the auto building of branches for an Amplify app. 
 - `enableBranchAutoDeletion`:  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
@@ -68,8 +69,8 @@ create_backend_environment(appId, environmentName, args::AbstractDict{String, <:
 - `enableAutoBuild`:  Enables auto building for the branch. 
 - `enableBasicAuth`:  Enables basic authorization for the branch. 
 - `enableNotification`:  Enables notifications for the branch. 
-- `enablePerformanceMode`:  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
-- `enablePullRequestPreview`:  Enables pull request preview for this branch. 
+- `enablePerformanceMode`: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out. 
+- `enablePullRequestPreview`:  Enables pull request previews for this branch. 
 - `environmentVariables`:  The environment variables for the branch. 
 - `framework`:  The framework for the branch. 
 - `pullRequestEnvironmentName`:  The Amplify environment name for the pull request. 
@@ -514,13 +515,14 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 
 # Optional Parameters
 - `accessToken`:  The personal access token for a third-party source control system for an Amplify app. The token is used to create webhook and a read-only deploy key. The token is not stored. 
-- `autoBranchCreationConfig`:  The automated branch creation configuration for the Amplify app. 
-- `autoBranchCreationPatterns`:  Describes the automated branch creation glob patterns for the Amplify app. 
+- `autoBranchCreationConfig`:  The automated branch creation configuration for an Amplify app. 
+- `autoBranchCreationPatterns`:  Describes the automated branch creation glob patterns for an Amplify app. 
 - `basicAuthCredentials`:  The basic authorization credentials for an Amplify app. 
 - `buildSpec`:  The build specification (build spec) for an Amplify app. 
+- `customHeaders`: The custom HTTP headers for an Amplify app.
 - `customRules`:  The custom redirect and rewrite rules for an Amplify app. 
 - `description`:  The description for an Amplify app. 
-- `enableAutoBranchCreation`:  Enables automated branch creation for the Amplify app. 
+- `enableAutoBranchCreation`:  Enables automated branch creation for an Amplify app. 
 - `enableBasicAuth`:  Enables basic authorization for an Amplify app. 
 - `enableBranchAutoBuild`:  Enables branch auto-building for an Amplify app. 
 - `enableBranchAutoDeletion`:  Automatically disconnects a branch in the Amplify Console when you delete a branch from your Git repository. 
@@ -552,8 +554,8 @@ update_app(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=globa
 - `enableAutoBuild`:  Enables auto building for the branch. 
 - `enableBasicAuth`:  Enables basic authorization for the branch. 
 - `enableNotification`:  Enables notifications for the branch. 
-- `enablePerformanceMode`:  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
-- `enablePullRequestPreview`:  Enables pull request preview for this branch. 
+- `enablePerformanceMode`: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out. 
+- `enablePullRequestPreview`:  Enables pull request previews for this branch. 
 - `environmentVariables`:  The environment variables for the branch. 
 - `framework`:  The framework for the branch. 
 - `pullRequestEnvironmentName`:  The Amplify environment name for the pull request. 

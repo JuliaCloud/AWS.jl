@@ -155,6 +155,48 @@ create_contact_method(contactEndpoint, protocol; aws_config::AWSConfig=global_aw
 create_contact_method(contactEndpoint, protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contactEndpoint"=>contactEndpoint, "protocol"=>protocol), args)); aws_config=aws_config)
 
 """
+    CreateContainerService()
+
+Creates an Amazon Lightsail container service. A Lightsail container service is a compute resource to which you can deploy containers. For more information, see Container services in Amazon Lightsail in the Lightsail Dev Guide.
+
+# Required Parameters
+- `power`: The power specification for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
+- `scale`: The scale specification for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+- `serviceName`: The name for the container service. The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following are the requirements for container service names:   Must be unique within each AWS Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.  
+
+# Optional Parameters
+- `deployment`: An object that describes a deployment for the container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
+- `publicDomainNames`: The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
+- `tags`: The tag keys and optional values for the container service. For more information about tags in Lightsail, see the Lightsail Dev Guide.
+"""
+create_container_service(power, scale, serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName); aws_config=aws_config)
+create_container_service(power, scale, serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    CreateContainerServiceDeployment()
+
+Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service using container images from a public registry like Docker Hub, or from your local machine. For more information, see Creating container images for your Amazon Lightsail container services in the Lightsail Dev Guide.
+
+# Required Parameters
+- `serviceName`: The name of the container service for which to create the deployment.
+
+# Optional Parameters
+- `containers`: An object that describes the settings of the containers that will be launched on the container service.
+- `publicEndpoint`: An object that describes the settings of the public endpoint for the container service.
+"""
+create_container_service_deployment(serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerServiceDeployment", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+create_container_service_deployment(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerServiceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    CreateContainerServiceRegistryLogin()
+
+Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials.  You can only push container images to the container service registry of your Lightsail account. You cannot pull container images perform any other container image management actions on the container service registry of your Lightsail account.  After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service.  This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Lightsail Dev Guide. 
+
+"""
+create_container_service_registry_login(; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerServiceRegistryLogin"; aws_config=aws_config)
+create_container_service_registry_login(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateContainerServiceRegistryLogin", args; aws_config=aws_config)
+
+"""
     CreateDisk()
 
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the Lightsail Dev Guide.
@@ -244,7 +286,7 @@ create_domain(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 """
     CreateDomainEntry()
 
-Creates one of the following entry records associated with the domain: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
+Creates one of the following domain name system (DNS) records in a domain DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the Lightsail Dev Guide.
 
 # Required Parameters
 - `domainEntry`: An array of key-value pairs containing information about the domain entry request.
@@ -471,6 +513,31 @@ Deletes a contact method. A contact method is used to send you notifications abo
 """
 delete_contact_method(protocol; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContactMethod", Dict{String, Any}("protocol"=>protocol); aws_config=aws_config)
 delete_contact_method(protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContactMethod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), args)); aws_config=aws_config)
+
+"""
+    DeleteContainerImage()
+
+Deletes a container image that is registered to your Amazon Lightsail container service.
+
+# Required Parameters
+- `image`: The name of the container image to delete from the container service. Use the GetContainerImages action to get the name of the container images that are registered to a container service.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, :container-service-1.mystaticwebsite.1. Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx. 
+- `serviceName`: The name of the container service for which to delete a registered container image.
+
+"""
+delete_container_image(image, serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContainerImage", Dict{String, Any}("image"=>image, "serviceName"=>serviceName); aws_config=aws_config)
+delete_container_image(image, serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("image"=>image, "serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    DeleteContainerService()
+
+Deletes your Amazon Lightsail container service.
+
+# Required Parameters
+- `serviceName`: The name of the container service to delete.
+
+"""
+delete_container_service(serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContainerService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+delete_container_service(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("DeleteContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
 
 """
     DeleteDisk()
@@ -800,8 +867,8 @@ get_bundles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_
 Returns information about one or more Amazon Lightsail SSL/TLS certificates.  To get a summary of a certificate, ommit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags. 
 
 # Optional Parameters
-- `certificateName`: The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS region where the request is made.
-- `certificateStatuses`: The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS region where the request is made, regardless of their current status.
+- `certificateName`: The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS Region where the request is made.
+- `certificateStatuses`: The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS Region where the request is made, regardless of their current status.
 - `includeCertificateDetails`: Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
 """
 get_certificates(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetCertificates"; aws_config=aws_config)
@@ -828,6 +895,94 @@ Returns information about the configured contact methods. Specify a protocol in 
 """
 get_contact_methods(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContactMethods"; aws_config=aws_config)
 get_contact_methods(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContactMethods", args; aws_config=aws_config)
+
+"""
+    GetContainerAPIMetadata()
+
+Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
+
+"""
+get_container_apimetadata(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerAPIMetadata"; aws_config=aws_config)
+get_container_apimetadata(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerAPIMetadata", args; aws_config=aws_config)
+
+"""
+    GetContainerImages()
+
+Returns the container images that are registered to your Amazon Lightsail container service.  If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service. 
+
+# Required Parameters
+- `serviceName`: The name of the container service for which to return registered container images.
+
+"""
+get_container_images(serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerImages", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+get_container_images(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    GetContainerLog()
+
+Returns the log events of a container of your Amazon Lightsail container service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service.  Container logs are retained for a certain amount of time. For more information, see Amazon Lightsail endpoints and quotas in the AWS General Reference. 
+
+# Required Parameters
+- `containerName`: The name of the container that is either running or previously ran on the container service for which to return a log.
+- `serviceName`: The name of the container service for which to get a container log.
+
+# Optional Parameters
+- `endTime`: The end of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+- `filterPattern`: The pattern to use to filter the returned log events to a specific term. The following are a few examples of filter patterns that you can specify:   To return all log events, specify a filter pattern of \"\".   To exclude log events that contain the ERROR term, and return all other log events, specify a filter pattern of \"-ERROR\".   To return log events that contain the ERROR term, specify a filter pattern of \"ERROR\".   To return log events that contain both the ERROR and Exception terms, specify a filter pattern of \"ERROR Exception\".   To return log events that contain the ERROR or the Exception term, specify a filter pattern of \"?ERROR ?Exception\".  
+- `pageToken`: The token to advance to the next page of results from your request. To get a page token, perform an initial GetContainerLog request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+- `startTime`: The start of the time interval for which to get log data. Constraints:   Specified in Coordinated Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You can convert a human-friendly time to Unix time format using a converter like Epoch converter.
+"""
+get_container_log(containerName, serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerLog", Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName); aws_config=aws_config)
+get_container_log(containerName, serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerLog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerName"=>containerName, "serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    GetContainerServiceDeployments()
+
+Returns the deployments for your Amazon Lightsail container service A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service. The deployments are ordered by version in ascending order. The newest version is listed at the top of the response.  A set number of deployments are kept before the oldest one is replaced with the newest one. For more information, see Amazon Lightsail endpoints and quotas in the AWS General Reference. 
+
+# Required Parameters
+- `serviceName`: The name of the container service for which to return deployments.
+
+"""
+get_container_service_deployments(serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServiceDeployments", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+get_container_service_deployments(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServiceDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
+    GetContainerServiceMetricData()
+
+Returns the data points of a specific metric of your Amazon Lightsail container service. Metrics report the utilization of your resources. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
+
+# Required Parameters
+- `endTime`: The end time of the time period.
+- `metricName`: The metric for which you want to return information. Valid container service metric names are listed below, along with the most useful statistics to include in your request, and the published unit value.    CPUUtilization - The average percentage of compute units that are currently in use across all nodes of the container service. This metric identifies the processing power required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.    MemoryUtilization - The average percentage of available memory that is currently in use across all nodes of the container service. This metric identifies the memory required to run containers on each node of the container service. Statistics: The most useful statistics are Maximum and Average. Unit: The published unit is Percent.  
+- `period`: The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity.
+- `serviceName`: The name of the container service for which to get metric data.
+- `startTime`: The start time of the time period.
+- `statistics`: The statistic for the metric. The following statistics are available:    Minimum - The lowest value observed during the specified period. Use this value to determine low volumes of activity for your application.    Maximum - The highest value observed during the specified period. Use this value to determine high volumes of activity for your application.    Sum - All values submitted for the matching metric added together. You can use this statistic to determine the total volume of a metric.    Average - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum values, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum values. This comparison helps you to know when to increase or decrease your resources.    SampleCount - The count, or number, of data points used for the statistical calculation.  
+
+"""
+get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServiceMetricData", Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics); aws_config=aws_config)
+get_container_service_metric_data(endTime, metricName, period, serviceName, startTime, statistics, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServiceMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "metricName"=>metricName, "period"=>period, "serviceName"=>serviceName, "startTime"=>startTime, "statistics"=>statistics), args)); aws_config=aws_config)
+
+"""
+    GetContainerServicePowers()
+
+Returns the list of powers that can be specified for your Amazon Lightsail container services. The power specifies the amount of memory, the number of vCPUs, and the base price of the container service.
+
+"""
+get_container_service_powers(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServicePowers"; aws_config=aws_config)
+get_container_service_powers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServicePowers", args; aws_config=aws_config)
+
+"""
+    GetContainerServices()
+
+Returns information about one or more of your Amazon Lightsail container services.
+
+# Optional Parameters
+- `serviceName`: The name of the container service for which to return information. When omitted, the response includes all of your container services in the AWS Region where the request is made.
+"""
+get_container_services(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServices"; aws_config=aws_config)
+get_container_services(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetContainerServices", args; aws_config=aws_config)
 
 """
     GetDisk()
@@ -1181,7 +1336,7 @@ Returns a list of all valid regions for Amazon Lightsail. Use the include availa
 
 # Optional Parameters
 - `includeAvailabilityZones`: A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a.
-- `includeRelationalDatabaseAvailabilityZones`: &gt;A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
+- `includeRelationalDatabaseAvailabilityZones`: A Boolean value indicating whether to also include Availability Zones for databases in your get regions request. Availability Zones are indicated with a letter (e.g., us-east-2a).
 """
 get_regions(; aws_config::AWSConfig=global_aws_config()) = lightsail("GetRegions"; aws_config=aws_config)
 get_regions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("GetRegions", args; aws_config=aws_config)
@@ -1473,6 +1628,20 @@ reboot_relational_database(relationalDatabaseName; aws_config::AWSConfig=global_
 reboot_relational_database(relationalDatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("RebootRelationalDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("relationalDatabaseName"=>relationalDatabaseName), args)); aws_config=aws_config)
 
 """
+    RegisterContainerImage()
+
+Registers a container image to your Amazon Lightsail container service.  This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see Pushing and managing container images on your Amazon Lightsail container services in the Lightsail Dev Guide. 
+
+# Required Parameters
+- `digest`: The digest of the container image to be registered.
+- `label`: The label for the container image when it's registered to the container service. Use a descriptive label that you can use to track the different versions of your registered container images. Use the GetContainerImages action to return the container images registered to a Lightsail container service. The label is the &lt;imagelabel&gt; portion of the following image name example:    :container-service-1.&lt;imagelabel&gt;.1    If the name of your container service is mycontainerservice, and the label that you specify is mystaticwebsite, then the name of the registered container image will be :mycontainerservice.mystaticwebsite.1. The number at the end of these image name examples represents the version of the registered container image. If you push and register another container image to the same Lightsail container service, with the same label, then the version number for the new registered container image will be 2. If you push and register another container image, the version number will be 3, and so on.
+- `serviceName`: The name of the container service for which to register a container image.
+
+"""
+register_container_image(digest, label, serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("RegisterContainerImage", Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName); aws_config=aws_config)
+register_container_image(digest, label, serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("RegisterContainerImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("digest"=>digest, "label"=>label, "serviceName"=>serviceName), args)); aws_config=aws_config)
+
+"""
     ReleaseStaticIp()
 
 Deletes a specific static IP from your account.
@@ -1610,6 +1779,23 @@ Deletes the specified set of tag keys and their values from the specified Amazon
 """
 untag_resource(resourceName, tagKeys; aws_config::AWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceName, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateContainerService()
+
+Updates the configuration of your Amazon Lightsail container service, such as its power, scale, and public domain names.
+
+# Required Parameters
+- `serviceName`: The name of the container service to update.
+
+# Optional Parameters
+- `isDisabled`: A Boolean value to indicate whether the container service is disabled.
+- `power`: The power for the container service. The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service. Use the GetContainerServicePowers action to view the specifications of each power option.
+- `publicDomainNames`: The public domain names to use with the container service, such as example.com and www.example.com. You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service. If you don't specify public domain names, then you can use the default domain of the container service.  You must create and validate an SSL/TLS certificate before you can use public domain names with your container service. Use the CreateCertificate action to create a certificate for the public domain names you want to use with your container service.  You can specify public domain names using a string to array map as shown in the example later on this page.
+- `scale`: The scale for the container service. The scale specifies the allocated compute nodes of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
+"""
+update_container_service(serviceName; aws_config::AWSConfig=global_aws_config()) = lightsail("UpdateContainerService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+update_container_service(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("UpdateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
 
 """
     UpdateDistribution()

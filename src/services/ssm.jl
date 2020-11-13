@@ -1205,7 +1205,7 @@ list_association_versions(AssociationId, args::AbstractDict{String, <:Any}; aws_
 Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
 
 # Optional Parameters
-- `AssociationFilterList`: One or more filters. Use a filter to return a more specific list of results.
+- `AssociationFilterList`: One or more filters. Use a filter to return a more specific list of results.  Filtering associations using the InstanceID attribute only returns legacy associations created using the InstanceID attribute. Associations targeting the instance that are part of the Target Attributes ResourceGroup or Tags are not returned. 
 - `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `NextToken`: The token for the next set of items to return. (You received this token from a previous call.)
 """

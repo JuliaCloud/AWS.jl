@@ -77,7 +77,7 @@ Defines a file system on a Network File System (NFS) server that can be read fro
 # Required Parameters
 - `OnPremConfig`: Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.
 - `ServerHostname`: The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address. 
-- `Subdirectory`: The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server. run \"showmount -e nfs-server-name\" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
+- `Subdirectory`: The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run \"showmount -e nfs-server-name\" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your AWS Snowcone device, see NFS Server on AWS Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
 
 # Optional Parameters
 - `MountOptions`: The NFS mount options that DataSync can use to mount your NFS share.
@@ -113,12 +113,12 @@ create_location_object_storage(AgentArns, BucketName, ServerHostname, args::Abst
 Creates an endpoint for an Amazon S3 bucket. For more information, see https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli in the AWS DataSync User Guide.
 
 # Required Parameters
-- `S3BucketArn`: The Amazon Resource Name (ARN) of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
+- `S3BucketArn`: The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this must be an access point ARN.
 - `S3Config`: 
 
 # Optional Parameters
-- `AgentArns`: If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your AWS Outpost. For more information about launching a DataSync agent on an Amazon Outpost, see outposts-agent.
-- `S3StorageClass`: The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes in the Amazon Simple Storage Service Developer Guide. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
+- `AgentArns`: If you are using DataSync on an AWS Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an AWS Outpost, see outposts-agent.
+- `S3StorageClass`: The Amazon S3 storage class that you want to store your files in when this location is used as a task destination. For buckets in AWS Regions, the storage class defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3 Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes. Some storage classes have behaviors that can affect your S3 storage cost. For detailed information, see using-storage-classes.
 - `Subdirectory`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
 - `Tags`: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
 """
@@ -156,7 +156,7 @@ Creates a task. A task is a set of two locations (source and destination) and a 
 
 # Optional Parameters
 - `CloudWatchLogGroupArn`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor and log events in the task. 
-- `Excludes`: A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\"   
+- `Excludes`: A list of filter rules that determines which files to exclude from a task. The list should contain a single filter string that consists of the patterns to exclude. The patterns are delimited by \"|\" (that is, a pipe), for example, \"/folder1|/folder2\".   
 - `Name`: The name of a task. This value is a text reference that is used to identify the task in the console. 
 - `Options`: The set of configuration options that control the behavior of a single execution of the task that occurs when you call StartTaskExecution. You can configure these options to preserve metadata such as user ID (UID) and group ID (GID), file permissions, data integrity verification, and so on. For each individual task execution, you can override these options by specifying the OverrideOptions before starting the task execution. For more information, see the operation. 
 - `Schedule`: Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see task-scheduling.
@@ -447,3 +447,16 @@ Updates the metadata associated with a task.
 """
 update_task(TaskArn; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
 update_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
+
+"""
+    UpdateTaskExecution()
+
+Updates execution of a task. You can modify bandwidth throttling for a task execution that is running or queued. For more information, see Adjusting Bandwidth Throttling for a Task Execution.  The only Option that can be modified by UpdateTaskExecution is  BytesPerSecond . 
+
+# Required Parameters
+- `Options`: 
+- `TaskExecutionArn`: The Amazon Resource Name (ARN) of the specific task execution that is being updated. 
+
+"""
+update_task_execution(Options, TaskExecutionArn; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
+update_task_execution(Options, TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
