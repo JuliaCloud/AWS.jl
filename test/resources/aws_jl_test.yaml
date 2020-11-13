@@ -147,11 +147,11 @@ Resources:
       PolicyDocument:
         Version: 2012-10-17
         Statement:
-        - Effect: Allow
-          Action:
-          - dynamodb:CreateTable
-          - dynamodb:PutItem
-          - dynamodb:DescribeTable
-          - dynamodb:Scan
+          - Effect: Allow
+            Action:
+              - dynamodb:CreateTable
+              - dynamodb:PutItem
+              - dynamodb:DescribeTable
+              - dynamodb:Scan
           - dynamodb:DeleteTable
           Resource: arn:aws:dynamodb:*:351396300852:table/aws-jl-test-*
