@@ -485,6 +485,18 @@ describe_bandwidth_rate_limit(GatewayARN; aws_config::AWSConfig=global_aws_confi
 describe_bandwidth_rate_limit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
+    DescribeBandwidthRateLimitSchedule()
+
+ Returns information about the bandwidth rate limit schedule of a gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. This operation is supported only in the volume and tape gateway types.  This operation returns information about a gateway's bandwidth rate limit schedule. A bandwidth rate limit schedule consists of one or more bandwidth rate limit intervals. A bandwidth rate limit interval defines a period of time on one or more days of the week, during which bandwidth rate limits are specified for uploading, downloading, or both.   A bandwidth rate limit interval consists of one or more days of the week, a start hour and minute, an ending hour and minute, and bandwidth rate limits for uploading and downloading   If no bandwidth rate limit schedule intervals are set for the gateway, this operation returns an empty response. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+
+# Required Parameters
+- `GatewayARN`: 
+
+"""
+describe_bandwidth_rate_limit_schedule(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeBandwidthRateLimitSchedule", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+describe_bandwidth_rate_limit_schedule(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+
+"""
     DescribeCache()
 
 Returns information about the cache of a gateway. This operation is only supported in the cached volume, tape, and file gateway types. The response includes disk IDs that are configured as cache, and it includes the amount of cache allocated and used.
@@ -1026,6 +1038,19 @@ Updates the bandwidth rate limits of a gateway. You can update both the upload a
 """
 update_bandwidth_rate_limit(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
 update_bandwidth_rate_limit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+
+"""
+    UpdateBandwidthRateLimitSchedule()
+
+ Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This operation is supported in the volume and tape gateway types. 
+
+# Required Parameters
+- `BandwidthRateLimitIntervals`:  An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty. 
+- `GatewayARN`: 
+
+"""
+update_bandwidth_rate_limit_schedule(BandwidthRateLimitIntervals, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimitSchedule", Dict{String, Any}("BandwidthRateLimitIntervals"=>BandwidthRateLimitIntervals, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+update_bandwidth_rate_limit_schedule(BandwidthRateLimitIntervals, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimitSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthRateLimitIntervals"=>BandwidthRateLimitIntervals, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateChapCredentials()

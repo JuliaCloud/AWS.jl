@@ -308,6 +308,21 @@ get_compatible_elasticsearch_versions(; aws_config::AWSConfig=global_aws_config(
 get_compatible_elasticsearch_versions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", args; aws_config=aws_config)
 
 """
+    GetPackageVersionHistory()
+
+Returns a list of versions of the package, along with their creation time and commit message.
+
+# Required Parameters
+- `PackageID`: Returns an audit history of versions of the package.
+
+# Optional Parameters
+- `maxResults`: Limits results to a maximum number of versions.
+- `nextToken`: Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page.
+"""
+get_package_version_history(PackageID; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/history"; aws_config=aws_config)
+get_package_version_history(PackageID, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/history", args; aws_config=aws_config)
+
+"""
     GetUpgradeHistory()
 
 Retrieves the complete history of the last 10 upgrades that were performed on the domain.
@@ -487,6 +502,22 @@ Modifies the cluster configuration of the specified Elasticsearch domain, settin
 """
 update_elasticsearch_domain_config(DomainName; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config"; aws_config=aws_config)
 update_elasticsearch_domain_config(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config", args; aws_config=aws_config)
+
+"""
+    UpdatePackage()
+
+Updates a package for use with Amazon ES domains.
+
+# Required Parameters
+- `PackageID`: Unique identifier for the package.
+- `PackageSource`: 
+
+# Optional Parameters
+- `CommitMessage`: An info message for the new version which will be shown as part of GetPackageVersionHistoryResponse.
+- `PackageDescription`: New description of the package.
+"""
+update_package(PackageID, PackageSource; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/update", Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource); aws_config=aws_config)
+update_package(PackageID, PackageSource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource), args)); aws_config=aws_config)
 
 """
     UpgradeElasticsearchDomain()

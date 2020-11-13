@@ -250,6 +250,7 @@ Creates worlds using the specified template.
 # Optional Parameters
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `tags`: A map that contains tag keys and tag values that are attached to the world generator job.
+- `worldTags`: A map that contains tag keys and tag values that are attached to the generated worlds.
 """
 create_world_generation_job(template, worldCount; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_world_generation_job(template, worldCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)

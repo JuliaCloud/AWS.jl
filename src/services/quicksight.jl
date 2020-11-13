@@ -90,6 +90,7 @@ Creates a dataset.
 
 # Optional Parameters
 - `ColumnGroups`: Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
+- `ColumnLevelPermissionRules`: A set of one or more definitions of a  ColumnLevelPermissionRule .
 - `LogicalTableMap`: Configures the combination and transformation of the data from the physical tables.
 - `Permissions`: A list of resource permissions on the dataset.
 - `RowLevelPermissionDataSet`: The row-level security configuration for the data that you want to create.
@@ -154,10 +155,10 @@ create_group_membership(AwsAccountId, GroupName, MemberName, Namespace, args::Ab
 """
     CreateIAMPolicyAssignment()
 
-Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy will be assigned to specified groups or users of Amazon QuickSight. The users and groups need to be in the same namespace. 
+Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per AWS account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
 
 # Required Parameters
-- `AssignmentName`: The name of the assignment. It must be unique within an AWS account.
+- `AssignmentName`: The name of the assignment, also called a rule. It must be unique within an AWS account.
 - `AssignmentStatus`: The status of the assignment. Possible values are as follows:    ENABLED - Anything specified in this assignment is used when creating the data source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.  
 - `AwsAccountId`: The ID of the AWS account where you want to assign an IAM policy to QuickSight users or groups.
 - `Namespace`: The namespace that contains the assignment.
@@ -635,7 +636,7 @@ describe_group(AwsAccountId, GroupName, Namespace, args::AbstractDict{String, <:
 Describes an existing IAM policy assignment, as specified by the assignment name.
 
 # Required Parameters
-- `AssignmentName`: The name of the assignment. 
+- `AssignmentName`: The name of the assignment, also called a rule.
 - `AwsAccountId`: The ID of the AWS account that contains the assignment that you want to describe.
 - `Namespace`: The namespace that contains the assignment.
 
@@ -1339,6 +1340,7 @@ Updates a dataset.
 
 # Optional Parameters
 - `ColumnGroups`: Groupings of columns that work together in certain QuickSight features. Currently, only geospatial hierarchy is supported.
+- `ColumnLevelPermissionRules`: A set of one or more definitions of a  ColumnLevelPermissionRule .
 - `LogicalTableMap`: Configures the combination and transformation of the data from the physical tables.
 - `RowLevelPermissionDataSet`: The row-level security configuration for the data you want to create.
 """
@@ -1415,11 +1417,11 @@ update_group(AwsAccountId, GroupName, Namespace, args::AbstractDict{String, <:An
 """
     UpdateIAMPolicyAssignment()
 
-Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request.
+Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities. 
 
 # Required Parameters
-- `AssignmentName`: The name of the assignment. This name must be unique within an AWS account.
-- `AwsAccountId`: The ID of the AWS account that contains the IAM policy assignment.
+- `AssignmentName`: The name of the assignment, also called a rule. This name must be unique within an AWS account.
+- `AwsAccountId`: The ID of the AWS account that contains the IAM policy assignment. 
 - `Namespace`: The namespace of the assignment.
 
 # Optional Parameters

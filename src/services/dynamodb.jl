@@ -175,6 +175,18 @@ describe_endpoints(; aws_config::AWSConfig=global_aws_config()) = dynamodb("Desc
 describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeEndpoints", args; aws_config=aws_config)
 
 """
+    DescribeExport()
+
+Describes an existing table export.
+
+# Required Parameters
+- `ExportArn`: The Amazon Resource Name (ARN) associated with the export.
+
+"""
+describe_export(ExportArn; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeExport", Dict{String, Any}("ExportArn"=>ExportArn); aws_config=aws_config)
+describe_export(ExportArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportArn"=>ExportArn), args)); aws_config=aws_config)
+
+"""
     DescribeGlobalTable()
 
 Returns information about the specified global table.  This operation only applies to Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you can use DescribeTable instead. 
@@ -244,6 +256,27 @@ describe_time_to_live(TableName; aws_config::AWSConfig=global_aws_config()) = dy
 describe_time_to_live(TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
 
 """
+    ExportTableToPointInTime()
+
+Exports table data to an S3 bucket. The table must have point in time recovery enabled, and you can export data from any time within the point in time recovery window.
+
+# Required Parameters
+- `S3Bucket`: The name of the Amazon S3 bucket to export the snapshot to.
+- `TableArn`: The Amazon Resource Name (ARN) associated with the table to export.
+
+# Optional Parameters
+- `ClientToken`: Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
+- `ExportFormat`: The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
+- `ExportTime`: Time in the past from which to export table data. The table export will be a snapshot of the table's state at this point in time.
+- `S3BucketOwner`: The ID of the AWS account that owns the bucket the export will be stored in.
+- `S3Prefix`: The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
+- `S3SseAlgorithm`: Type of encryption used on the bucket where export data will be stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon S3 managed keys    KMS - server-side encryption with AWS KMS managed keys  
+- `S3SseKmsKeyId`: The ID of the AWS KMS managed key used to encrypt the S3 bucket where export data will be stored (if applicable).
+"""
+export_table_to_point_in_time(S3Bucket, TableArn; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExportTableToPointInTime", Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+export_table_to_point_in_time(S3Bucket, TableArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExportTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     GetItem()
 
 The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response.  GetItem provides an eventually consistent read by default. If your application requires a strongly consistent read, set ConsistentRead to true. Although a strongly consistent read might take more time than an eventually consistent read, it always returns the last updated value.
@@ -290,6 +323,19 @@ Returns a list of ContributorInsightsSummary for a table and all its global seco
 """
 list_contributor_insights(; aws_config::AWSConfig=global_aws_config()) = dynamodb("ListContributorInsights"; aws_config=aws_config)
 list_contributor_insights(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("ListContributorInsights", args; aws_config=aws_config)
+
+"""
+    ListExports()
+
+Lists completed exports within the past 90 days.
+
+# Optional Parameters
+- `MaxResults`: Maximum number of results to return per page.
+- `NextToken`: An optional string that, if supplied, must be copied from the output of a previous call to ListExports. When provided in this manner, the API fetches the next page of results.
+- `TableArn`: The Amazon Resource Name (ARN) associated with the exported table.
+"""
+list_exports(; aws_config::AWSConfig=global_aws_config()) = dynamodb("ListExports"; aws_config=aws_config)
+list_exports(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("ListExports", args; aws_config=aws_config)
 
 """
     ListGlobalTables()

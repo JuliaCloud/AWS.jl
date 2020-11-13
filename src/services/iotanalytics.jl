@@ -11,7 +11,7 @@ Sends messages to a channel.
 
 # Required Parameters
 - `channelName`: The name of the channel where the messages are sent.
-- `messages`: The list of messages to be sent. Each message has format: '{ \"messageId\": \"string\", \"payload\": \"string\"}'. Note that the field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_); no other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: \"^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\".    Cannot be greater than 255 characters.   Are case-insensitive. (Fields named \"foo\" and \"FOO\" in the same payload are considered duplicates.)   For example, {\"temp_01\": 29} or {\"_temp_01\": 29} are valid, but {\"temp-01\": 29}, {\"01_temp\": 29} or {\"__temp_01\": 29} are invalid in message payloads. 
+- `messages`: The list of messages to be sent. Each message has the format: { \"messageId\": \"string\", \"payload\": \"string\"}. The field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_). No other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: \"^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)\".    Cannot be more than 255 characters.   Are case insensitive. (Fields named foo and FOO in the same payload are considered duplicates.)   For example, {\"temp_01\": 29} or {\"_temp_01\": 29} are valid, but {\"temp-01\": 29}, {\"01_temp\": 29} or {\"__temp_01\": 29} are invalid in message payloads. 
 
 """
 batch_put_message(channelName, messages; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/messages/batch", Dict{String, Any}("channelName"=>channelName, "messages"=>messages); aws_config=aws_config)
@@ -24,7 +24,7 @@ Cancels the reprocessing of data through the pipeline.
 
 # Required Parameters
 - `pipelineName`: The name of pipeline for which data reprocessing is canceled.
-- `reprocessingId`: The ID of the reprocessing task (returned by \"StartPipelineReprocessing\").
+- `reprocessingId`: The ID of the reprocessing task (returned by StartPipelineReprocessing).
 
 """
 cancel_pipeline_reprocessing(pipelineName, reprocessingId; aws_config::AWSConfig=global_aws_config()) = iotanalytics("DELETE", "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)"; aws_config=aws_config)
@@ -39,8 +39,8 @@ Creates a channel. A channel collects data from an MQTT topic and archives the r
 - `channelName`: The name of the channel.
 
 # Optional Parameters
-- `channelStorage`: Where channel data is stored. You may choose one of \"serviceManagedS3\" or \"customerManagedS3\" storage. If not specified, the default is \"serviceManagedS3\". This cannot be changed after creation of the channel.
-- `retentionPeriod`: How long, in days, message data is kept for the channel. When \"customerManagedS3\" storage is selected, this parameter is ignored.
+- `channelStorage`: Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
+- `retentionPeriod`: How long, in days, message data is kept for the channel. When customerManagedS3 storage is selected, this parameter is ignored.
 - `tags`: Metadata which can be used to manage the channel.
 """
 create_channel(channelName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/channels", Dict{String, Any}("channelName"=>channelName); aws_config=aws_config)
@@ -49,18 +49,19 @@ create_channel(channelName, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     CreateDataset()
 
-Creates a data set. A data set stores data retrieved from a data store by applying a \"queryAction\" (a SQL query) or a \"containerAction\" (executing a containerized application). This operation creates the skeleton of a data set. The data set can be populated manually by calling \"CreateDatasetContent\" or automatically according to a \"trigger\" you specify.
+Creates a dataset. A dataset stores data retrieved from a data store by applying a queryAction (a SQL query) or a containerAction (executing a containerized application). This operation creates the skeleton of a dataset. The dataset can be populated manually by calling CreateDatasetContent or automatically according to a trigger you specify.
 
 # Required Parameters
 - `actions`: A list of actions that create the data set contents.
 - `datasetName`: The name of the data set.
 
 # Optional Parameters
-- `contentDeliveryRules`: When data set contents are created they are delivered to destinations specified here.
-- `retentionPeriod`: [Optional] How long, in days, versions of data set contents are kept for the data set. If not specified or set to null, versions of data set contents are retained for at most 90 days. The number of versions of data set contents retained is determined by the versioningConfiguration parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+- `contentDeliveryRules`: When dataset contents are created, they are delivered to destinations specified here.
+- `lateDataRules`: A list of data rules that send notifications to Amazon CloudWatch, when data arrives late. To specify lateDataRules, the dataset must use a DeltaTimer filter.
+- `retentionPeriod`: Optional. How long, in days, versions of dataset contents are kept for the dataset. If not specified or set to null, versions of dataset contents are retained for at most 90 days. The number of versions of dataset contents retained is determined by the versioningConfiguration parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
 - `tags`: Metadata which can be used to manage the data set.
 - `triggers`: A list of triggers. A trigger causes data set contents to be populated at a specified time interval or when another data set's contents are created. The list of triggers can be empty or contain up to five DataSetTrigger objects.
-- `versioningConfiguration`: [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the \"retentionPeriod\" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+- `versioningConfiguration`: Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
 """
 create_dataset(actions, datasetName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/datasets", Dict{String, Any}("actions"=>actions, "datasetName"=>datasetName); aws_config=aws_config)
 create_dataset(actions, datasetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "datasetName"=>datasetName), args)); aws_config=aws_config)
@@ -68,11 +69,13 @@ create_dataset(actions, datasetName, args::AbstractDict{String, <:Any}; aws_conf
 """
     CreateDatasetContent()
 
-Creates the content of a data set by applying a \"queryAction\" (a SQL query) or a \"containerAction\" (executing a containerized application).
+Creates the content of a data set by applying a queryAction (a SQL query) or a containerAction (executing a containerized application).
 
 # Required Parameters
-- `datasetName`: The name of the data set.
+- `datasetName`: The name of the dataset.
 
+# Optional Parameters
+- `versionId`: The version ID of the dataset content. To specify versionId for a dataset content, the dataset must use a DeltaTimer filter.
 """
 create_dataset_content(datasetName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/datasets/$(datasetName)/content"; aws_config=aws_config)
 create_dataset_content(datasetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/datasets/$(datasetName)/content", args; aws_config=aws_config)
@@ -86,8 +89,8 @@ Creates a data store, which is a repository for messages.
 - `datastoreName`: The name of the data store.
 
 # Optional Parameters
-- `datastoreStorage`: Where data store data is stored. You may choose one of \"serviceManagedS3\" or \"customerManagedS3\" storage. If not specified, the default is \"serviceManagedS3\". This cannot be changed after the data store is created.
-- `retentionPeriod`: How long, in days, message data is kept for the data store. When \"customerManagedS3\" storage is selected, this parameter is ignored.
+- `datastoreStorage`: Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
+- `retentionPeriod`: How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
 - `tags`: Metadata which can be used to manage the data store.
 """
 create_datastore(datastoreName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/datastores", Dict{String, Any}("datastoreName"=>datastoreName); aws_config=aws_config)
@@ -99,7 +102,7 @@ create_datastore(datastoreName, args::AbstractDict{String, <:Any}; aws_config::A
 Creates a pipeline. A pipeline consumes messages from a channel and allows you to process the messages before storing them in a data store. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
 
 # Required Parameters
-- `pipelineActivities`: A list of \"PipelineActivity\" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { \"channel\": { ... } }, { \"lambda\": { ... } }, ... ] 
+- `pipelineActivities`: A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { \"channel\": { ... } }, { \"lambda\": { ... } }, ... ] 
 - `pipelineName`: The name of the pipeline.
 
 # Optional Parameters
@@ -123,7 +126,7 @@ delete_channel(channelName, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     DeleteDataset()
 
-Deletes the specified data set. You do not have to delete the content of the data set before you perform this operation.
+Deletes the specified dataset. You do not have to delete the content of the dataset before you perform this operation.
 
 # Required Parameters
 - `datasetName`: The name of the data set to delete.
@@ -135,13 +138,13 @@ delete_dataset(datasetName, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     DeleteDatasetContent()
 
-Deletes the content of the specified data set.
+Deletes the content of the specified dataset.
 
 # Required Parameters
-- `datasetName`: The name of the data set whose content is deleted.
+- `datasetName`: The name of the dataset whose content is deleted.
 
 # Optional Parameters
-- `versionId`: The version of the data set whose content is deleted. You can also use the strings \"LATEST\" or \"LATEST_SUCCEEDED\" to delete the latest or latest successfully completed data set. If not specified, \"LATEST_SUCCEEDED\" is the default.
+- `versionId`: The version of the dataset whose content is deleted. You can also use the strings \"LATEST\" or \"LATEST_SUCCEEDED\" to delete the latest or latest successfully completed data set. If not specified, \"LATEST_SUCCEEDED\" is the default.
 """
 delete_dataset_content(datasetName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("DELETE", "/datasets/$(datasetName)/content"; aws_config=aws_config)
 delete_dataset_content(datasetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotanalytics("DELETE", "/datasets/$(datasetName)/content", args; aws_config=aws_config)
@@ -187,7 +190,7 @@ describe_channel(channelName, args::AbstractDict{String, <:Any}; aws_config::AWS
 """
     DescribeDataset()
 
-Retrieves information about a data set.
+Retrieves information about a dataset.
 
 # Required Parameters
 - `datasetName`: The name of the data set whose information is retrieved.
@@ -234,7 +237,7 @@ describe_pipeline(pipelineName, args::AbstractDict{String, <:Any}; aws_config::A
 """
     GetDatasetContent()
 
-Retrieves the contents of a data set as pre-signed URIs.
+Retrieves the contents of a data set as presigned URIs.
 
 # Required Parameters
 - `datasetName`: The name of the data set whose contents are retrieved.
@@ -313,7 +316,7 @@ list_pipelines(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws
 """
     ListTagsForResource()
 
-Lists the tags (metadata) which you have assigned to the resource.
+Lists the tags (metadata) that you have assigned to the resource.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource whose tags you want to list.
@@ -325,7 +328,7 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutLoggingOptions()
 
-Sets or updates the AWS IoT Analytics logging options. Note that if you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy) it takes up to 5 minutes for that change to take effect. 
+Sets or updates the AWS IoT Analytics logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. Also, if you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect. 
 
 # Required Parameters
 - `loggingOptions`: The new values of the AWS IoT Analytics logging options.
@@ -341,7 +344,7 @@ Simulates the results of running a pipeline activity on a message payload.
 
 # Required Parameters
 - `payloads`: The sample message payloads on which the pipeline activity is run.
-- `pipelineActivity`: The pipeline activity that is run. This must not be a 'channel' activity or a 'datastore' activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a 'lambda' activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
+- `pipelineActivity`: The pipeline activity that is run. This must not be a channel activity or a datastore activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a lambda activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used.
 
 """
 run_pipeline_activity(payloads, pipelineActivity; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/pipelineactivities/run", Dict{String, Any}("payloads"=>payloads, "pipelineActivity"=>pipelineActivity); aws_config=aws_config)
@@ -357,7 +360,7 @@ Retrieves a sample of messages from the specified channel ingested during the sp
 
 # Optional Parameters
 - `endTime`: The end of the time window from which sample messages are retrieved.
-- `maxMessages`: The number of sample messages to be retrieved. The limit is 10, the default is also 10.
+- `maxMessages`: The number of sample messages to be retrieved. The limit is 10. The default is also 10.
 - `startTime`: The start of the time window from which sample messages are retrieved.
 """
 sample_channel_data(channelName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("GET", "/channels/$(channelName)/sample"; aws_config=aws_config)
@@ -381,7 +384,7 @@ start_pipeline_reprocessing(pipelineName, args::AbstractDict{String, <:Any}; aws
 """
     TagResource()
 
-Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
+Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource whose tags you want to modify.
@@ -413,7 +416,7 @@ Updates the settings of a channel.
 - `channelName`: The name of the channel to be updated.
 
 # Optional Parameters
-- `channelStorage`: Where channel data is stored. You may choose one of \"serviceManagedS3\" or \"customerManagedS3\" storage. If not specified, the default is \"serviceManagedS3\". This cannot be changed after creation of the channel.
+- `channelStorage`: Where channel data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the channel is created.
 - `retentionPeriod`: How long, in days, message data is kept for the channel. The retention period cannot be updated if the channel's S3 storage is customer-managed.
 """
 update_channel(channelName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("PUT", "/channels/$(channelName)"; aws_config=aws_config)
@@ -425,14 +428,15 @@ update_channel(channelName, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 Updates the settings of a data set.
 
 # Required Parameters
-- `actions`: A list of \"DatasetAction\" objects.
+- `actions`: A list of DatasetAction objects.
 - `datasetName`: The name of the data set to update.
 
 # Optional Parameters
-- `contentDeliveryRules`: When data set contents are created they are delivered to destinations specified here.
-- `retentionPeriod`: How long, in days, data set contents are kept for the data set.
-- `triggers`: A list of \"DatasetTrigger\" objects. The list can be empty or can contain up to five DataSetTrigger objects.
-- `versioningConfiguration`: [Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the \"retentionPeriod\" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+- `contentDeliveryRules`: When dataset contents are created, they are delivered to destinations specified here.
+- `lateDataRules`: A list of data rules that send notifications to Amazon CloudWatch, when data arrives late. To specify lateDataRules, the dataset must use a DeltaTimer filter.
+- `retentionPeriod`: How long, in days, dataset contents are kept for the dataset.
+- `triggers`: A list of DatasetTrigger objects. The list can be empty or can contain up to five DatasetTrigger objects.
+- `versioningConfiguration`: Optional. How many versions of dataset contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the retentionPeriod parameter. For more information, see Keeping Multiple Versions of AWS IoT Analytics Data Sets in the AWS IoT Analytics User Guide.
 """
 update_dataset(actions, datasetName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("PUT", "/datasets/$(datasetName)", Dict{String, Any}("actions"=>actions); aws_config=aws_config)
 update_dataset(actions, datasetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotanalytics("PUT", "/datasets/$(datasetName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions), args)); aws_config=aws_config)
@@ -446,7 +450,7 @@ Updates the settings of a data store.
 - `datastoreName`: The name of the data store to be updated.
 
 # Optional Parameters
-- `datastoreStorage`: Where data store data is stored. You may choose one of \"serviceManagedS3\" or \"customerManagedS3\" storage. If not specified, the default is \"serviceManagedS3\". This cannot be changed after the data store is created.
+- `datastoreStorage`: Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default isserviceManagedS3. You cannot change this storage option after the data store is created.
 - `retentionPeriod`: How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed.
 """
 update_datastore(datastoreName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("PUT", "/datastores/$(datastoreName)"; aws_config=aws_config)
@@ -458,7 +462,7 @@ update_datastore(datastoreName, args::AbstractDict{String, <:Any}; aws_config::A
 Updates the settings of a pipeline. You must specify both a channel and a datastore activity and, optionally, as many as 23 additional activities in the pipelineActivities array.
 
 # Required Parameters
-- `pipelineActivities`: A list of \"PipelineActivity\" objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity, for example:  pipelineActivities = [ { \"channel\": { ... } }, { \"lambda\": { ... } }, ... ] 
+- `pipelineActivities`: A list of PipelineActivity objects. Activities perform transformations on your messages, such as removing, renaming or adding message attributes; filtering messages based on attribute values; invoking your Lambda functions on messages for advanced processing; or performing mathematical transformations to normalize device data. The list can be 2-25 PipelineActivity objects and must contain both a channel and a datastore activity. Each entry in the list must contain only one activity. For example:  pipelineActivities = [ { \"channel\": { ... } }, { \"lambda\": { ... } }, ... ] 
 - `pipelineName`: The name of the pipeline to update.
 
 """
