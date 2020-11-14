@@ -13,8 +13,8 @@ using AWS.UUIDs
 - `QueryId`:  The id of the query that needs to be cancelled. QueryID is returned as part of QueryResult. 
 
 """
-cancel_query(QueryId; aws_config::AWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config)
-cancel_query(QueryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), args)); aws_config=aws_config)
+cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config)
+cancel_query(QueryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), args)); aws_config=aws_config)
 
 """
     DescribeEndpoints()
@@ -22,8 +22,8 @@ cancel_query(QueryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because Timestream’s SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern and REST APIs.
 
 """
-describe_endpoints(; aws_config::AWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", args; aws_config=aws_config)
+describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints"; aws_config=aws_config)
+describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", args; aws_config=aws_config)
 
 """
     Query()
@@ -38,5 +38,5 @@ describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 - `MaxRows`:  The total number of rows to return in the output. If the total number of rows available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. 
 - `NextToken`:  A pagination token passed to get a set of results. 
 """
-query(QueryString; aws_config::AWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-query(QueryString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+query(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+query(QueryString, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)

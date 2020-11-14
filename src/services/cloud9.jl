@@ -22,8 +22,8 @@ Creates an AWS Cloud9 development environment, launches an Amazon Elastic Comput
 - `subnetId`: The ID of the subnet in Amazon VPC that AWS Cloud9 will use to communicate with the Amazon EC2 instance.
 - `tags`: An array of key-value pairs that will be associated with the new AWS Cloud9 development environment.
 """
-create_environment_ec2(instanceType, name; aws_config::AWSConfig=global_aws_config()) = cloud9("CreateEnvironmentEC2", Dict{String, Any}("instanceType"=>instanceType, "name"=>name); aws_config=aws_config)
-create_environment_ec2(instanceType, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("CreateEnvironmentEC2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceType"=>instanceType, "name"=>name), args)); aws_config=aws_config)
+create_environment_ec2(instanceType, name; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("CreateEnvironmentEC2", Dict{String, Any}("instanceType"=>instanceType, "name"=>name); aws_config=aws_config)
+create_environment_ec2(instanceType, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("CreateEnvironmentEC2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceType"=>instanceType, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateEnvironmentMembership()
@@ -36,8 +36,8 @@ Adds an environment member to an AWS Cloud9 development environment.
 - `userArn`: The Amazon Resource Name (ARN) of the environment member you want to add.
 
 """
-create_environment_membership(environmentId, permissions, userArn; aws_config::AWSConfig=global_aws_config()) = cloud9("CreateEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn); aws_config=aws_config)
-create_environment_membership(environmentId, permissions, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("CreateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), args)); aws_config=aws_config)
+create_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("CreateEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn); aws_config=aws_config)
+create_environment_membership(environmentId, permissions, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("CreateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), args)); aws_config=aws_config)
 
 """
     DeleteEnvironment()
@@ -48,8 +48,8 @@ Deletes an AWS Cloud9 development environment. If an Amazon EC2 instance is conn
 - `environmentId`: The ID of the environment to delete.
 
 """
-delete_environment(environmentId; aws_config::AWSConfig=global_aws_config()) = cloud9("DeleteEnvironment", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
-delete_environment(environmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
+delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DeleteEnvironment", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
+delete_environment(environmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
 
 """
     DeleteEnvironmentMembership()
@@ -61,8 +61,8 @@ Deletes an environment member from an AWS Cloud9 development environment.
 - `userArn`: The Amazon Resource Name (ARN) of the environment member to delete from the environment.
 
 """
-delete_environment_membership(environmentId, userArn; aws_config::AWSConfig=global_aws_config()) = cloud9("DeleteEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn); aws_config=aws_config)
-delete_environment_membership(environmentId, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("DeleteEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn), args)); aws_config=aws_config)
+delete_environment_membership(environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DeleteEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn); aws_config=aws_config)
+delete_environment_membership(environmentId, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DeleteEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "userArn"=>userArn), args)); aws_config=aws_config)
 
 """
     DescribeEnvironmentMemberships()
@@ -76,8 +76,8 @@ Gets information about environment members for an AWS Cloud9 development environ
 - `permissions`: The type of environment member permissions to get information about. Available values include:    owner: Owns the environment.    read-only: Has read-only access to the environment.    read-write: Has read-write access to the environment.   If no value is specified, information about all environment members are returned.
 - `userArn`: The Amazon Resource Name (ARN) of an individual environment member to get information about. If no value is specified, information about all environment members are returned.
 """
-describe_environment_memberships(; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentMemberships"; aws_config=aws_config)
-describe_environment_memberships(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentMemberships", args; aws_config=aws_config)
+describe_environment_memberships(; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentMemberships"; aws_config=aws_config)
+describe_environment_memberships(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentMemberships", args; aws_config=aws_config)
 
 """
     DescribeEnvironmentStatus()
@@ -88,8 +88,8 @@ Gets status information for an AWS Cloud9 development environment.
 - `environmentId`: The ID of the environment to get status information about.
 
 """
-describe_environment_status(environmentId; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentStatus", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
-describe_environment_status(environmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
+describe_environment_status(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentStatus", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
+describe_environment_status(environmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
 
 """
     DescribeEnvironments()
@@ -100,8 +100,8 @@ Gets information about AWS Cloud9 development environments.
 - `environmentIds`: The IDs of individual environments to get information about.
 
 """
-describe_environments(environmentIds; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironments", Dict{String, Any}("environmentIds"=>environmentIds); aws_config=aws_config)
-describe_environments(environmentIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("DescribeEnvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIds"=>environmentIds), args)); aws_config=aws_config)
+describe_environments(environmentIds; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironments", Dict{String, Any}("environmentIds"=>environmentIds); aws_config=aws_config)
+describe_environments(environmentIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("DescribeEnvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentIds"=>environmentIds), args)); aws_config=aws_config)
 
 """
     ListEnvironments()
@@ -112,8 +112,8 @@ Gets a list of AWS Cloud9 development environment identifiers.
 - `maxResults`: The maximum number of environments to get identifiers for.
 - `nextToken`: During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
 """
-list_environments(; aws_config::AWSConfig=global_aws_config()) = cloud9("ListEnvironments"; aws_config=aws_config)
-list_environments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("ListEnvironments", args; aws_config=aws_config)
+list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("ListEnvironments"; aws_config=aws_config)
+list_environments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("ListEnvironments", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -124,8 +124,8 @@ Gets a list of the tags associated with an AWS Cloud9 development environment.
 - `ResourceARN`: The Amazon Resource Name (ARN) of the AWS Cloud9 development environment to get the tags for.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = cloud9("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -137,8 +137,8 @@ Adds tags to an AWS Cloud9 development environment.  Tags that you add to an AWS
 - `Tags`: The list of tags to add to the given AWS Cloud9 development environment.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = cloud9("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -150,8 +150,8 @@ Removes tags from an AWS Cloud9 development environment.
 - `TagKeys`: The tag names of the tags to remove from the given AWS Cloud9 development environment.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = cloud9("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateEnvironment()
@@ -165,8 +165,8 @@ Changes the settings of an existing AWS Cloud9 development environment.
 - `description`: Any new or replacement description for the environment.
 - `name`: A replacement name for the environment.
 """
-update_environment(environmentId; aws_config::AWSConfig=global_aws_config()) = cloud9("UpdateEnvironment", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
-update_environment(environmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
+update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UpdateEnvironment", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
+update_environment(environmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), args)); aws_config=aws_config)
 
 """
     UpdateEnvironmentMembership()
@@ -179,5 +179,5 @@ Changes the settings of an existing environment member for an AWS Cloud9 develop
 - `userArn`: The Amazon Resource Name (ARN) of the environment member whose settings you want to change.
 
 """
-update_environment_membership(environmentId, permissions, userArn; aws_config::AWSConfig=global_aws_config()) = cloud9("UpdateEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn); aws_config=aws_config)
-update_environment_membership(environmentId, permissions, userArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloud9("UpdateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), args)); aws_config=aws_config)
+update_environment_membership(environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UpdateEnvironmentMembership", Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn); aws_config=aws_config)
+update_environment_membership(environmentId, permissions, userArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9("UpdateEnvironmentMembership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId, "permissions"=>permissions, "userArn"=>userArn), args)); aws_config=aws_config)

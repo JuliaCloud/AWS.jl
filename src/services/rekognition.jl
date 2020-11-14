@@ -17,8 +17,8 @@ Compares a face in the source input image with each of the 100 largest faces det
 - `QualityFilter`: A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
 - `SimilarityThreshold`: The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
 """
-compare_faces(SourceImage, TargetImage; aws_config::AWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage); aws_config=aws_config)
-compare_faces(SourceImage, TargetImage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), args)); aws_config=aws_config)
+compare_faces(SourceImage, TargetImage; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage); aws_config=aws_config)
+compare_faces(SourceImage, TargetImage, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), args)); aws_config=aws_config)
 
 """
     CreateCollection()
@@ -29,8 +29,8 @@ Creates a collection in an AWS Region. You can add faces to the collection using
 - `CollectionId`: ID for the collection that you are creating.
 
 """
-create_collection(CollectionId; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-create_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
+create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
+create_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
 
 """
     CreateProject()
@@ -41,8 +41,8 @@ Creates a new Amazon Rekognition Custom Labels project. A project is a logical g
 - `ProjectName`: The name of the project to create.
 
 """
-create_project(ProjectName; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}("ProjectName"=>ProjectName); aws_config=aws_config)
-create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), args)); aws_config=aws_config)
+create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}("ProjectName"=>ProjectName); aws_config=aws_config)
+create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), args)); aws_config=aws_config)
 
 """
     CreateProjectVersion()
@@ -57,8 +57,8 @@ Creates a new version of a model and begins training. Models are managed as part
 - `VersionName`: A name for the version of the model. This value must be unique.
 
 """
-create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
-create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName), args)); aws_config=aws_config)
+create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
+create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName), args)); aws_config=aws_config)
 
 """
     CreateStreamProcessor()
@@ -73,8 +73,8 @@ Creates an Amazon Rekognition stream processor that you can use to detect and re
 - `Settings`: Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
 
 """
-create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings); aws_config=aws_config)
-create_stream_processor(Input, Name, Output, RoleArn, Settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), args)); aws_config=aws_config)
+create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings); aws_config=aws_config)
+create_stream_processor(Input, Name, Output, RoleArn, Settings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), args)); aws_config=aws_config)
 
 """
     DeleteCollection()
@@ -85,8 +85,8 @@ Deletes the specified collection. Note that this operation removes all faces in 
 - `CollectionId`: ID of the collection to delete.
 
 """
-delete_collection(CollectionId; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-delete_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
+delete_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
+delete_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
 
 """
     DeleteFaces()
@@ -98,8 +98,8 @@ Deletes faces from a collection. You specify a collection ID and an array of fac
 - `FaceIds`: An array of face IDs to delete.
 
 """
-delete_faces(CollectionId, FaceIds; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds); aws_config=aws_config)
-delete_faces(CollectionId, FaceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), args)); aws_config=aws_config)
+delete_faces(CollectionId, FaceIds; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds); aws_config=aws_config)
+delete_faces(CollectionId, FaceIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), args)); aws_config=aws_config)
 
 """
     DeleteProject()
@@ -110,8 +110,8 @@ Deletes an Amazon Rekognition Custom Labels project. To delete a project you mus
 - `ProjectArn`: The Amazon Resource Name (ARN) of the project that you want to delete.
 
 """
-delete_project(ProjectArn; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
-delete_project(ProjectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), args)); aws_config=aws_config)
+delete_project(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
+delete_project(ProjectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), args)); aws_config=aws_config)
 
 """
     DeleteProjectVersion()
@@ -122,8 +122,8 @@ Deletes an Amazon Rekognition Custom Labels model.  You can't delete a model if 
 - `ProjectVersionArn`: The Amazon Resource Name (ARN) of the model version that you want to delete.
 
 """
-delete_project_version(ProjectVersionArn; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-delete_project_version(ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
+delete_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
+delete_project_version(ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
 
 """
     DeleteStreamProcessor()
@@ -134,8 +134,8 @@ Deletes the stream processor identified by Name. You assign the value for Name w
 - `Name`: The name of the stream processor you want to delete.
 
 """
-delete_stream_processor(Name; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+delete_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DescribeCollection()
@@ -146,8 +146,8 @@ Describes the specified collection. You can use DescribeCollection to get inform
 - `CollectionId`: The ID of the collection to describe.
 
 """
-describe_collection(CollectionId; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-describe_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
+describe_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
+describe_collection(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
 
 """
     DescribeProjectVersions()
@@ -162,8 +162,8 @@ Lists and describes the models in an Amazon Rekognition Custom Labels project. Y
 - `NextToken`: If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
 - `VersionNames`: A list of model version names that you want to describe. You can add up to 10 model version names to the list. If you don't specify a value, all model descriptions are returned. A version name is part of a model (ProjectVersion) ARN. For example, my-model.2020-01-21T09.10.15 is the version name in the following ARN. arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/my-model.2020-01-21T09.10.15/1234567890123.
 """
-describe_project_versions(ProjectArn; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
-describe_project_versions(ProjectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), args)); aws_config=aws_config)
+describe_project_versions(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
+describe_project_versions(ProjectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), args)); aws_config=aws_config)
 
 """
     DescribeProjects()
@@ -174,8 +174,8 @@ Lists and gets information about your Amazon Rekognition Custom Labels projects.
 - `MaxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100. 
 - `NextToken`: If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
 """
-describe_projects(; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeProjects"; aws_config=aws_config)
-describe_projects(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeProjects", args; aws_config=aws_config)
+describe_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjects"; aws_config=aws_config)
+describe_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjects", args; aws_config=aws_config)
 
 """
     DescribeStreamProcessor()
@@ -186,8 +186,8 @@ Provides information about a stream processor created by CreateStreamProcessor. 
 - `Name`: Name of the stream processor for which you want information.
 
 """
-describe_stream_processor(Name; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+describe_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DetectCustomLabels()
@@ -202,8 +202,8 @@ Detects custom labels in a supplied image by using an Amazon Rekognition Custom 
 - `MaxResults`: Maximum number of results you want the service to return in the response. The service returns the specified number of highest confidence labels ranked from highest confidence to lowest.
 - `MinConfidence`: Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence lower than this specified value. If you specify a value of 0, all labels are return, regardless of the default thresholds that the model version applies.
 """
-detect_custom_labels(Image, ProjectVersionArn; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-detect_custom_labels(Image, ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
+detect_custom_labels(Image, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
+detect_custom_labels(Image, ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
 
 """
     DetectFaces()
@@ -216,8 +216,8 @@ Detects faces within an image that is provided as input.  DetectFaces detects th
 # Optional Parameters
 - `Attributes`: An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify [\"DEFAULT\"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide [\"ALL\"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, [\"ALL\", \"DEFAULT\"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
 """
-detect_faces(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_faces(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+detect_faces(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_faces(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     DetectLabels()
@@ -231,8 +231,8 @@ Detects instances of real-world entities within an image (JPEG or PNG) provided 
 - `MaxLabels`: Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
 - `MinConfidence`: Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
 """
-detect_labels(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_labels(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_labels(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     DetectModerationLabels()
@@ -246,8 +246,8 @@ Detects unsafe content in a specified JPEG or PNG format image. Use DetectModera
 - `HumanLoopConfig`: Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to.
 - `MinConfidence`: Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
 """
-detect_moderation_labels(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_moderation_labels(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+detect_moderation_labels(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_moderation_labels(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     DetectProtectiveEquipment()
@@ -260,8 +260,8 @@ Detects Personal Protective Equipment (PPE) worn by people detected in an image.
 # Optional Parameters
 - `SummarizationAttributes`: An array of PPE types that you want to summarize.
 """
-detect_protective_equipment(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_protective_equipment(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+detect_protective_equipment(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_protective_equipment(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     DetectText()
@@ -274,8 +274,8 @@ Detects text in the input image and converts it into machine-readable text. Pass
 # Optional Parameters
 - `Filters`: Optional parameters that let you set the criteria that the text must meet to be included in your response.
 """
-detect_text(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_text(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+detect_text(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+detect_text(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     GetCelebrityInfo()
@@ -286,8 +286,8 @@ Gets the name and additional information about a celebrity based on his or her A
 - `Id`: The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image. 
 
 """
-get_celebrity_info(Id; aws_config::AWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_celebrity_info(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+get_celebrity_info(Id; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
+get_celebrity_info(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
 """
     GetCelebrityRecognition()
@@ -302,8 +302,8 @@ Gets the celebrity recognition results for a Amazon Rekognition Video analysis s
 - `NextToken`: If the previous response was incomplete (because there is more recognized celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities. 
 - `SortBy`: Sort to use for celebrities returned in Celebrities field. Specify ID to sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was recognized.
 """
-get_celebrity_recognition(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_celebrity_recognition(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_celebrity_recognition(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_celebrity_recognition(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetContentModeration()
@@ -318,8 +318,8 @@ Gets the unsafe content analysis results for a Amazon Rekognition Video analysis
 - `NextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of unsafe content labels.
 - `SortBy`: Sort to use for elements in the ModerationLabelDetections array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
 """
-get_content_moderation(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_content_moderation(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_content_moderation(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_content_moderation(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetFaceDetection()
@@ -333,8 +333,8 @@ Gets face detection results for a Amazon Rekognition Video analysis started by S
 - `MaxResults`: Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
 - `NextToken`: If the previous response was incomplete (because there are more faces to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
 """
-get_face_detection(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_face_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_face_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_face_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetFaceSearch()
@@ -349,8 +349,8 @@ Gets the face search results for Amazon Rekognition Video face search started by
 - `NextToken`: If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. 
 - `SortBy`: Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. 
 """
-get_face_search(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_face_search(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_face_search(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_face_search(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetLabelDetection()
@@ -365,8 +365,8 @@ Gets the label detection results of a Amazon Rekognition Video analysis started 
 - `NextToken`: If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. 
 - `SortBy`: Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
 """
-get_label_detection(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_label_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_label_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_label_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetPersonTracking()
@@ -381,8 +381,8 @@ Gets the path tracking results of a Amazon Rekognition Video analysis started by
 - `NextToken`: If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. 
 - `SortBy`: Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX, the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP.
 """
-get_person_tracking(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_person_tracking(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_person_tracking(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_person_tracking(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetSegmentDetection()
@@ -396,8 +396,8 @@ Gets the segment detection results of a Amazon Rekognition Video analysis starte
 - `MaxResults`: Maximum number of results to return per paginated call. The largest value you can specify is 1000.
 - `NextToken`: If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text.
 """
-get_segment_detection(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_segment_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_segment_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_segment_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetTextDetection()
@@ -411,8 +411,8 @@ Gets the text detection results of a Amazon Rekognition Video analysis started b
 - `MaxResults`: Maximum number of results to return per paginated call. The largest value you can specify is 1000.
 - `NextToken`: If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of text.
 """
-get_text_detection(JobId; aws_config::AWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_text_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_text_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     IndexFaces()
@@ -429,8 +429,8 @@ Detects faces in the input image and adds them to the specified collection.  Ama
 - `MaxFaces`: The maximum number of faces to index. The value of MaxFaces must be greater than or equal to 1. IndexFaces returns no more than 100 detected faces in an image, even if you specify a larger value for MaxFaces. If IndexFaces detects more faces than the value of MaxFaces, the faces with the lowest quality are filtered out first. If there are still more faces than the value of MaxFaces, the faces with the smallest bounding boxes are filtered out (up to the number that's needed to satisfy the value of MaxFaces). Information about the unindexed faces is available in the UnindexedFaces array.  The faces that are returned by IndexFaces are sorted by the largest face bounding box size to the smallest size, in descending order.  MaxFaces can be used with a collection associated with any version of the face model.
 - `QualityFilter`: A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't indexed. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The default value is AUTO. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
 """
-index_faces(CollectionId, Image; aws_config::AWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
-index_faces(CollectionId, Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), args)); aws_config=aws_config)
+index_faces(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
+index_faces(CollectionId, Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), args)); aws_config=aws_config)
 
 """
     ListCollections()
@@ -441,8 +441,8 @@ Returns list of collection IDs in your account. If the result is truncated, the 
 - `MaxResults`: Maximum number of collection IDs to return. 
 - `NextToken`: Pagination token from the previous response.
 """
-list_collections(; aws_config::AWSConfig=global_aws_config()) = rekognition("ListCollections"; aws_config=aws_config)
-list_collections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("ListCollections", args; aws_config=aws_config)
+list_collections(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListCollections"; aws_config=aws_config)
+list_collections(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListCollections", args; aws_config=aws_config)
 
 """
     ListFaces()
@@ -456,8 +456,8 @@ Returns metadata for faces in the specified collection. This metadata includes i
 - `MaxResults`: Maximum number of faces to return.
 - `NextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response. You can use this pagination token to retrieve the next set of faces.
 """
-list_faces(CollectionId; aws_config::AWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-list_faces(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
+list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
+list_faces(CollectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), args)); aws_config=aws_config)
 
 """
     ListStreamProcessors()
@@ -468,8 +468,8 @@ Gets a list of stream processors that you have created with CreateStreamProcesso
 - `MaxResults`: Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000. 
 - `NextToken`: If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
 """
-list_stream_processors(; aws_config::AWSConfig=global_aws_config()) = rekognition("ListStreamProcessors"; aws_config=aws_config)
-list_stream_processors(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("ListStreamProcessors", args; aws_config=aws_config)
+list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors"; aws_config=aws_config)
+list_stream_processors(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors", args; aws_config=aws_config)
 
 """
     RecognizeCelebrities()
@@ -480,8 +480,8 @@ Returns an array of celebrities recognized in the input image. For more informat
 - `Image`: The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
 
 """
-recognize_celebrities(Image; aws_config::AWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-recognize_celebrities(Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
+recognize_celebrities(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
+recognize_celebrities(Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), args)); aws_config=aws_config)
 
 """
     SearchFaces()
@@ -496,8 +496,8 @@ For a given input face ID, searches for matching faces in the collection the fac
 - `FaceMatchThreshold`: Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. 
 - `MaxFaces`: Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
 """
-search_faces(CollectionId, FaceId; aws_config::AWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId); aws_config=aws_config)
-search_faces(CollectionId, FaceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), args)); aws_config=aws_config)
+search_faces(CollectionId, FaceId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId); aws_config=aws_config)
+search_faces(CollectionId, FaceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), args)); aws_config=aws_config)
 
 """
     SearchFacesByImage()
@@ -513,8 +513,8 @@ For a given input image, first detects the largest face in the image, and then s
 - `MaxFaces`: Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
 - `QualityFilter`: A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't searched for in the collection. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
 """
-search_faces_by_image(CollectionId, Image; aws_config::AWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
-search_faces_by_image(CollectionId, Image, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), args)); aws_config=aws_config)
+search_faces_by_image(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
+search_faces_by_image(CollectionId, Image, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), args)); aws_config=aws_config)
 
 """
     StartCelebrityRecognition()
@@ -529,8 +529,8 @@ Starts asynchronous recognition of celebrities in a stored video. Amazon Rekogni
 - `JobTag`: An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to.
 """
-start_celebrity_recognition(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_celebrity_recognition(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_celebrity_recognition(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_celebrity_recognition(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartContentModeration()
@@ -546,8 +546,8 @@ start_celebrity_recognition(Video, args::AbstractDict{String, <:Any}; aws_config
 - `MinConfidence`: Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label. Confidence represents how certain Amazon Rekognition is that the moderated content is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition doesn't return any moderated content labels with a confidence level lower than this specified value. If you don't specify MinConfidence, GetContentModeration returns labels with confidence values greater than or equal to 50 percent.
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the unsafe content analysis to.
 """
-start_content_moderation(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_content_moderation(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_content_moderation(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartFaceDetection()
@@ -563,8 +563,8 @@ Starts asynchronous detection of faces in a stored video. Amazon Rekognition Vid
 - `JobTag`: An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the face detection operation.
 """
-start_face_detection(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_face_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_face_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartFaceSearch()
@@ -581,8 +581,8 @@ Starts the asynchronous search for faces in a collection that match the faces of
 - `JobTag`: An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search. 
 """
-start_face_search(CollectionId, Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video); aws_config=aws_config)
-start_face_search(CollectionId, Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), args)); aws_config=aws_config)
+start_face_search(CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video); aws_config=aws_config)
+start_face_search(CollectionId, Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartLabelDetection()
@@ -598,8 +598,8 @@ Starts asynchronous detection of labels in a stored video. Amazon Rekognition Vi
 - `MinConfidence`: Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
 - `NotificationChannel`: The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. 
 """
-start_label_detection(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_label_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_label_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartPersonTracking()
@@ -614,8 +614,8 @@ Starts the asynchronous tracking of a person's path in a stored video. Amazon Re
 - `JobTag`: An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the people detection operation to.
 """
-start_person_tracking(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_person_tracking(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_person_tracking(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartProjectVersion()
@@ -627,8 +627,8 @@ Starts the running of the version of a model. Starting a model takes a while to 
 - `ProjectVersionArn`: The Amazon Resource Name(ARN) of the model version that you want to start.
 
 """
-start_project_version(MinInferenceUnits, ProjectVersionArn; aws_config::AWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-start_project_version(MinInferenceUnits, ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
+start_project_version(MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
+start_project_version(MinInferenceUnits, ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
 
 """
     StartSegmentDetection()
@@ -645,8 +645,8 @@ Starts asynchronous detection of segment detection in a stored video. Amazon Rek
 - `JobTag`: An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the segment detection operation.
 """
-start_segment_detection(SegmentTypes, Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video); aws_config=aws_config)
-start_segment_detection(SegmentTypes, Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), args)); aws_config=aws_config)
+start_segment_detection(SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video); aws_config=aws_config)
+start_segment_detection(SegmentTypes, Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), args)); aws_config=aws_config)
 
 """
     StartStreamProcessor()
@@ -657,8 +657,8 @@ Starts processing a stream processor. You create a stream processor by calling C
 - `Name`: The name of the stream processor to start processing.
 
 """
-start_stream_processor(Name; aws_config::AWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+start_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StartTextDetection()
@@ -674,8 +674,8 @@ Starts asynchronous detection of text in a stored video. Amazon Rekognition Vide
 - `JobTag`: An identifier returned in the completion status published by your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
 - `NotificationChannel`: 
 """
-start_text_detection(Video; aws_config::AWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_text_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
+start_text_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
+start_text_detection(Video, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), args)); aws_config=aws_config)
 
 """
     StopProjectVersion()
@@ -686,8 +686,8 @@ Stops a running model. The operation might take a while to complete. To check th
 - `ProjectVersionArn`: The Amazon Resource Name (ARN) of the model version that you want to delete. This operation requires permissions to perform the rekognition:StopProjectVersion action.
 
 """
-stop_project_version(ProjectVersionArn; aws_config::AWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-stop_project_version(ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
+stop_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
+stop_project_version(ProjectVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), args)); aws_config=aws_config)
 
 """
     StopStreamProcessor()
@@ -698,5 +698,5 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 - `Name`: The name of a stream processor created by CreateStreamProcessor.
 
 """
-stop_stream_processor(Name; aws_config::AWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+stop_stream_processor(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)

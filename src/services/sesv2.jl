@@ -20,8 +20,8 @@ Create a configuration set. Configuration sets are groups of rules that you can 
 - `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the configuration set.
 - `TrackingOptions`: An object that defines the open and click tracking options for emails that you send using the configuration set.
 """
-create_configuration_set(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-create_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), args)); aws_config=aws_config)
+create_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
+create_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), args)); aws_config=aws_config)
 
 """
     CreateConfigurationSetEventDestination()
@@ -34,8 +34,8 @@ Create an event destination. Events include message sends, deliveries, opens, cl
 - `EventDestinationName`: A name that identifies the event destination within the configuration set.
 
 """
-create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName); aws_config=aws_config)
-create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), args)); aws_config=aws_config)
+create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName); aws_config=aws_config)
+create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), args)); aws_config=aws_config)
 
 """
     CreateContact()
@@ -51,8 +51,8 @@ Creates a contact, which is an end-user who is receiving the email, and adds the
 - `TopicPreferences`: The contact's preferences for being opted-in to or opted-out of topics.
 - `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all contact list topics.
 """
-create_contact(ContactListName, EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
-create_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), args)); aws_config=aws_config)
+create_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
+create_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), args)); aws_config=aws_config)
 
 """
     CreateContactList()
@@ -67,8 +67,8 @@ Creates a contact list.
 - `Tags`: The tags associated with a contact list.
 - `Topics`: An interest group, theme, or label within a list. A contact list can have multiple topics.
 """
-create_contact_list(ContactListName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}("ContactListName"=>ContactListName); aws_config=aws_config)
-create_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactListName"=>ContactListName), args)); aws_config=aws_config)
+create_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}("ContactListName"=>ContactListName); aws_config=aws_config)
+create_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactListName"=>ContactListName), args)); aws_config=aws_config)
 
 """
     CreateCustomVerificationEmailTemplate()
@@ -84,8 +84,8 @@ Creates a new custom verification email template. For more information about cus
 - `TemplateSubject`: The subject line of the custom verification email.
 
 """
-create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/custom-verification-email-templates", Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject); aws_config=aws_config)
-create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/custom-verification-email-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), args)); aws_config=aws_config)
+create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/custom-verification-email-templates", Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject); aws_config=aws_config)
+create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/custom-verification-email-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), args)); aws_config=aws_config)
 
 """
     CreateDedicatedIpPool()
@@ -98,8 +98,8 @@ Create a new pool of dedicated IP addresses. A pool can include one or more dedi
 # Optional Parameters
 - `Tags`: An object that defines the tags (keys and values) that you want to associate with the pool.
 """
-create_dedicated_ip_pool(PoolName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
-create_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), args)); aws_config=aws_config)
+create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
+create_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), args)); aws_config=aws_config)
 
 """
     CreateDeliverabilityTestReport()
@@ -114,8 +114,8 @@ Create a new predictive inbox placement test. Predictive inbox placement tests c
 - `ReportName`: A unique name that helps you to identify the predictive inbox placement test when you retrieve the results.
 - `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
 """
-create_deliverability_test_report(Content, FromEmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress); aws_config=aws_config)
-create_deliverability_test_report(Content, FromEmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), args)); aws_config=aws_config)
+create_deliverability_test_report(Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress); aws_config=aws_config)
+create_deliverability_test_report(Content, FromEmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), args)); aws_config=aws_config)
 
 """
     CreateEmailIdentity()
@@ -129,8 +129,8 @@ Starts the process of verifying an email identity. An identity is an email addre
 - `DkimSigningAttributes`: If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
 - `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the email identity.
 """
-create_email_identity(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}("EmailIdentity"=>EmailIdentity); aws_config=aws_config)
-create_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), args)); aws_config=aws_config)
+create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}("EmailIdentity"=>EmailIdentity); aws_config=aws_config)
+create_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), args)); aws_config=aws_config)
 
 """
     CreateEmailIdentityPolicy()
@@ -143,8 +143,8 @@ Creates the specified sending authorization policy for the given identity (an em
 - `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
 
 """
-create_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-create_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+create_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+create_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     CreateEmailTemplate()
@@ -156,8 +156,8 @@ Creates an email template. Email templates enable you to send personalized email
 - `TemplateName`: The name of the template you want to create.
 
 """
-create_email_template(TemplateContent, TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates", Dict{String, Any}("TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName); aws_config=aws_config)
-create_email_template(TemplateContent, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
+create_email_template(TemplateContent, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates", Dict{String, Any}("TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName); aws_config=aws_config)
+create_email_template(TemplateContent, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
 
 """
     CreateImportJob()
@@ -169,8 +169,8 @@ Creates an import job for a data destination.
 - `ImportDestination`: The destination for the import job.
 
 """
-create_import_job(ImportDataSource, ImportDestination; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/import-jobs", Dict{String, Any}("ImportDataSource"=>ImportDataSource, "ImportDestination"=>ImportDestination); aws_config=aws_config)
-create_import_job(ImportDataSource, ImportDestination, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportDataSource"=>ImportDataSource, "ImportDestination"=>ImportDestination), args)); aws_config=aws_config)
+create_import_job(ImportDataSource, ImportDestination; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/import-jobs", Dict{String, Any}("ImportDataSource"=>ImportDataSource, "ImportDestination"=>ImportDestination); aws_config=aws_config)
+create_import_job(ImportDataSource, ImportDestination, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/import-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportDataSource"=>ImportDataSource, "ImportDestination"=>ImportDestination), args)); aws_config=aws_config)
 
 """
     DeleteConfigurationSet()
@@ -181,8 +181,8 @@ Delete an existing configuration set.  Configuration sets are groups of rules th
 - `ConfigurationSetName`: The name of the configuration set that you want to delete.
 
 """
-delete_configuration_set(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
-delete_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
+delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
+delete_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
 
 """
     DeleteConfigurationSetEventDestination()
@@ -194,8 +194,8 @@ Delete an event destination.  Events include message sends, deliveries, opens, c
 - `EventDestinationName`: The name of the event destination that you want to delete.
 
 """
-delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
-delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)
+delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
+delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)
 
 """
     DeleteContact()
@@ -207,8 +207,8 @@ Removes a contact from a contact list.
 - `EmailAddress`: The contact's email address.
 
 """
-delete_contact(ContactListName, EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
-delete_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
+delete_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
+delete_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
 
 """
     DeleteContactList()
@@ -219,8 +219,8 @@ Deletes a contact list and all of the contacts on that list.
 - `ContactListName`: The name of the contact list.
 
 """
-delete_contact_list(ContactListName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
-delete_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
+delete_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
+delete_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
 
 """
     DeleteCustomVerificationEmailTemplate()
@@ -231,8 +231,8 @@ Deletes an existing custom verification email template. For more information abo
 - `TemplateName`: The name of the custom verification email template that you want to delete.
 
 """
-delete_custom_verification_email_template(TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
-delete_custom_verification_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)", args; aws_config=aws_config)
+delete_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
+delete_custom_verification_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)", args; aws_config=aws_config)
 
 """
     DeleteDedicatedIpPool()
@@ -243,8 +243,8 @@ Delete a dedicated IP pool.
 - `PoolName`: The name of the dedicated IP pool that you want to delete.
 
 """
-delete_dedicated_ip_pool(PoolName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)"; aws_config=aws_config)
-delete_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)", args; aws_config=aws_config)
+delete_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)"; aws_config=aws_config)
+delete_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)", args; aws_config=aws_config)
 
 """
     DeleteEmailIdentity()
@@ -255,8 +255,8 @@ Deletes an email identity. An identity can be either an email address or a domai
 - `EmailIdentity`: The identity (that is, the email address or domain) that you want to delete.
 
 """
-delete_email_identity(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)"; aws_config=aws_config)
-delete_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)", args; aws_config=aws_config)
+delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)"; aws_config=aws_config)
+delete_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)", args; aws_config=aws_config)
 
 """
     DeleteEmailIdentityPolicy()
@@ -268,8 +268,8 @@ Deletes the specified sending authorization policy for the given identity (an em
 - `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
 
 """
-delete_email_identity_policy(EmailIdentity, PolicyName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)"; aws_config=aws_config)
-delete_email_identity_policy(EmailIdentity, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", args; aws_config=aws_config)
+delete_email_identity_policy(EmailIdentity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)"; aws_config=aws_config)
+delete_email_identity_policy(EmailIdentity, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", args; aws_config=aws_config)
 
 """
     DeleteEmailTemplate()
@@ -280,8 +280,8 @@ Deletes an email template. You can execute this operation no more than once per 
 - `TemplateName`: The name of the template to be deleted.
 
 """
-delete_email_template(TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/templates/$(TemplateName)"; aws_config=aws_config)
-delete_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/templates/$(TemplateName)", args; aws_config=aws_config)
+delete_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/templates/$(TemplateName)"; aws_config=aws_config)
+delete_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/templates/$(TemplateName)", args; aws_config=aws_config)
 
 """
     DeleteSuppressedDestination()
@@ -292,8 +292,8 @@ Removes an email address from the suppression list for your account.
 - `EmailAddress`: The suppressed email destination to remove from the account suppression list.
 
 """
-delete_suppressed_destination(EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)"; aws_config=aws_config)
-delete_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)", args; aws_config=aws_config)
+delete_suppressed_destination(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)"; aws_config=aws_config)
+delete_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)", args; aws_config=aws_config)
 
 """
     GetAccount()
@@ -301,8 +301,8 @@ delete_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; a
 Obtain information about the email-sending status and capabilities of your Amazon SES account in the current AWS Region.
 
 """
-get_account(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account"; aws_config=aws_config)
-get_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account", args; aws_config=aws_config)
+get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account"; aws_config=aws_config)
+get_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account", args; aws_config=aws_config)
 
 """
     GetBlacklistReports()
@@ -313,8 +313,8 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 - `BlacklistItemNames`: A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
 
 """
-get_blacklist_reports(BlacklistItemNames; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames); aws_config=aws_config)
-get_blacklist_reports(BlacklistItemNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), args)); aws_config=aws_config)
+get_blacklist_reports(BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames); aws_config=aws_config)
+get_blacklist_reports(BlacklistItemNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), args)); aws_config=aws_config)
 
 """
     GetConfigurationSet()
@@ -325,8 +325,8 @@ Get information about an existing configuration set, including the dedicated IP 
 - `ConfigurationSetName`: The name of the configuration set that you want to obtain more information about.
 
 """
-get_configuration_set(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
-get_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
+get_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
+get_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
 
 """
     GetConfigurationSetEventDestinations()
@@ -337,8 +337,8 @@ Retrieve a list of event destinations that are associated with a configuration s
 - `ConfigurationSetName`: The name of the configuration set that contains the event destination.
 
 """
-get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
-get_configuration_set_event_destinations(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
+get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
+get_configuration_set_event_destinations(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
 
 """
     GetContact()
@@ -350,8 +350,8 @@ Returns a contact from a contact list.
 - `EmailAddress`: The contact's email addres.
 
 """
-get_contact(ContactListName, EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
-get_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
+get_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
+get_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
 
 """
     GetContactList()
@@ -362,8 +362,8 @@ Returns contact list metadata. It does not return any information about the cont
 - `ContactListName`: The name of the contact list.
 
 """
-get_contact_list(ContactListName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
-get_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
+get_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
+get_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
 
 """
     GetCustomVerificationEmailTemplate()
@@ -374,8 +374,8 @@ Returns the custom email verification template for the template name you specify
 - `TemplateName`: The name of the custom verification email template that you want to retrieve.
 
 """
-get_custom_verification_email_template(TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
-get_custom_verification_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)", args; aws_config=aws_config)
+get_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
+get_custom_verification_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)", args; aws_config=aws_config)
 
 """
     GetDedicatedIp()
@@ -386,8 +386,8 @@ Get information about a dedicated IP address, including the name of the dedicate
 - `IP`: The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account.
 
 """
-get_dedicated_ip(IP; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)"; aws_config=aws_config)
-get_dedicated_ip(IP, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)", args; aws_config=aws_config)
+get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)"; aws_config=aws_config)
+get_dedicated_ip(IP, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)", args; aws_config=aws_config)
 
 """
     GetDedicatedIps()
@@ -399,8 +399,8 @@ List the dedicated IP addresses that are associated with your AWS account.
 - `PageSize`: The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
 - `PoolName`: The name of the IP pool that the dedicated IP address is associated with.
 """
-get_dedicated_ips(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips"; aws_config=aws_config)
-get_dedicated_ips(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips", args; aws_config=aws_config)
+get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips"; aws_config=aws_config)
+get_dedicated_ips(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips", args; aws_config=aws_config)
 
 """
     GetDeliverabilityDashboardOptions()
@@ -408,8 +408,8 @@ get_dedicated_ips(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_
 Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
 
 """
-get_deliverability_dashboard_options(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard"; aws_config=aws_config)
-get_deliverability_dashboard_options(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard", args; aws_config=aws_config)
+get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard"; aws_config=aws_config)
+get_deliverability_dashboard_options(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard", args; aws_config=aws_config)
 
 """
     GetDeliverabilityTestReport()
@@ -420,8 +420,8 @@ Retrieve the results of a predictive inbox placement test.
 - `ReportId`: A unique string that identifies the predictive inbox placement test.
 
 """
-get_deliverability_test_report(ReportId; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)"; aws_config=aws_config)
-get_deliverability_test_report(ReportId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)", args; aws_config=aws_config)
+get_deliverability_test_report(ReportId; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)"; aws_config=aws_config)
+get_deliverability_test_report(ReportId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)", args; aws_config=aws_config)
 
 """
     GetDomainDeliverabilityCampaign()
@@ -432,8 +432,8 @@ Retrieve all the deliverability data for a specific campaign. This data is avail
 - `CampaignId`: The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
 
 """
-get_domain_deliverability_campaign(CampaignId; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)"; aws_config=aws_config)
-get_domain_deliverability_campaign(CampaignId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)", args; aws_config=aws_config)
+get_domain_deliverability_campaign(CampaignId; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)"; aws_config=aws_config)
+get_domain_deliverability_campaign(CampaignId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)", args; aws_config=aws_config)
 
 """
     GetDomainStatisticsReport()
@@ -446,8 +446,8 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 - `StartDate`: The first day (in Unix time) that you want to obtain domain deliverability metrics for.
 
 """
-get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
-get_domain_statistics_report(Domain, EndDate, StartDate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), args)); aws_config=aws_config)
+get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
+get_domain_statistics_report(Domain, EndDate, StartDate, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), args)); aws_config=aws_config)
 
 """
     GetEmailIdentity()
@@ -458,8 +458,8 @@ Provides information about a specific identity, including the identity's verific
 - `EmailIdentity`: The email identity that you want to retrieve details for.
 
 """
-get_email_identity(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)"; aws_config=aws_config)
-get_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)", args; aws_config=aws_config)
+get_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)"; aws_config=aws_config)
+get_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)", args; aws_config=aws_config)
 
 """
     GetEmailIdentityPolicies()
@@ -470,8 +470,8 @@ Returns the requested sending authorization policies for the given identity (an 
 - `EmailIdentity`: The email identity that you want to retrieve policies for.
 
 """
-get_email_identity_policies(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)/policies"; aws_config=aws_config)
-get_email_identity_policies(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)/policies", args; aws_config=aws_config)
+get_email_identity_policies(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)/policies"; aws_config=aws_config)
+get_email_identity_policies(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)/policies", args; aws_config=aws_config)
 
 """
     GetEmailTemplate()
@@ -482,8 +482,8 @@ Displays the template object (which includes the subject line, HTML part and tex
 - `TemplateName`: The name of the template you want to retrieve.
 
 """
-get_email_template(TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates/$(TemplateName)"; aws_config=aws_config)
-get_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates/$(TemplateName)", args; aws_config=aws_config)
+get_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates/$(TemplateName)"; aws_config=aws_config)
+get_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates/$(TemplateName)", args; aws_config=aws_config)
 
 """
     GetImportJob()
@@ -494,8 +494,8 @@ Provides information about an import job.
 - `JobId`: The ID of the import job.
 
 """
-get_import_job(JobId; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs/$(JobId)"; aws_config=aws_config)
-get_import_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs/$(JobId)", args; aws_config=aws_config)
+get_import_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs/$(JobId)"; aws_config=aws_config)
+get_import_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs/$(JobId)", args; aws_config=aws_config)
 
 """
     GetSuppressedDestination()
@@ -506,8 +506,8 @@ Retrieves information about a specific email address that's on the suppression l
 - `EmailAddress`: The email address that's on the account suppression list.
 
 """
-get_suppressed_destination(EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)"; aws_config=aws_config)
-get_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)", args; aws_config=aws_config)
+get_suppressed_destination(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)"; aws_config=aws_config)
+get_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)", args; aws_config=aws_config)
 
 """
     ListConfigurationSets()
@@ -518,8 +518,8 @@ List all of the configuration sets associated with your account in the current r
 - `NextToken`: A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
 - `PageSize`: The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
 """
-list_configuration_sets(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets"; aws_config=aws_config)
-list_configuration_sets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets", args; aws_config=aws_config)
+list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets"; aws_config=aws_config)
+list_configuration_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets", args; aws_config=aws_config)
 
 """
     ListContactLists()
@@ -530,8 +530,8 @@ Lists all of the contact lists available.
 - `NextToken`: A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
 - `PageSize`: Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
 """
-list_contact_lists(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists"; aws_config=aws_config)
-list_contact_lists(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists", args; aws_config=aws_config)
+list_contact_lists(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists"; aws_config=aws_config)
+list_contact_lists(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists", args; aws_config=aws_config)
 
 """
     ListContacts()
@@ -546,8 +546,8 @@ Lists the contacts present in a specific contact list.
 - `NextToken`: A string token indicating that there might be additional contacts available to be listed. Use the token provided in the Response to use in the subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
 - `PageSize`: The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
 """
-list_contacts(ContactListName; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts"; aws_config=aws_config)
-list_contacts(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts", args; aws_config=aws_config)
+list_contacts(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts"; aws_config=aws_config)
+list_contacts(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts", args; aws_config=aws_config)
 
 """
     ListCustomVerificationEmailTemplates()
@@ -558,8 +558,8 @@ Lists the existing custom verification email templates for your account in the c
 - `NextToken`: A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
 - `PageSize`: The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
 """
-list_custom_verification_email_templates(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates"; aws_config=aws_config)
-list_custom_verification_email_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates", args; aws_config=aws_config)
+list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates"; aws_config=aws_config)
+list_custom_verification_email_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates", args; aws_config=aws_config)
 
 """
     ListDedicatedIpPools()
@@ -570,8 +570,8 @@ List all of the dedicated IP pools that exist in your AWS account in the current
 - `NextToken`: A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
 - `PageSize`: The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
 """
-list_dedicated_ip_pools(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools"; aws_config=aws_config)
-list_dedicated_ip_pools(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools", args; aws_config=aws_config)
+list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools"; aws_config=aws_config)
+list_dedicated_ip_pools(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools", args; aws_config=aws_config)
 
 """
     ListDeliverabilityTestReports()
@@ -582,8 +582,8 @@ Show a list of the predictive inbox placement tests that you've performed, regar
 - `NextToken`: A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
 - `PageSize`: The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
 """
-list_deliverability_test_reports(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
-list_deliverability_test_reports(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", args; aws_config=aws_config)
+list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
+list_deliverability_test_reports(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", args; aws_config=aws_config)
 
 """
     ListDomainDeliverabilityCampaigns()
@@ -599,8 +599,8 @@ Retrieve deliverability data for all the campaigns that used a specific domain t
 - `NextToken`: A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
 - `PageSize`: The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
 """
-list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
-list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), args)); aws_config=aws_config)
+list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
+list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), args)); aws_config=aws_config)
 
 """
     ListEmailIdentities()
@@ -611,8 +611,8 @@ Returns a list of all of the email identities that are associated with your AWS 
 - `NextToken`: A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
 - `PageSize`: The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
 """
-list_email_identities(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities"; aws_config=aws_config)
-list_email_identities(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities", args; aws_config=aws_config)
+list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities"; aws_config=aws_config)
+list_email_identities(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities", args; aws_config=aws_config)
 
 """
     ListEmailTemplates()
@@ -623,8 +623,8 @@ Lists the email templates present in your Amazon SES account in the current AWS 
 - `NextToken`: A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
 - `PageSize`: The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
 """
-list_email_templates(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates"; aws_config=aws_config)
-list_email_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates", args; aws_config=aws_config)
+list_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates"; aws_config=aws_config)
+list_email_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates", args; aws_config=aws_config)
 
 """
     ListImportJobs()
@@ -636,8 +636,8 @@ Lists all of the import jobs.
 - `NextToken`: A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
 - `PageSize`: Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
 """
-list_import_jobs(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs"; aws_config=aws_config)
-list_import_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs", args; aws_config=aws_config)
+list_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs"; aws_config=aws_config)
+list_import_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs", args; aws_config=aws_config)
 
 """
     ListSuppressedDestinations()
@@ -651,8 +651,8 @@ Retrieves a list of email addresses that are on the suppression list for your ac
 - `Reason`: The factors that caused the email address to be added to .
 - `StartDate`: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date. The date that you specify should be in Unix time format.
 """
-list_suppressed_destinations(; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses"; aws_config=aws_config)
-list_suppressed_destinations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses", args; aws_config=aws_config)
+list_suppressed_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses"; aws_config=aws_config)
+list_suppressed_destinations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -663,8 +663,8 @@ Retrieve a list of the tags (keys and values) that are associated with a specifi
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     PutAccountDedicatedIpWarmupAttributes()
@@ -674,8 +674,8 @@ Enable or disable the automatic warm-up feature for dedicated IP addresses.
 # Optional Parameters
 - `AutoWarmupEnabled`: Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
-put_account_dedicated_ip_warmup_attributes(; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup"; aws_config=aws_config)
-put_account_dedicated_ip_warmup_attributes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", args; aws_config=aws_config)
+put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup"; aws_config=aws_config)
+put_account_dedicated_ip_warmup_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", args; aws_config=aws_config)
 
 """
     PutAccountDetails()
@@ -692,8 +692,8 @@ Update your Amazon SES account details.
 - `ContactLanguage`: The language you would prefer to be contacted with.
 - `ProductionAccessEnabled`: Indicates whether or not your account should have production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
 """
-put_account_details(MailType, UseCaseDescription, WebsiteURL; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL); aws_config=aws_config)
-put_account_details(MailType, UseCaseDescription, WebsiteURL, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL), args)); aws_config=aws_config)
+put_account_details(MailType, UseCaseDescription, WebsiteURL; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL); aws_config=aws_config)
+put_account_details(MailType, UseCaseDescription, WebsiteURL, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL), args)); aws_config=aws_config)
 
 """
     PutAccountSendingAttributes()
@@ -703,8 +703,8 @@ Enable or disable the ability of your account to send email.
 # Optional Parameters
 - `SendingEnabled`: Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email. 
 """
-put_account_sending_attributes(; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending"; aws_config=aws_config)
-put_account_sending_attributes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending", args; aws_config=aws_config)
+put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending"; aws_config=aws_config)
+put_account_sending_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending", args; aws_config=aws_config)
 
 """
     PutAccountSuppressionAttributes()
@@ -714,8 +714,8 @@ Change the settings for the account-level suppression list.
 # Optional Parameters
 - `SuppressedReasons`: A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
 """
-put_account_suppression_attributes(; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression"; aws_config=aws_config)
-put_account_suppression_attributes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression", args; aws_config=aws_config)
+put_account_suppression_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression"; aws_config=aws_config)
+put_account_suppression_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression", args; aws_config=aws_config)
 
 """
     PutConfigurationSetDeliveryOptions()
@@ -729,8 +729,8 @@ Associate a configuration set with a dedicated IP pool. You can use dedicated IP
 - `SendingPoolName`: The name of the dedicated IP pool that you want to associate with the configuration set.
 - `TlsPolicy`: Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
 """
-put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options"; aws_config=aws_config)
-put_configuration_set_delivery_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options", args; aws_config=aws_config)
+put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options"; aws_config=aws_config)
+put_configuration_set_delivery_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options", args; aws_config=aws_config)
 
 """
     PutConfigurationSetReputationOptions()
@@ -743,8 +743,8 @@ Enable or disable collection of reputation metrics for emails that you send usin
 # Optional Parameters
 - `ReputationMetricsEnabled`: If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
 """
-put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options"; aws_config=aws_config)
-put_configuration_set_reputation_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options", args; aws_config=aws_config)
+put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options"; aws_config=aws_config)
+put_configuration_set_reputation_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options", args; aws_config=aws_config)
 
 """
     PutConfigurationSetSendingOptions()
@@ -757,8 +757,8 @@ Enable or disable email sending for messages that use a particular configuration
 # Optional Parameters
 - `SendingEnabled`: If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
 """
-put_configuration_set_sending_options(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending"; aws_config=aws_config)
-put_configuration_set_sending_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending", args; aws_config=aws_config)
+put_configuration_set_sending_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending"; aws_config=aws_config)
+put_configuration_set_sending_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending", args; aws_config=aws_config)
 
 """
     PutConfigurationSetSuppressionOptions()
@@ -771,8 +771,8 @@ Specify the account suppression list preferences for a configuration set.
 # Optional Parameters
 - `SuppressedReasons`: A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
 """
-put_configuration_set_suppression_options(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options"; aws_config=aws_config)
-put_configuration_set_suppression_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options", args; aws_config=aws_config)
+put_configuration_set_suppression_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options"; aws_config=aws_config)
+put_configuration_set_suppression_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options", args; aws_config=aws_config)
 
 """
     PutConfigurationSetTrackingOptions()
@@ -785,8 +785,8 @@ Specify a custom domain to use for open and click tracking elements in email tha
 # Optional Parameters
 - `CustomRedirectDomain`: The domain that you want to use to track open and click events.
 """
-put_configuration_set_tracking_options(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options"; aws_config=aws_config)
-put_configuration_set_tracking_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options", args; aws_config=aws_config)
+put_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options"; aws_config=aws_config)
+put_configuration_set_tracking_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options", args; aws_config=aws_config)
 
 """
     PutDedicatedIpInPool()
@@ -798,8 +798,8 @@ Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP 
 - `IP`: The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your AWS account.
 
 """
-put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}("DestinationPoolName"=>DestinationPoolName); aws_config=aws_config)
-put_dedicated_ip_in_pool(DestinationPoolName, IP, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), args)); aws_config=aws_config)
+put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}("DestinationPoolName"=>DestinationPoolName); aws_config=aws_config)
+put_dedicated_ip_in_pool(DestinationPoolName, IP, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), args)); aws_config=aws_config)
 
 """
     PutDedicatedIpWarmupAttributes()
@@ -811,8 +811,8 @@ put_dedicated_ip_in_pool(DestinationPoolName, IP, args::AbstractDict{String, <:A
 - `WarmupPercentage`: The warm-up percentage that you want to associate with the dedicated IP address.
 
 """
-put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}("WarmupPercentage"=>WarmupPercentage); aws_config=aws_config)
-put_dedicated_ip_warmup_attributes(IP, WarmupPercentage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), args)); aws_config=aws_config)
+put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}("WarmupPercentage"=>WarmupPercentage); aws_config=aws_config)
+put_dedicated_ip_warmup_attributes(IP, WarmupPercentage, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), args)); aws_config=aws_config)
 
 """
     PutDeliverabilityDashboardOption()
@@ -825,8 +825,8 @@ Enable or disable the Deliverability dashboard. When you enable the Deliverabili
 # Optional Parameters
 - `SubscribedDomains`: An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
 """
-put_deliverability_dashboard_option(DashboardEnabled; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}("DashboardEnabled"=>DashboardEnabled); aws_config=aws_config)
-put_deliverability_dashboard_option(DashboardEnabled, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), args)); aws_config=aws_config)
+put_deliverability_dashboard_option(DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}("DashboardEnabled"=>DashboardEnabled); aws_config=aws_config)
+put_deliverability_dashboard_option(DashboardEnabled, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), args)); aws_config=aws_config)
 
 """
     PutEmailIdentityDkimAttributes()
@@ -839,8 +839,8 @@ Used to enable or disable DKIM authentication for an email identity.
 # Optional Parameters
 - `SigningEnabled`: Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
 """
-put_email_identity_dkim_attributes(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim"; aws_config=aws_config)
-put_email_identity_dkim_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim", args; aws_config=aws_config)
+put_email_identity_dkim_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim"; aws_config=aws_config)
+put_email_identity_dkim_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim", args; aws_config=aws_config)
 
 """
     PutEmailIdentityDkimSigningAttributes()
@@ -854,8 +854,8 @@ Used to configure or change the DKIM authentication settings for an email domain
 # Optional Parameters
 - `SigningAttributes`: An object that contains information about the private key and selector that you want to use to configure DKIM for the identity. This object is only required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.
 """
-put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin); aws_config=aws_config)
-put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin), args)); aws_config=aws_config)
+put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin); aws_config=aws_config)
+put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin), args)); aws_config=aws_config)
 
 """
     PutEmailIdentityFeedbackAttributes()
@@ -868,8 +868,8 @@ Used to enable or disable feedback forwarding for an identity. This setting dete
 # Optional Parameters
 - `EmailForwardingEnabled`: Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
 """
-put_email_identity_feedback_attributes(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback"; aws_config=aws_config)
-put_email_identity_feedback_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback", args; aws_config=aws_config)
+put_email_identity_feedback_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback"; aws_config=aws_config)
+put_email_identity_feedback_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback", args; aws_config=aws_config)
 
 """
     PutEmailIdentityMailFromAttributes()
@@ -883,8 +883,8 @@ Used to enable or disable the custom Mail-From domain configuration for an email
 - `BehaviorOnMxFailure`: The action that you want to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
 - `MailFromDomain`:  The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.  
 """
-put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from"; aws_config=aws_config)
-put_email_identity_mail_from_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from", args; aws_config=aws_config)
+put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from"; aws_config=aws_config)
+put_email_identity_mail_from_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from", args; aws_config=aws_config)
 
 """
     PutSuppressedDestination()
@@ -896,8 +896,8 @@ Adds an email address to the suppression list for your account.
 - `Reason`: The factors that should cause the email address to be added to the suppression list for your account.
 
 """
-put_suppressed_destination(EmailAddress, Reason; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason); aws_config=aws_config)
-put_suppressed_destination(EmailAddress, Reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason), args)); aws_config=aws_config)
+put_suppressed_destination(EmailAddress, Reason; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason); aws_config=aws_config)
+put_suppressed_destination(EmailAddress, Reason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason), args)); aws_config=aws_config)
 
 """
     SendBulkEmail()
@@ -917,8 +917,8 @@ Composes an email message to multiple destinations.
 - `FromEmailAddressIdentityArn`: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
 - `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
 """
-send_bulk_email(BulkEmailEntries, DefaultContent; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent); aws_config=aws_config)
-send_bulk_email(BulkEmailEntries, DefaultContent, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent), args)); aws_config=aws_config)
+send_bulk_email(BulkEmailEntries, DefaultContent; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent); aws_config=aws_config)
+send_bulk_email(BulkEmailEntries, DefaultContent, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent), args)); aws_config=aws_config)
 
 """
     SendCustomVerificationEmail()
@@ -932,8 +932,8 @@ Adds an email address to the list of identities for your Amazon SES account in t
 # Optional Parameters
 - `ConfigurationSetName`: Name of a configuration set to use when sending the verification email.
 """
-send_custom_verification_email(EmailAddress, TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName); aws_config=aws_config)
-send_custom_verification_email(EmailAddress, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
+send_custom_verification_email(EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName); aws_config=aws_config)
+send_custom_verification_email(EmailAddress, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
 
 """
     SendEmail()
@@ -954,8 +954,8 @@ Sends an email message. You can use the Amazon SES API v2 to send two types of m
 - `ListManagementOptions`: An object used to specify a list or topic to which an email belongs, which will be used when a contact chooses to unsubscribe.
 - `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
 """
-send_email(Content; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
-send_email(Content, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
+send_email(Content; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
+send_email(Content, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -967,8 +967,8 @@ Add one or more tags (keys and values) to a specified resource. A tag is a labe
 - `Tags`: A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     TestRenderEmailTemplate()
@@ -980,8 +980,8 @@ Creates a preview of the MIME content of an email when provided with a template 
 - `TemplateName`: The name of the template that you want to render.
 
 """
-test_render_email_template(TemplateData, TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates/$(TemplateName)/render", Dict{String, Any}("TemplateData"=>TemplateData); aws_config=aws_config)
-test_render_email_template(TemplateData, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates/$(TemplateName)/render", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData), args)); aws_config=aws_config)
+test_render_email_template(TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates/$(TemplateName)/render", Dict{String, Any}("TemplateData"=>TemplateData); aws_config=aws_config)
+test_render_email_template(TemplateData, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/templates/$(TemplateName)/render", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -993,8 +993,8 @@ Remove one or more tags (keys and values) from a specified resource.
 - `TagKeys`: The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateConfigurationSetEventDestination()
@@ -1007,8 +1007,8 @@ Update the configuration of an event destination for a configuration set.  Event
 - `EventDestinationName`: The name of the event destination that you want to modify.
 
 """
-update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}("EventDestination"=>EventDestination); aws_config=aws_config)
-update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), args)); aws_config=aws_config)
+update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}("EventDestination"=>EventDestination); aws_config=aws_config)
+update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), args)); aws_config=aws_config)
 
 """
     UpdateContact()
@@ -1024,8 +1024,8 @@ Updates a contact's preferences for a list. It is not necessary to specify all e
 - `TopicPreferences`: The contact's preference for being opted-in to or opted-out of a topic.
 - `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all contact list topics.
 """
-update_contact(ContactListName, EmailAddress; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
-update_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
+update_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
+update_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
 
 """
     UpdateContactList()
@@ -1039,8 +1039,8 @@ Updates contact list metadata. This operation does a complete replacement.
 - `Description`: A description of what the contact list is about.
 - `Topics`: An interest group, theme, or label within a list. A contact list can have multiple topics.
 """
-update_contact_list(ContactListName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
-update_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
+update_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
+update_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
 
 """
     UpdateCustomVerificationEmailTemplate()
@@ -1056,8 +1056,8 @@ Updates an existing custom verification email template. For more information abo
 - `TemplateSubject`: The subject line of the custom verification email.
 
 """
-update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/custom-verification-email-templates/$(TemplateName)", Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateSubject"=>TemplateSubject); aws_config=aws_config)
-update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/custom-verification-email-templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateSubject"=>TemplateSubject), args)); aws_config=aws_config)
+update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/custom-verification-email-templates/$(TemplateName)", Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateSubject"=>TemplateSubject); aws_config=aws_config)
+update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/custom-verification-email-templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateSubject"=>TemplateSubject), args)); aws_config=aws_config)
 
 """
     UpdateEmailIdentityPolicy()
@@ -1070,8 +1070,8 @@ Updates the specified sending authorization policy for the given identity (an em
 - `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
 
 """
-update_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-update_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+update_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+update_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     UpdateEmailTemplate()
@@ -1083,5 +1083,5 @@ Updates an email template. Email templates enable you to send personalized email
 - `TemplateName`: The name of the template you want to update.
 
 """
-update_email_template(TemplateContent, TemplateName; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/templates/$(TemplateName)", Dict{String, Any}("TemplateContent"=>TemplateContent); aws_config=aws_config)
-update_email_template(TemplateContent, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent), args)); aws_config=aws_config)
+update_email_template(TemplateContent, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/templates/$(TemplateName)", Dict{String, Any}("TemplateContent"=>TemplateContent); aws_config=aws_config)
+update_email_template(TemplateContent, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/templates/$(TemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateContent"=>TemplateContent), args)); aws_config=aws_config)

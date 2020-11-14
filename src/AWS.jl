@@ -353,7 +353,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
-        aws.credentials === nothing || _sign!(aws, request)
+        credentials(aws) === nothing || _sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""

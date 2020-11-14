@@ -14,8 +14,8 @@ Adds tags to on-premises instances.
 - `tags`: The tag key-value pairs to add to the on-premises instances. Keys and values are both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
 
 """
-add_tags_to_on_premises_instances(instanceNames, tags; aws_config::AWSConfig=global_aws_config()) = codedeploy("AddTagsToOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags); aws_config=aws_config)
-add_tags_to_on_premises_instances(instanceNames, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("AddTagsToOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), args)); aws_config=aws_config)
+add_tags_to_on_premises_instances(instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("AddTagsToOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags); aws_config=aws_config)
+add_tags_to_on_premises_instances(instanceNames, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("AddTagsToOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     BatchGetApplicationRevisions()
@@ -27,8 +27,8 @@ Gets information about one or more application revisions. The maximum number of 
 - `revisions`: An array of RevisionLocation objects that specify information to get about the application revisions, including type and location. The maximum number of RevisionLocation objects you can specify is 25.
 
 """
-batch_get_application_revisions(applicationName, revisions; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetApplicationRevisions", Dict{String, Any}("applicationName"=>applicationName, "revisions"=>revisions); aws_config=aws_config)
-batch_get_application_revisions(applicationName, revisions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revisions"=>revisions), args)); aws_config=aws_config)
+batch_get_application_revisions(applicationName, revisions; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetApplicationRevisions", Dict{String, Any}("applicationName"=>applicationName, "revisions"=>revisions); aws_config=aws_config)
+batch_get_application_revisions(applicationName, revisions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revisions"=>revisions), args)); aws_config=aws_config)
 
 """
     BatchGetApplications()
@@ -39,8 +39,8 @@ Gets information about one or more applications. The maximum number of applicati
 - `applicationNames`: A list of application names separated by spaces. The maximum number of application names you can specify is 100.
 
 """
-batch_get_applications(applicationNames; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetApplications", Dict{String, Any}("applicationNames"=>applicationNames); aws_config=aws_config)
-batch_get_applications(applicationNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationNames"=>applicationNames), args)); aws_config=aws_config)
+batch_get_applications(applicationNames; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetApplications", Dict{String, Any}("applicationNames"=>applicationNames); aws_config=aws_config)
+batch_get_applications(applicationNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetApplications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationNames"=>applicationNames), args)); aws_config=aws_config)
 
 """
     BatchGetDeploymentGroups()
@@ -52,8 +52,8 @@ Gets information about one or more deployment groups.
 - `deploymentGroupNames`: The names of the deployment groups.
 
 """
-batch_get_deployment_groups(applicationName, deploymentGroupNames; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentGroups", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupNames"=>deploymentGroupNames); aws_config=aws_config)
-batch_get_deployment_groups(applicationName, deploymentGroupNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupNames"=>deploymentGroupNames), args)); aws_config=aws_config)
+batch_get_deployment_groups(applicationName, deploymentGroupNames; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentGroups", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupNames"=>deploymentGroupNames); aws_config=aws_config)
+batch_get_deployment_groups(applicationName, deploymentGroupNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupNames"=>deploymentGroupNames), args)); aws_config=aws_config)
 
 """
     BatchGetDeploymentInstances()
@@ -65,8 +65,8 @@ batch_get_deployment_groups(applicationName, deploymentGroupNames, args::Abstrac
 - `instanceIds`: The unique IDs of instances used in the deployment. The maximum number of instance IDs you can specify is 25.
 
 """
-batch_get_deployment_instances(deploymentId, instanceIds; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentInstances", Dict{String, Any}("deploymentId"=>deploymentId, "instanceIds"=>instanceIds); aws_config=aws_config)
-batch_get_deployment_instances(deploymentId, instanceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceIds"=>instanceIds), args)); aws_config=aws_config)
+batch_get_deployment_instances(deploymentId, instanceIds; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentInstances", Dict{String, Any}("deploymentId"=>deploymentId, "instanceIds"=>instanceIds); aws_config=aws_config)
+batch_get_deployment_instances(deploymentId, instanceIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceIds"=>instanceIds), args)); aws_config=aws_config)
 
 """
     BatchGetDeploymentTargets()
@@ -77,8 +77,8 @@ batch_get_deployment_instances(deploymentId, instanceIds, args::AbstractDict{Str
 - `deploymentId`:  The unique ID of a deployment. 
 - `targetIds`:  The unique IDs of the deployment targets. The compute platform of the deployment determines the type of the targets and their formats. The maximum number of deployment target IDs you can specify is 25.    For deployments that use the EC2/On-premises compute platform, the target IDs are EC2 or on-premises instances IDs, and their target type is instanceTarget.     For deployments that use the AWS Lambda compute platform, the target IDs are the names of Lambda functions, and their target type is instanceTarget.     For deployments that use the Amazon ECS compute platform, the target IDs are pairs of Amazon ECS clusters and services specified using the format &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.     For deployments that are deployed with AWS CloudFormation, the target IDs are CloudFormation stack IDs. Their target type is cloudFormationTarget.   
 """
-batch_get_deployment_targets(; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentTargets"; aws_config=aws_config)
-batch_get_deployment_targets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentTargets", args; aws_config=aws_config)
+batch_get_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentTargets"; aws_config=aws_config)
+batch_get_deployment_targets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeploymentTargets", args; aws_config=aws_config)
 
 """
     BatchGetDeployments()
@@ -89,8 +89,8 @@ Gets information about one or more deployments. The maximum number of deployment
 - `deploymentIds`:  A list of deployment IDs, separated by spaces. The maximum number of deployment IDs you can specify is 25.
 
 """
-batch_get_deployments(deploymentIds; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeployments", Dict{String, Any}("deploymentIds"=>deploymentIds); aws_config=aws_config)
-batch_get_deployments(deploymentIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentIds"=>deploymentIds), args)); aws_config=aws_config)
+batch_get_deployments(deploymentIds; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeployments", Dict{String, Any}("deploymentIds"=>deploymentIds); aws_config=aws_config)
+batch_get_deployments(deploymentIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetDeployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentIds"=>deploymentIds), args)); aws_config=aws_config)
 
 """
     BatchGetOnPremisesInstances()
@@ -101,8 +101,8 @@ Gets information about one or more on-premises instances. The maximum number of 
 - `instanceNames`: The names of the on-premises instances about which to get information. The maximum number of instance names you can specify is 25.
 
 """
-batch_get_on_premises_instances(instanceNames; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames); aws_config=aws_config)
-batch_get_on_premises_instances(instanceNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("BatchGetOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames), args)); aws_config=aws_config)
+batch_get_on_premises_instances(instanceNames; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames); aws_config=aws_config)
+batch_get_on_premises_instances(instanceNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("BatchGetOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames), args)); aws_config=aws_config)
 
 """
     ContinueDeployment()
@@ -113,8 +113,8 @@ For a blue/green deployment, starts the process of rerouting traffic from instan
 - `deploymentId`:  The unique ID of a blue/green deployment for which you want to start rerouting traffic to the replacement environment. 
 - `deploymentWaitType`:  The status of the deployment's waiting period. READY_WAIT indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT indicates that the traffic is shifted, but the original target is not terminated. 
 """
-continue_deployment(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ContinueDeployment"; aws_config=aws_config)
-continue_deployment(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ContinueDeployment", args; aws_config=aws_config)
+continue_deployment(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ContinueDeployment"; aws_config=aws_config)
+continue_deployment(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ContinueDeployment", args; aws_config=aws_config)
 
 """
     CreateApplication()
@@ -128,8 +128,8 @@ Creates an application.
 - `computePlatform`:  The destination platform type for the deployment (Lambda, Server, or ECS).
 - `tags`:  The metadata that you apply to CodeDeploy applications to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define. 
 """
-create_application(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-create_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+create_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+create_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -150,8 +150,8 @@ Deploys an application revision through the specified deployment group.
 - `targetInstances`:  Information about the instances that belong to the replacement environment in a blue/green deployment. 
 - `updateOutdatedInstancesOnly`:  Indicates whether to deploy to all instances or only to instances that are not running the latest application revision. 
 """
-create_deployment(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeployment", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-create_deployment(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+create_deployment(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeployment", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+create_deployment(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     CreateDeploymentConfig()
@@ -166,8 +166,8 @@ create_deployment(applicationName, args::AbstractDict{String, <:Any}; aws_config
 - `minimumHealthyHosts`: The minimum number of healthy instances that should be available at any time during the deployment. There are two parameters expected in the input: type and value. The type parameter takes either of the following values:   HOST_COUNT: The value parameter represents the minimum number of healthy instances as an absolute value.   FLEET_PERCENT: The value parameter represents the minimum number of healthy instances as a percentage of the total number of instances in the deployment. If you specify FLEET_PERCENT, at the start of the deployment, AWS CodeDeploy converts the percentage to the equivalent number of instances and rounds up fractional instances.   The value parameter takes an integer. For example, to set a minimum of 95% healthy instance, specify a type of FLEET_PERCENT and a value of 95.
 - `trafficRoutingConfig`: The configuration that specifies how the deployment traffic is routed.
 """
-create_deployment_config(deploymentConfigName; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
-create_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
+create_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
+create_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
 
 """
     CreateDeploymentGroup()
@@ -195,8 +195,8 @@ Creates a deployment group to which application revisions are deployed.
 - `tags`:  The metadata that you apply to CodeDeploy deployment groups to help you organize and categorize them. Each tag consists of a key and an optional value, both of which you define. 
 - `triggerConfigurations`: Information about triggers to create when the deployment group is created. For examples, see Create a Trigger for an AWS CodeDeploy Event in the AWS CodeDeploy User Guide.
 """
-create_deployment_group(applicationName, deploymentGroupName, serviceRoleArn; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName, "serviceRoleArn"=>serviceRoleArn); aws_config=aws_config)
-create_deployment_group(applicationName, deploymentGroupName, serviceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("CreateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName, "serviceRoleArn"=>serviceRoleArn), args)); aws_config=aws_config)
+create_deployment_group(applicationName, deploymentGroupName, serviceRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName, "serviceRoleArn"=>serviceRoleArn); aws_config=aws_config)
+create_deployment_group(applicationName, deploymentGroupName, serviceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("CreateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName, "serviceRoleArn"=>serviceRoleArn), args)); aws_config=aws_config)
 
 """
     DeleteApplication()
@@ -207,8 +207,8 @@ Deletes an application.
 - `applicationName`: The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
 
 """
-delete_application(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-delete_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+delete_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+delete_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     DeleteDeploymentConfig()
@@ -219,8 +219,8 @@ Deletes a deployment configuration.  A deployment configuration cannot be delete
 - `deploymentConfigName`: The name of a deployment configuration associated with the IAM user or AWS account.
 
 """
-delete_deployment_config(deploymentConfigName; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
-delete_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
+delete_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
+delete_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
 
 """
     DeleteDeploymentGroup()
@@ -232,8 +232,8 @@ Deletes a deployment group.
 - `deploymentGroupName`: The name of a deployment group for the specified application.
 
 """
-delete_deployment_group(applicationName, deploymentGroupName; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName); aws_config=aws_config)
-delete_deployment_group(applicationName, deploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), args)); aws_config=aws_config)
+delete_deployment_group(applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName); aws_config=aws_config)
+delete_deployment_group(applicationName, deploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), args)); aws_config=aws_config)
 
 """
     DeleteGitHubAccountToken()
@@ -243,8 +243,8 @@ Deletes a GitHub account connection.
 # Optional Parameters
 - `tokenName`: The name of the GitHub account connection to delete.
 """
-delete_git_hub_account_token(; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteGitHubAccountToken"; aws_config=aws_config)
-delete_git_hub_account_token(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteGitHubAccountToken", args; aws_config=aws_config)
+delete_git_hub_account_token(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteGitHubAccountToken"; aws_config=aws_config)
+delete_git_hub_account_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteGitHubAccountToken", args; aws_config=aws_config)
 
 """
     DeleteResourcesByExternalId()
@@ -254,8 +254,8 @@ Deletes resources linked to an external ID.
 # Optional Parameters
 - `externalId`: The unique ID of an external resource (for example, a CloudFormation stack ID) that is linked to one or more CodeDeploy resources.
 """
-delete_resources_by_external_id(; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteResourcesByExternalId"; aws_config=aws_config)
-delete_resources_by_external_id(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeleteResourcesByExternalId", args; aws_config=aws_config)
+delete_resources_by_external_id(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteResourcesByExternalId"; aws_config=aws_config)
+delete_resources_by_external_id(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeleteResourcesByExternalId", args; aws_config=aws_config)
 
 """
     DeregisterOnPremisesInstance()
@@ -266,8 +266,8 @@ Deregisters an on-premises instance.
 - `instanceName`: The name of the on-premises instance to deregister.
 
 """
-deregister_on_premises_instance(instanceName; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeregisterOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-deregister_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("DeregisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
+deregister_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeregisterOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
+deregister_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("DeregisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
 
 """
     GetApplication()
@@ -278,8 +278,8 @@ Gets information about an application.
 - `applicationName`: The name of an AWS CodeDeploy application associated with the IAM user or AWS account.
 
 """
-get_application(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-get_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+get_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetApplication", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+get_application(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     GetApplicationRevision()
@@ -291,8 +291,8 @@ Gets information about an application revision.
 - `revision`: Information about the application revision to get, including type and location.
 
 """
-get_application_revision(applicationName, revision; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetApplicationRevision", Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision); aws_config=aws_config)
-get_application_revision(applicationName, revision, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), args)); aws_config=aws_config)
+get_application_revision(applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetApplicationRevision", Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision); aws_config=aws_config)
+get_application_revision(applicationName, revision, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), args)); aws_config=aws_config)
 
 """
     GetDeployment()
@@ -303,8 +303,8 @@ Gets information about a deployment.   The content property of the appSpecConten
 - `deploymentId`:  The unique ID of a deployment associated with the IAM user or AWS account. 
 
 """
-get_deployment(deploymentId; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
-get_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
+get_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
 
 """
     GetDeploymentConfig()
@@ -315,8 +315,8 @@ Gets information about a deployment configuration.
 - `deploymentConfigName`: The name of a deployment configuration associated with the IAM user or AWS account.
 
 """
-get_deployment_config(deploymentConfigName; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
-get_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
+get_deployment_config(deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentConfig", Dict{String, Any}("deploymentConfigName"=>deploymentConfigName); aws_config=aws_config)
+get_deployment_config(deploymentConfigName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentConfigName"=>deploymentConfigName), args)); aws_config=aws_config)
 
 """
     GetDeploymentGroup()
@@ -328,8 +328,8 @@ Gets information about a deployment group.
 - `deploymentGroupName`: The name of a deployment group for the specified application.
 
 """
-get_deployment_group(applicationName, deploymentGroupName; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName); aws_config=aws_config)
-get_deployment_group(applicationName, deploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), args)); aws_config=aws_config)
+get_deployment_group(applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName); aws_config=aws_config)
+get_deployment_group(applicationName, deploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "deploymentGroupName"=>deploymentGroupName), args)); aws_config=aws_config)
 
 """
     GetDeploymentInstance()
@@ -341,8 +341,8 @@ Gets information about an instance as part of a deployment.
 - `instanceId`:  The unique ID of an instance in the deployment group. 
 
 """
-get_deployment_instance(deploymentId, instanceId; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentInstance", Dict{String, Any}("deploymentId"=>deploymentId, "instanceId"=>instanceId); aws_config=aws_config)
-get_deployment_instance(deploymentId, instanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceId"=>instanceId), args)); aws_config=aws_config)
+get_deployment_instance(deploymentId, instanceId; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentInstance", Dict{String, Any}("deploymentId"=>deploymentId, "instanceId"=>instanceId); aws_config=aws_config)
+get_deployment_instance(deploymentId, instanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "instanceId"=>instanceId), args)); aws_config=aws_config)
 
 """
     GetDeploymentTarget()
@@ -353,8 +353,8 @@ get_deployment_instance(deploymentId, instanceId, args::AbstractDict{String, <:A
 - `deploymentId`:  The unique ID of a deployment. 
 - `targetId`:  The unique ID of a deployment target. 
 """
-get_deployment_target(; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentTarget"; aws_config=aws_config)
-get_deployment_target(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetDeploymentTarget", args; aws_config=aws_config)
+get_deployment_target(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentTarget"; aws_config=aws_config)
+get_deployment_target(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetDeploymentTarget", args; aws_config=aws_config)
 
 """
     GetOnPremisesInstance()
@@ -365,8 +365,8 @@ get_deployment_target(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 - `instanceName`:  The name of the on-premises instance about which to get information. 
 
 """
-get_on_premises_instance(instanceName; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-get_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("GetOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
+get_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
+get_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("GetOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
 
 """
     ListApplicationRevisions()
@@ -384,8 +384,8 @@ Lists information about revisions for an application.
 - `sortBy`: The column name to use to sort the list results:    registerTime: Sort by the time the revisions were registered with AWS CodeDeploy.    firstUsedTime: Sort by the time the revisions were first used in a deployment.    lastUsedTime: Sort by the time the revisions were last used in a deployment.    If not specified or set to null, the results are returned in an arbitrary order. 
 - `sortOrder`:  The order in which to sort the list results:     ascending: ascending order.    descending: descending order.   If not specified, the results are sorted in ascending order. If set to null, the results are sorted in an arbitrary order.
 """
-list_application_revisions(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListApplicationRevisions", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-list_application_revisions(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+list_application_revisions(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListApplicationRevisions", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+list_application_revisions(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListApplicationRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     ListApplications()
@@ -395,8 +395,8 @@ Lists the applications registered with the IAM user or AWS account.
 # Optional Parameters
 - `nextToken`: An identifier returned from the previous list applications call. It can be used to return the next set of applications in the list.
 """
-list_applications(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListApplications"; aws_config=aws_config)
-list_applications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListApplications", args; aws_config=aws_config)
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListApplications"; aws_config=aws_config)
+list_applications(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListApplications", args; aws_config=aws_config)
 
 """
     ListDeploymentConfigs()
@@ -406,8 +406,8 @@ Lists the deployment configurations with the IAM user or AWS account.
 # Optional Parameters
 - `nextToken`: An identifier returned from the previous ListDeploymentConfigs call. It can be used to return the next set of deployment configurations in the list. 
 """
-list_deployment_configs(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentConfigs"; aws_config=aws_config)
-list_deployment_configs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentConfigs", args; aws_config=aws_config)
+list_deployment_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentConfigs"; aws_config=aws_config)
+list_deployment_configs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentConfigs", args; aws_config=aws_config)
 
 """
     ListDeploymentGroups()
@@ -420,8 +420,8 @@ Lists the deployment groups for an application registered with the IAM user or A
 # Optional Parameters
 - `nextToken`: An identifier returned from the previous list deployment groups call. It can be used to return the next set of deployment groups in the list.
 """
-list_deployment_groups(applicationName; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentGroups", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
-list_deployment_groups(applicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
+list_deployment_groups(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentGroups", Dict{String, Any}("applicationName"=>applicationName); aws_config=aws_config)
+list_deployment_groups(applicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName), args)); aws_config=aws_config)
 
 """
     ListDeploymentInstances()
@@ -436,8 +436,8 @@ list_deployment_groups(applicationName, args::AbstractDict{String, <:Any}; aws_c
 - `instanceTypeFilter`: The set of instances in a blue/green deployment, either those in the original environment (\"BLUE\") or those in the replacement environment (\"GREEN\"), for which you want to view instance information.
 - `nextToken`: An identifier returned from the previous list deployment instances call. It can be used to return the next set of deployment instances in the list.
 """
-list_deployment_instances(deploymentId; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentInstances", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
-list_deployment_instances(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
+list_deployment_instances(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentInstances", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
+list_deployment_instances(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
 
 """
     ListDeploymentTargets()
@@ -449,8 +449,8 @@ list_deployment_instances(deploymentId, args::AbstractDict{String, <:Any}; aws_c
 - `nextToken`:  A token identifier returned from the previous ListDeploymentTargets call. It can be used to return the next set of deployment targets in the list. 
 - `targetFilters`:  A key used to filter the returned targets. The two valid values are:    TargetStatus - A TargetStatus filter string can be Failed, InProgress, Pending, Ready, Skipped, Succeeded, or Unknown.     ServerInstanceLabel - A ServerInstanceLabel filter string can be Blue or Green.   
 """
-list_deployment_targets(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentTargets"; aws_config=aws_config)
-list_deployment_targets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeploymentTargets", args; aws_config=aws_config)
+list_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentTargets"; aws_config=aws_config)
+list_deployment_targets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeploymentTargets", args; aws_config=aws_config)
 
 """
     ListDeployments()
@@ -465,8 +465,8 @@ Lists the deployments in a deployment group for an application registered with t
 - `includeOnlyStatuses`: A subset of deployments to list by status:    Created: Include created deployments in the resulting list.    Queued: Include queued deployments in the resulting list.    In Progress: Include in-progress deployments in the resulting list.    Succeeded: Include successful deployments in the resulting list.    Failed: Include failed deployments in the resulting list.    Stopped: Include stopped deployments in the resulting list.  
 - `nextToken`: An identifier returned from the previous list deployments call. It can be used to return the next set of deployments in the list.
 """
-list_deployments(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeployments"; aws_config=aws_config)
-list_deployments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListDeployments", args; aws_config=aws_config)
+list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeployments"; aws_config=aws_config)
+list_deployments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListDeployments", args; aws_config=aws_config)
 
 """
     ListGitHubAccountTokenNames()
@@ -476,8 +476,8 @@ Lists the names of stored connections to GitHub accounts.
 # Optional Parameters
 - `nextToken`: An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list. 
 """
-list_git_hub_account_token_names(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListGitHubAccountTokenNames"; aws_config=aws_config)
-list_git_hub_account_token_names(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListGitHubAccountTokenNames", args; aws_config=aws_config)
+list_git_hub_account_token_names(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListGitHubAccountTokenNames"; aws_config=aws_config)
+list_git_hub_account_token_names(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListGitHubAccountTokenNames", args; aws_config=aws_config)
 
 """
     ListOnPremisesInstances()
@@ -489,8 +489,8 @@ Gets a list of names for one or more on-premises instances. Unless otherwise spe
 - `registrationStatus`: The registration status of the on-premises instances:    Deregistered: Include deregistered on-premises instances in the resulting list.    Registered: Include registered on-premises instances in the resulting list.  
 - `tagFilters`: The on-premises instance tags that are used to restrict the on-premises instance names returned.
 """
-list_on_premises_instances(; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListOnPremisesInstances"; aws_config=aws_config)
-list_on_premises_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListOnPremisesInstances", args; aws_config=aws_config)
+list_on_premises_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListOnPremisesInstances"; aws_config=aws_config)
+list_on_premises_instances(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListOnPremisesInstances", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -503,8 +503,8 @@ list_on_premises_instances(args::AbstractDict{String, <:Any}; aws_config::AWSCon
 # Optional Parameters
 - `NextToken`: An identifier returned from the previous ListTagsForResource call. It can be used to return the next set of applications in the list.
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     PutLifecycleEventHookExecutionStatus()
@@ -516,8 +516,8 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 - `lifecycleEventHookExecutionId`:  The execution ID of a deployment's lifecycle hook. A deployment lifecycle hook is specified in the hooks section of the AppSpec file. 
 - `status`: The result of a Lambda function that validates a deployment lifecycle event (Succeeded or Failed).
 """
-put_lifecycle_event_hook_execution_status(; aws_config::AWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus"; aws_config=aws_config)
-put_lifecycle_event_hook_execution_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus", args; aws_config=aws_config)
+put_lifecycle_event_hook_execution_status(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus"; aws_config=aws_config)
+put_lifecycle_event_hook_execution_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus", args; aws_config=aws_config)
 
 """
     RegisterApplicationRevision()
@@ -531,8 +531,8 @@ Registers with AWS CodeDeploy a revision for the specified application.
 # Optional Parameters
 - `description`: A comment about the revision.
 """
-register_application_revision(applicationName, revision; aws_config::AWSConfig=global_aws_config()) = codedeploy("RegisterApplicationRevision", Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision); aws_config=aws_config)
-register_application_revision(applicationName, revision, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("RegisterApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), args)); aws_config=aws_config)
+register_application_revision(applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RegisterApplicationRevision", Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision); aws_config=aws_config)
+register_application_revision(applicationName, revision, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RegisterApplicationRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "revision"=>revision), args)); aws_config=aws_config)
 
 """
     RegisterOnPremisesInstance()
@@ -546,8 +546,8 @@ Registers an on-premises instance.  Only one IAM ARN (an IAM session ARN or IAM 
 - `iamSessionArn`: The ARN of the IAM session to associate with the on-premises instance.
 - `iamUserArn`: The ARN of the IAM user to associate with the on-premises instance.
 """
-register_on_premises_instance(instanceName; aws_config::AWSConfig=global_aws_config()) = codedeploy("RegisterOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
-register_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("RegisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
+register_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RegisterOnPremisesInstance", Dict{String, Any}("instanceName"=>instanceName); aws_config=aws_config)
+register_on_premises_instance(instanceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RegisterOnPremisesInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceName"=>instanceName), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromOnPremisesInstances()
@@ -559,8 +559,8 @@ Removes one or more tags from one or more on-premises instances.
 - `tags`: The tag key-value pairs to remove from the on-premises instances.
 
 """
-remove_tags_from_on_premises_instances(instanceNames, tags; aws_config::AWSConfig=global_aws_config()) = codedeploy("RemoveTagsFromOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags); aws_config=aws_config)
-remove_tags_from_on_premises_instances(instanceNames, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("RemoveTagsFromOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), args)); aws_config=aws_config)
+remove_tags_from_on_premises_instances(instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RemoveTagsFromOnPremisesInstances", Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags); aws_config=aws_config)
+remove_tags_from_on_premises_instances(instanceNames, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("RemoveTagsFromOnPremisesInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceNames"=>instanceNames, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     SkipWaitTimeForInstanceTermination()
@@ -570,8 +570,8 @@ In a blue/green deployment, overrides any specified wait time and starts termina
 # Optional Parameters
 - `deploymentId`:  The unique ID of a blue/green deployment for which you want to skip the instance termination wait time. 
 """
-skip_wait_time_for_instance_termination(; aws_config::AWSConfig=global_aws_config()) = codedeploy("SkipWaitTimeForInstanceTermination"; aws_config=aws_config)
-skip_wait_time_for_instance_termination(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("SkipWaitTimeForInstanceTermination", args; aws_config=aws_config)
+skip_wait_time_for_instance_termination(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("SkipWaitTimeForInstanceTermination"; aws_config=aws_config)
+skip_wait_time_for_instance_termination(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("SkipWaitTimeForInstanceTermination", args; aws_config=aws_config)
 
 """
     StopDeployment()
@@ -584,8 +584,8 @@ Attempts to stop an ongoing deployment.
 # Optional Parameters
 - `autoRollbackEnabled`:  Indicates, when a deployment is stopped, whether instances that have been updated should be rolled back to the previous version of the application revision. 
 """
-stop_deployment(deploymentId; aws_config::AWSConfig=global_aws_config()) = codedeploy("StopDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
-stop_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("StopDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
+stop_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("StopDeployment", Dict{String, Any}("deploymentId"=>deploymentId); aws_config=aws_config)
+stop_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("StopDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -597,8 +597,8 @@ stop_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWS
 - `Tags`:  A list of tags that TagResource associates with a resource. The resource is identified by the ResourceArn input parameter. 
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = codedeploy("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -610,8 +610,8 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 - `TagKeys`:  A list of keys of Tag objects. The Tag objects identified by the keys are disassociated from the resource specified by the ResourceArn input parameter. 
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = codedeploy("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateApplication()
@@ -622,8 +622,8 @@ Changes the name of an application.
 - `applicationName`: The current name of the application you want to change.
 - `newApplicationName`: The new name to give the application.
 """
-update_application(; aws_config::AWSConfig=global_aws_config()) = codedeploy("UpdateApplication"; aws_config=aws_config)
-update_application(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("UpdateApplication", args; aws_config=aws_config)
+update_application(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UpdateApplication"; aws_config=aws_config)
+update_application(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UpdateApplication", args; aws_config=aws_config)
 
 """
     UpdateDeploymentGroup()
@@ -651,5 +651,5 @@ Changes information about a deployment group.
 - `serviceRoleArn`: A replacement ARN for the service role, if you want to change it.
 - `triggerConfigurations`: Information about triggers to change when the deployment group is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS CodeDeploy User Guide.
 """
-update_deployment_group(applicationName, currentDeploymentGroupName; aws_config::AWSConfig=global_aws_config()) = codedeploy("UpdateDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "currentDeploymentGroupName"=>currentDeploymentGroupName); aws_config=aws_config)
-update_deployment_group(applicationName, currentDeploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codedeploy("UpdateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "currentDeploymentGroupName"=>currentDeploymentGroupName), args)); aws_config=aws_config)
+update_deployment_group(applicationName, currentDeploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UpdateDeploymentGroup", Dict{String, Any}("applicationName"=>applicationName, "currentDeploymentGroupName"=>currentDeploymentGroupName); aws_config=aws_config)
+update_deployment_group(applicationName, currentDeploymentGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("UpdateDeploymentGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("applicationName"=>applicationName, "currentDeploymentGroupName"=>currentDeploymentGroupName), args)); aws_config=aws_config)

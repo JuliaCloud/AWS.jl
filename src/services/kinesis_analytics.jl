@@ -15,8 +15,8 @@ using AWS.UUIDs
 - `CurrentApplicationVersionId`: The version ID of the Kinesis Analytics application.
 
 """
-add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
+add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
 
 """
     AddApplicationInput()
@@ -29,8 +29,8 @@ add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOpt
 - `Input`: The Input to add.
 
 """
-add_application_input(ApplicationName, CurrentApplicationVersionId, Input; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input); aws_config=aws_config)
-add_application_input(ApplicationName, CurrentApplicationVersionId, Input, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input), args)); aws_config=aws_config)
+add_application_input(ApplicationName, CurrentApplicationVersionId, Input; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input); aws_config=aws_config)
+add_application_input(ApplicationName, CurrentApplicationVersionId, Input, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input), args)); aws_config=aws_config)
 
 """
     AddApplicationInputProcessingConfiguration()
@@ -44,8 +44,8 @@ add_application_input(ApplicationName, CurrentApplicationVersionId, Input, args:
 - `InputProcessingConfiguration`: The InputProcessingConfiguration to add to the application.
 
 """
-add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration); aws_config=aws_config)
-add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration), args)); aws_config=aws_config)
+add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration); aws_config=aws_config)
+add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration), args)); aws_config=aws_config)
 
 """
     AddApplicationOutput()
@@ -58,8 +58,8 @@ add_application_input_processing_configuration(ApplicationName, CurrentApplicati
 - `Output`: An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda function), and record the formation to use when writing to the destination.
 
 """
-add_application_output(ApplicationName, CurrentApplicationVersionId, Output; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output); aws_config=aws_config)
-add_application_output(ApplicationName, CurrentApplicationVersionId, Output, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output), args)); aws_config=aws_config)
+add_application_output(ApplicationName, CurrentApplicationVersionId, Output; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output); aws_config=aws_config)
+add_application_output(ApplicationName, CurrentApplicationVersionId, Output, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output), args)); aws_config=aws_config)
 
 """
     AddApplicationReferenceDataSource()
@@ -72,8 +72,8 @@ add_application_output(ApplicationName, CurrentApplicationVersionId, Output, arg
 - `ReferenceDataSource`: The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
 
 """
-add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource); aws_config=aws_config)
-add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), args)); aws_config=aws_config)
+add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource); aws_config=aws_config)
+add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), args)); aws_config=aws_config)
 
 """
     CreateApplication()
@@ -91,8 +91,8 @@ add_application_reference_data_source(ApplicationName, CurrentApplicationVersion
 - `Outputs`: You can configure application output to write data from any of the in-application streams to up to three destinations. These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any combination of the three. In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf. In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
 - `Tags`: A list of one or more tags to assign to the application. A tag is a key-value pair that identifies an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see Using Tagging.
 """
-create_application(ApplicationName; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-create_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+create_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+create_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
 
 """
     DeleteApplication()
@@ -104,8 +104,8 @@ create_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_confi
 - `CreateTimestamp`:  You can use the DescribeApplication operation to get this value. 
 
 """
-delete_application(ApplicationName, CreateTimestamp; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp); aws_config=aws_config)
-delete_application(ApplicationName, CreateTimestamp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), args)); aws_config=aws_config)
+delete_application(ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp); aws_config=aws_config)
+delete_application(ApplicationName, CreateTimestamp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), args)); aws_config=aws_config)
 
 """
     DeleteApplicationCloudWatchLoggingOption()
@@ -118,8 +118,8 @@ delete_application(ApplicationName, CreateTimestamp, args::AbstractDict{String, 
 - `CurrentApplicationVersionId`: The version ID of the Kinesis Analytics application.
 
 """
-delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
+delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
 
 """
     DeleteApplicationInputProcessingConfiguration()
@@ -132,8 +132,8 @@ delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLogging
 - `InputId`: The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
 
 """
-delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId); aws_config=aws_config)
-delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId), args)); aws_config=aws_config)
+delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId); aws_config=aws_config)
+delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId), args)); aws_config=aws_config)
 
 """
     DeleteApplicationOutput()
@@ -146,8 +146,8 @@ delete_application_input_processing_configuration(ApplicationName, CurrentApplic
 - `OutputId`: The ID of the configuration to delete. Each output configuration that is added to the application, either when the application is created or later using the AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely identify the output configuration that you want to delete from the application configuration. You can use the DescribeApplication operation to get the specific OutputId. 
 
 """
-delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId); aws_config=aws_config)
-delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId), args)); aws_config=aws_config)
+delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId); aws_config=aws_config)
+delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId), args)); aws_config=aws_config)
 
 """
     DeleteApplicationReferenceDataSource()
@@ -160,8 +160,8 @@ delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId
 - `ReferenceId`: ID of the reference data source. When you add a reference data source to your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics assigns an ID. You can use the DescribeApplication operation to get the reference ID. 
 
 """
-delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId); aws_config=aws_config)
-delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId), args)); aws_config=aws_config)
+delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId); aws_config=aws_config)
+delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId), args)); aws_config=aws_config)
 
 """
     DescribeApplication()
@@ -172,8 +172,8 @@ delete_application_reference_data_source(ApplicationName, CurrentApplicationVers
 - `ApplicationName`: Name of the application.
 
 """
-describe_application(ApplicationName; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-describe_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+describe_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+describe_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
 
 """
     DiscoverInputSchema()
@@ -187,8 +187,8 @@ describe_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_con
 - `RoleARN`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
 - `S3Configuration`: Specify this parameter to discover a schema from data in an Amazon S3 object.
 """
-discover_input_schema(; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema"; aws_config=aws_config)
-discover_input_schema(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema", args; aws_config=aws_config)
+discover_input_schema(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema"; aws_config=aws_config)
+discover_input_schema(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema", args; aws_config=aws_config)
 
 """
     ListApplications()
@@ -199,8 +199,8 @@ discover_input_schema(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 - `ExclusiveStartApplicationName`: Name of the application to start the list with. When using pagination to retrieve the list, you don't need to specify this parameter in the first request. However, in subsequent requests, you add the last application name from the previous response to get the next page of applications.
 - `Limit`: Maximum number of applications to list.
 """
-list_applications(; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("ListApplications"; aws_config=aws_config)
-list_applications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("ListApplications", args; aws_config=aws_config)
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListApplications"; aws_config=aws_config)
+list_applications(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListApplications", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -211,8 +211,8 @@ Retrieves the list of key-value tags assigned to the application. For more infor
 - `ResourceARN`: The ARN of the application for which to retrieve tags.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     StartApplication()
@@ -224,8 +224,8 @@ list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_confi
 - `InputConfigurations`: Identifies the specific input, by ID, that the application starts consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the input. You can also specify where in the streaming source you want Amazon Kinesis Analytics to start reading.
 
 """
-start_application(ApplicationName, InputConfigurations; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations); aws_config=aws_config)
-start_application(ApplicationName, InputConfigurations, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations), args)); aws_config=aws_config)
+start_application(ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations); aws_config=aws_config)
+start_application(ApplicationName, InputConfigurations, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations), args)); aws_config=aws_config)
 
 """
     StopApplication()
@@ -236,8 +236,8 @@ start_application(ApplicationName, InputConfigurations, args::AbstractDict{Strin
 - `ApplicationName`: Name of the running application to stop.
 
 """
-stop_application(ApplicationName; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-stop_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+stop_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+stop_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -249,8 +249,8 @@ Adds one or more key-value tags to a Kinesis Analytics application. Note that th
 - `Tags`: The key-value tags to assign to the application.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -262,8 +262,8 @@ Removes one or more tags from a Kinesis Analytics application. For more informat
 - `TagKeys`: A list of keys of tags to remove from the specified application.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateApplication()
@@ -276,5 +276,5 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 - `CurrentApplicationVersionId`: The current application version ID. You can use the DescribeApplication operation to get this value.
 
 """
-update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
+update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)

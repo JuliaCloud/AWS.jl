@@ -15,8 +15,8 @@ This operation cancels a specified job. Only the job owner can cancel it. The op
 # Optional Parameters
 - `APIVersion`: 
 """
-cancel_job(JobId; aws_config::AWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     CreateJob()
@@ -32,8 +32,8 @@ This operation initiates the process of scheduling an upload or download of your
 - `APIVersion`: 
 - `ManifestAddendum`: 
 """
-create_job(JobType, Manifest, ValidateOnly; aws_config::AWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
-create_job(JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)
+create_job(JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
+create_job(JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)
 
 """
     GetShippingLabel()
@@ -56,8 +56,8 @@ This operation generates a pre-paid UPS shipping label that you will use to ship
 - `street2`: 
 - `street3`: 
 """
-get_shipping_label(jobIds; aws_config::AWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}("jobIds"=>jobIds); aws_config=aws_config)
-get_shipping_label(jobIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobIds"=>jobIds), args)); aws_config=aws_config)
+get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}("jobIds"=>jobIds); aws_config=aws_config)
+get_shipping_label(jobIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobIds"=>jobIds), args)); aws_config=aws_config)
 
 """
     GetStatus()
@@ -70,8 +70,8 @@ This operation returns information about a job, including where the job is in th
 # Optional Parameters
 - `APIVersion`: 
 """
-get_status(JobId; aws_config::AWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_status(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_status(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     ListJobs()
@@ -83,8 +83,8 @@ This operation returns the jobs associated with the requester. AWS Import/Export
 - `Marker`: 
 - `MaxJobs`: 
 """
-list_jobs(; aws_config::AWSConfig=global_aws_config()) = importexport("ListJobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("ListJobs", args; aws_config=aws_config)
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("ListJobs"; aws_config=aws_config)
+list_jobs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("ListJobs", args; aws_config=aws_config)
 
 """
     UpdateJob()
@@ -100,5 +100,5 @@ You use this operation to change the parameters specified in the original manife
 # Optional Parameters
 - `APIVersion`: 
 """
-update_job(JobId, JobType, Manifest, ValidateOnly; aws_config::AWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
-update_job(JobId, JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)
+update_job(JobId, JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
+update_job(JobId, JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)

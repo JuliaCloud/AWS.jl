@@ -13,8 +13,8 @@ Performs GetChannel on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per channel.
 
 """
-batch_get_channel(arns; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}("arns"=>arns); aws_config=aws_config)
-batch_get_channel(arns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), args)); aws_config=aws_config)
+batch_get_channel(arns; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}("arns"=>arns); aws_config=aws_config)
+batch_get_channel(arns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/BatchGetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), args)); aws_config=aws_config)
 
 """
     BatchGetStreamKey()
@@ -25,8 +25,8 @@ Performs GetStreamKey on multiple ARNs simultaneously.
 - `arns`: Array of ARNs, one per channel.
 
 """
-batch_get_stream_key(arns; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}("arns"=>arns); aws_config=aws_config)
-batch_get_stream_key(arns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), args)); aws_config=aws_config)
+batch_get_stream_key(arns; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}("arns"=>arns); aws_config=aws_config)
+batch_get_stream_key(arns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/BatchGetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arns"=>arns), args)); aws_config=aws_config)
 
 """
     CreateChannel()
@@ -40,8 +40,8 @@ Creates a new channel and an associated stream key to start streaming.
 - `tags`: See Channeltags.
 - `type`: Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
 """
-create_channel(; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel"; aws_config=aws_config)
-create_channel(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel", args; aws_config=aws_config)
+create_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel"; aws_config=aws_config)
+create_channel(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel", args; aws_config=aws_config)
 
 """
     CreateStreamKey()
@@ -54,8 +54,8 @@ Creates a stream key, used to initiate a stream, for the specified channel ARN. 
 # Optional Parameters
 - `tags`: See Channeltags.
 """
-create_stream_key(channelArn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
-create_stream_key(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
+create_stream_key(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
+create_stream_key(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
 
 """
     DeleteChannel()
@@ -66,8 +66,8 @@ Deletes the specified channel and its associated stream keys.
 - `arn`: ARN of the channel to be deleted.
 
 """
-delete_channel(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_channel(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeleteChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeletePlaybackKeyPair()
@@ -78,8 +78,8 @@ Deletes a specified authorization key pair. This invalidates future viewer token
 - `arn`: ARN of the key pair to be deleted.
 
 """
-delete_playback_key_pair(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_playback_key_pair(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_playback_key_pair(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_playback_key_pair(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeletePlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteStreamKey()
@@ -90,8 +90,8 @@ Deletes the stream key for the specified ARN, so it can no longer be used to str
 - `arn`: ARN of the stream key to be deleted.
 
 """
-delete_stream_key(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_stream_key(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_stream_key(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_stream_key(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/DeleteStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetChannel()
@@ -102,8 +102,8 @@ Gets the channel configuration for the specified channel ARN. See also BatchGetC
 - `arn`: ARN of the channel for which the configuration is to be retrieved.
 
 """
-get_channel(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_channel(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetPlaybackKeyPair()
@@ -114,8 +114,8 @@ Gets a specified playback authorization key pair and returns the arn and fingerp
 - `arn`: ARN of the key pair to be returned.
 
 """
-get_playback_key_pair(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_playback_key_pair(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_playback_key_pair(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_playback_key_pair(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetStream()
@@ -126,8 +126,8 @@ Gets information about the active (live) stream on a specified channel.
 - `channelArn`: Channel ARN for stream to be accessed.
 
 """
-get_stream(channelArn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
-get_stream(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
+get_stream(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
+get_stream(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
 
 """
     GetStreamKey()
@@ -138,8 +138,8 @@ Gets stream-key information for a specified ARN.
 - `arn`: ARN for the stream key to be retrieved.
 
 """
-get_stream_key(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_stream_key(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_stream_key(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_stream_key(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/GetStreamKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ImportPlaybackKeyPair()
@@ -153,8 +153,8 @@ Imports the public portion of a new key pair and returns its arn and fingerprint
 - `name`: An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
 - `tags`: Any tags provided with the request are added to the playback key pair tags.
 """
-import_playback_key_pair(publicKeyMaterial; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config)
-import_playback_key_pair(publicKeyMaterial, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial), args)); aws_config=aws_config)
+import_playback_key_pair(publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config)
+import_playback_key_pair(publicKeyMaterial, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial), args)); aws_config=aws_config)
 
 """
     ListChannels()
@@ -166,8 +166,8 @@ Gets summary information about all channels in your account, in the AWS region w
 - `maxResults`: Maximum number of channels to return.
 - `nextToken`: The first channel to retrieve. This is used for pagination; see the nextToken response field.
 """
-list_channels(; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListChannels"; aws_config=aws_config)
-list_channels(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListChannels", args; aws_config=aws_config)
+list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels"; aws_config=aws_config)
+list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels", args; aws_config=aws_config)
 
 """
     ListPlaybackKeyPairs()
@@ -178,8 +178,8 @@ Gets summary information about playback key pairs.
 - `maxResults`: The first key pair to retrieve. This is used for pagination; see the nextToken response field.
 - `nextToken`: Maximum number of key pairs to return.
 """
-list_playback_key_pairs(; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs"; aws_config=aws_config)
-list_playback_key_pairs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs", args; aws_config=aws_config)
+list_playback_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs"; aws_config=aws_config)
+list_playback_key_pairs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs", args; aws_config=aws_config)
 
 """
     ListStreamKeys()
@@ -193,8 +193,8 @@ Gets summary information about stream keys for the specified channel.
 - `maxResults`: Maximum number of streamKeys to return.
 - `nextToken`: The first stream key to retrieve. This is used for pagination; see the nextToken response field.
 """
-list_stream_keys(channelArn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
-list_stream_keys(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
+list_stream_keys(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
+list_stream_keys(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
 
 """
     ListStreams()
@@ -205,8 +205,8 @@ Gets summary information about live streams in your account, in the AWS region w
 - `maxResults`: Maximum number of streams to return.
 - `nextToken`: The first stream to retrieve. This is used for pagination; see the nextToken response field.
 """
-list_streams(; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListStreams"; aws_config=aws_config)
-list_streams(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/ListStreams", args; aws_config=aws_config)
+list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams"; aws_config=aws_config)
+list_streams(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -220,8 +220,8 @@ Gets information about AWS tags for the specified ARN.
 - `maxResults`: Maximum number of tags to return.
 - `nextToken`: The first tag to retrieve. This is used for pagination; see the nextToken response field.
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     PutMetadata()
@@ -233,8 +233,8 @@ Inserts metadata into an RTMPS stream for the specified channel. A maximum of 5 
 - `metadata`: Metadata to insert into the stream. Maximum: 1 KB per request.
 
 """
-put_metadata(channelArn, metadata; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata); aws_config=aws_config)
-put_metadata(channelArn, metadata, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata), args)); aws_config=aws_config)
+put_metadata(channelArn, metadata; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata); aws_config=aws_config)
+put_metadata(channelArn, metadata, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/PutMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn, "metadata"=>metadata), args)); aws_config=aws_config)
 
 """
     StopStream()
@@ -245,8 +245,8 @@ Disconnects the incoming RTMPS stream for the specified channel. Can be used in 
 - `channelArn`: ARN of the channel for which the stream is to be stopped.
 
 """
-stop_stream(channelArn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
-stop_stream(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
+stop_stream(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
+stop_stream(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/StopStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -258,8 +258,8 @@ Adds or updates tags for the AWS resource with the specified ARN.
 - `tags`: Array of tags to be added or updated.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -271,8 +271,8 @@ Removes tags from the resource with the specified ARN.
 - `tagKeys`: Array of tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateChannel()
@@ -288,5 +288,5 @@ Updates a channel's configuration. This does not affect an ongoing stream of thi
 - `name`: Channel name.
 - `type`: Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
 """
-update_channel(arn; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)

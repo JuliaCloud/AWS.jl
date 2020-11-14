@@ -13,8 +13,8 @@ Deletes an object at the specified path.
 - `Path`: The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
-delete_object(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
-delete_object(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", args; aws_config=aws_config)
+delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
+delete_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", args; aws_config=aws_config)
 
 """
     DescribeObject()
@@ -25,8 +25,8 @@ Gets the headers for an object at the specified path.
 - `Path`: The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
-describe_object(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
-describe_object(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", args; aws_config=aws_config)
+describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
+describe_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", args; aws_config=aws_config)
 
 """
     GetObject()
@@ -39,8 +39,8 @@ Downloads the object at the specified path. If the object’s upload availabilit
 # Optional Parameters
 - `Range`: The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
 """
-get_object(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
-get_object(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", args; aws_config=aws_config)
+get_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
+get_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", args; aws_config=aws_config)
 
 """
     ListItems()
@@ -52,8 +52,8 @@ Provides a list of metadata entries about folders and objects in the specified f
 - `NextToken`: The token that identifies which batch of results that you want to see. For example, you submit a ListItems request with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value. To see the next batch of results, you can submit the ListItems request a second time and specify the NextToken value. Tokens expire after 15 minutes.
 - `Path`: The path in the container from which to retrieve items. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-list_items(; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
-list_items(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/", args; aws_config=aws_config)
+list_items(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
+list_items(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", args; aws_config=aws_config)
 
 """
     PutObject()
@@ -70,5 +70,5 @@ Uploads an object to the specified path. Object sizes are limited to 25 MB for s
 - `x-amz-storage-class`: Indicates the storage class of a Put request. Defaults to high-performance temporal storage class, and objects are persisted into durable storage shortly after being received.
 - `x-amz-upload-availability`: Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
 """
-put_object(Body, Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
-put_object(Body, Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), args)); aws_config=aws_config)
+put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
+put_object(Body, Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), args)); aws_config=aws_config)

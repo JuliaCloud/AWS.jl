@@ -13,8 +13,8 @@ Initiates a bulk publish of all existing datasets for an Identity Pool to the co
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-bulk_publish(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish"; aws_config=aws_config)
-bulk_publish(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish", args; aws_config=aws_config)
+bulk_publish(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish"; aws_config=aws_config)
+bulk_publish(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish", args; aws_config=aws_config)
 
 """
     DeleteDataset()
@@ -27,8 +27,8 @@ Deletes the specific dataset. The dataset will be deleted permanently, and the a
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-delete_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)"; aws_config=aws_config)
-delete_dataset(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args; aws_config=aws_config)
+delete_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)"; aws_config=aws_config)
+delete_dataset(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args; aws_config=aws_config)
 
 """
     DescribeDataset()
@@ -41,8 +41,8 @@ Gets meta data about a dataset by identity and dataset name. With Amazon Cognito
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-describe_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)"; aws_config=aws_config)
-describe_dataset(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args; aws_config=aws_config)
+describe_dataset(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)"; aws_config=aws_config)
+describe_dataset(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args; aws_config=aws_config)
 
 """
     DescribeIdentityPoolUsage()
@@ -53,8 +53,8 @@ Gets usage details (for example, data storage) about a particular identity pool.
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-describe_identity_pool_usage(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)"; aws_config=aws_config)
-describe_identity_pool_usage(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)", args; aws_config=aws_config)
+describe_identity_pool_usage(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)"; aws_config=aws_config)
+describe_identity_pool_usage(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)", args; aws_config=aws_config)
 
 """
     DescribeIdentityUsage()
@@ -66,8 +66,8 @@ Gets usage information for an identity, including number of datasets and data us
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-describe_identity_usage(IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)"; aws_config=aws_config)
-describe_identity_usage(IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)", args; aws_config=aws_config)
+describe_identity_usage(IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)"; aws_config=aws_config)
+describe_identity_usage(IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)", args; aws_config=aws_config)
 
 """
     GetBulkPublishDetails()
@@ -78,8 +78,8 @@ Get the status of the last BulkPublish operation for an identity pool. This API 
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
 
 """
-get_bulk_publish_details(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails"; aws_config=aws_config)
-get_bulk_publish_details(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails", args; aws_config=aws_config)
+get_bulk_publish_details(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails"; aws_config=aws_config)
+get_bulk_publish_details(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails", args; aws_config=aws_config)
 
 """
     GetCognitoEvents()
@@ -90,8 +90,8 @@ Gets the events and the corresponding Lambda functions associated with an identi
 - `IdentityPoolId`: The Cognito Identity Pool ID for the request
 
 """
-get_cognito_events(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events"; aws_config=aws_config)
-get_cognito_events(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events", args; aws_config=aws_config)
+get_cognito_events(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events"; aws_config=aws_config)
+get_cognito_events(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events", args; aws_config=aws_config)
 
 """
     GetIdentityPoolConfiguration()
@@ -102,8 +102,8 @@ Gets the configuration settings of an identity pool. This API can only be called
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
 
 """
-get_identity_pool_configuration(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration"; aws_config=aws_config)
-get_identity_pool_configuration(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration", args; aws_config=aws_config)
+get_identity_pool_configuration(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration"; aws_config=aws_config)
+get_identity_pool_configuration(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration", args; aws_config=aws_config)
 
 """
     ListDatasets()
@@ -118,8 +118,8 @@ Lists datasets for an identity. With Amazon Cognito Sync, each identity has acce
 - `maxResults`: The maximum number of results to be returned.
 - `nextToken`: A pagination token for obtaining the next page of results.
 """
-list_datasets(IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets"; aws_config=aws_config)
-list_datasets(IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets", args; aws_config=aws_config)
+list_datasets(IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets"; aws_config=aws_config)
+list_datasets(IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets", args; aws_config=aws_config)
 
 """
     ListIdentityPoolUsage()
@@ -130,8 +130,8 @@ Gets a list of identity pools registered with Cognito. ListIdentityPoolUsage can
 - `maxResults`: The maximum number of results to be returned.
 - `nextToken`: A pagination token for obtaining the next page of results.
 """
-list_identity_pool_usage(; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools"; aws_config=aws_config)
-list_identity_pool_usage(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools", args; aws_config=aws_config)
+list_identity_pool_usage(; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools"; aws_config=aws_config)
+list_identity_pool_usage(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools", args; aws_config=aws_config)
 
 """
     ListRecords()
@@ -149,8 +149,8 @@ Gets paginated records, optionally changed after a particular sync count for a d
 - `nextToken`: A pagination token for obtaining the next page of results.
 - `syncSessionToken`: A token containing a session ID, identity ID, and expiration.
 """
-list_records(DatasetName, IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records"; aws_config=aws_config)
-list_records(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records", args; aws_config=aws_config)
+list_records(DatasetName, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records"; aws_config=aws_config)
+list_records(DatasetName, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records", args; aws_config=aws_config)
 
 """
     RegisterDevice()
@@ -164,8 +164,8 @@ Registers a device to receive push sync notifications. This API can only be call
 - `Token`: The push token.
 
 """
-register_device(IdentityId, IdentityPoolId, Platform, Token; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", Dict{String, Any}("Platform"=>Platform, "Token"=>Token); aws_config=aws_config)
-register_device(IdentityId, IdentityPoolId, Platform, Token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform, "Token"=>Token), args)); aws_config=aws_config)
+register_device(IdentityId, IdentityPoolId, Platform, Token; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", Dict{String, Any}("Platform"=>Platform, "Token"=>Token); aws_config=aws_config)
+register_device(IdentityId, IdentityPoolId, Platform, Token, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Platform"=>Platform, "Token"=>Token), args)); aws_config=aws_config)
 
 """
     SetCognitoEvents()
@@ -177,8 +177,8 @@ Sets the AWS Lambda function for a given event type for an identity pool. This r
 - `IdentityPoolId`: The Cognito Identity Pool to use when configuring Cognito Events
 
 """
-set_cognito_events(Events, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", Dict{String, Any}("Events"=>Events); aws_config=aws_config)
-set_cognito_events(Events, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events), args)); aws_config=aws_config)
+set_cognito_events(Events, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", Dict{String, Any}("Events"=>Events); aws_config=aws_config)
+set_cognito_events(Events, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events), args)); aws_config=aws_config)
 
 """
     SetIdentityPoolConfiguration()
@@ -192,8 +192,8 @@ Sets the necessary configuration for push sync. This API can only be called with
 - `CognitoStreams`: Options to apply to this identity pool for Amazon Cognito streams.
 - `PushSync`: Options to apply to this identity pool for push synchronization.
 """
-set_identity_pool_configuration(IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration"; aws_config=aws_config)
-set_identity_pool_configuration(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration", args; aws_config=aws_config)
+set_identity_pool_configuration(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration"; aws_config=aws_config)
+set_identity_pool_configuration(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration", args; aws_config=aws_config)
 
 """
     SubscribeToDataset()
@@ -207,8 +207,8 @@ Subscribes to receive notifications when a dataset is modified by another device
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
 
 """
-subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)"; aws_config=aws_config)
-subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args; aws_config=aws_config)
+subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)"; aws_config=aws_config)
+subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args; aws_config=aws_config)
 
 """
     UnsubscribeFromDataset()
@@ -222,8 +222,8 @@ Unsubscribes from receiving notifications when a dataset is modified by another 
 - `IdentityPoolId`: A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
 
 """
-unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)"; aws_config=aws_config)
-unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args; aws_config=aws_config)
+unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)"; aws_config=aws_config)
+unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args; aws_config=aws_config)
 
 """
     UpdateRecords()
@@ -241,5 +241,5 @@ Posts updates to records and adds and deletes records for a dataset and user. Th
 - `RecordPatches`: A list of patch operations.
 - `x-amz-Client-Context`: Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
 """
-update_records(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", Dict{String, Any}("SyncSessionToken"=>SyncSessionToken); aws_config=aws_config)
-update_records(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncSessionToken"=>SyncSessionToken), args)); aws_config=aws_config)
+update_records(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", Dict{String, Any}("SyncSessionToken"=>SyncSessionToken); aws_config=aws_config)
+update_records(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncSessionToken"=>SyncSessionToken), args)); aws_config=aws_config)

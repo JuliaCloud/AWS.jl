@@ -19,5 +19,5 @@ Sends a command to an Amazon QLDB ledger.  Instead of interacting directly with 
 - `StartSession`: Command to start a new session. A session token is obtained as part of the response.
 - `StartTransaction`: Command to start a new transaction.
 """
-send_command(; aws_config::AWSConfig=global_aws_config()) = qldb_session("SendCommand"; aws_config=aws_config)
-send_command(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = qldb_session("SendCommand", args; aws_config=aws_config)
+send_command(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand"; aws_config=aws_config)
+send_command(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand", args; aws_config=aws_config)

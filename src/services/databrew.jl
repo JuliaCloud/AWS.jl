@@ -14,8 +14,8 @@ Deletes one or more versions of a recipe at a time.
 - `name`: The name of the recipe to be modified.
 
 """
-batch_delete_recipe_version(RecipeVersions, name; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}("RecipeVersions"=>RecipeVersions); aws_config=aws_config)
-batch_delete_recipe_version(RecipeVersions, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), args)); aws_config=aws_config)
+batch_delete_recipe_version(RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}("RecipeVersions"=>RecipeVersions); aws_config=aws_config)
+batch_delete_recipe_version(RecipeVersions, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), args)); aws_config=aws_config)
 
 """
     CreateDataset()
@@ -30,8 +30,8 @@ Creates a new AWS Glue DataBrew dataset for this AWS account.
 - `FormatOptions`: 
 - `Tags`: Metadata tags to apply to this dataset.
 """
-create_dataset(Input, Name; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}("Input"=>Input, "Name"=>Name); aws_config=aws_config)
-create_dataset(Input, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), args)); aws_config=aws_config)
+create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}("Input"=>Input, "Name"=>Name); aws_config=aws_config)
+create_dataset(Input, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateProfileJob()
@@ -53,8 +53,8 @@ Creates a new job to profile an AWS Glue DataBrew dataset that exists in the cur
 - `Tags`: Metadata tags to apply to this job.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
-create_profile_job(DatasetName, Name, OutputLocation, RoleArn; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_profile_job(DatasetName, Name, OutputLocation, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+create_profile_job(DatasetName, Name, OutputLocation, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
+create_profile_job(DatasetName, Name, OutputLocation, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateProject()
@@ -71,8 +71,8 @@ Creates a new AWS Glue DataBrew project in the current AWS account.
 - `Sample`: 
 - `Tags`: Metadata tags to apply to this project.
 """
-create_project(DatasetName, Name, RecipeName, RoleArn; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_project(DatasetName, Name, RecipeName, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+create_project(DatasetName, Name, RecipeName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn); aws_config=aws_config)
+create_project(DatasetName, Name, RecipeName, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateRecipe()
@@ -87,8 +87,8 @@ Creates a new AWS Glue DataBrew recipe for the current AWS account.
 - `Description`: A description for the recipe.
 - `Tags`: Metadata tags to apply to this recipe.
 """
-create_recipe(Name, Steps; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}("Name"=>Name, "Steps"=>Steps); aws_config=aws_config)
-create_recipe(Name, Steps, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), args)); aws_config=aws_config)
+create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}("Name"=>Name, "Steps"=>Steps); aws_config=aws_config)
+create_recipe(Name, Steps, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), args)); aws_config=aws_config)
 
 """
     CreateRecipeJob()
@@ -112,8 +112,8 @@ Creates a new job for an existing AWS Glue DataBrew recipe in the current AWS ac
 - `Tags`: Metadata tags to apply to this job dataset.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
-create_recipe_job(Name, Outputs, RoleArn; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_recipe_job(Name, Outputs, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+create_recipe_job(Name, Outputs, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
+create_recipe_job(Name, Outputs, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateSchedule()
@@ -128,8 +128,8 @@ Creates a new schedule for one or more AWS Glue DataBrew jobs. Jobs can be run a
 - `JobNames`: The name or names of one or more jobs to be run.
 - `Tags`: Metadata tags to apply to this schedule.
 """
-create_schedule(CronExpression, Name; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name); aws_config=aws_config)
-create_schedule(CronExpression, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), args)); aws_config=aws_config)
+create_schedule(CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name); aws_config=aws_config)
+create_schedule(CronExpression, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteDataset()
@@ -140,8 +140,8 @@ Deletes a dataset from AWS Glue DataBrew.
 - `name`: The name of the dataset to be deleted.
 
 """
-delete_dataset(name; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)"; aws_config=aws_config)
-delete_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)", args; aws_config=aws_config)
+delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)"; aws_config=aws_config)
+delete_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)", args; aws_config=aws_config)
 
 """
     DeleteJob()
@@ -152,8 +152,8 @@ Deletes the specified AWS Glue DataBrew job from the current AWS account. The jo
 - `name`: The name of the job to be deleted.
 
 """
-delete_job(name; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)"; aws_config=aws_config)
-delete_job(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)", args; aws_config=aws_config)
+delete_job(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)"; aws_config=aws_config)
+delete_job(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)", args; aws_config=aws_config)
 
 """
     DeleteProject()
@@ -164,8 +164,8 @@ Deletes an existing AWS Glue DataBrew project from the current AWS account.
 - `name`: The name of the project to be deleted.
 
 """
-delete_project(name; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)"; aws_config=aws_config)
-delete_project(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)", args; aws_config=aws_config)
+delete_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)"; aws_config=aws_config)
+delete_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)", args; aws_config=aws_config)
 
 """
     DeleteRecipeVersion()
@@ -177,8 +177,8 @@ Deletes a single version of an AWS Glue DataBrew recipe.
 - `recipeVersion`: The version of the recipe to be deleted.
 
 """
-delete_recipe_version(name, recipeVersion; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)"; aws_config=aws_config)
-delete_recipe_version(name, recipeVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", args; aws_config=aws_config)
+delete_recipe_version(name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)"; aws_config=aws_config)
+delete_recipe_version(name, recipeVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", args; aws_config=aws_config)
 
 """
     DeleteSchedule()
@@ -189,8 +189,8 @@ Deletes the specified AWS Glue DataBrew schedule from the current AWS account.
 - `name`: The name of the schedule to be deleted.
 
 """
-delete_schedule(name; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)"; aws_config=aws_config)
-delete_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)", args; aws_config=aws_config)
+delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)"; aws_config=aws_config)
+delete_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)", args; aws_config=aws_config)
 
 """
     DescribeDataset()
@@ -201,8 +201,8 @@ Returns the definition of a specific AWS Glue DataBrew dataset that is in the cu
 - `name`: The name of the dataset to be described.
 
 """
-describe_dataset(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)"; aws_config=aws_config)
-describe_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)", args; aws_config=aws_config)
+describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)"; aws_config=aws_config)
+describe_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)", args; aws_config=aws_config)
 
 """
     DescribeJob()
@@ -213,8 +213,8 @@ Returns the definition of a specific AWS Glue DataBrew job that is in the curren
 - `name`: The name of the job to be described.
 
 """
-describe_job(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)"; aws_config=aws_config)
-describe_job(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)", args; aws_config=aws_config)
+describe_job(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)"; aws_config=aws_config)
+describe_job(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)", args; aws_config=aws_config)
 
 """
     DescribeProject()
@@ -225,8 +225,8 @@ Returns the definition of a specific AWS Glue DataBrew project that is in the cu
 - `name`: The name of the project to be described.
 
 """
-describe_project(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)"; aws_config=aws_config)
-describe_project(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)", args; aws_config=aws_config)
+describe_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)"; aws_config=aws_config)
+describe_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)", args; aws_config=aws_config)
 
 """
     DescribeRecipe()
@@ -239,8 +239,8 @@ Returns the definition of a specific AWS Glue DataBrew recipe that is in the cur
 # Optional Parameters
 - `recipeVersion`: The recipe version identifier. If this parameter isn't specified, then the latest published version is returned.
 """
-describe_recipe(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)"; aws_config=aws_config)
-describe_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)", args; aws_config=aws_config)
+describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)"; aws_config=aws_config)
+describe_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)", args; aws_config=aws_config)
 
 """
     DescribeSchedule()
@@ -251,8 +251,8 @@ Returns the definition of a specific AWS Glue DataBrew schedule that is in the c
 - `name`: The name of the schedule to be described.
 
 """
-describe_schedule(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)"; aws_config=aws_config)
-describe_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)", args; aws_config=aws_config)
+describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)"; aws_config=aws_config)
+describe_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)", args; aws_config=aws_config)
 
 """
     ListDatasets()
@@ -263,8 +263,8 @@ Lists all of the AWS Glue DataBrew datasets for the current AWS account.
 - `maxResults`: The maximum number of results to return in this request. 
 - `nextToken`: A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call. 
 """
-list_datasets(; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/datasets"; aws_config=aws_config)
-list_datasets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/datasets", args; aws_config=aws_config)
+list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets"; aws_config=aws_config)
+list_datasets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", args; aws_config=aws_config)
 
 """
     ListJobRuns()
@@ -278,8 +278,8 @@ Lists all of the previous runs of a particular AWS Glue DataBrew job in the curr
 - `maxResults`: The maximum number of results to return in this request. 
 - `nextToken`: A token generated by AWS Glue DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call. 
 """
-list_job_runs(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns"; aws_config=aws_config)
-list_job_runs(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns", args; aws_config=aws_config)
+list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns"; aws_config=aws_config)
+list_job_runs(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -292,8 +292,8 @@ Lists the AWS Glue DataBrew jobs in the current AWS account.
 - `nextToken`: A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call. 
 - `projectName`: The name of a project. Using this parameter indicates to return only those jobs that are associated with the specified project.
 """
-list_jobs(; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/jobs", args; aws_config=aws_config)
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs"; aws_config=aws_config)
+list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs", args; aws_config=aws_config)
 
 """
     ListProjects()
@@ -304,8 +304,8 @@ Lists all of the DataBrew projects in the current AWS account.
 - `maxResults`: The maximum number of results to return in this request. 
 - `nextToken`: A pagination token that can be used in a subsequent request.
 """
-list_projects(; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/projects"; aws_config=aws_config)
-list_projects(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/projects", args; aws_config=aws_config)
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects"; aws_config=aws_config)
+list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", args; aws_config=aws_config)
 
 """
     ListRecipeVersions()
@@ -319,8 +319,8 @@ Lists all of the versions of a particular AWS Glue DataBrew recipe in the curren
 - `maxResults`: The maximum number of results to return in this request. 
 - `nextToken`: A pagination token that can be used in a subsequent request.
 """
-list_recipe_versions(name; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}("name"=>name); aws_config=aws_config)
-list_recipe_versions(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}("name"=>name); aws_config=aws_config)
+list_recipe_versions(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     ListRecipes()
@@ -332,8 +332,8 @@ Lists all of the AWS Glue DataBrew recipes in the current AWS account.
 - `nextToken`: A pagination token that can be used in a subsequent request.
 - `recipeVersion`: A version identifier. Using this parameter indicates to return only those recipes that have this version identifier.
 """
-list_recipes(; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipes"; aws_config=aws_config)
-list_recipes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/recipes", args; aws_config=aws_config)
+list_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes"; aws_config=aws_config)
+list_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", args; aws_config=aws_config)
 
 """
     ListSchedules()
@@ -345,8 +345,8 @@ Lists the AWS Glue DataBrew schedules in the current AWS account.
 - `maxResults`: The maximum number of results to return in this request. 
 - `nextToken`: A pagination token that can be used in a subsequent request.
 """
-list_schedules(; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/schedules"; aws_config=aws_config)
-list_schedules(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/schedules", args; aws_config=aws_config)
+list_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules"; aws_config=aws_config)
+list_schedules(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -357,8 +357,8 @@ Lists all the tags for an AWS Glue DataBrew resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. 
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
 
 """
     PublishRecipe()
@@ -371,8 +371,8 @@ Publishes a new major version of an AWS Glue DataBrew recipe that exists in the 
 # Optional Parameters
 - `Description`: A description of the recipe to be published, for this version of the recipe.
 """
-publish_recipe(name; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe"; aws_config=aws_config)
-publish_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe", args; aws_config=aws_config)
+publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe"; aws_config=aws_config)
+publish_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe", args; aws_config=aws_config)
 
 """
     SendProjectSessionAction()
@@ -389,8 +389,8 @@ Performs a recipe step within an interactive AWS Glue DataBrew session that's cu
 - `StepIndex`: The index from which to preview a step. This index is used to preview the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack.
 - `ViewFrame`: 
 """
-send_project_session_action(name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction"; aws_config=aws_config)
-send_project_session_action(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction", args; aws_config=aws_config)
+send_project_session_action(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction"; aws_config=aws_config)
+send_project_session_action(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction", args; aws_config=aws_config)
 
 """
     StartJobRun()
@@ -401,8 +401,8 @@ Runs an AWS Glue DataBrew job that exists in the current AWS account.
 - `name`: The name of the job to be run.
 
 """
-start_job_run(name; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun"; aws_config=aws_config)
-start_job_run(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun", args; aws_config=aws_config)
+start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun"; aws_config=aws_config)
+start_job_run(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun", args; aws_config=aws_config)
 
 """
     StartProjectSession()
@@ -415,8 +415,8 @@ Creates an interactive session, enabling you to manipulate an AWS Glue DataBrew 
 # Optional Parameters
 - `AssumeControl`: A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
 """
-start_project_session(name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession"; aws_config=aws_config)
-start_project_session(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession", args; aws_config=aws_config)
+start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession"; aws_config=aws_config)
+start_project_session(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession", args; aws_config=aws_config)
 
 """
     StopJobRun()
@@ -428,8 +428,8 @@ Stops the specified job from running in the current AWS account.
 - `runId`: The ID of the job run to be stopped.
 
 """
-stop_job_run(name, runId; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun"; aws_config=aws_config)
-stop_job_run(name, runId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", args; aws_config=aws_config)
+stop_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun"; aws_config=aws_config)
+stop_job_run(name, runId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -441,8 +441,8 @@ Adds metadata tags to an AWS Glue DataBrew resource, such as a dataset, job, pro
 - `Tags`: One or more tags to be assigned to the resource.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -454,8 +454,8 @@ Removes metadata tags from an AWS Glue DataBrew resource.
 - `tagKeys`: The tag keys (names) of one or more tags to be removed.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDataset()
@@ -469,8 +469,8 @@ Modifies the definition of an existing AWS Glue DataBrew dataset in the current 
 # Optional Parameters
 - `FormatOptions`: 
 """
-update_dataset(Input, name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}("Input"=>Input); aws_config=aws_config)
-update_dataset(Input, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), args)); aws_config=aws_config)
+update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}("Input"=>Input); aws_config=aws_config)
+update_dataset(Input, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), args)); aws_config=aws_config)
 
 """
     UpdateProfileJob()
@@ -490,8 +490,8 @@ Modifies the definition of an existing AWS Glue DataBrew job in the current AWS 
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
-update_profile_job(OutputLocation, RoleArn, name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_profile_job(OutputLocation, RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+update_profile_job(OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
+update_profile_job(OutputLocation, RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     UpdateProject()
@@ -505,8 +505,8 @@ Modifies the definition of an existing AWS Glue DataBrew project in the current 
 # Optional Parameters
 - `Sample`: 
 """
-update_project(RoleArn, name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
-update_project(RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
+update_project(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
+update_project(RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     UpdateRecipe()
@@ -520,8 +520,8 @@ Modifies the definition of the latest working version of an AWS Glue DataBrew re
 - `Description`: A description of the recipe.
 - `Steps`: One or more steps to be performed by the recipe. Each step consists of an action, and the conditions under which the action should succeed.
 """
-update_recipe(name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)"; aws_config=aws_config)
-update_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)", args; aws_config=aws_config)
+update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)"; aws_config=aws_config)
+update_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)", args; aws_config=aws_config)
 
 """
     UpdateRecipeJob()
@@ -541,8 +541,8 @@ Modifies the definition of an existing AWS Glue DataBrew recipe job in the curre
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
-update_recipe_job(Outputs, RoleArn, name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_recipe_job(Outputs, RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
+update_recipe_job(Outputs, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
+update_recipe_job(Outputs, RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     UpdateSchedule()
@@ -556,5 +556,5 @@ Modifies the definition of an existing AWS Glue DataBrew schedule in the current
 # Optional Parameters
 - `JobNames`: The name or names of one or more jobs to be run for this schedule.
 """
-update_schedule(CronExpression, name; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}("CronExpression"=>CronExpression); aws_config=aws_config)
-update_schedule(CronExpression, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), args)); aws_config=aws_config)
+update_schedule(CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}("CronExpression"=>CronExpression); aws_config=aws_config)
+update_schedule(CronExpression, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), args)); aws_config=aws_config)

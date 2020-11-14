@@ -19,8 +19,8 @@ Re-ranks a list of recommended items for the given user. The first item in the l
 - `filterArn`: The Amazon Resource Name (ARN) of a filter you created to include items or exclude items from recommendations for a given user. For more information, see Filtering Recommendations.
 - `filterValues`: The values to use when filtering recommendations. For each placeholder parameter in your filter expression, provide the parameter name (in matching case) as a key and the filter value(s) as the corresponding value. Separate multiple values for one parameter with a comma.  For filter expressions that use an INCLUDE element to include items, you must provide values for all parameters that are defined in the expression. For filters with expressions that use an EXCLUDE element to exclude items, you can omit the filter-values.In this case, Amazon Personalize doesn't use that portion of the expression to filter recommendations. For more information, see Filtering Recommendations.
 """
-get_personalized_ranking(campaignArn, inputList, userId; aws_config::AWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId); aws_config=aws_config)
-get_personalized_ranking(campaignArn, inputList, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId), args)); aws_config=aws_config)
+get_personalized_ranking(campaignArn, inputList, userId; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId); aws_config=aws_config)
+get_personalized_ranking(campaignArn, inputList, userId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId), args)); aws_config=aws_config)
 
 """
     GetRecommendations()
@@ -38,5 +38,5 @@ Returns a list of recommended items. The required input depends on the recipe ty
 - `numResults`: The number of results to return. The default is 25. The maximum is 500.
 - `userId`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
 """
-get_recommendations(campaignArn; aws_config::AWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
-get_recommendations(campaignArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws_config=aws_config)
+get_recommendations(campaignArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
+get_recommendations(campaignArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws_config=aws_config)

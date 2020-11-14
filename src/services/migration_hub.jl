@@ -17,8 +17,8 @@ Associates a created artifact of an AWS cloud resource, the target receiving the
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-associate_created_artifact(CreatedArtifact, MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("AssociateCreatedArtifact", Dict{String, Any}("CreatedArtifact"=>CreatedArtifact, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-associate_created_artifact(CreatedArtifact, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("AssociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifact"=>CreatedArtifact, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+associate_created_artifact(CreatedArtifact, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("AssociateCreatedArtifact", Dict{String, Any}("CreatedArtifact"=>CreatedArtifact, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+associate_created_artifact(CreatedArtifact, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("AssociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifact"=>CreatedArtifact, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     AssociateDiscoveredResource()
@@ -33,8 +33,8 @@ Associates a discovered resource ID from Application Discovery Service with a mi
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-associate_discovered_resource(DiscoveredResource, MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("AssociateDiscoveredResource", Dict{String, Any}("DiscoveredResource"=>DiscoveredResource, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-associate_discovered_resource(DiscoveredResource, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("AssociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiscoveredResource"=>DiscoveredResource, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+associate_discovered_resource(DiscoveredResource, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("AssociateDiscoveredResource", Dict{String, Any}("DiscoveredResource"=>DiscoveredResource, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+associate_discovered_resource(DiscoveredResource, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("AssociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiscoveredResource"=>DiscoveredResource, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     CreateProgressUpdateStream()
@@ -47,8 +47,8 @@ Creates a progress update stream which is an AWS resource used for access contro
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-create_progress_update_stream(ProgressUpdateStreamName; aws_config::AWSConfig=global_aws_config()) = migration_hub("CreateProgressUpdateStream", Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName); aws_config=aws_config)
-create_progress_update_stream(ProgressUpdateStreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("CreateProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), args)); aws_config=aws_config)
+create_progress_update_stream(ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("CreateProgressUpdateStream", Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName); aws_config=aws_config)
+create_progress_update_stream(ProgressUpdateStreamName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("CreateProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), args)); aws_config=aws_config)
 
 """
     DeleteProgressUpdateStream()
@@ -61,8 +61,8 @@ Deletes a progress update stream, including all of its tasks, which was previous
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-delete_progress_update_stream(ProgressUpdateStreamName; aws_config::AWSConfig=global_aws_config()) = migration_hub("DeleteProgressUpdateStream", Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName); aws_config=aws_config)
-delete_progress_update_stream(ProgressUpdateStreamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("DeleteProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), args)); aws_config=aws_config)
+delete_progress_update_stream(ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DeleteProgressUpdateStream", Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName); aws_config=aws_config)
+delete_progress_update_stream(ProgressUpdateStreamName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DeleteProgressUpdateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProgressUpdateStreamName"=>ProgressUpdateStreamName), args)); aws_config=aws_config)
 
 """
     DescribeApplicationState()
@@ -73,8 +73,8 @@ Gets the migration status of an application.
 - `ApplicationId`: The configurationId in Application Discovery Service that uniquely identifies the grouped application.
 
 """
-describe_application_state(ApplicationId; aws_config::AWSConfig=global_aws_config()) = migration_hub("DescribeApplicationState", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config)
-describe_application_state(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("DescribeApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), args)); aws_config=aws_config)
+describe_application_state(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DescribeApplicationState", Dict{String, Any}("ApplicationId"=>ApplicationId); aws_config=aws_config)
+describe_application_state(ApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DescribeApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId), args)); aws_config=aws_config)
 
 """
     DescribeMigrationTask()
@@ -86,8 +86,8 @@ Retrieves a list of all attributes associated with a specific migration task.
 - `ProgressUpdateStream`: The name of the ProgressUpdateStream. 
 
 """
-describe_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("DescribeMigrationTask", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-describe_migration_task(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("DescribeMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+describe_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DescribeMigrationTask", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+describe_migration_task(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DescribeMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     DisassociateCreatedArtifact()
@@ -102,8 +102,8 @@ Disassociates a created artifact of an AWS resource with a migration task perfor
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-disassociate_created_artifact(CreatedArtifactName, MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("DisassociateCreatedArtifact", Dict{String, Any}("CreatedArtifactName"=>CreatedArtifactName, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-disassociate_created_artifact(CreatedArtifactName, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("DisassociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifactName"=>CreatedArtifactName, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+disassociate_created_artifact(CreatedArtifactName, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DisassociateCreatedArtifact", Dict{String, Any}("CreatedArtifactName"=>CreatedArtifactName, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+disassociate_created_artifact(CreatedArtifactName, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DisassociateCreatedArtifact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatedArtifactName"=>CreatedArtifactName, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     DisassociateDiscoveredResource()
@@ -118,8 +118,8 @@ Disassociate an Application Discovery Service discovered resource from a migrati
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-disassociate_discovered_resource(ConfigurationId, MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("DisassociateDiscoveredResource", Dict{String, Any}("ConfigurationId"=>ConfigurationId, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-disassociate_discovered_resource(ConfigurationId, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("DisassociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationId"=>ConfigurationId, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+disassociate_discovered_resource(ConfigurationId, MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DisassociateDiscoveredResource", Dict{String, Any}("ConfigurationId"=>ConfigurationId, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+disassociate_discovered_resource(ConfigurationId, MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("DisassociateDiscoveredResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationId"=>ConfigurationId, "MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     ImportMigrationTask()
@@ -133,8 +133,8 @@ Registers a new migration task which represents a server, database, etc., being 
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-import_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("ImportMigrationTask", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-import_migration_task(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ImportMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+import_migration_task(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ImportMigrationTask", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+import_migration_task(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ImportMigrationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     ListApplicationStates()
@@ -146,8 +146,8 @@ Lists all the migration statuses for your applications. If you use the optional 
 - `MaxResults`: Maximum number of results to be returned per page.
 - `NextToken`: If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
 """
-list_application_states(; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListApplicationStates"; aws_config=aws_config)
-list_application_states(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListApplicationStates", args; aws_config=aws_config)
+list_application_states(; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListApplicationStates"; aws_config=aws_config)
+list_application_states(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListApplicationStates", args; aws_config=aws_config)
 
 """
     ListCreatedArtifacts()
@@ -162,8 +162,8 @@ Lists the created artifacts attached to a given migration task in an update stre
 - `MaxResults`: Maximum number of results to be returned per page.
 - `NextToken`: If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
 """
-list_created_artifacts(MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListCreatedArtifacts", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-list_created_artifacts(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListCreatedArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+list_created_artifacts(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListCreatedArtifacts", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+list_created_artifacts(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListCreatedArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     ListDiscoveredResources()
@@ -178,8 +178,8 @@ Lists discovered resources associated with the given MigrationTask.
 - `MaxResults`: The maximum number of results returned per page.
 - `NextToken`: If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
 """
-list_discovered_resources(MigrationTaskName, ProgressUpdateStream; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListDiscoveredResources", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
-list_discovered_resources(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
+list_discovered_resources(MigrationTaskName, ProgressUpdateStream; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListDiscoveredResources", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream); aws_config=aws_config)
+list_discovered_resources(MigrationTaskName, ProgressUpdateStream, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream), args)); aws_config=aws_config)
 
 """
     ListMigrationTasks()
@@ -191,8 +191,8 @@ Lists all, or filtered by resource name, migration tasks associated with the use
 - `NextToken`: If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
 - `ResourceName`: Filter migration tasks by discovered resource name.
 """
-list_migration_tasks(; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListMigrationTasks"; aws_config=aws_config)
-list_migration_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListMigrationTasks", args; aws_config=aws_config)
+list_migration_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListMigrationTasks"; aws_config=aws_config)
+list_migration_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListMigrationTasks", args; aws_config=aws_config)
 
 """
     ListProgressUpdateStreams()
@@ -203,8 +203,8 @@ Lists progress update streams associated with the user account making this call.
 - `MaxResults`: Filter to limit the maximum number of results to list per page.
 - `NextToken`: If a NextToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in NextToken.
 """
-list_progress_update_streams(; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListProgressUpdateStreams"; aws_config=aws_config)
-list_progress_update_streams(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("ListProgressUpdateStreams", args; aws_config=aws_config)
+list_progress_update_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListProgressUpdateStreams"; aws_config=aws_config)
+list_progress_update_streams(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("ListProgressUpdateStreams", args; aws_config=aws_config)
 
 """
     NotifyApplicationState()
@@ -219,8 +219,8 @@ Sets the migration state of an application. For a given application identified b
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 - `UpdateDateTime`: The timestamp when the application state changed.
 """
-notify_application_state(ApplicationId, Status; aws_config::AWSConfig=global_aws_config()) = migration_hub("NotifyApplicationState", Dict{String, Any}("ApplicationId"=>ApplicationId, "Status"=>Status); aws_config=aws_config)
-notify_application_state(ApplicationId, Status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("NotifyApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId, "Status"=>Status), args)); aws_config=aws_config)
+notify_application_state(ApplicationId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("NotifyApplicationState", Dict{String, Any}("ApplicationId"=>ApplicationId, "Status"=>Status); aws_config=aws_config)
+notify_application_state(ApplicationId, Status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("NotifyApplicationState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationId"=>ApplicationId, "Status"=>Status), args)); aws_config=aws_config)
 
 """
     NotifyMigrationTaskState()
@@ -237,8 +237,8 @@ Notifies Migration Hub of the current status, progress, or other detail regardin
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-notify_migration_task_state(MigrationTaskName, NextUpdateSeconds, ProgressUpdateStream, Task, UpdateDateTime; aws_config::AWSConfig=global_aws_config()) = migration_hub("NotifyMigrationTaskState", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "NextUpdateSeconds"=>NextUpdateSeconds, "ProgressUpdateStream"=>ProgressUpdateStream, "Task"=>Task, "UpdateDateTime"=>UpdateDateTime); aws_config=aws_config)
-notify_migration_task_state(MigrationTaskName, NextUpdateSeconds, ProgressUpdateStream, Task, UpdateDateTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("NotifyMigrationTaskState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "NextUpdateSeconds"=>NextUpdateSeconds, "ProgressUpdateStream"=>ProgressUpdateStream, "Task"=>Task, "UpdateDateTime"=>UpdateDateTime), args)); aws_config=aws_config)
+notify_migration_task_state(MigrationTaskName, NextUpdateSeconds, ProgressUpdateStream, Task, UpdateDateTime; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("NotifyMigrationTaskState", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "NextUpdateSeconds"=>NextUpdateSeconds, "ProgressUpdateStream"=>ProgressUpdateStream, "Task"=>Task, "UpdateDateTime"=>UpdateDateTime); aws_config=aws_config)
+notify_migration_task_state(MigrationTaskName, NextUpdateSeconds, ProgressUpdateStream, Task, UpdateDateTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("NotifyMigrationTaskState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "NextUpdateSeconds"=>NextUpdateSeconds, "ProgressUpdateStream"=>ProgressUpdateStream, "Task"=>Task, "UpdateDateTime"=>UpdateDateTime), args)); aws_config=aws_config)
 
 """
     PutResourceAttributes()
@@ -253,5 +253,5 @@ Provides identifying details of the resource being migrated so that it can be as
 # Optional Parameters
 - `DryRun`: Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
 """
-put_resource_attributes(MigrationTaskName, ProgressUpdateStream, ResourceAttributeList; aws_config::AWSConfig=global_aws_config()) = migration_hub("PutResourceAttributes", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream, "ResourceAttributeList"=>ResourceAttributeList); aws_config=aws_config)
-put_resource_attributes(MigrationTaskName, ProgressUpdateStream, ResourceAttributeList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = migration_hub("PutResourceAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream, "ResourceAttributeList"=>ResourceAttributeList), args)); aws_config=aws_config)
+put_resource_attributes(MigrationTaskName, ProgressUpdateStream, ResourceAttributeList; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("PutResourceAttributes", Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream, "ResourceAttributeList"=>ResourceAttributeList); aws_config=aws_config)
+put_resource_attributes(MigrationTaskName, ProgressUpdateStream, ResourceAttributeList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migration_hub("PutResourceAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationTaskName"=>MigrationTaskName, "ProgressUpdateStream"=>ProgressUpdateStream, "ResourceAttributeList"=>ResourceAttributeList), args)); aws_config=aws_config)

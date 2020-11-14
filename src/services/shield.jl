@@ -13,8 +13,8 @@ Authorizes the DDoS Response Team (DRT) to access the specified Amazon S3 bucket
 - `LogBucket`: The Amazon S3 bucket that contains your AWS WAF logs.
 
 """
-associate_drtlog_bucket(LogBucket; aws_config::AWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
-associate_drtlog_bucket(LogBucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), args)); aws_config=aws_config)
+associate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
+associate_drtlog_bucket(LogBucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), args)); aws_config=aws_config)
 
 """
     AssociateDRTRole()
@@ -25,8 +25,8 @@ Authorizes the DDoS Response Team (DRT), using the specified role, to access you
 - `RoleArn`: The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
 
 """
-associate_drtrole(RoleArn; aws_config::AWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
-associate_drtrole(RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
+associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
+associate_drtrole(RoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     AssociateHealthCheck()
@@ -38,8 +38,8 @@ Adds health-based detection to the Shield Advanced protection for a resource. Sh
 - `ProtectionId`: The unique identifier (ID) for the Protection object to add the health check association to. 
 
 """
-associate_health_check(HealthCheckArn, ProtectionId; aws_config::AWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
-associate_health_check(HealthCheckArn, ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
+associate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
+associate_health_check(HealthCheckArn, ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
 
 """
     AssociateProactiveEngagementDetails()
@@ -50,8 +50,8 @@ Initializes proactive engagement and sets the list of contacts for the DDoS Resp
 - `EmergencyContactList`: A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.  
 
 """
-associate_proactive_engagement_details(EmergencyContactList; aws_config::AWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}("EmergencyContactList"=>EmergencyContactList); aws_config=aws_config)
-associate_proactive_engagement_details(EmergencyContactList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyContactList"=>EmergencyContactList), args)); aws_config=aws_config)
+associate_proactive_engagement_details(EmergencyContactList; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}("EmergencyContactList"=>EmergencyContactList); aws_config=aws_config)
+associate_proactive_engagement_details(EmergencyContactList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyContactList"=>EmergencyContactList), args)); aws_config=aws_config)
 
 """
     CreateProtection()
@@ -63,8 +63,25 @@ Enables AWS Shield Advanced for a specific AWS resource. The resource can be an 
 - `ResourceArn`: The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id    
 
 """
-create_protection(Name, ResourceArn; aws_config::AWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-create_protection(Name, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+create_protection(Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+create_protection(Name, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+
+"""
+    CreateProtectionGroup()
+
+Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives. 
+
+# Required Parameters
+- `Aggregation`: Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.  
+- `Pattern`: The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type. 
+- `ProtectionGroupId`: The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. 
+
+# Optional Parameters
+- `Members`: The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting. 
+- `ResourceType`: The resource type to include in the protection group. All protected resources of this type are included in the protection group. Newly protected resources of this type are automatically added to the group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting. 
+"""
+create_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
+create_protection_group(Aggregation, Pattern, ProtectionGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), args)); aws_config=aws_config)
 
 """
     CreateProtectionGroup()
@@ -89,8 +106,8 @@ create_protection_group(Aggregation, Pattern, ProtectionGroupId, args::AbstractD
 Activates AWS Shield Advanced for an account. When you initally create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. 
 
 """
-create_subscription(; aws_config::AWSConfig=global_aws_config()) = shield("CreateSubscription"; aws_config=aws_config)
-create_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("CreateSubscription", args; aws_config=aws_config)
+create_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateSubscription"; aws_config=aws_config)
+create_subscription(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateSubscription", args; aws_config=aws_config)
 
 """
     DeleteProtection()
@@ -101,8 +118,20 @@ Deletes an AWS Shield Advanced Protection.
 - `ProtectionId`: The unique identifier (ID) for the Protection object to be deleted.
 
 """
-delete_protection(ProtectionId; aws_config::AWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}("ProtectionId"=>ProtectionId); aws_config=aws_config)
-delete_protection(ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
+delete_protection(ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}("ProtectionId"=>ProtectionId); aws_config=aws_config)
+delete_protection(ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
+
+"""
+    DeleteProtectionGroup()
+
+Removes the specified protection group.
+
+# Required Parameters
+- `ProtectionGroupId`: The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. 
+
+"""
+delete_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
+delete_protection_group(ProtectionGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), args)); aws_config=aws_config)
 
 """
     DeleteProtectionGroup()
@@ -122,8 +151,8 @@ delete_protection_group(ProtectionGroupId, args::AbstractDict{String, <:Any}; aw
 Removes AWS Shield Advanced from an account. AWS Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment. 
 
 """
-delete_subscription(; aws_config::AWSConfig=global_aws_config()) = shield("DeleteSubscription"; aws_config=aws_config)
-delete_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DeleteSubscription", args; aws_config=aws_config)
+delete_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteSubscription"; aws_config=aws_config)
+delete_subscription(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteSubscription", args; aws_config=aws_config)
 
 """
     DescribeAttack()
@@ -134,8 +163,17 @@ Describes the details of a DDoS attack.
 - `AttackId`: The unique identifier (ID) for the attack that to be described.
 
 """
-describe_attack(AttackId; aws_config::AWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}("AttackId"=>AttackId); aws_config=aws_config)
-describe_attack(AttackId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttackId"=>AttackId), args)); aws_config=aws_config)
+describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}("AttackId"=>AttackId); aws_config=aws_config)
+describe_attack(AttackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttackId"=>AttackId), args)); aws_config=aws_config)
+
+"""
+    DescribeAttackStatistics()
+
+Provides information about the number and type of attacks AWS Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time range indicates the period covered by the attack statistics data items.
+
+"""
+describe_attack_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttackStatistics"; aws_config=aws_config)
+describe_attack_statistics(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttackStatistics", args; aws_config=aws_config)
 
 """
     DescribeAttackStatistics()
@@ -152,8 +190,8 @@ describe_attack_statistics(args::AbstractDict{String, <:Any}; aws_config::AWSCon
 Returns the current role and list of Amazon S3 log buckets used by the DDoS Response Team (DRT) to access your AWS account while assisting with attack mitigation.
 
 """
-describe_drtaccess(; aws_config::AWSConfig=global_aws_config()) = shield("DescribeDRTAccess"; aws_config=aws_config)
-describe_drtaccess(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DescribeDRTAccess", args; aws_config=aws_config)
+describe_drtaccess(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeDRTAccess"; aws_config=aws_config)
+describe_drtaccess(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeDRTAccess", args; aws_config=aws_config)
 
 """
     DescribeEmergencyContactSettings()
@@ -161,8 +199,8 @@ describe_drtaccess(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
 
 """
-describe_emergency_contact_settings(; aws_config::AWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings"; aws_config=aws_config)
-describe_emergency_contact_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings", args; aws_config=aws_config)
+describe_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings"; aws_config=aws_config)
+describe_emergency_contact_settings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings", args; aws_config=aws_config)
 
 """
     DescribeProtection()
@@ -173,8 +211,20 @@ Lists the details of a Protection object.
 - `ProtectionId`: The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
 - `ResourceArn`: The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
 """
-describe_protection(; aws_config::AWSConfig=global_aws_config()) = shield("DescribeProtection"; aws_config=aws_config)
-describe_protection(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DescribeProtection", args; aws_config=aws_config)
+describe_protection(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtection"; aws_config=aws_config)
+describe_protection(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtection", args; aws_config=aws_config)
+
+"""
+    DescribeProtectionGroup()
+
+Returns the specification for the specified protection group.
+
+# Required Parameters
+- `ProtectionGroupId`: The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. 
+
+"""
+describe_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
+describe_protection_group(ProtectionGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), args)); aws_config=aws_config)
 
 """
     DescribeProtectionGroup()
@@ -194,8 +244,8 @@ describe_protection_group(ProtectionGroupId, args::AbstractDict{String, <:Any}; 
 Provides details about the AWS Shield Advanced subscription for an account.
 
 """
-describe_subscription(; aws_config::AWSConfig=global_aws_config()) = shield("DescribeSubscription"; aws_config=aws_config)
-describe_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DescribeSubscription", args; aws_config=aws_config)
+describe_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeSubscription"; aws_config=aws_config)
+describe_subscription(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeSubscription", args; aws_config=aws_config)
 
 """
     DisableProactiveEngagement()
@@ -203,8 +253,8 @@ describe_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 Removes authorization from the DDoS Response Team (DRT) to notify contacts about escalations to the DRT and to initiate proactive customer support.
 
 """
-disable_proactive_engagement(; aws_config::AWSConfig=global_aws_config()) = shield("DisableProactiveEngagement"; aws_config=aws_config)
-disable_proactive_engagement(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DisableProactiveEngagement", args; aws_config=aws_config)
+disable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisableProactiveEngagement"; aws_config=aws_config)
+disable_proactive_engagement(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisableProactiveEngagement", args; aws_config=aws_config)
 
 """
     DisassociateDRTLogBucket()
@@ -215,8 +265,8 @@ Removes the DDoS Response Team's (DRT) access to the specified Amazon S3 bucket 
 - `LogBucket`: The Amazon S3 bucket that contains your AWS WAF logs.
 
 """
-disassociate_drtlog_bucket(LogBucket; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
-disassociate_drtlog_bucket(LogBucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), args)); aws_config=aws_config)
+disassociate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
+disassociate_drtlog_bucket(LogBucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), args)); aws_config=aws_config)
 
 """
     DisassociateDRTRole()
@@ -224,8 +274,8 @@ disassociate_drtlog_bucket(LogBucket, args::AbstractDict{String, <:Any}; aws_con
 Removes the DDoS Response Team's (DRT) access to your AWS account. To make a DisassociateDRTRole request, you must be subscribed to the Business Support plan or the Enterprise Support plan. However, if you are not subscribed to one of these support plans, but had been previously and had granted the DRT access to your account, you can submit a DisassociateDRTRole request to remove this access.
 
 """
-disassociate_drtrole(; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateDRTRole"; aws_config=aws_config)
-disassociate_drtrole(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateDRTRole", args; aws_config=aws_config)
+disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTRole"; aws_config=aws_config)
+disassociate_drtrole(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTRole", args; aws_config=aws_config)
 
 """
     DisassociateHealthCheck()
@@ -237,8 +287,8 @@ Removes health-based detection from the Shield Advanced protection for a resourc
 - `ProtectionId`: The unique identifier (ID) for the Protection object to remove the health check association from. 
 
 """
-disassociate_health_check(HealthCheckArn, ProtectionId; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
-disassociate_health_check(HealthCheckArn, ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
+disassociate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
+disassociate_health_check(HealthCheckArn, ProtectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), args)); aws_config=aws_config)
 
 """
     EnableProactiveEngagement()
@@ -246,8 +296,8 @@ disassociate_health_check(HealthCheckArn, ProtectionId, args::AbstractDict{Strin
 Authorizes the DDoS Response Team (DRT) to use email and phone to notify contacts about escalations to the DRT and to initiate proactive customer support.
 
 """
-enable_proactive_engagement(; aws_config::AWSConfig=global_aws_config()) = shield("EnableProactiveEngagement"; aws_config=aws_config)
-enable_proactive_engagement(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("EnableProactiveEngagement", args; aws_config=aws_config)
+enable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("EnableProactiveEngagement"; aws_config=aws_config)
+enable_proactive_engagement(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("EnableProactiveEngagement", args; aws_config=aws_config)
 
 """
     GetSubscriptionState()
@@ -255,8 +305,8 @@ enable_proactive_engagement(args::AbstractDict{String, <:Any}; aws_config::AWSCo
 Returns the SubscriptionState, either Active or Inactive.
 
 """
-get_subscription_state(; aws_config::AWSConfig=global_aws_config()) = shield("GetSubscriptionState"; aws_config=aws_config)
-get_subscription_state(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("GetSubscriptionState", args; aws_config=aws_config)
+get_subscription_state(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("GetSubscriptionState"; aws_config=aws_config)
+get_subscription_state(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("GetSubscriptionState", args; aws_config=aws_config)
 
 """
     ListAttacks()
@@ -270,8 +320,20 @@ Returns all ongoing DDoS attacks or all DDoS attacks during a specified time per
 - `ResourceArns`: The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
 - `StartTime`: The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
 """
-list_attacks(; aws_config::AWSConfig=global_aws_config()) = shield("ListAttacks"; aws_config=aws_config)
-list_attacks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("ListAttacks", args; aws_config=aws_config)
+list_attacks(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListAttacks"; aws_config=aws_config)
+list_attacks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListAttacks", args; aws_config=aws_config)
+
+"""
+    ListProtectionGroups()
+
+Retrieves the ProtectionGroup objects for the account.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of ProtectionGroup objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+- `NextToken`: The next token value from a previous call to ListProtectionGroups. Pass null if this is the first call.
+"""
+list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtectionGroups"; aws_config=aws_config)
+list_protection_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtectionGroups", args; aws_config=aws_config)
 
 """
     ListProtectionGroups()
@@ -294,8 +356,23 @@ Lists all Protection objects for the account.
 - `MaxResults`: The maximum number of Protection objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
 - `NextToken`: The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
 """
-list_protections(; aws_config::AWSConfig=global_aws_config()) = shield("ListProtections"; aws_config=aws_config)
-list_protections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("ListProtections", args; aws_config=aws_config)
+list_protections(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtections"; aws_config=aws_config)
+list_protections(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtections", args; aws_config=aws_config)
+
+"""
+    ListResourcesInProtectionGroup()
+
+Retrieves the resources that are included in the protection group. 
+
+# Required Parameters
+- `ProtectionGroupId`: The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. 
+
+# Optional Parameters
+- `MaxResults`: The maximum number of resource ARN objects to return. If you leave this blank, Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+- `NextToken`: The next token value from a previous call to ListResourcesInProtectionGroup. Pass null if this is the first call.
+"""
+list_resources_in_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
+list_resources_in_protection_group(ProtectionGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), args)); aws_config=aws_config)
 
 """
     ListResourcesInProtectionGroup()
@@ -320,8 +397,25 @@ Updates the details of the list of email addresses and phone numbers that the DD
 # Optional Parameters
 - `EmergencyContactList`: A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
 """
-update_emergency_contact_settings(; aws_config::AWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings"; aws_config=aws_config)
-update_emergency_contact_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings", args; aws_config=aws_config)
+update_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings"; aws_config=aws_config)
+update_emergency_contact_settings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings", args; aws_config=aws_config)
+
+"""
+    UpdateProtectionGroup()
+
+Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives. 
+
+# Required Parameters
+- `Aggregation`: Defines how AWS Shield combines resource data for the group in order to detect, mitigate, and report events.   Sum - Use the total traffic across the group. This is a good choice for most cases. Examples include Elastic IP addresses for EC2 instances that scale manually or automatically.   Mean - Use the average of the traffic across the group. This is a good choice for resources that share traffic uniformly. Examples include accelerators and load balancers.   Max - Use the highest traffic from each resource. This is useful for resources that don't share traffic and for resources that share that traffic in a non-uniform way. Examples include CloudFront distributions and origin resources for CloudFront distributions.  
+- `Pattern`: The criteria to use to choose the protected resources for inclusion in the group. You can include all resources that have protections, provide a list of resource Amazon Resource Names (ARNs), or include all resources of a specified resource type.
+- `ProtectionGroupId`: The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it. 
+
+# Optional Parameters
+- `Members`: The Amazon Resource Names (ARNs) of the resources to include in the protection group. You must set this when you set Pattern to ARBITRARY and you must not set it for any other Pattern setting. 
+- `ResourceType`: The resource type to include in the protection group. All protected resources of this type are included in the protection group. You must set this when you set Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting. 
+"""
+update_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateProtectionGroup", Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
+update_protection_group(Aggregation, Pattern, ProtectionGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), args)); aws_config=aws_config)
 
 """
     UpdateProtectionGroup()
@@ -348,5 +442,5 @@ Updates the details of an existing subscription. Only enter values for parameter
 # Optional Parameters
 - `AutoRenew`: When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
 """
-update_subscription(; aws_config::AWSConfig=global_aws_config()) = shield("UpdateSubscription"; aws_config=aws_config)
-update_subscription(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = shield("UpdateSubscription", args; aws_config=aws_config)
+update_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateSubscription"; aws_config=aws_config)
+update_subscription(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateSubscription", args; aws_config=aws_config)

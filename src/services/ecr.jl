@@ -16,8 +16,8 @@ Checks the availability of one or more image layers in a repository. When an ima
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
 """
-batch_check_layer_availability(layerDigests, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("BatchCheckLayerAvailability", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_check_layer_availability(layerDigests, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchCheckLayerAvailability", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName); aws_config=aws_config)
+batch_check_layer_availability(layerDigests, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     BatchDeleteImage()
@@ -31,8 +31,8 @@ Deletes a list of specified images within a repository. Images are specified wit
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
 """
-batch_delete_image(imageIds, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("BatchDeleteImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_delete_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchDeleteImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
+batch_delete_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     BatchGetImage()
@@ -47,8 +47,8 @@ Gets detailed information for an image. Images are specified with either an imag
 - `acceptedMediaTypes`: The accepted media types for the request. Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json 
 - `registryId`: The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
 """
-batch_get_image(imageIds, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("BatchGetImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_get_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("BatchGetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+batch_get_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchGetImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
+batch_get_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("BatchGetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     CompleteLayerUpload()
@@ -63,8 +63,8 @@ Informs Amazon ECR that the image layer upload has completed for a specified reg
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
 """
-complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AWSConfig=global_aws_config()) = ecr("CompleteLayerUpload", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-complete_layer_upload(layerDigests, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
+complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("CompleteLayerUpload", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
+complete_layer_upload(layerDigests, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CreateRepository()
@@ -80,8 +80,8 @@ Creates a repository. For more information, see Amazon ECR Repositories in the A
 - `imageTagMutability`: The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
 - `tags`: The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 """
-create_repository(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-create_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+create_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DeleteLifecyclePolicy()
@@ -94,8 +94,8 @@ Deletes the lifecycle policy associated with the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-delete_lifecycle_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteLifecyclePolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_lifecycle_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+delete_lifecycle_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteLifecyclePolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+delete_lifecycle_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DeleteRepository()
@@ -109,8 +109,8 @@ Deletes a repository. If the repository contains images, you must either delete 
 - `force`:  If a repository contains images, forces the deletion.
 - `registryId`: The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
 """
-delete_repository(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+delete_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DeleteRepositoryPolicy()
@@ -123,8 +123,8 @@ Deletes the repository policy associated with the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
 """
-delete_repository_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+delete_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeImageScanFindings()
@@ -140,8 +140,8 @@ Returns the scan findings for the specified image.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeImageScanFindings request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to describe the image scan findings for. If you do not specify a registry, the default registry is assumed.
 """
-describe_image_scan_findings(imageId, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImageScanFindings", Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName); aws_config=aws_config)
-describe_image_scan_findings(imageId, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImageScanFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+describe_image_scan_findings(imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeImageScanFindings", Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName); aws_config=aws_config)
+describe_image_scan_findings(imageId, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeImageScanFindings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeImages()
@@ -158,8 +158,8 @@ Returns metadata about the images in a repository.  Beginning with Docker versio
 - `nextToken`: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
 """
-describe_images(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-describe_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+describe_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeRepositories()
@@ -172,8 +172,8 @@ Describes image repositories in a registry.
 - `registryId`: The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
 - `repositoryNames`: A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
 """
-describe_repositories(; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeRepositories"; aws_config=aws_config)
-describe_repositories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeRepositories", args; aws_config=aws_config)
+describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeRepositories"; aws_config=aws_config)
+describe_repositories(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("DescribeRepositories", args; aws_config=aws_config)
 
 """
     GetAuthorizationToken()
@@ -183,8 +183,8 @@ Retrieves an authorization token. An authorization token represents your IAM aut
 # Optional Parameters
 - `registryIds`: A list of AWS account IDs that are associated with the registries for which to get AuthorizationData objects. If you do not specify a registry, the default registry is assumed.
 """
-get_authorization_token(; aws_config::AWSConfig=global_aws_config()) = ecr("GetAuthorizationToken"; aws_config=aws_config)
-get_authorization_token(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetAuthorizationToken", args; aws_config=aws_config)
+get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetAuthorizationToken"; aws_config=aws_config)
+get_authorization_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetAuthorizationToken", args; aws_config=aws_config)
 
 """
     GetDownloadUrlForLayer()
@@ -198,8 +198,8 @@ Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
 """
-get_download_url_for_layer(layerDigest, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("GetDownloadUrlForLayer", Dict{String, Any}("layerDigest"=>layerDigest, "repositoryName"=>repositoryName); aws_config=aws_config)
-get_download_url_for_layer(layerDigest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetDownloadUrlForLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigest"=>layerDigest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_download_url_for_layer(layerDigest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetDownloadUrlForLayer", Dict{String, Any}("layerDigest"=>layerDigest, "repositoryName"=>repositoryName); aws_config=aws_config)
+get_download_url_for_layer(layerDigest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetDownloadUrlForLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigest"=>layerDigest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     GetLifecyclePolicy()
@@ -212,8 +212,8 @@ Retrieves the lifecycle policy for the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-get_lifecycle_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_lifecycle_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_lifecycle_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetLifecyclePolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+get_lifecycle_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     GetLifecyclePolicyPreview()
@@ -230,8 +230,8 @@ Retrieves the results of the lifecycle policy preview request for the specified 
 - `nextToken`: The nextToken value returned from a previous paginated&#x2028; GetLifecyclePolicyPreviewRequest request where maxResults was used and the&#x2028; results exceeded the value of that parameter. Pagination continues from the end of the&#x2028; previous results that returned the nextToken value. This value is&#x2028; null when there are no more results to return. This option cannot be used when you specify images with imageIds.
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-get_lifecycle_policy_preview(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_lifecycle_policy_preview(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_lifecycle_policy_preview(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+get_lifecycle_policy_preview(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     GetRepositoryPolicy()
@@ -244,8 +244,8 @@ Retrieves the repository policy for the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-get_repository_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("GetRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+get_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     InitiateLayerUpload()
@@ -258,8 +258,8 @@ Notifies Amazon ECR that you intend to upload an image layer. When an image is p
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
 """
-initiate_layer_upload(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("InitiateLayerUpload", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-initiate_layer_upload(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("InitiateLayerUpload", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+initiate_layer_upload(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     ListImages()
@@ -275,8 +275,8 @@ Lists all the image IDs for the specified repository. You can filter images base
 - `nextToken`: The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
 """
-list_images(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("ListImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-list_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("ListImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+list_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("ListImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+list_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("ListImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -287,8 +287,8 @@ List the tags for an Amazon ECR resource.
 - `resourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = ecr("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     PutImage()
@@ -305,8 +305,8 @@ Creates or updates the image manifest and tags associated with an image. When an
 - `imageTag`: The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
 """
-put_image(imageManifest, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("PutImage", Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_image(imageManifest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImage", Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_image(imageManifest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     PutImageScanningConfiguration()
@@ -320,8 +320,8 @@ Updates the image scanning configuration for the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to update the image scanning configuration setting. If you do not specify a registry, the default registry is assumed.
 """
-put_image_scanning_configuration(imageScanningConfiguration, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("PutImageScanningConfiguration", Dict{String, Any}("imageScanningConfiguration"=>imageScanningConfiguration, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_image_scanning_configuration(imageScanningConfiguration, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutImageScanningConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageScanningConfiguration"=>imageScanningConfiguration, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_image_scanning_configuration(imageScanningConfiguration, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImageScanningConfiguration", Dict{String, Any}("imageScanningConfiguration"=>imageScanningConfiguration, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_image_scanning_configuration(imageScanningConfiguration, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImageScanningConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageScanningConfiguration"=>imageScanningConfiguration, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     PutImageTagMutability()
@@ -335,8 +335,8 @@ Updates the image tag mutability settings for the specified repository. For more
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
 """
-put_image_tag_mutability(imageTagMutability, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("PutImageTagMutability", Dict{String, Any}("imageTagMutability"=>imageTagMutability, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_image_tag_mutability(imageTagMutability, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutImageTagMutability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageTagMutability"=>imageTagMutability, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_image_tag_mutability(imageTagMutability, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImageTagMutability", Dict{String, Any}("imageTagMutability"=>imageTagMutability, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_image_tag_mutability(imageTagMutability, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutImageTagMutability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageTagMutability"=>imageTagMutability, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     PutLifecyclePolicy()
@@ -350,8 +350,8 @@ Creates or updates the lifecycle policy for the specified repository. For more i
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do&#x2028; not specify a registry, the default registry is assumed.
 """
-put_lifecycle_policy(lifecyclePolicyText, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_lifecycle_policy(lifecyclePolicyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_lifecycle_policy(lifecyclePolicyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_lifecycle_policy(lifecyclePolicyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     SetRepositoryPolicy()
@@ -366,8 +366,8 @@ Applies a repository policy to the specified repository to control access permis
 - `force`: If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-set_repository_policy(policyText, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("SetRepositoryPolicy", Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName); aws_config=aws_config)
-set_repository_policy(policyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("SetRepositoryPolicy", Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName); aws_config=aws_config)
+set_repository_policy(policyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     StartImageScan()
@@ -381,8 +381,8 @@ Starts an image vulnerability scan. An image scan can only be started once per d
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
 """
-start_image_scan(imageId, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("StartImageScan", Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName); aws_config=aws_config)
-start_image_scan(imageId, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("StartImageScan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+start_image_scan(imageId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("StartImageScan", Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName); aws_config=aws_config)
+start_image_scan(imageId, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("StartImageScan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageId"=>imageId, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     StartLifecyclePolicyPreview()
@@ -396,8 +396,8 @@ Starts a preview of a lifecycle policy for the specified repository. This allows
 - `lifecyclePolicyText`: The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
 """
-start_lifecycle_policy_preview(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("StartLifecyclePolicyPreview", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-start_lifecycle_policy_preview(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("StartLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+start_lifecycle_policy_preview(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("StartLifecyclePolicyPreview", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+start_lifecycle_policy_preview(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("StartLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -409,8 +409,8 @@ Adds specified tags to a resource with the specified ARN. Existing tags on a res
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = ecr("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -422,8 +422,8 @@ Deletes specified tags from a resource.
 - `tagKeys`: The keys of the tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = ecr("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UploadLayerPart()
@@ -440,5 +440,5 @@ Uploads an image layer part to Amazon ECR. When an image is pushed, each new ima
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
 """
-upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AWSConfig=global_aws_config()) = ecr("UploadLayerPart", Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
+upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("UploadLayerPart", Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
+upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
