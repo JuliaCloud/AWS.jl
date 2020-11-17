@@ -58,7 +58,7 @@ list_tunnels(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws
 """
     OpenTunnel()
 
-Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server. .
+Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server.
 
 # Optional Parameters
 - `description`: A short text description of the tunnel. 

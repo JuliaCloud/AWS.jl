@@ -37,7 +37,7 @@ acknowledge_third_party_job(clientToken, jobId, nonce, args::AbstractDict{String
 Creates a new custom action that can be used in all pipelines associated with the AWS account. Only used for custom actions.
 
 # Required Parameters
-- `category`: The category of the custom action, such as a build action or a test action.  Although Source and Approval are listed as valid values, they are not currently functional. These values are reserved for future use. 
+- `category`: The category of the custom action, such as a build action or a test action.
 - `inputArtifactDetails`: The details of the input artifact for the action, such as its commit ID.
 - `outputArtifactDetails`: The details of the output artifact of the action, such as its commit ID.
 - `provider`: The provider of the service used in the custom action, such as AWS CodeDeploy.

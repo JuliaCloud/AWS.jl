@@ -73,6 +73,7 @@ Starts the asynchronous analysis of an input document for relationships between 
 # Optional Parameters
 - `ClientRequestToken`: The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
 - `JobTag`: An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
+- `KMSKeyId`: The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3.
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
 - `OutputConfig`: Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
 """
@@ -90,6 +91,7 @@ Starts the asynchronous detection of text in a document. Amazon Textract can det
 # Optional Parameters
 - `ClientRequestToken`: The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
 - `JobTag`: An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
+- `KMSKeyId`: The KMS key used to encrypt the inference results. This can be in either Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for server-side encryption of the objects in the customer bucket. When this parameter is not enabled, the result will be encrypted server side,using SSE-S3.
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
 - `OutputConfig`: Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
 """
