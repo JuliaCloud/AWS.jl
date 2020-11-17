@@ -704,6 +704,19 @@ modify_replication_task(ReplicationTaskArn; aws_config::AWSConfig=global_aws_con
 modify_replication_task(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws_config=aws_config)
 
 """
+    MoveReplicationTask()
+
+Moves a replication task from its current replication instance to a different target replication instance using the specified parameters. The target replication instance must be created with the same or later AWS DMS version as the current replication instance.
+
+# Required Parameters
+- `ReplicationTaskArn`: The Amazon Resource Name (ARN) of the task that you want to move.
+- `TargetReplicationInstanceArn`: The ARN of the replication instance where you want to move the task to.
+
+"""
+move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn; aws_config::AWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn); aws_config=aws_config)
+move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn), args)); aws_config=aws_config)
+
+"""
     RebootReplicationInstance()
 
 Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
