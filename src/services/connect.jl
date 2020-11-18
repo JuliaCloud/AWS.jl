@@ -78,6 +78,21 @@ create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Usern
 create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/users/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneConfig"=>PhoneConfig, "RoutingProfileId"=>RoutingProfileId, "SecurityProfileIds"=>SecurityProfileIds, "Username"=>Username), args)); aws_config=aws_config)
 
 """
+    CreateUserHierarchyGroup()
+
+Creates a new user hierarchy group.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Name`: The name of the user hierarchy group. Must not be more than 100 characters.
+
+# Optional Parameters
+- `ParentGroupId`: The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
+"""
+create_user_hierarchy_group(InstanceId, Name; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_user_hierarchy_group(InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
     DeleteUser()
 
 Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
@@ -89,6 +104,19 @@ Deletes a user account from the specified Amazon Connect instance. For informati
 """
 delete_user(InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/users/$(InstanceId)/$(UserId)"; aws_config=aws_config)
 delete_user(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/users/$(InstanceId)/$(UserId)", args; aws_config=aws_config)
+
+"""
+    DeleteUserHierarchyGroup()
+
+Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
+
+# Required Parameters
+- `HierarchyGroupId`: The identifier of the hierarchy group.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
+delete_user_hierarchy_group(HierarchyGroupId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", args; aws_config=aws_config)
 
 """
     DescribeContactFlow()
@@ -534,7 +562,7 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateContactAttributes()
 
-Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. This operation is also available in the Amazon Connect Flow language. See UpdateContactAttributes.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
+Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
 
 # Required Parameters
 - `Attributes`: The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
@@ -562,7 +590,7 @@ update_contact_flow_content(ContactFlowId, Content, InstanceId, args::AbstractDi
 """
     UpdateContactFlowName()
 
-The name of the contact flow.
+The name of the contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
 
 # Required Parameters
 - `ContactFlowId`: The identifier of the contact flow.
@@ -647,6 +675,33 @@ Assigns the specified hierarchy group to the specified user.
 """
 update_user_hierarchy(InstanceId, UserId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy"; aws_config=aws_config)
 update_user_hierarchy(InstanceId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy", args; aws_config=aws_config)
+
+"""
+    UpdateUserHierarchyGroupName()
+
+Updates the name of the user hierarchy group. 
+
+# Required Parameters
+- `HierarchyGroupId`: The identifier of the hierarchy group.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Name`: The name of the hierarchy group. Must not be more than 100 characters.
+
+"""
+update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    UpdateUserHierarchyStructure()
+
+Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
+
+# Required Parameters
+- `HierarchyStructure`: The hierarchy levels to update.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+update_user_hierarchy_structure(HierarchyStructure, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}("HierarchyStructure"=>HierarchyStructure); aws_config=aws_config)
+update_user_hierarchy_structure(HierarchyStructure, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HierarchyStructure"=>HierarchyStructure), args)); aws_config=aws_config)
 
 """
     UpdateUserIdentityInfo()

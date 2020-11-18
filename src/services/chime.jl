@@ -169,7 +169,7 @@ create_account(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Required Parameters
-- `ExternalUserId`: The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
+- `ExternalUserId`: The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. If you create an attendee with the same external user id, the service returns the existing record.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 # Optional Parameters
@@ -210,6 +210,21 @@ Creates a new Amazon Chime SDK meeting in the specified media Region with no ini
 """
 create_meeting(ClientRequestToken; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config)
 create_meeting(ClientRequestToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), args)); aws_config=aws_config)
+
+"""
+    CreateMeetingDialOut()
+
+Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and joins them into Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall API with the corresponding SIP media application ID.
+
+# Required Parameters
+- `FromPhoneNumber`: Phone number used as the caller ID when the remote party receives a call.
+- `JoinToken`: Token used by the Amazon Chime SDK attendee. Call the  CreateAttendee API to get a join token. 
+- `ToPhoneNumber`: Phone number called when inviting someone to a meeting.
+- `meetingId`: The Amazon Chime SDK meeting ID. Type: String Pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Required: No
+
+"""
+create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber); aws_config=aws_config)
+create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber), args)); aws_config=aws_config)
 
 """
     CreateMeetingWithAttendees()
@@ -293,6 +308,53 @@ Adds a member to a chat room in an Amazon Chime Enterprise account. A member can
 """
 create_room_membership(MemberId, accountId, roomId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}("MemberId"=>MemberId); aws_config=aws_config)
 create_room_membership(MemberId, accountId, roomId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberId"=>MemberId), args)); aws_config=aws_config)
+
+"""
+    CreateSipMediaApplication()
+
+Creates a SIP media application.
+
+# Required Parameters
+- `AwsRegion`: AWS Region assigned to the SIP media application.
+- `Endpoints`: List of endpoints (Lambda Amazon Resource Names) specified for the SIP media application. Currently, only one endpoint is supported.
+
+# Optional Parameters
+- `Name`: The SIP media application name.
+"""
+create_sip_media_application(AwsRegion, Endpoints; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints); aws_config=aws_config)
+create_sip_media_application(AwsRegion, Endpoints, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints), args)); aws_config=aws_config)
+
+"""
+    CreateSipMediaApplicationCall()
+
+Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
+
+# Required Parameters
+- `sipMediaApplicationId`: The ID of the SIP media application.
+
+# Optional Parameters
+- `FromPhoneNumber`: The phone number that a user calls from.
+- `ToPhoneNumber`: The phone number that the user dials in order to connect to a meeting
+"""
+create_sip_media_application_call(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls"; aws_config=aws_config)
+create_sip_media_application_call(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls", args; aws_config=aws_config)
+
+"""
+    CreateSipRule()
+
+Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type.
+
+# Required Parameters
+- `Name`: The name of the SIP rule.
+- `TargetApplications`: List of SIP media applications with priority and AWS Region. Only one SIP application per AWS Region can be used.
+- `TriggerType`: The type of trigger whose value is assigned to the SIP rule in TriggerValue. Allowed trigger values are RequestUriHostname and ToPhoneNumber.
+- `TriggerValue`: If TriggerType is RequestUriHostname then the value can be the outbound host name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber then the value can be a customer-owned phone number in E164 format. SipRule is triggered if the SIP application requests a host name, or a If TriggerType is RequestUriHostname, then the value can be the outbound hostname of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, then the value can be a customer-owned phone number in E164 format. SipRule is triggered if the SIP application requests a host name, or a ToPhoneNumber value matches the incoming SIP request.
+
+# Optional Parameters
+- `Disabled`: Enables or disables a rule. You must disable rules before you can delete them.
+"""
+create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue); aws_config=aws_config)
+create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -440,6 +502,30 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 """
 delete_room_membership(accountId, memberId, roomId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws_config=aws_config)
 delete_room_membership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws_config=aws_config)
+
+"""
+    DeleteSipMediaApplication()
+
+Deletes a SIP media application.
+
+# Required Parameters
+- `sipMediaApplicationId`: The SIP media application ID.
+
+"""
+delete_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+delete_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+
+"""
+    DeleteSipRule()
+
+Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+
+# Required Parameters
+- `sipRuleId`: The SIP rule ID.
+
+"""
+delete_sip_rule(sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
+delete_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
 
 """
     DeleteVoiceConnector()
@@ -744,6 +830,42 @@ Retrieves room details, such as the room name, for a room in an Amazon Chime Ent
 """
 get_room(accountId, roomId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)"; aws_config=aws_config)
 get_room(accountId, roomId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)", args; aws_config=aws_config)
+
+"""
+    GetSipMediaApplication()
+
+Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
+
+# Required Parameters
+- `sipMediaApplicationId`: The SIP media application ID.
+
+"""
+get_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+get_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+
+"""
+    GetSipMediaApplicationLoggingConfiguration()
+
+Returns the logging configuration for the specified SIP media application.
+
+# Required Parameters
+- `sipMediaApplicationId`: The ID of the SIP media application.
+
+"""
+get_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
+get_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
+
+"""
+    GetSipRule()
+
+Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
+
+# Required Parameters
+- `sipRuleId`: The SIP rule ID.
+
+"""
+get_sip_rule(sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
+get_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
 
 """
     GetUser()
@@ -1052,6 +1174,31 @@ list_rooms(accountId; aws_config::AWSConfig=global_aws_config()) = chime("GET", 
 list_rooms(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/rooms", args; aws_config=aws_config)
 
 """
+    ListSipMediaApplications()
+
+Lists the SIP media applications under the administrator's AWS account.
+
+# Optional Parameters
+- `max-results`: The maximum number of results to return in a single call. Defaults to 100.
+- `next-token`: The token to use to retrieve the next page of results.
+"""
+list_sip_media_applications(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications"; aws_config=aws_config)
+list_sip_media_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications", args; aws_config=aws_config)
+
+"""
+    ListSipRules()
+
+Lists the SIP rules under the administrator's AWS account.
+
+# Optional Parameters
+- `max-results`: The maximum number of results to return in a single call. Defaults to 100.
+- `next-token`: The token to use to retrieve the next page of results.
+- `sip-media-application`: The SIP media application ID.
+"""
+list_sip_rules(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules"; aws_config=aws_config)
+list_sip_rules(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules", args; aws_config=aws_config)
+
+"""
     ListTagsForResource()
 
 Lists the tags applied to an Amazon Chime SDK meeting resource.
@@ -1157,6 +1304,20 @@ Puts retention settings for the specified Amazon Chime Enterprise account. We re
 """
 put_retention_settings(RetentionSettings, accountId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}("RetentionSettings"=>RetentionSettings); aws_config=aws_config)
 put_retention_settings(RetentionSettings, accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionSettings"=>RetentionSettings), args)); aws_config=aws_config)
+
+"""
+    PutSipMediaApplicationLoggingConfiguration()
+
+Updates the logging configuration for the specified SIP media application.
+
+# Required Parameters
+- `sipMediaApplicationId`: The ID of the specified SIP media application
+
+# Optional Parameters
+- `SipMediaApplicationLoggingConfiguration`: The actual logging configuration.
+"""
+put_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
+put_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
 
 """
     PutVoiceConnectorEmergencyCallingConfiguration()
@@ -1545,6 +1706,37 @@ Updates room membership details, such as the member role, for a room in an Amazo
 """
 update_room_membership(accountId, memberId, roomId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws_config=aws_config)
 update_room_membership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws_config=aws_config)
+
+"""
+    UpdateSipMediaApplication()
+
+Updates the details for the specified SIP media application.
+
+# Required Parameters
+- `sipMediaApplicationId`: The SIP media application ID.
+
+# Optional Parameters
+- `Endpoints`: The new set of endpoints for the specified SIP media application.
+- `Name`: The new name for the specified SIP media application.
+"""
+update_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+update_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+
+"""
+    UpdateSipRule()
+
+Updates the details for the specified SIP rule.
+
+# Required Parameters
+- `Name`: The new name for the specified SIP rule.
+- `sipRuleId`: The SIP rule ID.
+
+# Optional Parameters
+- `Disabled`: The new value specified to indicate whether the rule is disabled.
+- `TargetApplications`: The new value of the list of target applications.
+"""
+update_sip_rule(Name, sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_sip_rule(Name, sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateUser()
