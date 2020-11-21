@@ -31,7 +31,7 @@ cancel_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 """
     CreateArchive()
 
-Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect.
+Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
 
 # Required Parameters
 - `ArchiveName`: The name for the archive to create.
@@ -131,7 +131,7 @@ Deletes the specified rule. Before you can delete the rule, you must remove all 
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
 delete_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
@@ -155,7 +155,7 @@ describe_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::AWS
 Displays details about an event bus in your account. This can include the external AWS accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time.  To enable your account to receive events from other accounts on its default event bus, use PutPermission. For more information about partner event buses, see CreateEventBus.
 
 # Optional Parameters
-- `Name`: The name of the event bus to show details for. If you omit this, the default event bus is displayed.
+- `Name`: The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
 """
 describe_event_bus(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus"; aws_config=aws_config)
 describe_event_bus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus", args; aws_config=aws_config)
@@ -205,7 +205,7 @@ Describes the specified rule. DescribeRule does not list the targets of a rule. 
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
 describe_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -219,7 +219,7 @@ Disables the specified rule. A disabled rule won't match any events, and won't s
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
 disable_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -233,7 +233,7 @@ Enables the specified rule. If the rule does not exist, the operation fails. Whe
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
 enable_rule(Name; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -317,7 +317,7 @@ Lists your replays. You can either list all the replays or you can provide a pre
 # Optional Parameters
 - `EventSourceArn`: The ARN of the event source associated with the replay.
 - `Limit`: The maximum number of replays to retrieve.
-- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+- `NamePrefix`: A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 - `State`: The state of the replay.
 """
@@ -333,7 +333,7 @@ Lists the rules for the specified target. You can see which of the rules in Amaz
 - `TargetArn`: The Amazon Resource Name (ARN) of the target resource.
 
 # Optional Parameters
-- `EventBusName`: Limits the results to show only the rules associated with the specified event bus.
+- `EventBusName`: The name or ARN of the event bus to list rules for. If you omit this, the default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
@@ -346,7 +346,7 @@ list_rule_names_by_target(TargetArn, args::AbstractDict{String, <:Any}; aws_conf
 Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. ListRules does not list the targets of a rule. To see the targets associated with a rule, use ListTargetsByRule.
 
 # Optional Parameters
-- `EventBusName`: Limits the results to show only the rules associated with the specified event bus.
+- `EventBusName`: The name or ARN of the event bus to list the rules for. If you omit this, the default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NamePrefix`: The prefix matching the rule name.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
@@ -375,7 +375,7 @@ Lists the targets assigned to the specified rule.
 - `Rule`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
@@ -411,17 +411,16 @@ put_partner_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 
 Running PutPermission permits the specified AWS account or AWS organization to put events to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple AWS accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same AWS organization, you can run PutPermission once specifying Principal as \"*\" and specifying the AWS organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between AWS Accounts in the Amazon EventBridge User Guide. The permission policy on the default event bus cannot exceed 10 KB in size.
 
-# Required Parameters
+# Optional Parameters
 - `Action`: The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
+- `Condition`: This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify \"*\" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
+- `EventBusName`: The name of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `Policy`: A JSON string that describes the permission policy statement. You can include a Policy parameter in the request instead of using the StatementId, Action, Principal, or Condition parameters.
 - `Principal`: The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify \"*\" to permit any account to put events to your default event bus. If you specify \"*\" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
 - `StatementId`: An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
-
-# Optional Parameters
-- `Condition`: This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify \"*\" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
-- `EventBusName`: The event bus associated with the rule. If you omit this, the default event bus is used.
 """
-put_permission(Action, Principal, StatementId; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-put_permission(Action, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
+put_permission(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission"; aws_config=aws_config)
+put_permission(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", args; aws_config=aws_config)
 
 """
     PutRule()
@@ -433,7 +432,7 @@ Creates or updates the specified rule. Rules are enabled by default, or based on
 
 # Optional Parameters
 - `Description`: A description of the rule.
-- `EventBusName`: The event bus to associate with this rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
 - `EventPattern`: The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
 - `RoleArn`: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
 - `ScheduleExpression`: The scheduling expression. For example, \"cron(0 20 * * ? *)\" or \"rate(5 minutes)\".
@@ -453,7 +452,7 @@ Adds the specified targets to the specified rule, or updates the targets if they
 - `Targets`: The targets to update or add to the rule.
 
 # Optional Parameters
-- `EventBusName`: The name of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 """
 put_targets(Rule, Targets; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
 put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), args)); aws_config=aws_config)
@@ -463,14 +462,13 @@ put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 
 Revokes the permission of another AWS account to be able to put events to the specified event bus. Specify the account to revoke by the StatementId value that you associated with the account when you granted it permission with PutPermission. You can find the StatementId by using DescribeEventBus.
 
-# Required Parameters
-- `StatementId`: The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
-
 # Optional Parameters
 - `EventBusName`: The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
+- `RemoveAllPermissions`: Specifies whether to remove all permissions.
+- `StatementId`: The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
 """
-remove_permission(StatementId; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}("StatementId"=>StatementId); aws_config=aws_config)
-remove_permission(StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementId"=>StatementId), args)); aws_config=aws_config)
+remove_permission(; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission"; aws_config=aws_config)
+remove_permission(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", args; aws_config=aws_config)
 
 """
     RemoveTargets()
@@ -482,7 +480,7 @@ Removes the specified targets from the specified rule. When the rule is triggere
 - `Rule`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name of the event bus associated with the rule.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
 - `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
 remove_targets(Ids, Rule; aws_config::AWSConfig=global_aws_config()) = cloudwatch_events("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)

@@ -490,7 +490,7 @@ retry_build(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_
 """
     RetryBuildBatch()
 
-Restarts a batch build.
+Restarts a failed batch build. Only batch builds that have failed can be retried.
 
 # Optional Parameters
 - `id`: Specifies the identifier of the batch build to restart.

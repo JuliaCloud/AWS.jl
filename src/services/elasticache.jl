@@ -137,7 +137,7 @@ create_cache_cluster(CacheClusterId, args::AbstractDict{String, <:Any}; aws_conf
 Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.  
 
 # Required Parameters
-- `CacheParameterGroupFamily`: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | 
+- `CacheParameterGroupFamily`: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | 
 - `CacheParameterGroupName`: A user-specified name for the cache parameter group.
 - `Description`: A user-specified description for the cache parameter group.
 
@@ -409,7 +409,7 @@ delete_snapshot(SnapshotName, args::AbstractDict{String, <:Any}; aws_config::AWS
 """
     DeleteUser()
 
-For Redis engine version 6.04 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC). 
+For Redis engine version 6.x onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC). 
 
 # Required Parameters
 - `UserId`: The ID of the user.
@@ -421,7 +421,7 @@ delete_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glo
 """
     DeleteUserGroup()
 
-For Redis engine version 6.04 onwards: Deletes a ser group. The user group must first be disassociated from the replcation group before it can be deleted. For more information, see Using Role Based Access Control (RBAC). 
+For Redis engine version 6.x onwards: Deletes a ser group. The user group must first be disassociated from the replcation group before it can be deleted. For more information, see Using Role Based Access Control (RBAC). 
 
 # Required Parameters
 - `UserGroupId`: The ID of the user group.
@@ -451,7 +451,7 @@ describe_cache_clusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 Returns a list of the available cache engines and their versions.
 
 # Optional Parameters
-- `CacheParameterGroupFamily`: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 |  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
+- `CacheParameterGroupFamily`: The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
 - `DefaultOnly`: If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
 - `Engine`: The cache engine to return. Valid values: memcached | redis 
 - `EngineVersion`: The cache engine version to return. Example: 1.4.14 
@@ -522,7 +522,7 @@ describe_cache_subnet_groups(args::AbstractDict{String, <:Any}; aws_config::AWSC
 Returns the default engine and system parameter information for the specified cache engine.
 
 # Required Parameters
-- `CacheParameterGroupFamily`: The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.0 | 
+- `CacheParameterGroupFamily`: The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | 
 
 # Optional Parameters
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.

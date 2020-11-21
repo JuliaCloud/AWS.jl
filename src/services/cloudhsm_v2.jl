@@ -29,6 +29,7 @@ Creates a new AWS CloudHSM cluster.
 - `SubnetIds`: The identifiers (IDs) of the subnets where you are creating the cluster. You must specify at least one subnet. If you specify multiple subnets, they must meet the following criteria:   All subnets must be in the same virtual private cloud (VPC).   You can specify only one subnet per Availability Zone.  
 
 # Optional Parameters
+- `BackupRetentionPolicy`: A policy that defines how the service retains backups.
 - `SourceBackupId`: The identifier (ID) of the cluster backup to restore. Use this value to restore the cluster from a backup instead of creating a new cluster. To find the backup ID, use DescribeBackups.
 - `TagList`: Tags to apply to the CloudHSM cluster during creation.
 """
@@ -96,7 +97,7 @@ delete_hsm(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 Gets information about backups of AWS CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get.
 
 # Optional Parameters
-- `Filters`: One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state.
+- `Filters`: One or more filters to limit the items returned in the response. Use the backupIds filter to return only the specified backups. Specify backups by their backup identifier (ID). Use the sourceBackupIds filter to return only the backups created from a source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion operation. Use the clusterIds filter to return only the backups for the specified clusters. Specify clusters by their cluster identifier (ID). Use the states filter to return only backups that match the specified state. Use the neverExpires filter to return backups filtered by the value in the neverExpires parameter. True returns all backups exempt from the backup retention policy. False returns all backups with a backup retention policy defined at the cluster.
 - `MaxResults`: The maximum number of backups to return in the response. When there are more backups than the number you specify, the response contains a NextToken value.
 - `NextToken`: The NextToken value that you received in the previous response. Use this value to get more backups.
 - `SortAscending`: Designates whether or not to sort the return backups by ascending chronological order of generation.
@@ -145,6 +146,32 @@ Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated 
 """
 list_tags(ResourceId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
 list_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+
+"""
+    ModifyBackupAttributes()
+
+Modifies attributes for AWS CloudHSM backup.
+
+# Required Parameters
+- `BackupId`: The identifier (ID) of the backup to modify. To find the ID of a backup, use the DescribeBackups operation.
+- `NeverExpires`: Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
+
+"""
+modify_backup_attributes(BackupId, NeverExpires; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config)
+modify_backup_attributes(BackupId, NeverExpires, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), args)); aws_config=aws_config)
+
+"""
+    ModifyCluster()
+
+Modifies AWS CloudHSM cluster.
+
+# Required Parameters
+- `BackupRetentionPolicy`: A policy that defines how the service retains backups.
+- `ClusterId`: The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
+
+"""
+modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config)
+modify_cluster(BackupRetentionPolicy, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     RestoreBackup()
