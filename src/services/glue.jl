@@ -202,6 +202,19 @@ cancel_mltask_run(TaskRunId, TransformId; aws_config::AWSConfig=global_aws_confi
 cancel_mltask_run(TaskRunId, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
+    CheckSchemaVersionValidity()
+
+Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
+
+# Required Parameters
+- `DataFormat`: The data format of the schema definition. Currently only AVRO is supported.
+- `SchemaDefinition`: The definition of the schema that has to be validated.
+
+"""
+check_schema_version_validity(DataFormat, SchemaDefinition; aws_config::AWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition); aws_config=aws_config)
+check_schema_version_validity(DataFormat, SchemaDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), args)); aws_config=aws_config)
+
+"""
     CreateClassifier()
 
 Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
@@ -366,6 +379,40 @@ Creates a new partition.
 """
 create_partition(DatabaseName, PartitionInput, TableName; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName); aws_config=aws_config)
 create_partition(DatabaseName, PartitionInput, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    CreateRegistry()
+
+Creates a new registry which may be used to hold a collection of schemas.
+
+# Required Parameters
+- `RegistryName`: Name of the registry to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
+
+# Optional Parameters
+- `Description`: A description of the registry. If description is not provided, there will not be any default value for this.
+- `Tags`: AWS tags that contain a key value pair and may be searched by console, command line, or API.
+"""
+create_registry(RegistryName; aws_config::AWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}("RegistryName"=>RegistryName); aws_config=aws_config)
+create_registry(RegistryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), args)); aws_config=aws_config)
+
+"""
+    CreateSchema()
+
+Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode \"DISABLED\" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a \"default-registry\" in the registry database tables, if it is not already present.
+
+# Required Parameters
+- `DataFormat`: The data format of the schema definition. Currently only AVRO is supported.
+- `SchemaName`: Name of the schema to be created of max length of 255, and may only contain letters, numbers, hyphen, underscore, dollar sign, or hash mark. No whitespace.
+
+# Optional Parameters
+- `Compatibility`: The compatibility mode of the schema. The possible values are:    NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.    DISABLED: This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema.    BACKWARD: This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version.    BACKWARD_ALL: This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions.     FORWARD: This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version.    FORWARD_ALL: This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions.    FULL: This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version.    FULL_ALL: This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions.  
+- `Description`: An optional description of the schema. If description is not provided, there will not be any automatic default value for this.
+- `RegistryId`:  This is a wrapper shape to contain the registry identity fields. If this is not provided, the default registry will be used. The ARN format for the same will be: arn:aws:glue:us-east-2:&lt;customer id&gt;:registry/default-registry:random-5-letter-id.
+- `SchemaDefinition`: The schema definition using the DataFormat setting for SchemaName.
+- `Tags`: AWS tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the AWS tags-on-create pattern.
+"""
+create_schema(DataFormat, SchemaName; aws_config::AWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName); aws_config=aws_config)
+create_schema(DataFormat, SchemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), args)); aws_config=aws_config)
 
 """
     CreateScript()
@@ -600,6 +647,18 @@ delete_partition(DatabaseName, PartitionValues, TableName; aws_config::AWSConfig
 delete_partition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
+    DeleteRegistry()
+
+Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will disable all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs. 
+
+# Required Parameters
+- `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+
+"""
+delete_registry(RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
+delete_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
+
+"""
     DeleteResourcePolicy()
 
 Deletes a specified policy.
@@ -610,6 +669,31 @@ Deletes a specified policy.
 """
 delete_resource_policy(; aws_config::AWSConfig=global_aws_config()) = glue("DeleteResourcePolicy"; aws_config=aws_config)
 delete_resource_policy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteResourcePolicy", args; aws_config=aws_config)
+
+"""
+    DeleteSchema()
+
+Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will disable all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
+
+# Required Parameters
+- `SchemaId`: This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+
+"""
+delete_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+delete_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+
+"""
+    DeleteSchemaVersions()
+
+Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
+
+# Required Parameters
+- `SchemaId`: This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+- `Versions`: A version range may be supplied which may be of the format:   a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8  
+
+"""
+delete_schema_versions(SchemaId, Versions; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions); aws_config=aws_config)
+delete_schema_versions(SchemaId, Versions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), args)); aws_config=aws_config)
 
 """
     DeleteSecurityConfiguration()
@@ -1111,6 +1195,18 @@ get_plan(Mapping, Source; aws_config::AWSConfig=global_aws_config()) = glue("Get
 get_plan(Mapping, Source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), args)); aws_config=aws_config)
 
 """
+    GetRegistry()
+
+Describes the specified registry in detail.
+
+# Required Parameters
+- `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+
+"""
+get_registry(RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
+get_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
+
+"""
     GetResourcePolicies()
 
 Retrieves the security configurations for the resource policies set on individual resources, and also the account-level policy. This operation also returns the Data Catalog resource policy. However, if you enabled metadata encryption in Data Catalog settings, and you do not have permission on the AWS KMS key, the operation can't return the Data Catalog resource policy.
@@ -1132,6 +1228,59 @@ Retrieves a specified resource policy.
 """
 get_resource_policy(; aws_config::AWSConfig=global_aws_config()) = glue("GetResourcePolicy"; aws_config=aws_config)
 get_resource_policy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetResourcePolicy", args; aws_config=aws_config)
+
+"""
+    GetSchema()
+
+Describes the specified schema in detail.
+
+# Required Parameters
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
+
+"""
+get_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+get_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+
+"""
+    GetSchemaByDefinition()
+
+Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
+
+# Required Parameters
+- `SchemaDefinition`: The definition of the schema for which schema details are required.
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaIdSchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.  
+
+"""
+get_schema_by_definition(SchemaDefinition, SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
+get_schema_by_definition(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
+
+"""
+    GetSchemaVersion()
+
+Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
+
+# Optional Parameters
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
+- `SchemaVersionId`: The SchemaVersionId of the schema version. This field is required for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
+- `SchemaVersionNumber`: The version number of the schema.
+"""
+get_schema_version(; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersion"; aws_config=aws_config)
+get_schema_version(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersion", args; aws_config=aws_config)
+
+"""
+    GetSchemaVersionsDiff()
+
+Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
+
+# Required Parameters
+- `FirstSchemaVersionNumber`: The first of the two schema versions to be compared.
+- `SchemaDiffType`: Refers to SYNTAX_DIFF, which is the currently supported diff type.
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaIdSchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.  
+- `SecondSchemaVersionNumber`: The second of the two schema versions to be compared.
+
+"""
+get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber); aws_config=aws_config)
+get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), args)); aws_config=aws_config)
 
 """
     GetSecurityConfiguration()
@@ -1415,6 +1564,46 @@ list_mltransforms(; aws_config::AWSConfig=global_aws_config()) = glue("ListMLTra
 list_mltransforms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListMLTransforms", args; aws_config=aws_config)
 
 """
+    ListRegistries()
+
+Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
+
+# Optional Parameters
+- `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+- `NextToken`: A continuation token, if this is a continuation call.
+"""
+list_registries(; aws_config::AWSConfig=global_aws_config()) = glue("ListRegistries"; aws_config=aws_config)
+list_registries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListRegistries", args; aws_config=aws_config)
+
+"""
+    ListSchemaVersions()
+
+Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
+
+# Required Parameters
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
+
+# Optional Parameters
+- `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+- `NextToken`: A continuation token, if this is a continuation call.
+"""
+list_schema_versions(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+list_schema_versions(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+
+"""
+    ListSchemas()
+
+Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
+
+# Optional Parameters
+- `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+- `NextToken`: A continuation token, if this is a continuation call.
+- `RegistryId`: A wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+"""
+list_schemas(; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemas"; aws_config=aws_config)
+list_schemas(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemas", args; aws_config=aws_config)
+
+"""
     ListTriggers()
 
 Retrieves the names of all trigger resources in this AWS account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
@@ -1472,6 +1661,22 @@ put_resource_policy(PolicyInJson; aws_config::AWSConfig=global_aws_config()) = g
 put_resource_policy(PolicyInJson, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), args)); aws_config=aws_config)
 
 """
+    PutSchemaVersionMetadata()
+
+Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
+
+# Required Parameters
+- `MetadataKeyValue`: The metadata key's corresponding value.
+
+# Optional Parameters
+- `SchemaId`: The unique ID for the schema.
+- `SchemaVersionId`: The unique version ID of the schema version.
+- `SchemaVersionNumber`: The version number of the schema.
+"""
+put_schema_version_metadata(MetadataKeyValue; aws_config::AWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
+put_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
+
+"""
     PutWorkflowRunProperties()
 
 Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
@@ -1484,6 +1689,51 @@ Puts the specified workflow run properties for the given workflow run. If a prop
 """
 put_workflow_run_properties(Name, RunId, RunProperties; aws_config::AWSConfig=global_aws_config()) = glue("PutWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties); aws_config=aws_config)
 put_workflow_run_properties(Name, RunId, RunProperties, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), args)); aws_config=aws_config)
+
+"""
+    QuerySchemaVersionMetadata()
+
+Queries for the schema version metadata information. 
+
+# Optional Parameters
+- `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
+- `MetadataList`: Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched.
+- `NextToken`: A continuation token, if this is a continuation call.
+- `SchemaId`: A wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+- `SchemaVersionId`: The unique version ID of the schema version.
+- `SchemaVersionNumber`: The version number of the schema.
+"""
+query_schema_version_metadata(; aws_config::AWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata"; aws_config=aws_config)
+query_schema_version_metadata(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata", args; aws_config=aws_config)
+
+"""
+    RegisterSchemaVersion()
+
+Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
+
+# Required Parameters
+- `SchemaDefinition`: The schema definition using the DataFormat setting for the SchemaName.
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
+
+"""
+register_schema_version(SchemaDefinition, SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
+register_schema_version(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
+
+"""
+    RemoveSchemaVersionMetadata()
+
+Removes a key value pair from the schema version metadata for the specified schema version ID.
+
+# Required Parameters
+- `MetadataKeyValue`: The value of the metadata key.
+
+# Optional Parameters
+- `SchemaId`: A wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
+- `SchemaVersionId`: The unique version ID of the schema version.
+- `SchemaVersionNumber`: The version number of the schema.
+"""
+remove_schema_version_metadata(MetadataKeyValue; aws_config::AWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
+remove_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
 
 """
     ResetJobBookmark()
@@ -1915,6 +2165,35 @@ Updates a partition.
 """
 update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName; aws_config::AWSConfig=global_aws_config()) = glue("UpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName); aws_config=aws_config)
 update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    UpdateRegistry()
+
+Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry. 
+
+# Required Parameters
+- `Description`: A description of the registry. If description is not provided, this field will not be updated.
+- `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
+
+"""
+update_registry(Description, RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId); aws_config=aws_config)
+update_registry(Description, RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), args)); aws_config=aws_config)
+
+"""
+    UpdateSchema()
+
+Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
+
+# Required Parameters
+- `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaIdSchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.  
+
+# Optional Parameters
+- `Compatibility`: The new compatibility setting for the schema.
+- `Description`: The new description for the schema.
+- `SchemaVersionNumber`: Version number required for check pointing. One of VersionNumber or Compatibility has to be provided.
+"""
+update_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+update_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     UpdateTable()

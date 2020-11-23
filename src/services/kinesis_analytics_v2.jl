@@ -109,6 +109,21 @@ create_application(ApplicationName, RuntimeEnvironment, ServiceExecutionRole; aw
 create_application(ApplicationName, RuntimeEnvironment, ServiceExecutionRole, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "RuntimeEnvironment"=>RuntimeEnvironment, "ServiceExecutionRole"=>ServiceExecutionRole), args)); aws_config=aws_config)
 
 """
+    CreateApplicationPresignedUrl()
+
+Creates and returns a URL that you can use to connect to an application's extension. Currently, the only available extension is the Apache Flink dashboard. The IAM role or user used to call this API defines the permissions to access the extension. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension.   The URL that you get from a call to CreateApplicationPresignedUrl must be used within 3 minutes to be valid. If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error. 
+
+# Required Parameters
+- `ApplicationName`: The name of the application.
+- `UrlType`: The type of the extension for which to create and return a URL. Currently, the only valid extension URL type is FLINK_DASHBOARD_URL. 
+
+# Optional Parameters
+- `SessionExpirationDurationInSeconds`: The duration in seconds for which the returned URL will be valid.
+"""
+create_application_presigned_url(ApplicationName, UrlType; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType); aws_config=aws_config)
+create_application_presigned_url(ApplicationName, UrlType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType), args)); aws_config=aws_config)
+
+"""
     CreateApplicationSnapshot()
 
 Creates a snapshot of the application's state data.
@@ -317,13 +332,13 @@ start_application(ApplicationName, RunConfiguration, args::AbstractDict{String, 
 """
     StopApplication()
 
-Stops the application from processing data. You can stop an application only if it is in the running state. You can use the DescribeApplication operation to find the application state. 
+Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true. You can use the DescribeApplication operation to find the application status.  Kinesis Data Analytics takes a snapshot when the application is stopped, unless Force is set to true.
 
 # Required Parameters
 - `ApplicationName`: The name of the running application to stop.
 
 # Optional Parameters
-- `Force`: Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING state. 
+- `Force`: Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot.   Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application.  You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status. 
 """
 stop_application(ApplicationName; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("StopApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
 stop_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)

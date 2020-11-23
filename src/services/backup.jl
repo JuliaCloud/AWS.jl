@@ -161,6 +161,15 @@ describe_copy_job(copyJobId; aws_config::AWSConfig=global_aws_config()) = backup
 describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)", args; aws_config=aws_config)
 
 """
+    DescribeGlobalSettings()
+
+The current feature settings for the AWS Account.
+
+"""
+describe_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
+describe_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings", args; aws_config=aws_config)
+
+"""
     DescribeProtectedResource()
 
 Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the AWS service type of the saved resource.
@@ -188,7 +197,7 @@ describe_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{St
 """
     DescribeRegionSettings()
 
-Returns the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup tries to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not try to protect that service's resources in this Region.
+Returns the current service opt-in settings for the Region. If service-opt-in is enabled for a service, AWS Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not try to protect that service's resources in this Region, AWS Backup does not try to protect that service's resources in this Region.
 
 """
 describe_region_settings(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/account-settings"; aws_config=aws_config)
@@ -634,6 +643,17 @@ update_backup_plan(BackupPlan, backupPlanId; aws_config::AWSConfig=global_aws_co
 update_backup_plan(BackupPlan, backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), args)); aws_config=aws_config)
 
 """
+    UpdateGlobalSettings()
+
+Updates the current global settings for the AWS Account. Use the DescribeGlobalSettings API to determine the current settings.
+
+# Optional Parameters
+- `GlobalSettings`: A list of resources along with the opt-in preferences for the account.
+"""
+update_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
+update_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings", args; aws_config=aws_config)
+
+"""
     UpdateRecoveryPointLifecycle()
 
 Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
@@ -651,7 +671,7 @@ update_recovery_point_lifecycle(backupVaultName, recoveryPointArn, args::Abstrac
 """
     UpdateRegionSettings()
 
-Updates the current service opt-in settings for the Region. If the service has a value set to true, AWS Backup tries to protect that service's resources in this Region, when included in an on-demand backup or scheduled backup plan. If the value is set to false for a service, AWS Backup does not try to protect that service's resources in this Region.
+Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, AWS Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
 
 # Optional Parameters
 - `ResourceTypeOptInPreference`: Updates the list of services along with the opt-in preferences for the Region.

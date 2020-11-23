@@ -10,16 +10,16 @@ using AWS.UUIDs
 Creates an Outpost.
 
 # Required Parameters
+- `Name`: 
 - `SiteId`: 
 
 # Optional Parameters
 - `AvailabilityZone`: 
 - `AvailabilityZoneId`: 
 - `Description`: 
-- `Name`: 
 """
-create_outpost(SiteId; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("SiteId"=>SiteId); aws_config=aws_config)
-create_outpost(SiteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SiteId"=>SiteId), args)); aws_config=aws_config)
+create_outpost(Name, SiteId; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
+create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), args)); aws_config=aws_config)
 
 """
     DeleteOutpost()

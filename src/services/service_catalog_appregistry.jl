@@ -7,7 +7,7 @@ using AWS.UUIDs
 """
     AssociateAttributeGroup()
 
-Associates an attribute group with an application to augment the application's metadata with the group's attributes. This way applications can be described with user-defined details which are machine-readable (e.g. for third-party integrations).
+Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -25,7 +25,7 @@ Associates a resource with an application. Both the resource and the application
 # Required Parameters
 - `application`: The name or ID of the application.
 - `resource`: The name or ID of the resource of which the application will be associated.
-- `resourceType`: 
+- `resourceType`: The type of resource of which the application will be associated.
 
 """
 associate_resource(application, resource, resourceType; aws_config::AWSConfig=global_aws_config()) = service_catalog_appregistry("PUT", "/applications/$(application)/resources/$(resourceType)/$(resource)"; aws_config=aws_config)
@@ -37,7 +37,7 @@ associate_resource(application, resource, resourceType, args::AbstractDict{Strin
 Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
 
 # Required Parameters
-- `clientToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the clientToken, the same response is returned for each repeated request.
+- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails.
 - `name`: The name of the application. The name must be unique in the region in which you are creating the application.
 
 # Optional Parameters
@@ -50,11 +50,11 @@ create_application(clientToken, name, args::AbstractDict{String, <:Any}; aws_con
 """
     CreateAttributeGroup()
 
-Creates a new attribute group as a container for user-defined attributes. This approach enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
+Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
 
 # Required Parameters
 - `attributes`: A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
-- `clientToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the clientToken, the same response is returned for each repeated request.
+- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails.
 - `name`: The name of the attribute group.
 
 # Optional Parameters
@@ -67,7 +67,7 @@ create_attribute_group(attributes, clientToken, name, args::AbstractDict{String,
 """
     DeleteApplication()
 
-Delete an application, specified either by its application ID or name.
+Deletes an application that is specified either by its application ID or name. All associated attribute groups and resources must be disassociated from it before deleting an application.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -108,8 +108,8 @@ Disassociates a resource from application. Both the resource and the application
 
 # Required Parameters
 - `application`: The name or ID of the application.
-- `resource`: The name or ID of the resource of which the application will be associated.
-- `resourceType`: The type of the resource that's being disassociated.
+- `resource`: The name or ID of the resource.
+- `resourceType`: The type of the resource that is being disassociated.
 
 """
 disassociate_resource(application, resource, resourceType; aws_config::AWSConfig=global_aws_config()) = service_catalog_appregistry("DELETE", "/applications/$(application)/resources/$(resourceType)/$(resource)"; aws_config=aws_config)
@@ -130,7 +130,7 @@ get_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     GetAttributeGroup()
 
-Retrieves an attribute group, either by its name or its ID.
+Retrieves an attribute group, either by its name or its ID. The attribute group can be specified either by its unique ID or by its name.
 
 # Required Parameters
 - `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
@@ -199,11 +199,11 @@ list_attribute_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=glo
 Updates an existing application with new attributes.
 
 # Required Parameters
-- `application`: The name or ID of the application. The name must be unique in the region in which you are updating the attribute group.
+- `application`: The name or ID of the application that will be updated.
 
 # Optional Parameters
-- `description`: The description of the application.
-- `name`: The anme of the application. The name must be unique in the region in which you are creating the application.
+- `description`: The new description of the application.
+- `name`: The new name of the application. The name must be unique in the region in which you are updating the application.
 """
 update_application(application; aws_config::AWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/applications/$(application)"; aws_config=aws_config)
 update_application(application, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/applications/$(application)", args; aws_config=aws_config)

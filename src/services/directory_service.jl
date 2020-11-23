@@ -32,6 +32,20 @@ add_ip_routes(DirectoryId, IpRoutes; aws_config::AWSConfig=global_aws_config()) 
 add_ip_routes(DirectoryId, IpRoutes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("AddIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "IpRoutes"=>IpRoutes), args)); aws_config=aws_config)
 
 """
+    AddRegion()
+
+Adds two domain controllers in the specified Region for the specified directory.
+
+# Required Parameters
+- `DirectoryId`: The identifier of the directory to which you want to add Region replication.
+- `RegionName`: The name of the Region where you want to add domain controllers for replication. For example, us-east-1.
+- `VPCSettings`: 
+
+"""
+add_region(DirectoryId, RegionName, VPCSettings; aws_config::AWSConfig=global_aws_config()) = directory_service("AddRegion", Dict{String, Any}("DirectoryId"=>DirectoryId, "RegionName"=>RegionName, "VPCSettings"=>VPCSettings); aws_config=aws_config)
+add_region(DirectoryId, RegionName, VPCSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("AddRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RegionName"=>RegionName, "VPCSettings"=>VPCSettings), args)); aws_config=aws_config)
+
+"""
     AddTagsToResource()
 
 Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
@@ -92,7 +106,7 @@ create_alias(Alias, DirectoryId, args::AbstractDict{String, <:Any}; aws_config::
 """
     CreateComputer()
 
-Creates a computer account in the specified directory, and joins the computer to the directory.
+Creates an Active Directory computer object in the specified directory.
 
 # Required Parameters
 - `ComputerName`: The name of the computer account.
@@ -127,7 +141,7 @@ Creates a Simple AD directory. For more information, see Simple Active Directory
 
 # Required Parameters
 - `Name`: The fully qualified name for the directory, such as corp.example.com.
-- `Password`: The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call.
+- `Password`: The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the ResetUserPassword API call. The regex pattern for this string is made up of the following conditions:   Length (?=^.{8,64}) – Must be between 8 and 64 characters   AND any 3 of the following password complexity rules required by Active Directory:   Numbers and upper case and lowercase (?=.*d)(?=.*[A-Z])(?=.*[a-z])   Numbers and special characters and lower case (?=.*d)(?=.*[^A-Za-z0-9s])(?=.*[a-z])   Special characters and upper case and lower case (?=.*[^A-Za-z0-9s])(?=.*[A-Z])(?=.*[a-z])   Numbers and upper case and special characters (?=.*d)(?=.*[A-Z])(?=.*[^A-Za-z0-9s])   For additional information about how Active Directory passwords are enforced, see Password must meet complexity requirements on the Microsoft website.
 - `Size`: The size of the directory.
 
 # Optional Parameters
@@ -376,6 +390,21 @@ Describes the status of LDAP security for the specified directory.
 """
 describe_ldapssettings(DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("DescribeLDAPSSettings", Dict{String, Any}("DirectoryId"=>DirectoryId); aws_config=aws_config)
 describe_ldapssettings(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("DescribeLDAPSSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
+
+"""
+    DescribeRegions()
+
+Provides information about the Regions that are configured for multi-Region replication.
+
+# Required Parameters
+- `DirectoryId`: The identifier of the directory.
+
+# Optional Parameters
+- `NextToken`: The DescribeRegionsResult.NextToken value from a previous call to DescribeRegions. Pass null if this is the first call.
+- `RegionName`: The name of the Region. For example, us-east-1.
+"""
+describe_regions(DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("DescribeRegions", Dict{String, Any}("DirectoryId"=>DirectoryId); aws_config=aws_config)
+describe_regions(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("DescribeRegions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
 
 """
     DescribeSharedDirectories()
@@ -646,6 +675,18 @@ Removes IP address blocks from a directory.
 """
 remove_ip_routes(CidrIps, DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("RemoveIpRoutes", Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId); aws_config=aws_config)
 remove_ip_routes(CidrIps, DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("RemoveIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
+
+"""
+    RemoveRegion()
+
+Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
+
+# Required Parameters
+- `DirectoryId`: The identifier of the directory for which you want to remove Region replication.
+
+"""
+remove_region(DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("RemoveRegion", Dict{String, Any}("DirectoryId"=>DirectoryId); aws_config=aws_config)
+remove_region(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("RemoveRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromResource()

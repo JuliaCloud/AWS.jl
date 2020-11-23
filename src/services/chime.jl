@@ -164,6 +164,51 @@ create_account(Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", 
 create_account(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
+    CreateAppInstance()
+
+Creates an Amazon Chime Messaging SDK AppInstance under an AWS Account. Only Messaging SDK customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
+
+# Required Parameters
+- `ClientRequestToken`: The ClientRequestToken of the app instance.
+- `Name`: The name of the app instance.
+
+# Optional Parameters
+- `Metadata`: The metadata of the app instance. Limited to a 1KB string in UTF-8.
+"""
+create_app_instance(ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_app_instance(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    CreateAppInstanceAdmin()
+
+Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.     ChannelModerator actions across all channels in the app instance.    DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+
+# Required Parameters
+- `AppInstanceAdminArn`: The ARN of the administrator of the current app instance.
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+create_app_instance_admin(AppInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn); aws_config=aws_config)
+create_app_instance_admin(AppInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn), args)); aws_config=aws_config)
+
+"""
+    CreateAppInstanceUser()
+
+Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
+
+# Required Parameters
+- `AppInstanceArn`: The ARN of the app instance request.
+- `AppInstanceUserId`: The user ID of the app instance.
+- `ClientRequestToken`: The token assigned to the user requesting an app instance.
+- `Name`: The user's name.
+
+# Optional Parameters
+- `Metadata`: The request's metadata. Limited to a 1KB string in UTF-8.
+"""
+create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
     CreateAttendee()
 
 Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -192,6 +237,65 @@ Creates a bot for an Amazon Chime Enterprise account.
 """
 create_bot(DisplayName, accountId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}("DisplayName"=>DisplayName); aws_config=aws_config)
 create_bot(DisplayName, accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName), args)); aws_config=aws_config)
+
+"""
+    CreateChannel()
+
+Creates a channel to which you can add users and send messages.  Restriction: You can't change a channel's privacy.
+
+# Required Parameters
+- `AppInstanceArn`: The ARN of the channel request.
+- `ClientRequestToken`: The client token for the request. An Idempotency token.
+- `Name`: The name of the channel.
+
+# Optional Parameters
+- `Metadata`: The metadata of the creation request. Limited to 1KB and UTF-8.
+- `Mode`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and channel members can add themselves and other members to unrestricted channels. Only administrators and moderators can add members to restricted channels.
+- `Privacy`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the app instance.
+- `Tags`: 
+"""
+create_channel(AppInstanceArn, ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_channel(AppInstanceArn, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    CreateChannelBan()
+
+Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels.  If you ban a user who is already part of a channel, that user is automatically kicked from the channel.
+
+# Required Parameters
+- `MemberArn`: The ARN of the member being banned.
+- `channelArn`: The ARN of the ban request.
+
+"""
+create_channel_ban(MemberArn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}("MemberArn"=>MemberArn); aws_config=aws_config)
+create_channel_ban(MemberArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn), args)); aws_config=aws_config)
+
+"""
+    CreateChannelMembership()
+
+Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:   List messages   Send messages   Receive messages   Edit their own messages   Leave the channel   Privacy settings impact this action as follows:   Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.  
+
+# Required Parameters
+- `MemberArn`: The ARN of the member you want to add to the channel.
+- `Type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
+- `channelArn`: The ARN of the channel to which you're adding users.
+
+"""
+create_channel_membership(MemberArn, Type, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type); aws_config=aws_config)
+create_channel_membership(MemberArn, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type), args)); aws_config=aws_config)
+
+"""
+    CreateChannelModerator()
+
+Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.  
+
+# Required Parameters
+- `ChannelModeratorArn`: The ARN of the moderator.
+- `channelArn`: The ARN of the channel.
+
+"""
+create_channel_moderator(ChannelModeratorArn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn); aws_config=aws_config)
+create_channel_moderator(ChannelModeratorArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn), args)); aws_config=aws_config)
 
 """
     CreateMeeting()
@@ -414,6 +518,55 @@ delete_account(accountId; aws_config::AWSConfig=global_aws_config()) = chime("DE
 delete_account(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/accounts/$(accountId)", args; aws_config=aws_config)
 
 """
+    DeleteAppInstance()
+
+Deletes an AppInstance and all associated data asynchronously.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+delete_app_instance(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
+delete_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
+
+"""
+    DeleteAppInstanceAdmin()
+
+Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+
+# Required Parameters
+- `appInstanceAdminArn`: The ARN of the app instance's administrator.
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+delete_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
+delete_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
+
+"""
+    DeleteAppInstanceStreamingConfigurations()
+
+Deletes the streaming configurations of an app instance.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the streaming configurations being deleted.
+
+"""
+delete_app_instance_streaming_configurations(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
+delete_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
+
+"""
+    DeleteAppInstanceUser()
+
+Deletes an AppInstanceUser.
+
+# Required Parameters
+- `appInstanceUserArn`: The ARN of the user request being deleted.
+
+"""
+delete_app_instance_user(appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
+delete_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
+
+"""
     DeleteAttendee()
 
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -425,6 +578,70 @@ Deletes an attendee from the specified Amazon Chime SDK meeting and deletes thei
 """
 delete_attendee(attendeeId, meetingId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)"; aws_config=aws_config)
 delete_attendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)", args; aws_config=aws_config)
+
+"""
+    DeleteChannel()
+
+Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel being deleted.
+
+"""
+delete_channel(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)"; aws_config=aws_config)
+delete_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)", args; aws_config=aws_config)
+
+"""
+    DeleteChannelBan()
+
+Removes a user from a channel's ban list.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel from which the app instance user was banned.
+- `memberArn`: The ARN of the app instance user that you want to reinstate.
+
+"""
+delete_channel_ban(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
+delete_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
+
+"""
+    DeleteChannelMembership()
+
+Removes a member from a channel.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel from which you want to remove the user.
+- `memberArn`: The ARN of the member that you're removing from the channel.
+
+"""
+delete_channel_membership(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
+delete_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
+
+"""
+    DeleteChannelMessage()
+
+Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `messageId`: The ID of the message being deleted.
+
+"""
+delete_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+delete_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
+
+"""
+    DeleteChannelModerator()
+
+Deletes a channel moderator.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `channelModeratorArn`: The ARN of the moderator being deleted.
+
+"""
+delete_channel_moderator(channelArn, channelModeratorArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
+delete_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
 
 """
     DeleteEventsConfiguration()
@@ -625,6 +842,120 @@ delete_voice_connector_termination_credentials(Usernames, voiceConnectorId; aws_
 delete_voice_connector_termination_credentials(Usernames, voiceConnectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Usernames"=>Usernames), args)); aws_config=aws_config)
 
 """
+    DescribeAppInstance()
+
+Returns the full details of an AppInstance.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+describe_app_instance(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
+describe_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
+
+"""
+    DescribeAppInstanceAdmin()
+
+Returns the full details of an AppInstanceAdmin.
+
+# Required Parameters
+- `appInstanceAdminArn`: The ARN of the app instance administrator.
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+describe_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
+describe_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
+
+"""
+    DescribeAppInstanceUser()
+
+Returns the full details of an AppInstanceUser.
+
+# Required Parameters
+- `appInstanceUserArn`: The ARN of the app instance user.
+
+"""
+describe_app_instance_user(appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
+describe_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
+
+"""
+    DescribeChannel()
+
+Returns the full details of a channel in an Amazon Chime app instance.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+
+"""
+describe_channel(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)"; aws_config=aws_config)
+describe_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)", args; aws_config=aws_config)
+
+"""
+    DescribeChannelBan()
+
+Returns the full details of a channel ban.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel from which the user is banned.
+- `memberArn`: The ARN of the member being banned.
+
+"""
+describe_channel_ban(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
+describe_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
+
+"""
+    DescribeChannelMembership()
+
+Returns the full details of a user's channel membership.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `memberArn`: The ARN of the member.
+
+"""
+describe_channel_membership(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
+describe_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
+
+"""
+    DescribeChannelMembershipForAppInstanceUser()
+
+Returns the details of a channel based on the membership of the AppInstanceUser specified.
+
+# Required Parameters
+- `app-instance-user-arn`: The ARN of the user in a channel.
+- `channelArn`: The ARN of the channel to which the user belongs.
+
+"""
+describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
+describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
+
+"""
+    DescribeChannelModeratedByAppInstanceUser()
+
+Returns the full details of a channel moderated by the specified AppInstanceUser.
+
+# Required Parameters
+- `app-instance-user-arn`: The ARN of the app instance user in the moderated channel.
+- `channelArn`: The ARN of the moderated channel.
+
+"""
+describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
+describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
+
+"""
+    DescribeChannelModerator()
+
+Returns the full details of a single ChannelModerator.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `channelModeratorArn`: The ARN of the channel moderator.
+
+"""
+describe_channel_moderator(channelArn, channelModeratorArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
+describe_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
+
+"""
     DisassociatePhoneNumberFromUser()
 
 Disassociates the primary provisioned phone number from the specified Amazon Chime user.
@@ -701,6 +1032,30 @@ get_account_settings(accountId; aws_config::AWSConfig=global_aws_config()) = chi
 get_account_settings(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/settings", args; aws_config=aws_config)
 
 """
+    GetAppInstanceRetentionSettings()
+
+Gets the retention settings for an app instance.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+get_app_instance_retention_settings(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings"; aws_config=aws_config)
+get_app_instance_retention_settings(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings", args; aws_config=aws_config)
+
+"""
+    GetAppInstanceStreamingConfigurations()
+
+Gets the streaming settings for an app instance.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the app instance. 
+
+"""
+get_app_instance_streaming_configurations(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
+get_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
+
+"""
     GetAttendee()
 
 Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -725,6 +1080,19 @@ Retrieves details for the specified bot, such as bot email address, bot type, st
 """
 get_bot(accountId, botId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)"; aws_config=aws_config)
 get_bot(accountId, botId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)", args; aws_config=aws_config)
+
+"""
+    GetChannelMessage()
+
+Gets the full details of a channel message.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `messageId`: The ID of the message.
+
+"""
+get_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+get_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
 
 """
     GetEventsConfiguration()
@@ -759,6 +1127,15 @@ Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
 """
 get_meeting(meetingId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/meetings/$(meetingId)"; aws_config=aws_config)
 get_meeting(meetingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/meetings/$(meetingId)", args; aws_config=aws_config)
+
+"""
+    GetMessagingSessionEndpoint()
+
+The endpoint for the messaging session.
+
+"""
+get_messaging_session_endpoint(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session"; aws_config=aws_config)
+get_messaging_session_endpoint(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session", args; aws_config=aws_config)
 
 """
     GetPhoneNumber()
@@ -932,7 +1309,7 @@ get_voice_connector_group(voiceConnectorGroupId, args::AbstractDict{String, <:An
 """
     GetVoiceConnectorLoggingConfiguration()
 
-Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1031,6 +1408,48 @@ list_accounts(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/acco
 list_accounts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts", args; aws_config=aws_config)
 
 """
+    ListAppInstanceAdmins()
+
+Returns a list of the administrators in the app instance.
+
+# Required Parameters
+- `appInstanceArn`: The ARN of the app instance.
+
+# Optional Parameters
+- `max-results`: The maximum number of administrators that you want to return.
+- `next-token`: The token returned from previous API requests until the number of administrators is reached.
+"""
+list_app_instance_admins(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins"; aws_config=aws_config)
+list_app_instance_admins(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins", args; aws_config=aws_config)
+
+"""
+    ListAppInstanceUsers()
+
+List all AppInstanceUsers created under a single app instance.
+
+# Required Parameters
+- `app-instance-arn`: The ARN of the app instance.
+
+# Optional Parameters
+- `max-results`: The maximum number of requests that you want returned.
+- `next-token`: The token passed by previous API calls until all requested users are returned.
+"""
+list_app_instance_users(app_instance_arn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
+list_app_instance_users(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
+
+"""
+    ListAppInstances()
+
+Lists all Amazon Chime app instances created under a single AWS account.
+
+# Optional Parameters
+- `max-results`: The maximum number of app instances that you want to return.
+- `next-token`: The token passed by previous API requests until you reach the maximum number of app instances.
+"""
+list_app_instances(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances"; aws_config=aws_config)
+list_app_instances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances", args; aws_config=aws_config)
+
+"""
     ListAttendeeTags()
 
 Lists the tags applied to an Amazon Chime SDK attendee resource.
@@ -1072,6 +1491,112 @@ Lists the bots associated with the administrator's Amazon Chime Enterprise accou
 """
 list_bots(accountId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/bots"; aws_config=aws_config)
 list_bots(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/bots", args; aws_config=aws_config)
+
+"""
+    ListChannelBans()
+
+Lists all the users banned from a particular channel.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+
+# Optional Parameters
+- `max-results`: The maximum number of bans that you want returned.
+- `next-token`: The token passed by previous API calls until all requested bans are returned.
+"""
+list_channel_bans(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans"; aws_config=aws_config)
+list_channel_bans(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans", args; aws_config=aws_config)
+
+"""
+    ListChannelMemberships()
+
+Lists all channel memberships in a channel.
+
+# Required Parameters
+- `channelArn`: The maximum number of channel memberships that you want returned.
+
+# Optional Parameters
+- `max-results`: The maximum number of channel memberships that you want returned.
+- `next-token`: The token passed by previous API calls until all requested channel memberships are returned..
+- `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+"""
+list_channel_memberships(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships"; aws_config=aws_config)
+list_channel_memberships(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships", args; aws_config=aws_config)
+
+"""
+    ListChannelMembershipsForAppInstanceUser()
+
+Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.
+
+# Optional Parameters
+- `app-instance-user-arn`: The ARN of the app instance users
+- `max-results`: The maximum number of users that you want returned. 
+- `next-token`: The token returned from previous API requests until the number of channel memberships is reached.
+"""
+list_channel_memberships_for_app_instance_user(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships"; aws_config=aws_config)
+list_channel_memberships_for_app_instance_user(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships", args; aws_config=aws_config)
+
+"""
+    ListChannelMessages()
+
+List all the messages in a channel. Returns a paginated list of ChannelMessages. Sorted in descending order by default, based on the creation timestamp.  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. 
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+
+# Optional Parameters
+- `max-results`: The maximum number of messages that you want returned.
+- `next-token`: The token passed by previous API calls until all requested messages are returned.
+- `not-after`: The final or ending time stamp for your requested messages.
+- `not-before`: The initial or starting time stamp for your requested messages. 
+- `sort-order`: The order in which you want messages sorted. Default is Descending, based on time created.
+"""
+list_channel_messages(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages"; aws_config=aws_config)
+list_channel_messages(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages", args; aws_config=aws_config)
+
+"""
+    ListChannelModerators()
+
+Lists all the moderators for a channel.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+
+# Optional Parameters
+- `max-results`: The maximum number of moderators that you want returned.
+- `next-token`: The token passed by previous API calls until all requested moderators are returned.
+"""
+list_channel_moderators(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators"; aws_config=aws_config)
+list_channel_moderators(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators", args; aws_config=aws_config)
+
+"""
+    ListChannels()
+
+Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions    Use privacy = PUBLIC to retrieve all public channels in the account   Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.  
+
+# Required Parameters
+- `app-instance-arn`: The ARN of the app instance.
+
+# Optional Parameters
+- `max-results`: The maximum number of channels that you want to return.
+- `next-token`: The token passed by previous API calls until all requested channels are returned.
+- `privacy`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an app instance administrator can retrieve private channels.
+"""
+list_channels(app_instance_arn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
+list_channels(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
+
+"""
+    ListChannelsModeratedByAppInstanceUser()
+
+A list of the channels moderated by an app instance user.
+
+# Optional Parameters
+- `app-instance-user-arn`: The ARN of the user in the moderated channel.
+- `max-results`: The maximum number of channels in the request.
+- `next-token`: The token returned from previous API requests until the number of channels moderated by the user is reached.
+"""
+list_channels_moderated_by_app_instance_user(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
+list_channels_moderated_by_app_instance_user(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", args; aws_config=aws_config)
 
 """
     ListMeetingTags()
@@ -1277,6 +1802,32 @@ logout_user(accountId, userId; aws_config::AWSConfig=global_aws_config()) = chim
 logout_user(accountId, userId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout", args; aws_config=aws_config)
 
 """
+    PutAppInstanceRetentionSettings()
+
+Sets the amount of time in days that a given app instance retains data.
+
+# Required Parameters
+- `AppInstanceRetentionSettings`: The time in days to retain data. Data type: number.
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings); aws_config=aws_config)
+put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings), args)); aws_config=aws_config)
+
+"""
+    PutAppInstanceStreamingConfigurations()
+
+The data streaming configurations of an app instance.
+
+# Required Parameters
+- `AppInstanceStreamingConfigurations`: The streaming configurations set for an app instance.
+- `appInstanceArn`: The ARN of the app instance.
+
+"""
+put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations); aws_config=aws_config)
+put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations), args)); aws_config=aws_config)
+
+"""
     PutEventsConfiguration()
 
 Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see Bot.
@@ -1416,6 +1967,19 @@ put_voice_connector_termination_credentials(voiceConnectorId; aws_config::AWSCon
 put_voice_connector_termination_credentials(voiceConnectorId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put", args; aws_config=aws_config)
 
 """
+    RedactChannelMessage()
+
+Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel containing the messages that you want to redact.
+- `messageId`: The ID of the message being redacted.
+
+"""
+redact_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact"; aws_config=aws_config)
+redact_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", args; aws_config=aws_config)
+
+"""
     RedactConversationMessage()
 
 Redacts the specified message from the specified Amazon Chime conversation.
@@ -1432,7 +1996,7 @@ redact_conversation_message(accountId, conversationId, messageId, args::Abstract
 """
     RedactRoomMessage()
 
-Redacts the specified message from the specified Amazon Chime chat room.
+Redacts the specified message from the specified Amazon Chime channel.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1497,6 +2061,24 @@ Searches phone numbers that can be ordered.
 """
 search_available_phone_numbers(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers"; aws_config=aws_config)
 search_available_phone_numbers(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers", args; aws_config=aws_config)
+
+"""
+    SendChannelMessage()
+
+Sends a message to a particular channel that the member is a part of.   STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. 
+
+# Required Parameters
+- `ClientRequestToken`: The Idempotency token for each client request.
+- `Content`: The content of the message.
+- `Persistence`: Boolean that controls whether the message is persisted on the back end. Required.
+- `Type`: The type of message, STANDARD or CONTROL.
+- `channelArn`: The ARN of the channel.
+
+# Optional Parameters
+- `Metadata`: The optional metadata for each message. 
+"""
+send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type); aws_config=aws_config)
+send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     TagAttendee()
@@ -1606,6 +2188,36 @@ update_account_settings(AccountSettings, accountId; aws_config::AWSConfig=global
 update_account_settings(AccountSettings, accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountSettings"=>AccountSettings), args)); aws_config=aws_config)
 
 """
+    UpdateAppInstance()
+
+Updates AppInstance metadata.
+
+# Required Parameters
+- `Name`: The name that you want to change.
+- `appInstanceArn`: The ARN of the app instance.
+
+# Optional Parameters
+- `Metadata`: The metadata that you want to change.
+"""
+update_app_instance(Name, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_app_instance(Name, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    UpdateAppInstanceUser()
+
+Updates the details for an AppInstanceUser. You can update names and metadata.
+
+# Required Parameters
+- `Name`: The name of the app instance user.
+- `appInstanceUserArn`: The ARN of the app instance user.
+
+# Optional Parameters
+- `Metadata`: The metadata of the app instance user.
+"""
+update_app_instance_user(Name, appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_app_instance_user(Name, appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
     UpdateBot()
 
 Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
@@ -1619,6 +2231,50 @@ Updates the status of the specified bot, such as starting or stopping the bot fr
 """
 update_bot(accountId, botId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)"; aws_config=aws_config)
 update_bot(accountId, botId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)", args; aws_config=aws_config)
+
+"""
+    UpdateChannel()
+
+Update a channel's attributes.  Restriction: You can't change a channel's privacy.
+
+# Required Parameters
+- `Mode`: The mode of the update request.
+- `Name`: The name of the channel.
+- `channelArn`: The ARN of the channel.
+
+# Optional Parameters
+- `Metadata`: The metadata of the channel.
+"""
+update_channel(Mode, Name, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}("Mode"=>Mode, "Name"=>Name); aws_config=aws_config)
+update_channel(Mode, Name, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mode"=>Mode, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    UpdateChannelMessage()
+
+Updates the content of a message.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+- `messageId`: The ID string of the message being updated.
+
+# Optional Parameters
+- `Content`: The content of the message being updated.
+- `Metadata`: The metadata of the message being updated.
+"""
+update_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+update_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
+
+"""
+    UpdateChannelReadMarker()
+
+Sets the timestamp to the point when a user last read messages in a channel.
+
+# Required Parameters
+- `channelArn`: The ARN of the channel.
+
+"""
+update_channel_read_marker(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker"; aws_config=aws_config)
+update_channel_read_marker(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker", args; aws_config=aws_config)
 
 """
     UpdateGlobalSettings()

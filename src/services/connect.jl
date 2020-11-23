@@ -5,6 +5,59 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    AssociateApprovedOrigin()
+
+Associates an approved origin to an Amazon Connect instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Origin`: The domain to add to your allow list.
+
+"""
+associate_approved_origin(InstanceId, Origin; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("Origin"=>Origin); aws_config=aws_config)
+associate_approved_origin(InstanceId, Origin, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origin"=>Origin), args)); aws_config=aws_config)
+
+"""
+    AssociateInstanceStorageConfig()
+
+Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an Amazon S3 bucket, exists when being used for association.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `ResourceType`: A valid resource type.
+- `StorageConfig`: A valid storage type.
+
+"""
+associate_instance_storage_config(InstanceId, ResourceType, StorageConfig; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig); aws_config=aws_config)
+associate_instance_storage_config(InstanceId, ResourceType, StorageConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig), args)); aws_config=aws_config)
+
+"""
+    AssociateLambdaFunction()
+
+Allows the specified Amazon Connect instance to access the specified Lambda function.
+
+# Required Parameters
+- `FunctionArn`: The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+associate_lambda_function(FunctionArn, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("FunctionArn"=>FunctionArn); aws_config=aws_config)
+associate_lambda_function(FunctionArn, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionArn"=>FunctionArn), args)); aws_config=aws_config)
+
+"""
+    AssociateLexBot()
+
+Allows the specified Amazon Connect instance to access the specified Amazon Lex bot.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `LexBot`: The Amazon Lex box to associate with the instance.
+
+"""
+associate_lex_bot(InstanceId, LexBot; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("LexBot"=>LexBot); aws_config=aws_config)
+associate_lex_bot(InstanceId, LexBot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LexBot"=>LexBot), args)); aws_config=aws_config)
+
+"""
     AssociateRoutingProfileQueues()
 
 Associates a set of queues with a routing profile.
@@ -17,6 +70,19 @@ Associates a set of queues with a routing profile.
 """
 associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues", Dict{String, Any}("QueueConfigs"=>QueueConfigs); aws_config=aws_config)
 associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueConfigs"=>QueueConfigs), args)); aws_config=aws_config)
+
+"""
+    AssociateSecurityKey()
+
+Associates a security key to the instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Key`: A valid security key in PEM format.
+
+"""
+associate_security_key(InstanceId, Key; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
+associate_security_key(InstanceId, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
 
 """
     CreateContactFlow()
@@ -35,6 +101,24 @@ Creates a contact flow for the specified Amazon Connect instance. You can also c
 """
 create_contact_flow(Content, InstanceId, Name, Type; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
 create_contact_flow(Content, InstanceId, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
+
+"""
+    CreateInstance()
+
+Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage (such as Amazon S3, or Kinesis) or allow for any configurations on features such as Contact Lens for Amazon Connect. 
+
+# Required Parameters
+- `IdentityManagementType`: The type of identity management for your Amazon Connect users.
+- `InboundCallsEnabled`: Whether your contact center handles incoming contacts.
+- `OutboundCallsEnabled`: Whether your contact center allows outbound calls.
+
+# Optional Parameters
+- `ClientToken`: The idempotency token.
+- `DirectoryId`: The identifier for the directory.
+- `InstanceAlias`: The name for your instance.
+"""
+create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled); aws_config=aws_config)
+create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled), args)); aws_config=aws_config)
 
 """
     CreateRoutingProfile()
@@ -93,6 +177,18 @@ create_user_hierarchy_group(InstanceId, Name; aws_config::AWSConfig=global_aws_c
 create_user_hierarchy_group(InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
+    DeleteInstance()
+
+Deletes the Amazon Connect instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+delete_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)"; aws_config=aws_config)
+delete_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)", args; aws_config=aws_config)
+
+"""
     DeleteUser()
 
 Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
@@ -130,6 +226,45 @@ Describes the specified contact flow. You can also create and update contact flo
 """
 describe_contact_flow(ContactFlowId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows/$(InstanceId)/$(ContactFlowId)"; aws_config=aws_config)
 describe_contact_flow(ContactFlowId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/contact-flows/$(InstanceId)/$(ContactFlowId)", args; aws_config=aws_config)
+
+"""
+    DescribeInstance()
+
+Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+describe_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)"; aws_config=aws_config)
+describe_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)", args; aws_config=aws_config)
+
+"""
+    DescribeInstanceAttribute()
+
+Describes the specified instance attribute.
+
+# Required Parameters
+- `AttributeType`: The type of attribute.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+describe_instance_attribute(AttributeType, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)"; aws_config=aws_config)
+describe_instance_attribute(AttributeType, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)", args; aws_config=aws_config)
+
+"""
+    DescribeInstanceStorageConfig()
+
+Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
+
+# Required Parameters
+- `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `resourceType`: A valid resource type.
+
+"""
+describe_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+describe_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     DescribeRoutingProfile()
@@ -183,6 +318,60 @@ describe_user_hierarchy_structure(InstanceId; aws_config::AWSConfig=global_aws_c
 describe_user_hierarchy_structure(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-structure/$(InstanceId)", args; aws_config=aws_config)
 
 """
+    DisassociateApprovedOrigin()
+
+Revokes access to integrated applications from Amazon Connect.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `origin`: The domain URL of the integrated application.
+
+"""
+disassociate_approved_origin(InstanceId, origin; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("origin"=>origin); aws_config=aws_config)
+disassociate_approved_origin(InstanceId, origin, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("origin"=>origin), args)); aws_config=aws_config)
+
+"""
+    DisassociateInstanceStorageConfig()
+
+Removes the storage type configurations for the specified resource type and association ID.
+
+# Required Parameters
+- `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `resourceType`: A valid resource type.
+
+"""
+disassociate_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+disassociate_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    DisassociateLambdaFunction()
+
+Remove the Lambda function from the drop-down options available in the relevant contact flow blocks.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance..
+- `functionArn`: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
+
+"""
+disassociate_lambda_function(InstanceId, functionArn; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("functionArn"=>functionArn); aws_config=aws_config)
+disassociate_lambda_function(InstanceId, functionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("functionArn"=>functionArn), args)); aws_config=aws_config)
+
+"""
+    DisassociateLexBot()
+
+Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `botName`: The name of the Amazon Lex bot. Maximum character limit of 50.
+- `lexRegion`: The Region in which the Amazon Lex bot has been created.
+
+"""
+disassociate_lex_bot(InstanceId, botName, lexRegion; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion); aws_config=aws_config)
+disassociate_lex_bot(InstanceId, botName, lexRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion), args)); aws_config=aws_config)
+
+"""
     DisassociateRoutingProfileQueues()
 
 Disassociates a set of queues from a routing profile.
@@ -195,6 +384,19 @@ Disassociates a set of queues from a routing profile.
 """
 disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues", Dict{String, Any}("QueueReferences"=>QueueReferences); aws_config=aws_config)
 disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueReferences"=>QueueReferences), args)); aws_config=aws_config)
+
+"""
+    DisassociateSecurityKey()
+
+Deletes the specified security key.
+
+# Required Parameters
+- `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+"""
+disassociate_security_key(AssociationId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)"; aws_config=aws_config)
+disassociate_security_key(AssociationId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)", args; aws_config=aws_config)
 
 """
     GetContactAttributes()
@@ -260,6 +462,21 @@ get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime; aws_
 get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
+    ListApprovedOrigins()
+
+Returns a paginated list of all approved origins associated with the instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_approved_origins(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins"; aws_config=aws_config)
+list_approved_origins(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins", args; aws_config=aws_config)
+
+"""
     ListContactFlows()
 
 Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
@@ -289,6 +506,79 @@ Provides information about the hours of operation for the specified Amazon Conne
 """
 list_hours_of_operations(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/hours-of-operations-summary/$(InstanceId)"; aws_config=aws_config)
 list_hours_of_operations(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/hours-of-operations-summary/$(InstanceId)", args; aws_config=aws_config)
+
+"""
+    ListInstanceAttributes()
+
+Returns a paginated list of all attribute types for the given instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_instance_attributes(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes"; aws_config=aws_config)
+list_instance_attributes(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes", args; aws_config=aws_config)
+
+"""
+    ListInstanceStorageConfigs()
+
+Returns a paginated list of storage configs for the identified instance and resource type.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `resourceType`: A valid resource type.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_instance_storage_configs(InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+list_instance_storage_configs(InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    ListInstances()
+
+Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_instances(; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance"; aws_config=aws_config)
+list_instances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance", args; aws_config=aws_config)
+
+"""
+    ListLambdaFunctions()
+
+Returns a paginated list of all the Lambda functions that show up in the drop-down options in the relevant contact flow blocks.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_lambda_functions(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions"; aws_config=aws_config)
+list_lambda_functions(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions", args; aws_config=aws_config)
+
+"""
+    ListLexBots()
+
+Returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_lex_bots(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots"; aws_config=aws_config)
+list_lex_bots(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots", args; aws_config=aws_config)
 
 """
     ListPhoneNumbers()
@@ -368,6 +658,21 @@ Provides summary information about the routing profiles for the specified Amazon
 """
 list_routing_profiles(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles-summary/$(InstanceId)"; aws_config=aws_config)
 list_routing_profiles(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/routing-profiles-summary/$(InstanceId)", args; aws_config=aws_config)
+
+"""
+    ListSecurityKeys()
+
+Returns a paginated list of all security keys associated with the instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_security_keys(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys"; aws_config=aws_config)
+list_security_keys(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys", args; aws_config=aws_config)
 
 """
     ListSecurityProfiles()
@@ -602,6 +907,35 @@ The name of the contact flow. You can also create and update contact flows using
 """
 update_contact_flow_name(ContactFlowId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name"; aws_config=aws_config)
 update_contact_flow_name(ContactFlowId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name", args; aws_config=aws_config)
+
+"""
+    UpdateInstanceAttribute()
+
+Updates the value for the specified attribute type.
+
+# Required Parameters
+- `AttributeType`: The type of attribute.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Value`: The value for the attribute. Maximum character limit is 100. 
+
+"""
+update_instance_attribute(AttributeType, InstanceId, Value; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}("Value"=>Value); aws_config=aws_config)
+update_instance_attribute(AttributeType, InstanceId, Value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Value"=>Value), args)); aws_config=aws_config)
+
+"""
+    UpdateInstanceStorageConfig()
+
+Updates an existing configuration for a resource type. This API is idempotent.
+
+# Required Parameters
+- `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `StorageConfig`: 
+- `resourceType`: A valid resource type.
+
+"""
+update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType); aws_config=aws_config)
+update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     UpdateRoutingProfileConcurrency()
