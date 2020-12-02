@@ -17,6 +17,7 @@ Creates an Outpost.
 - `AvailabilityZone`: 
 - `AvailabilityZoneId`: 
 - `Description`: 
+- `Tags`: The tags to apply to the Outpost.
 """
 create_outpost(Name, SiteId; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
 create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), args)); aws_config=aws_config)

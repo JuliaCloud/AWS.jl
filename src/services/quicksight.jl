@@ -782,6 +782,8 @@ Generates a session URL and authorization code that you can use to embed an Amaz
 - `creds-type`: The authentication method that the user uses to sign in.
 
 # Optional Parameters
+- `additional-dashboard-ids`: A list of one or more dashboard ids that you want to add to a session that includes anonymous authorizations. IdentityType must be set to ANONYMOUS for this to work, because other other identity types authenticate as QuickSight users. For example, if you set \"--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS\", the session can access all three dashboards. 
+- `namespace`: The QuickSight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set this to \"default\".
 - `reset-disabled`: Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
 - `session-lifetime`: How many minutes the session is valid. The session lifetime must be 15-600 minutes.
 - `state-persistence-enabled`: Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the the subscriber reopens the same dashboard URL. The state is stored in QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.

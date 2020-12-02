@@ -21,11 +21,11 @@ attach_instances(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_co
 """
     AttachLoadBalancerTargetGroups()
 
-Attaches one or more target groups to the specified Auto Scaling group. To describe the target groups for an Auto Scaling group, call the DescribeLoadBalancerTargetGroups API. To detach the target group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. With Application Load Balancers and Network Load Balancers, instances are registered as targets with a target group. With Classic Load Balancers, instances are registered with the load balancer. For more information, see Attaching a load balancer to your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+Attaches one or more target groups to the specified Auto Scaling group. This operation is used with the following load balancer types:     Application Load Balancer - Operates at the application layer (layer 7) and supports HTTP and HTTPS.     Network Load Balancer - Operates at the transport layer (layer 4) and supports TCP, TLS, and UDP.     Gateway Load Balancer - Operates at the network layer (layer 3).   To describe the target groups for an Auto Scaling group, call the DescribeLoadBalancerTargetGroups API. To detach the target group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. 
 
 # Required Parameters
 - `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `TargetGroupARNs`: The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups.
+- `TargetGroupARNs`: The Amazon Resource Names (ARN) of the target groups. You can specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing DescribeTargetGroups API operation.
 
 """
 attach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs; aws_config::AWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancerTargetGroups", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs); aws_config=aws_config)
@@ -34,7 +34,7 @@ attach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, args::
 """
     AttachLoadBalancers()
 
- To attach an Application Load Balancer or a Network Load Balancer, use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach the load balancer from the Auto Scaling group, call the DetachLoadBalancers API. For more information, see Attaching a load balancer to your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+ To attach an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer, use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or more Classic Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load Balancers. To describe the load balancers for an Auto Scaling group, call the DescribeLoadBalancers API. To detach the load balancer from the Auto Scaling group, call the DetachLoadBalancers API. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. 
 
 # Required Parameters
 - `AutoScalingGroupName`: The name of the Auto Scaling group.
@@ -120,9 +120,9 @@ Creates an Auto Scaling group with the specified name and attributes.  If you ex
 - `LaunchConfigurationName`: The name of the launch configuration to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
 - `LaunchTemplate`: Parameters used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Creating a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. 
 - `LifecycleHookSpecificationList`: One or more lifecycle hooks for the group, which specify actions to perform when Amazon EC2 Auto Scaling launches or terminates instances.
-- `LoadBalancerNames`: A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers and Network Load Balancers, specify TargetGroupARNs instead.
+- `LoadBalancerNames`: A list of Classic Load Balancers associated with this Auto Scaling group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers, specify the TargetGroupARNs property instead.
 - `MaxInstanceLifetime`: The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
-- `MixedInstancesPolicy`: An embedded object that specifies a mixed instances policy. The required parameters must be specified. If optional parameters are unspecified, their default values are used. The policy includes parameters that not only define the distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and Spot capacities, but also the parameters that specify the instance configuration information—the launch template and instance types. The policy can also include a weight for each instance type and different launch templates for individual instance types. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide. Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
+- `MixedInstancesPolicy`: An embedded object that specifies a mixed instances policy. The required parameters must be specified. If optional parameters are unspecified, their default values are used. The policy includes parameters that not only define the distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and Spot capacities, but also the parameters that specify the instance configuration information—the launch template and instance types. The policy can also include a weight for each instance type and different launch templates for individual instance types. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
 - `NewInstancesProtectedFromScaleIn`: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
 - `PlacementGroup`: The name of an existing placement group into which to launch your instances, if any. A placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a placement group. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
 - `ServiceLinkedRoleARN`: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
@@ -391,7 +391,7 @@ describe_load_balancer_target_groups(AutoScalingGroupName, args::AbstractDict{St
 """
     DescribeLoadBalancers()
 
-Describes the load balancers for the specified Auto Scaling group. This operation describes only Classic Load Balancers. If you have Application Load Balancers or Network Load Balancers, use the DescribeLoadBalancerTargetGroups API instead.
+Describes the load balancers for the specified Auto Scaling group. This operation describes only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancers, use the DescribeLoadBalancerTargetGroups API instead.
 
 # Required Parameters
 - `AutoScalingGroupName`: The name of the Auto Scaling group.
@@ -532,7 +532,7 @@ detach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, args::
 """
     DetachLoadBalancers()
 
-Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Balancers. If you have Application Load Balancers or Network Load Balancers, use the DetachLoadBalancerTargetGroups API instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using the DescribeLoadBalancers API call. The instances remain running.
+Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This operation detaches only Classic Load Balancers. If you have Application Load Balancers, Network Load Balancers, or Gateway Load Balancers, use the DetachLoadBalancerTargetGroups API instead. When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using the DescribeLoadBalancers API call. The instances remain running.
 
 # Required Parameters
 - `AutoScalingGroupName`: The name of the Auto Scaling group.

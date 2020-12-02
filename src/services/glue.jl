@@ -258,6 +258,7 @@ Creates a new crawler with specified targets, role, configuration, and optional 
 - `CrawlerSecurityConfiguration`: The name of the SecurityConfiguration structure to be used by this crawler.
 - `DatabaseName`: The AWS Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
 - `Description`: A description of the new crawler.
+- `LineageConfiguration`: Specifies data lineage configuration settings for the crawler.
 - `RecrawlPolicy`: A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
 - `Schedule`: A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
 - `SchemaChangePolicy`: The policy for the crawler's update and deletion behavior.
@@ -379,6 +380,22 @@ Creates a new partition.
 """
 create_partition(DatabaseName, PartitionInput, TableName; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName); aws_config=aws_config)
 create_partition(DatabaseName, PartitionInput, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    CreatePartitionIndex()
+
+Creates a specified partition index in an existing table.
+
+# Required Parameters
+- `DatabaseName`: Specifies the name of a database in which you want to create a partition index.
+- `PartitionIndex`: Specifies a PartitionIndex structure to create a partition index in an existing table.
+- `TableName`: Specifies the name of a table in which you want to create a partition index.
+
+# Optional Parameters
+- `CatalogId`: The catalog ID where the table resides.
+"""
+create_partition_index(DatabaseName, PartitionIndex, TableName; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName); aws_config=aws_config)
+create_partition_index(DatabaseName, PartitionIndex, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     CreateRegistry()
@@ -645,6 +662,22 @@ Deletes a specified partition.
 """
 delete_partition(DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
 delete_partition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    DeletePartitionIndex()
+
+Deletes a specified partition index from an existing table.
+
+# Required Parameters
+- `DatabaseName`: Specifies the name of a database from which you want to delete a partition index.
+- `IndexName`: The name of the partition index to be deleted.
+- `TableName`: Specifies the name of a table from which you want to delete a partition index.
+
+# Optional Parameters
+- `CatalogId`: The catalog ID where the table resides.
+"""
+delete_partition_index(DatabaseName, IndexName, TableName; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName); aws_config=aws_config)
+delete_partition_index(DatabaseName, IndexName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteRegistry()
@@ -2054,6 +2087,7 @@ Updates a crawler. If a crawler is running, you must stop it using StopCrawler b
 - `CrawlerSecurityConfiguration`: The name of the SecurityConfiguration structure to be used by this crawler.
 - `DatabaseName`: The AWS Glue database where results are stored, such as: arn:aws:daylight:us-east-1::database/sometable/*.
 - `Description`: A description of the new crawler.
+- `LineageConfiguration`: Specifies data lineage configuration settings for the crawler.
 - `RecrawlPolicy`: A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
 - `Role`: The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by the new crawler to access customer resources.
 - `Schedule`: A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).

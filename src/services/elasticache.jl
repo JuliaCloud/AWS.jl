@@ -603,7 +603,7 @@ Lists available reserved cache node offerings.
 - `Duration`: Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000 
 - `Marker`: An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `OfferingType`: The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: \"Light Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\" 
+- `OfferingType`: The offering type filter value. Use this parameter to show only the available offerings matching the specified offering type. Valid Values: \"Light Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\" |\"All Upfront\"|\"Partial Upfront\"| \"No Upfront\" 
 - `ProductDescription`: The product description filter value. Use this parameter to show only the available offerings matching the specified product description.
 - `ReservedCacheNodesOfferingId`: The offering identifier filter value. Use this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
 """

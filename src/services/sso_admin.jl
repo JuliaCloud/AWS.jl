@@ -36,6 +36,19 @@ create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalT
 create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), args)); aws_config=aws_config)
 
 """
+    CreateInstanceAccessControlAttributeConfiguration()
+
+Enables the attributes-based access control (ABAC) feature for the specified AWS SSO instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see Attribute-Based Access Control in the AWS SSO User Guide.
+
+# Required Parameters
+- `InstanceAccessControlAttributeConfiguration`: Specifies the AWS SSO identity store attributes to add to your ABAC configuration. When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO identity store.
+- `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
+
+"""
+create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
+create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+
+"""
     CreatePermissionSet()
 
 Creates a permission set within a specified SSO instance.  To grant users and groups access to AWS account resources, use  CreateAccountAssignment . 
@@ -84,6 +97,18 @@ delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn; aws_conf
 delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), args)); aws_config=aws_config)
 
 """
+    DeleteInstanceAccessControlAttributeConfiguration()
+
+Disables the attributes-based access control (ABAC) feature for the specified AWS SSO instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the AWS SSO User Guide.
+
+# Required Parameters
+- `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
+
+"""
+delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
+delete_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+
+"""
     DeletePermissionSet()
 
 Deletes the specified permission set.
@@ -121,6 +146,18 @@ Describes the status of the assignment deletion request.
 """
 describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
 describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+
+"""
+    DescribeInstanceAccessControlAttributeConfiguration()
+
+Returns the list of AWS SSO identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified AWS SSO instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the AWS SSO User Guide.
+
+# Required Parameters
+- `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
+
+"""
+describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
+describe_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     DescribePermissionSet()
@@ -389,6 +426,19 @@ Disassociates a set of tags from a specified resource.
 """
 untag_resource(InstanceArn, ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(InstanceArn, ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateInstanceAccessControlAttributeConfiguration()
+
+Updates the AWS SSO identity store attributes to use with the AWS SSO instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the AWS SSO identity store. If a SAML assertion passes any of these attributes, AWS SSO will replace the attribute value with the value from the AWS SSO identity store. For more information about ABAC, see Attribute-Based Access Control in the AWS SSO User Guide.
+
+# Required Parameters
+- `InstanceAccessControlAttributeConfiguration`: Updates the attributes for your ABAC configuration.
+- `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
+
+"""
+update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
+update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     UpdatePermissionSet()

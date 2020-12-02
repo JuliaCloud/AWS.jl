@@ -262,6 +262,21 @@ describe_test_cases(reportArn; aws_config::AWSConfig=global_aws_config()) = code
 describe_test_cases(reportArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), args)); aws_config=aws_config)
 
 """
+    GetReportGroupTrend()
+
+
+
+# Required Parameters
+- `reportGroupArn`: 
+- `trendField`: 
+
+# Optional Parameters
+- `numOfReports`: 
+"""
+get_report_group_trend(reportGroupArn, trendField; aws_config::AWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField); aws_config=aws_config)
+get_report_group_trend(reportGroupArn, trendField, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), args)); aws_config=aws_config)
+
+"""
     GetResourcePolicy()
 
  Gets a resource policy that is identified by its resource ARN. 

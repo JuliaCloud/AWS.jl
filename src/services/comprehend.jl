@@ -249,6 +249,18 @@ describe_entity_recognizer(EntityRecognizerArn; aws_config::AWSConfig=global_aws
 describe_entity_recognizer(EntityRecognizerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("DescribeEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), args)); aws_config=aws_config)
 
 """
+    DescribeEventsDetectionJob()
+
+Gets the status and details of an events detection job.
+
+# Required Parameters
+- `JobId`: The identifier of the events detection job.
+
+"""
+describe_events_detection_job(JobId; aws_config::AWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+describe_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+
+"""
     DescribeKeyPhrasesDetectionJob()
 
 Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
@@ -454,6 +466,19 @@ list_entity_recognizers(; aws_config::AWSConfig=global_aws_config()) = comprehen
 list_entity_recognizers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("ListEntityRecognizers", args; aws_config=aws_config)
 
 """
+    ListEventsDetectionJobs()
+
+Gets a list of the events detection jobs that you have submitted.
+
+# Optional Parameters
+- `Filter`: Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+- `MaxResults`: The maximum number of results to return in each page.
+- `NextToken`: Identifies the next page of results to return.
+"""
+list_events_detection_jobs(; aws_config::AWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs"; aws_config=aws_config)
+list_events_detection_jobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs", args; aws_config=aws_config)
+
+"""
     ListKeyPhrasesDetectionJobs()
 
 Get a list of key phrase detection jobs that you have submitted.
@@ -578,6 +603,25 @@ start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, O
 start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StartEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
+    StartEventsDetectionJob()
+
+Starts an asynchronous event detection job for a collection of documents.
+
+# Required Parameters
+- `DataAccessRoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `InputDataConfig`: Specifies the format and location of the input data for the job.
+- `LanguageCode`: The language code of the input documents.
+- `OutputDataConfig`: Specifies where to send the output files.
+- `TargetEventTypes`: The types of events to detect in the input documents.
+
+# Optional Parameters
+- `ClientRequestToken`: An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+- `JobName`: The identifier of the events detection job.
+"""
+start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes; aws_config::AWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     StartKeyPhrasesDetectionJob()
 
 Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
@@ -680,6 +724,18 @@ Stops an entities detection job in progress. If the job state is IN_PROGRESS the
 """
 stop_entities_detection_job(JobId; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEntitiesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
 stop_entities_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+
+"""
+    StopEventsDetectionJob()
+
+Stops an events detection job in progress.
+
+# Required Parameters
+- `JobId`: The identifier of the events detection job to stop.
+
+"""
+stop_events_detection_job(JobId; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+stop_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     StopKeyPhrasesDetectionJob()

@@ -11,7 +11,7 @@ Adds an existing external connection to a repository. One external connection is
 
 # Required Parameters
 - `domain`: The name of the domain that contains the repository.
-- `external-connection`:  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.   
+- `external-connection`:  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.     public:nuget-org - for the NuGet Gallery.   
 - `repository`:  The name of the repository to which the external connection is added. 
 
 # Optional Parameters
@@ -28,7 +28,7 @@ associate_external_connection(domain, external_connection, repository, args::Abs
 # Required Parameters
 - `destination-repository`:  The name of the repository into which package versions are copied. 
 - `domain`:  The name of the domain that contains the source and destination repositories. 
-- `format`:  The format of the package that is copied. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
+- `format`:  The format of the package that is copied. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.   
 - `package`:  The name of the package that is copied. 
 - `source-repository`:  The name of the repository that contains the package versions to copy. 
 
@@ -36,7 +36,7 @@ associate_external_connection(domain, external_connection, repository, args::Abs
 - `allowOverwrite`:  Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an ALREADY_EXISTS error code. 
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `includeFromUpstream`:  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `versionRevisions`:  A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision.    You must specify versions or versionRevisions. You cannot specify both.  
 - `versions`:  The versions of the package to copy.    You must specify versions or versionRevisions. You cannot specify both.  
 """
@@ -112,7 +112,7 @@ delete_domain_permissions_policy(domain, args::AbstractDict{String, <:Any}; aws_
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the package to delete. 
-- `format`:  The format of the package versions to delete. The valid values are:     npm     pypi     maven   
+- `format`:  The format of the package versions to delete. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the package with the versions to delete. 
 - `repository`:  The name of the repository that contains the package versions to delete. 
 - `versions`:  An array of strings that specify the versions of the package to delete. 
@@ -120,7 +120,7 @@ delete_domain_permissions_policy(domain, args::AbstractDict{String, <:Any}; aws_
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `expectedStatus`:  The expected status of the package version to delete. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed   
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 """
 delete_package_versions(domain, format, package, repository, versions; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config)
 delete_package_versions(domain, format, package, repository, versions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), args)); aws_config=aws_config)
@@ -177,14 +177,14 @@ describe_domain(domain, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository that contains the package version. 
-- `format`:  A format that specifies the type of the requested package version. The valid values are:     npm     pypi     maven   
+- `format`:  A format that specifies the type of the requested package version. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the requested package version. 
 - `repository`:  The name of the repository that contains the package version. 
 - `version`:  A string that contains the package version (for example, 3.5.2). 
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 """
 describe_package_version(domain, format, package, repository, version; aws_config::AWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
 describe_package_version(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws_config=aws_config)
@@ -227,7 +227,7 @@ disassociate_external_connection(domain, external_connection, repository, args::
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository you want to dispose. 
-- `format`:  A format that specifies the type of package versions you want to dispose. The valid values are:     npm     pypi     maven   
+- `format`:  A format that specifies the type of package versions you want to dispose. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the package with the versions you want to dispose. 
 - `repository`:  The name of the repository that contains the package versions you want to dispose. 
 - `versions`:  The versions of the package you want to dispose. 
@@ -235,7 +235,7 @@ disassociate_external_connection(domain, external_connection, repository, args::
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `expectedStatus`:  The expected status of the package version to dispose. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed   
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `versionRevisions`:  The revisions of the package versions you want to dispose. 
 """
 dispose_package_versions(domain, format, package, repository, versions; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config)
@@ -278,14 +278,14 @@ get_domain_permissions_policy(domain, args::AbstractDict{String, <:Any}; aws_con
 # Required Parameters
 - `asset`:  The name of the requested asset. 
 - `domain`:  The domain that contains the repository that contains the package version with the requested asset. 
-- `format`:  A format that specifies the type of the package version with the requested asset file. The valid values are:     npm     pypi     maven   
+- `format`:  A format that specifies the type of the package version with the requested asset file. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the package that contains the requested asset. 
 - `repository`:  The repository that contains the package version with the requested asset. 
 - `version`:  A string that contains the package version (for example, 3.5.2). 
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `revision`:  The name of the package version revision that contains the requested asset. 
 """
 get_package_version_asset(asset, domain, format, package, repository, version; aws_config::AWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
@@ -298,14 +298,14 @@ get_package_version_asset(asset, domain, format, package, repository, version, a
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository that contains the package version with the requested readme file. 
-- `format`:  A format that specifies the type of the package version with the requested readme file. The valid values are:     npm     pypi     maven   
+- `format`:  A format that specifies the type of the package version with the requested readme file. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the package version that contains the requested readme file. 
 - `repository`:  The repository that contains the package with the requested readme file. 
 - `version`:  A string that contains the package version (for example, 3.5.2). 
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 """
 get_package_version_readme(domain, format, package, repository, version; aws_config::AWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
 get_package_version_readme(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws_config=aws_config)
@@ -313,11 +313,11 @@ get_package_version_readme(domain, format, package, repository, version, args::A
 """
     GetRepositoryEndpoint()
 
- Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:     npm     pypi     maven   
+ Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:     npm     pypi     maven     nuget   
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository. 
-- `format`:  Returns which endpoint of a repository to return. A repository has one endpoint for each package format:     npm     pypi     maven   
+- `format`:  Returns which endpoint of a repository to return. A repository has one endpoint for each package format:     npm     pypi     maven     nuget   
 - `repository`:  The name of the repository. 
 
 # Optional Parameters
@@ -360,7 +360,7 @@ list_domains(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_c
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository associated with the package version assets. 
-- `format`:  The format of the package that contains the returned package version assets. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
+- `format`:  The format of the package that contains the returned package version assets. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.   
 - `package`:  The name of the package that contains the returned package version assets. 
 - `repository`:  The name of the repository that contains the package that contains the returned package version assets. 
 - `version`:  A string that contains the package version (for example, 3.5.2). 
@@ -368,7 +368,7 @@ list_domains(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_c
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `max-results`:  The maximum number of results to return per page. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 """
 list_package_version_assets(domain, format, package, repository, version; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
@@ -381,14 +381,14 @@ list_package_version_assets(domain, format, package, repository, version, args::
 
 # Required Parameters
 - `domain`:  The domain that contains the repository that contains the requested package version dependencies. 
-- `format`:  The format of the package with the requested dependencies. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
+- `format`:  The format of the package with the requested dependencies. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.   
 - `package`:  The name of the package versions' package. 
 - `repository`:  The name of the repository that contains the requested package version. 
 - `version`:  A string that contains the package version (for example, 3.5.2). 
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 """
 list_package_version_dependencies(domain, format, package, repository, version; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
@@ -401,14 +401,14 @@ list_package_version_dependencies(domain, format, package, repository, version, 
 
 # Required Parameters
 - `domain`:  The name of the domain that contains the repository that contains the returned package versions. 
-- `format`:  The format of the returned packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
+- `format`:  The format of the returned packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.   
 - `package`:  The name of the package for which you want to return a list of package versions. 
 - `repository`:  The name of the repository that contains the package. 
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `max-results`:  The maximum number of results to return per page. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 - `sortBy`:  How to sort the returned list of package versions. 
 - `status`:  A string that specifies the status of the package versions to include in the returned list. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed   
@@ -427,11 +427,11 @@ list_package_versions(domain, format, package, repository, args::AbstractDict{St
 
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
-- `format`:  The format of the packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
+- `format`:  The format of the packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.     nuget: A NuGet package.   
 - `max-results`:  The maximum number of results to return per page. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
-- `package-prefix`:  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned. 
+- `package-prefix`:  A prefix used to filter returned packages. Only packages with names that start with packagePrefix are returned. 
 """
 list_packages(domain, repository; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
 list_packages(domain, repository, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws_config=aws_config)
@@ -518,7 +518,7 @@ put_repository_permissions_policy(domain, policyDocument, repository, args::Abst
 Adds or updates tags for a resource in AWS CodeArtifact.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
@@ -531,7 +531,7 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 Removes tags from a resource in AWS CodeArtifact.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource to which you want to remove tags.
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
 - `tagKeys`: The tag key for each tag that you want to remove from the resource.
 
 """
@@ -545,7 +545,7 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 
 # Required Parameters
 - `domain`:  The domain that contains the repository that contains the package versions with a status to be updated. 
-- `format`:  A format that specifies the type of the package with the statuses to update. The valid values are:     npm     pypi     maven   
+- `format`:  A format that specifies the type of the package with the statuses to update. The valid values are:     npm     pypi     maven     nuget   
 - `package`:  The name of the package with the version statuses to update. 
 - `repository`:  The repository that contains the package versions with the status you want to update. 
 - `targetStatus`:  The status you want to change the package version status to. 
@@ -554,7 +554,7 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `expectedStatus`:  The package version’s expected status before it is updated. If expectedStatus is provided, the package version's status is updated only if its status at the time UpdatePackageVersionsStatus is called matches expectedStatus. 
-- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
+- `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.     A NuGet package does not contain a corresponding component, so NuGet packages do not have a namespace.   
 - `versionRevisions`:  A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2), and the map value is the package version revision. 
 """
 update_package_versions_status(domain, format, package, repository, targetStatus, versions; aws_config::AWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions); aws_config=aws_config)

@@ -5,6 +5,25 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    CreateAddon()
+
+Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. Amazon EKS add-ons can only be used with Amazon EKS clusters running version 1.18 with platform version eks.3 or later because add-ons rely on the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and later.
+
+# Required Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
+- `name`: The name of the cluster to create the add-on for.
+
+# Optional Parameters
+- `addonVersion`: The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
+- `clientRequestToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `resolveConflicts`: How to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on.
+- `serviceAccountRoleArn`: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide. 
+- `tags`: The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. 
+"""
+create_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     CreateCluster()
 
 Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by AWS, and the Kubernetes API is exposed via the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single-tenant and unique and runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the worker nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS worker nodes run in your AWS account and connect to your cluster's control plane via the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing.  Cluster creation typically takes between 10 and 15 minutes. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch worker nodes into your cluster. For more information, see Managing Cluster Authentication and Launching Amazon EKS Worker Nodes in the Amazon EKS User Guide.
@@ -47,7 +66,7 @@ create_fargate_profile(fargateProfileName, name, podExecutionRoleArn, args::Abst
 """
     CreateNodegroup()
 
-Creates a managed worker node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Launch template support. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by AWS for an Amazon EKS cluster. Each node group uses a version of the Amazon EKS-optimized Amazon Linux 2 AMI. For more information, see Managed Node Groups in the Amazon EKS User Guide. 
+Creates a managed worker node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Launch template support. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by AWS for an Amazon EKS cluster. Each node group uses a version of the Amazon EKS optimized Amazon Linux 2 AMI. For more information, see Managed Node Groups in the Amazon EKS User Guide. 
 
 # Required Parameters
 - `name`: The name of the cluster to create the node group in.
@@ -56,13 +75,14 @@ Creates a managed worker node group for an Amazon EKS cluster. You can only crea
 - `subnets`: The subnets to use for the Auto Scaling group that is created for your node group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value of shared, where CLUSTER_NAME is replaced with the name of your cluster. If you specify launchTemplate, then don't specify  SubnetId  in your launch template, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 
 # Optional Parameters
-- `amiType`: The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS-optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `amiType`: The AMI type for your node group. GPU instance types should use the AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `capacityType`: The capacity type for your node group.
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `diskSize`: The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
-- `instanceTypes`: The instance type to use for your node group. You can specify a single instance type for a node group. The default value for instanceTypes is t3.medium. If you choose a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then don't specify instanceTypes, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `instanceTypes`: Specify the instance types for a node group. If you specify a GPU instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see Managed node group capacity types and Launch template support in the Amazon EKS User Guide.
 - `labels`: The Kubernetes labels to be applied to the nodes in the node group when they are created.
 - `launchTemplate`: An object representing a node group's launch template specification. If specified, then do not specify instanceTypes, diskSize, or remoteAccess and make sure that the launch template meets the requirements in launchTemplateSpecification.
-- `releaseVersion`: The AMI version of the Amazon EKS-optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `releaseVersion`: The AMI version of the Amazon EKS optimized AMI to use with your node group. By default, the latest available AMI version for the node group's current Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `remoteAccess`: The remote access (SSH) configuration to use with your node group. If you specify launchTemplate, then don't specify remoteAccess, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `scalingConfig`: The scaling configuration details for the Auto Scaling group that is created for your node group.
 - `tags`: The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
@@ -70,6 +90,19 @@ Creates a managed worker node group for an Amazon EKS cluster. You can only crea
 """
 create_nodegroup(name, nodeRole, nodegroupName, subnets; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_nodegroup(name, nodeRole, nodegroupName, subnets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
+    DeleteAddon()
+
+Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
+
+# Required Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
+- `name`: The name of the cluster to delete the add-on from.
+
+"""
+delete_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
+delete_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -108,6 +141,33 @@ Deletes an Amazon EKS node group for a cluster.
 """
 delete_nodegroup(name, nodegroupName; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws_config=aws_config)
 delete_nodegroup(name, nodegroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", args; aws_config=aws_config)
+
+"""
+    DescribeAddon()
+
+Describes an Amazon EKS add-on.
+
+# Required Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
+- `name`: The name of the cluster.
+
+"""
+describe_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
+describe_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
+
+"""
+    DescribeAddonVersions()
+
+Describes the Kubernetes versions that the add-on can be used with.
+
+# Optional Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
+- `kubernetesVersion`: The Kubernetes versions that the add-on can be used with.
+- `maxResults`: The maximum number of results to return.
+- `nextToken`: The nextToken value returned from a previous paginated DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
+"""
+describe_addon_versions(; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions"; aws_config=aws_config)
+describe_addon_versions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", args; aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -157,10 +217,26 @@ Returns descriptive information about an update against your Amazon EKS cluster 
 - `updateId`: The ID of the update to describe.
 
 # Optional Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
 - `nodegroupName`: The name of the Amazon EKS node group associated with the update.
 """
 describe_update(name, updateId; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates/$(updateId)"; aws_config=aws_config)
 describe_update(name, updateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates/$(updateId)", args; aws_config=aws_config)
+
+"""
+    ListAddons()
+
+Lists the available add-ons.
+
+# Required Parameters
+- `name`: The name of the cluster.
+
+# Optional Parameters
+- `maxResults`: The maximum number of add-on results returned by ListAddonsRequest in paginated output. When you use this parameter, ListAddonsRequest returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListAddonsRequest request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListAddonsRequest returns up to 100 results and a nextToken value, if applicable.
+- `nextToken`: The nextToken value returned from a previous paginated ListAddonsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
+"""
+list_addons(name; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons"; aws_config=aws_config)
+list_addons(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons", args; aws_config=aws_config)
 
 """
     ListClusters()
@@ -225,6 +301,7 @@ Lists the updates associated with an Amazon EKS cluster or managed node group in
 - `name`: The name of the Amazon EKS cluster to list updates for.
 
 # Optional Parameters
+- `addonName`: The names of the installed add-ons that have available updates.
 - `maxResults`: The maximum number of update results returned by ListUpdates in paginated output. When you use this parameter, ListUpdates returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListUpdates request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 - `nodegroupName`: The name of the Amazon EKS managed node group to list updates for.
@@ -257,6 +334,24 @@ Deletes specified tags from a resource.
 """
 untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateAddon()
+
+Updates an Amazon EKS add-on.
+
+# Required Parameters
+- `addonName`: The name of the add-on. The name must match one of the names returned by  ListAddons .
+- `name`: The name of the cluster.
+
+# Optional Parameters
+- `addonVersion`: The version of the add-on. The version must match one of the versions returned by  DescribeAddonVersions .
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `resolveConflicts`: How to resolve parameter value conflicts when applying the new version of the add-on to the cluster.
+- `serviceAccountRoleArn`: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide. 
+"""
+update_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+update_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateClusterConfig()
@@ -309,7 +404,7 @@ update_nodegroup_config(name, nodegroupName, args::AbstractDict{String, <:Any}; 
 """
     UpdateNodegroupVersion()
 
-Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For more information, see Amazon EKS-Optimized Linux AMI Versions in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
+Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, the pods in that node are drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a pod disruption budget issue.
 
 # Required Parameters
 - `name`: The name of the Amazon EKS cluster that is associated with the managed node group to update.
@@ -319,7 +414,7 @@ Updates the Kubernetes version or AMI version of an Amazon EKS managed node grou
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `force`: Force the update if the existing node group's pods are unable to be drained due to a pod disruption budget issue. If an update fails because pods could not be drained, you can force the update after it fails to terminate the old node whether or not any pods are running on the node.
 - `launchTemplate`: An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
-- `releaseVersion`: The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
+- `releaseVersion`: The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `version`: The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 """
 update_nodegroup_version(name, nodegroupName; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)

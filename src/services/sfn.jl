@@ -249,6 +249,22 @@ start_execution(stateMachineArn; aws_config::AWSConfig=global_aws_config()) = sf
 start_execution(stateMachineArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sfn("StartExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws_config=aws_config)
 
 """
+    StartSyncExecution()
+
+Starts a Synchronous Express state machine execution.
+
+# Required Parameters
+- `stateMachineArn`: The Amazon Resource Name (ARN) of the state machine to execute.
+
+# Optional Parameters
+- `input`: The string that contains the JSON input data for the execution, for example:  \"input\": \"{\"first_name\" : \"test\"}\"   If you don't include any JSON input data, you still must include the two braces, for example: \"input\": \"{}\"   Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+- `name`: The name of the execution.
+- `traceHeader`: Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+"""
+start_sync_execution(stateMachineArn; aws_config::AWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
+start_sync_execution(stateMachineArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws_config=aws_config)
+
+"""
     StopExecution()
 
 Stops an execution. This API action is not supported by EXPRESS state machines.

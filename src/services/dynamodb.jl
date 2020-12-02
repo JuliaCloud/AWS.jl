@@ -5,6 +5,18 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    BatchExecuteStatement()
+
+ This operation allows you to perform batch reads and writes on data stored in DynamoDB, using PartiQL. 
+
+# Required Parameters
+- `Statements`:  The list of PartiQL statements representing the batch to run. 
+
+"""
+batch_execute_statement(Statements; aws_config::AWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}("Statements"=>Statements); aws_config=aws_config)
+batch_execute_statement(Statements, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), args)); aws_config=aws_config)
+
+"""
     BatchGetItem()
 
 The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key. A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem returns a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, or an internal processing failure occurs. If a partial result is returned, the operation returns a value for UnprocessedKeys. You can use this value to retry the operation starting with the next item to get.  If you request more than 100 items, BatchGetItem returns a ValidationException with the message \"Too many items requested for the BatchGetItem call.\"  For example, if you ask to retrieve 100 items, but each individual item is 300 KB in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns an appropriate UnprocessedKeys value so you can get the next page of results. If desired, your application can include its own logic to assemble the pages of results into one dataset. If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem returns a ProvisionedThroughputExceededException. If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys.  If DynamoDB returns any unprocessed items, you should retry the batch operation on those items. However, we strongly recommend that you use an exponential backoff algorithm. If you retry the batch operation immediately, the underlying read or write requests can still fail due to throttling on the individual tables. If you delay the batch operation using exponential backoff, the individual requests in the batch are much more likely to succeed. For more information, see Batch Operations and Error Handling in the Amazon DynamoDB Developer Guide.  By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables. In order to minimize response latency, BatchGetItem retrieves items in parallel. When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the ProjectionExpression parameter. If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see Working with Tables in the Amazon DynamoDB Developer Guide.
@@ -211,6 +223,18 @@ describe_global_table_settings(GlobalTableName; aws_config::AWSConfig=global_aws
 describe_global_table_settings(GlobalTableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), args)); aws_config=aws_config)
 
 """
+    DescribeKinesisStreamingDestination()
+
+Returns information about the status of Kinesis streaming.
+
+# Required Parameters
+- `TableName`: The name of the table being described.
+
+"""
+describe_kinesis_streaming_destination(TableName; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
+describe_kinesis_streaming_destination(TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
     DescribeLimits()
 
 Returns the current provisioned-capacity quotas for your AWS account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an AWS account, the account has initial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information, see Service, Account, and Table Quotas page in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a case at AWS Support Center, obtaining the increase is not instantaneous. The DescribeLimits action lets you write code to compare the capacity you are currently using to those quotas imposed by your account so that you have enough time to apply for an increase before you hit a quota. For example, you could use one of the AWS SDKs to do the following:   Call DescribeLimits for a particular Region to obtain your current account quotas on provisioned capacity there.   Create a variable to hold the aggregate read capacity units provisioned for all your tables in that Region, and one to hold the aggregate write capacity units. Zero them both.   Call ListTables to obtain a list of all your DynamoDB tables.   For each table name listed by ListTables, do the following:   Call DescribeTable with the table name.   Use the data returned by DescribeTable to add the read capacity units and write capacity units provisioned for the table itself to your variables.   If the table has one or more global secondary indexes (GSIs), loop over these GSIs and add their provisioned capacity values to your variables as well.     Report the account quotas for that Region returned by DescribeLimits, along with the total current provisioned capacity levels you have calculated.   This will let you see whether you are getting close to your account-level quotas. The per-table quotas apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned capacity extremely rapidly, but the only quota that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account quotas.   DescribeLimits should only be called periodically. You can expect throttling errors if you call it more than once in a minute.  The DescribeLimits Request element has no content.
@@ -254,6 +278,62 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 """
 describe_time_to_live(TableName; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
 describe_time_to_live(TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    DisableKinesisStreamingDestination()
+
+Stops replication from the DynamoDB table to the Kinesis data stream. This is done without deleting either of the resources.
+
+# Required Parameters
+- `StreamArn`: The ARN for a Kinesis data stream.
+- `TableName`: The name of the DynamoDB table.
+
+"""
+disable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
+disable_kinesis_streaming_destination(StreamArn, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    EnableKinesisStreamingDestination()
+
+Starts table data replication to the specified Kinesis data stream at a timestamp chosen during the enable workflow. If this operation doesn't return results immediately, use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream is ACTIVE.
+
+# Required Parameters
+- `StreamArn`: The ARN for a Kinesis data stream.
+- `TableName`: The name of the DynamoDB table.
+
+"""
+enable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
+enable_kinesis_streaming_destination(StreamArn, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    ExecuteStatement()
+
+ This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. 
+
+# Required Parameters
+- `Statement`:  The PartiQL statement representing the operation to run. 
+
+# Optional Parameters
+- `ConsistentRead`:  The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used. 
+- `NextToken`:  Set this value to get remaining results, if NextToken was returned in the statement response. 
+- `Parameters`:  The parameters for the PartiQL statement, if any. 
+"""
+execute_statement(Statement; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}("Statement"=>Statement); aws_config=aws_config)
+execute_statement(Statement, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statement"=>Statement), args)); aws_config=aws_config)
+
+"""
+    ExecuteTransaction()
+
+ This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. 
+
+# Required Parameters
+- `TransactStatements`:  The list of PartiQL statements representing the transaction to run. 
+
+# Optional Parameters
+- `ClientRequestToken`:  Set this value to get remaining results, if NextToken was returned in the statement response. 
+"""
+execute_transaction(TransactStatements; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+execute_transaction(TransactStatements, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     ExportTableToPointInTime()
