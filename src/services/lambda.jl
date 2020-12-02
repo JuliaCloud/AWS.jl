@@ -62,6 +62,21 @@ create_alias(FunctionName, FunctionVersion, Name; aws_config::AWSConfig=global_a
 create_alias(FunctionName, FunctionVersion, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), args)); aws_config=aws_config)
 
 """
+    CreateCodeSigningConfig()
+
+Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail). 
+
+# Required Parameters
+- `AllowedPublishers`: Signing profiles for this code signing configuration.
+
+# Optional Parameters
+- `CodeSigningPolicies`: The code signing policies define the actions to take if the validation checks fail. 
+- `Description`: Descriptive name for this code signing configuration.
+"""
+create_code_signing_config(AllowedPublishers; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}("AllowedPublishers"=>AllowedPublishers); aws_config=aws_config)
+create_code_signing_config(AllowedPublishers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), args)); aws_config=aws_config)
+
+"""
     CreateEventSourceMapping()
 
 Creates a mapping between an event source and an AWS Lambda function. Lambda reads items from the event source and triggers the function. For details about each event source type, see the following topics.    Using AWS Lambda with Amazon DynamoDB     Using AWS Lambda with Amazon Kinesis     Using AWS Lambda with Amazon SQS     Using AWS Lambda with Amazon MQ     Using AWS Lambda with Amazon MSK    The following error handling options are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor - Process multiple batches from each shard concurrently.  
@@ -91,31 +106,34 @@ create_event_source_mapping(EventSourceArn, FunctionName, args::AbstractDict{Str
 """
     CreateFunction()
 
-Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package contains your function code. The execution role grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from GetFunctionConfiguration indicate when the function is ready to invoke. For more information, see Function States. A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with UpdateFunctionConfiguration. Function-level settings apply to both the unpublished and published versions of the function, and include tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). If another account or an AWS service invokes your function, use AddPermission to grant permission by creating a resource-based IAM policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use Invoke. To invoke your function in response to events in other AWS services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Functions.
+Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package is a ZIP archive or image container that contains your function code. The execution role grants the function permission to use AWS services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request tracing. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from GetFunctionConfiguration indicate when the function is ready to invoke. For more information, see Function States. A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with UpdateFunctionConfiguration. Function-level settings apply to both the unpublished and published versions of the function, and include tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). You can use code signing if your deployment package is a ZIP archive. To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with UpdateFunctionCode, Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set set of signing profiles, which define the trusted publishers for this function. If another account or an AWS service invokes your function, use AddPermission to grant permission by creating a resource-based IAM policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use Invoke. To invoke your function in response to events in other AWS services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Functions.
 
 # Required Parameters
 - `Code`: The code for the function.
 - `FunctionName`: The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-- `Handler`: The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
 - `Role`: The Amazon Resource Name (ARN) of the function's execution role.
-- `Runtime`: The identifier of the function's runtime.
 
 # Optional Parameters
+- `CodeSigningConfigArn`: To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
 - `DeadLetterConfig`: A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.
 - `Description`: A description of the function.
 - `Environment`: Environment variables that are accessible from function code during execution.
 - `FileSystemConfigs`: Connection settings for an Amazon EFS file system.
+- `Handler`: The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+- `ImageConfig`: Configuration values that override the container image Dockerfile.
 - `KMSKeyArn`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
 - `Layers`: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
 - `MemorySize`: The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.
+- `PackageType`: The type of deployment package. Set to Image for container image and set Zip for ZIP archive.
 - `Publish`: Set to true to publish the first version of the function during creation.
+- `Runtime`: The identifier of the function's runtime.
 - `Tags`: A list of tags to apply to the function.
 - `Timeout`: The amount of time that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds.
 - `TracingConfig`: Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.
 - `VpcConfig`: For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
 """
-create_function(Code, FunctionName, Handler, Role, Runtime; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime); aws_config=aws_config)
-create_function(Code, FunctionName, Handler, Role, Runtime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime), args)); aws_config=aws_config)
+create_function(Code, FunctionName, Role; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role); aws_config=aws_config)
+create_function(Code, FunctionName, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), args)); aws_config=aws_config)
 
 """
     DeleteAlias()
@@ -129,6 +147,18 @@ Deletes a Lambda function alias.
 """
 delete_alias(FunctionName, Name; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
 delete_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
+
+"""
+    DeleteCodeSigningConfig()
+
+Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it. 
+
+# Required Parameters
+- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing configuration.
+
+"""
+delete_code_signing_config(CodeSigningConfigArn; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
+delete_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
 
 """
     DeleteEventSourceMapping()
@@ -155,6 +185,18 @@ Deletes a Lambda function. To delete a specific function version, use the Qualif
 """
 delete_function(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
 delete_function(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
+
+"""
+    DeleteFunctionCodeSigningConfig()
+
+Removes the code signing configuration from the function.
+
+# Required Parameters
+- `FunctionName`: The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+
+"""
+delete_function_code_signing_config(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
+delete_function_code_signing_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", args; aws_config=aws_config)
 
 """
     DeleteFunctionConcurrency()
@@ -231,6 +273,18 @@ get_alias(FunctionName, Name; aws_config::AWSConfig=global_aws_config()) = lambd
 get_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
 
 """
+    GetCodeSigningConfig()
+
+Returns information about the specified code signing configuration.
+
+# Required Parameters
+- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing configuration. 
+
+"""
+get_code_signing_config(CodeSigningConfigArn; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
+get_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
+
+"""
     GetEventSourceMapping()
 
 Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
@@ -255,6 +309,18 @@ Returns information about the function or function version, with a link to downl
 """
 get_function(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
 get_function(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
+
+"""
+    GetFunctionCodeSigningConfig()
+
+Returns the code signing configuration for the specified function.
+
+# Required Parameters
+- `FunctionName`: The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+
+"""
+get_function_code_signing_config(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
+get_function_code_signing_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", args; aws_config=aws_config)
 
 """
     GetFunctionConcurrency()
@@ -409,6 +475,18 @@ list_aliases(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("
 list_aliases(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", args; aws_config=aws_config)
 
 """
+    ListCodeSigningConfigs()
+
+Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call. 
+
+# Optional Parameters
+- `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+- `MaxItems`: Maximum number of items to return.
+"""
+list_code_signing_configs(; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/"; aws_config=aws_config)
+list_code_signing_configs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", args; aws_config=aws_config)
+
+"""
     ListEventSourceMappings()
 
 Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
@@ -450,6 +528,21 @@ Returns a list of Lambda functions, with the version-specific configuration of e
 """
 list_functions(; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
 list_functions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", args; aws_config=aws_config)
+
+"""
+    ListFunctionsByCodeSigningConfig()
+
+List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
+
+# Required Parameters
+- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing configuration.
+
+# Optional Parameters
+- `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+- `MaxItems`: Maximum number of items to return.
+"""
+list_functions_by_code_signing_config(CodeSigningConfigArn; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions"; aws_config=aws_config)
+list_functions_by_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", args; aws_config=aws_config)
 
 """
     ListLayerVersions()
@@ -554,6 +647,19 @@ Creates a version from the current code and configuration of a function. Use ver
 """
 publish_version(FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
 publish_version(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", args; aws_config=aws_config)
+
+"""
+    PutFunctionCodeSigningConfig()
+
+Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. 
+
+# Required Parameters
+- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing configuration.
+- `FunctionName`: The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+
+"""
+put_function_code_signing_config(CodeSigningConfigArn, FunctionName; aws_config::AWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn); aws_config=aws_config)
+put_function_code_signing_config(CodeSigningConfigArn, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), args)); aws_config=aws_config)
 
 """
     PutFunctionConcurrency()
@@ -676,6 +782,22 @@ update_alias(FunctionName, Name; aws_config::AWSConfig=global_aws_config()) = la
 update_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
 
 """
+    UpdateCodeSigningConfig()
+
+Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function. 
+
+# Required Parameters
+- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing configuration.
+
+# Optional Parameters
+- `AllowedPublishers`: Signing profiles for this code signing configuration.
+- `CodeSigningPolicies`: The code signing policy.
+- `Description`: Descriptive name for this code signing configuration.
+"""
+update_code_signing_config(CodeSigningConfigArn; aws_config::AWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
+update_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
+
+"""
     UpdateEventSourceMapping()
 
 Updates an event source mapping. You can change the function that AWS Lambda invokes, or pause invocation and resume later from the same location. The following error handling options are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor - Process multiple batches from each shard concurrently.  
@@ -701,13 +823,14 @@ update_event_source_mapping(UUID, args::AbstractDict{String, <:Any}; aws_config:
 """
     UpdateFunctionCode()
 
-Updates a Lambda function's code. The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version.
+Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see Configuring code signing. The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version.
 
 # Required Parameters
 - `FunctionName`: The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 # Optional Parameters
 - `DryRun`: Set to true to validate the request parameters and access permissions without modifying the function code.
+- `ImageUri`: URI of a container image in the Amazon ECR registry.
 - `Publish`: Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
 - `RevisionId`: Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
 - `S3Bucket`: An Amazon S3 bucket in the same AWS Region as your function. The bucket can be in a different AWS account.
@@ -732,6 +855,7 @@ Modify the version-specific settings of a Lambda function. When you update a fun
 - `Environment`: Environment variables that are accessible from function code during execution.
 - `FileSystemConfigs`: Connection settings for an Amazon EFS file system.
 - `Handler`: The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+- `ImageConfig`: Configuration values that override the container image Dockerfile.
 - `KMSKeyArn`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.
 - `Layers`: A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.
 - `MemorySize`: The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.

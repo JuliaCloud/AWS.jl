@@ -572,8 +572,8 @@ Creates a new Amazon Cognito user pool and sets the password policy for the pool
 - `AutoVerifiedAttributes`: The attributes to be auto-verified. Possible values: email, phone_number.
 - `DeviceConfiguration`: The device configuration.
 - `EmailConfiguration`: The email configuration.
-- `EmailVerificationMessage`: A string representing the email verification message.
-- `EmailVerificationSubject`: A string representing the email verification subject.
+- `EmailVerificationMessage`: A string representing the email verification message. EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER. 
+- `EmailVerificationSubject`: A string representing the email verification subject. EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER. 
 - `LambdaConfig`: The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission . 
 - `MfaConfiguration`: Specifies MFA configuration details.
 - `Policies`: The policies associated with the new user pool.
@@ -1229,7 +1229,7 @@ set_uicustomization(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     SetUserMFAPreference()
 
-Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
+Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in. If an MFA type is enabled for a user, the user will be prompted for MFA during all sign in attempts, unless device tracking is turned on and the device has been trusted. If you would like MFA to be applied selectively based on the assessed risk level of sign in attempts, disable MFA for users and turn on Adaptive Authentication for the user pool.
 
 # Required Parameters
 - `AccessToken`: The access token for the user.

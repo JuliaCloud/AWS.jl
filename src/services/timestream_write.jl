@@ -38,7 +38,7 @@ create_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_con
 """
     DeleteDatabase()
 
-Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time series data from its tables cannot be recovered.  All tables in the database must be deleted first, or a ValidationException error will be thrown. 
+Deletes a given Timestream database. This is an irreversible operation. After a database is deleted, the time series data from its tables cannot be recovered.  All tables in the database must be deleted first, or a ValidationException error will be thrown.  Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
 
 # Required Parameters
 - `DatabaseName`: The name of the Timestream database to be deleted.
@@ -50,7 +50,7 @@ delete_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWS
 """
     DeleteTable()
 
-Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time series data stored in the table cannot be recovered. 
+Deletes a given Timestream table. This is an irreversible operation. After a Timestream database table is deleted, the time series data stored in the table cannot be recovered.  Due to the nature of distributed retries, the operation can return either success or a ResourceNotFoundException. Clients should consider them equivalent.
 
 # Required Parameters
 - `DatabaseName`: The name of the database where the Timestream database is to be deleted.

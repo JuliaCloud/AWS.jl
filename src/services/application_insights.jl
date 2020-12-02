@@ -41,10 +41,10 @@ create_component(ComponentName, ResourceGroupName, ResourceList, args::AbstractD
 Adds an log pattern to a LogPatternSet.
 
 # Required Parameters
-- `Pattern`: The log pattern.
+- `Pattern`: The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
 - `PatternName`: The name of the log pattern.
 - `PatternSetName`: The name of the log pattern set.
-- `Rank`: Rank of the log pattern.
+- `Rank`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns. 
 - `ResourceGroupName`: The name of the resource group.
 
 """
@@ -380,8 +380,8 @@ Adds a log pattern to a LogPatternSet.
 - `ResourceGroupName`: The name of the resource group.
 
 # Optional Parameters
-- `Pattern`: The log pattern.
-- `Rank`: Rank of the log pattern.
+- `Pattern`: The log pattern. The pattern must be DFA compatible. Patterns that utilize forward lookahead or backreference constructions are not supported.
+- `Rank`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns are sorted by rank, so we recommend that you set your highest priority patterns with the lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern of rank 1,000,000 will be last to get matched. When you configure custom log patterns from the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank. Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns. 
 """
 update_log_pattern(PatternName, PatternSetName, ResourceGroupName; aws_config::AWSConfig=global_aws_config()) = application_insights("UpdateLogPattern", Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config)
 update_log_pattern(PatternName, PatternSetName, ResourceGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = application_insights("UpdateLogPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName), args)); aws_config=aws_config)

@@ -155,7 +155,7 @@ list_trails(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_
 """
     LookupEvents()
 
-Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second per account. If this limit is exceeded, a throttling error occurs. 
+Looks up management events or CloudTrail Insights events that are captured by CloudTrail. You can look up events that occurred in a region within the last 90 days. Lookup supports the following attributes for management events:   AWS access key   Event ID   Event name   Event source   Read only   Resource name   Resource type   User name   Lookup supports the following attributes for Insights events:   Event ID   Event name   Event source   All attributes are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.  The rate of lookup requests is limited to two per second, per account, per region. If this limit is exceeded, a throttling error occurs. 
 
 # Optional Parameters
 - `EndTime`: Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
@@ -174,12 +174,14 @@ lookup_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aw
 Configures an event selector for your trail. Use event selectors to further specify the management and data event settings for your trail. By default, trails created without specific event selectors will be configured to log all read and write management events, and no data events.  When an event occurs in your account, CloudTrail evaluates the event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.  Example   You create an event selector for a trail and specify that you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your account.   CloudTrail evaluates whether the events match your event selectors.   The RunInstances is a write-only event and it matches your event selector. The trail logs the event.   The GetConsoleOutput is a read-only event but it doesn't match your event selector. The trail doesn't log the event.    The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown. You can configure up to five event selectors for each trail. For more information, see Logging Data and Management Events for Trails  and Limits in AWS CloudTrail in the AWS CloudTrail User Guide.
 
 # Required Parameters
-- `EventSelectors`: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
 - `TrailName`: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
+# Optional Parameters
+- `AdvancedEventSelectors`: 
+- `EventSelectors`: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
 """
-put_event_selectors(EventSelectors, TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("EventSelectors"=>EventSelectors, "TrailName"=>TrailName); aws_config=aws_config)
-put_event_selectors(EventSelectors, TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSelectors"=>EventSelectors, "TrailName"=>TrailName), args)); aws_config=aws_config)
+put_event_selectors(TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
+put_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     PutInsightSelectors()

@@ -50,7 +50,7 @@ Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters i
 
 # Required Parameters
 - `ResourceId`: The Amazon EMR resource identifier to which tags will be added. This value must be a cluster identifier.
-- `Tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+- `Tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
 
 """
 add_tags(ResourceId, Tags; aws_config::AWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
@@ -59,14 +59,14 @@ add_tags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 """
     CancelSteps()
 
-Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee a step will be canceled, even if the request is successfully submitted. You can only cancel steps that are in a PENDING state.
+Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. You can only cancel steps that are in a PENDING state.
 
 # Required Parameters
-- `ClusterId`: The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
+- `ClusterId`: The ClusterID for the specified steps that will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs. 
 - `StepIds`: The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
 
 # Optional Parameters
-- `StepCancellationOption`: The option to choose for cancelling RUNNING steps. By default, the value is SEND_INTERRUPT.
+- `StepCancellationOption`: The option to choose to cancel RUNNING steps. By default, the value is SEND_INTERRUPT.
 """
 cancel_steps(ClusterId, StepIds; aws_config::AWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws_config=aws_config)
 cancel_steps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws_config=aws_config)
@@ -85,6 +85,46 @@ create_security_configuration(Name, SecurityConfiguration; aws_config::AWSConfig
 create_security_configuration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws_config=aws_config)
 
 """
+    CreateStudio()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Creates a new Amazon EMR Studio.
+
+# Required Parameters
+- `AuthMode`: Specifies whether the Studio authenticates users using single sign-on (SSO) or IAM. Amazon EMR Studio currently only supports SSO authentication.
+- `EngineSecurityGroupId`: The ID of the Amazon EMR Studio Engine security group. The Engine security group allows inbound network traffic from the Workspace security group, and it must be in the same VPC specified by VpcId.
+- `Name`: A descriptive name for the Amazon EMR Studio.
+- `ServiceRole`: The IAM role that will be assumed by the Amazon EMR Studio. The service role provides a way for Amazon EMR Studio to interoperate with other AWS services.
+- `SubnetIds`: A list of subnet IDs to associate with the Studio. The subnets must belong to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified subnets.
+- `UserRole`: The IAM user role that will be assumed by users and groups logged in to a Studio. The permissions attached to this IAM role can be scoped down for each user or group using session policies.
+- `VpcId`: The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the Studio.
+- `WorkspaceSecurityGroupId`: The ID of the Amazon EMR Studio Workspace security group. The Workspace security group allows outbound network traffic to resources in the Engine security group, and it must be in the same VPC specified by VpcId.
+
+# Optional Parameters
+- `DefaultS3Location`: The default Amazon S3 location to back up EMR Studio Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location when creating a Workspace.
+- `Description`: A detailed description of the Studio.
+- `Tags`: A list of tags to associate with the Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+"""
+create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config)
+create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), args)); aws_config=aws_config)
+
+"""
+    CreateStudioSessionMapping()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group.
+
+# Required Parameters
+- `IdentityType`: Specifies whether the identity to map to the Studio is a user or a group.
+- `SessionPolicyArn`: The Amazon Resource Name (ARN) for the session policy that will be applied to the user or group. Session policies refine Studio user permissions without the need to use multiple IAM user roles.
+- `StudioId`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
+
+# Optional Parameters
+- `IdentityId`: The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+- `IdentityName`: The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+"""
+create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
+create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
+
+"""
     DeleteSecurityConfiguration()
 
 Deletes a security configuration.
@@ -95,6 +135,34 @@ Deletes a security configuration.
 """
 delete_security_configuration(Name; aws_config::AWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    DeleteStudio()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Removes an Amazon EMR Studio from the Studio metadata store.
+
+# Required Parameters
+- `StudioId`: The ID of the Amazon EMR Studio.
+
+"""
+delete_studio(StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
+delete_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+
+"""
+    DeleteStudioSessionMapping()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Removes a user or group from an Amazon EMR Studio.
+
+# Required Parameters
+- `IdentityType`: Specifies whether the identity to delete from the Studio is a user or a group.
+- `StudioId`: The ID of the Amazon EMR Studio.
+
+# Optional Parameters
+- `IdentityId`: The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+- `IdentityName`: The name of the user name or group to remove from the Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+"""
+delete_studio_session_mapping(IdentityType, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
+delete_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -111,7 +179,7 @@ describe_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 """
     DescribeJobFlows()
 
-This API is deprecated and will eventually be removed. We recommend you use ListClusters, DescribeCluster, ListSteps, ListInstanceGroups and ListBootstrapActions instead. DescribeJobFlows returns a list of job flows that match all of the supplied parameters. The parameters can include a list of job flow IDs, job flow states, and restrictions on job flow creation date and time. Regardless of supplied parameters, only job flows created within the last two months are returned. If no parameters are supplied, then job flows matching either of the following criteria are returned:   Job flows created and completed in the last two weeks    Job flows created within the last two months that are in one of the following states: RUNNING, WAITING, SHUTTING_DOWN, STARTING    Amazon EMR can return a maximum of 512 job flow descriptions.
+This API is no longer supported and will eventually be removed. We recommend you use ListClusters, DescribeCluster, ListSteps, ListInstanceGroups and ListBootstrapActions instead. DescribeJobFlows returns a list of job flows that match all of the supplied parameters. The parameters can include a list of job flow IDs, job flow states, and restrictions on job flow creation date and time. Regardless of supplied parameters, only job flows created within the last two months are returned. If no parameters are supplied, then job flows matching either of the following criteria are returned:   Job flows created and completed in the last two weeks    Job flows created within the last two months that are in one of the following states: RUNNING, WAITING, SHUTTING_DOWN, STARTING    Amazon EMR can return a maximum of 512 job flow descriptions.
 
 # Optional Parameters
 - `CreatedAfter`: Return only job flows created after this date and time.
@@ -160,6 +228,18 @@ describe_step(ClusterId, StepId; aws_config::AWSConfig=global_aws_config()) = em
 describe_step(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws_config=aws_config)
 
 """
+    DescribeStudio()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns details for the specified Amazon EMR Studio including ID, Name, VPC, Studio access URL, and so on.
+
+# Required Parameters
+- `StudioId`: The Amazon EMR Studio ID.
+
+"""
+describe_studio(StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
+describe_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+
+"""
     GetBlockPublicAccessConfiguration()
 
 Returns the Amazon EMR block public access configuration for your AWS account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
@@ -171,14 +251,30 @@ get_block_public_access_configuration(args::AbstractDict{String, <:Any}; aws_con
 """
     GetManagedScalingPolicy()
 
- Fetches the attached managed scaling policy for an Amazon EMR cluster. 
+Fetches the attached managed scaling policy for an Amazon EMR cluster. 
 
 # Required Parameters
-- `ClusterId`:  Specifies the ID of the cluster for which the managed scaling policy will be fetched. 
+- `ClusterId`: Specifies the ID of the cluster for which the managed scaling policy will be fetched. 
 
 """
 get_managed_scaling_policy(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 get_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+
+"""
+    GetStudioSessionMapping()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
+
+# Required Parameters
+- `IdentityType`: Specifies whether the identity to fetch is a user or a group.
+- `StudioId`: The ID of the Amazon EMR Studio.
+
+# Optional Parameters
+- `IdentityId`: The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+- `IdentityName`: The name of the user or group to fetch. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+"""
+get_studio_session_mapping(IdentityType, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
+get_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     ListBootstrapActions()
@@ -298,6 +394,30 @@ list_steps(ClusterId; aws_config::AWSConfig=global_aws_config()) = emr("ListStep
 list_steps(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
+    ListStudioSessionMappings()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all user or group session mappings for the EMR Studio specified by StudioId.
+
+# Optional Parameters
+- `IdentityType`: Specifies whether to return session mappings for users or groups. If not specified, the results include session mapping details for both users and groups.
+- `Marker`: The pagination token that indicates the set of results to retrieve.
+- `StudioId`: The ID of the Amazon EMR Studio.
+"""
+list_studio_session_mappings(; aws_config::AWSConfig=global_aws_config()) = emr("ListStudioSessionMappings"; aws_config=aws_config)
+list_studio_session_mappings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListStudioSessionMappings", args; aws_config=aws_config)
+
+"""
+    ListStudios()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
+
+# Optional Parameters
+- `Marker`: The pagination token that indicates the set of results to retrieve.
+"""
+list_studios(; aws_config::AWSConfig=global_aws_config()) = emr("ListStudios"; aws_config=aws_config)
+list_studios(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListStudios", args; aws_config=aws_config)
+
+"""
     ModifyCluster()
 
 Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
@@ -365,11 +485,11 @@ put_block_public_access_configuration(BlockPublicAccessConfiguration, args::Abst
 """
     PutManagedScalingPolicy()
 
- Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
+Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration. 
 
 # Required Parameters
-- `ClusterId`:  Specifies the ID of an EMR cluster where the managed scaling policy is attached. 
-- `ManagedScalingPolicy`:  Specifies the constraints for the managed scaling policy. 
+- `ClusterId`: Specifies the ID of an EMR cluster where the managed scaling policy is attached. 
+- `ManagedScalingPolicy`: Specifies the constraints for the managed scaling policy. 
 
 """
 put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws_config=aws_config)
@@ -430,17 +550,17 @@ RunJobFlow creates and starts running a new cluster (job flow). The cluster runs
 - `BootstrapActions`: A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
 - `Configurations`: For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
 - `CustomAmiId`: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For information about finding an AMI ID, see Finding a Linux AMI. 
-- `EbsRootVolumeSize`: The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+- `EbsRootVolumeSize`: The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
 - `JobFlowRole`: Also called instance profile and EC2 role. An IAM role for an EMR cluster. The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole. In order to use the default role, you must have already created it using the CLI or console.
-- `KerberosAttributes`: Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide.
-- `LogEncryptionKmsKeyId`: The AWS KMS customer master key (CMK) used for encrypting log files. If a value is not provided, the logs will remain encrypted by AES-256. This attribute is only available with EMR version 5.30.0 and later, excluding EMR 6.0.0.
+- `KerberosAttributes`: Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the Amazon EMR Management Guide.
+- `LogEncryptionKmsKeyId`: The AWS KMS customer master key (CMK) used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
 - `LogUri`: The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
 - `ManagedScalingPolicy`:  The specified managed scaling policy for an Amazon EMR cluster. 
 - `NewSupportedProducts`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see \"Launch a Job Flow on the MapR Distribution for Hadoop\" in the Amazon EMR Developer Guide. Supported values are:   \"mapr-m3\" - launch the cluster using MapR M3 Edition.   \"mapr-m5\" - launch the cluster using MapR M5 Edition.   \"mapr\" with the user arguments specifying \"--edition,m3\" or \"--edition,m5\" - launch the job flow using MapR M3 or M5 Edition respectively.   \"mapr-m7\" - launch the cluster using MapR M7 Edition.   \"hunk\" - launch the cluster with the Hunk Big Data Analtics Platform.   \"hue\"- launch the cluster with Hue installed.   \"spark\" - launch the cluster with Apache Spark installed.   \"ganglia\" - launch the cluster with the Ganglia Monitoring System installed.  
 - `PlacementGroupConfigs`: The specified placement group configuration for an Amazon EMR cluster.
 - `ReleaseLabel`: The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
 - `RepoUpgradeOnBoot`: Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY, which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
-- `ScaleDownBehavior`: Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+- `ScaleDownBehavior`: Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR adds nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
 - `SecurityConfiguration`: The name of a security configuration to apply to the cluster.
 - `ServiceRole`: The IAM role that will be assumed by the Amazon EMR service to access AWS resources on your behalf.
 - `StepConcurrencyLevel`: Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
@@ -493,7 +613,7 @@ Starts a notebook execution.
 - `NotebookExecutionName`: An optional name for the notebook execution.
 - `NotebookInstanceSecurityGroupId`: The unique identifier of the Amazon EC2 security group to associate with the EMR Notebook for this notebook execution.
 - `NotebookParams`: Input parameters in JSON format passed to the EMR Notebook at runtime for execution.
-- `Tags`: A list of tags associated with a notebook execution. Tags are user-defined key value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
+- `Tags`: A list of tags associated with a notebook execution. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters and an optional value string with a maximum of 256 characters.
 """
 start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole); aws_config=aws_config)
 start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), args)); aws_config=aws_config)
@@ -516,8 +636,25 @@ stop_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; 
 TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down, any step not yet completed is canceled and the EC2 instances on which the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created. The maximum number of clusters allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release allocated resources, such as Amazon EC2 instances.
 
 # Required Parameters
-- `JobFlowIds`: A list of job flows to be shutdown.
+- `JobFlowIds`: A list of job flows to be shut down.
 
 """
 terminate_job_flows(JobFlowIds; aws_config::AWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config)
 terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws_config=aws_config)
+
+"""
+    UpdateStudioSessionMapping()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
+
+# Required Parameters
+- `IdentityType`: Specifies whether the identity to update is a user or a group.
+- `SessionPolicyArn`: The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group.
+- `StudioId`: The ID of the EMR Studio.
+
+# Optional Parameters
+- `IdentityId`: The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+- `IdentityName`: The name of the user or group to update. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+"""
+update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
+update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)

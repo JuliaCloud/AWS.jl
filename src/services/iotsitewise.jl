@@ -169,13 +169,13 @@ create_portal(portalContactEmail, portalName, roleArn, args::AbstractDict{String
 """
     CreatePresignedPortalUrl()
 
-Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains a session token that lets the IAM user access the portal.
+Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains an authentication token that lets the IAM user access the portal.
 
 # Required Parameters
 - `portalId`: The ID of the portal to access.
 
 # Optional Parameters
-- `sessionDurationSeconds`: The duration (in seconds) for which the session at the URL is valid. Default: 900 seconds (15 minutes)
+- `sessionDurationSeconds`: The duration (in seconds) for which the session at the URL is valid. Default: 43,200 seconds (12 hours)
 """
 create_presigned_portal_url(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url"; aws_config=aws_config)
 create_presigned_portal_url(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url", args; aws_config=aws_config)
@@ -353,6 +353,15 @@ Retrieves information about a dashboard.
 """
 describe_dashboard(dashboardId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards/$(dashboardId)"; aws_config=aws_config)
 describe_dashboard(dashboardId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards/$(dashboardId)", args; aws_config=aws_config)
+
+"""
+    DescribeDefaultEncryptionConfiguration()
+
+Retrieves information about the default encryption configuration for the AWS account in the default or specified region. For more information, see Key management in the AWS IoT SiteWise User Guide.
+
+"""
+describe_default_encryption_configuration(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/configuration/account/encryption"; aws_config=aws_config)
+describe_default_encryption_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/configuration/account/encryption", args; aws_config=aws_config)
 
 """
     DescribeGateway()
@@ -623,6 +632,20 @@ Retrieves the list of tags for an AWS IoT SiteWise resource.
 """
 list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+
+"""
+    PutDefaultEncryptionConfiguration()
+
+Sets the default encryption configuration for the AWS account. For more information, see Key management in the AWS IoT SiteWise User Guide.
+
+# Required Parameters
+- `encryptionType`: The type of encryption used for the encryption configuration.
+
+# Optional Parameters
+- `kmsKeyId`: The Key ID of the customer managed customer master key (CMK) used for AWS KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
+"""
+put_default_encryption_configuration(encryptionType; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/configuration/account/encryption", Dict{String, Any}("encryptionType"=>encryptionType); aws_config=aws_config)
+put_default_encryption_configuration(encryptionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/configuration/account/encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("encryptionType"=>encryptionType), args)); aws_config=aws_config)
 
 """
     PutLoggingOptions()

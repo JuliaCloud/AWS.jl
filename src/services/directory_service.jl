@@ -451,6 +451,19 @@ describe_trusts(; aws_config::AWSConfig=global_aws_config()) = directory_service
 describe_trusts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("DescribeTrusts", args; aws_config=aws_config)
 
 """
+    DisableClientAuthentication()
+
+Disable client authentication for smart cards.
+
+# Required Parameters
+- `DirectoryId`: Disable client authentication in a specified directory for smart cards. 
+- `Type`: Disable the type of client authentication request. 
+
+"""
+disable_client_authentication(DirectoryId, Type; aws_config::AWSConfig=global_aws_config()) = directory_service("DisableClientAuthentication", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws_config=aws_config)
+disable_client_authentication(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("DisableClientAuthentication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws_config=aws_config)
+
+"""
     DisableLDAPS()
 
 Deactivates LDAP secure calls for the specified directory.
@@ -489,6 +502,19 @@ Disables single-sign on for a directory.
 """
 disable_sso(DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("DisableSso", Dict{String, Any}("DirectoryId"=>DirectoryId); aws_config=aws_config)
 disable_sso(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("DisableSso", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
+
+"""
+    EnableClientAuthentication()
+
+Enable client authentication for smardtcards.
+
+# Required Parameters
+- `DirectoryId`: Enable client authentication in a specified directory for smart cards. 
+- `Type`: Enable the type of client authentication request. 
+
+"""
+enable_client_authentication(DirectoryId, Type; aws_config::AWSConfig=global_aws_config()) = directory_service("EnableClientAuthentication", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws_config=aws_config)
+enable_client_authentication(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("EnableClientAuthentication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     EnableLDAPS()
@@ -634,6 +660,9 @@ Registers a certificate for secured LDAP connection.
 - `CertificateData`: The certificate PEM string that needs to be registered.
 - `DirectoryId`: The identifier of the directory.
 
+# Optional Parameters
+- `ClientCertAuthSettings`: 
+- `Type`: The certificate type to register for the request.
 """
 register_certificate(CertificateData, DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("RegisterCertificate", Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId); aws_config=aws_config)
 register_certificate(CertificateData, DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("RegisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId), args)); aws_config=aws_config)
