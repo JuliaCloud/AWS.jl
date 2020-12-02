@@ -1,6 +1,6 @@
 ## AWS.jl
 
-[![Build Status](https://travis-ci.com/JuliaCloud/AWS.jl.svg?branch=master)](https://travis-ci.com/JuliaCloud/AWS.jl)
+![CI](https://github.com/JuliaCloud/AWS.jl/workflows/CI/badge.svg)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![ColPrac: Contributor's Guide on Collaborative Practices for Community Packages](https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet)](https://github.com/SciML/ColPrac)
 
