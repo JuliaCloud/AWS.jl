@@ -21,7 +21,8 @@ export AWSCredentials,
        env_var_credentials,
        localhost_is_ec2,
        localhost_maybe_ec2,
-       localhost_is_lambda
+       localhost_is_lambda,
+       credentials_from_webtoken
 
 """
     AWSCredentials
@@ -77,7 +78,7 @@ end
 
 
 function Base.show(io::IO, c::AWSCredentials)
-    println(io,
+    print(io,
         c.user_arn,
         isempty(c.user_arn) ? "" : " ",
         "(",
@@ -449,6 +450,48 @@ function dot_aws_config(profile=nothing)
     end
 
     return nothing
+end
+
+
+function credentials_from_webtoken(profile=nothing)
+    token_role_arn = "AWS_ROLE_ARN"
+    token_role_session = "AWS_ROLE_SESSION_NAME"
+    token_web_identity = "AWS_WEB_IDENTITY_TOKEN_FILE"
+
+    has_all_keys = 
+        haskey(ENV, token_role_arn) &&
+        haskey(ENV, token_role_session) &&
+        haskey(ENV, token_web_identity)
+
+    if !has_all_keys
+        throw(WebIdentityVarsNotSet(
+            "You need to set $(token_role_arn), $(token_role_session), $(token_web_identity) environment variables"
+        ))
+    end
+
+    role_arn = ENV[token_role_arn]
+    role_session = ENV[token_role_session]
+    web_identity = read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
+
+    resp = AWSServices.sts(
+        "AssumeRoleWithWebIdentity",
+        Dict(
+            "RoleArn" => role_arn, 
+            "RoleSessionName" => role_session,
+            "WebIdentityToken" => web_identity
+        );
+        aws_config=AWSConfig(profile=profile)
+    )
+
+    role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]
+
+    return AWSCredentials(
+        role_creds["AccessKeyId"],
+        role_creds["SecretAccessKey"],
+        role_creds["SessionToken"];
+        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
+        renew=credentials_from_webtoken
+    )
 end
 
 

@@ -462,17 +462,35 @@ end
         end
     end
 
+    @testset "Web Identity File" begin
+        mktempdir() do dir
+            web_identity_file = joinpath(dir, "web_identity")
+            write(web_identity_file, "foobar")
+
+            withenv(
+                "AWS_ROLE_ARN" => "foobar",
+                "AWS_ROLE_SESSION_NAME" => Patches.web_sesh_token,
+                "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+            ) do
+                apply(Patches._web_identity_patch) do
+                    result = credentials_from_webtoken()
+
+                    @test result.access_key_id == Patches.web_access_key
+                    @test result.secret_key == Patches.web_secret_key
+                    @test result.token == Patches.web_sesh_token
+                    @test result.renew == credentials_from_webtoken
+                end
+            end
+        end
+    end
+
+    @testset "Web Identity File -- Exception" begin
+        @test_throws WebIdentityVarsNotSet credentials_from_webtoken()
+    end
+
     @testset "Credentials Not Found" begin
         _http_request_patch = @patch function HTTP.request(method::String, url::String)
             return nothing
-        end
-
-        _cred_file_patch = @patch function dot_aws_credentials_file()
-            return ""
-        end
-
-        _config_file_patch = @patch function dot_aws_config_file()
-            return ""
         end
 
         ACCESS_KEY = "AWS_ACCESS_KEY_ID"
@@ -485,7 +503,7 @@ end
             delete!(ENV, "AWS_ACCESS_KEY_ID")
             delete!(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
 
-            apply([_http_request_patch, _cred_file_patch, _config_file_patch]) do
+            apply([_http_request_patch, Patches._cred_file_patch, Patches._config_file_patch]) do
                 @test_throws ErrorException AWSConfig()
             end
         finally
