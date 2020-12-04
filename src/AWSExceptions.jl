@@ -22,11 +22,6 @@ struct NoCredentials <: Exception
 end
 Base.show(io::IO, e::NoCredentials) = println(io, e.message)
 
-struct WebIdentityVarsNotSet <: Exception
-    message::String
-end
-Base.show(io::IO, e::WebIdentityVarsNotSet) = println(io, e.message)
-
 struct AWSException <: Exception
     code::String
     message::String
