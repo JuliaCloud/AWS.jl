@@ -472,7 +472,7 @@ function credentials_from_webtoken()
     role_session = ENV[token_role_session]
     web_identity = read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
 
-    resp = AWSServices.sts(
+    resp = @mock AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
             "RoleArn" => role_arn, 
