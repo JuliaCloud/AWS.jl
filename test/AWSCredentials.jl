@@ -463,6 +463,8 @@ end
     end
 
     @testset "Web Identity File" begin
+        @test credentials_from_webtoken() == nothing
+
         mktempdir() do dir
             web_identity_file = joinpath(dir, "web_identity")
             write(web_identity_file, "foobar")
@@ -479,13 +481,18 @@ end
                     @test result.secret_key == Patches.web_secret_key
                     @test result.token == Patches.web_sesh_token
                     @test result.renew == credentials_from_webtoken
+                    expiry = result.expiry
+
+                    result = check_credentials(result)
+
+                    @test result.access_key_id == Patches.web_access_key
+                    @test result.secret_key == Patches.web_secret_key
+                    @test result.token == Patches.web_sesh_token
+                    @test result.renew == credentials_from_webtoken
+                    @test expiry != result.expiry
                 end
             end
         end
-    end
-
-    @testset "Web Identity File -- Exception" begin
-        @test_throws WebIdentityVarsNotSet credentials_from_webtoken()
     end
 
     @testset "Credentials Not Found" begin
