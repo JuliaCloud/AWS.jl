@@ -5,7 +5,7 @@ using JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
-export AWSException, ProtocolNotDefined, InvalidFileName, NoCredentials, WebIdentityVarsNotSet
+export AWSException, ProtocolNotDefined, InvalidFileName, NoCredentials
 
 struct ProtocolNotDefined <: Exception
     message::String
