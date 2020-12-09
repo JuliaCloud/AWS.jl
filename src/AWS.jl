@@ -27,7 +27,7 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 user_agent = Ref("AWS.jl/1.0.0")
-aws_config = Ref{Any}()
+aws_config = Ref{AbstractAWSConfig}()
 
 """
     global_aws_config()
