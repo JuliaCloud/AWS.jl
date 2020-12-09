@@ -58,7 +58,12 @@ jobs:
           MINIO_SECRET_KEY: minio123
           MINIO_REGION_NAME: aregion
         run:
-          curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio && chmod +x ./minio
+          if [ "$RUNNER_OS" == "ubuntu-latest" ]; then
+              curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio  
+          elif [ "$RUNNER_OS" == "macOS-latest" ]; then
+              curl -O https://dl.minio.io/server/minio/release/darwin-amd64/minio
+          fi
+          chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
       - env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
