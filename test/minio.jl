@@ -1,4 +1,5 @@
 using AWS
+@testset "Minio" begin
 struct MinioConfig <: AbstractAWSConfig 
 endpoint::String
 region::String
@@ -51,3 +52,4 @@ for obj in objs["Contents"]
 end
 S3.delete_bucket("anewbucket")
 @test isempty(filter(!isequal(".minio.sys"),readdir(datadir)))
+end
