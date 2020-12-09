@@ -706,8 +706,8 @@ Modifies the parameters for a capacity provider.
 - `name`: An object representing the parameters to update for the Auto Scaling group capacity provider.
 
 """
-update_capacity_provider(autoScalingGroupProvider, name; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-update_capacity_provider(autoScalingGroupProvider, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), args)); aws_config=aws_config)
+update_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
+update_capacity_provider(autoScalingGroupProvider, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), args)); aws_config=aws_config)
 
 """
     UpdateClusterSettings()

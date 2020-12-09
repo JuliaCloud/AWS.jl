@@ -17,8 +17,8 @@ using AWS.UUIDs
 # Optional Parameters
 - `clientRequestToken`:  The request token for performing the batch create operation. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the operation again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
 """
-batch_create_table_rows(rowsToCreate, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}("rowsToCreate"=>rowsToCreate); aws_config=aws_config)
-batch_create_table_rows(rowsToCreate, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToCreate"=>rowsToCreate), args)); aws_config=aws_config)
+batch_create_table_rows(rowsToCreate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}("rowsToCreate"=>rowsToCreate); aws_config=aws_config)
+batch_create_table_rows(rowsToCreate, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToCreate"=>rowsToCreate), args)); aws_config=aws_config)
 
 """
     BatchDeleteTableRows()
@@ -33,8 +33,8 @@ batch_create_table_rows(rowsToCreate, tableId, workbookId, args::AbstractDict{St
 # Optional Parameters
 - `clientRequestToken`:  The request token for performing the delete action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
 """
-batch_delete_table_rows(rowIds, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}("rowIds"=>rowIds); aws_config=aws_config)
-batch_delete_table_rows(rowIds, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowIds"=>rowIds), args)); aws_config=aws_config)
+batch_delete_table_rows(rowIds, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}("rowIds"=>rowIds); aws_config=aws_config)
+batch_delete_table_rows(rowIds, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowIds"=>rowIds), args)); aws_config=aws_config)
 
 """
     BatchUpdateTableRows()
@@ -49,8 +49,8 @@ batch_delete_table_rows(rowIds, tableId, workbookId, args::AbstractDict{String, 
 # Optional Parameters
 - `clientRequestToken`:  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
 """
-batch_update_table_rows(rowsToUpdate, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}("rowsToUpdate"=>rowsToUpdate); aws_config=aws_config)
-batch_update_table_rows(rowsToUpdate, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpdate"=>rowsToUpdate), args)); aws_config=aws_config)
+batch_update_table_rows(rowsToUpdate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}("rowsToUpdate"=>rowsToUpdate); aws_config=aws_config)
+batch_update_table_rows(rowsToUpdate, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpdate"=>rowsToUpdate), args)); aws_config=aws_config)
 
 """
     BatchUpsertTableRows()
@@ -65,8 +65,8 @@ batch_update_table_rows(rowsToUpdate, tableId, workbookId, args::AbstractDict{St
 # Optional Parameters
 - `clientRequestToken`:  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
 """
-batch_upsert_table_rows(rowsToUpsert, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}("rowsToUpsert"=>rowsToUpsert); aws_config=aws_config)
-batch_upsert_table_rows(rowsToUpsert, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpsert"=>rowsToUpsert), args)); aws_config=aws_config)
+batch_upsert_table_rows(rowsToUpsert, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}("rowsToUpsert"=>rowsToUpsert); aws_config=aws_config)
+batch_upsert_table_rows(rowsToUpsert, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpsert"=>rowsToUpsert), args)); aws_config=aws_config)
 
 """
     DescribeTableDataImportJob()
@@ -79,8 +79,8 @@ batch_upsert_table_rows(rowsToUpsert, tableId, workbookId, args::AbstractDict{St
 - `workbookId`: The ID of the workbook into which data was imported.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
 
 """
-describe_table_data_import_job(jobId, tableId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)"; aws_config=aws_config)
-describe_table_data_import_job(jobId, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)", args; aws_config=aws_config)
+describe_table_data_import_job(jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)"; aws_config=aws_config)
+describe_table_data_import_job(jobId, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)", args; aws_config=aws_config)
 
 """
     GetScreenData()
@@ -118,3 +118,84 @@ get_screen_data(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; 
 """
 invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
 invoke_screen_automation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)
+
+"""
+    ListTableColumns()
+
+ The ListTableColumns API allows you to retrieve a list of all the columns in a table in a workbook. 
+
+# Required Parameters
+- `tableId`: The ID of the table whose columns are being retrieved.  If a table with the specified id could not be found, this API throws ResourceNotFoundException. 
+- `workbookId`: The ID of the workbook that contains the table whose columns are being retrieved.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
+
+# Optional Parameters
+- `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
+"""
+list_table_columns(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns"; aws_config=aws_config)
+list_table_columns(tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns", args; aws_config=aws_config)
+
+"""
+    ListTableRows()
+
+ The ListTableRows API allows you to retrieve a list of all the rows in a table in a workbook. 
+
+# Required Parameters
+- `tableId`: The ID of the table whose rows are being retrieved.  If a table with the specified id could not be found, this API throws ResourceNotFoundException. 
+- `workbookId`: The ID of the workbook that contains the table whose rows are being retrieved.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
+
+# Optional Parameters
+- `maxResults`: The maximum number of rows to return in each page of the results.
+- `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
+- `rowIds`:  This parameter is optional. If one or more row ids are specified in this list, then only the specified row ids are returned in the result. If no row ids are specified here, then all the rows in the table are returned. 
+"""
+list_table_rows(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list"; aws_config=aws_config)
+list_table_rows(tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list", args; aws_config=aws_config)
+
+"""
+    ListTables()
+
+ The ListTables API allows you to retrieve a list of all the tables in a workbook. 
+
+# Required Parameters
+- `workbookId`: The ID of the workbook whose tables are being retrieved.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
+
+# Optional Parameters
+- `maxResults`: The maximum number of tables to return in each page of the results.
+- `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
+"""
+list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables"; aws_config=aws_config)
+list_tables(workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables", args; aws_config=aws_config)
+
+"""
+    QueryTableRows()
+
+ The QueryTableRows API allows you to use a filter formula to query for specific rows in a table. 
+
+# Required Parameters
+- `filterFormula`: An object that represents a filter formula along with the id of the context row under which the filter function needs to evaluate.
+- `tableId`: The ID of the table whose rows are being queried.  If a table with the specified id could not be found, this API throws ResourceNotFoundException. 
+- `workbookId`: The ID of the workbook whose table rows are being queried.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
+
+# Optional Parameters
+- `maxResults`: The maximum number of rows to return in each page of the results.
+- `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
+"""
+query_table_rows(filterFormula, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}("filterFormula"=>filterFormula); aws_config=aws_config)
+query_table_rows(filterFormula, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterFormula"=>filterFormula), args)); aws_config=aws_config)
+
+"""
+    StartTableDataImportJob()
+
+ The StartTableDataImportJob API allows you to start an import job on a table. This API will only return the id of the job that was started. To find out the status of the import request, you need to call the DescribeTableDataImportJob API. 
+
+# Required Parameters
+- `clientRequestToken`:  The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
+- `dataFormat`:  The format of the data that is being imported. Currently the only option supported is \"DELIMITED_TEXT\". 
+- `dataSource`:  The source of the data that is being imported. The size of source must be no larger than 100 MB. Source must have no more than 100,000 cells and no more than 1,000 rows. 
+- `importOptions`:  The options for customizing this import request. 
+- `tableId`: The ID of the table where the rows are being imported.  If a table with the specified id could not be found, this API throws ResourceNotFoundException. 
+- `workbookId`: The ID of the workbook where the rows are being imported.  If a workbook with the specified id could not be found, this API throws ResourceNotFoundException. 
+
+"""
+start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions); aws_config=aws_config)
+start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions), args)); aws_config=aws_config)

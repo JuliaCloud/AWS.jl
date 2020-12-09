@@ -18,8 +18,8 @@ Creates a parallel data resource in Amazon Translate by importing an input file 
 - `Description`: A custom description for the parallel data resource in Amazon Translate.
 - `EncryptionKey`: 
 """
-create_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AWSConfig=global_aws_config()) = translate("CreateParallelData", Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig); aws_config=aws_config)
-create_parallel_data(ClientToken, Name, ParallelDataConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = translate("CreateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), args)); aws_config=aws_config)
+create_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = translate("CreateParallelData", Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig); aws_config=aws_config)
+create_parallel_data(ClientToken, Name, ParallelDataConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("CreateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), args)); aws_config=aws_config)
 
 """
     DeleteParallelData()
@@ -30,8 +30,8 @@ Deletes a parallel data resource in Amazon Translate.
 - `Name`: The name of the parallel data resource that is being deleted.
 
 """
-delete_parallel_data(Name; aws_config::AWSConfig=global_aws_config()) = translate("DeleteParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_parallel_data(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = translate("DeleteParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+delete_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config()) = translate("DeleteParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_parallel_data(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("DeleteParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteTerminology()
@@ -66,8 +66,8 @@ Provides information about a parallel data resource.
 - `Name`: The name of the parallel data resource that is being retrieved.
 
 """
-get_parallel_data(Name; aws_config::AWSConfig=global_aws_config()) = translate("GetParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_parallel_data(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = translate("GetParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+get_parallel_data(Name; aws_config::AbstractAWSConfig=global_aws_config()) = translate("GetParallelData", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+get_parallel_data(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("GetParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetTerminology()
@@ -108,8 +108,8 @@ Provides a list of your parallel data resources in Amazon Translate.
 - `MaxResults`: The maximum number of parallel data resources returned for each request.
 - `NextToken`: A string that specifies the next page of results to return in a paginated response.
 """
-list_parallel_data(; aws_config::AWSConfig=global_aws_config()) = translate("ListParallelData"; aws_config=aws_config)
-list_parallel_data(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = translate("ListParallelData", args; aws_config=aws_config)
+list_parallel_data(; aws_config::AbstractAWSConfig=global_aws_config()) = translate("ListParallelData"; aws_config=aws_config)
+list_parallel_data(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("ListParallelData", args; aws_config=aws_config)
 
 """
     ListTerminologies()
@@ -184,3 +184,19 @@ Translates input text from the source language to the target language. For a lis
 """
 translate_text(SourceLanguageCode, TargetLanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = translate("TranslateText", Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text); aws_config=aws_config)
 translate_text(SourceLanguageCode, TargetLanguageCode, Text, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("TranslateText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text), args)); aws_config=aws_config)
+
+"""
+    UpdateParallelData()
+
+Updates a previously created parallel data resource by importing a new input file from Amazon S3.
+
+# Required Parameters
+- `ClientToken`: A unique identifier for the request. This token is automatically generated when you use Amazon Translate through an AWS SDK.
+- `Name`: The name of the parallel data resource being updated.
+- `ParallelDataConfig`: Specifies the format and S3 location of the parallel data input file.
+
+# Optional Parameters
+- `Description`: A custom description for the parallel data resource in Amazon Translate.
+"""
+update_parallel_data(ClientToken, Name, ParallelDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = translate("UpdateParallelData", Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig); aws_config=aws_config)
+update_parallel_data(ClientToken, Name, ParallelDataConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = translate("UpdateParallelData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Name"=>Name, "ParallelDataConfig"=>ParallelDataConfig), args)); aws_config=aws_config)

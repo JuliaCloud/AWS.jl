@@ -112,8 +112,8 @@ Creates a member association in Security Hub between the specified accounts and 
 - `AccountDetails`: The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and optionally the email address.
 
 """
-create_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members"; aws_config=aws_config)
-create_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", args; aws_config=aws_config)
+create_members(AccountDetails; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}("AccountDetails"=>AccountDetails); aws_config=aws_config)
+create_members(AccountDetails, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountDetails"=>AccountDetails), args)); aws_config=aws_config)
 
 """
     DeclineInvitations()
@@ -172,8 +172,8 @@ Deletes the specified member accounts from Security Hub. Can be used to delete m
 - `AccountIds`: The list of account IDs for the member accounts to delete.
 
 """
-delete_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete"; aws_config=aws_config)
-delete_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", args; aws_config=aws_config)
+delete_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+delete_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     DescribeActionTargets()
@@ -205,8 +205,8 @@ describe_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
 
 """
-describe_organization_configuration(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
-describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", args; aws_config=aws_config)
+describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
+describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", args; aws_config=aws_config)
 
 """
     DescribeProducts()
@@ -268,8 +268,8 @@ Disables a Security Hub administrator account. Can only be called by the organiz
 - `AdminAccountId`: The AWS account identifier of the Security Hub administrator account.
 
 """
-disable_organization_admin_account(AdminAccountId; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
-disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
+disable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
+disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
 
 """
     DisableSecurityHub()
@@ -298,8 +298,8 @@ Disassociates the specified member accounts from the associated master account. 
 - `AccountIds`: The account IDs of the member accounts to disassociate from the master account.
 
 """
-disassociate_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate"; aws_config=aws_config)
-disassociate_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", args; aws_config=aws_config)
+disassociate_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+disassociate_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     EnableImportFindingsForProduct()
@@ -322,8 +322,8 @@ Designates the Security Hub administrator account for an organization. Can only 
 - `AdminAccountId`: The AWS account identifier of the account to designate as the Security Hub administrator account.
 
 """
-enable_organization_admin_account(AdminAccountId; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
-enable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
+enable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
+enable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
 
 """
     EnableSecurityHub()
@@ -428,8 +428,8 @@ Invites other AWS accounts to become member accounts for the Security Hub master
 - `AccountIds`: The list of account IDs of the AWS accounts to invite to Security Hub as members. 
 
 """
-invite_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite"; aws_config=aws_config)
-invite_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", args; aws_config=aws_config)
+invite_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+invite_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     ListEnabledProductsForImport()
@@ -477,8 +477,8 @@ Lists the Security Hub administrator accounts. Can only be called by the organiz
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response. 
 """
-list_organization_admin_accounts(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
-list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", args; aws_config=aws_config)
+list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
+list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -573,8 +573,8 @@ Used to update the configuration related to Organizations. Can only be called fr
 - `AutoEnable`: Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
 
 """
-update_organization_configuration(AutoEnable; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}("AutoEnable"=>AutoEnable); aws_config=aws_config)
-update_organization_configuration(AutoEnable, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoEnable"=>AutoEnable), args)); aws_config=aws_config)
+update_organization_configuration(AutoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}("AutoEnable"=>AutoEnable); aws_config=aws_config)
+update_organization_configuration(AutoEnable, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoEnable"=>AutoEnable), args)); aws_config=aws_config)
 
 """
     UpdateSecurityHubConfiguration()

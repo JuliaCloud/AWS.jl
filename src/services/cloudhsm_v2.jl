@@ -157,8 +157,8 @@ Modifies attributes for AWS CloudHSM backup.
 - `NeverExpires`: Specifies whether the service should exempt a backup from the retention policy for the cluster. True exempts a backup from the retention policy. False means the service applies the backup retention policy defined at the cluster.
 
 """
-modify_backup_attributes(BackupId, NeverExpires; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config)
-modify_backup_attributes(BackupId, NeverExpires, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), args)); aws_config=aws_config)
+modify_backup_attributes(BackupId, NeverExpires; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config)
+modify_backup_attributes(BackupId, NeverExpires, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), args)); aws_config=aws_config)
 
 """
     ModifyCluster()
@@ -170,8 +170,8 @@ Modifies AWS CloudHSM cluster.
 - `ClusterId`: The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
 
 """
-modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config)
-modify_cluster(BackupRetentionPolicy, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
+modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config)
+modify_cluster(BackupRetentionPolicy, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     RestoreBackup()

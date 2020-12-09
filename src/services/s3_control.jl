@@ -178,8 +178,8 @@ Deletes the Amazon S3 Storage Lens configuration. For more information about S3 
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-delete_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+delete_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DeleteStorageLensConfigurationTagging()
@@ -191,8 +191,8 @@ Deletes the Amazon S3 Storage Lens configuration tags. For more information abou
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DescribeJob()
@@ -333,8 +333,8 @@ Gets the Amazon S3 Storage Lens configuration. For more information, see Working
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-get_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetStorageLensConfigurationTagging()
@@ -346,8 +346,8 @@ Gets the tags of Amazon S3 Storage Lens configuration. For more information abou
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     ListAccessPoints()
@@ -408,8 +408,8 @@ Gets a list of Amazon S3 Storage Lens configurations. For more information about
 # Optional Parameters
 - `nextToken`: A pagination token to request the next page of results.
 """
-list_storage_lens_configurations(x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-list_storage_lens_configurations(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+list_storage_lens_configurations(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+list_storage_lens_configurations(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     PutAccessPointPolicy()
@@ -510,8 +510,8 @@ Puts an Amazon S3 Storage Lens configuration. For more information about S3 Stor
 # Optional Parameters
 - `Tags`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of 50 tags. 
 """
-put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     PutStorageLensConfigurationTagging()
@@ -526,8 +526,8 @@ Put or replace tags on an existing Amazon S3 Storage Lens configuration. For mor
 # Optional Parameters
 - `Tags`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of 50 tags. 
 """
-put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     UpdateJobPriority()

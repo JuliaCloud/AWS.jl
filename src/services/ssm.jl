@@ -71,7 +71,7 @@ A State Manager association defines the state that you want to maintain on your 
 - `Name`: The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
 # Optional Parameters
-- `ApplyOnlyAtCronInterval`: By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+- `ApplyOnlyAtCronInterval`: By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
 - `AssociationName`: Specify a descriptive name for the association.
 - `AutomationTargetParameterName`: Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
 - `ComplianceSeverity`: The severity level to assign to the association.
@@ -166,6 +166,20 @@ Creates a new OpsItem. You must have permission in AWS Identity and Access Manag
 """
 create_ops_item(Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title); aws_config=aws_config)
 create_ops_item(Description, Source, Title, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title), args)); aws_config=aws_config)
+
+"""
+    CreateOpsMetadata()
+
+If you create a new application in AppManager, Systems Manager calls this API action to specify information about the new application, including the application type.
+
+# Required Parameters
+- `ResourceId`: A resource ID for a new AppManager application.
+
+# Optional Parameters
+- `Metadata`: Metadata for a new AppManager application. 
+"""
+create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+create_ops_metadata(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     CreatePatchBaseline()
@@ -276,6 +290,18 @@ Deletes a maintenance window.
 """
 delete_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
 delete_maintenance_window(WindowId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), args)); aws_config=aws_config)
+
+"""
+    DeleteOpsMetadata()
+
+Delete OpsMetadata related to an application.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
+
+"""
+delete_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+delete_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     DeleteParameter()
@@ -824,7 +850,7 @@ describe_patch_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     DescribePatchProperties()
 
-Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  DEBIAN  Valid properties: PRODUCT, PRIORITY  ORACLE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU  Valid properties: PRODUCT, PRIORITY  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  
+Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  DEBIAN  Valid properties: PRODUCT, PRIORITY  MACOS  Valid properties: PRODUCT, CLASSIFICATION  ORACLE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU  Valid properties: PRODUCT, PRIORITY  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  
 
 # Required Parameters
 - `OperatingSystem`: The operating system type for which to list patches.
@@ -833,7 +859,7 @@ Lists the properties of available patches organized by product, product family, 
 # Optional Parameters
 - `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `NextToken`: The token for the next set of items to return. (You received this token from a previous call.)
-- `PatchSet`: Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for Linux operating systems.
+- `PatchSet`: Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for the Linux or macOS operating systems.
 """
 describe_patch_properties(OperatingSystem, Property; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property); aws_config=aws_config)
 describe_patch_properties(OperatingSystem, Property, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property), args)); aws_config=aws_config)
@@ -1052,6 +1078,21 @@ Get information about an OpsItem by using the ID. You must have permission in AW
 """
 get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
 get_ops_item(OpsItemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), args)); aws_config=aws_config)
+
+"""
+    GetOpsMetadata()
+
+View operational metadata related to an application in AppManager.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to view.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+- `NextToken`: A token to start the list. Use this token to get the next set of results.
+"""
+get_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+get_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     GetOpsSummary()
@@ -1316,6 +1357,19 @@ A list of inventory items returned by the request.
 """
 list_inventory_entries(InstanceId, TypeName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName); aws_config=aws_config)
 list_inventory_entries(InstanceId, TypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName), args)); aws_config=aws_config)
+
+"""
+    ListOpsMetadata()
+
+Systems Manager calls this API action when displaying all AppManager OpsMetadata objects or blobs.
+
+# Optional Parameters
+- `Filters`: One or more filters to limit the number of OpsMetadata objects returned by the call.
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+- `NextToken`: A token to start the list. Use this token to get the next set of results.
+"""
+list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsMetadata"; aws_config=aws_config)
+list_ops_metadata(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsMetadata", args; aws_config=aws_config)
 
 """
     ListResourceComplianceSummaries()
@@ -1666,7 +1720,7 @@ Updates an association. You can update the association name and version, the doc
 - `AssociationId`: The ID of the association you want to update. 
 
 # Optional Parameters
-- `ApplyOnlyAtCronInterval`: By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+- `ApplyOnlyAtCronInterval`: By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter is not supported for rate expressions. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
 - `AssociationName`: The name of the association that you want to update.
 - `AssociationVersion`: This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify LATEST, or omit this parameter.
 - `AutomationTargetParameterName`: Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -1835,6 +1889,21 @@ Edit or change an OpsItem. You must have permission in AWS Identity and Access M
 """
 update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
 update_ops_item(OpsItemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), args)); aws_config=aws_config)
+
+"""
+    UpdateOpsMetadata()
+
+Systems Manager calls this API action when you edit OpsMetadata in AppManager.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+
+# Optional Parameters
+- `KeysToDelete`: The metadata keys to delete from the OpsMetadata object. 
+- `MetadataToUpdate`: Metadata to add to an OpsMetadata object.
+"""
+update_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+update_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     UpdatePatchBaseline()

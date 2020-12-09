@@ -19,8 +19,8 @@ Creates an Outpost.
 - `Description`: 
 - `Tags`: The tags to apply to the Outpost.
 """
-create_outpost(SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("SiteId"=>SiteId); aws_config=aws_config)
-create_outpost(SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SiteId"=>SiteId), args)); aws_config=aws_config)
+create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
+create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), args)); aws_config=aws_config)
 
 """
     DeleteOutpost()

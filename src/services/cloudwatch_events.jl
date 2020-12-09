@@ -31,7 +31,7 @@ cancel_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     CreateArchive()
 
-Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect.
+Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
 
 # Required Parameters
 - `ArchiveName`: The name for the archive to create.
@@ -397,7 +397,7 @@ Lists your replays. You can either list all the replays or you can provide a pre
 # Optional Parameters
 - `EventSourceArn`: The ARN of the event source associated with the replay.
 - `Limit`: The maximum number of replays to retrieve.
-- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+- `NamePrefix`: A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 - `State`: The state of the replay.
 """
@@ -514,8 +514,8 @@ Running PutPermission permits the specified AWS account or AWS organization to p
 - `Principal`: The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify \"*\" to permit any account to put events to your default event bus. If you specify \"*\" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
 - `StatementId`: An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
 """
-put_permission(Action, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-put_permission(Action, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
+put_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission"; aws_config=aws_config)
+put_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", args; aws_config=aws_config)
 
 """
     PutRule()
@@ -562,8 +562,8 @@ Revokes the permission of another AWS account to be able to put events to the sp
 - `RemoveAllPermissions`: Specifies whether to remove all permissions.
 - `StatementId`: The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
 """
-remove_permission(StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}("StatementId"=>StatementId); aws_config=aws_config)
-remove_permission(StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementId"=>StatementId), args)); aws_config=aws_config)
+remove_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission"; aws_config=aws_config)
+remove_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", args; aws_config=aws_config)
 
 """
     RemoveTargets()

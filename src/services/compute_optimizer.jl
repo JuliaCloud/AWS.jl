@@ -27,11 +27,11 @@ Exports optimization recommendations for Auto Scaling groups. Recommendations ar
 - `s3DestinationConfig`: An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
 
 # Optional Parameters
-- `accountIds`: The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+- `accountIds`: The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
 - `fieldsToExport`: The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
 - `fileFormat`: The format of the export file. The only export file format currently supported is Csv.
 - `filters`: An array of objects that describe a filter to export a more specific set of Auto Scaling group recommendations.
-- `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+- `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
 """
 export_auto_scaling_group_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
 export_auto_scaling_group_recommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws_config=aws_config)
@@ -45,11 +45,11 @@ Exports optimization recommendations for Amazon EC2 instances. Recommendations a
 - `s3DestinationConfig`: An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer user guide.
 
 # Optional Parameters
-- `accountIds`: The IDs of the AWS accounts for which to export instance recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+- `accountIds`: The IDs of the AWS accounts for which to export instance recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
 - `fieldsToExport`: The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
 - `fileFormat`: The format of the export file. The only export file format currently supported is Csv.
 - `filters`: An array of objects that describe a filter to export a more specific set of instance recommendations.
-- `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
+- `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
 """
 export_ec2_instance_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
 export_ec2_instance_recommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws_config=aws_config)
@@ -60,7 +60,7 @@ export_ec2_instance_recommendations(s3DestinationConfig, args::AbstractDict{Stri
 Returns Auto Scaling group recommendations. AWS Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide.
 
 # Optional Parameters
-- `accountIds`: The IDs of the AWS accounts for which to return Auto Scaling group recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
+- `accountIds`: The IDs of the AWS accounts for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
 - `autoScalingGroupArns`: The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
 - `filters`: An array of objects that describe a filter that returns a more specific list of Auto Scaling group recommendations.
 - `maxResults`: The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
@@ -70,12 +70,27 @@ get_auto_scaling_group_recommendations(; aws_config::AbstractAWSConfig=global_aw
 get_auto_scaling_group_recommendations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations", args; aws_config=aws_config)
 
 """
+    GetEBSVolumeRecommendations()
+
+Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. AWS Compute Optimizer generates recommendations for Amazon EBS volumes that meet a specific set of requirements. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide.
+
+# Optional Parameters
+- `accountIds`: The IDs of the AWS accounts for which to return volume recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return volume recommendations. Only one account ID can be specified per request.
+- `filters`: An array of objects that describe a filter that returns a more specific list of volume recommendations.
+- `maxResults`: The maximum number of volume recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
+- `nextToken`: The token to advance to the next page of volume recommendations.
+- `volumeArns`: The Amazon Resource Name (ARN) of the volumes for which to return recommendations.
+"""
+get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations"; aws_config=aws_config)
+get_ebsvolume_recommendations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations", args; aws_config=aws_config)
+
+"""
     GetEC2InstanceRecommendations()
 
 Returns Amazon EC2 instance recommendations. AWS Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide.
 
 # Optional Parameters
-- `accountIds`: The IDs of the AWS accounts for which to return instance recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return instance recommendations. Only one account ID can be specified per request.
+- `accountIds`: The IDs of the AWS accounts for which to return instance recommendations. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return instance recommendations. Only one account ID can be specified per request.
 - `filters`: An array of objects that describe a filter that returns a more specific list of instance recommendations.
 - `instanceArns`: The Amazon Resource Name (ARN) of the instances for which to return recommendations.
 - `maxResults`: The maximum number of instance recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
@@ -103,7 +118,7 @@ get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime
 """
     GetEnrollmentStatus()
 
-Returns the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is the master account of an organization, this action also confirms the enrollment status of member accounts within the organization.
+Returns the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is the management account of an organization, this action also confirms the enrollment status of member accounts within the organization.
 
 """
 get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus"; aws_config=aws_config)
@@ -115,7 +130,7 @@ get_enrollment_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 Returns the optimization findings for an account. For example, it returns the number of Amazon EC2 instances in an account that are under-provisioned, over-provisioned, or optimized. It also returns the number of Auto Scaling groups in an account that are not optimized, or optimized.
 
 # Optional Parameters
-- `accountIds`: The IDs of the AWS accounts for which to return recommendation summaries. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to return recommendation summaries. Only one account ID can be specified per request.
+- `accountIds`: The IDs of the AWS accounts for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member accounts for which you want to return recommendation summaries. Only one account ID can be specified per request.
 - `maxResults`: The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
 - `nextToken`: The token to advance to the next page of recommendation summaries.
 """
@@ -125,13 +140,13 @@ get_recommendation_summaries(args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     UpdateEnrollmentStatus()
 
-Updates the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is a master account of an organization, this action can also be used to enroll member accounts within the organization.
+Updates the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is a management account of an organization, this action can also be used to enroll member accounts within the organization.
 
 # Required Parameters
 - `status`: The new enrollment status of the account. Accepted options are Active or Inactive. You will get an error if Pending or Failed are specified.
 
 # Optional Parameters
-- `includeMemberAccounts`: Indicates whether to enroll member accounts of the organization if the your account is the master account of an organization.
+- `includeMemberAccounts`: Indicates whether to enroll member accounts of the organization if the your account is the management account of an organization.
 """
 update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}("status"=>status); aws_config=aws_config)
 update_enrollment_status(status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)

@@ -180,8 +180,8 @@ Defines a new matchmaking configuration for use with FlexMatch. Whether your are
 - `NotificationTarget`: An SNS topic ARN that is set up to receive matchmaking notifications.
 - `Tags`: A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
 """
-create_matchmaking_configuration(AcceptanceRequired, GameSessionQueueArns, Name, RequestTimeoutSeconds, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("CreateMatchmakingConfiguration", Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "GameSessionQueueArns"=>GameSessionQueueArns, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-create_matchmaking_configuration(AcceptanceRequired, GameSessionQueueArns, Name, RequestTimeoutSeconds, RuleSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("CreateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "GameSessionQueueArns"=>GameSessionQueueArns, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName), args)); aws_config=aws_config)
+create_matchmaking_configuration(AcceptanceRequired, Name, RequestTimeoutSeconds, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("CreateMatchmakingConfiguration", Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName); aws_config=aws_config)
+create_matchmaking_configuration(AcceptanceRequired, Name, RequestTimeoutSeconds, RuleSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("CreateMatchmakingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptanceRequired"=>AcceptanceRequired, "Name"=>Name, "RequestTimeoutSeconds"=>RequestTimeoutSeconds, "RuleSetName"=>RuleSetName), args)); aws_config=aws_config)
 
 """
     CreateMatchmakingRuleSet()
@@ -1008,8 +1008,8 @@ Finds new players to fill open slots in an existing game session. This operation
 - `GameSessionArn`: Amazon Resource Name (ARN) that is assigned to a game session and uniquely identifies it. This is the same as the game session ID.
 - `TicketId`: A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
 """
-start_match_backfill(ConfigurationName, GameSessionArn, Players; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("StartMatchBackfill", Dict{String, Any}("ConfigurationName"=>ConfigurationName, "GameSessionArn"=>GameSessionArn, "Players"=>Players); aws_config=aws_config)
-start_match_backfill(ConfigurationName, GameSessionArn, Players, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("StartMatchBackfill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "GameSessionArn"=>GameSessionArn, "Players"=>Players), args)); aws_config=aws_config)
+start_match_backfill(ConfigurationName, Players; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("StartMatchBackfill", Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players); aws_config=aws_config)
+start_match_backfill(ConfigurationName, Players, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = gamelift("StartMatchBackfill", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationName"=>ConfigurationName, "Players"=>Players), args)); aws_config=aws_config)
 
 """
     StartMatchmaking()

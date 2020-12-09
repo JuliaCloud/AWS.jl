@@ -713,8 +713,8 @@ Moves a replication task from its current replication instance to a different ta
 - `TargetReplicationInstanceArn`: The ARN of the replication instance where you want to move the task to.
 
 """
-move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn; aws_config::AWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn); aws_config=aws_config)
-move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn), args)); aws_config=aws_config)
+move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn); aws_config=aws_config)
+move_replication_task(ReplicationTaskArn, TargetReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("MoveReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TargetReplicationInstanceArn"=>TargetReplicationInstanceArn), args)); aws_config=aws_config)
 
 """
     RebootReplicationInstance()

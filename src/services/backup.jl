@@ -166,8 +166,8 @@ describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::Abst
 The current feature settings for the AWS Account.
 
 """
-describe_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
-describe_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings", args; aws_config=aws_config)
+describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
+describe_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", args; aws_config=aws_config)
 
 """
     DescribeProtectedResource()
@@ -650,8 +650,8 @@ Updates the current global settings for the AWS Account. Use the DescribeGlobalS
 # Optional Parameters
 - `GlobalSettings`: A list of resources along with the opt-in preferences for the account.
 """
-update_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
-update_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings", args; aws_config=aws_config)
+update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
+update_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", args; aws_config=aws_config)
 
 """
     UpdateRecoveryPointLifecycle()

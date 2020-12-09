@@ -180,8 +180,8 @@ Configures an event selector for your trail. Use event selectors to further spec
 - `AdvancedEventSelectors`: 
 - `EventSelectors`: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
 """
-put_event_selectors(EventSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("EventSelectors"=>EventSelectors, "TrailName"=>TrailName); aws_config=aws_config)
-put_event_selectors(EventSelectors, TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSelectors"=>EventSelectors, "TrailName"=>TrailName), args)); aws_config=aws_config)
+put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
+put_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     PutInsightSelectors()

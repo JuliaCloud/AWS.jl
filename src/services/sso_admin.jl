@@ -45,8 +45,8 @@ Enables the attributes-based access control (ABAC) feature for the specified AWS
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
+create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     CreatePermissionSet()
@@ -105,8 +105,8 @@ Disables the attributes-based access control (ABAC) feature for the specified AW
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-delete_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
+delete_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     DeletePermissionSet()
@@ -156,8 +156,8 @@ Returns the list of AWS SSO identity store attributes that have been configured 
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
+describe_instance_access_control_attribute_configuration(InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     DescribePermissionSet()
@@ -437,8 +437,8 @@ Updates the AWS SSO identity store attributes to use with the AWS SSO instance f
 - `InstanceArn`: The ARN of the SSO instance under which the operation will be executed.
 
 """
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
+update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
+update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), args)); aws_config=aws_config)
 
 """
     UpdatePermissionSet()

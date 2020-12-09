@@ -13,8 +13,8 @@ using AWS.UUIDs
 - `Statements`:  The list of PartiQL statements representing the batch to run. 
 
 """
-batch_execute_statement(Statements; aws_config::AWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}("Statements"=>Statements); aws_config=aws_config)
-batch_execute_statement(Statements, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), args)); aws_config=aws_config)
+batch_execute_statement(Statements; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}("Statements"=>Statements); aws_config=aws_config)
+batch_execute_statement(Statements, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), args)); aws_config=aws_config)
 
 """
     BatchGetItem()
@@ -243,8 +243,8 @@ Returns information about the status of Kinesis streaming.
 - `TableName`: The name of the table being described.
 
 """
-describe_kinesis_streaming_destination(TableName; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_kinesis_streaming_destination(TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
+describe_kinesis_streaming_destination(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
+describe_kinesis_streaming_destination(TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DescribeLimits()
@@ -290,6 +290,62 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 """
 describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
 describe_time_to_live(TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    DisableKinesisStreamingDestination()
+
+Stops replication from the DynamoDB table to the Kinesis data stream. This is done without deleting either of the resources.
+
+# Required Parameters
+- `StreamArn`: The ARN for a Kinesis data stream.
+- `TableName`: The name of the DynamoDB table.
+
+"""
+disable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
+disable_kinesis_streaming_destination(StreamArn, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    EnableKinesisStreamingDestination()
+
+Starts table data replication to the specified Kinesis data stream at a timestamp chosen during the enable workflow. If this operation doesn't return results immediately, use DescribeKinesisStreamingDestination to check if streaming to the Kinesis data stream is ACTIVE.
+
+# Required Parameters
+- `StreamArn`: The ARN for a Kinesis data stream.
+- `TableName`: The name of the DynamoDB table.
+
+"""
+enable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
+enable_kinesis_streaming_destination(StreamArn, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), args)); aws_config=aws_config)
+
+"""
+    ExecuteStatement()
+
+ This operation allows you to perform reads and singleton writes on data stored in DynamoDB, using PartiQL. 
+
+# Required Parameters
+- `Statement`:  The PartiQL statement representing the operation to run. 
+
+# Optional Parameters
+- `ConsistentRead`:  The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used. 
+- `NextToken`:  Set this value to get remaining results, if NextToken was returned in the statement response. 
+- `Parameters`:  The parameters for the PartiQL statement, if any. 
+"""
+execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}("Statement"=>Statement); aws_config=aws_config)
+execute_statement(Statement, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statement"=>Statement), args)); aws_config=aws_config)
+
+"""
+    ExecuteTransaction()
+
+ This operation allows you to perform transactional reads or writes on data stored in DynamoDB, using PartiQL. 
+
+# Required Parameters
+- `TransactStatements`:  The list of PartiQL statements representing the transaction to run. 
+
+# Optional Parameters
+- `ClientRequestToken`:  Set this value to get remaining results, if NextToken was returned in the statement response. 
+"""
+execute_transaction(TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+execute_transaction(TransactStatements, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     ExportTableToPointInTime()

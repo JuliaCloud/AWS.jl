@@ -104,8 +104,8 @@ create_security_configuration(Name, SecurityConfiguration, args::AbstractDict{St
 - `Description`: A detailed description of the Studio.
 - `Tags`: A list of tags to associate with the Studio. Tags are user-defined key-value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
 """
-create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config)
-create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), args)); aws_config=aws_config)
+create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config)
+create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), args)); aws_config=aws_config)
 
 """
     CreateStudioSessionMapping()
@@ -121,8 +121,8 @@ create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, Use
 - `IdentityId`: The globally unique identifier (GUID) of the user or group from the AWS SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 - `IdentityName`: The name of the user or group. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 """
-create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
-create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
+create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
+create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     DeleteSecurityConfiguration()
@@ -145,8 +145,8 @@ delete_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_confi
 - `StudioId`: The ID of the Amazon EMR Studio.
 
 """
-delete_studio(StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
-delete_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+delete_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
+delete_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     DeleteStudioSessionMapping()
@@ -161,8 +161,8 @@ delete_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 - `IdentityId`: The globally unique identifier (GUID) of the user or group to remove from the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 - `IdentityName`: The name of the user name or group to remove from the Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 """
-delete_studio_session_mapping(IdentityType, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
-delete_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
+delete_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
+delete_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -236,8 +236,8 @@ describe_step(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws_config::
 - `StudioId`: The Amazon EMR Studio ID.
 
 """
-describe_studio(StudioId; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
-describe_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+describe_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
+describe_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     GetBlockPublicAccessConfiguration()
@@ -273,8 +273,8 @@ get_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_con
 - `IdentityId`: The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 - `IdentityName`: The name of the user or group to fetch. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 """
-get_studio_session_mapping(IdentityType, StudioId; aws_config::AWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
-get_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
+get_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
+get_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
 
 """
     ListBootstrapActions()
@@ -403,8 +403,8 @@ list_steps(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 - `Marker`: The pagination token that indicates the set of results to retrieve.
 - `StudioId`: The ID of the Amazon EMR Studio.
 """
-list_studio_session_mappings(; aws_config::AWSConfig=global_aws_config()) = emr("ListStudioSessionMappings"; aws_config=aws_config)
-list_studio_session_mappings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListStudioSessionMappings", args; aws_config=aws_config)
+list_studio_session_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudioSessionMappings"; aws_config=aws_config)
+list_studio_session_mappings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudioSessionMappings", args; aws_config=aws_config)
 
 """
     ListStudios()
@@ -414,8 +414,8 @@ list_studio_session_mappings(args::AbstractDict{String, <:Any}; aws_config::AWSC
 # Optional Parameters
 - `Marker`: The pagination token that indicates the set of results to retrieve.
 """
-list_studios(; aws_config::AWSConfig=global_aws_config()) = emr("ListStudios"; aws_config=aws_config)
-list_studios(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr("ListStudios", args; aws_config=aws_config)
+list_studios(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudios"; aws_config=aws_config)
+list_studios(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudios", args; aws_config=aws_config)
 
 """
     ModifyCluster()
@@ -641,3 +641,20 @@ TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is 
 """
 terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config)
 terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws_config=aws_config)
+
+"""
+    UpdateStudioSessionMapping()
+
+ The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to change.  Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
+
+# Required Parameters
+- `IdentityType`: Specifies whether the identity to update is a user or a group.
+- `SessionPolicyArn`: The Amazon Resource Name (ARN) of the session policy to associate with the specified user or group.
+- `StudioId`: The ID of the EMR Studio.
+
+# Optional Parameters
+- `IdentityId`: The globally unique identifier (GUID) of the user or group. For more information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+- `IdentityName`: The name of the user or group to update. For more information, see UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId must be specified.
+"""
+update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
+update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)

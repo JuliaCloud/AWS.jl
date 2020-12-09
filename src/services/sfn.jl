@@ -261,8 +261,8 @@ Starts a Synchronous Express state machine execution.
 - `name`: The name of the execution.
 - `traceHeader`: Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
 """
-start_sync_execution(stateMachineArn; aws_config::AWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-start_sync_execution(stateMachineArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws_config=aws_config)
+start_sync_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
+start_sync_execution(stateMachineArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws_config=aws_config)
 
 """
     StopExecution()

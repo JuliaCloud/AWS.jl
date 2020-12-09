@@ -161,8 +161,8 @@ Returns the list of tags associated with an associated repository resource.
 - `resourceArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations . 
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     PutRecommendationFeedback()
@@ -177,3 +177,29 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
 put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId); aws_config=aws_config)
 put_recommendation_feedback(CodeReviewArn, Reactions, RecommendationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("PUT", "/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeReviewArn"=>CodeReviewArn, "Reactions"=>Reactions, "RecommendationId"=>RecommendationId), args)); aws_config=aws_config)
+
+"""
+    TagResource()
+
+Adds one or more tags to an associated repository.
+
+# Required Parameters
+- `Tags`:  An array of key-value pairs used to tag an associated repository. A tag is a custom attribute label with two parts:    A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value (for example, 111122223333, Production, or a team name). Omitting the tag value is the same as using an empty string. Like tag keys, tag values are case sensitive.  
+- `resourceArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations . 
+
+"""
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+
+"""
+    UntagResource()
+
+Removes a tag from an associated repository.
+
+# Required Parameters
+- `resourceArn`:  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling  ListRepositoryAssociations . 
+- `tagKeys`: A list of the keys for each tag you want to remove from an associated repository.
+
+"""
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

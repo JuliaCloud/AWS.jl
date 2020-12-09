@@ -257,8 +257,8 @@ Gets the status and details of an events detection job.
 - `JobId`: The identifier of the events detection job.
 
 """
-describe_events_detection_job(JobId; aws_config::AWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+describe_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+describe_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     DescribeKeyPhrasesDetectionJob()
@@ -475,8 +475,8 @@ Gets a list of the events detection jobs that you have submitted.
 - `MaxResults`: The maximum number of results to return in each page.
 - `NextToken`: Identifies the next page of results to return.
 """
-list_events_detection_jobs(; aws_config::AWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs"; aws_config=aws_config)
-list_events_detection_jobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs", args; aws_config=aws_config)
+list_events_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs"; aws_config=aws_config)
+list_events_detection_jobs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs", args; aws_config=aws_config)
 
 """
     ListKeyPhrasesDetectionJobs()
@@ -618,8 +618,8 @@ Starts an asynchronous event detection job for a collection of documents.
 - `ClientRequestToken`: An unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
 - `JobName`: The identifier of the events detection job.
 """
-start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes; aws_config::AWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     StartKeyPhrasesDetectionJob()
@@ -734,8 +734,8 @@ Stops an events detection job in progress.
 - `JobId`: The identifier of the events detection job to stop.
 
 """
-stop_events_detection_job(JobId; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+stop_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+stop_events_detection_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     StopKeyPhrasesDetectionJob()

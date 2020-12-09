@@ -211,8 +211,8 @@ Validates the supplied schema. This call has no side effects, it simply validate
 - `SchemaDefinition`: The definition of the schema that has to be validated.
 
 """
-check_schema_version_validity(DataFormat, SchemaDefinition; aws_config::AWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition); aws_config=aws_config)
-check_schema_version_validity(DataFormat, SchemaDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), args)); aws_config=aws_config)
+check_schema_version_validity(DataFormat, SchemaDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition); aws_config=aws_config)
+check_schema_version_validity(DataFormat, SchemaDefinition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), args)); aws_config=aws_config)
 
 """
     CreateClassifier()
@@ -394,8 +394,8 @@ Creates a specified partition index in an existing table.
 # Optional Parameters
 - `CatalogId`: The catalog ID where the table resides.
 """
-create_partition_index(DatabaseName, PartitionIndex, TableName; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName); aws_config=aws_config)
-create_partition_index(DatabaseName, PartitionIndex, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), args)); aws_config=aws_config)
+create_partition_index(DatabaseName, PartitionIndex, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName); aws_config=aws_config)
+create_partition_index(DatabaseName, PartitionIndex, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     CreateRegistry()
@@ -409,8 +409,8 @@ Creates a new registry which may be used to hold a collection of schemas.
 - `Description`: A description of the registry. If description is not provided, there will not be any default value for this.
 - `Tags`: AWS tags that contain a key value pair and may be searched by console, command line, or API.
 """
-create_registry(RegistryName; aws_config::AWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}("RegistryName"=>RegistryName); aws_config=aws_config)
-create_registry(RegistryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), args)); aws_config=aws_config)
+create_registry(RegistryName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}("RegistryName"=>RegistryName); aws_config=aws_config)
+create_registry(RegistryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), args)); aws_config=aws_config)
 
 """
     CreateSchema()
@@ -428,8 +428,8 @@ Creates a new schema set and registers the schema definition. Returns an error i
 - `SchemaDefinition`: The schema definition using the DataFormat setting for SchemaName.
 - `Tags`: AWS tags that contain a key value pair and may be searched by console, command line, or API. If specified, follows the AWS tags-on-create pattern.
 """
-create_schema(DataFormat, SchemaName; aws_config::AWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName); aws_config=aws_config)
-create_schema(DataFormat, SchemaName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), args)); aws_config=aws_config)
+create_schema(DataFormat, SchemaName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName); aws_config=aws_config)
+create_schema(DataFormat, SchemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), args)); aws_config=aws_config)
 
 """
     CreateScript()
@@ -676,8 +676,8 @@ Deletes a specified partition index from an existing table.
 # Optional Parameters
 - `CatalogId`: The catalog ID where the table resides.
 """
-delete_partition_index(DatabaseName, IndexName, TableName; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName); aws_config=aws_config)
-delete_partition_index(DatabaseName, IndexName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), args)); aws_config=aws_config)
+delete_partition_index(DatabaseName, IndexName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName); aws_config=aws_config)
+delete_partition_index(DatabaseName, IndexName, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteRegistry()
@@ -688,8 +688,8 @@ Delete the entire registry including schema and all of its versions. To get the 
 - `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
 
 """
-delete_registry(RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
-delete_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
+delete_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
+delete_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
 
 """
     DeleteResourcePolicy()
@@ -712,8 +712,8 @@ Deletes the entire schema set, including the schema set and all of its versions.
 - `SchemaId`: This is a wrapper structure that may contain the schema name and Amazon Resource Name (ARN).
 
 """
-delete_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-delete_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+delete_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+delete_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     DeleteSchemaVersions()
@@ -725,8 +725,8 @@ Remove versions from the specified schema. A version number or range may be supp
 - `Versions`: A version range may be supplied which may be of the format:   a single version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8  
 
 """
-delete_schema_versions(SchemaId, Versions; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions); aws_config=aws_config)
-delete_schema_versions(SchemaId, Versions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), args)); aws_config=aws_config)
+delete_schema_versions(SchemaId, Versions; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions); aws_config=aws_config)
+delete_schema_versions(SchemaId, Versions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), args)); aws_config=aws_config)
 
 """
     DeleteSecurityConfiguration()
@@ -1236,8 +1236,8 @@ Describes the specified registry in detail.
 - `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
 
 """
-get_registry(RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
-get_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
+get_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
+get_registry(RegistryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), args)); aws_config=aws_config)
 
 """
     GetResourcePolicies()
@@ -1271,8 +1271,8 @@ Describes the specified schema in detail.
 - `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
 
 """
-get_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-get_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+get_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+get_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     GetSchemaByDefinition()
@@ -1284,8 +1284,8 @@ Retrieves a schema by the SchemaDefinition. The schema definition is sent to the
 - `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. One of SchemaArn or SchemaName has to be provided.   SchemaIdSchemaName: The name of the schema. One of SchemaArn or SchemaName has to be provided.  
 
 """
-get_schema_by_definition(SchemaDefinition, SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
-get_schema_by_definition(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
+get_schema_by_definition(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
+get_schema_by_definition(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     GetSchemaVersion()
@@ -1297,8 +1297,8 @@ Get the specified schema by its unique ID assigned when a version of the schema 
 - `SchemaVersionId`: The SchemaVersionId of the schema version. This field is required for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
 - `SchemaVersionNumber`: The version number of the schema.
 """
-get_schema_version(; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersion"; aws_config=aws_config)
-get_schema_version(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersion", args; aws_config=aws_config)
+get_schema_version(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersion"; aws_config=aws_config)
+get_schema_version(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersion", args; aws_config=aws_config)
 
 """
     GetSchemaVersionsDiff()
@@ -1312,8 +1312,8 @@ Fetches the schema version difference in the specified difference type between t
 - `SecondSchemaVersionNumber`: The second of the two schema versions to be compared.
 
 """
-get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber); aws_config=aws_config)
-get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), args)); aws_config=aws_config)
+get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber); aws_config=aws_config)
+get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), args)); aws_config=aws_config)
 
 """
     GetSecurityConfiguration()
@@ -1605,8 +1605,8 @@ Returns a list of registries that you have created, with minimal registry inform
 - `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-list_registries(; aws_config::AWSConfig=global_aws_config()) = glue("ListRegistries"; aws_config=aws_config)
-list_registries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListRegistries", args; aws_config=aws_config)
+list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListRegistries"; aws_config=aws_config)
+list_registries(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListRegistries", args; aws_config=aws_config)
 
 """
     ListSchemaVersions()
@@ -1620,8 +1620,8 @@ Returns a list of schema versions that you have created, with minimal informatio
 - `MaxResults`: Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-list_schema_versions(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-list_schema_versions(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+list_schema_versions(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     ListSchemas()
@@ -1633,8 +1633,8 @@ Returns a list of schemas with minimal details. Schemas in Deleting status will 
 - `NextToken`: A continuation token, if this is a continuation call.
 - `RegistryId`: A wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
 """
-list_schemas(; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemas"; aws_config=aws_config)
-list_schemas(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("ListSchemas", args; aws_config=aws_config)
+list_schemas(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemas"; aws_config=aws_config)
+list_schemas(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemas", args; aws_config=aws_config)
 
 """
     ListTriggers()
@@ -1706,8 +1706,8 @@ Puts the metadata key value pair for a specified schema version ID. A maximum of
 - `SchemaVersionId`: The unique version ID of the schema version.
 - `SchemaVersionNumber`: The version number of the schema.
 """
-put_schema_version_metadata(MetadataKeyValue; aws_config::AWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
-put_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
+put_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
+put_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
 
 """
     PutWorkflowRunProperties()
@@ -1736,8 +1736,8 @@ Queries for the schema version metadata information.
 - `SchemaVersionId`: The unique version ID of the schema version.
 - `SchemaVersionNumber`: The version number of the schema.
 """
-query_schema_version_metadata(; aws_config::AWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata"; aws_config=aws_config)
-query_schema_version_metadata(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata", args; aws_config=aws_config)
+query_schema_version_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata"; aws_config=aws_config)
+query_schema_version_metadata(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata", args; aws_config=aws_config)
 
 """
     RegisterSchemaVersion()
@@ -1749,8 +1749,8 @@ Adds a new version to the existing schema. Returns an error if new version of sc
 - `SchemaId`: This is a wrapper structure to contain schema identity fields. The structure contains:   SchemaIdSchemaArn: The Amazon Resource Name (ARN) of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.   SchemaIdSchemaName: The name of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.  
 
 """
-register_schema_version(SchemaDefinition, SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
-register_schema_version(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
+register_schema_version(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
+register_schema_version(SchemaDefinition, SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     RemoveSchemaVersionMetadata()
@@ -1765,8 +1765,8 @@ Removes a key value pair from the schema version metadata for the specified sche
 - `SchemaVersionId`: The unique version ID of the schema version.
 - `SchemaVersionNumber`: The version number of the schema.
 """
-remove_schema_version_metadata(MetadataKeyValue; aws_config::AWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
-remove_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
+remove_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
+remove_schema_version_metadata(MetadataKeyValue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), args)); aws_config=aws_config)
 
 """
     ResetJobBookmark()
@@ -2210,8 +2210,8 @@ Updates an existing registry which is used to hold a collection of schemas. The 
 - `RegistryId`: This is a wrapper structure that may contain the registry name and Amazon Resource Name (ARN).
 
 """
-update_registry(Description, RegistryId; aws_config::AWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId); aws_config=aws_config)
-update_registry(Description, RegistryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), args)); aws_config=aws_config)
+update_registry(Description, RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId); aws_config=aws_config)
+update_registry(Description, RegistryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), args)); aws_config=aws_config)
 
 """
     UpdateSchema()
@@ -2226,8 +2226,8 @@ Updates the description, compatibility setting, or version checkpoint for a sche
 - `Description`: The new description for the schema.
 - `SchemaVersionNumber`: Version number required for check pointing. One of VersionNumber or Compatibility has to be provided.
 """
-update_schema(SchemaId; aws_config::AWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-update_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
+update_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
+update_schema(SchemaId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), args)); aws_config=aws_config)
 
 """
     UpdateTable()

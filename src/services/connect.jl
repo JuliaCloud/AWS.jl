@@ -14,8 +14,8 @@ Associates an approved origin to an Amazon Connect instance.
 - `Origin`: The domain to add to your allow list.
 
 """
-associate_approved_origin(InstanceId, Origin; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("Origin"=>Origin); aws_config=aws_config)
-associate_approved_origin(InstanceId, Origin, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origin"=>Origin), args)); aws_config=aws_config)
+associate_approved_origin(InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("Origin"=>Origin); aws_config=aws_config)
+associate_approved_origin(InstanceId, Origin, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origin"=>Origin), args)); aws_config=aws_config)
 
 """
     AssociateInstanceStorageConfig()
@@ -28,8 +28,8 @@ Associates a storage resource type for the first time. You can only associate on
 - `StorageConfig`: A valid storage type.
 
 """
-associate_instance_storage_config(InstanceId, ResourceType, StorageConfig; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig); aws_config=aws_config)
-associate_instance_storage_config(InstanceId, ResourceType, StorageConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig), args)); aws_config=aws_config)
+associate_instance_storage_config(InstanceId, ResourceType, StorageConfig; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig); aws_config=aws_config)
+associate_instance_storage_config(InstanceId, ResourceType, StorageConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/storage-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "StorageConfig"=>StorageConfig), args)); aws_config=aws_config)
 
 """
     AssociateLambdaFunction()
@@ -41,8 +41,8 @@ Allows the specified Amazon Connect instance to access the specified Lambda func
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-associate_lambda_function(FunctionArn, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("FunctionArn"=>FunctionArn); aws_config=aws_config)
-associate_lambda_function(FunctionArn, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionArn"=>FunctionArn), args)); aws_config=aws_config)
+associate_lambda_function(FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("FunctionArn"=>FunctionArn); aws_config=aws_config)
+associate_lambda_function(FunctionArn, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionArn"=>FunctionArn), args)); aws_config=aws_config)
 
 """
     AssociateLexBot()
@@ -54,8 +54,8 @@ Allows the specified Amazon Connect instance to access the specified Amazon Lex 
 - `LexBot`: The Amazon Lex box to associate with the instance.
 
 """
-associate_lex_bot(InstanceId, LexBot; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("LexBot"=>LexBot); aws_config=aws_config)
-associate_lex_bot(InstanceId, LexBot, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LexBot"=>LexBot), args)); aws_config=aws_config)
+associate_lex_bot(InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("LexBot"=>LexBot); aws_config=aws_config)
+associate_lex_bot(InstanceId, LexBot, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LexBot"=>LexBot), args)); aws_config=aws_config)
 
 """
     AssociateRoutingProfileQueues()
@@ -81,8 +81,8 @@ Associates a security key to the instance.
 - `Key`: A valid security key in PEM format.
 
 """
-associate_security_key(InstanceId, Key; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
-associate_security_key(InstanceId, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
+associate_security_key(InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
+associate_security_key(InstanceId, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
 
 """
     CreateContactFlow()
@@ -117,8 +117,8 @@ This API is in preview release for Amazon Connect and is subject to change. Init
 - `DirectoryId`: The identifier for the directory.
 - `InstanceAlias`: The name for your instance.
 """
-create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled); aws_config=aws_config)
-create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled), args)); aws_config=aws_config)
+create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled); aws_config=aws_config)
+create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnabled, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityManagementType"=>IdentityManagementType, "InboundCallsEnabled"=>InboundCallsEnabled, "OutboundCallsEnabled"=>OutboundCallsEnabled), args)); aws_config=aws_config)
 
 """
     CreateIntegrationAssociation()
@@ -134,8 +134,8 @@ This API is in preview release for Amazon Connect and is subject to change. Crea
 - `SourceType`: The type of the data source.
 
 """
-create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType); aws_config=aws_config)
-create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType), args)); aws_config=aws_config)
+create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType); aws_config=aws_config)
+create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType), args)); aws_config=aws_config)
 
 """
     CreateRoutingProfile()
@@ -167,8 +167,8 @@ This API is in preview release for Amazon Connect and is subject to change. Crea
 - `UseCaseType`: The type of use case to associate to the AppIntegration association. Each AppIntegration association can have only one of each use case type.
 
 """
-create_use_case(InstanceId, IntegrationAssociationId, UseCaseType; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}("UseCaseType"=>UseCaseType); aws_config=aws_config)
-create_use_case(InstanceId, IntegrationAssociationId, UseCaseType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UseCaseType"=>UseCaseType), args)); aws_config=aws_config)
+create_use_case(InstanceId, IntegrationAssociationId, UseCaseType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}("UseCaseType"=>UseCaseType); aws_config=aws_config)
+create_use_case(InstanceId, IntegrationAssociationId, UseCaseType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UseCaseType"=>UseCaseType), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -204,8 +204,8 @@ Creates a new user hierarchy group.
 # Optional Parameters
 - `ParentGroupId`: The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
 """
-create_user_hierarchy_group(InstanceId, Name; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_user_hierarchy_group(InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+create_user_hierarchy_group(InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_user_hierarchy_group(InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteInstance()
@@ -216,8 +216,8 @@ This API is in preview release for Amazon Connect and is subject to change. Dele
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-delete_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)"; aws_config=aws_config)
-delete_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)", args; aws_config=aws_config)
+delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)"; aws_config=aws_config)
+delete_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)", args; aws_config=aws_config)
 
 """
     DeleteIntegrationAssociation()
@@ -229,8 +229,8 @@ This API is in preview release for Amazon Connect and is subject to change. Dele
 - `IntegrationAssociationId`: The identifier for the AppIntegration association.
 
 """
-delete_integration_association(InstanceId, IntegrationAssociationId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)"; aws_config=aws_config)
-delete_integration_association(InstanceId, IntegrationAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)", args; aws_config=aws_config)
+delete_integration_association(InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)"; aws_config=aws_config)
+delete_integration_association(InstanceId, IntegrationAssociationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)", args; aws_config=aws_config)
 
 """
     DeleteUseCase()
@@ -243,8 +243,8 @@ This API is in preview release for Amazon Connect and is subject to change. Dele
 - `UseCaseId`: The identifier for the use case.
 
 """
-delete_use_case(InstanceId, IntegrationAssociationId, UseCaseId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)"; aws_config=aws_config)
-delete_use_case(InstanceId, IntegrationAssociationId, UseCaseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)", args; aws_config=aws_config)
+delete_use_case(InstanceId, IntegrationAssociationId, UseCaseId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)"; aws_config=aws_config)
+delete_use_case(InstanceId, IntegrationAssociationId, UseCaseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)", args; aws_config=aws_config)
 
 """
     DeleteUser()
@@ -269,8 +269,8 @@ Deletes an existing user hierarchy group. It must not be associated with any age
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
-delete_user_hierarchy_group(HierarchyGroupId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", args; aws_config=aws_config)
+delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
+delete_user_hierarchy_group(HierarchyGroupId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", args; aws_config=aws_config)
 
 """
     DescribeContactFlow()
@@ -294,8 +294,8 @@ Returns the current state of the specified instance identifier. It tracks the in
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-describe_instance(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)"; aws_config=aws_config)
-describe_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)", args; aws_config=aws_config)
+describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)"; aws_config=aws_config)
+describe_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)", args; aws_config=aws_config)
 
 """
     DescribeInstanceAttribute()
@@ -307,8 +307,8 @@ Describes the specified instance attribute.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-describe_instance_attribute(AttributeType, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)"; aws_config=aws_config)
-describe_instance_attribute(AttributeType, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)", args; aws_config=aws_config)
+describe_instance_attribute(AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)"; aws_config=aws_config)
+describe_instance_attribute(AttributeType, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)", args; aws_config=aws_config)
 
 """
     DescribeInstanceStorageConfig()
@@ -321,8 +321,8 @@ Retrieves the current storage configurations for the specified resource type, as
 - `resourceType`: A valid resource type.
 
 """
-describe_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
-describe_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+describe_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+describe_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     DescribeRoutingProfile()
@@ -385,8 +385,8 @@ Revokes access to integrated applications from Amazon Connect.
 - `origin`: The domain URL of the integrated application.
 
 """
-disassociate_approved_origin(InstanceId, origin; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("origin"=>origin); aws_config=aws_config)
-disassociate_approved_origin(InstanceId, origin, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("origin"=>origin), args)); aws_config=aws_config)
+disassociate_approved_origin(InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("origin"=>origin); aws_config=aws_config)
+disassociate_approved_origin(InstanceId, origin, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("origin"=>origin), args)); aws_config=aws_config)
 
 """
     DisassociateInstanceStorageConfig()
@@ -399,8 +399,8 @@ Removes the storage type configurations for the specified resource type and asso
 - `resourceType`: A valid resource type.
 
 """
-disassociate_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
-disassociate_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+disassociate_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+disassociate_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     DisassociateLambdaFunction()
@@ -412,8 +412,8 @@ Remove the Lambda function from the drop-down options available in the relevant 
 - `functionArn`: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
 
 """
-disassociate_lambda_function(InstanceId, functionArn; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("functionArn"=>functionArn); aws_config=aws_config)
-disassociate_lambda_function(InstanceId, functionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("functionArn"=>functionArn), args)); aws_config=aws_config)
+disassociate_lambda_function(InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("functionArn"=>functionArn); aws_config=aws_config)
+disassociate_lambda_function(InstanceId, functionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("functionArn"=>functionArn), args)); aws_config=aws_config)
 
 """
     DisassociateLexBot()
@@ -426,8 +426,8 @@ Revokes authorization from the specified instance to access the specified Amazon
 - `lexRegion`: The Region in which the Amazon Lex bot has been created.
 
 """
-disassociate_lex_bot(InstanceId, botName, lexRegion; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion); aws_config=aws_config)
-disassociate_lex_bot(InstanceId, botName, lexRegion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion), args)); aws_config=aws_config)
+disassociate_lex_bot(InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion); aws_config=aws_config)
+disassociate_lex_bot(InstanceId, botName, lexRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "lexRegion"=>lexRegion), args)); aws_config=aws_config)
 
 """
     DisassociateRoutingProfileQueues()
@@ -453,8 +453,8 @@ Deletes the specified security key.
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-disassociate_security_key(AssociationId, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)"; aws_config=aws_config)
-disassociate_security_key(AssociationId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)", args; aws_config=aws_config)
+disassociate_security_key(AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)"; aws_config=aws_config)
+disassociate_security_key(AssociationId, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)", args; aws_config=aws_config)
 
 """
     GetContactAttributes()
@@ -531,8 +531,8 @@ Returns a paginated list of all approved origins associated with the instance.
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_approved_origins(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins"; aws_config=aws_config)
-list_approved_origins(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins", args; aws_config=aws_config)
+list_approved_origins(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins"; aws_config=aws_config)
+list_approved_origins(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins", args; aws_config=aws_config)
 
 """
     ListContactFlows()
@@ -577,8 +577,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_instance_attributes(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes"; aws_config=aws_config)
-list_instance_attributes(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes", args; aws_config=aws_config)
+list_instance_attributes(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes"; aws_config=aws_config)
+list_instance_attributes(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attributes", args; aws_config=aws_config)
 
 """
     ListInstanceStorageConfigs()
@@ -593,8 +593,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_instance_storage_configs(InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
-list_instance_storage_configs(InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+list_instance_storage_configs(InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+list_instance_storage_configs(InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-configs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     ListInstances()
@@ -605,8 +605,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_instances(; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance"; aws_config=aws_config)
-list_instances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance", args; aws_config=aws_config)
+list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance"; aws_config=aws_config)
+list_instances(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance", args; aws_config=aws_config)
 
 """
     ListIntegrationAssociations()
@@ -620,8 +620,8 @@ This API is in preview release for Amazon Connect and is subject to change. Prov
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_integration_associations(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations"; aws_config=aws_config)
-list_integration_associations(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations", args; aws_config=aws_config)
+list_integration_associations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations"; aws_config=aws_config)
+list_integration_associations(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations", args; aws_config=aws_config)
 
 """
     ListLambdaFunctions()
@@ -635,8 +635,8 @@ Returns a paginated list of all the Lambda functions that show up in the drop-do
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_lambda_functions(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions"; aws_config=aws_config)
-list_lambda_functions(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions", args; aws_config=aws_config)
+list_lambda_functions(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions"; aws_config=aws_config)
+list_lambda_functions(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lambda-functions", args; aws_config=aws_config)
 
 """
     ListLexBots()
@@ -650,8 +650,8 @@ Returns a paginated list of all the Amazon Lex bots currently associated with th
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_lex_bots(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots"; aws_config=aws_config)
-list_lex_bots(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots", args; aws_config=aws_config)
+list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots"; aws_config=aws_config)
+list_lex_bots(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/lex-bots", args; aws_config=aws_config)
 
 """
     ListPhoneNumbers()
@@ -744,8 +744,8 @@ Returns a paginated list of all security keys associated with the instance.
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_security_keys(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys"; aws_config=aws_config)
-list_security_keys(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys", args; aws_config=aws_config)
+list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys"; aws_config=aws_config)
+list_security_keys(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/security-keys", args; aws_config=aws_config)
 
 """
     ListSecurityProfiles()
@@ -787,8 +787,8 @@ This API is in preview release for Amazon Connect and is subject to change. List
 - `maxResults`: The maximimum number of results to return per page.
 - `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
 """
-list_use_cases(InstanceId, IntegrationAssociationId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases"; aws_config=aws_config)
-list_use_cases(InstanceId, IntegrationAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", args; aws_config=aws_config)
+list_use_cases(InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases"; aws_config=aws_config)
+list_use_cases(InstanceId, IntegrationAssociationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", args; aws_config=aws_config)
 
 """
     ListUserHierarchyGroups()
@@ -903,8 +903,8 @@ Initiates a contact flow to start a new task.
 - `PreviousContactId`: The identifier of the previous chat, voice, or task contact. 
 - `References`: A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
 """
-start_task_contact(ContactFlowId, InstanceId, Name; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/task", Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-start_task_contact(ContactFlowId, InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/contact/task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "Name"=>Name, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+start_task_contact(ContactFlowId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/contact/task", Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+start_task_contact(ContactFlowId, InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/contact/task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactFlowId"=>ContactFlowId, "InstanceId"=>InstanceId, "Name"=>Name, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     StopContact()
@@ -1028,8 +1028,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 - `Value`: The value for the attribute. Maximum character limit is 100. 
 
 """
-update_instance_attribute(AttributeType, InstanceId, Value; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}("Value"=>Value); aws_config=aws_config)
-update_instance_attribute(AttributeType, InstanceId, Value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Value"=>Value), args)); aws_config=aws_config)
+update_instance_attribute(AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}("Value"=>Value); aws_config=aws_config)
+update_instance_attribute(AttributeType, InstanceId, Value, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/attribute/$(AttributeType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Value"=>Value), args)); aws_config=aws_config)
 
 """
     UpdateInstanceStorageConfig()
@@ -1043,8 +1043,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 - `resourceType`: A valid resource type.
 
 """
-update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType); aws_config=aws_config)
-update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType), args)); aws_config=aws_config)
+update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType); aws_config=aws_config)
+update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     UpdateRoutingProfileConcurrency()
@@ -1130,8 +1130,8 @@ Updates the name of the user hierarchy group.
 - `Name`: The name of the hierarchy group. Must not be more than 100 characters.
 
 """
-update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_user_hierarchy_group_name(HierarchyGroupId, InstanceId, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateUserHierarchyStructure()
@@ -1143,8 +1143,8 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
 - `InstanceId`: The identifier of the Amazon Connect instance.
 
 """
-update_user_hierarchy_structure(HierarchyStructure, InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}("HierarchyStructure"=>HierarchyStructure); aws_config=aws_config)
-update_user_hierarchy_structure(HierarchyStructure, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HierarchyStructure"=>HierarchyStructure), args)); aws_config=aws_config)
+update_user_hierarchy_structure(HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}("HierarchyStructure"=>HierarchyStructure); aws_config=aws_config)
+update_user_hierarchy_structure(HierarchyStructure, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HierarchyStructure"=>HierarchyStructure), args)); aws_config=aws_config)
 
 """
     UpdateUserIdentityInfo()

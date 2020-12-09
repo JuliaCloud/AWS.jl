@@ -175,8 +175,8 @@ Creates an Amazon Chime Messaging SDK AppInstance under an AWS Account. Only Mes
 # Optional Parameters
 - `Metadata`: The metadata of the app instance. Limited to a 1KB string in UTF-8.
 """
-create_app_instance(ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
-create_app_instance(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+create_app_instance(ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_app_instance(ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateAppInstanceAdmin()
@@ -188,8 +188,8 @@ Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perfor
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-create_app_instance_admin(AppInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn); aws_config=aws_config)
-create_app_instance_admin(AppInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn), args)); aws_config=aws_config)
+create_app_instance_admin(AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn); aws_config=aws_config)
+create_app_instance_admin(AppInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instances/$(appInstanceArn)/admins", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceAdminArn"=>AppInstanceAdminArn), args)); aws_config=aws_config)
 
 """
     CreateAppInstanceUser()
@@ -205,8 +205,8 @@ Creates a user under an Amazon Chime AppInstance. The request consists of a uniq
 # Optional Parameters
 - `Metadata`: The request's metadata. Limited to a 1KB string in UTF-8.
 """
-create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
-create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "AppInstanceUserId"=>AppInstanceUserId, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateAttendee()
@@ -254,8 +254,8 @@ Creates a channel to which you can add users and send messages.  Restriction: Yo
 - `Privacy`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the app instance.
 - `Tags`: 
 """
-create_channel(AppInstanceArn, ClientRequestToken, Name; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
-create_channel(AppInstanceArn, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
+create_channel(AppInstanceArn, ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name); aws_config=aws_config)
+create_channel(AppInstanceArn, ClientRequestToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceArn"=>AppInstanceArn, "ClientRequestToken"=>ClientRequestToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateChannelBan()
@@ -267,8 +267,8 @@ Permanently bans a member from a channel. Moderators can't add banned members to
 - `channelArn`: The ARN of the ban request.
 
 """
-create_channel_ban(MemberArn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}("MemberArn"=>MemberArn); aws_config=aws_config)
-create_channel_ban(MemberArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn), args)); aws_config=aws_config)
+create_channel_ban(MemberArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}("MemberArn"=>MemberArn); aws_config=aws_config)
+create_channel_ban(MemberArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/bans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn), args)); aws_config=aws_config)
 
 """
     CreateChannelMembership()
@@ -281,8 +281,8 @@ Adds a user to a channel. The InvitedBy response field is derived from the reque
 - `channelArn`: The ARN of the channel to which you're adding users.
 
 """
-create_channel_membership(MemberArn, Type, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type); aws_config=aws_config)
-create_channel_membership(MemberArn, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type), args)); aws_config=aws_config)
+create_channel_membership(MemberArn, Type, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type); aws_config=aws_config)
+create_channel_membership(MemberArn, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArn"=>MemberArn, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateChannelModerator()
@@ -294,8 +294,8 @@ Creates a new ChannelModerator. A channel moderator can:   Add and remove other 
 - `channelArn`: The ARN of the channel.
 
 """
-create_channel_moderator(ChannelModeratorArn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn); aws_config=aws_config)
-create_channel_moderator(ChannelModeratorArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn), args)); aws_config=aws_config)
+create_channel_moderator(ChannelModeratorArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn); aws_config=aws_config)
+create_channel_moderator(ChannelModeratorArn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn), args)); aws_config=aws_config)
 
 """
     CreateMeeting()
@@ -327,8 +327,8 @@ Uses the join token and call metadata in a meeting request (From number, To numb
 - `meetingId`: The Amazon Chime SDK meeting ID. Type: String Pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12} Required: No
 
 """
-create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber); aws_config=aws_config)
-create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber), args)); aws_config=aws_config)
+create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber); aws_config=aws_config)
+create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/dial-outs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromPhoneNumber"=>FromPhoneNumber, "JoinToken"=>JoinToken, "ToPhoneNumber"=>ToPhoneNumber), args)); aws_config=aws_config)
 
 """
     CreateMeetingWithAttendees()
@@ -425,8 +425,8 @@ Creates a SIP media application.
 # Optional Parameters
 - `Name`: The SIP media application name.
 """
-create_sip_media_application(AwsRegion, Endpoints; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints); aws_config=aws_config)
-create_sip_media_application(AwsRegion, Endpoints, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints), args)); aws_config=aws_config)
+create_sip_media_application(AwsRegion, Endpoints; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints); aws_config=aws_config)
+create_sip_media_application(AwsRegion, Endpoints, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AwsRegion"=>AwsRegion, "Endpoints"=>Endpoints), args)); aws_config=aws_config)
 
 """
     CreateSipMediaApplicationCall()
@@ -440,8 +440,8 @@ Creates an outbound call to a phone number from the phone number specified in th
 - `FromPhoneNumber`: The phone number that a user calls from.
 - `ToPhoneNumber`: The phone number that the user dials in order to connect to a meeting
 """
-create_sip_media_application_call(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls"; aws_config=aws_config)
-create_sip_media_application_call(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls", args; aws_config=aws_config)
+create_sip_media_application_call(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls"; aws_config=aws_config)
+create_sip_media_application_call(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls", args; aws_config=aws_config)
 
 """
     CreateSipRule()
@@ -457,8 +457,8 @@ Creates a SIP rule which can be used to run a SIP media application as a target 
 # Optional Parameters
 - `Disabled`: Enables or disables a rule. You must disable rules before you can delete them.
 """
-create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue); aws_config=aws_config)
-create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue), args)); aws_config=aws_config)
+create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue); aws_config=aws_config)
+create_sip_rule(Name, TargetApplications, TriggerType, TriggerValue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-rules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TargetApplications"=>TargetApplications, "TriggerType"=>TriggerType, "TriggerValue"=>TriggerValue), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -526,8 +526,8 @@ Deletes an AppInstance and all associated data asynchronously.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-delete_app_instance(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
-delete_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
+delete_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
+delete_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
 
 """
     DeleteAppInstanceAdmin()
@@ -539,8 +539,8 @@ Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete t
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-delete_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
-delete_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
+delete_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
+delete_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
 
 """
     DeleteAppInstanceStreamingConfigurations()
@@ -551,8 +551,8 @@ Deletes the streaming configurations of an app instance.
 - `appInstanceArn`: The ARN of the streaming configurations being deleted.
 
 """
-delete_app_instance_streaming_configurations(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
-delete_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
+delete_app_instance_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
+delete_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
 
 """
     DeleteAppInstanceUser()
@@ -563,8 +563,8 @@ Deletes an AppInstanceUser.
 - `appInstanceUserArn`: The ARN of the user request being deleted.
 
 """
-delete_app_instance_user(appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
-delete_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
+delete_app_instance_user(appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
+delete_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
 
 """
     DeleteAttendee()
@@ -588,8 +588,8 @@ Immediately makes a channel and its memberships inaccessible and marks them for 
 - `channelArn`: The ARN of the channel being deleted.
 
 """
-delete_channel(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)"; aws_config=aws_config)
-delete_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)", args; aws_config=aws_config)
+delete_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)"; aws_config=aws_config)
+delete_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)", args; aws_config=aws_config)
 
 """
     DeleteChannelBan()
@@ -601,8 +601,8 @@ Removes a user from a channel's ban list.
 - `memberArn`: The ARN of the app instance user that you want to reinstate.
 
 """
-delete_channel_ban(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
-delete_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
+delete_channel_ban(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
+delete_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
 
 """
     DeleteChannelMembership()
@@ -614,8 +614,8 @@ Removes a member from a channel.
 - `memberArn`: The ARN of the member that you're removing from the channel.
 
 """
-delete_channel_membership(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
-delete_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
+delete_channel_membership(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
+delete_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
 
 """
     DeleteChannelMessage()
@@ -627,8 +627,8 @@ Deletes a channel message. Only admins can perform this action. Deletion makes m
 - `messageId`: The ID of the message being deleted.
 
 """
-delete_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
-delete_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
+delete_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+delete_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
 
 """
     DeleteChannelModerator()
@@ -640,8 +640,8 @@ Deletes a channel moderator.
 - `channelModeratorArn`: The ARN of the moderator being deleted.
 
 """
-delete_channel_moderator(channelArn, channelModeratorArn; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
-delete_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
+delete_channel_moderator(channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
+delete_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
 
 """
     DeleteEventsConfiguration()
@@ -729,8 +729,8 @@ Deletes a SIP media application.
 - `sipMediaApplicationId`: The SIP media application ID.
 
 """
-delete_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
-delete_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+delete_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+delete_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
 
 """
     DeleteSipRule()
@@ -741,8 +741,8 @@ Deletes a SIP rule. You must disable a SIP rule before you can delete it.
 - `sipRuleId`: The SIP rule ID.
 
 """
-delete_sip_rule(sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
-delete_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
+delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
+delete_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
 
 """
     DeleteVoiceConnector()
@@ -850,8 +850,8 @@ Returns the full details of an AppInstance.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-describe_app_instance(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
-describe_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
+describe_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)"; aws_config=aws_config)
+describe_app_instance(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)", args; aws_config=aws_config)
 
 """
     DescribeAppInstanceAdmin()
@@ -863,8 +863,8 @@ Returns the full details of an AppInstanceAdmin.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-describe_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
-describe_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
+describe_app_instance_admin(appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)"; aws_config=aws_config)
+describe_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)", args; aws_config=aws_config)
 
 """
     DescribeAppInstanceUser()
@@ -875,8 +875,8 @@ Returns the full details of an AppInstanceUser.
 - `appInstanceUserArn`: The ARN of the app instance user.
 
 """
-describe_app_instance_user(appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
-describe_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
+describe_app_instance_user(appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)"; aws_config=aws_config)
+describe_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users/$(appInstanceUserArn)", args; aws_config=aws_config)
 
 """
     DescribeChannel()
@@ -887,8 +887,8 @@ Returns the full details of a channel in an Amazon Chime app instance.
 - `channelArn`: The ARN of the channel.
 
 """
-describe_channel(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)"; aws_config=aws_config)
-describe_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)", args; aws_config=aws_config)
+describe_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)"; aws_config=aws_config)
+describe_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)", args; aws_config=aws_config)
 
 """
     DescribeChannelBan()
@@ -900,8 +900,8 @@ Returns the full details of a channel ban.
 - `memberArn`: The ARN of the member being banned.
 
 """
-describe_channel_ban(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
-describe_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
+describe_channel_ban(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)"; aws_config=aws_config)
+describe_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans/$(memberArn)", args; aws_config=aws_config)
 
 """
     DescribeChannelMembership()
@@ -913,8 +913,8 @@ Returns the full details of a user's channel membership.
 - `memberArn`: The ARN of the member.
 
 """
-describe_channel_membership(channelArn, memberArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
-describe_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
+describe_channel_membership(channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)"; aws_config=aws_config)
+describe_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships/$(memberArn)", args; aws_config=aws_config)
 
 """
     DescribeChannelMembershipForAppInstanceUser()
@@ -926,8 +926,8 @@ Returns the details of a channel based on the membership of the AppInstanceUser 
 - `channelArn`: The ARN of the channel to which the user belongs.
 
 """
-describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
-describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
+describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
+describe_channel_membership_for_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-membership", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
 
 """
     DescribeChannelModeratedByAppInstanceUser()
@@ -939,8 +939,8 @@ Returns the full details of a channel moderated by the specified AppInstanceUser
 - `channelArn`: The ARN of the moderated channel.
 
 """
-describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
-describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
+describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn); aws_config=aws_config)
+describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)?scope=app-instance-user-moderated-channel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-user-arn"=>app_instance_user_arn), args)); aws_config=aws_config)
 
 """
     DescribeChannelModerator()
@@ -952,8 +952,8 @@ Returns the full details of a single ChannelModerator.
 - `channelModeratorArn`: The ARN of the channel moderator.
 
 """
-describe_channel_moderator(channelArn, channelModeratorArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
-describe_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
+describe_channel_moderator(channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)"; aws_config=aws_config)
+describe_channel_moderator(channelArn, channelModeratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators/$(channelModeratorArn)", args; aws_config=aws_config)
 
 """
     DisassociatePhoneNumberFromUser()
@@ -1040,8 +1040,8 @@ Gets the retention settings for an app instance.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-get_app_instance_retention_settings(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings"; aws_config=aws_config)
-get_app_instance_retention_settings(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings", args; aws_config=aws_config)
+get_app_instance_retention_settings(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings"; aws_config=aws_config)
+get_app_instance_retention_settings(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/retention-settings", args; aws_config=aws_config)
 
 """
     GetAppInstanceStreamingConfigurations()
@@ -1052,8 +1052,8 @@ Gets the streaming settings for an app instance.
 - `appInstanceArn`: The ARN of the app instance. 
 
 """
-get_app_instance_streaming_configurations(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
-get_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
+get_app_instance_streaming_configurations(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations"; aws_config=aws_config)
+get_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/streaming-configurations", args; aws_config=aws_config)
 
 """
     GetAttendee()
@@ -1091,8 +1091,8 @@ Gets the full details of a channel message.
 - `messageId`: The ID of the message.
 
 """
-get_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
-get_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
+get_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+get_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
 
 """
     GetEventsConfiguration()
@@ -1134,8 +1134,8 @@ get_meeting(meetingId, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 The endpoint for the messaging session.
 
 """
-get_messaging_session_endpoint(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session"; aws_config=aws_config)
-get_messaging_session_endpoint(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session", args; aws_config=aws_config)
+get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session"; aws_config=aws_config)
+get_messaging_session_endpoint(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session", args; aws_config=aws_config)
 
 """
     GetPhoneNumber()
@@ -1217,8 +1217,8 @@ Retrieves the information for a SIP media application, including name, AWS Regio
 - `sipMediaApplicationId`: The SIP media application ID.
 
 """
-get_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
-get_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+get_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+get_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
 
 """
     GetSipMediaApplicationLoggingConfiguration()
@@ -1229,8 +1229,8 @@ Returns the logging configuration for the specified SIP media application.
 - `sipMediaApplicationId`: The ID of the SIP media application.
 
 """
-get_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
-get_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
+get_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
+get_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
 
 """
     GetSipRule()
@@ -1241,8 +1241,8 @@ Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and ta
 - `sipRuleId`: The SIP rule ID.
 
 """
-get_sip_rule(sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
-get_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
+get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)"; aws_config=aws_config)
+get_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules/$(sipRuleId)", args; aws_config=aws_config)
 
 """
     GetUser()
@@ -1419,8 +1419,8 @@ Returns a list of the administrators in the app instance.
 - `max-results`: The maximum number of administrators that you want to return.
 - `next-token`: The token returned from previous API requests until the number of administrators is reached.
 """
-list_app_instance_admins(appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins"; aws_config=aws_config)
-list_app_instance_admins(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins", args; aws_config=aws_config)
+list_app_instance_admins(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins"; aws_config=aws_config)
+list_app_instance_admins(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins", args; aws_config=aws_config)
 
 """
     ListAppInstanceUsers()
@@ -1434,8 +1434,8 @@ List all AppInstanceUsers created under a single app instance.
 - `max-results`: The maximum number of requests that you want returned.
 - `next-token`: The token passed by previous API calls until all requested users are returned.
 """
-list_app_instance_users(app_instance_arn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
-list_app_instance_users(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
+list_app_instance_users(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
+list_app_instance_users(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
 
 """
     ListAppInstances()
@@ -1446,8 +1446,8 @@ Lists all Amazon Chime app instances created under a single AWS account.
 - `max-results`: The maximum number of app instances that you want to return.
 - `next-token`: The token passed by previous API requests until you reach the maximum number of app instances.
 """
-list_app_instances(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances"; aws_config=aws_config)
-list_app_instances(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/app-instances", args; aws_config=aws_config)
+list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances"; aws_config=aws_config)
+list_app_instances(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances", args; aws_config=aws_config)
 
 """
     ListAttendeeTags()
@@ -1504,8 +1504,8 @@ Lists all the users banned from a particular channel.
 - `max-results`: The maximum number of bans that you want returned.
 - `next-token`: The token passed by previous API calls until all requested bans are returned.
 """
-list_channel_bans(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans"; aws_config=aws_config)
-list_channel_bans(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans", args; aws_config=aws_config)
+list_channel_bans(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans"; aws_config=aws_config)
+list_channel_bans(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans", args; aws_config=aws_config)
 
 """
     ListChannelMemberships()
@@ -1520,8 +1520,8 @@ Lists all channel memberships in a channel.
 - `next-token`: The token passed by previous API calls until all requested channel memberships are returned..
 - `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
 """
-list_channel_memberships(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships"; aws_config=aws_config)
-list_channel_memberships(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships", args; aws_config=aws_config)
+list_channel_memberships(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships"; aws_config=aws_config)
+list_channel_memberships(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships", args; aws_config=aws_config)
 
 """
     ListChannelMembershipsForAppInstanceUser()
@@ -1533,8 +1533,8 @@ Lists all channels that a particular AppInstanceUser is a part of. Only an AppIn
 - `max-results`: The maximum number of users that you want returned. 
 - `next-token`: The token returned from previous API requests until the number of channel memberships is reached.
 """
-list_channel_memberships_for_app_instance_user(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships"; aws_config=aws_config)
-list_channel_memberships_for_app_instance_user(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships", args; aws_config=aws_config)
+list_channel_memberships_for_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships"; aws_config=aws_config)
+list_channel_memberships_for_app_instance_user(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships", args; aws_config=aws_config)
 
 """
     ListChannelMessages()
@@ -1551,8 +1551,8 @@ List all the messages in a channel. Returns a paginated list of ChannelMessages.
 - `not-before`: The initial or starting time stamp for your requested messages. 
 - `sort-order`: The order in which you want messages sorted. Default is Descending, based on time created.
 """
-list_channel_messages(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages"; aws_config=aws_config)
-list_channel_messages(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages", args; aws_config=aws_config)
+list_channel_messages(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages"; aws_config=aws_config)
+list_channel_messages(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages", args; aws_config=aws_config)
 
 """
     ListChannelModerators()
@@ -1566,8 +1566,8 @@ Lists all the moderators for a channel.
 - `max-results`: The maximum number of moderators that you want returned.
 - `next-token`: The token passed by previous API calls until all requested moderators are returned.
 """
-list_channel_moderators(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators"; aws_config=aws_config)
-list_channel_moderators(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators", args; aws_config=aws_config)
+list_channel_moderators(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators"; aws_config=aws_config)
+list_channel_moderators(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators", args; aws_config=aws_config)
 
 """
     ListChannels()
@@ -1582,8 +1582,8 @@ Lists all Channels created under a single Chime App as a paginated list. You can
 - `next-token`: The token passed by previous API calls until all requested channels are returned.
 - `privacy`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an app instance administrator can retrieve private channels.
 """
-list_channels(app_instance_arn; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
-list_channels(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
+list_channels(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
+list_channels(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
 
 """
     ListChannelsModeratedByAppInstanceUser()
@@ -1595,8 +1595,8 @@ A list of the channels moderated by an app instance user.
 - `max-results`: The maximum number of channels in the request.
 - `next-token`: The token returned from previous API requests until the number of channels moderated by the user is reached.
 """
-list_channels_moderated_by_app_instance_user(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
-list_channels_moderated_by_app_instance_user(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", args; aws_config=aws_config)
+list_channels_moderated_by_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
+list_channels_moderated_by_app_instance_user(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", args; aws_config=aws_config)
 
 """
     ListMeetingTags()
@@ -1707,8 +1707,8 @@ Lists the SIP media applications under the administrator's AWS account.
 - `max-results`: The maximum number of results to return in a single call. Defaults to 100.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-list_sip_media_applications(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications"; aws_config=aws_config)
-list_sip_media_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications", args; aws_config=aws_config)
+list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications"; aws_config=aws_config)
+list_sip_media_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications", args; aws_config=aws_config)
 
 """
     ListSipRules()
@@ -1720,8 +1720,8 @@ Lists the SIP rules under the administrator's AWS account.
 - `next-token`: The token to use to retrieve the next page of results.
 - `sip-media-application`: The SIP media application ID.
 """
-list_sip_rules(; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules"; aws_config=aws_config)
-list_sip_rules(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = chime("GET", "/sip-rules", args; aws_config=aws_config)
+list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules"; aws_config=aws_config)
+list_sip_rules(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -1811,8 +1811,8 @@ Sets the amount of time in days that a given app instance retains data.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings); aws_config=aws_config)
-put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings), args)); aws_config=aws_config)
+put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings); aws_config=aws_config)
+put_app_instance_retention_settings(AppInstanceRetentionSettings, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceRetentionSettings"=>AppInstanceRetentionSettings), args)); aws_config=aws_config)
 
 """
     PutAppInstanceStreamingConfigurations()
@@ -1824,8 +1824,8 @@ The data streaming configurations of an app instance.
 - `appInstanceArn`: The ARN of the app instance.
 
 """
-put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations); aws_config=aws_config)
-put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations), args)); aws_config=aws_config)
+put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations); aws_config=aws_config)
+put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)/streaming-configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppInstanceStreamingConfigurations"=>AppInstanceStreamingConfigurations), args)); aws_config=aws_config)
 
 """
     PutEventsConfiguration()
@@ -1867,8 +1867,8 @@ Updates the logging configuration for the specified SIP media application.
 # Optional Parameters
 - `SipMediaApplicationLoggingConfiguration`: The actual logging configuration.
 """
-put_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
-put_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
+put_sip_media_application_logging_configuration(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration"; aws_config=aws_config)
+put_sip_media_application_logging_configuration(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration", args; aws_config=aws_config)
 
 """
     PutVoiceConnectorEmergencyCallingConfiguration()
@@ -1976,8 +1976,8 @@ Redacts message content, but not metadata. The message exists in the back end, b
 - `messageId`: The ID of the message being redacted.
 
 """
-redact_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact"; aws_config=aws_config)
-redact_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", args; aws_config=aws_config)
+redact_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact"; aws_config=aws_config)
+redact_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages/$(messageId)?operation=redact", args; aws_config=aws_config)
 
 """
     RedactConversationMessage()
@@ -2077,8 +2077,8 @@ Sends a message to a particular channel that the member is a part of.   STANDARD
 # Optional Parameters
 - `Metadata`: The optional metadata for each message. 
 """
-send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type); aws_config=aws_config)
-send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type), args)); aws_config=aws_config)
+send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type); aws_config=aws_config)
+send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     TagAttendee()
@@ -2199,8 +2199,8 @@ Updates AppInstance metadata.
 # Optional Parameters
 - `Metadata`: The metadata that you want to change.
 """
-update_app_instance(Name, appInstanceArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_app_instance(Name, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_app_instance(Name, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_app_instance(Name, appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instances/$(appInstanceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateAppInstanceUser()
@@ -2214,8 +2214,8 @@ Updates the details for an AppInstanceUser. You can update names and metadata.
 # Optional Parameters
 - `Metadata`: The metadata of the app instance user.
 """
-update_app_instance_user(Name, appInstanceUserArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_app_instance_user(Name, appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_app_instance_user(Name, appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_app_instance_user(Name, appInstanceUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/app-instance-users/$(appInstanceUserArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateBot()
@@ -2245,8 +2245,8 @@ Update a channel's attributes.  Restriction: You can't change a channel's privac
 # Optional Parameters
 - `Metadata`: The metadata of the channel.
 """
-update_channel(Mode, Name, channelArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}("Mode"=>Mode, "Name"=>Name); aws_config=aws_config)
-update_channel(Mode, Name, channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mode"=>Mode, "Name"=>Name), args)); aws_config=aws_config)
+update_channel(Mode, Name, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}("Mode"=>Mode, "Name"=>Name); aws_config=aws_config)
+update_channel(Mode, Name, channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mode"=>Mode, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateChannelMessage()
@@ -2261,8 +2261,8 @@ Updates the content of a message.
 - `Content`: The content of the message being updated.
 - `Metadata`: The metadata of the message being updated.
 """
-update_channel_message(channelArn, messageId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
-update_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
+update_channel_message(channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)"; aws_config=aws_config)
+update_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/messages/$(messageId)", args; aws_config=aws_config)
 
 """
     UpdateChannelReadMarker()
@@ -2273,8 +2273,8 @@ Sets the timestamp to the point when a user last read messages in a channel.
 - `channelArn`: The ARN of the channel.
 
 """
-update_channel_read_marker(channelArn; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker"; aws_config=aws_config)
-update_channel_read_marker(channelArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker", args; aws_config=aws_config)
+update_channel_read_marker(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker"; aws_config=aws_config)
+update_channel_read_marker(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/channels/$(channelArn)/readMarker", args; aws_config=aws_config)
 
 """
     UpdateGlobalSettings()
@@ -2375,8 +2375,8 @@ Updates the details for the specified SIP media application.
 - `Endpoints`: The new set of endpoints for the specified SIP media application.
 - `Name`: The new name for the specified SIP media application.
 """
-update_sip_media_application(sipMediaApplicationId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
-update_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
+update_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
+update_sip_media_application(sipMediaApplicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)", args; aws_config=aws_config)
 
 """
     UpdateSipRule()
@@ -2391,8 +2391,8 @@ Updates the details for the specified SIP rule.
 - `Disabled`: The new value specified to indicate whether the rule is disabled.
 - `TargetApplications`: The new value of the list of target applications.
 """
-update_sip_rule(Name, sipRuleId; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_sip_rule(Name, sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_sip_rule(Name, sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_sip_rule(Name, sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-rules/$(sipRuleId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateUser()

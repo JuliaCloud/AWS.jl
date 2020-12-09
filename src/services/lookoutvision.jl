@@ -17,8 +17,8 @@ Creates a new dataset in an Amazon Lookout for Vision project. CreateDataset can
 - `DatasetSource`: The location of the manifest file that Amazon Lookout for Vision uses to create the dataset. If you don't specify DatasetSource, an empty dataset is created and the operation synchronously returns. Later, you can add JSON Lines by calling UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3 location is validated and used to create the dataset. The call to CreateDataset is asynchronous and might take a while to complete. To find out the current status, Check the value of Status returned in a call to DescribeDataset.
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateDataset completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateDataset. In this case, safely retry your call to CreateDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8 hours. 
 """
-create_dataset(DatasetType, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_dataset(DatasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+create_dataset(DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+create_dataset(DatasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateModel()
@@ -34,8 +34,8 @@ Creates a new version of a model within an an Amazon Lookout for Vision project.
 - `KmsKeyId`: The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for encypting the model. If this parameter is not specified, the model is encrypted by a key that AWS owns and manages.
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
 """
-create_model(OutputConfig, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_model(OutputConfig, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+create_model(OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+create_model(OutputConfig, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateProject()
@@ -48,8 +48,8 @@ Creates an empty Amazon Lookout for Vision project. After you create the project
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateProject completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
 """
-create_project(ProjectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteDataset()
@@ -63,8 +63,8 @@ Deletes an existing Amazon Lookout for Vision dataset.  If your the project has 
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
 """
-delete_dataset(datasetType, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+delete_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+delete_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteModel()
@@ -78,8 +78,8 @@ Deletes an Amazon Lookout for Vision model. You can't delete a running model. To
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
 """
-delete_model(modelVersion, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+delete_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+delete_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteProject()
@@ -92,8 +92,8 @@ Deletes an Amazon Lookout for Vision project. To delete a project, you must firs
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteProject completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteProject. In this case, safely retry your call to DeleteProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8 hours.
 """
-delete_project(projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+delete_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeDataset()
@@ -105,8 +105,8 @@ Describe an Amazon Lookout for Vision dataset.
 - `projectName`: The name of the project that contains the dataset that you want to describe.
 
 """
-describe_dataset(datasetType, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)"; aws_config=aws_config)
-describe_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", args; aws_config=aws_config)
+describe_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)"; aws_config=aws_config)
+describe_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", args; aws_config=aws_config)
 
 """
     DescribeModel()
@@ -118,8 +118,8 @@ Describes a version of an Amazon Lookout for Vision model.
 - `projectName`: The project that contains the version of a model that you want to describe.
 
 """
-describe_model(modelVersion, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)"; aws_config=aws_config)
-describe_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", args; aws_config=aws_config)
+describe_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)"; aws_config=aws_config)
+describe_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", args; aws_config=aws_config)
 
 """
     DescribeProject()
@@ -130,8 +130,8 @@ Describes an Amazon Lookout for Vision project.
 - `projectName`: The name of the project that you want to describe.
 
 """
-describe_project(projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)"; aws_config=aws_config)
-describe_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)", args; aws_config=aws_config)
+describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)"; aws_config=aws_config)
+describe_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)", args; aws_config=aws_config)
 
 """
     DetectAnomalies()
@@ -145,8 +145,8 @@ Detects anomalies in an image that you supply.  The response from DetectAnomalie
 - `projectName`: The name of the project that contains the model version that you want to use.
 
 """
-detect_anomalies(Body, content_type, modelVersion, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)); aws_config=aws_config)
-detect_anomalies(Body, content_type, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)), args)); aws_config=aws_config)
+detect_anomalies(Body, content_type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)); aws_config=aws_config)
+detect_anomalies(Body, content_type, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)), args)); aws_config=aws_config)
 
 """
     ListDatasetEntries()
@@ -166,8 +166,8 @@ Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line co
 - `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of dataset entries.
 - `sourceRefContains`: Perform a \"contains\" search on the values of the source-ref key within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the source-ref key value matches *IMG_17*.
 """
-list_dataset_entries(datasetType, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries"; aws_config=aws_config)
-list_dataset_entries(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", args; aws_config=aws_config)
+list_dataset_entries(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries"; aws_config=aws_config)
+list_dataset_entries(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", args; aws_config=aws_config)
 
 """
     ListModels()
@@ -181,8 +181,8 @@ Lists the versions of a model in an Amazon Lookout for Vision project.
 - `maxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
 - `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of models.
 """
-list_models(projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models"; aws_config=aws_config)
-list_models(projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", args; aws_config=aws_config)
+list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models"; aws_config=aws_config)
+list_models(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", args; aws_config=aws_config)
 
 """
     ListProjects()
@@ -193,8 +193,8 @@ Lists the Amazon Lookout for Vision projects in your AWS account.
 - `maxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
 - `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of projects.
 """
-list_projects(; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects"; aws_config=aws_config)
-list_projects(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", args; aws_config=aws_config)
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects"; aws_config=aws_config)
+list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", args; aws_config=aws_config)
 
 """
     StartModel()
@@ -209,8 +209,8 @@ Starts the running of the version of an Amazon Lookout for Vision model. Startin
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to StartModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours. 
 """
-start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-start_model(MinInferenceUnits, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+start_model(MinInferenceUnits, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     StopModel()
@@ -224,8 +224,8 @@ Stops a running model. The operation might take a while to complete. To check th
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to StopModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from StopModel. In this case, safely retry your call to StopModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to StopModel. An idempotency token is active for 8 hours. 
 """
-stop_model(modelVersion, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-stop_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+stop_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateDatasetEntries()
@@ -240,5 +240,5 @@ Adds one or more JSON Line entries to a dataset. A JSON Line includes informatio
 # Optional Parameters
 - `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to UpdateDatasetEntries completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to UpdateDatasetEntries. An idempotency token is active for 8 hours. 
 """
-update_dataset_entries(Changes, datasetType, projectName; aws_config::AWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-update_dataset_entries(Changes, datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
+update_dataset_entries(Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
+update_dataset_entries(Changes, datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)

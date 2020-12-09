@@ -120,8 +120,8 @@ Creates and returns a URL that you can use to connect to an application's extens
 # Optional Parameters
 - `SessionExpirationDurationInSeconds`: The duration in seconds for which the returned URL will be valid.
 """
-create_application_presigned_url(ApplicationName, UrlType; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType); aws_config=aws_config)
-create_application_presigned_url(ApplicationName, UrlType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType), args)); aws_config=aws_config)
+create_application_presigned_url(ApplicationName, UrlType; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType); aws_config=aws_config)
+create_application_presigned_url(ApplicationName, UrlType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("CreateApplicationPresignedUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "UrlType"=>UrlType), args)); aws_config=aws_config)
 
 """
     CreateApplicationSnapshot()

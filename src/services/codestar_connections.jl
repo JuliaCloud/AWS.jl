@@ -147,3 +147,18 @@ Removes tags from an AWS resource.
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateHost()
+
+Updates a specified host with the provided configurations.
+
+# Required Parameters
+- `HostArn`: The Amazon Resource Name (ARN) of the host to be updated.
+
+# Optional Parameters
+- `ProviderEndpoint`: The URL or endpoint of the host to be updated.
+- `VpcConfiguration`: The VPC configuration of the host to be updated. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
+"""
+update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
+update_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)

@@ -262,6 +262,7 @@ Searches an active index. Use this API to search your documents using query. The
 - `RequestedDocumentAttributes`: An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
 - `SortingConfiguration`: Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
 - `UserContext`: The user context token.
+- `VisitorId`: Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
 """
 query(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
 query(IndexId, QueryText, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), args)); aws_config=aws_config)

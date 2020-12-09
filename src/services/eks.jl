@@ -20,8 +20,8 @@ Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioni
 - `serviceAccountRoleArn`: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide. 
 - `tags`: The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. 
 """
-create_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateCluster()
@@ -101,8 +101,8 @@ Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted
 - `name`: The name of the cluster to delete the add-on from.
 
 """
-delete_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
-delete_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
+delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
+delete_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -152,8 +152,8 @@ Describes an Amazon EKS add-on.
 - `name`: The name of the cluster.
 
 """
-describe_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
-describe_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
+describe_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
+describe_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)", args; aws_config=aws_config)
 
 """
     DescribeAddonVersions()
@@ -166,8 +166,8 @@ Describes the Kubernetes versions that the add-on can be used with.
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
 """
-describe_addon_versions(; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions"; aws_config=aws_config)
-describe_addon_versions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", args; aws_config=aws_config)
+describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions"; aws_config=aws_config)
+describe_addon_versions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", args; aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -235,8 +235,8 @@ Lists the available add-ons.
 - `maxResults`: The maximum number of add-on results returned by ListAddonsRequest in paginated output. When you use this parameter, ListAddonsRequest returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListAddonsRequest request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListAddonsRequest returns up to 100 results and a nextToken value, if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated ListAddonsRequest where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
 """
-list_addons(name; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons"; aws_config=aws_config)
-list_addons(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons", args; aws_config=aws_config)
+list_addons(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons"; aws_config=aws_config)
+list_addons(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons", args; aws_config=aws_config)
 
 """
     ListClusters()
@@ -350,8 +350,8 @@ Updates an Amazon EKS add-on.
 - `resolveConflicts`: How to resolve parameter value conflicts when applying the new version of the add-on to the cluster.
 - `serviceAccountRoleArn`: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide. 
 """
-update_addon(addonName, name; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+update_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+update_addon(addonName, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateClusterConfig()
