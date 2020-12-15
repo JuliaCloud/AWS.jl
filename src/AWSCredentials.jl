@@ -470,7 +470,6 @@ function credentials_from_webtoken()
 
     has_all_keys =
         haskey(ENV, token_role_arn) &&
-        haskey(ENV, token_role_session) &&
         haskey(ENV, token_web_identity)
 
     if !has_all_keys
@@ -478,7 +477,11 @@ function credentials_from_webtoken()
     end
 
     role_arn = ENV[token_role_arn]
-    role_session = ENV[token_role_session]
+    role_session = get!(ENV, token_role_session) do
+        default_role_session = replace("default-AWS.jl-role-session-$(now())", ":" => "-")
+        @warn "Consider setting (optional) AWS_ROLE_SESSION_NAME environment variable, defaulting to $default_role_session"
+        return default_role_session
+    end
     web_identity = read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
 
     resp = @mock AWSServices.sts(
