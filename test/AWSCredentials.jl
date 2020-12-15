@@ -492,6 +492,27 @@ end
                     @test expiry != result.expiry
                 end
             end
+
+            withenv(
+                "AWS_ROLE_ARN" => "foobar",
+                "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+            ) do
+                apply(Patches._web_identity_patch) do
+                    result = credentials_from_webtoken()
+
+                    @test result.access_key_id == Patches.web_access_key
+                    @test result.secret_key == Patches.web_secret_key
+                    @test result.renew == credentials_from_webtoken
+                    expiry = result.expiry
+
+                    result = check_credentials(result)
+
+                    @test result.access_key_id == Patches.web_access_key
+                    @test result.secret_key == Patches.web_secret_key
+                    @test result.renew == credentials_from_webtoken
+                    @test expiry != result.expiry
+                end
+            end
         end
     end
 
