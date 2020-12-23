@@ -43,7 +43,7 @@ For example again, to list the objects in an S3 bucket:
 using AWS: @service
 @service S3
 
-S3.ListObjects("/your-bucket")
+S3.list_objects("/your-bucket")
 ```
 
 **Note:** When calling the `@service` macro you **CANNOT** match the predefined constant for the low level API. The low level API constants are named in all lowercase, and spaces are replaced with underscores.
