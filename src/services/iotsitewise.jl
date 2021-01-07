@@ -53,7 +53,7 @@ batch_disassociate_project_assets(assetIds, projectId, args::AbstractDict{String
 """
     BatchPutAssetPropertyValue()
 
-Sends a list of asset property values to AWS IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.    With respect to Unix epoch time, AWS IoT SiteWise accepts only TQVs that have a timestamp of no more than 15 minutes in the past and no more than 5 minutes in the future. AWS IoT SiteWise rejects timestamps outside of the inclusive range of [-15, +5] minutes and returns a TimestampOutOfRangeException error. For each asset property, AWS IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV.  AWS IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see BatchPutAssetPropertyValue authorization in the AWS IoT SiteWise User Guide.
+Sends a list of asset property values to AWS IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the AWS IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.    With respect to Unix epoch time, AWS IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 5 minutes in the future. AWS IoT SiteWise rejects timestamps outside of the inclusive range of [-7 days, +5 minutes] and returns a TimestampOutOfRangeException error. For each asset property, AWS IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV.  AWS IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see BatchPutAssetPropertyValue authorization in the AWS IoT SiteWise User Guide.
 
 # Required Parameters
 - `entries`: The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
@@ -104,6 +104,7 @@ Creates an asset model from specified property and hierarchy definitions. You cr
 - `assetModelName`: A unique, friendly name for the asset model.
 
 # Optional Parameters
+- `assetModelCompositeModels`: The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
 - `assetModelDescription`: A description for the asset model.
 - `assetModelHierarchies`: The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
 - `assetModelProperties`: The property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
@@ -158,27 +159,13 @@ Creates a portal, which can contain projects and dashboards. AWS IoT SiteWise Mo
 
 # Optional Parameters
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
-- `portalAuthMode`: The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO 
+- `portalAuthMode`: The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO 
 - `portalDescription`: A description for the portal.
 - `portalLogoImageFile`: A logo image to display in the portal. Upload a square, high-resolution image. The image is displayed on a dark background.
 - `tags`: A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 create_portal(portalContactEmail, portalName, roleArn; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/portals", Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_portal(portalContactEmail, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/portals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-
-"""
-    CreatePresignedPortalUrl()
-
-Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains an authentication token that lets the IAM user access the portal.
-
-# Required Parameters
-- `portalId`: The ID of the portal to access.
-
-# Optional Parameters
-- `sessionDurationSeconds`: The duration (in seconds) for which the session at the URL is valid. Default: 43,200 seconds (12 hours)
-"""
-create_presigned_portal_url(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url"; aws_config=aws_config)
-create_presigned_portal_url(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)/presigned-url", args; aws_config=aws_config)
 
 """
     CreateProject()
@@ -522,6 +509,22 @@ list_asset_models(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GE
 list_asset_models(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models", args; aws_config=aws_config)
 
 """
+    ListAssetRelationships()
+
+Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
+
+# Required Parameters
+- `assetId`: The ID of the asset.
+- `traversalType`: The type of traversal to use to identify asset relationships. Choose the following option:    PATH_TO_ROOT – Identify the asset's parent assets up to the root asset. The asset that you specify in assetId is the first result in the list of assetRelationshipSummaries, and the root asset is the last result.  
+
+# Optional Parameters
+- `maxResults`: The maximum number of results to be returned per paginated request.
+- `nextToken`: The token to be used for the next set of paginated results.
+"""
+list_asset_relationships(assetId, traversalType; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/assetRelationships", Dict{String, Any}("traversalType"=>traversalType); aws_config=aws_config)
+list_asset_relationships(assetId, traversalType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/assetRelationships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("traversalType"=>traversalType), args)); aws_config=aws_config)
+
+"""
     ListAssets()
 
 Retrieves a paginated list of asset summaries. You can use this operation to do the following:   List assets based on a specific asset model.   List top-level assets.   You can't use this operation to list all assets. To retrieve summaries for all of your assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
@@ -727,6 +730,7 @@ Updates an asset model and all of the assets that were created from the model. E
 - `assetModelName`: A unique, friendly name for the asset model.
 
 # Optional Parameters
+- `assetModelCompositeModels`: The composite asset models that are part of this asset model. Composite asset models are asset models that contain specific properties. Each composite model has a type that defines the properties that the composite model supports. Use composite asset models to define alarms on this asset model.
 - `assetModelDescription`: A description for the asset model.
 - `assetModelHierarchies`: The updated hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
 - `assetModelProperties`: The updated property definitions of the asset model. For more information, see Asset properties in the AWS IoT SiteWise User Guide. You can specify up to 200 properties per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.

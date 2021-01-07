@@ -5,6 +5,19 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    ActivateKeySigningKey()
+
+Activates a key signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
+
+# Required Parameters
+- `HostedZoneId`: A unique string used to identify a hosted zone.
+- `Name`: An alphanumeric string used to identify a key signing key (KSK).
+
+"""
+activate_key_signing_key(HostedZoneId, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/activate"; aws_config=aws_config)
+activate_key_signing_key(HostedZoneId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/activate", args; aws_config=aws_config)
+
+"""
     AssociateVPCWithHostedZone()
 
 Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone.   If you want to associate a VPC that was created by using one AWS account with a private hosted zone that was created by using a different account, the AWS account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. 
@@ -77,6 +90,22 @@ Creates a new public or private hosted zone. You create records in a public host
 """
 create_hosted_zone(CallerReference, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name); aws_config=aws_config)
 create_hosted_zone(CallerReference, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
+    CreateKeySigningKey()
+
+Creates a new key signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
+
+# Required Parameters
+- `CallerReference`: A unique string that identifies the request.
+- `HostedZoneId`: The unique string (ID) used to identify a hosted zone.
+- `KeyManagementServiceArn`: The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key Management Service (KMS). The KeyManagementServiceArn must be unique for each key signing key (KSK) in a single hosted zone. To see an example of KeyManagementServiceArn that grants the correct permissions for DNSSEC, scroll down to Example.  You must configure the CMK as follows:  Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission for the following actions:   DescribeKey   GetPublicKey   Sign   The key policy must also include the Amazon Route 53 service in the principal for your account. Specify the following:    \"Service\": \"api-service.dnssec.route53.aws.internal\"      For more information about working with CMK in KMS, see AWS Key Management Service concepts.
+- `Name`: An alphanumeric string used to identify a key signing key (KSK). Name must be unique for each key signing key in the same hosted zone.
+- `Status`: A string specifying the initial status of the key signing key (KSK). You can set the value to ACTIVE or INACTIVE.
+
+"""
+create_key_signing_key(CallerReference, HostedZoneId, KeyManagementServiceArn, Name, Status; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey", Dict{String, Any}("CallerReference"=>CallerReference, "HostedZoneId"=>HostedZoneId, "KeyManagementServiceArn"=>KeyManagementServiceArn, "Name"=>Name, "Status"=>Status); aws_config=aws_config)
+create_key_signing_key(CallerReference, HostedZoneId, KeyManagementServiceArn, Name, Status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallerReference"=>CallerReference, "HostedZoneId"=>HostedZoneId, "KeyManagementServiceArn"=>KeyManagementServiceArn, "Name"=>Name, "Status"=>Status), args)); aws_config=aws_config)
 
 """
     CreateQueryLoggingConfig()
@@ -165,6 +194,19 @@ create_vpcassociation_authorization(Id, VPC; aws_config::AWSConfig=global_aws_co
 create_vpcassociation_authorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
+    DeactivateKeySigningKey()
+
+Deactivates a key signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
+
+# Required Parameters
+- `HostedZoneId`: A unique string used to identify a hosted zone.
+- `Name`: An alphanumeric string used to identify a key signing key (KSK).
+
+"""
+deactivate_key_signing_key(HostedZoneId, Name; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/deactivate"; aws_config=aws_config)
+deactivate_key_signing_key(HostedZoneId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)/deactivate", args; aws_config=aws_config)
+
+"""
     DeleteHealthCheck()
 
 Deletes a health check.  Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see Replacing and Deleting Health Checks in the Amazon Route 53 Developer Guide.  If you're using AWS Cloud Map and you configured Cloud Map to create a Route 53 health check when you register an instance, you can't use the Route 53 DeleteHealthCheck command to delete the health check. The health check is deleted automatically when you deregister the instance; there can be a delay of several hours before the health check is deleted from Route 53. 
@@ -187,6 +229,19 @@ Deletes a hosted zone. If the hosted zone was created by another service, such a
 """
 delete_hosted_zone(Id; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)"; aws_config=aws_config)
 delete_hosted_zone(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", args; aws_config=aws_config)
+
+"""
+    DeleteKeySigningKey()
+
+Deletes a key signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactived before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing.
+
+# Required Parameters
+- `HostedZoneId`: A unique string used to identify a hosted zone.
+- `Name`: An alphanumeric string used to identify a key signing key (KSK).
+
+"""
+delete_key_signing_key(HostedZoneId, Name; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)"; aws_config=aws_config)
+delete_key_signing_key(HostedZoneId, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("DELETE", "/2013-04-01/keysigningkey/$(HostedZoneId)/$(Name)", args; aws_config=aws_config)
 
 """
     DeleteQueryLoggingConfig()
@@ -251,6 +306,18 @@ delete_vpcassociation_authorization(Id, VPC; aws_config::AWSConfig=global_aws_co
 delete_vpcassociation_authorization(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
 
 """
+    DisableHostedZoneDNSSEC()
+
+Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key signing keys (KSKs) that are active in the hosted zone.
+
+# Required Parameters
+- `Id`: A unique string used to identify a hosted zone.
+
+"""
+disable_hosted_zone_dnssec(Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disable-dnssec"; aws_config=aws_config)
+disable_hosted_zone_dnssec(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disable-dnssec", args; aws_config=aws_config)
+
+"""
     DisassociateVPCFromHostedZone()
 
 Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following:   You can't disassociate the last Amazon VPC from a private hosted zone.   You can't convert a private hosted zone into a public hosted zone.   You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the Amazon VPC.   Some services, such as AWS Cloud Map and Amazon Elastic File System (Amazon EFS) automatically create hosted zones and associate VPCs with the hosted zones. A service can create a hosted zone using your account or using its own account. You can disassociate a VPC from a hosted zone only if the service created the hosted zone using your account. When you run DisassociateVPCFromHostedZone, if the hosted zone has a value for OwningAccount, you can use DisassociateVPCFromHostedZone. If the hosted zone has a value for OwningService, you can't use DisassociateVPCFromHostedZone.  
@@ -264,6 +331,18 @@ Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 
 """
 disassociate_vpcfrom_hosted_zone(Id, VPC; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
 disassociate_vpcfrom_hosted_zone(Id, VPC, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VPC"=>VPC), args)); aws_config=aws_config)
+
+"""
+    EnableHostedZoneDNSSEC()
+
+Enables DNSSEC signing in a specific hosted zone.
+
+# Required Parameters
+- `Id`: A unique string used to identify a hosted zone.
+
+"""
+enable_hosted_zone_dnssec(Id; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/enable-dnssec"; aws_config=aws_config)
+enable_hosted_zone_dnssec(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/enable-dnssec", args; aws_config=aws_config)
 
 """
     GetAccountLimit()
@@ -297,6 +376,18 @@ get_change(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_a
 """
 get_checker_ip_ranges(; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges"; aws_config=aws_config)
 get_checker_ip_ranges(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges", args; aws_config=aws_config)
+
+"""
+    GetDNSSEC()
+
+Returns information about DNSSEC for a specific hosted zone, including the key signing keys (KSKs) and zone signing keys (ZSKs) in the hosted zone.
+
+# Required Parameters
+- `Id`: A unique string used to identify a hosted zone.
+
+"""
+get_dnssec(Id; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/dnssec"; aws_config=aws_config)
+get_dnssec(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/dnssec", args; aws_config=aws_config)
 
 """
     GetGeoLocation()

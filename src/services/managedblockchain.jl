@@ -7,7 +7,7 @@ using AWS.UUIDs
 """
     CreateMember()
 
-Creates a member within a Managed Blockchain network.
+Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `ClientRequestToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -22,7 +22,7 @@ create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, 
 """
     CreateNetwork()
 
-Creates a new blockchain network using Amazon Managed Blockchain.
+Creates a new blockchain network using Amazon Managed Blockchain. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `ClientRequestToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -42,22 +42,23 @@ create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfigurat
 """
     CreateNode()
 
-Creates a peer node in a member.
+Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
 
 # Required Parameters
 - `ClientRequestToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
 - `NodeConfiguration`: The properties of a node configuration.
-- `memberId`: The unique identifier of the member that owns this node.
-- `networkId`: The unique identifier of the network in which this node runs.
+- `networkId`: The unique identifier of the network for the node. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten   
 
+# Optional Parameters
+- `MemberId`: The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
 """
-create_node(ClientRequestToken, NodeConfiguration, memberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
-create_node(ClientRequestToken, NodeConfiguration, memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
+create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
+create_node(ClientRequestToken, NodeConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
 
 """
     CreateProposal()
 
-Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal.
+Creates a proposal for a change to the network that other members of the network can vote on, for example, a proposal to add a new member to the network. Any member can create a proposal. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `Actions`: The type of actions proposed, such as inviting a member or removing a member. The types of Actions in a proposal are mutually exclusive. For example, a proposal with Invitations actions cannot also contain Removals actions.
@@ -74,7 +75,7 @@ create_proposal(Actions, ClientRequestToken, MemberId, networkId, args::Abstract
 """
     DeleteMember()
 
-Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last AWS account, the network is deleted also.
+Deletes a member. Deleting a member removes the member and all associated resources from the network. DeleteMember can only be called for a specified MemberId if the principal performing the action is associated with the AWS account that owns the member. In all other cases, the DeleteMember action is carried out as the result of an approved proposal to remove a member. If MemberId is the last member in a network specified by the last AWS account, the network is deleted also. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `memberId`: The unique identifier of the member to remove.
@@ -87,21 +88,22 @@ delete_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config
 """
     DeleteNode()
 
-Deletes a peer node from a member that your AWS account owns. All data on the node is lost and cannot be recovered.
+Deletes a node that your AWS account owns. All data on the node is lost and cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
 
 # Required Parameters
-- `memberId`: The unique identifier of the member that owns this node.
-- `networkId`: The unique identifier of the network that the node belongs to.
+- `networkId`: The unique identifier of the network that the node is on. Ethereum public networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-rinkeby     n-ethereum-ropsten   
 - `nodeId`: The unique identifier of the node.
 
+# Optional Parameters
+- `memberId`: The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-delete_node(memberId, networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-delete_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
+delete_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+delete_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     GetMember()
 
-Returns detailed information about a member.
+Returns detailed information about a member. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `memberId`: The unique identifier of the member.
@@ -114,7 +116,7 @@ get_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     GetNetwork()
 
-Returns detailed information about a network.
+Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
 
 # Required Parameters
 - `networkId`: The unique identifier of the network to get information about.
@@ -126,21 +128,22 @@ get_network(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 """
     GetNode()
 
-Returns detailed information about a peer node.
+Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
 
 # Required Parameters
-- `memberId`: The unique identifier of the member that owns the node.
-- `networkId`: The unique identifier of the network to which the node belongs.
+- `networkId`: The unique identifier of the network that the node is on.
 - `nodeId`: The unique identifier of the node.
 
+# Optional Parameters
+- `memberId`: The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-get_node(memberId, networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-get_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
+get_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+get_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     GetProposal()
 
-Returns detailed information about a proposal.
+Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `networkId`: The unique identifier of the network for which the proposal is made.
@@ -153,7 +156,7 @@ get_proposal(networkId, proposalId, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListInvitations()
 
-Returns a listing of all invitations for the current AWS account.
+Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
 
 # Optional Parameters
 - `maxResults`: The maximum number of invitations to return.
@@ -165,7 +168,7 @@ list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_a
 """
     ListMembers()
 
-Returns a listing of the members in a network and properties of their configurations.
+Returns a list of the members in a network and properties of their configurations. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `networkId`: The unique identifier of the network for which to list members.
@@ -183,14 +186,14 @@ list_members(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 """
     ListNetworks()
 
-Returns information about the networks in which the current AWS account has members.
+Returns information about the networks in which the current AWS account participates. Applies to Hyperledger Fabric and Ethereum.
 
 # Optional Parameters
 - `framework`: An optional framework specifier. If provided, only networks of this framework type are listed.
 - `maxResults`: The maximum number of networks to list.
 - `name`: The name of the network.
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
-- `status`: An optional status specifier. If provided, only networks currently in this status are listed.
+- `status`: An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric.
 """
 list_networks(; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config)
 list_networks(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", args; aws_config=aws_config)
@@ -198,24 +201,24 @@ list_networks(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_
 """
     ListNodes()
 
-Returns information about the nodes within a network.
+Returns information about the nodes within a network. Applies to Hyperledger Fabric and Ethereum.
 
 # Required Parameters
-- `memberId`: The unique identifier of the member who owns the nodes to list.
 - `networkId`: The unique identifier of the network for which to list nodes.
 
 # Optional Parameters
 - `maxResults`: The maximum number of nodes to list.
+- `memberId`: The unique identifier of the member who owns the nodes to list. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only nodes currently in this status are listed.
 """
-list_nodes(memberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes"; aws_config=aws_config)
-list_nodes(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes", args; aws_config=aws_config)
+list_nodes(networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes"; aws_config=aws_config)
+list_nodes(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", args; aws_config=aws_config)
 
 """
     ListProposalVotes()
 
-Returns the listing of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote.
+Returns the list of votes for a specified proposal, including the value of each vote and the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `networkId`:  The unique identifier of the network. 
@@ -231,7 +234,7 @@ list_proposal_votes(networkId, proposalId, args::AbstractDict{String, <:Any}; aw
 """
     ListProposals()
 
-Returns a listing of proposals for the network.
+Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `networkId`:  The unique identifier of the network. 
@@ -246,7 +249,7 @@ list_proposals(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 """
     RejectInvitation()
 
-Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network.
+Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `invitationId`: The unique identifier of the invitation to reject.
@@ -258,11 +261,11 @@ reject_invitation(invitationId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UpdateMember()
 
-Updates a member configuration with new parameters.
+Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
 
 # Required Parameters
-- `memberId`: The unique ID of the member.
-- `networkId`: The unique ID of the Managed Blockchain network to which the member belongs.
+- `memberId`: The unique identifier of the member.
+- `networkId`: The unique identifier of the Managed Blockchain network to which the member belongs.
 
 # Optional Parameters
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
@@ -273,23 +276,23 @@ update_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config
 """
     UpdateNode()
 
-Updates a node configuration with new parameters.
+Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
 
 # Required Parameters
-- `memberId`: The unique ID of the member that owns the node.
-- `networkId`: The unique ID of the Managed Blockchain network to which the node belongs.
-- `nodeId`: The unique ID of the node.
+- `networkId`: The unique identifier of the network that the node is on.
+- `nodeId`: The unique identifier of the node.
 
 # Optional Parameters
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
+- `MemberId`: The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric.
 """
-update_node(memberId, networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-update_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
+update_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+update_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     VoteOnProposal()
 
-Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action.
+Casts a vote for a specified ProposalId on behalf of a member. The member to vote as, specified by VoterMemberId, must be in the same AWS account as the principal that calls the action. Applies only to Hyperledger Fabric.
 
 # Required Parameters
 - `Vote`:  The value of the vote. 

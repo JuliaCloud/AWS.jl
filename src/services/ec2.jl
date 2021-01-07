@@ -20,6 +20,20 @@ accept_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AWSConf
 accept_reserved_instances_exchange_quote(ReservedInstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), args)); aws_config=aws_config)
 
 """
+    AcceptTransitGatewayMulticastDomainAssociations()
+
+Accepts a request to associate subnets with a transit gateway multicast domain.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `SubnetIds`: The IDs of the subnets to associate with the transit gateway multicast domain.
+- `TransitGatewayAttachmentId`: The ID of the transit gateway attachment.
+- `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
+"""
+accept_transit_gateway_multicast_domain_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayMulticastDomainAssociations"; aws_config=aws_config)
+accept_transit_gateway_multicast_domain_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("AcceptTransitGatewayMulticastDomainAssociations", args; aws_config=aws_config)
+
+"""
     AcceptTransitGatewayPeeringAttachment()
 
 Accepts a transit gateway peering attachment request. The peering attachment must be in the pendingAcceptance state.
@@ -99,6 +113,7 @@ Allocates an Elastic IP address to your AWS account. After you allocate the Elas
 - `Domain`: Indicates whether the Elastic IP address is for use with instances in a VPC or instances in EC2-Classic. Default: If the Region supports EC2-Classic, the default is standard. Otherwise, the default is vpc.
 - `NetworkBorderGroup`:  A unique set of Availability Zones, Local Zones, or Wavelength Zones from which AWS advertises IP addresses. Use this parameter to limit the IP address to this location. IP addresses cannot move between network border groups. Use DescribeAvailabilityZones to view the network border groups.  You cannot use a network border group with EC2 Classic. If you attempt this operation on EC2 classic, you will receive an InvalidParameterCombination error. For more information, see Error Codes. 
 - `PublicIpv4Pool`: The ID of an address pool that you own. Use this parameter to let Amazon EC2 select an address from the address pool. To specify a specific address from the address pool, use the Address parameter instead.
+- `TagSpecification`: The tags to assign to the Elastic IP address.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 """
 allocate_address(; aws_config::AWSConfig=global_aws_config()) = ec2("AllocateAddress"; aws_config=aws_config)
@@ -900,10 +915,11 @@ Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is eith
 - `name`: A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
 
 # Optional Parameters
+- `TagSpecification`: The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags. 
 - `blockDeviceMapping`: The block device mappings. This parameter cannot be used to modify the encryption status of existing volumes or snapshots. To create an AMI with encrypted snapshots, use the CopyImage action.
 - `description`: A description for the new image.
 - `dryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `noReboot`: By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the 'No Reboot' option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
+- `noReboot`: By default, Amazon EC2 attempts to shut down and reboot the instance before creating the image. If the No Reboot option is set, Amazon EC2 doesn't shut down the instance before creating the image. When this option is used, file system integrity on the created image can't be guaranteed.
 """
 create_image(instanceId, name; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}("instanceId"=>instanceId, "name"=>name); aws_config=aws_config)
 create_image(instanceId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), args)); aws_config=aws_config)
@@ -1093,6 +1109,27 @@ Creates an entry (a rule) in a network ACL with the specified rule number. Each 
 """
 create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber); aws_config=aws_config)
 create_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "protocol"=>protocol, "ruleAction"=>ruleAction, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
+
+"""
+    CreateNetworkInsightsPath()
+
+Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see What is Reachability Analyzer.
+
+# Required Parameters
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+- `Destination`: The AWS resource that is the destination of the path.
+- `Protocol`: The protocol.
+- `Source`: The AWS resource that is the source of the path.
+
+# Optional Parameters
+- `DestinationIp`: The IP address of the AWS resource that is the destination of the path.
+- `DestinationPort`: The destination port.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `SourceIp`: The IP address of the AWS resource that is the source of the path.
+- `TagSpecification`: The tags to add to the path.
+"""
+create_network_insights_path(ClientToken, Destination, Protocol, Source; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInsightsPath", Dict{String, Any}("ClientToken"=>ClientToken, "Destination"=>Destination, "Protocol"=>Protocol, "Source"=>Source); aws_config=aws_config)
+create_network_insights_path(ClientToken, Destination, Protocol, Source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "Destination"=>Destination, "Protocol"=>Protocol, "Source"=>Source), args)); aws_config=aws_config)
 
 """
     CreateNetworkInterface()
@@ -1397,6 +1434,42 @@ create_transit_gateway(; aws_config::AWSConfig=global_aws_config()) = ec2("Creat
 create_transit_gateway(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGateway", args; aws_config=aws_config)
 
 """
+    CreateTransitGatewayConnect()
+
+Creates a Connect attachment from a specified transit gateway attachment. A Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a transit gateway and an appliance. A Connect attachment uses an existing VPC or AWS Direct Connect attachment as the underlying transport mechanism. 
+
+# Required Parameters
+- `Options`: The Connect attachment options.
+- `TransportTransitGatewayAttachmentId`: The ID of the transit gateway attachment. You can specify a VPC attachment or a AWS Direct Connect attachment.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `TagSpecification`: The tags to apply to the Connect attachment.
+"""
+create_transit_gateway_connect(Options, TransportTransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayConnect", Dict{String, Any}("Options"=>Options, "TransportTransitGatewayAttachmentId"=>TransportTransitGatewayAttachmentId); aws_config=aws_config)
+create_transit_gateway_connect(Options, TransportTransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TransportTransitGatewayAttachmentId"=>TransportTransitGatewayAttachmentId), args)); aws_config=aws_config)
+
+"""
+    CreateTransitGatewayConnectPeer()
+
+Creates a Connect peer for a specified transit gateway Connect attachment between a transit gateway and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6). For more information, see Connect peers in the Transit Gateways Guide.
+
+# Required Parameters
+- `PeerAddress`: The peer IP address (GRE outer IP address) on the appliance side of the Connect peer.
+- `TransitGatewayAttachmentId`: The ID of the Connect attachment.
+- `item`: The range of inside IP addresses that are used for BGP peering. You must specify a size /29 IPv4 CIDR block from the 169.254.0.0/16 range. The first address from the range must be configured on the appliance as the BGP IP address. You can also optionally specify a size /125 IPv6 CIDR block from the fd00::/8 range.
+
+# Optional Parameters
+- `BgpOptions`: The BGP options for the Connect peer.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `InsideCidrBlocks`: The range of inside IP addresses that are used for BGP peering. You must specify a size /29 IPv4 CIDR block from the 169.254.0.0/16 range. The first address from the range must be configured on the appliance as the BGP IP address. You can also optionally specify a size /125 IPv6 CIDR block from the fd00::/8 range.
+- `TagSpecification`: The tags to apply to the Connect peer.
+- `TransitGatewayAddress`: The peer IP address (GRE outer IP address) on the transit gateway side of the Connect peer, which must be specified from a transit gateway CIDR block. If not specified, Amazon automatically assigns the first available IP address from the transit gateway CIDR block.
+"""
+create_transit_gateway_connect_peer(PeerAddress, TransitGatewayAttachmentId, item; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayConnectPeer", Dict{String, Any}("PeerAddress"=>PeerAddress, "TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "item"=>item); aws_config=aws_config)
+create_transit_gateway_connect_peer(PeerAddress, TransitGatewayAttachmentId, item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PeerAddress"=>PeerAddress, "TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "item"=>item), args)); aws_config=aws_config)
+
+"""
     CreateTransitGatewayMulticastDomain()
 
 Creates a multicast domain using the specified transit gateway. The transit gateway must be in the available state before you create a domain. Use DescribeTransitGateways to see the state of transit gateway.
@@ -1406,6 +1479,7 @@ Creates a multicast domain using the specified transit gateway. The transit gate
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Options`: The options for the transit gateway multicast domain.
 - `TagSpecification`: The tags for the transit gateway multicast domain.
 """
 create_transit_gateway_multicast_domain(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("CreateTransitGatewayMulticastDomain", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
@@ -1508,7 +1582,7 @@ Creates an EBS volume that can be attached to an instance in the same Availabili
 # Optional Parameters
 - `Iops`: The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not supported for gp2, st1, sc1, or standard volumes.
 - `KmsKeyId`: The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true. You can specify the CMK using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
-- `MultiAttachEnabled`: Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
+- `MultiAttachEnabled`: Indicates whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro System in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
 - `OutpostArn`: The Amazon Resource Name (ARN) of the Outpost.
 - `Size`: The size of the volume, in GiBs. You must specify either a snapshot ID or a volume size. If you specify a snapshot, the default is the snapshot size. You can specify a volume size that is equal to or larger than the snapshot size. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024  
 - `SnapshotId`: The snapshot from which to create the volume. You must specify either a snapshot ID or a volume size.
@@ -1938,6 +2012,34 @@ delete_network_acl_entry(egress, networkAclId, ruleNumber; aws_config::AWSConfig
 delete_network_acl_entry(egress, networkAclId, ruleNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkAclEntry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("egress"=>egress, "networkAclId"=>networkAclId, "ruleNumber"=>ruleNumber), args)); aws_config=aws_config)
 
 """
+    DeleteNetworkInsightsAnalysis()
+
+Deletes the specified network insights analysis.
+
+# Required Parameters
+- `NetworkInsightsAnalysisId`: The ID of the network insights analysis.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+delete_network_insights_analysis(NetworkInsightsAnalysisId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInsightsAnalysis", Dict{String, Any}("NetworkInsightsAnalysisId"=>NetworkInsightsAnalysisId); aws_config=aws_config)
+delete_network_insights_analysis(NetworkInsightsAnalysisId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsAnalysisId"=>NetworkInsightsAnalysisId), args)); aws_config=aws_config)
+
+"""
+    DeleteNetworkInsightsPath()
+
+Deletes the specified path.
+
+# Required Parameters
+- `NetworkInsightsPathId`: The ID of the path.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+delete_network_insights_path(NetworkInsightsPathId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInsightsPath", Dict{String, Any}("NetworkInsightsPathId"=>NetworkInsightsPathId); aws_config=aws_config)
+delete_network_insights_path(NetworkInsightsPathId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteNetworkInsightsPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkInsightsPathId"=>NetworkInsightsPathId), args)); aws_config=aws_config)
+
+"""
     DeleteNetworkInterface()
 
 Deletes the specified network interface. You must detach the network interface before you can delete it.
@@ -2161,6 +2263,34 @@ Deletes the specified transit gateway.
 """
 delete_transit_gateway(TransitGatewayId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}("TransitGatewayId"=>TransitGatewayId); aws_config=aws_config)
 delete_transit_gateway(TransitGatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayId"=>TransitGatewayId), args)); aws_config=aws_config)
+
+"""
+    DeleteTransitGatewayConnect()
+
+Deletes the specified Connect attachment. You must first delete any Connect peers for the attachment.
+
+# Required Parameters
+- `TransitGatewayAttachmentId`: The ID of the Connect attachment.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+delete_transit_gateway_connect(TransitGatewayAttachmentId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayConnect", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId); aws_config=aws_config)
+delete_transit_gateway_connect(TransitGatewayAttachmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayConnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId), args)); aws_config=aws_config)
+
+"""
+    DeleteTransitGatewayConnectPeer()
+
+Deletes the specified Connect peer.
+
+# Required Parameters
+- `TransitGatewayConnectPeerId`: The ID of the Connect peer.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+delete_transit_gateway_connect_peer(TransitGatewayConnectPeerId; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayConnectPeer", Dict{String, Any}("TransitGatewayConnectPeerId"=>TransitGatewayConnectPeerId); aws_config=aws_config)
+delete_transit_gateway_connect_peer(TransitGatewayConnectPeerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DeleteTransitGatewayConnectPeer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayConnectPeerId"=>TransitGatewayConnectPeerId), args)); aws_config=aws_config)
 
 """
     DeleteTransitGatewayMulticastDomain()
@@ -3347,6 +3477,39 @@ describe_network_acls(; aws_config::AWSConfig=global_aws_config()) = ec2("Descri
 describe_network_acls(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkAcls", args; aws_config=aws_config)
 
 """
+    DescribeNetworkInsightsAnalyses()
+
+Describes one or more of your network insights analyses.
+
+# Optional Parameters
+- `AnalysisEndTime`: The time when the network insights analyses ended.
+- `AnalysisStartTime`: The time when the network insights analyses started.
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Filter`: The filters. The following are possible values:   PathFound - A Boolean value that indicates whether a feasible path is found.   Status - The status of the analysis (running | succeeded | failed).  
+- `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `NetworkInsightsAnalysisId`: The ID of the network insights analyses. You must specify either analysis IDs or a path ID.
+- `NetworkInsightsPathId`: The ID of the path. You must specify either a path ID or analysis IDs.
+- `NextToken`: The token for the next page of results.
+"""
+describe_network_insights_analyses(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInsightsAnalyses"; aws_config=aws_config)
+describe_network_insights_analyses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInsightsAnalyses", args; aws_config=aws_config)
+
+"""
+    DescribeNetworkInsightsPaths()
+
+Describes one or more of your paths.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Filter`: The filters. The following are possible values:   Destination - The ID of the resource.   DestinationPort - The destination port.   Name - The path name.   Protocol - The protocol.   Source - The ID of the resource.  
+- `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `NetworkInsightsPathId`: The IDs of the paths.
+- `NextToken`: The token for the next page of results.
+"""
+describe_network_insights_paths(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInsightsPaths"; aws_config=aws_config)
+describe_network_insights_paths(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeNetworkInsightsPaths", args; aws_config=aws_config)
+
+"""
     DescribeNetworkInterfaceAttribute()
 
 Describes a network interface attribute. You can specify only one attribute at a time.
@@ -3831,13 +3994,43 @@ Describes one or more attachments between resources and transit gateways. By def
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
+- `Filter`: One or more filters. The possible values are:    association.state - The state of the association (associating | associated | disassociating).    association.transit-gateway-route-table-id - The ID of the route table for the transit gateway.    resource-id - The ID of the resource.    resource-owner-id - The ID of the AWS account that owns the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | initiatingRequest | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-id - The ID of the transit gateway.    transit-gateway-owner-id - The ID of the AWS account that owns the transit gateway.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 - `TransitGatewayAttachmentIds`: The IDs of the attachments.
 """
 describe_transit_gateway_attachments(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments"; aws_config=aws_config)
 describe_transit_gateway_attachments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayAttachments", args; aws_config=aws_config)
+
+"""
+    DescribeTransitGatewayConnectPeers()
+
+Describes one or more Connect peers.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Filter`: One or more filters. The possible values are:    state - The state of the Connect peer (pending | available | deleting | deleted).    transit-gateway-attachment-id - The ID of the attachment.    transit-gateway-connect-peer-id - The ID of the Connect peer.  
+- `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `NextToken`: The token for the next page of results.
+- `TransitGatewayConnectPeerIds`: The IDs of the Connect peers.
+"""
+describe_transit_gateway_connect_peers(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayConnectPeers"; aws_config=aws_config)
+describe_transit_gateway_connect_peers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayConnectPeers", args; aws_config=aws_config)
+
+"""
+    DescribeTransitGatewayConnects()
+
+Describes one or more Connect attachments.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `Filter`: One or more filters. The possible values are:    options.protocol - The tunnel protocol (gre).    state - The state of the attachment (initiating | initiatingRequest | pendingAcceptance | rollingBack | pending | available | modifying | deleting | deleted | failed | rejected | rejecting | failing).    transit-gateway-attachment-id - The ID of the Connect attachment.    transit-gateway-id - The ID of the transit gateway.    transport-transit-gateway-attachment-id - The ID of the transit gateway attachment from which the Connect attachment was created.  
+- `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `NextToken`: The token for the next page of results.
+- `TransitGatewayAttachmentIds`: The IDs of the attachments.
+"""
+describe_transit_gateway_connects(; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayConnects"; aws_config=aws_config)
+describe_transit_gateway_connects(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("DescribeTransitGatewayConnects", args; aws_config=aws_config)
 
 """
     DescribeTransitGatewayMulticastDomains()
@@ -4892,7 +5085,7 @@ Gets information about the associations for the specified transit gateway route 
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.  
+- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    transit-gateway-attachment-id - The ID of the attachment.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
@@ -4909,7 +5102,7 @@ Gets information about the route table propagations for the specified transit ga
 
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    transit-gateway-attachment-id - The ID of the attachment.  
+- `Filter`: One or more filters. The possible values are:    resource-id - The ID of the resource.    resource-type - The resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    transit-gateway-attachment-id - The ID of the attachment.  
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
@@ -5565,6 +5758,7 @@ You can modify several parameters of an existing EBS volume, including volume si
 # Optional Parameters
 - `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `Iops`: The target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. The following are the supported values for each volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: If no IOPS value is specified, the existing value is retained.
+- `MultiAttachEnabled`: Specifies whether to enable Amazon EBS Multi-Attach. If you enable Multi-Attach, you can attach the volume to up to 16  Nitro-based instances in the same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more information, see  Amazon EBS Multi-Attach in the Amazon Elastic Compute Cloud User Guide.
 - `Size`: The target size of the volume, in GiB. The target volume size must be greater than or equal to the existing size of the volume. The following are the supported volumes sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and sc1: 125-16,384    standard: 1-1,024   Default: If no size is specified, the existing size is retained.
 - `Throughput`: The target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. The maximum value is 1,000. Default: If no throughput value is specified, the existing value is retained. Valid Range: Minimum value of 125. Maximum value of 1000.
 - `VolumeType`: The target EBS volume type of the volume. For more information, see Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: If no type is specified, the existing type is retained.
@@ -5950,6 +6144,20 @@ Registers sources (network interfaces) with the specified transit gateway multic
 """
 register_transit_gateway_multicast_group_sources(; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources"; aws_config=aws_config)
 register_transit_gateway_multicast_group_sources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RegisterTransitGatewayMulticastGroupSources", args; aws_config=aws_config)
+
+"""
+    RejectTransitGatewayMulticastDomainAssociations()
+
+Rejects a request to associate cross-account subnets with a transit gateway multicast domain.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `SubnetIds`: The IDs of the subnets to associate with the transit gateway multicast domain.
+- `TransitGatewayAttachmentId`: The ID of the transit gateway attachment.
+- `TransitGatewayMulticastDomainId`: The ID of the transit gateway multicast domain.
+"""
+reject_transit_gateway_multicast_domain_associations(; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayMulticastDomainAssociations"; aws_config=aws_config)
+reject_transit_gateway_multicast_domain_associations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("RejectTransitGatewayMulticastDomainAssociations", args; aws_config=aws_config)
 
 """
     RejectTransitGatewayPeeringAttachment()
@@ -6478,7 +6686,7 @@ search_transit_gateway_multicast_groups(args::AbstractDict{String, <:Any}; aws_c
 Searches for routes in the specified transit gateway route table.
 
 # Required Parameters
-- `Filter`: One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
+- `Filter`: One or more filters. The possible values are:    attachment.transit-gateway-attachment-id- The id of the transit gateway attachment.    attachment.resource-id - The resource id of the transit gateway attachment.    attachment.resource-type - The attachment resource type. Valid values are vpc | vpn | direct-connect-gateway | peering | connect.    prefix-list-id - The ID of the prefix list.    route-search.exact-match - The exact match of the specified filter.    route-search.longest-prefix-match - The longest prefix that matches the route.    route-search.subnet-of-match - The routes with a subnet that match the specified CIDR filter.    route-search.supernet-of-match - The routes with a CIDR that encompass the CIDR filter. For example, if you have 10.0.1.0/29 and 10.0.1.0/31 routes in your route table and you specify supernet-of-match as 10.0.1.0/30, then the result returns 10.0.1.0/29.    state - The state of the route (active | blackhole).    type - The type of route (propagated | static).  
 - `TransitGatewayRouteTableId`: The ID of the transit gateway route table.
 
 # Optional Parameters
@@ -6516,6 +6724,23 @@ Starts an Amazon EBS-backed instance that you've previously stopped. Instances t
 """
 start_instances(InstanceId; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
 start_instances(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+
+"""
+    StartNetworkInsightsAnalysis()
+
+Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path.
+
+# Required Parameters
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency.
+- `NetworkInsightsPathId`: The ID of the path.
+
+# Optional Parameters
+- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `FilterInArn`: The Amazon Resource Names (ARN) of the resources that the path must traverse.
+- `TagSpecification`: The tags to apply.
+"""
+start_network_insights_analysis(ClientToken, NetworkInsightsPathId; aws_config::AWSConfig=global_aws_config()) = ec2("StartNetworkInsightsAnalysis", Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsPathId"=>NetworkInsightsPathId); aws_config=aws_config)
+start_network_insights_analysis(ClientToken, NetworkInsightsPathId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ec2("StartNetworkInsightsAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "NetworkInsightsPathId"=>NetworkInsightsPathId), args)); aws_config=aws_config)
 
 """
     StartVpcEndpointServicePrivateDnsVerification()

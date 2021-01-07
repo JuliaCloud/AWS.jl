@@ -7,11 +7,11 @@ using AWS.UUIDs
 """
     CreateScalingPlan()
 
-Creates a scaling plan.
+Creates a scaling plan. 
 
 # Required Parameters
-- `ApplicationSource`: A CloudFormation stack or set of tags. You can create one scaling plan per application source.
-- `ScalingInstructions`: The scaling instructions.
+- `ApplicationSource`: A CloudFormation stack or set of tags. You can create one scaling plan per application source. For more information, see ApplicationSource in the AWS Auto Scaling API Reference.
+- `ScalingInstructions`: The scaling instructions. For more information, see ScalingInstruction in the AWS Auto Scaling API Reference.
 - `ScalingPlanName`: The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.
 
 """
@@ -25,7 +25,7 @@ Deletes the specified scaling plan. Deleting a scaling plan deletes the underlyi
 
 # Required Parameters
 - `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan.
+- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid value is 1.
 
 """
 delete_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
@@ -38,7 +38,7 @@ Describes the scalable resources in the specified scaling plan.
 
 # Required Parameters
 - `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan.
+- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid value is 1.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of scalable resources to return. The value must be between 1 and 50. The default value is 50.
@@ -57,7 +57,7 @@ Describes one or more of your scaling plans.
 - `MaxResults`: The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.
 - `NextToken`: The token for the next set of results.
 - `ScalingPlanNames`: The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.
-- `ScalingPlanVersion`: The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
+- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid value is 1.  If you specify a scaling plan version, you must also specify a scaling plan name. 
 """
 describe_scaling_plans(; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans"; aws_config=aws_config)
 describe_scaling_plans(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans", args; aws_config=aws_config)
@@ -70,11 +70,11 @@ Retrieves the forecast data for a scalable resource. Capacity forecasts are repr
 # Required Parameters
 - `EndTime`: The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.
 - `ForecastDataType`: The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.  
-- `ResourceId`: The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  
-- `ScalableDimension`: The scalable dimension for the resource.
+- `ResourceId`: The ID of the resource. This string consists of a prefix (autoScalingGroup) followed by the name of a specified Auto Scaling group (my-asg). Example: autoScalingGroup/my-asg. 
+- `ScalableDimension`: The scalable dimension for the resource. The only valid value is autoscaling:autoScalingGroup:DesiredCapacity. 
 - `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan.
-- `ServiceNamespace`: The namespace of the AWS service.
+- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid value is 1.
+- `ServiceNamespace`: The namespace of the AWS service. The only valid value is autoscaling. 
 - `StartTime`: The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. 
 
 """
@@ -88,11 +88,11 @@ Updates the specified scaling plan. You cannot update a scaling plan if it is in
 
 # Required Parameters
 - `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan.
+- `ScalingPlanVersion`: The version number of the scaling plan. The only valid value is 1. Currently, you cannot have multiple scaling plan versions.
 
 # Optional Parameters
-- `ApplicationSource`: A CloudFormation stack or set of tags.
-- `ScalingInstructions`: The scaling instructions.
+- `ApplicationSource`: A CloudFormation stack or set of tags. For more information, see ApplicationSource in the AWS Auto Scaling API Reference.
+- `ScalingInstructions`: The scaling instructions. For more information, see ScalingInstruction in the AWS Auto Scaling API Reference.
 """
 update_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
 update_scaling_plan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)

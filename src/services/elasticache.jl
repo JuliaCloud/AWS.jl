@@ -255,14 +255,14 @@ create_snapshot(SnapshotName, args::AbstractDict{String, <:Any}; aws_config::AWS
 For Redis engine version 6.x onwards: Creates a Redis user. For more information, see Using Role Based Access Control (RBAC).
 
 # Required Parameters
-- `AccessString`: Access permissions string used for this user account.
-- `Engine`: Must be Redis. 
+- `AccessString`: Access permissions string used for this user.
+- `Engine`: The current supported value is Redis. 
 - `UserId`: The ID of the user.
 - `UserName`: The username of the user.
 
 # Optional Parameters
-- `NoPasswordRequired`: Indicates a password is not required for this user account.
-- `Passwords`: Passwords used for this user account. You can create up to two passwords for each user.
+- `NoPasswordRequired`: Indicates a password is not required for this user.
+- `Passwords`: Passwords used for this user. You can create up to two passwords for each user.
 """
 create_user(AccessString, Engine, UserId, UserName; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName); aws_config=aws_config)
 create_user(AccessString, Engine, UserId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName), args)); aws_config=aws_config)
@@ -273,7 +273,7 @@ create_user(AccessString, Engine, UserId, UserName, args::AbstractDict{String, <
 For Redis engine version 6.x onwards: Creates a Redis user group. For more information, see Using Role Based Access Control (RBAC) 
 
 # Required Parameters
-- `Engine`: Must be Redis. 
+- `Engine`: The current supported value is Redis. 
 - `UserGroupId`: The ID of the user group.
 
 # Optional Parameters
@@ -915,10 +915,10 @@ Changes user password(s) and/or access string.
 - `UserId`: The ID of the user.
 
 # Optional Parameters
-- `AccessString`: Access permissions string used for this user account.
+- `AccessString`: Access permissions string used for this user.
 - `AppendAccessString`: Adds additional user permissions to the access string.
-- `NoPasswordRequired`: Indicates no password is required for the user account.
-- `Passwords`: The passwords belonging to the user account. You are allowed up to two.
+- `NoPasswordRequired`: Indicates no password is required for the user.
+- `Passwords`: The passwords belonging to the user. You are allowed up to two.
 """
 modify_user(UserId; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}("UserId"=>UserId); aws_config=aws_config)
 modify_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = elasticache("ModifyUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserId"=>UserId), args)); aws_config=aws_config)

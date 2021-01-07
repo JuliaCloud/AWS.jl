@@ -98,6 +98,15 @@ delete_lifecycle_policy(repositoryName; aws_config::AWSConfig=global_aws_config(
 delete_lifecycle_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
+    DeleteRegistryPolicy()
+
+Deletes the registry permissions policy.
+
+"""
+delete_registry_policy(; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRegistryPolicy"; aws_config=aws_config)
+delete_registry_policy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DeleteRegistryPolicy", args; aws_config=aws_config)
+
+"""
     DeleteRepository()
 
 Deletes a repository. If the repository contains images, you must either delete all images in the repository or use the force option to delete the repository.
@@ -160,6 +169,15 @@ Returns metadata about the images in a repository.  Beginning with Docker versio
 """
 describe_images(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
 describe_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+
+"""
+    DescribeRegistry()
+
+Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action.
+
+"""
+describe_registry(; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeRegistry"; aws_config=aws_config)
+describe_registry(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("DescribeRegistry", args; aws_config=aws_config)
 
 """
     DescribeRepositories()
@@ -232,6 +250,15 @@ Retrieves the results of the lifecycle policy preview request for the specified 
 """
 get_lifecycle_policy_preview(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
 get_lifecycle_policy_preview(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetLifecyclePolicyPreview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+
+"""
+    GetRegistryPolicy()
+
+Retrieves the permissions policy for a registry.
+
+"""
+get_registry_policy(; aws_config::AWSConfig=global_aws_config()) = ecr("GetRegistryPolicy"; aws_config=aws_config)
+get_registry_policy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("GetRegistryPolicy", args; aws_config=aws_config)
 
 """
     GetRepositoryPolicy()
@@ -352,6 +379,30 @@ Creates or updates the lifecycle policy for the specified repository. For more i
 """
 put_lifecycle_policy(lifecyclePolicyText, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName); aws_config=aws_config)
 put_lifecycle_policy(lifecyclePolicyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecyclePolicyText"=>lifecyclePolicyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+
+"""
+    PutRegistryPolicy()
+
+Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another AWS account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
+
+# Required Parameters
+- `policyText`: The JSON policy text to apply to your registry. The policy text follows the same format as IAM policy text. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
+
+"""
+put_registry_policy(policyText; aws_config::AWSConfig=global_aws_config()) = ecr("PutRegistryPolicy", Dict{String, Any}("policyText"=>policyText); aws_config=aws_config)
+put_registry_policy(policyText, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutRegistryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText), args)); aws_config=aws_config)
+
+"""
+    PutReplicationConfiguration()
+
+Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using Service-Linked Roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.  When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see PutRegistryPolicy. 
+
+# Required Parameters
+- `replicationConfiguration`: An object representing the replication configuration for a registry.
+
+"""
+put_replication_configuration(replicationConfiguration; aws_config::AWSConfig=global_aws_config()) = ecr("PutReplicationConfiguration", Dict{String, Any}("replicationConfiguration"=>replicationConfiguration); aws_config=aws_config)
+put_replication_configuration(replicationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr("PutReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfiguration"=>replicationConfiguration), args)); aws_config=aws_config)
 
 """
     SetRepositoryPolicy()

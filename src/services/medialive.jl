@@ -736,8 +736,9 @@ Updates the parameters for the input device.
 - `inputDeviceId`: The unique ID of the input device. For example, hd-123456789abcdef.
 
 # Optional Parameters
-- `hdDeviceSettings`: The settings that you want to apply to the input device.
+- `hdDeviceSettings`: The settings that you want to apply to the HD input device.
 - `name`: The name that you assigned to this input device (not the unique ID).
+- `uhdDeviceSettings`: The settings that you want to apply to the UHD input device.
 """
 update_input_device(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config)
 update_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args; aws_config=aws_config)

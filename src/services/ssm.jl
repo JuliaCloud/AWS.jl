@@ -71,7 +71,7 @@ A State Manager association defines the state that you want to maintain on your 
 - `Name`: The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation documents. You can specify AWS-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other AWS accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For AWS-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
 # Optional Parameters
-- `ApplyOnlyAtCronInterval`: By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it.
+- `ApplyOnlyAtCronInterval`: By default, when you create a new associations, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter is not supported for rate expressions.
 - `AssociationName`: Specify a descriptive name for the association.
 - `AutomationTargetParameterName`: Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
 - `ComplianceSeverity`: The severity level to assign to the association.
@@ -83,6 +83,7 @@ A State Manager association defines the state that you want to maintain on your 
 - `Parameters`: The parameters for the runtime configuration of the document.
 - `ScheduleExpression`: A cron expression when the association will be applied to the target(s).
 - `SyncCompliance`: The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+- `TargetLocations`: A location is a combination of AWS Regions and AWS accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
 - `Targets`: The targets for the association. You can target instances by using tags, AWS Resource Groups, all instances in an AWS account, or individual instance IDs. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the AWS Systems Manager User Guide.
 """
 create_association(Name; aws_config::AWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
@@ -137,8 +138,8 @@ Creates a new maintenance window.  The value you specify for Duration determines
 - `ClientToken`: User-provided idempotency token.
 - `Description`: An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows. 
 - `EndDate`: The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
-- `ScheduleOffset`: The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
-- `ScheduleTimezone`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"etc/UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
+- `ScheduleOffset`: The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run on the third Tuesday of every month at 11:30 PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+- `ScheduleTimezone`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
 - `StartDate`: The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
 - `Tags`: Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a maintenance window to identify the type of tasks it will run, the types of targets, and the environment it will run in. In this case, you could specify the following key name/value pairs:    Key=TaskType,Value=AgentUpdate     Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing maintenance window, use the AddTagsToResource action. 
 """
@@ -156,9 +157,14 @@ Creates a new OpsItem. You must have permission in AWS Identity and Access Manag
 - `Title`: A short heading that describes the nature of the OpsItem and the impacted resource.
 
 # Optional Parameters
+- `ActualEndTime`: The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+- `ActualStartTime`: The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
 - `Category`: Specify a category to assign to an OpsItem. 
 - `Notifications`: The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
 - `OperationalData`: Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
+- `OpsItemType`: The type of OpsItem to create. Currently, the only valid values are /aws/changerequest and /aws/issue.
+- `PlannedEndTime`: The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+- `PlannedStartTime`: The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
 - `Priority`: The importance of this OpsItem in relation to other OpsItems in the system.
 - `RelatedOpsItems`: One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
 - `Severity`: Specify a severity to assign to an OpsItem.
@@ -166,6 +172,20 @@ Creates a new OpsItem. You must have permission in AWS Identity and Access Manag
 """
 create_ops_item(Description, Source, Title; aws_config::AWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title); aws_config=aws_config)
 create_ops_item(Description, Source, Title, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title), args)); aws_config=aws_config)
+
+"""
+    CreateOpsMetadata()
+
+If you create a new application in Application Manager, Systems Manager calls this API action to specify information about the new application, including the application type.
+
+# Required Parameters
+- `ResourceId`: A resource ID for a new Application Manager application.
+
+# Optional Parameters
+- `Metadata`: Metadata for a new Application Manager application. 
+"""
+create_ops_metadata(ResourceId; aws_config::AWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+create_ops_metadata(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     CreatePatchBaseline()
@@ -276,6 +296,18 @@ Deletes a maintenance window.
 """
 delete_maintenance_window(WindowId; aws_config::AWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
 delete_maintenance_window(WindowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), args)); aws_config=aws_config)
+
+"""
+    DeleteOpsMetadata()
+
+Delete OpsMetadata related to an application.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
+
+"""
+delete_ops_metadata(OpsMetadataArn; aws_config::AWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+delete_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     DeleteParameter()
@@ -714,7 +746,7 @@ describe_maintenance_window_targets(WindowId, args::AbstractDict{String, <:Any};
 """
     DescribeMaintenanceWindowTasks()
 
-Lists the tasks in a maintenance window.
+Lists the tasks in a maintenance window.  For maintenance window tasks without a specified target, you cannot supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values do not affect the running of your task and can be ignored. 
 
 # Required Parameters
 - `WindowId`: The ID of the maintenance window whose tasks should be retrieved.
@@ -824,7 +856,7 @@ describe_patch_groups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 """
     DescribePatchProperties()
 
-Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  DEBIAN  Valid properties: PRODUCT, PRIORITY  ORACLE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU  Valid properties: PRODUCT, PRIORITY  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  
+Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  DEBIAN  Valid properties: PRODUCT, PRIORITY  MACOS  Valid properties: PRODUCT, CLASSIFICATION  ORACLE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU  Valid properties: PRODUCT, PRIORITY  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY  
 
 # Required Parameters
 - `OperatingSystem`: The operating system type for which to list patches.
@@ -833,7 +865,7 @@ Lists the properties of available patches organized by product, product family, 
 # Optional Parameters
 - `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `NextToken`: The token for the next set of items to return. (You received this token from a previous call.)
-- `PatchSet`: Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for Linux operating systems.
+- `PatchSet`: Indicates whether to list patches for the Windows operating system or for Microsoft applications. Not applicable for the Linux or macOS operating systems.
 """
 describe_patch_properties(OperatingSystem, Property; aws_config::AWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property); aws_config=aws_config)
 describe_patch_properties(OperatingSystem, Property, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property), args)); aws_config=aws_config)
@@ -1031,7 +1063,7 @@ get_maintenance_window_execution_task_invocation(InvocationId, TaskId, WindowExe
 """
     GetMaintenanceWindowTask()
 
-Lists the tasks in a maintenance window.
+Lists the tasks in a maintenance window.  For maintenance window tasks without a specified target, you cannot supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values do not affect the running of your task and can be ignored. 
 
 # Required Parameters
 - `WindowId`: The maintenance window ID that includes the task to retrieve.
@@ -1052,6 +1084,21 @@ Get information about an OpsItem by using the ID. You must have permission in AW
 """
 get_ops_item(OpsItemId; aws_config::AWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
 get_ops_item(OpsItemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), args)); aws_config=aws_config)
+
+"""
+    GetOpsMetadata()
+
+View operational metadata related to an application in Application Manager.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to view.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+- `NextToken`: A token to start the list. Use this token to get the next set of results.
+"""
+get_ops_metadata(OpsMetadataArn; aws_config::AWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+get_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     GetOpsSummary()
@@ -1272,6 +1319,23 @@ list_compliance_summaries(; aws_config::AWSConfig=global_aws_config()) = ssm("Li
 list_compliance_summaries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("ListComplianceSummaries", args; aws_config=aws_config)
 
 """
+    ListDocumentMetadataHistory()
+
+Information about approval reviews for a version of an SSM document.
+
+# Required Parameters
+- `Metadata`: The type of data for which details are being requested. Currently, the only supported value is DocumentReviews.
+- `Name`: The name of the document.
+
+# Optional Parameters
+- `DocumentVersion`: The version of the document.
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+- `NextToken`: The token for the next set of items to return. (You received this token from a previous call.)
+"""
+list_document_metadata_history(Metadata, Name; aws_config::AWSConfig=global_aws_config()) = ssm("ListDocumentMetadataHistory", Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name); aws_config=aws_config)
+list_document_metadata_history(Metadata, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("ListDocumentMetadataHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
     ListDocumentVersions()
 
 List all versions for a document.
@@ -1316,6 +1380,32 @@ A list of inventory items returned by the request.
 """
 list_inventory_entries(InstanceId, TypeName; aws_config::AWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName); aws_config=aws_config)
 list_inventory_entries(InstanceId, TypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName), args)); aws_config=aws_config)
+
+"""
+    ListOpsItemEvents()
+
+Returns a list of all OpsItem events in the current AWS account and Region. You can limit the results to events associated with specific OpsItems by specifying a filter.
+
+# Optional Parameters
+- `Filters`: One or more OpsItem filters. Use a filter to return a more specific list of results. 
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results. 
+- `NextToken`: A token to start the list. Use this token to get the next set of results. 
+"""
+list_ops_item_events(; aws_config::AWSConfig=global_aws_config()) = ssm("ListOpsItemEvents"; aws_config=aws_config)
+list_ops_item_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("ListOpsItemEvents", args; aws_config=aws_config)
+
+"""
+    ListOpsMetadata()
+
+Systems Manager calls this API action when displaying all Application Manager OpsMetadata objects or blobs.
+
+# Optional Parameters
+- `Filters`: One or more filters to limit the number of OpsMetadata objects returned by the call.
+- `MaxResults`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+- `NextToken`: A token to start the list. Use this token to get the next set of results.
+"""
+list_ops_metadata(; aws_config::AWSConfig=global_aws_config()) = ssm("ListOpsMetadata"; aws_config=aws_config)
+list_ops_metadata(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("ListOpsMetadata", args; aws_config=aws_config)
 
 """
     ListResourceComplianceSummaries()
@@ -1478,9 +1568,6 @@ register_target_with_maintenance_window(ResourceType, Targets, WindowId, args::A
 Adds a new task to a maintenance window.
 
 # Required Parameters
-- `MaxConcurrency`: The maximum number of targets this task can be run for in parallel.
-- `MaxErrors`: The maximum number of errors allowed before this task stops being scheduled.
-- `Targets`: The targets (either instances or maintenance window targets). Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds;,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
 - `TaskArn`: The ARN of the task to run.
 - `TaskType`: The type of task being registered.
 - `WindowId`: The ID of the maintenance window the task should be added to.
@@ -1489,14 +1576,17 @@ Adds a new task to a maintenance window.
 - `ClientToken`: User-provided idempotency token.
 - `Description`: An optional description for the task.
 - `LoggingInfo`: A structure containing information about an S3 bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
+- `MaxConcurrency`: The maximum number of targets this task can be run for in parallel.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1. This value does not affect the running of your task. 
+- `MaxErrors`: The maximum number of errors allowed before this task stops being scheduled.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1. This value does not affect the running of your task. 
 - `Name`: An optional name for the task.
 - `Priority`: The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
 - `ServiceRoleArn`: The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
+- `Targets`: The targets (either instances or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.  Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt; 
 - `TaskInvocationParameters`: The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty. 
 - `TaskParameters`: The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
 """
-register_task_with_maintenance_window(MaxConcurrency, MaxErrors, Targets, TaskArn, TaskType, WindowId; aws_config::AWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}("MaxConcurrency"=>MaxConcurrency, "MaxErrors"=>MaxErrors, "Targets"=>Targets, "TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-register_task_with_maintenance_window(MaxConcurrency, MaxErrors, Targets, TaskArn, TaskType, WindowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxConcurrency"=>MaxConcurrency, "MaxErrors"=>MaxErrors, "Targets"=>Targets, "TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+register_task_with_maintenance_window(TaskArn, TaskType, WindowId; aws_config::AWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+register_task_with_maintenance_window(TaskArn, TaskType, WindowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromResource()
@@ -1617,6 +1707,26 @@ start_automation_execution(DocumentName; aws_config::AWSConfig=global_aws_config
 start_automation_execution(DocumentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("StartAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), args)); aws_config=aws_config)
 
 """
+    StartChangeRequestExecution()
+
+Creates a change request for Change Manager. The runbooks (Automation documents) specified in the change request run only after all required approvals for the change request have been received.
+
+# Required Parameters
+- `DocumentName`: The name of the change template document to run during the runbook workflow.
+- `Runbooks`: Information about the Automation runbooks (Automation documents) that are run during the runbook workflow.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received. 
+
+# Optional Parameters
+- `ChangeRequestName`: The name of the change request associated with the runbook workflow to be run.
+- `ClientToken`: The user-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
+- `DocumentVersion`: The version of the change template document to run during the runbook workflow.
+- `Parameters`: A key-value map of parameters that match the declared parameters in the change template document.
+- `ScheduledTime`: The date and time specified in the change request to run the Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run until all required approvals for the change request have been received. 
+- `Tags`: Optional metadata that you assign to a resource. You can specify a maximum of five tags for a change request. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a change request to identify an environment or target AWS Region. In this case, you could specify the following key-value pairs:    Key=Environment,Value=Production     Key=Region,Value=us-east-2   
+"""
+start_change_request_execution(DocumentName, Runbooks; aws_config::AWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks); aws_config=aws_config)
+start_change_request_execution(DocumentName, Runbooks, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks), args)); aws_config=aws_config)
+
+"""
     StartSession()
 
 Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  AWS CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the AWS CLI in the AWS Systems Manager User Guide. AWS Tools for PowerShell usage: Start-SSMSession is not currently supported by AWS Tools for PowerShell on Windows local machines. 
@@ -1666,7 +1776,7 @@ Updates an association. You can update the association name and version, the doc
 - `AssociationId`: The ID of the association you want to update. 
 
 # Optional Parameters
-- `ApplyOnlyAtCronInterval`: By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+- `ApplyOnlyAtCronInterval`: By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter is not supported for rate expressions. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
 - `AssociationName`: The name of the association that you want to update.
 - `AssociationVersion`: This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify LATEST, or omit this parameter.
 - `AutomationTargetParameterName`: Specify the target for the association. This target is required for associations that use an Automation document and target resources by using rate controls.
@@ -1679,6 +1789,7 @@ Updates an association. You can update the association name and version, the doc
 - `Parameters`: The parameters you want to update for the association. If you create a parameter using Parameter Store, you can reference the parameter using {{ssm:parameter-name}}
 - `ScheduleExpression`: The cron expression used to schedule the association that you want to update.
 - `SyncCompliance`: The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API action. In this case, compliance data is not managed by State Manager. It is managed by your direct call to the PutComplianceItems API action. By default, all associations use AUTO mode.
+- `TargetLocations`: A location is a combination of AWS Regions and AWS accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
 - `Targets`: The targets of the association.
 """
 update_association(AssociationId; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateAssociation", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
@@ -1731,6 +1842,21 @@ update_document_default_version(DocumentVersion, Name; aws_config::AWSConfig=glo
 update_document_default_version(DocumentVersion, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateDocumentDefaultVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentVersion"=>DocumentVersion, "Name"=>Name), args)); aws_config=aws_config)
 
 """
+    UpdateDocumentMetadata()
+
+Updates information related to approval reviews for a specific version of a document.
+
+# Required Parameters
+- `DocumentReviews`: The document review details to update.
+- `Name`: The name of the document for which a version is to be updated.
+
+# Optional Parameters
+- `DocumentVersion`: The version of a document to update.
+"""
+update_document_metadata(DocumentReviews, Name; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name); aws_config=aws_config)
+update_document_metadata(DocumentReviews, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name), args)); aws_config=aws_config)
+
+"""
     UpdateMaintenanceWindow()
 
 Updates an existing maintenance window. Only specified parameters are modified.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM. 
@@ -1748,9 +1874,9 @@ Updates an existing maintenance window. Only specified parameters are modified. 
 - `Name`: The name of the maintenance window.
 - `Replace`: If True, then all fields that are required by the CreateMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null. 
 - `Schedule`: The schedule of the maintenance window in the form of a cron or rate expression.
-- `ScheduleOffset`: The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(0 30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
-- `ScheduleTimezone`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"etc/UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
-- `StartDate`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"etc/UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
+- `ScheduleOffset`: The number of days to wait after the date and time specified by a CRON expression before running the maintenance window. For example, the following cron expression schedules a maintenance window to run the third Tuesday of every month at 11:30 PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run until two days later.
+- `ScheduleTimezone`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
+- `StartDate`: The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
 """
 update_maintenance_window(WindowId; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
 update_maintenance_window(WindowId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), args)); aws_config=aws_config)
@@ -1777,7 +1903,7 @@ update_maintenance_window_target(WindowId, WindowTargetId, args::AbstractDict{St
 """
     UpdateMaintenanceWindowTask()
 
-Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors   If the value for a parameter in UpdateMaintenanceWindowTask is null, then the corresponding field is not modified. If you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed. 
+Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors    One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide.  If the value for a parameter in UpdateMaintenanceWindowTask is null, then the corresponding field is not modified. If you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed. 
 
 # Required Parameters
 - `WindowId`: The maintenance window ID that contains the task to modify.
@@ -1786,13 +1912,13 @@ Modifies a task assigned to a maintenance window. You can't change the task type
 # Optional Parameters
 - `Description`: The new task description to specify.
 - `LoggingInfo`: The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an S3 bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters. 
-- `MaxConcurrency`: The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.
-- `MaxErrors`: The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.
+- `MaxConcurrency`: The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored. 
+- `MaxErrors`: The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.  For maintenance window tasks without a target specified, you cannot supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value does not affect the running of your task and can be ignored. 
 - `Name`: The new task name to specify.
 - `Priority`: The new task priority to specify. The lower the number, the higher the priority. Tasks that have the same priority are scheduled in parallel.
 - `Replace`: If True, then all fields that are required by the RegisterTaskWithMaintenanceWindow action are also required for this API request. Optional fields that are not specified are set to null.
 - `ServiceRoleArn`: The ARN of the IAM service role for Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the AWS Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?    
-- `Targets`: The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value. 
+- `Targets`: The targets (either instances or tags) to modify. Instances are specified using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, AWS Lambda, and AWS Step Functions). For more information about running tasks that do not specify targets, see see Registering maintenance window tasks without targets in the AWS Systems Manager User Guide. 
 - `TaskArn`: The task ARN to modify.
 - `TaskInvocationParameters`: The parameters that the task should use during execution. Populate only the fields that match the task type. All other fields should be empty.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed. 
 - `TaskParameters`: The parameters to modify.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
@@ -1822,11 +1948,15 @@ Edit or change an OpsItem. You must have permission in AWS Identity and Access M
 - `OpsItemId`: The ID of the OpsItem.
 
 # Optional Parameters
+- `ActualEndTime`: The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
+- `ActualStartTime`: The time a runbook workflow started. Currently reported only for the OpsItem type /aws/changerequest.
 - `Category`: Specify a new category for an OpsItem.
 - `Description`: Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue. 
 - `Notifications`: The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
 - `OperationalData`: Add new keys or edit existing key-value pairs of the OperationalData map in the OpsItem object. Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API action) can view and search on the specified data. Operational data that is not searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API action). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view AWS CLI example commands that use these keys, see Creating OpsItems manually in the AWS Systems Manager User Guide.
 - `OperationalDataToDelete`: Keys that you want to remove from the OperationalData map.
+- `PlannedEndTime`: The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
+- `PlannedStartTime`: The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
 - `Priority`: The importance of this OpsItem in relation to other OpsItems in the system.
 - `RelatedOpsItems`: One or more OpsItems that share something in common with the current OpsItems. For example, related OpsItems can include OpsItems with similar error messages, impacted resources, or statuses for the impacted resource.
 - `Severity`: Specify a new severity for an OpsItem.
@@ -1835,6 +1965,21 @@ Edit or change an OpsItem. You must have permission in AWS Identity and Access M
 """
 update_ops_item(OpsItemId; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
 update_ops_item(OpsItemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), args)); aws_config=aws_config)
+
+"""
+    UpdateOpsMetadata()
+
+Systems Manager calls this API action when you edit OpsMetadata in Application Manager.
+
+# Required Parameters
+- `OpsMetadataArn`: The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+
+# Optional Parameters
+- `KeysToDelete`: The metadata keys to delete from the OpsMetadata object. 
+- `MetadataToUpdate`: Metadata to add to an OpsMetadata object.
+"""
+update_ops_metadata(OpsMetadataArn; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
+update_ops_metadata(OpsMetadataArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), args)); aws_config=aws_config)
 
 """
     UpdatePatchBaseline()

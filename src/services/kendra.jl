@@ -97,6 +97,25 @@ create_index(Name, RoleArn; aws_config::AWSConfig=global_aws_config()) = kendra(
 create_index(Name, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
+    CreateThesaurus()
+
+Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format.
+
+# Required Parameters
+- `IndexId`: The unique identifier of the index for the new thesaurus. 
+- `Name`: The name for the new thesaurus.
+- `RoleArn`: An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access thesaurus file specified in SourceS3Path. 
+- `SourceS3Path`: The thesaurus file Amazon S3 source path. 
+
+# Optional Parameters
+- `ClientToken`: A token that you provide to identify the request to create a thesaurus. Multiple calls to the CreateThesaurus operation with the same client token will create only one index. 
+- `Description`: The description for the new thesaurus.
+- `Tags`: A list of key-value pairs that identify the thesaurus. You can use the tags to identify and organize your resources and to control access to resources. 
+"""
+create_thesaurus(IndexId, Name, RoleArn, SourceS3Path; aws_config::AWSConfig=global_aws_config()) = kendra("CreateThesaurus", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_thesaurus(IndexId, Name, RoleArn, SourceS3Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("CreateThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+
+"""
     DeleteDataSource()
 
 Deletes an Amazon Kendra data source. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the operation is set to DELETING. For more information, see Deleting Data Sources.
@@ -135,6 +154,19 @@ delete_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteInde
 delete_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
 
 """
+    DeleteThesaurus()
+
+Deletes an existing Amazon Kendra thesaurus. 
+
+# Required Parameters
+- `Id`: The identifier of the thesaurus to delete.
+- `IndexId`: The identifier of the index associated with the thesaurus to delete.
+
+"""
+delete_thesaurus(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+delete_thesaurus(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DeleteThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
+
+"""
     DescribeDataSource()
 
 Gets information about a Amazon Kendra data source.
@@ -171,6 +203,19 @@ Describes an existing Amazon Kendra index
 """
 describe_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+
+"""
+    DescribeThesaurus()
+
+Describes an existing Amazon Kendra thesaurus.
+
+# Required Parameters
+- `Id`: The identifier of the thesaurus to describe.
+- `IndexId`: The identifier of the index associated with the thesaurus to describe.
+
+"""
+describe_thesaurus(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+describe_thesaurus(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)
 
 """
     ListDataSourceSyncJobs()
@@ -245,6 +290,21 @@ list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) =
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
+    ListThesauri()
+
+Lists the Amazon Kendra thesauri associated with an index.
+
+# Required Parameters
+- `IndexId`: The identifier of the index associated with the thesaurus to list.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of thesauri to return.
+- `NextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems). 
+"""
+list_thesauri(IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
+list_thesauri(IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), args)); aws_config=aws_config)
+
+"""
     Query()
 
 Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results. 
@@ -262,6 +322,7 @@ Searches an active index. Use this API to search your documents using query. The
 - `RequestedDocumentAttributes`: An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response. 
 - `SortingConfiguration`: Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
 - `UserContext`: The user context token.
+- `VisitorId`: Provides an identifier for a specific user. The VisitorId should be a unique identifier, such as a GUID. Don't use personally identifiable information, such as the user's email address, as the VisitorId.
 """
 query(IndexId, QueryText; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
 query(IndexId, QueryText, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), args)); aws_config=aws_config)
@@ -372,3 +433,21 @@ Updates an existing Amazon Kendra index.
 """
 update_index(Id; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_index(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+
+"""
+    UpdateThesaurus()
+
+Updates a thesaurus file associated with an index.
+
+# Required Parameters
+- `Id`: The identifier of the thesaurus to update.
+- `IndexId`: The identifier of the index associated with the thesaurus to update.
+
+# Optional Parameters
+- `Description`: The updated description of the thesaurus.
+- `Name`: The updated name of the thesaurus.
+- `RoleArn`: The updated role ARN of the thesaurus.
+- `SourceS3Path`: 
+"""
+update_thesaurus(Id, IndexId; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+update_thesaurus(Id, IndexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kendra("UpdateThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), args)); aws_config=aws_config)

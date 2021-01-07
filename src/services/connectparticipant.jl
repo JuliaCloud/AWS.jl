@@ -5,13 +5,27 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    CompleteAttachmentUpload()
+
+Allows you to confirm that the attachment has been uploaded using the pre-signed URL provided in StartAttachmentUpload API. 
+
+# Required Parameters
+- `AttachmentIds`: A list of unique identifiers for the attachments.
+- `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `X-Amz-Bearer`: The authentication token associated with the participant's connection.
+
+"""
+complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+
+"""
     CreateParticipantConnection()
 
-Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until the they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {\"topic\":\"aws/subscribe\",\"content\":{\"topics\":[\"aws/chat\"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.
+Creates the participant's connection. Note that ParticipantToken is used for invoking this API instead of ConnectionToken. The participant token is valid for the lifetime of the participant – until they are part of a contact. The response URL for WEBSOCKET Type has a connect expiry timeout of 100s. Clients must manually connect to the returned websocket URL and subscribe to the desired topic.  For chat, you need to publish the following on the established websocket connection:  {\"topic\":\"aws/subscribe\",\"content\":{\"topics\":[\"aws/chat\"]}}  Upon websocket URL expiry, as specified in the response ConnectionExpiry parameter, clients need to call this API again to obtain a new websocket URL and perform the same steps as before.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication. 
 
 # Required Parameters
 - `Type`: Type of connection information required.
-- `X-Amz-Bearer`: Participant Token as obtained from StartChatContact API response.
+- `X-Amz-Bearer`: This is a header parameter. The Participant Token as obtained from StartChatContact API response.
 
 """
 create_participant_connection(Type, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
@@ -20,7 +34,7 @@ create_participant_connection(Type, X_Amz_Bearer, args::AbstractDict{String, <:A
 """
     DisconnectParticipant()
 
-Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
+Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
 
 # Required Parameters
 - `X-Amz-Bearer`: The authentication token associated with the participant's connection.
@@ -32,9 +46,22 @@ disconnect_participant(X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) 
 disconnect_participant(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
+    GetAttachment()
+
+Provides a pre-signed URL for download of a completed attachment. This is an asynchronous API for use with active contacts.
+
+# Required Parameters
+- `AttachmentId`: A unique identifier for the attachment.
+- `X-Amz-Bearer`: The authentication token associated with the participant's connection.
+
+"""
+get_attachment(AttachmentId, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+get_attachment(AttachmentId, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+
+"""
     GetTranscript()
 
-Retrieves a transcript of the session. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
+Retrieves a transcript of the session, including details about any attachments. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
 
 # Required Parameters
 - `X-Amz-Bearer`: The authentication token associated with the participant's connection.
@@ -53,7 +80,7 @@ get_transcript(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     SendEvent()
 
-Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
+Sends an event. Note that ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
 
 # Required Parameters
 - `ContentType`: The content type of the request. Supported types are:   application/vnd.amazonaws.connect.event.typing   application/vnd.amazonaws.connect.event.connection.acknowledged  
@@ -69,7 +96,7 @@ send_event(ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_con
 """
     SendMessage()
 
-Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
+Sends a message. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version 4 authentication. 
 
 # Required Parameters
 - `Content`: The content of the message.
@@ -81,3 +108,19 @@ Sends a message. Note that ConnectionToken is used for invoking this API instead
 """
 send_message(Content, ContentType, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
 send_message(Content, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+
+"""
+    StartAttachmentUpload()
+
+Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3.
+
+# Required Parameters
+- `AttachmentName`: A case-sensitive name of the attachment being uploaded.
+- `AttachmentSizeInBytes`: The size of the attachment in bytes.
+- `ClientToken`: A unique case sensitive identifier to support idempotency of request.
+- `ContentType`: Describes the MIME file type of the attachment. For a list of supported file types, see Feature specifications in the Amazon Connect Administrator Guide.
+- `X-Amz-Bearer`: The authentication token associated with the participant's connection.
+
+"""
+start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)

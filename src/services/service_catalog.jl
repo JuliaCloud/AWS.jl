@@ -180,7 +180,7 @@ create_portfolio(DisplayName, IdempotencyToken, ProviderName, args::AbstractDict
 """
     CreatePortfolioShare()
 
-Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource. This includes portfolios that contain a shared product.
+Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the management account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node. You can't share a shared resource, including portfolios that contain a shared product. If the portfolio share with the specified account or organization node already exists, this action will have no effect and will not return an error. To update an existing share, you must use the  UpdatePortfolioShare API instead.
 
 # Required Parameters
 - `PortfolioId`: The portfolio identifier.
@@ -189,6 +189,7 @@ Shares the specified portfolio with the specified account or organization node. 
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `AccountId`: The AWS account ID. For example, 123456789012.
 - `OrganizationNode`: The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node an ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
+- `ShareTagOptions`: Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
 """
 create_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
 create_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
@@ -196,14 +197,14 @@ create_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_confi
 """
     CreateProduct()
 
-Creates a product. A delegated admin is authorized to invoke this command.
+Creates a product. A delegated admin is authorized to invoke this command. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
 
 # Required Parameters
 - `IdempotencyToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
 - `Name`: The name of the product.
 - `Owner`: The owner of the product.
 - `ProductType`: The type of product.
-- `ProvisioningArtifactParameters`: The configuration of the provisioning artifact. The info field accepts ImportFromPhysicalID.
+- `ProvisioningArtifactParameters`: The configuration of the provisioning artifact. 
 
 # Optional Parameters
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
@@ -211,7 +212,7 @@ Creates a product. A delegated admin is authorized to invoke this command.
 - `Distributor`: The distributor of the product.
 - `SupportDescription`: The support information about the product.
 - `SupportEmail`: The contact email for product support.
-- `SupportUrl`: The contact URL for product support.
+- `SupportUrl`: The contact URL for product support.  ^https?:/// / is the pattern used to validate SupportUrl.
 - `Tags`: One or more tags.
 """
 create_product(IdempotencyToken, Name, Owner, ProductType, ProvisioningArtifactParameters; aws_config::AWSConfig=global_aws_config()) = service_catalog("CreateProduct", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name, "Owner"=>Owner, "ProductType"=>ProductType, "ProvisioningArtifactParameters"=>ProvisioningArtifactParameters); aws_config=aws_config)
@@ -243,11 +244,11 @@ create_provisioned_product_plan(IdempotencyToken, PlanName, PlanType, ProductId,
 """
     CreateProvisioningArtifact()
 
-Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you.
+Creates a provisioning artifact (also known as a version) for the specified product. You cannot create a provisioning artifact for a product that was shared with you. The user or role that performs this operation must have the cloudformation:GetTemplate IAM policy permission. This policy permission is required when using the ImportFromPhysicalId template source in the information data section.
 
 # Required Parameters
 - `IdempotencyToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
-- `Parameters`: The configuration for the provisioning artifact. The info field accepts ImportFromPhysicalID. 
+- `Parameters`: The configuration for the provisioning artifact.
 - `ProductId`: The product identifier.
 
 # Optional Parameters
@@ -456,6 +457,22 @@ describe_portfolio_share_status(PortfolioShareToken; aws_config::AWSConfig=globa
 describe_portfolio_share_status(PortfolioShareToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolioShareStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioShareToken"=>PortfolioShareToken), args)); aws_config=aws_config)
 
 """
+    DescribePortfolioShares()
+
+Returns a summary of each of the portfolio shares that were created for the specified portfolio. You can use this API to determine which accounts or organizational nodes this portfolio have been shared, whether the recipient entity has imported the share, and whether TagOptions are included with the share. The PortfolioId and Type parameters are both required.
+
+# Required Parameters
+- `PortfolioId`: The unique identifier of the portfolio for which shares will be retrieved.
+- `Type`: The type of portfolio share to summarize. This field acts as a filter on the type of portfolio share, which can be one of the following: 1. ACCOUNT - Represents an external account to account share. 2. ORGANIZATION - Represents a share to an organization. This share is available to every account in the organization. 3. ORGANIZATIONAL_UNIT - Represents a share to an organizational unit. 4. ORGANIZATION_MEMBER_ACCOUNT - Represents a share to an account in the organization.
+
+# Optional Parameters
+- `PageSize`: The maximum number of items to return with this call.
+- `PageToken`: The page token for the next set of results. To retrieve the first set of results, use null.
+"""
+describe_portfolio_shares(PortfolioId, Type; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolioShares", Dict{String, Any}("PortfolioId"=>PortfolioId, "Type"=>Type); aws_config=aws_config)
+describe_portfolio_shares(PortfolioId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribePortfolioShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId, "Type"=>Type), args)); aws_config=aws_config)
+
+"""
     DescribeProduct()
 
 Gets information about the specified product.
@@ -477,6 +494,7 @@ Gets information about the specified product. This operation is run with adminis
 - `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
 - `Id`: The product identifier.
 - `Name`: The product name.
+- `SourcePortfolioId`: The unique identifier of the shared portfolio that the specified product is associated with. You can provide this parameter to retrieve the shared TagOptions associated with the product. If this parameter is provided and if TagOptions sharing is enabled in the portfolio share, the API returns both local and shared TagOptions associated with the product. Otherwise only local TagOptions will be returned. 
 """
 describe_product_as_admin(; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductAsAdmin"; aws_config=aws_config)
 describe_product_as_admin(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("DescribeProductAsAdmin", args; aws_config=aws_config)
@@ -764,7 +782,7 @@ get_provisioned_product_outputs(args::AbstractDict{String, <:Any}; aws_config::A
 """
     ImportAsProvisionedProduct()
 
-Requests the import of a resource as a Service Catalog provisioned product that is associated to a Service Catalog product and provisioning artifact. Once imported all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact. 
+Requests the import of a resource as a Service Catalog provisioned product that is associated to a Service Catalog product and provisioning artifact. Once imported, all supported Service Catalog governance actions are supported on the provisioned product. Resource import only supports CloudFormation stack ARNs. CloudFormation StackSets and non-root nested stacks are not supported. The CloudFormation stack must have one of the following statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE, IMPORT_COMPLETE, IMPORT_ROLLBACK_COMPLETE. Import of the resource requires that the CloudFormation stack template matches the associated Service Catalog product provisioning artifact.  The user or role that performs this operation must have the cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions. 
 
 # Required Parameters
 - `IdempotencyToken`: A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
@@ -1213,6 +1231,23 @@ Updates the specified portfolio. You cannot update a product that was shared wit
 """
 update_portfolio(Id; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolio", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_portfolio(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+
+"""
+    UpdatePortfolioShare()
+
+Updates the specified portfolio share. You can use this API to enable or disable TagOptions sharing for an existing portfolio share.  The portfolio share cannot be updated if the  CreatePortfolioShare operation is IN_PROGRESS, as the share is not available to recipient entities. In this case, you must wait for the portfolio share to be COMPLETED. You must provide the accountId or organization node in the input, but not both. If the portfolio is shared to both an external account and an organization node, and both shares need to be updated, you must invoke UpdatePortfolioShare separately for each share type.  This API cannot be used for removing the portfolio share. You must use DeletePortfolioShare API for that action. 
+
+# Required Parameters
+- `PortfolioId`: The unique identifier of the portfolio for which the share will be updated.
+
+# Optional Parameters
+- `AcceptLanguage`: The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+- `AccountId`: The AWS Account Id of the recipient account. This field is required when updating an external account to account type share.
+- `OrganizationNode`: 
+- `ShareTagOptions`: A flag to enable or disable TagOptions sharing for the portfolio share. If this field is not provided, the current state of TagOptions sharing on the portfolio share will not be modified.
+"""
+update_portfolio_share(PortfolioId; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolioShare", Dict{String, Any}("PortfolioId"=>PortfolioId); aws_config=aws_config)
+update_portfolio_share(PortfolioId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = service_catalog("UpdatePortfolioShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PortfolioId"=>PortfolioId), args)); aws_config=aws_config)
 
 """
     UpdateProduct()

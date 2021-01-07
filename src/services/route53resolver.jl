@@ -174,6 +174,18 @@ disassociate_resolver_rule(ResolverRuleId, VPCId; aws_config::AWSConfig=global_a
 disassociate_resolver_rule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), args)); aws_config=aws_config)
 
 """
+    GetResolverDnssecConfig()
+
+Gets DNSSEC validation information for a specified resource.
+
+# Required Parameters
+- `ResourceId`: The ID of the virtual private cloud (VPC) for the DNSSEC validation status.
+
+"""
+get_resolver_dnssec_config(ResourceId; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverDnssecConfig", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+get_resolver_dnssec_config(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+
+"""
     GetResolverEndpoint()
 
 Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint.
@@ -248,14 +260,27 @@ get_resolver_rule_association(ResolverRuleAssociationId, args::AbstractDict{Stri
 """
     GetResolverRulePolicy()
 
-Gets information about a Resolver rule policy. A Resolver rule policy specifies the Resolver operations and resources that you want to allow another AWS account to be able to use. 
+Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. 
 
 # Required Parameters
-- `Arn`: The ID of the Resolver rule policy that you want to get information about.
+- `Arn`: The ID of the Resolver rule that you want to get the Resolver rule policy for.
 
 """
 get_resolver_rule_policy(Arn; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
 get_resolver_rule_policy(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+
+"""
+    ListResolverDnssecConfigs()
+
+Lists the configurations for DNSSEC validation that are associated with the current AWS account.
+
+# Optional Parameters
+- `Filters`: An optional specification to return a subset of objects.
+- `MaxResults`:  Optional: An integer that specifies the maximum number of DNSSEC configuration results that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 100 configuration per page.
+- `NextToken`: (Optional) If the current AWS account has more than MaxResults DNSSEC configurations, use NextToken to get the second and subsequent pages of results. For the first ListResolverDnssecConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
+"""
+list_resolver_dnssec_configs(; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs"; aws_config=aws_config)
+list_resolver_dnssec_configs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs", args; aws_config=aws_config)
 
 """
     ListResolverEndpointIpAddresses()
@@ -372,11 +397,11 @@ put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy, args::Ab
 """
     PutResolverRulePolicy()
 
-Specifies an AWS account that you want to share rules with, the Resolver rules that you want to share, and the operations that you want the account to be able to perform on those rules.
+Specifies an AWS rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.
 
 # Required Parameters
-- `Arn`: The Amazon Resource Name (ARN) of the account that you want to share rules with.
-- `ResolverRulePolicy`: An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, you specify the ARNs for the rules that you want to share with the account that you specified in Arn. 
+- `Arn`: The Amazon Resource Name (ARN) of the rule that you want to share with another account.
+- `ResolverRulePolicy`: An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn.
 
 """
 put_resolver_rule_policy(Arn, ResolverRulePolicy; aws_config::AWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy); aws_config=aws_config)
@@ -407,6 +432,19 @@ Removes one or more tags from a specified resource.
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+
+"""
+    UpdateResolverDnssecConfig()
+
+Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
+
+# Required Parameters
+- `ResourceId`: The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for.
+- `Validation`: The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE. Be aware that it can take time for a validation status change to be completed.
+
+"""
+update_resolver_dnssec_config(ResourceId, Validation; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation); aws_config=aws_config)
+update_resolver_dnssec_config(ResourceId, Validation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation), args)); aws_config=aws_config)
 
 """
     UpdateResolverEndpoint()

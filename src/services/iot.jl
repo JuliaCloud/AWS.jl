@@ -130,7 +130,7 @@ cancel_audit_mitigation_actions_task(taskId, args::AbstractDict{String, <:Any}; 
 """
     CancelAuditTask()
 
-Cancels an audit that is in progress. The audit can be either scheduled or on-demand. If the audit is not in progress, an \"InvalidRequestException\" occurs.
+Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an \"InvalidRequestException\" occurs.
 
 # Required Parameters
 - `taskId`: The ID of the audit you want to cancel. You can only cancel an audit that is \"IN_PROGRESS\".
@@ -150,6 +150,18 @@ Cancels a pending transfer for the specified certificate.  Note Only the transfe
 """
 cancel_certificate_transfer(certificateId; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/cancel-certificate-transfer/$(certificateId)"; aws_config=aws_config)
 cancel_certificate_transfer(certificateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/cancel-certificate-transfer/$(certificateId)", args; aws_config=aws_config)
+
+"""
+    CancelDetectMitigationActionsTask()
+
+ Cancels a Device Defender ML Detect mitigation action. 
+
+# Required Parameters
+- `taskId`:  The unique identifier of the task. 
+
+"""
+cancel_detect_mitigation_actions_task(taskId; aws_config::AWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)/cancel"; aws_config=aws_config)
+cancel_detect_mitigation_actions_task(taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)/cancel", args; aws_config=aws_config)
 
 """
     CancelJob()
@@ -270,6 +282,23 @@ Creates an X.509 certificate using the specified certificate signing request.  N
 """
 create_certificate_from_csr(certificateSigningRequest; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/certificates", Dict{String, Any}("certificateSigningRequest"=>certificateSigningRequest); aws_config=aws_config)
 create_certificate_from_csr(certificateSigningRequest, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateSigningRequest"=>certificateSigningRequest), args)); aws_config=aws_config)
+
+"""
+    CreateCustomMetric()
+
+ Use this API to define a Custom Metric published by your devices to Device Defender. 
+
+# Required Parameters
+- `clientRequestToken`: Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `metricName`:  The name of the custom metric. This will be used in the metric report submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
+- `metricType`:  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number. 
+
+# Optional Parameters
+- `displayName`:  Field represents a friendly name in the console for the custom metric; it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated once defined.
+- `tags`:  Metadata that can be used to manage the custom metric. 
+"""
+create_custom_metric(clientRequestToken, metricName, metricType; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/custom-metric/$(metricName)", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "metricType"=>metricType); aws_config=aws_config)
+create_custom_metric(clientRequestToken, metricName, metricType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/custom-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "metricType"=>metricType), args)); aws_config=aws_config)
 
 """
     CreateDimension()
@@ -499,13 +528,13 @@ create_role_alias(roleAlias, roleArn, args::AbstractDict{String, <:Any}; aws_con
 Creates a scheduled audit that is run at a specified time interval.
 
 # Required Parameters
-- `frequency`: How often the scheduled audit takes place. Can be one of \"DAILY\", \"WEEKLY\", \"BIWEEKLY\" or \"MONTHLY\". The start time of each audit is determined by the system.
+- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY or MONTHLY. The start time of each audit is determined by the system.
 - `scheduledAuditName`: The name you want to give to the scheduled audit. (Max. 128 chars)
 - `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
 
 # Optional Parameters
-- `dayOfMonth`: The day of the month on which the scheduled audit takes place. Can be \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter is set to \"MONTHLY\". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the \"LAST\" day of the month.
-- `dayOfWeek`: The day of the week on which the scheduled audit takes place. Can be one of \"SUN\", \"MON\", \"TUE\", \"WED\", \"THU\", \"FRI\", or \"SAT\". This field is required if the \"frequency\" parameter is set to \"WEEKLY\" or \"BIWEEKLY\".
+- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
+- `dayOfWeek`: The day of the week on which the scheduled audit takes place, either SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set to WEEKLY or BIWEEKLY.
 - `tags`: Metadata that can be used to manage the scheduled audit.
 """
 create_scheduled_audit(frequency, scheduledAuditName, targetCheckNames; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/audit/scheduledaudits/$(scheduledAuditName)", Dict{String, Any}("frequency"=>frequency, "targetCheckNames"=>targetCheckNames); aws_config=aws_config)
@@ -520,8 +549,8 @@ Creates a Device Defender security profile.
 - `securityProfileName`: The name you are giving to the security profile.
 
 # Optional Parameters
-- `additionalMetricsToRetain`:  Please use CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
-- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+- `additionalMetricsToRetain`:  Please use CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
+- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
 - `alertTargets`: Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
 - `securityProfileDescription`: A description of the security profile.
@@ -696,6 +725,18 @@ Deletes the specified certificate. A certificate cannot be deleted if it has a p
 """
 delete_certificate(certificateId; aws_config::AWSConfig=global_aws_config()) = iot("DELETE", "/certificates/$(certificateId)"; aws_config=aws_config)
 delete_certificate(certificateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("DELETE", "/certificates/$(certificateId)", args; aws_config=aws_config)
+
+"""
+    DeleteCustomMetric()
+
+ Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.   Deletes a Device Defender detect custom metric. 
+
+# Required Parameters
+- `metricName`:  The name of the custom metric. 
+
+"""
+delete_custom_metric(metricName; aws_config::AWSConfig=global_aws_config()) = iot("DELETE", "/custom-metric/$(metricName)"; aws_config=aws_config)
+delete_custom_metric(metricName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("DELETE", "/custom-metric/$(metricName)", args; aws_config=aws_config)
 
 """
     DeleteDimension()
@@ -1006,7 +1047,7 @@ describe_account_audit_configuration(args::AbstractDict{String, Any}; aws_config
 """
     DescribeAuditFinding()
 
-Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and when the audit that returned the finding was started.
+Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding.
 
 # Required Parameters
 - `findingId`: A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
@@ -1101,6 +1142,18 @@ describe_certificate(certificateId; aws_config::AWSConfig=global_aws_config()) =
 describe_certificate(certificateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/certificates/$(certificateId)", args; aws_config=aws_config)
 
 """
+    DescribeCustomMetric()
+
+ Gets information about a Device Defender detect custom metric. 
+
+# Required Parameters
+- `metricName`:  The name of the custom metric. 
+
+"""
+describe_custom_metric(metricName; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/custom-metric/$(metricName)"; aws_config=aws_config)
+describe_custom_metric(metricName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/custom-metric/$(metricName)", args; aws_config=aws_config)
+
+"""
     DescribeDefaultAuthorizer()
 
 Describes the default authorizer.
@@ -1108,6 +1161,18 @@ Describes the default authorizer.
 """
 describe_default_authorizer(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/default-authorizer"; aws_config=aws_config)
 describe_default_authorizer(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/default-authorizer", args; aws_config=aws_config)
+
+"""
+    DescribeDetectMitigationActionsTask()
+
+ Gets information about a Device Defender ML Detect mitigation action. 
+
+# Required Parameters
+- `taskId`:  The unique identifier of the task. 
+
+"""
+describe_detect_mitigation_actions_task(taskId; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks/$(taskId)"; aws_config=aws_config)
+describe_detect_mitigation_actions_task(taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks/$(taskId)", args; aws_config=aws_config)
 
 """
     DescribeDimension()
@@ -1402,6 +1467,19 @@ enable_topic_rule(ruleName; aws_config::AWSConfig=global_aws_config()) = iot("PO
 enable_topic_rule(ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/rules/$(ruleName)/enable", args; aws_config=aws_config)
 
 """
+    GetBehaviorModelTrainingSummaries()
+
+ Returns a Device Defender's ML Detect Security Profile training model's status. 
+
+# Optional Parameters
+- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
+- `nextToken`:  The token for the next set of results. 
+- `securityProfileName`:  The name of the security profile. 
+"""
+get_behavior_model_training_summaries(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries"; aws_config=aws_config)
+get_behavior_model_training_summaries(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries", args; aws_config=aws_config)
+
+"""
     GetCardinality()
 
 Returns the approximate count of unique values that match the query.
@@ -1578,6 +1656,8 @@ get_v2_logging_options(args::AbstractDict{String, Any}; aws_config::AWSConfig=gl
 Lists the active violations for a given Device Defender security profile.
 
 # Optional Parameters
+- `behaviorCriteriaType`:  The criteria for a behavior. 
+- `listSuppressedAlerts`:  A list of all suppressed alerts. 
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 - `securityProfileName`: The name of the Device Defender security profile for which violations are listed.
@@ -1757,6 +1837,51 @@ List the device certificates signed by the specified CA certificate.
 """
 list_certificates_by_ca(caCertificateId; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/certificates-by-ca/$(caCertificateId)"; aws_config=aws_config)
 list_certificates_by_ca(caCertificateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/certificates-by-ca/$(caCertificateId)", args; aws_config=aws_config)
+
+"""
+    ListCustomMetrics()
+
+ Lists your Device Defender detect custom metrics. 
+
+# Optional Parameters
+- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
+- `nextToken`:  The token for the next set of results. 
+"""
+list_custom_metrics(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/custom-metrics"; aws_config=aws_config)
+list_custom_metrics(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/custom-metrics", args; aws_config=aws_config)
+
+"""
+    ListDetectMitigationActionsExecutions()
+
+ Lists mitigation actions executions for a Device Defender ML Detect Security Profile. 
+
+# Optional Parameters
+- `endTime`:  The end of the time period for which ML Detect mitigation actions executions are returned. 
+- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
+- `nextToken`:  The token for the next set of results. 
+- `startTime`:  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both. 
+- `taskId`:  The unique identifier of the task. 
+- `thingName`:  The name of the thing whose mitigation actions are listed. 
+- `violationId`:  The unique identifier of the violation. 
+"""
+list_detect_mitigation_actions_executions(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions"; aws_config=aws_config)
+list_detect_mitigation_actions_executions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions", args; aws_config=aws_config)
+
+"""
+    ListDetectMitigationActionsTasks()
+
+ List of Device Defender ML Detect mitigation actions tasks. 
+
+# Required Parameters
+- `endTime`:  The end of the time period for which ML Detect mitigation actions tasks are returned. 
+- `startTime`:  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both. 
+
+# Optional Parameters
+- `maxResults`: The maximum number of results to return at one time. The default is 25.
+- `nextToken`:  The token for the next set of results. 
+"""
+list_detect_mitigation_actions_tasks(endTime, startTime; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
+list_detect_mitigation_actions_tasks(endTime, startTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), args)); aws_config=aws_config)
 
 """
     ListDimensions()
@@ -2011,11 +2136,12 @@ list_scheduled_audits(args::AbstractDict{String, Any}; aws_config::AWSConfig=glo
 """
     ListSecurityProfiles()
 
-Lists the Device Defender security profiles you have created. You can use filters to list only those security profiles associated with a thing group or only those associated with your account.
+Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric.   dimensionName and metricName cannot be used in the same request. 
 
 # Optional Parameters
-- `dimensionName`: A filter to limit results to the security profiles that use the defined dimension.
+- `dimensionName`: A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName 
 - `maxResults`: The maximum number of results to return at one time.
+- `metricName`:  The name of the custom metric. Cannot be used with dimensionName. 
 - `nextToken`: The token for the next set of results.
 """
 list_security_profiles(; aws_config::AWSConfig=global_aws_config()) = iot("GET", "/security-profiles"; aws_config=aws_config)
@@ -2276,6 +2402,8 @@ Lists the Device Defender security profile violations discovered during the give
 - `startTime`: The start time for the alerts to be listed.
 
 # Optional Parameters
+- `behaviorCriteriaType`:  The criteria for a behavior. 
+- `listSuppressedAlerts`:  A list of all suppressed alerts. 
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 - `securityProfileName`: A filter to limit results to those alerts generated by the specified security profile.
@@ -2489,12 +2617,31 @@ Starts a task that applies a set of mitigation actions to the specified target.
 # Required Parameters
 - `auditCheckToActionsMapping`: For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your AWS account.
 - `clientRequestToken`: Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
-- `target`: Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a speecific set of findings.
+- `target`: Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings.
 - `taskId`: A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it.
 
 """
 start_audit_mitigation_actions_task(auditCheckToActionsMapping, clientRequestToken, target, taskId; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/audit/mitigationactions/tasks/$(taskId)", Dict{String, Any}("auditCheckToActionsMapping"=>auditCheckToActionsMapping, "clientRequestToken"=>clientRequestToken, "target"=>target); aws_config=aws_config)
 start_audit_mitigation_actions_task(auditCheckToActionsMapping, clientRequestToken, target, taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("POST", "/audit/mitigationactions/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("auditCheckToActionsMapping"=>auditCheckToActionsMapping, "clientRequestToken"=>clientRequestToken, "target"=>target), args)); aws_config=aws_config)
+
+"""
+    StartDetectMitigationActionsTask()
+
+ Starts a Device Defender ML Detect mitigation actions task. 
+
+# Required Parameters
+- `actions`:  The actions to be performed when a device has unexpected behavior. 
+- `clientRequestToken`:  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `target`:  Specifies the ML Detect findings to which the mitigation actions are applied. 
+- `taskId`:  The unique identifier of the task. 
+
+# Optional Parameters
+- `includeOnlyActiveViolations`:  Specifies to list only active violations. 
+- `includeSuppressedAlerts`:  Specifies to include suppressed alerts. 
+- `violationEventOccurrenceRange`:  Specifies the time period of which violation events occurred between. 
+"""
+start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId; aws_config::AWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)", Dict{String, Any}("actions"=>actions, "clientRequestToken"=>clientRequestToken, "target"=>target); aws_config=aws_config)
+start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "clientRequestToken"=>clientRequestToken, "target"=>target), args)); aws_config=aws_config)
 
 """
     StartOnDemandAuditTask()
@@ -2618,9 +2765,9 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
 
 # Optional Parameters
-- `auditCheckConfigurations`: Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it is used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
+- `auditCheckConfigurations`: Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it's used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
 - `auditNotificationTargetConfigurations`: Information about the targets to which audit notifications are sent.
-- `roleArn`: The ARN of the role that grants permission to AWS IoT to access information about your devices, policies, certificates and other items as required when performing an audit.
+- `roleArn`: The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
 """
 update_account_audit_configuration(; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration"; aws_config=aws_config)
 update_account_audit_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration", args; aws_config=aws_config)
@@ -2705,9 +2852,22 @@ update_certificate(certificateId, newStatus; aws_config::AWSConfig=global_aws_co
 update_certificate(certificateId, newStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("PUT", "/certificates/$(certificateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newStatus"=>newStatus), args)); aws_config=aws_config)
 
 """
+    UpdateCustomMetric()
+
+Updates a Device Defender detect custom metric. 
+
+# Required Parameters
+- `displayName`:  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated. 
+- `metricName`:  The name of the custom metric. Cannot be updated. 
+
+"""
+update_custom_metric(displayName, metricName; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/custom-metric/$(metricName)", Dict{String, Any}("displayName"=>displayName); aws_config=aws_config)
+update_custom_metric(displayName, metricName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/custom-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName), args)); aws_config=aws_config)
+
+"""
     UpdateDimension()
 
-Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and re-create it).
+Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it).
 
 # Required Parameters
 - `name`: A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
@@ -2799,7 +2959,7 @@ update_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=globa
 Updates the definition for the specified mitigation action.
 
 # Required Parameters
-- `actionName`: The friendly name for the mitigation action. You can't change the name by using UpdateMitigationAction. Instead, you must delete and re-create the mitigation action with the new name.
+- `actionName`: The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
 
 # Optional Parameters
 - `actionParams`: Defines the type of action and the parameters for that action.
@@ -2851,9 +3011,9 @@ Updates a scheduled audit, including which checks are performed and how often th
 - `scheduledAuditName`: The name of the scheduled audit. (Max. 128 chars)
 
 # Optional Parameters
-- `dayOfMonth`: The day of the month on which the scheduled audit takes place. Can be \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter is set to \"MONTHLY\". If days 29-31 are specified, and the month does not have that many days, the audit takes place on the \"LAST\" day of the month.
-- `dayOfWeek`: The day of the week on which the scheduled audit takes place. Can be one of \"SUN\", \"MON\", \"TUE\", \"WED\", \"THU\", \"FRI\", or \"SAT\". This field is required if the \"frequency\" parameter is set to \"WEEKLY\" or \"BIWEEKLY\".
-- `frequency`: How often the scheduled audit takes place. Can be one of \"DAILY\", \"WEEKLY\", \"BIWEEKLY\", or \"MONTHLY\". The start time of each audit is determined by the system.
+- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the \"LAST\" day of the month.
+- `dayOfWeek`: The day of the week on which the scheduled audit takes place. This can be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the \"frequency\" parameter is set to WEEKLY or BIWEEKLY.
+- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY, or MONTHLY. The start time of each audit is determined by the system.
 - `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
 """
 update_scheduled_audit(scheduledAuditName; aws_config::AWSConfig=global_aws_config()) = iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)"; aws_config=aws_config)
@@ -2868,8 +3028,8 @@ Updates a Device Defender security profile.
 - `securityProfileName`: The name of the security profile you want to update.
 
 # Optional Parameters
-- `additionalMetricsToRetain`:  Please use UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
-- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
+- `additionalMetricsToRetain`:  Please use UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
+- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
 - `alertTargets`: Where the alerts are sent. (Alerts are always sent to the console.)
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
 - `deleteAdditionalMetricsToRetain`: If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation, an exception occurs.
