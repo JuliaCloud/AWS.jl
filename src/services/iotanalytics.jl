@@ -90,6 +90,7 @@ Creates a data store, which is a repository for messages.
 
 # Optional Parameters
 - `datastoreStorage`: Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default is serviceManagedS3. You cannot change this storage option after the data store is created.
+- `fileFormatConfiguration`: Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
 - `retentionPeriod`: How long, in days, message data is kept for the data store. When customerManagedS3 storage is selected, this parameter is ignored.
 - `tags`: Metadata which can be used to manage the data store.
 """
@@ -375,8 +376,9 @@ Starts the reprocessing of raw message data through the pipeline.
 - `pipelineName`: The name of the pipeline on which to start reprocessing.
 
 # Optional Parameters
-- `endTime`: The end time (exclusive) of raw message data that is reprocessed.
-- `startTime`: The start time (inclusive) of raw message data that is reprocessed.
+- `channelMessages`: Specifies one or more sets of channel messages that you want to reprocess. If you use the channelMessages object, you must not specify a value for startTime and endTime.
+- `endTime`: The end time (exclusive) of raw message data that is reprocessed. If you specify a value for the endTime parameter, you must not use the channelMessages object.
+- `startTime`: The start time (inclusive) of raw message data that is reprocessed. If you specify a value for the startTime parameter, you must not use the channelMessages object.
 """
 start_pipeline_reprocessing(pipelineName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/pipelines/$(pipelineName)/reprocessing"; aws_config=aws_config)
 start_pipeline_reprocessing(pipelineName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotanalytics("POST", "/pipelines/$(pipelineName)/reprocessing", args; aws_config=aws_config)
@@ -451,6 +453,7 @@ Updates the settings of a data store.
 
 # Optional Parameters
 - `datastoreStorage`: Where data store data is stored. You can choose one of serviceManagedS3 or customerManagedS3 storage. If not specified, the default isserviceManagedS3. You cannot change this storage option after the data store is created.
+- `fileFormatConfiguration`: Contains the configuration information of file formats. AWS IoT Analytics data stores support JSON and Parquet. The default file format is JSON. You can specify only one format. You can't change the file format after you create the data store.
 - `retentionPeriod`: How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed.
 """
 update_datastore(datastoreName; aws_config::AWSConfig=global_aws_config()) = iotanalytics("PUT", "/datastores/$(datastoreName)"; aws_config=aws_config)

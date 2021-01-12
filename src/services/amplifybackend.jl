@@ -29,7 +29,7 @@ This operation creates a backend for an Amplify app. Backends are automatically 
 - `backendEnvironmentName`: The name of the backend environment.
 
 # Optional Parameters
-- `resourceConfig`: The resource configuration for the create backend request.
+- `resourceConfig`: The resource configuration for the backend creation request.
 - `resourceName`: The name of the resource.
 """
 create_backend(appId, appName, backendEnvironmentName; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend", Dict{String, Any}("appId"=>appId, "appName"=>appName, "backendEnvironmentName"=>backendEnvironmentName); aws_config=aws_config)
@@ -82,7 +82,7 @@ create_backend_config(appId, args::AbstractDict{String, <:Any}; aws_config::AWSC
 """
     CreateToken()
 
-Generates a one time challenge code to authenticate a user into your Amplify Admin UI.
+Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -94,7 +94,7 @@ create_token(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glo
 """
     DeleteBackend()
 
-Removes an existing environment from your Ampify project.
+Removes an existing environment from your Amplify project.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -141,7 +141,7 @@ Deletes the challenge token based on the given appId and sessionId.
 
 # Required Parameters
 - `appId`: The app ID.
-- `sessionId`: The session Id.
+- `sessionId`: The session ID.
 
 """
 delete_token(appId, sessionId; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/challenge/$(sessionId)/remove"; aws_config=aws_config)
@@ -164,7 +164,7 @@ generate_backend_apimodels(appId, backendEnvironmentName, resourceName, args::Ab
 """
     GetBackend()
 
-Provides project level details for your Amplify UI project.
+Provides project-level details for your Amplify UI project.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -178,7 +178,7 @@ get_backend(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 """
     GetBackendAPI()
 
-Gets the details for a backend api.
+Gets the details for a backend API.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -208,7 +208,7 @@ get_backend_apimodels(appId, backendEnvironmentName, resourceName, args::Abstrac
 """
     GetBackendAuth()
 
-Gets a backend auth details.
+Gets backend auth details.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -240,7 +240,7 @@ Gets the challenge token based on the given appId and sessionId.
 
 # Required Parameters
 - `appId`: The app ID.
-- `sessionId`: The session Id.
+- `sessionId`: The session ID.
 
 """
 get_token(appId, sessionId; aws_config::AWSConfig=global_aws_config()) = amplifybackend("GET", "/backend/$(appId)/challenge/$(sessionId)"; aws_config=aws_config)
@@ -257,10 +257,10 @@ Lists the jobs for the backend of an Amplify app.
 
 # Optional Parameters
 - `jobId`: The ID for the job.
-- `maxResults`: The maximum number of results you want in the response.
+- `maxResults`: The maximum number of results that you want in the response.
 - `nextToken`: The token for the next set of results.
-- `operation`: Filters the list of response objects to only include those with the specified operation name.
-- `status`: Filters the list of response objects to only include those with the specified status.
+- `operation`: Filters the list of response objects to include only those with the specified operation name.
+- `status`: Filters the list of response objects to include only those with the specified status.
 """
 list_backend_jobs(appId, backendEnvironmentName; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)"; aws_config=aws_config)
 list_backend_jobs(appId, backendEnvironmentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)", args; aws_config=aws_config)
@@ -282,7 +282,7 @@ remove_all_backends(appId, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 """
     RemoveBackendConfig()
 
-Removes the AWS resources required to access the Amplify Admin UI.
+Removes the AWS resources that are required to access the Amplify Admin UI.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -325,7 +325,7 @@ update_backend_auth(appId, backendEnvironmentName, resourceConfig, resourceName,
 """
     UpdateBackendConfig()
 
-Updates the AWS resources required to access the Amplify Admin UI.
+Updates the AWS resources that are required to access the Amplify Admin UI.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -347,8 +347,8 @@ Updates a specific job.
 - `jobId`: The ID for the job.
 
 # Optional Parameters
-- `operation`: Filters the list of response objects to only include those with the specified operation name.
-- `status`: Filters the list of response objects to only include those with the specified status.
+- `operation`: Filters the list of response objects to include only those with the specified operation name.
+- `status`: Filters the list of response objects to include only those with the specified status.
 """
 update_backend_job(appId, backendEnvironmentName, jobId; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)"; aws_config=aws_config)
 update_backend_job(appId, backendEnvironmentName, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)", args; aws_config=aws_config)

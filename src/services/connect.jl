@@ -7,7 +7,7 @@ using AWS.UUIDs
 """
     AssociateApprovedOrigin()
 
-Associates an approved origin to an Amazon Connect instance.
+This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -20,7 +20,7 @@ associate_approved_origin(InstanceId, Origin, args::AbstractDict{String, <:Any};
 """
     AssociateInstanceStorageConfig()
 
-Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an Amazon S3 bucket, exists when being used for association.
+This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an Amazon S3 bucket, exists when being used for association.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -34,7 +34,7 @@ associate_instance_storage_config(InstanceId, ResourceType, StorageConfig, args:
 """
     AssociateLambdaFunction()
 
-Allows the specified Amazon Connect instance to access the specified Lambda function.
+This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
 
 # Required Parameters
 - `FunctionArn`: The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
@@ -47,7 +47,7 @@ associate_lambda_function(FunctionArn, InstanceId, args::AbstractDict{String, <:
 """
     AssociateLexBot()
 
-Allows the specified Amazon Connect instance to access the specified Amazon Lex bot.
+This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex bot.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -74,7 +74,7 @@ associate_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, arg
 """
     AssociateSecurityKey()
 
-Associates a security key to the instance.
+This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -123,7 +123,7 @@ create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnable
 """
     CreateIntegrationAssociation()
 
-This API is in preview release for Amazon Connect and is subject to change. Create an AppIntegration association with anAmazon Connect instance.
+This API is in preview release for Amazon Connect and is subject to change. Create an AppIntegration association with an Amazon Connect instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -136,6 +136,23 @@ This API is in preview release for Amazon Connect and is subject to change. Crea
 """
 create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType); aws_config=aws_config)
 create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType), args)); aws_config=aws_config)
+
+"""
+    CreateQuickConnect()
+
+This API is in preview release for Amazon Connect and is subject to change. Creates a quick connect for the specified Amazon Connect instance.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `Name`: The name of the quick connect.
+- `QuickConnectConfig`: Configuration settings for the quick connect.
+
+# Optional Parameters
+- `Description`: The description of the quick connect.
+- `Tags`: One or more tags.
+"""
+create_quick_connect(InstanceId, Name, QuickConnectConfig; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/quick-connects/$(InstanceId)", Dict{String, Any}("Name"=>Name, "QuickConnectConfig"=>QuickConnectConfig); aws_config=aws_config)
+create_quick_connect(InstanceId, Name, QuickConnectConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("PUT", "/quick-connects/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "QuickConnectConfig"=>QuickConnectConfig), args)); aws_config=aws_config)
 
 """
     CreateRoutingProfile()
@@ -233,6 +250,19 @@ delete_integration_association(InstanceId, IntegrationAssociationId; aws_config:
 delete_integration_association(InstanceId, IntegrationAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)", args; aws_config=aws_config)
 
 """
+    DeleteQuickConnect()
+
+This API is in preview release for Amazon Connect and is subject to change. Deletes a quick connect.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `QuickConnectId`: The identifier for the quick connect.
+
+"""
+delete_quick_connect(InstanceId, QuickConnectId; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/quick-connects/$(InstanceId)/$(QuickConnectId)"; aws_config=aws_config)
+delete_quick_connect(InstanceId, QuickConnectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("DELETE", "/quick-connects/$(InstanceId)/$(QuickConnectId)", args; aws_config=aws_config)
+
+"""
     DeleteUseCase()
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes a use case from an AppIntegration association.
@@ -288,7 +318,7 @@ describe_contact_flow(ContactFlowId, InstanceId, args::AbstractDict{String, <:An
 """
     DescribeInstance()
 
-Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -300,7 +330,7 @@ describe_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWS
 """
     DescribeInstanceAttribute()
 
-Describes the specified instance attribute.
+This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
 
 # Required Parameters
 - `AttributeType`: The type of attribute.
@@ -313,7 +343,7 @@ describe_instance_attribute(AttributeType, InstanceId, args::AbstractDict{String
 """
     DescribeInstanceStorageConfig()
 
-Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
+This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
 
 # Required Parameters
 - `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -323,6 +353,19 @@ Retrieves the current storage configurations for the specified resource type, as
 """
 describe_instance_storage_config(AssociationId, InstanceId, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
 describe_instance_storage_config(AssociationId, InstanceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    DescribeQuickConnect()
+
+This API is in preview release for Amazon Connect and is subject to change. Describes the quick connect.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `QuickConnectId`: The identifier for the quick connect.
+
+"""
+describe_quick_connect(InstanceId, QuickConnectId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/quick-connects/$(InstanceId)/$(QuickConnectId)"; aws_config=aws_config)
+describe_quick_connect(InstanceId, QuickConnectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/quick-connects/$(InstanceId)/$(QuickConnectId)", args; aws_config=aws_config)
 
 """
     DescribeRoutingProfile()
@@ -378,7 +421,7 @@ describe_user_hierarchy_structure(InstanceId, args::AbstractDict{String, <:Any};
 """
     DisassociateApprovedOrigin()
 
-Revokes access to integrated applications from Amazon Connect.
+This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -391,7 +434,7 @@ disassociate_approved_origin(InstanceId, origin, args::AbstractDict{String, <:An
 """
     DisassociateInstanceStorageConfig()
 
-Removes the storage type configurations for the specified resource type and association ID.
+This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
 
 # Required Parameters
 - `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -405,7 +448,7 @@ disassociate_instance_storage_config(AssociationId, InstanceId, resourceType, ar
 """
     DisassociateLambdaFunction()
 
-Remove the Lambda function from the drop-down options available in the relevant contact flow blocks.
+This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the drop-down options available in the relevant contact flow blocks.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance..
@@ -418,7 +461,7 @@ disassociate_lambda_function(InstanceId, functionArn, args::AbstractDict{String,
 """
     DisassociateLexBot()
 
-Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -446,7 +489,7 @@ disassociate_routing_profile_queues(InstanceId, QueueReferences, RoutingProfileI
 """
     DisassociateSecurityKey()
 
-Deletes the specified security key.
+This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
 
 # Required Parameters
 - `AssociationId`: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
@@ -522,7 +565,7 @@ get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, args
 """
     ListApprovedOrigins()
 
-Returns a paginated list of all approved origins associated with the instance.
+This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -626,7 +669,7 @@ list_integration_associations(InstanceId, args::AbstractDict{String, <:Any}; aws
 """
     ListLambdaFunctions()
 
-Returns a paginated list of all the Lambda functions that show up in the drop-down options in the relevant contact flow blocks.
+This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Lambda functions that show up in the drop-down options in the relevant contact flow blocks.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -641,7 +684,7 @@ list_lambda_functions(InstanceId, args::AbstractDict{String, <:Any}; aws_config:
 """
     ListLexBots()
 
-Returns a paginated list of all the Amazon Lex bots currently associated with the instance.
+This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex bots currently associated with the instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -702,6 +745,22 @@ list_queues(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GE
 list_queues(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/queues-summary/$(InstanceId)", args; aws_config=aws_config)
 
 """
+    ListQuickConnects()
+
+This API is in preview release for Amazon Connect and is subject to change. Provides information about the quick connects for the specified Amazon Connect instance. 
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+
+# Optional Parameters
+- `QuickConnectTypes`: The type of quick connect. In the Amazon Connect console, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+- `maxResults`: The maximimum number of results to return per page.
+- `nextToken`: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+"""
+list_quick_connects(InstanceId; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/quick-connects/$(InstanceId)"; aws_config=aws_config)
+list_quick_connects(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("GET", "/quick-connects/$(InstanceId)", args; aws_config=aws_config)
+
+"""
     ListRoutingProfileQueues()
 
 List the queues associated with a routing profile.
@@ -735,7 +794,7 @@ list_routing_profiles(InstanceId, args::AbstractDict{String, <:Any}; aws_config:
 """
     ListSecurityKeys()
 
-Returns a paginated list of all security keys associated with the instance.
+This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
 
 # Required Parameters
 - `InstanceId`: The identifier of the Amazon Connect instance.
@@ -950,7 +1009,7 @@ suspend_contact_recording(ContactId, InitialContactId, InstanceId, args::Abstrac
 """
     TagResource()
 
-Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, and contact flows. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, quick connects, and contact flows. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
 
 # Required Parameters
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
@@ -1045,6 +1104,36 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 """
 update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType); aws_config=aws_config)
 update_instance_storage_config(AssociationId, InstanceId, StorageConfig, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/storage-config/$(AssociationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageConfig"=>StorageConfig, "resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    UpdateQuickConnectConfig()
+
+This API is in preview release for Amazon Connect and is subject to change. Updates the configuration settings for the specified quick connect.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `QuickConnectConfig`: Information about the configuration settings for the quick connect.
+- `QuickConnectId`: The identifier for the quick connect.
+
+"""
+update_quick_connect_config(InstanceId, QuickConnectConfig, QuickConnectId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/config", Dict{String, Any}("QuickConnectConfig"=>QuickConnectConfig); aws_config=aws_config)
+update_quick_connect_config(InstanceId, QuickConnectConfig, QuickConnectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QuickConnectConfig"=>QuickConnectConfig), args)); aws_config=aws_config)
+
+"""
+    UpdateQuickConnectName()
+
+This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
+
+# Required Parameters
+- `InstanceId`: The identifier of the Amazon Connect instance.
+- `QuickConnectId`: The identifier for the quick connect.
+
+# Optional Parameters
+- `Description`: The description of the quick connect.
+- `Name`: The name of the quick connect.
+"""
+update_quick_connect_name(InstanceId, QuickConnectId; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/name"; aws_config=aws_config)
+update_quick_connect_name(InstanceId, QuickConnectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connect("POST", "/quick-connects/$(InstanceId)/$(QuickConnectId)/name", args; aws_config=aws_config)
 
 """
     UpdateRoutingProfileConcurrency()

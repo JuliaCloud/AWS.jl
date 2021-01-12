@@ -96,3 +96,41 @@ Lists the sites for the specified AWS account.
 """
 list_sites(; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
 list_sites(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/sites", args; aws_config=aws_config)
+
+"""
+    ListTagsForResource()
+
+Lists the tags for the specified resource.
+
+# Required Parameters
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
+
+"""
+list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+
+"""
+    TagResource()
+
+Adds tags to the specified resource.
+
+# Required Parameters
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
+- `Tags`: The tags to add to the resource.
+
+"""
+tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+
+"""
+    UntagResource()
+
+Removes tags from the specified resource.
+
+# Required Parameters
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
+- `tagKeys`: The tag keys.
+
+"""
+untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

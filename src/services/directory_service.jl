@@ -284,7 +284,7 @@ delete_trust(TrustId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 """
     DeregisterCertificate()
 
-Deletes from the system the certificate that was registered for a secured LDAP connection.
+Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
 
 # Required Parameters
 - `CertificateId`: The identifier of the certificate.
@@ -310,7 +310,7 @@ deregister_event_topic(DirectoryId, TopicName, args::AbstractDict{String, <:Any}
 """
     DescribeCertificate()
 
-Displays information about the certificate registered for a secured LDAP connection.
+Displays information about the certificate registered for secure LDAP or client certificate authentication.
 
 # Required Parameters
 - `CertificateId`: The identifier of the certificate.
@@ -453,11 +453,11 @@ describe_trusts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_
 """
     DisableClientAuthentication()
 
-Disable client authentication for smart cards.
+Disables alternative client authentication methods for the specified directory. 
 
 # Required Parameters
-- `DirectoryId`: Disable client authentication in a specified directory for smart cards. 
-- `Type`: Disable the type of client authentication request. 
+- `DirectoryId`: The identifier of the directory 
+- `Type`: The type of client authentication to disable. Currently, only the parameter, SmartCard is supported.
 
 """
 disable_client_authentication(DirectoryId, Type; aws_config::AWSConfig=global_aws_config()) = directory_service("DisableClientAuthentication", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws_config=aws_config)
@@ -506,11 +506,11 @@ disable_sso(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 """
     EnableClientAuthentication()
 
-Enable client authentication for smardtcards.
+Enables alternative client authentication methods for the specified directory.
 
 # Required Parameters
-- `DirectoryId`: Enable client authentication in a specified directory for smart cards. 
-- `Type`: Enable the type of client authentication request. 
+- `DirectoryId`: The identifier of the specified directory. 
+- `Type`: The type of client authentication to enable. Currently only the value SmartCard is supported. Smart card authentication in AD Connector requires that you enable Kerberos Constrained Delegation for the Service User to the LDAP service in the on-premises AD. 
 
 """
 enable_client_authentication(DirectoryId, Type; aws_config::AWSConfig=global_aws_config()) = directory_service("EnableClientAuthentication", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws_config=aws_config)
@@ -581,7 +581,7 @@ get_snapshot_limits(DirectoryId, args::AbstractDict{String, <:Any}; aws_config::
 """
     ListCertificates()
 
-For the specified directory, lists all the certificates registered for a secured LDAP connection.
+For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
 
 # Required Parameters
 - `DirectoryId`: The identifier of the directory.
@@ -654,15 +654,15 @@ list_tags_for_resource(ResourceId, args::AbstractDict{String, <:Any}; aws_config
 """
     RegisterCertificate()
 
-Registers a certificate for secured LDAP connection.
+Registers a certificate for a secure LDAP or client certificate authentication.
 
 # Required Parameters
 - `CertificateData`: The certificate PEM string that needs to be registered.
 - `DirectoryId`: The identifier of the directory.
 
 # Optional Parameters
-- `ClientCertAuthSettings`: 
-- `Type`: The certificate type to register for the request.
+- `ClientCertAuthSettings`: A ClientCertAuthSettings object that contains client certificate authentication settings.
+- `Type`: The function that the registered certificate performs. Valid values include ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
 """
 register_certificate(CertificateData, DirectoryId; aws_config::AWSConfig=global_aws_config()) = directory_service("RegisterCertificate", Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId); aws_config=aws_config)
 register_certificate(CertificateData, DirectoryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = directory_service("RegisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId), args)); aws_config=aws_config)

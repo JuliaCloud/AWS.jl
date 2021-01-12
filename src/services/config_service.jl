@@ -204,6 +204,18 @@ delete_retention_configuration(RetentionConfigurationName; aws_config::AWSConfig
 delete_retention_configuration(RetentionConfigurationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("DeleteRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionConfigurationName"=>RetentionConfigurationName), args)); aws_config=aws_config)
 
 """
+    DeleteStoredQuery()
+
+Deletes the stored query for an AWS account in an AWS Region. 
+
+# Required Parameters
+- `QueryName`: The name of the query that you want to delete.
+
+"""
+delete_stored_query(QueryName; aws_config::AWSConfig=global_aws_config()) = config_service("DeleteStoredQuery", Dict{String, Any}("QueryName"=>QueryName); aws_config=aws_config)
+delete_stored_query(QueryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("DeleteStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), args)); aws_config=aws_config)
+
+"""
     DeliverConfigSnapshot()
 
 Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, AWS Config sends the following notifications using an Amazon SNS topic that you have specified.   Notification of the start of the delivery.   Notification of the completion of the delivery, if the delivery was successfully completed.   Notification of delivery failure, if the delivery failed.  
@@ -414,7 +426,7 @@ describe_delivery_channels(args::AbstractDict{String, <:Any}; aws_config::AWSCon
 """
     DescribeOrganizationConfigRuleStatuses()
 
-Provides organization config rule deployment status for an organization. Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.  The status is not considered successful until organization config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. 
+Provides organization config rule deployment status for an organization.  The status is not considered successful until organization config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. 
 
 # Optional Parameters
 - `Limit`: The maximum number of OrganizationConfigRuleStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
@@ -427,7 +439,7 @@ describe_organization_config_rule_statuses(args::AbstractDict{String, <:Any}; aw
 """
     DescribeOrganizationConfigRules()
 
-Returns a list of organization config rules.  Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.&#x2028;  When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. 
+Returns a list of organization config rules.   When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization config rule names. It is only applicable, when you request all the organization config rules. 
 
 # Optional Parameters
 - `Limit`: The maximum number of organization config rules returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
@@ -440,7 +452,7 @@ describe_organization_config_rules(args::AbstractDict{String, <:Any}; aws_config
 """
     DescribeOrganizationConformancePackStatuses()
 
-Provides organization conformance pack deployment status for an organization.   Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.  The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs. 
+Provides organization conformance pack deployment status for an organization.   The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs. 
 
 # Optional Parameters
 - `Limit`: The maximum number of OrganizationConformancePackStatuses returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100. 
@@ -453,7 +465,7 @@ describe_organization_conformance_pack_statuses(args::AbstractDict{String, <:Any
 """
     DescribeOrganizationConformancePacks()
 
-Returns a list of organization conformance packs.  Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.  When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs.  
+Returns a list of organization conformance packs.   When you specify the limit and the next token, you receive a paginated response.  Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs.  
 
 # Optional Parameters
 - `Limit`: The maximum number of organization config packs returned on each page. If you do no specify a number, AWS Config uses the default. The default is 100.
@@ -696,7 +708,7 @@ get_discovered_resource_counts(args::AbstractDict{String, <:Any}; aws_config::AW
 """
     GetOrganizationConfigRuleDetailedStatus()
 
-Returns detailed status for each member account within an organization for a given organization config rule. Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.
+Returns detailed status for each member account within an organization for a given organization config rule.
 
 # Required Parameters
 - `OrganizationConfigRuleName`: The name of organization config rule for which you want status details for member accounts.
@@ -712,7 +724,7 @@ get_organization_config_rule_detailed_status(OrganizationConfigRuleName, args::A
 """
     GetOrganizationConformancePackDetailedStatus()
 
-Returns detailed status for each member account within an organization for a given organization conformance pack. Only a master account and a delegated administrator account can call this API. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.
+Returns detailed status for each member account within an organization for a given organization conformance pack.
 
 # Required Parameters
 - `OrganizationConformancePackName`: The name of organization conformance pack for which you want status details for member accounts.
@@ -743,6 +755,18 @@ Returns a list of configuration items for the specified resource. The list conta
 """
 get_resource_config_history(resourceId, resourceType; aws_config::AWSConfig=global_aws_config()) = config_service("GetResourceConfigHistory", Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType); aws_config=aws_config)
 get_resource_config_history(resourceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("GetResourceConfigHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    GetStoredQuery()
+
+Returns the details of a specific stored query.
+
+# Required Parameters
+- `QueryName`: The name of the query.
+
+"""
+get_stored_query(QueryName; aws_config::AWSConfig=global_aws_config()) = config_service("GetStoredQuery", Dict{String, Any}("QueryName"=>QueryName); aws_config=aws_config)
+get_stored_query(QueryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("GetStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), args)); aws_config=aws_config)
 
 """
     ListAggregateDiscoveredResources()
@@ -778,6 +802,18 @@ Accepts a resource type and returns a list of resource identifiers for the resou
 """
 list_discovered_resources(resourceType; aws_config::AWSConfig=global_aws_config()) = config_service("ListDiscoveredResources", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
 list_discovered_resources(resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+
+"""
+    ListStoredQueries()
+
+List the stored queries for an AWS account in an AWS Region. The default is 100. 
+
+# Optional Parameters
+- `MaxResults`: The maximum number of results to be returned with a single call.
+- `NextToken`: The nextToken string returned in a previous request that you use to request the next page of results in a paginated response.
+"""
+list_stored_queries(; aws_config::AWSConfig=global_aws_config()) = config_service("ListStoredQueries"; aws_config=aws_config)
+list_stored_queries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("ListStoredQueries", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -897,6 +933,19 @@ put_evaluations(ResultToken; aws_config::AWSConfig=global_aws_config()) = config
 put_evaluations(ResultToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("PutEvaluations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResultToken"=>ResultToken), args)); aws_config=aws_config)
 
 """
+    PutExternalEvaluation()
+
+
+
+# Required Parameters
+- `ConfigRuleName`: 
+- `ExternalEvaluation`: 
+
+"""
+put_external_evaluation(ConfigRuleName, ExternalEvaluation; aws_config::AWSConfig=global_aws_config()) = config_service("PutExternalEvaluation", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation); aws_config=aws_config)
+put_external_evaluation(ConfigRuleName, ExternalEvaluation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("PutExternalEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation), args)); aws_config=aws_config)
+
+"""
     PutOrganizationConfigRule()
 
 Adds or updates organization config rule for your entire organization evaluating whether your AWS resources comply with your desired configurations.  Only a master account and a delegated administrator can create or update an organization config rule. When calling this API with a delegated administrator, you must ensure AWS Organizations ListDelegatedAdministrator permissions are added.  This API enables organization service access through the EnableAWSServiceAccess action and creates a service linked role AWSServiceRoleForConfigMultiAccountSetup in the master or delegated administrator account of your organization. The service linked role is created only when the role does not exist in the caller account. AWS Config verifies the existence of role with GetRole action. To use this API with delegated administrator, register a delegated administrator by calling AWS Organization register-delegated-administrator for config-multiaccountsetup.amazonaws.com.  You can use this action to create both custom AWS Config rules and AWS managed Config rules. If you are adding a new custom AWS Config rule, you must first create AWS Lambda function in the master account or a delegated administrator that the rule invokes to evaluate your resources. When you use the PutOrganizationConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. If you are adding an AWS managed Config rule, specify the rule's identifier for the RuleIdentifier key. The maximum number of organization config rules that AWS Config supports is 150 and 3 delegated administrator per organization.   Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Specify either OrganizationCustomRuleMetadata or OrganizationManagedRuleMetadata. 
@@ -934,7 +983,7 @@ put_organization_conformance_pack(OrganizationConformancePackName, args::Abstrac
 """
     PutRemediationConfigurations()
 
-Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target.   If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. 
+Adds or updates the remediation configuration with a specific AWS Config rule with the selected target or action. The API creates the RemediationConfiguration object for the AWS Config rule. The AWS Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target.   If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked AWS Config Rules such as Organization Config rules, the rules deployed by conformance packs, and rules deployed by AWS Security Hub. 
 
 # Required Parameters
 - `RemediationConfigurations`: A list of remediation configuration objects.
@@ -988,6 +1037,20 @@ Creates and updates the retention configuration with details about retention per
 """
 put_retention_configuration(RetentionPeriodInDays; aws_config::AWSConfig=global_aws_config()) = config_service("PutRetentionConfiguration", Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays); aws_config=aws_config)
 put_retention_configuration(RetentionPeriodInDays, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("PutRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays), args)); aws_config=aws_config)
+
+"""
+    PutStoredQuery()
+
+Saves a new query or updates an existing saved query. The QueryName must be unique for an AWS account in an AWS Region. You can create upto 300 queries in an AWS account in an AWS Region.
+
+# Required Parameters
+- `StoredQuery`: A list of StoredQuery objects. The mandatory fields are QueryName and Expression.
+
+# Optional Parameters
+- `Tags`: A list of Tags object.
+"""
+put_stored_query(StoredQuery; aws_config::AWSConfig=global_aws_config()) = config_service("PutStoredQuery", Dict{String, Any}("StoredQuery"=>StoredQuery); aws_config=aws_config)
+put_stored_query(StoredQuery, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = config_service("PutStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StoredQuery"=>StoredQuery), args)); aws_config=aws_config)
 
 """
     SelectAggregateResourceConfig()
