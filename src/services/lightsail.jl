@@ -264,6 +264,7 @@ Creates an Amazon Lightsail content delivery network (CDN) distribution. A distr
 # Optional Parameters
 - `cacheBehaviorSettings`: An object that describes the cache behavior settings for the distribution.
 - `cacheBehaviors`: An array of objects that describe the per-path cache behavior for the distribution.
+- `ipAddressType`: The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
 - `tags`: The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
 """
 create_distribution(bundleId, defaultCacheBehavior, distributionName, origin; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateDistribution", Dict{String, Any}("bundleId"=>bundleId, "defaultCacheBehavior"=>defaultCacheBehavior, "distributionName"=>distributionName, "origin"=>origin); aws_config=aws_config)
@@ -325,6 +326,7 @@ Creates one or more Amazon Lightsail instances. The create instances operation s
 # Optional Parameters
 - `addOns`: An array of objects representing the add-ons to enable for the new instance.
 - `customImageName`: (Deprecated) The name for your custom image.  In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated. 
+- `ipAddressType`: The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
 - `keyPairName`: The name of your key pair.
 - `tags`: The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
 - `userData`: A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update.  Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide. 
@@ -346,6 +348,7 @@ Creates one or more new instances from a manual or automatic snapshot of an inst
 - `addOns`: An array of objects representing the add-ons to enable for the new instance.
 - `attachedDiskMapping`: An object containing information about one or more disk mappings.
 - `instanceSnapshotName`: The name of the instance snapshot on which you are basing your new instances. Use the get instance snapshots operation to return information about your existing snapshots. Constraint:   This parameter cannot be defined together with the source instance name parameter. The instance snapshot name and source instance name parameters are mutually exclusive.  
+- `ipAddressType`: The IP address type for the instance. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
 - `keyPairName`: The name for your key pair.
 - `restoreDate`: The date of the automatic snapshot to use for the new instance. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
 - `sourceInstanceName`: The name of the source instance from which the source automatic snapshot was created. Constraints:   This parameter cannot be defined together with the instance snapshot name parameter. The source instance name and instance snapshot name parameters are mutually exclusive.   Define this parameter only when creating a new instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.  
@@ -384,6 +387,7 @@ Creates a Lightsail load balancer. To learn more about deciding whether to load 
 - `certificateDomainName`: The domain name with which your certificate is associated (e.g., example.com). If you specify certificateDomainName, then certificateName is required (and vice-versa).
 - `certificateName`: The name of the SSL/TLS certificate. If you specify certificateName, then certificateDomainName is required (and vice-versa).
 - `healthCheckPath`: The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., \"/\"). You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
+- `ipAddressType`: The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
 - `tags`: The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
 """
 create_load_balancer(instancePort, loadBalancerName; aws_config::AWSConfig=global_aws_config()) = lightsail("CreateLoadBalancer", Dict{String, Any}("instancePort"=>instancePort, "loadBalancerName"=>loadBalancerName); aws_config=aws_config)
@@ -1675,6 +1679,20 @@ Sends a verification request to an email contact method to ensure it's owned by 
 """
 send_contact_method_verification(protocol; aws_config::AWSConfig=global_aws_config()) = lightsail("SendContactMethodVerification", Dict{String, Any}("protocol"=>protocol); aws_config=aws_config)
 send_contact_method_verification(protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("SendContactMethodVerification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("protocol"=>protocol), args)); aws_config=aws_config)
+
+"""
+    SetIpAddressType()
+
+Sets the IP address type for a Amazon Lightsail resource. Use this action to enable dual-stack for a resource, which enables IPv4 and IPv6 for the specified resource. Alternately, you can use this action to disable dual-stack, and enable IPv4 only.
+
+# Required Parameters
+- `ipAddressType`: The IP address type to set for the specified resource. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+- `resourceName`: The name of the resource for which to set the IP address type.
+- `resourceType`: The resource type. The possible values are Distribution, Instance, and LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1) AWS Region. Set your AWS Region configuration to us-east-1 to create, view, or edit distributions. 
+
+"""
+set_ip_address_type(ipAddressType, resourceName, resourceType; aws_config::AWSConfig=global_aws_config()) = lightsail("SetIpAddressType", Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType); aws_config=aws_config)
+set_ip_address_type(ipAddressType, resourceName, resourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = lightsail("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType), args)); aws_config=aws_config)
 
 """
     StartInstance()
