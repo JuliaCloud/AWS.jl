@@ -117,6 +117,7 @@ create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope,
 # Optional Parameters
 - `complianceType`:  The compliance type that the new custom framework supports, such as CIS or HIPAA. 
 - `description`:  An optional description for the new custom framework. 
+- `tags`:  The tags associated with the framework. 
 """
 create_assessment_framework(controlSets, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config)
 create_assessment_framework(controlSets, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), args)); aws_config=aws_config)
@@ -142,7 +143,7 @@ create_assessment_report(assessmentId, name, args::AbstractDict{String, <:Any}; 
  Creates a new custom control in AWS Audit Manager. 
 
 # Required Parameters
-- `controlMappingSources`:  The data source that determines from where AWS Audit Manager collects evidence for the control. 
+- `controlMappingSources`:  The data mapping sources for the specified control. 
 - `name`:  The name of the control. 
 
 # Optional Parameters
@@ -662,7 +663,7 @@ update_assessment_status(assessmentId, status, args::AbstractDict{String, <:Any}
 
 # Required Parameters
 - `controlId`:  The identifier for the specified control. 
-- `controlMappingSources`:  The data source that determines from where AWS Audit Manager collects evidence for the control. 
+- `controlMappingSources`:  The data mapping sources for the specified control. 
 - `name`:  The name of the control to be updated. 
 
 # Optional Parameters

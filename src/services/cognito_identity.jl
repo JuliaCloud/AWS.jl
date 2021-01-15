@@ -18,7 +18,7 @@ Creates a new identity pool. The identity pool is a store of user identity infor
 - `CognitoIdentityProviders`: An array of Amazon Cognito user pools and their client IDs.
 - `DeveloperProviderName`: The \"domain\" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
 - `IdentityPoolTags`: Tags to assign to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
-- `OpenIdConnectProviderARNs`: A list of OpendID Connect provider ARNs.
+- `OpenIdConnectProviderARNs`: The Amazon Resource Names (ARN) of the OpenID Connect providers.
 - `SamlProviderARNs`: An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
 - `SupportedLoginProviders`: Optional key:value pairs mapping provider names to provider app IDs.
 """
@@ -83,7 +83,7 @@ Returns credentials for the provided identity ID. Any provided logins will be va
 
 # Optional Parameters
 - `CustomRoleArn`: The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
-- `Logins`: A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax \"provider_name\": \"provider_user_identifier\". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as FaceBook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
+- `Logins`: A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax \"provider_name\": \"provider_user_identifier\". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as Facebook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
 """
 get_credentials_for_identity(IdentityId; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}("IdentityId"=>IdentityId); aws_config=aws_config)
 get_credentials_for_identity(IdentityId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws_config=aws_config)
@@ -118,13 +118,13 @@ get_identity_pool_roles(IdentityPoolId, args::AbstractDict{String, <:Any}; aws_c
 """
     GetOpenIdToken()
 
-Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by GetId. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenId token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
+Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by GetId. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenID token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
 
 # Required Parameters
 - `IdentityId`: A unique identifier in the format REGION:GUID.
 
 # Optional Parameters
-- `Logins`: A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenId Connect provider, always include the id_token.
+- `Logins`: A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenID Connect provider, always include the id_token.
 """
 get_open_id_token(IdentityId; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetOpenIdToken", Dict{String, Any}("IdentityId"=>IdentityId); aws_config=aws_config)
 get_open_id_token(IdentityId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetOpenIdToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws_config=aws_config)
@@ -140,10 +140,24 @@ Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a 
 
 # Optional Parameters
 - `IdentityId`: A unique identifier in the format REGION:GUID.
+- `PrincipalTags`: Use this operation to configure attribute mappings for custom providers. 
 - `TokenDuration`: The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew. 
 """
 get_open_id_token_for_developer_identity(IdentityPoolId, Logins; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins); aws_config=aws_config)
 get_open_id_token_for_developer_identity(IdentityPoolId, Logins, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins), args)); aws_config=aws_config)
+
+"""
+    GetPrincipalTagAttributeMap()
+
+Use GetPrincipalTagAttributeMap to list all mappings between PrincipalTags and user attributes.
+
+# Required Parameters
+- `IdentityPoolId`: You can use this operation to get the ID of the Identity Pool you setup attribute mappings for.
+- `IdentityProviderName`: You can use this operation to get the provider name.
+
+"""
+get_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetPrincipalTagAttributeMap", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName); aws_config=aws_config)
+get_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("GetPrincipalTagAttributeMap", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName), args)); aws_config=aws_config)
 
 """
     ListIdentities()
@@ -229,18 +243,34 @@ Sets the roles for an identity pool. These roles are used when making calls to G
 - `Roles`: The map of roles associated with this pool. For a given role, the key will be either \"authenticated\" or \"unauthenticated\" and the value will be the Role ARN.
 
 # Optional Parameters
-- `RoleMappings`: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, \"graph.facebook.com\" or \"cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id\". Up to 25 rules can be specified per identity provider.
+- `RoleMappings`: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, \"graph.facebook.com\" or \"cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id\". Up to 25 rules can be specified per identity provider.
 """
 set_identity_pool_roles(IdentityPoolId, Roles; aws_config::AWSConfig=global_aws_config()) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles); aws_config=aws_config)
 set_identity_pool_roles(IdentityPoolId, Roles, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles), args)); aws_config=aws_config)
 
 """
-    TagResource()
+    SetPrincipalTagAttributeMap()
 
-Assigns a set of tags to an Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
+You can use this operation to use default (username and clientID) attribute or custom attribute mappings.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the identity pool to assign the tags to.
+- `IdentityPoolId`: The ID of the Identity Pool you want to set attribute mappings for.
+- `IdentityProviderName`: The provider name you want to use for attribute mappings.
+
+# Optional Parameters
+- `PrincipalTags`: You can use this operation to add principal tags.
+- `UseDefaults`: You can use this operation to use default (username and clientID) attribute mappings.
+"""
+set_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName; aws_config::AWSConfig=global_aws_config()) = cognito_identity("SetPrincipalTagAttributeMap", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName); aws_config=aws_config)
+set_principal_tag_attribute_map(IdentityPoolId, IdentityProviderName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cognito_identity("SetPrincipalTagAttributeMap", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "IdentityProviderName"=>IdentityProviderName), args)); aws_config=aws_config)
+
+"""
+    TagResource()
+
+Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
+
+# Required Parameters
+- `ResourceArn`: The Amazon Resource Name (ARN) of the identity pool.
 - `Tags`: The tags to assign to the identity pool.
 
 """
@@ -279,10 +309,10 @@ unlink_identity(IdentityId, Logins, LoginsToRemove, args::AbstractDict{String, <
 """
     UntagResource()
 
-Removes the specified tags from an Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
+Removes the specified tags from the specified Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the identity pool.
 - `TagKeys`: The keys of the tags to remove from the user pool.
 
 """
@@ -304,7 +334,7 @@ Updates an identity pool. You must use AWS Developer credentials to call this AP
 - `CognitoIdentityProviders`: A list representing an Amazon Cognito user pool and its client ID.
 - `DeveloperProviderName`: The \"domain\" by which Cognito will refer to your users.
 - `IdentityPoolTags`: The tags that are assigned to the identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria.
-- `OpenIdConnectProviderARNs`: A list of OpendID Connect provider ARNs.
+- `OpenIdConnectProviderARNs`: The ARNs of the OpenID Connect providers.
 - `SamlProviderARNs`: An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
 - `SupportedLoginProviders`: Optional key:value pairs mapping provider names to provider app IDs.
 """

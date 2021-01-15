@@ -150,7 +150,7 @@ delete_detector_version(detectorId, detectorVersionId, args::AbstractDict{String
 """
     DeleteEntityType()
 
-Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the entity type to delete.
@@ -162,7 +162,7 @@ delete_entity_type(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfi
 """
     DeleteEvent()
 
-Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event from the evaluation history, and the event data is no longer stored in Amazon Fraud Detector.
+Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `eventId`: The ID of the event to delete.
@@ -175,7 +175,7 @@ delete_event(eventId, eventTypeName, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteEventType()
 
-Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the event type to delete.
@@ -199,7 +199,7 @@ delete_external_model(modelEndpoint, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteLabel()
 
-Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the label to delete.
@@ -211,7 +211,7 @@ delete_label(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 """
     DeleteModel()
 
-Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model, Amazon Fraud Detector permanently deletes that model from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `modelId`: The model ID of the model to delete.
@@ -224,7 +224,7 @@ delete_model(modelId, modelType, args::AbstractDict{String, <:Any}; aws_config::
 """
     DeleteModelVersion()
 
-Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model version, Amazon Fraud Detector permanently deletes that model version from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `modelId`: The model ID of the model version to delete.
@@ -238,7 +238,7 @@ delete_model_version(modelId, modelType, modelVersionNumber, args::AbstractDict{
 """
     DeleteOutcome()
 
-Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the outcome to delete.
@@ -250,7 +250,7 @@ delete_outcome(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 """
     DeleteRule()
 
-Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `rule`: 
@@ -262,7 +262,7 @@ delete_rule(rule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=globa
 """
     DeleteVariable()
 
-Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable from the evaluation history, and the data is no longer stored in Amazon Fraud Detector.
+Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the variable to delete.
