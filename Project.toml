@@ -1,7 +1,7 @@
 name = "AWS"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 license = "MIT"
-version = "1.24.0"
+version = "1.25.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
