@@ -13,8 +13,9 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
-export JSONService, RestJSONService, RestXMLService, QueryService, AbstractAWSConfig
+export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
+export global_aws_config, generate_service_url, set_user_agent, sign!, sign_aws2!, sign_aws4!
+export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
 include("AWSExceptions.jl")
@@ -172,15 +173,15 @@ include("AWSServices.jl")
 _http_status(e::HTTP.StatusError) = e.status
 _header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
 
-function _sign!(aws::AbstractAWSConfig, request::Request; time::DateTime=now(Dates.UTC))
+function sign!(aws::AbstractAWSConfig, request::Request; time::DateTime=now(Dates.UTC))
     if request.service in ("sdb", "importexport")
-        _sign_aws2!(aws, request, time)
+        sign_aws2!(aws, request, time)
     else
-        _sign_aws4!(aws, request, time)
+        sign_aws4!(aws, request, time)
     end
 end
 
-function _sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
+function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 2 Authentication query parameters.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
 
@@ -212,7 +213,7 @@ function _sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     return request
 end
 
-function _sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
+function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 4 Authentication Headers.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
 
@@ -285,6 +286,19 @@ function _sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     return request
 end
 
+function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
+    SERVICE_HOST = "amazonaws.com"
+    reg = region(aws)
+
+    regionless_services = ("iam", "route53")
+
+    if service in regionless_services || (service == "sdb" && reg == "us-east-1")
+        reg = ""
+    end
+
+    return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+end
+
 function _http_request(request::Request)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
@@ -353,7 +367,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
-        credentials(aws) === nothing || _sign!(aws, request)
+        credentials(aws) === nothing || sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
@@ -450,19 +464,6 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
-    SERVICE_HOST = "amazonaws.com"
-    reg = region(aws)
-
-    regionless_services = ("iam", "route53")
-
-    if service in regionless_services || (service == "sdb" && reg == "us-east-1")
-        reg = ""
-    end
-
-    return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
-end
-
 function _return_headers(args::AbstractDict{String, <:Any})
     return_headers = get(args, "return_headers", false)
 
@@ -554,7 +555,7 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = _generate_service_url(aws_config, request.service, request.resource)
+    request.url = generate_service_url(aws_config, request.service, request.resource)
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
@@ -591,7 +592,7 @@ function (service::QueryService)(
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        url=_generate_service_url(aws_config, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -643,7 +644,7 @@ function (service::JSONService)(
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
-        url=_generate_service_url(aws_config, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -701,7 +702,7 @@ function (service::RestJSONService)(
         request.response_dict_type = pop!(args, "response_dict_type")
     end
 
-    request.url = _generate_service_url(aws_config, request.service, request.resource)
+    request.url = generate_service_url(aws_config, request.service, request.resource)
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)

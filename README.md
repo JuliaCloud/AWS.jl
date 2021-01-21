@@ -67,7 +67,7 @@ using AWS: @service
 ```
 
 ## Limitations
-Currently there are a few limitations with the high-level APIs. 
+Currently there are a few limitations with the high-level APIs.
 For example, with S3's DeleteMultipleObjects call.
 To remove multiple objects you must pass in an XML string (see below) in the body of the request.
 
@@ -108,10 +108,9 @@ S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
 ```
 There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
 
-## Modifying some functionality
-
-There are sometimes situations, in which default behavior of AWS.jl might be overridden, for example when this package is used to access S3-compatible object storage of a different cloud service provider, which might have different ways of joining the endpoint url, encoding the region in the signature etc. 
-In many cases this can be achieved by creating a user-defined subtype of `AbstractAWSConfig` where some of the default methods are overwritten. 
+## Modifying Functionality
+There are sometimes situations, in which default behavior of AWS.jl might be overridden, for example when this package is used to access S3-compatible object storage of a different cloud service provider, which might have different ways of joining the endpoint url, encoding the region in the signature etc.
+In many cases this can be achieved by creating a user-defined subtype of `AbstractAWSConfig` where some of the default methods are overwritten.
 For example, if you want to use the S3 high-level interface to access public data from GCS without authorisation, you could define:
 
 ````julia
@@ -120,20 +119,19 @@ struct NoCredentials end
 AWS.region(aws::AnonymousGCS) = "" # No region
 AWS.credentials(aws::AnonymousGCS) = NoCredentials() # No credentials
 AWS.check_credentials(c::NoCredentials) = c # Skip credentials check
-AWS._sign!(aws::AnonymousGCS, ::AWS.Request) = nothing # Don't sign request
-function AWS._generate_service_url(aws::AnonymousGCS, service::String, resource::String)
+AWS.sign!(aws::AnonymousGCS, ::AWS.Request) = nothing # Don't sign request
+function AWS.generate_service_url(aws::AnonymousGCS, service::String, resource::String)
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to GCS"))
     return string("https://storage.googleapis.com.", resource)
 end
 AWS.global_aws_config(AnonymousGCS())
 ````
 
-which skips some of the signature and credentials checking and modifies the generation of the endpoint url. 
-
+which skips some of the signature and credentials checking and modifies the generation of the endpoint url.
 A more extended example would be to use this package to access a custom minio server, we can define:
 
 ````julia
-struct MinioConfig <: AbstractAWSConfig 
+struct MinioConfig <: AbstractAWSConfig
 endpoint::String
 region::String
 creds
@@ -156,14 +154,14 @@ AWS.check_credentials(c::SimpleCredentials) = c
 as well as a custom url generator:
 
 ````julia
-function AWS._generate_service_url(aws::MinioConfig, service::String, resource::String)
+function AWS.generate_service_url(aws::MinioConfig, service::String, resource::String)
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
     return string(aws.endpoint, resource)
 end
 AWS.global_aws_config(MinioConfig("http://127.0.0.1:9000","aregion",SimpleCredentials("minio", "minio123","")))
 ````
 
-Now we are ready to use AWS.jl to do S3-compatible requests to a minio server. 
+Now we are ready to use AWS.jl to do S3-compatible requests to a minio server.
 
 
 ## Alternative Solutions
@@ -173,7 +171,7 @@ There are a few alternatives to this package, the two below are being deprecated
 
 As well as some hand-written packages for specific AWS services:
 * [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia 1.0+
-* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia 1.0+ 
+* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia 1.0+
 * [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia 0.7
 * [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia 0.6
 * [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia 0.6

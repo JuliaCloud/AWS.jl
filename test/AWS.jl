@@ -61,7 +61,7 @@ end
     )
 
     @testset "sign v2" begin
-        result = AWS._sign_aws2!(aws, request, time)
+        result = AWS.sign_aws2!(aws, request, time)
         content = result.content
         content_type = result.headers["Content-Type"]
 
@@ -87,7 +87,7 @@ end
         expected_content_md5 = base64encode(digest(MD_MD5, request.content))
         expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
-        result = AWS._sign_aws4!(aws, request, time)
+        result = AWS.sign_aws4!(aws, request, time)
         headers = result.headers
 
         @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
@@ -358,7 +358,7 @@ end
     @test result == expected
 end
 
-@testset "_generate_service_url" begin
+@testset "generate_service_url" begin
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
     config = AWSConfig()
@@ -375,7 +375,7 @@ end
         endpoint = "sdb"
         request.service = regionless_endpoint
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
-        result = AWS._generate_service_url(config, request.service, request.resource)
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -384,7 +384,7 @@ end
         endpoint = "sdb"
         request.service = endpoint
         expected_result = "https://$endpoint.$region.amazonaws.com$resource"
-        result = AWS._generate_service_url(config, request.service, request.resource)
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -395,7 +395,7 @@ end
         request.service = endpoint
         expected_result = "https://$endpoint.amazonaws.com$resource"
         config.region = "us-east-1"
-        result = AWS._generate_service_url(config, request.service, request.resource)
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
