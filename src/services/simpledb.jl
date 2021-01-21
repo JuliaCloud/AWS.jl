@@ -16,14 +16,8 @@ using AWS.UUIDs
 # Optional Parameters
 - `Items`: A list of items on which to perform the operation.
 """
-<<<<<<< HEAD
-batch_delete_attributes(DomainName, Item; aws_config::AWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
-batch_delete_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws_config=aws_config)
-=======
-
 batch_delete_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
 batch_delete_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchPutAttributes()
@@ -37,14 +31,8 @@ batch_delete_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws
 # Optional Parameters
 - `Items`: A list of items on which to perform the operation.
 """
-<<<<<<< HEAD
-batch_put_attributes(DomainName, Item; aws_config::AWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
-batch_put_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws_config=aws_config)
-=======
-
 batch_put_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
 batch_put_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDomain()
@@ -55,14 +43,8 @@ batch_put_attributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws_co
 - `DomainName`: The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 
 """
-<<<<<<< HEAD
-create_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-create_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 create_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteAttributes()
@@ -77,14 +59,8 @@ create_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 - `Attributes`: A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
 - `Expected`: The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
 """
-<<<<<<< HEAD
-delete_attributes(DomainName, ItemName; aws_config::AWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-delete_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
-=======
-
 delete_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
 delete_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDomain()
@@ -95,14 +71,8 @@ delete_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_c
 - `DomainName`: The name of the domain to delete.
 
 """
-<<<<<<< HEAD
-delete_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-delete_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 delete_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DomainMetadata()
@@ -113,14 +83,8 @@ delete_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 - `DomainName`: The name of the domain for which to display the metadata of.
 
 """
-<<<<<<< HEAD
-domain_metadata(DomainName; aws_config::AWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-domain_metadata(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 domain_metadata(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAttributes()
@@ -135,14 +99,8 @@ domain_metadata(DomainName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 - `AttributeNames`: The names of the attributes.
 - `ConsistentRead`: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
 """
-<<<<<<< HEAD
-get_attributes(DomainName, ItemName; aws_config::AWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-get_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
-=======
-
 get_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
 get_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDomains()
@@ -153,14 +111,8 @@ get_attributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_conf
 - `MaxNumberOfDomains`: The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
 - `NextToken`: A string informing Amazon SimpleDB where to start the next list of domain names.
 """
-<<<<<<< HEAD
-list_domains(; aws_config::AWSConfig=global_aws_config()) = simpledb("ListDomains"; aws_config=aws_config)
-list_domains(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("ListDomains", args; aws_config=aws_config)
-=======
-
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("ListDomains"; aws_config=aws_config)
 list_domains(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("ListDomains", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutAttributes()
@@ -176,14 +128,8 @@ list_domains(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 - `Attributes`: The list of attributes.
 - `Expected`: The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
 """
-<<<<<<< HEAD
-put_attributes(Attribute, DomainName, ItemName; aws_config::AWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-put_attributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
-=======
-
 put_attributes(Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
 put_attributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     Select()
@@ -197,11 +143,5 @@ put_attributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any
 - `ConsistentRead`: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
 - `NextToken`: A string informing Amazon SimpleDB where to start the next list of ItemNames.
 """
-<<<<<<< HEAD
-select(SelectExpression; aws_config::AWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}("SelectExpression"=>SelectExpression); aws_config=aws_config)
-select(SelectExpression, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), args)); aws_config=aws_config)
-=======
-
 select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}("SelectExpression"=>SelectExpression); aws_config=aws_config)
 select(SelectExpression, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

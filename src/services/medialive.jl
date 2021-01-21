@@ -13,8 +13,8 @@ Accept an incoming input device transfer. The ownership of the device will trans
 - `inputDeviceId`: The unique ID of the input device to accept. For example, hd-123456789abcdef.
 
 """
-accept_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept"; aws_config=aws_config)
-accept_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept", args; aws_config=aws_config)
+accept_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept"; aws_config=aws_config)
+accept_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept", args; aws_config=aws_config)
 
 """
     BatchDelete()
@@ -27,14 +27,8 @@ Starts delete of resources.
 - `inputSecurityGroupIds`: List of input security group IDs
 - `multiplexIds`: List of multiplex IDs
 """
-<<<<<<< HEAD
-batch_delete(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete"; aws_config=aws_config)
-batch_delete(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete", args; aws_config=aws_config)
-=======
-
 batch_delete(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete"; aws_config=aws_config)
 batch_delete(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchStart()
@@ -45,14 +39,8 @@ Starts existing resources
 - `channelIds`: List of channel IDs
 - `multiplexIds`: List of multiplex IDs
 """
-<<<<<<< HEAD
-batch_start(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start"; aws_config=aws_config)
-batch_start(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start", args; aws_config=aws_config)
-=======
-
 batch_start(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start"; aws_config=aws_config)
 batch_start(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchStop()
@@ -63,14 +51,8 @@ Stops running resources
 - `channelIds`: List of channel IDs
 - `multiplexIds`: List of multiplex IDs
 """
-<<<<<<< HEAD
-batch_stop(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop"; aws_config=aws_config)
-batch_stop(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop", args; aws_config=aws_config)
-=======
-
 batch_stop(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop"; aws_config=aws_config)
 batch_stop(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchUpdateSchedule()
@@ -84,14 +66,8 @@ Update a channel schedule
 - `creates`: Schedule actions to create in the schedule.
 - `deletes`: Schedule actions to delete from the schedule.
 """
-<<<<<<< HEAD
-batch_update_schedule(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
-batch_update_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
-=======
-
 batch_update_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
 batch_update_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelInputDeviceTransfer()
@@ -102,8 +78,8 @@ Cancel an input device transfer that you have requested.
 - `inputDeviceId`: The unique ID of the input device to cancel. For example, hd-123456789abcdef.
 
 """
-cancel_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel"; aws_config=aws_config)
-cancel_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel", args; aws_config=aws_config)
+cancel_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel"; aws_config=aws_config)
+cancel_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel", args; aws_config=aws_config)
 
 """
     CreateChannel()
@@ -126,14 +102,8 @@ creating multiple resources.
 - `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
 - `tags`: A collection of key-value pairs.
 """
-<<<<<<< HEAD
-create_channel(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
-create_channel(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
 create_channel(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInput()
@@ -161,14 +131,8 @@ Only specify sources for PULL type Inputs. Leave Destinations empty.
 - `type`: 
 - `vpc`: 
 """
-<<<<<<< HEAD
-create_input(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
-create_input(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_input(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
 create_input(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInputSecurityGroup()
@@ -179,14 +143,8 @@ Creates a Input Security Group
 - `tags`: A collection of key-value pairs.
 - `whitelistRules`: List of IPv4 CIDR addresses to whitelist
 """
-<<<<<<< HEAD
-create_input_security_group(; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups"; aws_config=aws_config)
-create_input_security_group(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups", args; aws_config=aws_config)
-=======
-
 create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups"; aws_config=aws_config)
 create_input_security_group(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateMultiplex()
@@ -204,14 +162,8 @@ resources.
 # Optional Parameters
 - `tags`: A collection of key-value pairs.
 """
-<<<<<<< HEAD
-create_multiplex(availabilityZones, multiplexSettings, name, requestId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId); aws_config=aws_config)
-create_multiplex(availabilityZones, multiplexSettings, name, requestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), args)); aws_config=aws_config)
-=======
-
 create_multiplex(availabilityZones, multiplexSettings, name, requestId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId); aws_config=aws_config)
 create_multiplex(availabilityZones, multiplexSettings, name, requestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateMultiplexProgram()
@@ -227,14 +179,8 @@ resources.
 
 
 """
-<<<<<<< HEAD
-create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId); aws_config=aws_config)
-create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), args)); aws_config=aws_config)
-=======
-
 create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId); aws_config=aws_config)
 create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateTags()
@@ -247,14 +193,8 @@ Create tags for a resource
 # Optional Parameters
 - `tags`: 
 """
-<<<<<<< HEAD
-create_tags(resource_arn; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
-create_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)", args; aws_config=aws_config)
-=======
-
 create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
 create_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteChannel()
@@ -265,14 +205,8 @@ Starts deletion of channel. The associated outputs are also deleted.
 - `channelId`: Unique ID of the channel.
 
 """
-<<<<<<< HEAD
-delete_channel(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)"; aws_config=aws_config)
-delete_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)", args; aws_config=aws_config)
-=======
-
 delete_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)"; aws_config=aws_config)
 delete_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInput()
@@ -283,14 +217,8 @@ Deletes the input end point
 - `inputId`: Unique ID of the input
 
 """
-<<<<<<< HEAD
-delete_input(inputId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)"; aws_config=aws_config)
-delete_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
-=======
-
 delete_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)"; aws_config=aws_config)
 delete_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInputSecurityGroup()
@@ -301,14 +229,8 @@ Deletes an Input Security Group
 - `inputSecurityGroupId`: The Input Security Group to delete
 
 """
-<<<<<<< HEAD
-delete_input_security_group(inputSecurityGroupId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
-delete_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
-=======
-
 delete_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
 delete_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMultiplex()
@@ -319,14 +241,8 @@ Delete a multiplex. The multiplex must be idle.
 - `multiplexId`: The ID of the multiplex.
 
 """
-<<<<<<< HEAD
-delete_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
-delete_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
-=======
-
 delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
 delete_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMultiplexProgram()
@@ -338,14 +254,8 @@ Delete a program from a multiplex.
 - `programName`: The multiplex program name.
 
 """
-<<<<<<< HEAD
-delete_multiplex_program(multiplexId, programName; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
-delete_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
-=======
-
 delete_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
 delete_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteReservation()
@@ -356,14 +266,8 @@ Delete an expired reservation.
 - `reservationId`: Unique reservation ID, e.g. '1234567'
 
 """
-<<<<<<< HEAD
-delete_reservation(reservationId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
-delete_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
-=======
-
 delete_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
 delete_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSchedule()
@@ -374,14 +278,8 @@ Delete all schedule actions on a channel.
 - `channelId`: Id of the channel whose schedule is being deleted.
 
 """
-<<<<<<< HEAD
-delete_schedule(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
-delete_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
-=======
-
 delete_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
 delete_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteTags()
@@ -393,14 +291,8 @@ Removes tags for a resource
 - `tagKeys`: An array of tag keys to delete
 
 """
-<<<<<<< HEAD
-delete_tags(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-delete_tags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 delete_tags(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 delete_tags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeChannel()
@@ -411,14 +303,8 @@ Gets details about a channel
 - `channelId`: channel ID
 
 """
-<<<<<<< HEAD
-describe_channel(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)"; aws_config=aws_config)
-describe_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)", args; aws_config=aws_config)
-=======
-
 describe_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)"; aws_config=aws_config)
 describe_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeInput()
@@ -429,14 +315,8 @@ Produces details about an input
 - `inputId`: Unique ID of the input
 
 """
-<<<<<<< HEAD
-describe_input(inputId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)"; aws_config=aws_config)
-describe_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
-=======
-
 describe_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)"; aws_config=aws_config)
 describe_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeInputDevice()
@@ -447,14 +327,8 @@ Gets the details for the input device
 - `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
-<<<<<<< HEAD
-describe_input_device(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config)
-describe_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", args; aws_config=aws_config)
-=======
-
 describe_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config)
 describe_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeInputDeviceThumbnail()
@@ -466,14 +340,8 @@ Get the latest thumbnail data for the input device.
 - `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
-<<<<<<< HEAD
-describe_input_device_thumbnail(accept, inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)); aws_config=aws_config)
-describe_input_device_thumbnail(accept, inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), args)); aws_config=aws_config)
-=======
-
 describe_input_device_thumbnail(accept, inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)); aws_config=aws_config)
 describe_input_device_thumbnail(accept, inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeInputSecurityGroup()
@@ -484,14 +352,8 @@ Produces a summary of an Input Security Group
 - `inputSecurityGroupId`: The id of the Input Security Group to describe
 
 """
-<<<<<<< HEAD
-describe_input_security_group(inputSecurityGroupId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
-describe_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
-=======
-
 describe_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
 describe_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeMultiplex()
@@ -502,14 +364,8 @@ Gets details about a multiplex.
 - `multiplexId`: The ID of the multiplex.
 
 """
-<<<<<<< HEAD
-describe_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
-describe_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
-=======
-
 describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
 describe_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeMultiplexProgram()
@@ -521,14 +377,8 @@ Get the details for a program in a multiplex.
 - `programName`: The name of the program.
 
 """
-<<<<<<< HEAD
-describe_multiplex_program(multiplexId, programName; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
-describe_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
-=======
-
 describe_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
 describe_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeOffering()
@@ -539,14 +389,8 @@ Get details for an offering.
 - `offeringId`: Unique offering ID, e.g. '87654321'
 
 """
-<<<<<<< HEAD
-describe_offering(offeringId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)"; aws_config=aws_config)
-describe_offering(offeringId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)", args; aws_config=aws_config)
-=======
-
 describe_offering(offeringId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)"; aws_config=aws_config)
 describe_offering(offeringId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings/$(offeringId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeReservation()
@@ -557,14 +401,8 @@ Get details for a reservation.
 - `reservationId`: Unique reservation ID, e.g. '1234567'
 
 """
-<<<<<<< HEAD
-describe_reservation(reservationId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
-describe_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
-=======
-
 describe_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
 describe_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeSchedule()
@@ -578,14 +416,8 @@ Get a channel schedule
 - `maxResults`: 
 - `nextToken`: 
 """
-<<<<<<< HEAD
-describe_schedule(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
-describe_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
-=======
-
 describe_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
 describe_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListChannels()
@@ -596,14 +428,8 @@ Produces list of channels that have been created
 - `maxResults`: 
 - `nextToken`: 
 """
-<<<<<<< HEAD
-list_channels(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels"; aws_config=aws_config)
-list_channels(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", args; aws_config=aws_config)
-=======
-
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels"; aws_config=aws_config)
 list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInputDeviceTransfers()
@@ -617,8 +443,8 @@ List input devices that are currently being transferred. List input devices that
 - `maxResults`: 
 - `nextToken`: 
 """
-list_input_device_transfers(transferType; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}("transferType"=>transferType); aws_config=aws_config)
-list_input_device_transfers(transferType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), args)); aws_config=aws_config)
+list_input_device_transfers(transferType; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}("transferType"=>transferType); aws_config=aws_config)
+list_input_device_transfers(transferType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), args)); aws_config=aws_config)
 
 """
     ListInputDevices()
@@ -629,14 +455,8 @@ List input devices
 - `maxResults`: 
 - `nextToken`: 
 """
-<<<<<<< HEAD
-list_input_devices(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices"; aws_config=aws_config)
-list_input_devices(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices", args; aws_config=aws_config)
-=======
-
 list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices"; aws_config=aws_config)
 list_input_devices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInputSecurityGroups()
@@ -647,14 +467,8 @@ Produces a list of Input Security Groups for an account
 - `maxResults`: 
 - `nextToken`: 
 """
-<<<<<<< HEAD
-list_input_security_groups(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups"; aws_config=aws_config)
-list_input_security_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", args; aws_config=aws_config)
-=======
-
 list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups"; aws_config=aws_config)
 list_input_security_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInputs()
@@ -665,14 +479,8 @@ Produces list of inputs that have been created
 - `maxResults`: 
 - `nextToken`: 
 """
-<<<<<<< HEAD
-list_inputs(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs"; aws_config=aws_config)
-list_inputs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs", args; aws_config=aws_config)
-=======
-
 list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs"; aws_config=aws_config)
 list_inputs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMultiplexPrograms()
@@ -686,14 +494,8 @@ List the programs that currently exist for a specific multiplex.
 - `maxResults`: The maximum number of items to return.
 - `nextToken`: The token to retrieve the next page of results.
 """
-<<<<<<< HEAD
-list_multiplex_programs(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs"; aws_config=aws_config)
-list_multiplex_programs(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", args; aws_config=aws_config)
-=======
-
 list_multiplex_programs(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs"; aws_config=aws_config)
 list_multiplex_programs(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMultiplexes()
@@ -704,14 +506,8 @@ Retrieve a list of the existing multiplexes.
 - `maxResults`: The maximum number of items to return.
 - `nextToken`: The token to retrieve the next page of results.
 """
-<<<<<<< HEAD
-list_multiplexes(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes"; aws_config=aws_config)
-list_multiplexes(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes", args; aws_config=aws_config)
-=======
-
 list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes"; aws_config=aws_config)
 list_multiplexes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListOfferings()
@@ -737,14 +533,8 @@ List offerings available for purchase.
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 
 """
-<<<<<<< HEAD
-list_offerings(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings"; aws_config=aws_config)
-list_offerings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings", args; aws_config=aws_config)
-=======
-
 list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings"; aws_config=aws_config)
 list_offerings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListReservations()
@@ -767,14 +557,8 @@ List purchased reservations.
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 
 """
-<<<<<<< HEAD
-list_reservations(; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations"; aws_config=aws_config)
-list_reservations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations", args; aws_config=aws_config)
-=======
-
 list_reservations(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations"; aws_config=aws_config)
 list_reservations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -785,14 +569,8 @@ Produces list of tags that have been created for a resource
 - `resource-arn`: 
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resource_arn; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
-list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)", args; aws_config=aws_config)
-=======
-
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
 list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     PurchaseOffering()
@@ -809,14 +587,8 @@ Purchase an offering and create a reservation.
 - `start`: Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
 - `tags`: A collection of key-value pairs
 """
-<<<<<<< HEAD
-purchase_offering(count, offeringId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws_config=aws_config)
-purchase_offering(count, offeringId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 purchase_offering(count, offeringId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws_config=aws_config)
 purchase_offering(count, offeringId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectInputDeviceTransfer()
@@ -827,8 +599,8 @@ Reject the transfer of the specified input device to your AWS account.
 - `inputDeviceId`: The unique ID of the input device to reject. For example, hd-123456789abcdef.
 
 """
-reject_input_device_transfer(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject"; aws_config=aws_config)
-reject_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject", args; aws_config=aws_config)
+reject_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject"; aws_config=aws_config)
+reject_input_device_transfer(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject", args; aws_config=aws_config)
 
 """
     StartChannel()
@@ -839,14 +611,8 @@ Starts an existing channel
 - `channelId`: A request to start a channel
 
 """
-<<<<<<< HEAD
-start_channel(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start"; aws_config=aws_config)
-start_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start", args; aws_config=aws_config)
-=======
-
 start_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start"; aws_config=aws_config)
 start_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/start", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartMultiplex()
@@ -857,14 +623,8 @@ Start (run) the multiplex. Starting the multiplex does not start the channels. Y
 - `multiplexId`: The ID of the multiplex.
 
 """
-<<<<<<< HEAD
-start_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start"; aws_config=aws_config)
-start_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", args; aws_config=aws_config)
-=======
-
 start_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start"; aws_config=aws_config)
 start_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopChannel()
@@ -875,14 +635,8 @@ Stops a running channel
 - `channelId`: A request to stop a running channel
 
 """
-<<<<<<< HEAD
-stop_channel(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop"; aws_config=aws_config)
-stop_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop", args; aws_config=aws_config)
-=======
-
 stop_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop"; aws_config=aws_config)
 stop_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels/$(channelId)/stop", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopMultiplex()
@@ -893,14 +647,8 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 - `multiplexId`: The ID of the multiplex.
 
 """
-<<<<<<< HEAD
-stop_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws_config=aws_config)
-stop_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args; aws_config=aws_config)
-=======
-
 stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws_config=aws_config)
 stop_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TransferInputDevice()
@@ -914,8 +662,8 @@ Start an input device transfer to another AWS account. After you make the reques
 - `targetCustomerId`: The AWS account ID (12 digits) for the recipient of the device transfer.
 - `transferMessage`: An optional message for the recipient. Maximum 280 characters.
 """
-transfer_input_device(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config)
-transfer_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer", args; aws_config=aws_config)
+transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config)
+transfer_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer", args; aws_config=aws_config)
 
 """
     UpdateChannel()
@@ -935,14 +683,8 @@ Updates a channel.
 - `name`: The name of the channel.
 - `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
 """
-<<<<<<< HEAD
-update_channel(channelId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)"; aws_config=aws_config)
-update_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)", args; aws_config=aws_config)
-=======
-
 update_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)"; aws_config=aws_config)
 update_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateChannelClass()
@@ -956,14 +698,8 @@ Changes the class of the channel.
 # Optional Parameters
 - `destinations`: A list of output destinations for this channel.
 """
-<<<<<<< HEAD
-update_channel_class(channelClass, channelId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}("channelClass"=>channelClass); aws_config=aws_config)
-update_channel_class(channelClass, channelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), args)); aws_config=aws_config)
-=======
-
 update_channel_class(channelClass, channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}("channelClass"=>channelClass); aws_config=aws_config)
 update_channel_class(channelClass, channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateInput()
@@ -988,14 +724,8 @@ exactly two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave Destinations empty.
 
 """
-<<<<<<< HEAD
-update_input(inputId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)"; aws_config=aws_config)
-update_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
-=======
-
 update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)"; aws_config=aws_config)
 update_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateInputDevice()
@@ -1010,14 +740,8 @@ Updates the parameters for the input device.
 - `name`: The name that you assigned to this input device (not the unique ID).
 - `uhdDeviceSettings`: The settings that you want to apply to the UHD input device.
 """
-<<<<<<< HEAD
-update_input_device(inputDeviceId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config)
-update_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args; aws_config=aws_config)
-=======
-
 update_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws_config=aws_config)
 update_input_device(inputDeviceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateInputSecurityGroup()
@@ -1031,14 +755,8 @@ Update an Input Security Group's Whilelists.
 - `tags`: A collection of key-value pairs.
 - `whitelistRules`: List of IPv4 CIDR addresses to whitelist
 """
-<<<<<<< HEAD
-update_input_security_group(inputSecurityGroupId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
-update_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
-=======
-
 update_input_security_group(inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws_config=aws_config)
 update_input_security_group(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMultiplex()
@@ -1052,14 +770,8 @@ Updates a multiplex.
 - `multiplexSettings`: The new settings for a multiplex.
 - `name`: Name of the multiplex.
 """
-<<<<<<< HEAD
-update_multiplex(multiplexId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
-update_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
-=======
-
 update_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)"; aws_config=aws_config)
 update_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMultiplexProgram()
@@ -1073,14 +785,8 @@ Update a program in a multiplex.
 # Optional Parameters
 - `multiplexProgramSettings`: The new settings for a multiplex program.
 """
-<<<<<<< HEAD
-update_multiplex_program(multiplexId, programName; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
-update_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
-=======
-
 update_multiplex_program(multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws_config=aws_config)
 update_multiplex_program(multiplexId, programName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateReservation()
@@ -1093,11 +799,5 @@ Update reservation.
 # Optional Parameters
 - `name`: Name of the reservation
 """
-<<<<<<< HEAD
-update_reservation(reservationId; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
-update_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
-=======
-
 update_reservation(reservationId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)"; aws_config=aws_config)
 update_reservation(reservationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/reservations/$(reservationId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

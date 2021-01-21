@@ -14,8 +14,8 @@ using AWS.UUIDs
 - `evidenceFolderId`:  The identifier for the folder in which evidence is stored. 
 
 """
-associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config)
-associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), args)); aws_config=aws_config)
+associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config)
+associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), args)); aws_config=aws_config)
 
 """
     BatchAssociateAssessmentReportEvidence()
@@ -28,8 +28,8 @@ associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, args
 - `evidenceIds`:  The list of evidence identifiers. 
 
 """
-batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config)
-batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), args)); aws_config=aws_config)
+batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config)
+batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), args)); aws_config=aws_config)
 
 """
     BatchCreateDelegationByAssessment()
@@ -41,8 +41,8 @@ batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evide
 - `createDelegationRequests`:  The API request to batch create delegations in AWS Audit Manager. 
 
 """
-batch_create_delegation_by_assessment(assessmentId, createDelegationRequests; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("createDelegationRequests"=>createDelegationRequests); aws_config=aws_config)
-batch_create_delegation_by_assessment(assessmentId, createDelegationRequests, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createDelegationRequests"=>createDelegationRequests), args)); aws_config=aws_config)
+batch_create_delegation_by_assessment(assessmentId, createDelegationRequests; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("createDelegationRequests"=>createDelegationRequests); aws_config=aws_config)
+batch_create_delegation_by_assessment(assessmentId, createDelegationRequests, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createDelegationRequests"=>createDelegationRequests), args)); aws_config=aws_config)
 
 """
     BatchDeleteDelegationByAssessment()
@@ -54,8 +54,8 @@ batch_create_delegation_by_assessment(assessmentId, createDelegationRequests, ar
 - `delegationIds`:  The identifiers for the specified delegations. 
 
 """
-batch_delete_delegation_by_assessment(assessmentId, delegationIds; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("delegationIds"=>delegationIds); aws_config=aws_config)
-batch_delete_delegation_by_assessment(assessmentId, delegationIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("delegationIds"=>delegationIds), args)); aws_config=aws_config)
+batch_delete_delegation_by_assessment(assessmentId, delegationIds; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("delegationIds"=>delegationIds); aws_config=aws_config)
+batch_delete_delegation_by_assessment(assessmentId, delegationIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("delegationIds"=>delegationIds), args)); aws_config=aws_config)
 
 """
     BatchDisassociateAssessmentReportEvidence()
@@ -68,8 +68,8 @@ batch_delete_delegation_by_assessment(assessmentId, delegationIds, args::Abstrac
 - `evidenceIds`:  The list of evidence identifiers. 
 
 """
-batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config)
-batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), args)); aws_config=aws_config)
+batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config)
+batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), args)); aws_config=aws_config)
 
 """
     BatchImportEvidenceToAssessmentControl()
@@ -83,8 +83,8 @@ batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, ev
 - `manualEvidence`:  The list of manual evidence objects. 
 
 """
-batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}("manualEvidence"=>manualEvidence); aws_config=aws_config)
-batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manualEvidence"=>manualEvidence), args)); aws_config=aws_config)
+batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}("manualEvidence"=>manualEvidence); aws_config=aws_config)
+batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manualEvidence"=>manualEvidence), args)); aws_config=aws_config)
 
 """
     CreateAssessment()
@@ -102,8 +102,8 @@ batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetI
 - `description`:  The optional description of the assessment to be created. 
 - `tags`:  The tags associated with the assessment. 
 """
-create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope); aws_config=aws_config)
-create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope), args)); aws_config=aws_config)
+create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope); aws_config=aws_config)
+create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope), args)); aws_config=aws_config)
 
 """
     CreateAssessmentFramework()
@@ -119,8 +119,8 @@ create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope,
 - `description`:  An optional description for the new custom framework. 
 - `tags`:  The tags associated with the framework. 
 """
-create_assessment_framework(controlSets, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config)
-create_assessment_framework(controlSets, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), args)); aws_config=aws_config)
+create_assessment_framework(controlSets, name; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config)
+create_assessment_framework(controlSets, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateAssessmentReport()
@@ -134,8 +134,8 @@ create_assessment_framework(controlSets, name, args::AbstractDict{String, <:Any}
 # Optional Parameters
 - `description`:  The description of the assessment report. 
 """
-create_assessment_report(assessmentId, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_assessment_report(assessmentId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_assessment_report(assessmentId, name; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_assessment_report(assessmentId, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateControl()
@@ -153,8 +153,8 @@ create_assessment_report(assessmentId, name, args::AbstractDict{String, <:Any}; 
 - `tags`:  The tags associated with the control. 
 - `testingInformation`:  The steps to follow to determine if the control has been satisfied. 
 """
-create_control(controlMappingSources, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config)
-create_control(controlMappingSources, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), args)); aws_config=aws_config)
+create_control(controlMappingSources, name; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config)
+create_control(controlMappingSources, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), args)); aws_config=aws_config)
 
 """
     DeleteAssessment()
@@ -165,8 +165,8 @@ create_control(controlMappingSources, name, args::AbstractDict{String, <:Any}; a
 - `assessmentId`:  The identifier for the specified assessment. 
 
 """
-delete_assessment(assessmentId; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)"; aws_config=aws_config)
-delete_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)", args; aws_config=aws_config)
+delete_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)"; aws_config=aws_config)
+delete_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)", args; aws_config=aws_config)
 
 """
     DeleteAssessmentFramework()
@@ -177,8 +177,8 @@ delete_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::A
 - `frameworkId`:  The identifier for the specified framework. 
 
 """
-delete_assessment_framework(frameworkId; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config)
-delete_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)", args; aws_config=aws_config)
+delete_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config)
+delete_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)", args; aws_config=aws_config)
 
 """
     DeleteAssessmentReport()
@@ -190,8 +190,8 @@ delete_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_
 - `assessmentReportId`:  The unique identifier for the assessment report. 
 
 """
-delete_assessment_report(assessmentId, assessmentReportId; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)"; aws_config=aws_config)
-delete_assessment_report(assessmentId, assessmentReportId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)", args; aws_config=aws_config)
+delete_assessment_report(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)"; aws_config=aws_config)
+delete_assessment_report(assessmentId, assessmentReportId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)", args; aws_config=aws_config)
 
 """
     DeleteControl()
@@ -202,8 +202,8 @@ delete_assessment_report(assessmentId, assessmentReportId, args::AbstractDict{St
 - `controlId`:  The identifier for the specified control. 
 
 """
-delete_control(controlId; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)"; aws_config=aws_config)
-delete_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)", args; aws_config=aws_config)
+delete_control(controlId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)"; aws_config=aws_config)
+delete_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)", args; aws_config=aws_config)
 
 """
     DeregisterAccount()
@@ -211,8 +211,8 @@ delete_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AWSConf
  Deregisters an account in AWS Audit Manager. 
 
 """
-deregister_account(; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount"; aws_config=aws_config)
-deregister_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount", args; aws_config=aws_config)
+deregister_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount"; aws_config=aws_config)
+deregister_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount", args; aws_config=aws_config)
 
 """
     DeregisterOrganizationAdminAccount()
@@ -222,8 +222,8 @@ deregister_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global
 # Optional Parameters
 - `adminAccountId`:  The identifier for the specified administrator account. 
 """
-deregister_organization_admin_account(; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount"; aws_config=aws_config)
-deregister_organization_admin_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount", args; aws_config=aws_config)
+deregister_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount"; aws_config=aws_config)
+deregister_organization_admin_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount", args; aws_config=aws_config)
 
 """
     DisassociateAssessmentReportEvidenceFolder()
@@ -235,8 +235,8 @@ deregister_organization_admin_account(args::AbstractDict{String, Any}; aws_confi
 - `evidenceFolderId`:  The identifier for the folder in which evidence is stored. 
 
 """
-disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config)
-disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), args)); aws_config=aws_config)
+disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config)
+disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), args)); aws_config=aws_config)
 
 """
     GetAccountStatus()
@@ -244,8 +244,8 @@ disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, a
  Returns the registration status of an account in AWS Audit Manager. 
 
 """
-get_account_status(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/account/status"; aws_config=aws_config)
-get_account_status(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/account/status", args; aws_config=aws_config)
+get_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/status"; aws_config=aws_config)
+get_account_status(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/status", args; aws_config=aws_config)
 
 """
     GetAssessment()
@@ -256,8 +256,8 @@ get_account_status(args::AbstractDict{String, Any}; aws_config::AWSConfig=global
 - `assessmentId`:  The identifier for the specified assessment. 
 
 """
-get_assessment(assessmentId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)"; aws_config=aws_config)
-get_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)", args; aws_config=aws_config)
+get_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)"; aws_config=aws_config)
+get_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)", args; aws_config=aws_config)
 
 """
     GetAssessmentFramework()
@@ -268,8 +268,8 @@ get_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWSC
 - `frameworkId`:  The identifier for the specified framework. 
 
 """
-get_assessment_framework(frameworkId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config)
-get_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)", args; aws_config=aws_config)
+get_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config)
+get_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)", args; aws_config=aws_config)
 
 """
     GetAssessmentReportUrl()
@@ -281,8 +281,8 @@ get_assessment_framework(frameworkId, args::AbstractDict{String, <:Any}; aws_con
 - `assessmentReportId`:  The identifier for the assessment report. 
 
 """
-get_assessment_report_url(assessmentId, assessmentReportId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url"; aws_config=aws_config)
-get_assessment_report_url(assessmentId, assessmentReportId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url", args; aws_config=aws_config)
+get_assessment_report_url(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url"; aws_config=aws_config)
+get_assessment_report_url(assessmentId, assessmentReportId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url", args; aws_config=aws_config)
 
 """
     GetChangeLogs()
@@ -298,8 +298,8 @@ get_assessment_report_url(assessmentId, assessmentReportId, args::AbstractDict{S
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-get_change_logs(assessmentId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs"; aws_config=aws_config)
-get_change_logs(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs", args; aws_config=aws_config)
+get_change_logs(assessmentId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs"; aws_config=aws_config)
+get_change_logs(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs", args; aws_config=aws_config)
 
 """
     GetControl()
@@ -310,8 +310,8 @@ get_change_logs(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWS
 - `controlId`:  The identifier for the specified control. 
 
 """
-get_control(controlId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/controls/$(controlId)"; aws_config=aws_config)
-get_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/controls/$(controlId)", args; aws_config=aws_config)
+get_control(controlId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/controls/$(controlId)"; aws_config=aws_config)
+get_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/controls/$(controlId)", args; aws_config=aws_config)
 
 """
     GetDelegations()
@@ -322,8 +322,8 @@ get_control(controlId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-get_delegations(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/delegations"; aws_config=aws_config)
-get_delegations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/delegations", args; aws_config=aws_config)
+get_delegations(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/delegations"; aws_config=aws_config)
+get_delegations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/delegations", args; aws_config=aws_config)
 
 """
     GetEvidence()
@@ -337,8 +337,8 @@ get_delegations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aw
 - `evidenceId`:  The identifier for the evidence. 
 
 """
-get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)"; aws_config=aws_config)
-get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)", args; aws_config=aws_config)
+get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)"; aws_config=aws_config)
+get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)", args; aws_config=aws_config)
 
 """
     GetEvidenceByEvidenceFolder()
@@ -354,8 +354,8 @@ get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId, args::Abs
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence"; aws_config=aws_config)
-get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence", args; aws_config=aws_config)
+get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence"; aws_config=aws_config)
+get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence", args; aws_config=aws_config)
 
 """
     GetEvidenceFolder()
@@ -368,8 +368,8 @@ get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId, ar
 - `evidenceFolderId`:  The identifier for the folder in which the evidence is stored. 
 
 """
-get_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)"; aws_config=aws_config)
-get_evidence_folder(assessmentId, controlSetId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)", args; aws_config=aws_config)
+get_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)"; aws_config=aws_config)
+get_evidence_folder(assessmentId, controlSetId, evidenceFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)", args; aws_config=aws_config)
 
 """
     GetEvidenceFoldersByAssessment()
@@ -383,8 +383,8 @@ get_evidence_folder(assessmentId, controlSetId, evidenceFolderId, args::Abstract
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-get_evidence_folders_by_assessment(assessmentId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders"; aws_config=aws_config)
-get_evidence_folders_by_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders", args; aws_config=aws_config)
+get_evidence_folders_by_assessment(assessmentId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders"; aws_config=aws_config)
+get_evidence_folders_by_assessment(assessmentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders", args; aws_config=aws_config)
 
 """
     GetEvidenceFoldersByAssessmentControl()
@@ -400,8 +400,8 @@ get_evidence_folders_by_assessment(assessmentId, args::AbstractDict{String, <:An
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)"; aws_config=aws_config)
-get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)", args; aws_config=aws_config)
+get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)"; aws_config=aws_config)
+get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)", args; aws_config=aws_config)
 
 """
     GetOrganizationAdminAccount()
@@ -409,8 +409,8 @@ get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId
  Returns the name of the delegated AWS administrator account for the AWS organization. 
 
 """
-get_organization_admin_account(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount"; aws_config=aws_config)
-get_organization_admin_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount", args; aws_config=aws_config)
+get_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount"; aws_config=aws_config)
+get_organization_admin_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount", args; aws_config=aws_config)
 
 """
     GetServicesInScope()
@@ -418,8 +418,8 @@ get_organization_admin_account(args::AbstractDict{String, Any}; aws_config::AWSC
  Returns a list of the in-scope AWS services for the specified assessment. 
 
 """
-get_services_in_scope(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/services"; aws_config=aws_config)
-get_services_in_scope(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/services", args; aws_config=aws_config)
+get_services_in_scope(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/services"; aws_config=aws_config)
+get_services_in_scope(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/services", args; aws_config=aws_config)
 
 """
     GetSettings()
@@ -430,8 +430,8 @@ get_services_in_scope(args::AbstractDict{String, Any}; aws_config::AWSConfig=glo
 - `attribute`:  The list of SettingAttribute enum values. 
 
 """
-get_settings(attribute; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/settings/$(attribute)"; aws_config=aws_config)
-get_settings(attribute, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/settings/$(attribute)", args; aws_config=aws_config)
+get_settings(attribute; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/settings/$(attribute)"; aws_config=aws_config)
+get_settings(attribute, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/settings/$(attribute)", args; aws_config=aws_config)
 
 """
     ListAssessmentFrameworks()
@@ -445,8 +445,8 @@ get_settings(attribute, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_assessment_frameworks(frameworkType; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}("frameworkType"=>frameworkType); aws_config=aws_config)
-list_assessment_frameworks(frameworkType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("frameworkType"=>frameworkType), args)); aws_config=aws_config)
+list_assessment_frameworks(frameworkType; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}("frameworkType"=>frameworkType); aws_config=aws_config)
+list_assessment_frameworks(frameworkType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("frameworkType"=>frameworkType), args)); aws_config=aws_config)
 
 """
     ListAssessmentReports()
@@ -457,8 +457,8 @@ list_assessment_frameworks(frameworkType, args::AbstractDict{String, <:Any}; aws
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_assessment_reports(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports"; aws_config=aws_config)
-list_assessment_reports(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports", args; aws_config=aws_config)
+list_assessment_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports"; aws_config=aws_config)
+list_assessment_reports(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports", args; aws_config=aws_config)
 
 """
     ListAssessments()
@@ -469,8 +469,8 @@ list_assessment_reports(args::AbstractDict{String, Any}; aws_config::AWSConfig=g
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_assessments(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments"; aws_config=aws_config)
-list_assessments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/assessments", args; aws_config=aws_config)
+list_assessments(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments"; aws_config=aws_config)
+list_assessments(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments", args; aws_config=aws_config)
 
 """
     ListControls()
@@ -484,8 +484,8 @@ list_assessments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_a
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_controls(controlType; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}("controlType"=>controlType); aws_config=aws_config)
-list_controls(controlType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlType"=>controlType), args)); aws_config=aws_config)
+list_controls(controlType; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}("controlType"=>controlType); aws_config=aws_config)
+list_controls(controlType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlType"=>controlType), args)); aws_config=aws_config)
 
 """
     ListKeywordsForDataSource()
@@ -499,8 +499,8 @@ list_controls(controlType, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_keywords_for_data_source(source; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}("source"=>source); aws_config=aws_config)
-list_keywords_for_data_source(source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source), args)); aws_config=aws_config)
+list_keywords_for_data_source(source; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}("source"=>source); aws_config=aws_config)
+list_keywords_for_data_source(source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source), args)); aws_config=aws_config)
 
 """
     ListNotifications()
@@ -511,8 +511,8 @@ list_keywords_for_data_source(source, args::AbstractDict{String, <:Any}; aws_con
 - `maxResults`:  Represents the maximum number of results per page, or per API request call. 
 - `nextToken`:  The pagination token used to fetch the next set of results. 
 """
-list_notifications(; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/notifications"; aws_config=aws_config)
-list_notifications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/notifications", args; aws_config=aws_config)
+list_notifications(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/notifications"; aws_config=aws_config)
+list_notifications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/notifications", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -523,8 +523,8 @@ list_notifications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global
 - `resourceArn`:  The Amazon Resource Name (ARN) of the specified resource. 
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     RegisterAccount()
@@ -535,8 +535,8 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 - `delegatedAdminAccount`:  The delegated administrator account for AWS Audit Manager. 
 - `kmsKey`:  The AWS KMS key details. 
 """
-register_account(; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount"; aws_config=aws_config)
-register_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount", args; aws_config=aws_config)
+register_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount"; aws_config=aws_config)
+register_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount", args; aws_config=aws_config)
 
 """
     RegisterOrganizationAdminAccount()
@@ -547,8 +547,8 @@ register_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_a
 - `adminAccountId`:  The identifier for the specified delegated administrator account. 
 
 """
-register_organization_admin_account(adminAccountId; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
-register_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
+register_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
+register_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -560,8 +560,8 @@ register_organization_admin_account(adminAccountId, args::AbstractDict{String, <
 - `tags`:  The tags to be associated with the resource. 
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -573,8 +573,8 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 - `tagKeys`:  The name or key of the tag. 
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateAssessment()
@@ -591,8 +591,8 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 - `assessmentReportsDestination`:  The assessment report storage destination for the specified assessment that is being updated. 
 - `roles`:  The list of roles for the specified assessment. 
 """
-update_assessment(assessmentId, scope; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}("scope"=>scope); aws_config=aws_config)
-update_assessment(assessmentId, scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("scope"=>scope), args)); aws_config=aws_config)
+update_assessment(assessmentId, scope; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}("scope"=>scope); aws_config=aws_config)
+update_assessment(assessmentId, scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("scope"=>scope), args)); aws_config=aws_config)
 
 """
     UpdateAssessmentControl()
@@ -608,8 +608,8 @@ update_assessment(assessmentId, scope, args::AbstractDict{String, <:Any}; aws_co
 - `commentBody`:  The comment body text for the specified control. 
 - `controlStatus`:  The status of the specified control. 
 """
-update_assessment_control(assessmentId, controlId, controlSetId; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)"; aws_config=aws_config)
-update_assessment_control(assessmentId, controlId, controlSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)", args; aws_config=aws_config)
+update_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)"; aws_config=aws_config)
+update_assessment_control(assessmentId, controlId, controlSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)", args; aws_config=aws_config)
 
 """
     UpdateAssessmentControlSetStatus()
@@ -623,8 +623,8 @@ update_assessment_control(assessmentId, controlId, controlSetId, args::AbstractD
 - `status`:  The status of the control set that is being updated. 
 
 """
-update_assessment_control_set_status(assessmentId, comment, controlSetId, status; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}("comment"=>comment, "status"=>status); aws_config=aws_config)
-update_assessment_control_set_status(assessmentId, comment, controlSetId, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("comment"=>comment, "status"=>status), args)); aws_config=aws_config)
+update_assessment_control_set_status(assessmentId, comment, controlSetId, status; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}("comment"=>comment, "status"=>status); aws_config=aws_config)
+update_assessment_control_set_status(assessmentId, comment, controlSetId, status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("comment"=>comment, "status"=>status), args)); aws_config=aws_config)
 
 """
     UpdateAssessmentFramework()
@@ -640,8 +640,8 @@ update_assessment_control_set_status(assessmentId, comment, controlSetId, status
 - `complianceType`:  The compliance type that the new custom framework supports, such as CIS or HIPAA. 
 - `description`:  The description of the framework that is to be updated. 
 """
-update_assessment_framework(controlSets, frameworkId, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config)
-update_assessment_framework(controlSets, frameworkId, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), args)); aws_config=aws_config)
+update_assessment_framework(controlSets, frameworkId, name; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config)
+update_assessment_framework(controlSets, frameworkId, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), args)); aws_config=aws_config)
 
 """
     UpdateAssessmentStatus()
@@ -653,8 +653,8 @@ update_assessment_framework(controlSets, frameworkId, name, args::AbstractDict{S
 - `status`:  The current status of the specified assessment. 
 
 """
-update_assessment_status(assessmentId, status; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_assessment_status(assessmentId, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)
+update_assessment_status(assessmentId, status; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}("status"=>status); aws_config=aws_config)
+update_assessment_status(assessmentId, status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)
 
 """
     UpdateControl()
@@ -672,8 +672,8 @@ update_assessment_status(assessmentId, status, args::AbstractDict{String, <:Any}
 - `description`:  The optional description of the control. 
 - `testingInformation`:  The steps that to follow to determine if the control has been satisfied. 
 """
-update_control(controlId, controlMappingSources, name; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config)
-update_control(controlId, controlMappingSources, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), args)); aws_config=aws_config)
+update_control(controlId, controlMappingSources, name; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config)
+update_control(controlId, controlMappingSources, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), args)); aws_config=aws_config)
 
 """
     UpdateSettings()
@@ -686,8 +686,8 @@ update_control(controlId, controlMappingSources, name, args::AbstractDict{String
 - `kmsKey`:  The AWS KMS key details. 
 - `snsTopic`:  The Amazon Simple Notification Service (Amazon SNS) topic to which AWS Audit Manager sends notifications. 
 """
-update_settings(; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/settings"; aws_config=aws_config)
-update_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("PUT", "/settings", args; aws_config=aws_config)
+update_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/settings"; aws_config=aws_config)
+update_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/settings", args; aws_config=aws_config)
 
 """
     ValidateAssessmentReportIntegrity()
@@ -698,5 +698,5 @@ update_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aw
 - `s3RelativePath`:  The relative path of the specified Amazon S3 bucket in which the assessment report is stored. 
 
 """
-validate_assessment_report_integrity(s3RelativePath; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}("s3RelativePath"=>s3RelativePath); aws_config=aws_config)
-validate_assessment_report_integrity(s3RelativePath, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3RelativePath"=>s3RelativePath), args)); aws_config=aws_config)
+validate_assessment_report_integrity(s3RelativePath; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}("s3RelativePath"=>s3RelativePath); aws_config=aws_config)
+validate_assessment_report_integrity(s3RelativePath, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3RelativePath"=>s3RelativePath), args)); aws_config=aws_config)

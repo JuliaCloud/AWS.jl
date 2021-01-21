@@ -14,8 +14,8 @@ Use to check if a device is registered with SageMaker Edge Manager.
 - `DeviceName`: The unique name of the device you want to get the registration status from.
 
 """
-get_device_registration(DeviceFleetName, DeviceName; aws_config::AWSConfig=global_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config)
-get_device_registration(DeviceFleetName, DeviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), args)); aws_config=aws_config)
+get_device_registration(DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config)
+get_device_registration(DeviceFleetName, DeviceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_edge("POST", "/GetDeviceRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), args)); aws_config=aws_config)
 
 """
     SendHeartbeat()
@@ -31,5 +31,5 @@ Use to get the current status of devices registered on SageMaker Edge Manager.
 - `AgentMetrics`: For internal use. Returns a list of SageMaker Edge Manager agent operating metrics.
 - `Models`: Returns a list of models deployed on the the device.
 """
-send_heartbeat(AgentVersion, DeviceFleetName, DeviceName; aws_config::AWSConfig=global_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config)
-send_heartbeat(AgentVersion, DeviceFleetName, DeviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), args)); aws_config=aws_config)
+send_heartbeat(AgentVersion, DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config)
+send_heartbeat(AgentVersion, DeviceFleetName, DeviceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName), args)); aws_config=aws_config)

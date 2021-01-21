@@ -14,14 +14,8 @@ Accepts an Amazon Macie membership invitation that was received from a specific 
 - `masterAccount`: The AWS account ID for the account that sent the invitation.
 
 """
-<<<<<<< HEAD
-accept_invitation(invitationId, masterAccount; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount); aws_config=aws_config)
-accept_invitation(invitationId, masterAccount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount), args)); aws_config=aws_config)
-=======
-
 accept_invitation(invitationId, masterAccount; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount); aws_config=aws_config)
 accept_invitation(invitationId, masterAccount, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchGetCustomDataIdentifiers()
@@ -31,14 +25,8 @@ Retrieves information about one or more custom data identifiers.
 # Optional Parameters
 - `ids`: An array of strings that lists the unique identifiers for the custom data identifiers to retrieve information about.
 """
-<<<<<<< HEAD
-batch_get_custom_data_identifiers(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get"; aws_config=aws_config)
-batch_get_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get", args; aws_config=aws_config)
-=======
-
 batch_get_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get"; aws_config=aws_config)
 batch_get_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateClassificationJob()
@@ -59,14 +47,8 @@ batch_get_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::A
 - `scheduleFrequency`: The recurrence pattern for running the job. To run the job only once, don't specify a value for this property and set the value for the jobType property to ONE_TIME.
 - `tags`: A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 """
-<<<<<<< HEAD
-create_classification_job(clientToken, jobType, name, s3JobDefinition; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition); aws_config=aws_config)
-create_classification_job(clientToken, jobType, name, s3JobDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), args)); aws_config=aws_config)
-=======
-
 create_classification_job(clientToken, jobType, name, s3JobDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition); aws_config=aws_config)
 create_classification_job(clientToken, jobType, name, s3JobDefinition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateCustomDataIdentifier()
@@ -83,14 +65,8 @@ Creates and defines the criteria and other settings for a custom data identifier
 - `regex`: The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
 - `tags`: A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 """
-<<<<<<< HEAD
-create_custom_data_identifier(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-create_custom_data_identifier(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_custom_data_identifier(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 create_custom_data_identifier(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateFindingsFilter()
@@ -108,14 +84,8 @@ Creates and defines the criteria and other settings for a findings filter.
 - `position`: The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
 - `tags`: A map of key-value pairs that specifies the tags to associate with the filter. A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 """
-<<<<<<< HEAD
-create_findings_filter(action, findingCriteria, name; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_findings_filter(action, findingCriteria, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_findings_filter(action, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_findings_filter(action, findingCriteria, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInvitations()
@@ -129,14 +99,8 @@ create_findings_filter(action, findingCriteria, name, args::AbstractDict{String,
 - `disableEmailNotification`: Specifies whether to send an email notification to the root user of each account that the invitation will be sent to. This notification is in addition to an alert that the root user receives in AWS Personal Health Dashboard. To send an email notification to the root user of each account, set this value to true.
 - `message`: A custom message to include in the invitation. Amazon Macie adds this message to the standard content that it sends for an invitation.
 """
-<<<<<<< HEAD
-create_invitations(accountIds; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-create_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
-=======
-
 create_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 create_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateMember()
@@ -149,14 +113,8 @@ create_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::Ab
 # Optional Parameters
 - `tags`: A map of key-value pairs that specifies the tags to associate with the account in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 """
-<<<<<<< HEAD
-create_member(account; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}("account"=>account); aws_config=aws_config)
-create_member(account, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), args)); aws_config=aws_config)
-=======
-
 create_member(account; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}("account"=>account); aws_config=aws_config)
 create_member(account, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateSampleFindings()
@@ -166,14 +124,8 @@ create_member(account, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 # Optional Parameters
 - `findingTypes`: An array that lists one or more types of findings to include in the set of sample findings. Currently, the only supported value is Policy:IAMUser/S3BucketEncryptionDisabled. 
 """
-<<<<<<< HEAD
-create_sample_findings(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/sample"; aws_config=aws_config)
-create_sample_findings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/sample", args; aws_config=aws_config)
-=======
-
 create_sample_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample"; aws_config=aws_config)
 create_sample_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeclineInvitations()
@@ -184,14 +136,8 @@ Declines Amazon Macie membership invitations that were received from specific ac
 - `accountIds`: An array that lists AWS account IDs, one for each account that sent an invitation to decline.
 
 """
-<<<<<<< HEAD
-decline_invitations(accountIds; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-decline_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
-=======
-
 decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 decline_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCustomDataIdentifier()
@@ -202,14 +148,8 @@ Soft deletes a custom data identifier.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-delete_custom_data_identifier(id; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
-delete_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)", args; aws_config=aws_config)
-=======
-
 delete_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
 delete_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFindingsFilter()
@@ -220,14 +160,8 @@ Deletes a findings filter.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-delete_findings_filter(id; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)"; aws_config=aws_config)
-delete_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)", args; aws_config=aws_config)
-=======
-
 delete_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)"; aws_config=aws_config)
 delete_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInvitations()
@@ -238,14 +172,8 @@ Deletes Amazon Macie membership invitations that were received from specific acc
 - `accountIds`: An array that lists AWS account IDs, one for each account that sent an invitation to delete.
 
 """
-<<<<<<< HEAD
-delete_invitations(accountIds; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-delete_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
-=======
-
 delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 delete_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMember()
@@ -256,14 +184,8 @@ Deletes the association between an Amazon Macie master account and an account.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-delete_member(id; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)"; aws_config=aws_config)
-delete_member(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)", args; aws_config=aws_config)
-=======
-
 delete_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)"; aws_config=aws_config)
 delete_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeBuckets()
@@ -276,14 +198,8 @@ delete_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 - `sortCriteria`: The criteria to use to sort the query results.
 """
-<<<<<<< HEAD
-describe_buckets(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3"; aws_config=aws_config)
-describe_buckets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3", args; aws_config=aws_config)
-=======
-
 describe_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3"; aws_config=aws_config)
 describe_buckets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeClassificationJob()
@@ -294,14 +210,8 @@ Retrieves the status and settings for a classification job.
 - `jobId`: The unique identifier for the classification job.
 
 """
-<<<<<<< HEAD
-describe_classification_job(jobId; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)"; aws_config=aws_config)
-describe_classification_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)", args; aws_config=aws_config)
-=======
-
 describe_classification_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)"; aws_config=aws_config)
 describe_classification_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeOrganizationConfiguration()
@@ -309,14 +219,8 @@ describe_classification_job(jobId, args::AbstractDict{String, <:Any}; aws_config
 Retrieves the Amazon Macie configuration settings for an AWS organization.
 
 """
-<<<<<<< HEAD
-describe_organization_configuration(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration"; aws_config=aws_config)
-describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration", args; aws_config=aws_config)
-=======
-
 describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration"; aws_config=aws_config)
 describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableMacie()
@@ -324,14 +228,8 @@ describe_organization_configuration(args::AbstractDict{String, Any}; aws_config:
 Disables an Amazon Macie account and deletes Macie resources for the account.
 
 """
-<<<<<<< HEAD
-disable_macie(; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/macie"; aws_config=aws_config)
-disable_macie(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/macie", args; aws_config=aws_config)
-=======
-
 disable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/macie"; aws_config=aws_config)
 disable_macie(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/macie", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableOrganizationAdminAccount()
@@ -342,14 +240,8 @@ Disables an account as the delegated Amazon Macie administrator account for an A
 - `adminAccountId`: The AWS account ID of the delegated administrator account.
 
 """
-<<<<<<< HEAD
-disable_organization_admin_account(adminAccountId; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
-disable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
-=======
-
 disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
 disable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateFromMasterAccount()
@@ -357,14 +249,8 @@ disable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:
 Disassociates a member account from its Amazon Macie master account.
 
 """
-<<<<<<< HEAD
-disassociate_from_master_account(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate"; aws_config=aws_config)
-disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate", args; aws_config=aws_config)
-=======
-
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate"; aws_config=aws_config)
 disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateMember()
@@ -375,14 +261,8 @@ Disassociates an Amazon Macie master account from a member account.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-disassociate_member(id; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)"; aws_config=aws_config)
-disassociate_member(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)", args; aws_config=aws_config)
-=======
-
 disassociate_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)"; aws_config=aws_config)
 disassociate_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableMacie()
@@ -394,14 +274,8 @@ Enables Amazon Macie and specifies the configuration settings for a Macie accoun
 - `findingPublishingFrequency`: Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
 - `status`: Specifies the status for the account. To enable Amazon Macie and start all Amazon Macie activities for the account, set this value to ENABLED.
 """
-<<<<<<< HEAD
-enable_macie(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-enable_macie(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 enable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 enable_macie(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableOrganizationAdminAccount()
@@ -414,14 +288,8 @@ Designates an account as the delegated Amazon Macie administrator account for an
 # Optional Parameters
 - `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
 """
-<<<<<<< HEAD
-enable_organization_admin_account(adminAccountId; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-enable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())); aws_config=aws_config)
 enable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetBucketStatistics()
@@ -431,14 +299,8 @@ enable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:A
 # Optional Parameters
 - `accountId`: The unique identifier for the AWS account.
 """
-<<<<<<< HEAD
-get_bucket_statistics(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics"; aws_config=aws_config)
-get_bucket_statistics(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics", args; aws_config=aws_config)
-=======
-
 get_bucket_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics"; aws_config=aws_config)
 get_bucket_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetClassificationExportConfiguration()
@@ -446,14 +308,8 @@ get_bucket_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Retrieves the configuration settings for storing data classification results.
 
 """
-<<<<<<< HEAD
-get_classification_export_configuration(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration"; aws_config=aws_config)
-get_classification_export_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration", args; aws_config=aws_config)
-=======
-
 get_classification_export_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration"; aws_config=aws_config)
 get_classification_export_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCustomDataIdentifier()
@@ -464,14 +320,8 @@ Retrieves the criteria and other settings for a custom data identifier.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-get_custom_data_identifier(id; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
-get_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)", args; aws_config=aws_config)
-=======
-
 get_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
 get_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFindingStatistics()
@@ -486,14 +336,8 @@ get_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::Ab
 - `size`: The maximum number of items to include in each page of the response.
 - `sortCriteria`: The criteria to use to sort the query results.
 """
-<<<<<<< HEAD
-get_finding_statistics(groupBy; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}("groupBy"=>groupBy); aws_config=aws_config)
-get_finding_statistics(groupBy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupBy"=>groupBy), args)); aws_config=aws_config)
-=======
-
 get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}("groupBy"=>groupBy); aws_config=aws_config)
 get_finding_statistics(groupBy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupBy"=>groupBy), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFindings()
@@ -506,14 +350,8 @@ Retrieves the details of one or more findings.
 # Optional Parameters
 - `sortCriteria`: The criteria for sorting the results of the request.
 """
-<<<<<<< HEAD
-get_findings(findingIds; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
-get_findings(findingIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), args)); aws_config=aws_config)
-=======
-
 get_findings(findingIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
 get_findings(findingIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFindingsFilter()
@@ -524,14 +362,8 @@ Retrieves the criteria and other settings for a findings filter.
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-get_findings_filter(id; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)"; aws_config=aws_config)
-get_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)", args; aws_config=aws_config)
-=======
-
 get_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)"; aws_config=aws_config)
 get_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInvitationsCount()
@@ -539,14 +371,8 @@ get_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Retrieves the count of Amazon Macie membership invitations that were received by an account.
 
 """
-<<<<<<< HEAD
-get_invitations_count(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/invitations/count"; aws_config=aws_config)
-get_invitations_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/invitations/count", args; aws_config=aws_config)
-=======
-
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations/count"; aws_config=aws_config)
 get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations/count", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMacieSession()
@@ -554,14 +380,8 @@ get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Retrieves the current status and configuration settings for an Amazon Macie account.
 
 """
-<<<<<<< HEAD
-get_macie_session(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/macie"; aws_config=aws_config)
-get_macie_session(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/macie", args; aws_config=aws_config)
-=======
-
 get_macie_session(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/macie"; aws_config=aws_config)
 get_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/macie", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMasterAccount()
@@ -569,14 +389,8 @@ get_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 Retrieves information about the Amazon Macie master account for an account.
 
 """
-<<<<<<< HEAD
-get_master_account(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/master"; aws_config=aws_config)
-get_master_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/master", args; aws_config=aws_config)
-=======
-
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master"; aws_config=aws_config)
 get_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMember()
@@ -587,14 +401,8 @@ Retrieves information about a member account that's associated with an Amazon Ma
 - `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
 
 """
-<<<<<<< HEAD
-get_member(id; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)"; aws_config=aws_config)
-get_member(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)", args; aws_config=aws_config)
-=======
-
 get_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)"; aws_config=aws_config)
 get_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetUsageStatistics()
@@ -607,14 +415,8 @@ Retrieves (queries) quotas and aggregated usage data for one or more accounts.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 - `sortBy`: The criteria to use to sort the query results.
 """
-<<<<<<< HEAD
-get_usage_statistics(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics"; aws_config=aws_config)
-get_usage_statistics(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics", args; aws_config=aws_config)
-=======
-
 get_usage_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics"; aws_config=aws_config)
 get_usage_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetUsageTotals()
@@ -622,14 +424,8 @@ get_usage_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 Retrieves (queries) aggregated usage data for an account.
 
 """
-<<<<<<< HEAD
-get_usage_totals(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/usage"; aws_config=aws_config)
-get_usage_totals(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/usage", args; aws_config=aws_config)
-=======
-
 get_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage"; aws_config=aws_config)
 get_usage_totals(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListClassificationJobs()
@@ -642,14 +438,8 @@ Retrieves a subset of information about one or more classification jobs.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 - `sortCriteria`: The criteria to use to sort the results.
 """
-<<<<<<< HEAD
-list_classification_jobs(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/jobs/list"; aws_config=aws_config)
-list_classification_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/jobs/list", args; aws_config=aws_config)
-=======
-
 list_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list"; aws_config=aws_config)
 list_classification_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListCustomDataIdentifiers()
@@ -660,14 +450,8 @@ Retrieves a subset of information about all the custom data identifiers for an a
 - `maxResults`: The maximum number of items to include in each page of the response.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 """
-<<<<<<< HEAD
-list_custom_data_identifiers(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list"; aws_config=aws_config)
-list_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list", args; aws_config=aws_config)
-=======
-
 list_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list"; aws_config=aws_config)
 list_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFindings()
@@ -680,14 +464,8 @@ list_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::Abstra
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 - `sortCriteria`: The criteria to use to sort the results.
 """
-<<<<<<< HEAD
-list_findings(; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings"; aws_config=aws_config)
-list_findings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/findings", args; aws_config=aws_config)
-=======
-
 list_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings"; aws_config=aws_config)
 list_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFindingsFilters()
@@ -698,14 +476,8 @@ Retrieves a subset of information about all the findings filters for an account.
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 """
-<<<<<<< HEAD
-list_findings_filters(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters"; aws_config=aws_config)
-list_findings_filters(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters", args; aws_config=aws_config)
-=======
-
 list_findings_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters"; aws_config=aws_config)
 list_findings_filters(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInvitations()
@@ -716,14 +488,8 @@ Retrieves information about all the Amazon Macie membership invitations that wer
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 """
-<<<<<<< HEAD
-list_invitations(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/invitations"; aws_config=aws_config)
-list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/invitations", args; aws_config=aws_config)
-=======
-
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMembers()
@@ -735,14 +501,8 @@ Retrieves information about the accounts that are associated with an Amazon Maci
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 - `onlyAssociated`: Specifies which accounts to include in the response, based on the status of an account's relationship with the master account. By default, the response includes only current member accounts. To include all accounts, set the value for this parameter to false.
 """
-<<<<<<< HEAD
-list_members(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/members"; aws_config=aws_config)
-list_members(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/members", args; aws_config=aws_config)
-=======
-
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members"; aws_config=aws_config)
 list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListOrganizationAdminAccounts()
@@ -753,14 +513,8 @@ Retrieves information about the delegated Amazon Macie administrator account for
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
 - `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
 """
-<<<<<<< HEAD
-list_organization_admin_accounts(; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/admin"; aws_config=aws_config)
-list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/admin", args; aws_config=aws_config)
-=======
-
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin"; aws_config=aws_config)
 list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -771,14 +525,8 @@ Retrieves the tags (keys and values) that are associated with a classification j
 - `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
-=======
-
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutClassificationExportConfiguration()
@@ -789,14 +537,8 @@ Creates or updates the configuration settings for storing data classification re
 - `configuration`: The location to store data classification results in, and the encryption settings to use when storing results in that location.
 
 """
-<<<<<<< HEAD
-put_classification_export_configuration(configuration; aws_config::AWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config)
-put_classification_export_configuration(configuration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), args)); aws_config=aws_config)
-=======
-
 put_classification_export_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config)
 put_classification_export_configuration(configuration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -808,14 +550,8 @@ Adds or updates one or more tags (keys and values) that are associated with a cl
 - `tags`: A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
 
 """
-<<<<<<< HEAD
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TestCustomDataIdentifier()
@@ -831,14 +567,8 @@ Tests a custom data identifier.
 - `keywords`: An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters. Keywords aren't case sensitive.
 - `maximumMatchDistance`: The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
 """
-<<<<<<< HEAD
-test_custom_data_identifier(regex, sampleText; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText); aws_config=aws_config)
-test_custom_data_identifier(regex, sampleText, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), args)); aws_config=aws_config)
-=======
-
 test_custom_data_identifier(regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText); aws_config=aws_config)
 test_custom_data_identifier(regex, sampleText, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -850,14 +580,8 @@ Removes one or more tags (keys and values) from a classification job, custom dat
 - `tagKeys`: The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
 
 """
-<<<<<<< HEAD
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateClassificationJob()
@@ -869,14 +593,8 @@ Changes the status of a classification job.
 - `jobStatus`: The new status for the job. Valid values are: CANCELLED - Stops the job permanently and cancels it. This value is valid only if the job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is valid only if the job's current status is USER_PAUSED. If you paused the job while it was actively running and you specify this value less than 30 days after you paused the job, Macie immediately resumes processing from the point where you paused the job. Otherwise, Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current status is IDLE or RUNNING. If you specify this value and the job's current status is RUNNING, Macie immediately begins to pause all processing tasks for the job. If you pause a one-time job and you don't resume it within 30 days, the job expires and Macie cancels the job. If you pause a recurring job when its status is RUNNING and you don't resume it within 30 days, the job run expires and Macie cancels the run. To check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
 
 """
-<<<<<<< HEAD
-update_classification_job(jobId, jobStatus; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}("jobStatus"=>jobStatus); aws_config=aws_config)
-update_classification_job(jobId, jobStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobStatus"=>jobStatus), args)); aws_config=aws_config)
-=======
-
 update_classification_job(jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}("jobStatus"=>jobStatus); aws_config=aws_config)
 update_classification_job(jobId, jobStatus, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobStatus"=>jobStatus), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFindingsFilter()
@@ -893,14 +611,8 @@ Updates the criteria and other settings for a findings filter.
 - `name`: A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
 - `position`: The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
 """
-<<<<<<< HEAD
-update_findings_filter(id; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)"; aws_config=aws_config)
-update_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", args; aws_config=aws_config)
-=======
-
 update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)"; aws_config=aws_config)
 update_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMacieSession()
@@ -911,14 +623,8 @@ Suspends or re-enables an Amazon Macie account, or updates the configuration set
 - `findingPublishingFrequency`: Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
 - `status`: Specifies whether to change the status of the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
 """
-<<<<<<< HEAD
-update_macie_session(; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/macie"; aws_config=aws_config)
-update_macie_session(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/macie", args; aws_config=aws_config)
-=======
-
 update_macie_session(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie"; aws_config=aws_config)
 update_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMemberSession()
@@ -930,14 +636,8 @@ update_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 - `status`: Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
 
 """
-<<<<<<< HEAD
-update_member_session(id, status; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_member_session(id, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)
-=======
-
 update_member_session(id, status; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}("status"=>status); aws_config=aws_config)
 update_member_session(id, status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateOrganizationConfiguration()
@@ -948,11 +648,5 @@ Updates the Amazon Macie configuration settings for an AWS organization.
 - `autoEnable`: Specifies whether Amazon Macie is enabled automatically for each account, when the account is added to the AWS organization.
 
 """
-<<<<<<< HEAD
-update_organization_configuration(autoEnable; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)
-update_organization_configuration(autoEnable, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), args)); aws_config=aws_config)
-=======
-
 update_organization_configuration(autoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)
 update_organization_configuration(autoEnable, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

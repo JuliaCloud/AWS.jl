@@ -16,8 +16,8 @@ Retroactively applies the archive rule to existing findings that meet the archiv
 # Optional Parameters
 - `clientToken`: A client token.
 """
-apply_archive_rule(analyzerArn, ruleName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-apply_archive_rule(analyzerArn, ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+apply_archive_rule(analyzerArn, ruleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateAnalyzer()
@@ -33,14 +33,8 @@ Creates an analyzer for your account.
 - `clientToken`: A client token.
 - `tags`: The tags to apply to the analyzer.
 """
-<<<<<<< HEAD
-create_analyzer(analyzerName, type; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_analyzer(analyzerName, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_analyzer(analyzerName, type; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_analyzer(analyzerName, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateArchiveRule()
@@ -55,14 +49,8 @@ Creates an archive rule for the specified analyzer. Archive rules automatically 
 # Optional Parameters
 - `clientToken`: A client token.
 """
-<<<<<<< HEAD
-create_archive_rule(analyzerName, filter, ruleName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_archive_rule(analyzerName, filter, ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 create_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_archive_rule(analyzerName, filter, ruleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteAnalyzer()
@@ -75,14 +63,8 @@ Deletes the specified analyzer. When you delete an analyzer, Access Analyzer is 
 # Optional Parameters
 - `clientToken`: A client token.
 """
-<<<<<<< HEAD
-delete_analyzer(analyzerName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-delete_analyzer(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 delete_analyzer(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteArchiveRule()
@@ -96,14 +78,8 @@ Deletes the specified archive rule.
 # Optional Parameters
 - `clientToken`: A client token.
 """
-<<<<<<< HEAD
-delete_archive_rule(analyzerName, ruleName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-delete_archive_rule(analyzerName, ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 delete_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 delete_archive_rule(analyzerName, ruleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAnalyzedResource()
@@ -115,14 +91,8 @@ Retrieves information about a resource that was analyzed.
 - `resourceArn`: The ARN of the resource to retrieve information about.
 
 """
-<<<<<<< HEAD
-get_analyzed_resource(analyzerArn, resourceArn; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
-get_analyzed_resource(analyzerArn, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), args)); aws_config=aws_config)
-=======
-
 get_analyzed_resource(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
 get_analyzed_resource(analyzerArn, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetAnalyzer()
@@ -133,14 +103,8 @@ Retrieves information about the specified analyzer.
 - `analyzerName`: The name of the analyzer retrieved.
 
 """
-<<<<<<< HEAD
-get_analyzer(analyzerName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)"; aws_config=aws_config)
-get_analyzer(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)", args; aws_config=aws_config)
-=======
-
 get_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)"; aws_config=aws_config)
 get_analyzer(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetArchiveRule()
@@ -152,14 +116,8 @@ Retrieves information about an archive rule. To learn about filter keys that you
 - `ruleName`: The name of the rule to retrieve.
 
 """
-<<<<<<< HEAD
-get_archive_rule(analyzerName, ruleName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)"; aws_config=aws_config)
-get_archive_rule(analyzerName, ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", args; aws_config=aws_config)
-=======
-
 get_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)"; aws_config=aws_config)
 get_archive_rule(analyzerName, ruleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFinding()
@@ -171,14 +129,8 @@ Retrieves information about the specified finding.
 - `id`: The ID of the finding to retrieve.
 
 """
-<<<<<<< HEAD
-get_finding(analyzerArn, id; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-get_finding(analyzerArn, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
-=======
-
 get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
 get_finding(analyzerArn, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListAnalyzedResources()
@@ -193,14 +145,8 @@ Retrieves a list of resources of the specified type that have been analyzed by t
 - `nextToken`: A token used for pagination of results returned.
 - `resourceType`: The type of resource.
 """
-<<<<<<< HEAD
-list_analyzed_resources(analyzerArn; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_analyzed_resources(analyzerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
-=======
-
 list_analyzed_resources(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
 list_analyzed_resources(analyzerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListAnalyzers()
@@ -212,14 +158,8 @@ Retrieves a list of analyzers.
 - `nextToken`: A token used for pagination of results returned.
 - `type`: The type of analyzer.
 """
-<<<<<<< HEAD
-list_analyzers(; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer"; aws_config=aws_config)
-list_analyzers(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", args; aws_config=aws_config)
-=======
-
 list_analyzers(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer"; aws_config=aws_config)
 list_analyzers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListArchiveRules()
@@ -233,14 +173,8 @@ Retrieves a list of archive rules created for the specified analyzer.
 - `maxResults`: The maximum number of results to return in the request.
 - `nextToken`: A token used for pagination of results returned.
 """
-<<<<<<< HEAD
-list_archive_rules(analyzerName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule"; aws_config=aws_config)
-list_archive_rules(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", args; aws_config=aws_config)
-=======
-
 list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule"; aws_config=aws_config)
 list_archive_rules(analyzerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFindings()
@@ -256,14 +190,8 @@ Retrieves a list of findings generated by the specified analyzer. To learn about
 - `nextToken`: A token used for pagination of results returned.
 - `sort`: The sort order for the findings returned.
 """
-<<<<<<< HEAD
-list_findings(analyzerArn; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_findings(analyzerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
-=======
-
 list_findings(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
 list_findings(analyzerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -274,14 +202,8 @@ Retrieves a list of tags applied to the specified resource.
 - `resourceArn`: The ARN of the resource to retrieve tags from.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
-=======
-
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartResourceScan()
@@ -293,14 +215,8 @@ Immediately starts a scan of the policies applied to the specified resource.
 - `resourceArn`: The ARN of the resource to scan.
 
 """
-<<<<<<< HEAD
-start_resource_scan(analyzerArn, resourceArn; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
-start_resource_scan(analyzerArn, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), args)); aws_config=aws_config)
-=======
-
 start_resource_scan(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
 start_resource_scan(analyzerArn, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -312,14 +228,8 @@ Adds a tag to the specified resource.
 - `tags`: The tags to add to the resource.
 
 """
-<<<<<<< HEAD
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -331,14 +241,8 @@ Removes a tag from the specified resource.
 - `tagKeys`: The key for the tag to add.
 
 """
-<<<<<<< HEAD
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateArchiveRule()
@@ -353,14 +257,8 @@ Updates the criteria and values for the specified archive rule.
 # Optional Parameters
 - `clientToken`: A client token.
 """
-<<<<<<< HEAD
-update_archive_rule(analyzerName, filter, ruleName; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_archive_rule(analyzerName, filter, ruleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 update_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_archive_rule(analyzerName, filter, ruleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFindings()
@@ -376,11 +274,5 @@ Updates the status for the specified findings.
 - `ids`: The IDs of the findings to update.
 - `resourceArn`: The ARN of the resource identified in the finding.
 """
-<<<<<<< HEAD
-update_findings(analyzerArn, status; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_findings(analyzerArn, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
-=======
-
 update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_findings(analyzerArn, status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

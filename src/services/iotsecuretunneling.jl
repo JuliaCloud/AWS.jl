@@ -15,14 +15,8 @@ Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request i
 # Optional Parameters
 - `delete`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
 """
-<<<<<<< HEAD
-close_tunnel(tunnelId; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-close_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
-=======
-
 close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
 close_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeTunnel()
@@ -33,14 +27,8 @@ Gets information about a tunnel identified by the unique tunnel id.
 - `tunnelId`: The tunnel to describe.
 
 """
-<<<<<<< HEAD
-describe_tunnel(tunnelId; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-describe_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
-=======
-
 describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
 describe_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -51,14 +39,8 @@ Lists the tags for the specified resource.
 - `resourceArn`: The resource ARN.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
-=======
-
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTunnels()
@@ -70,14 +52,8 @@ List all tunnels for an AWS account. Tunnels are listed by creation time in desc
 - `nextToken`: A token to retrieve the next set of results.
 - `thingName`: The name of the IoT thing associated with the destination device.
 """
-<<<<<<< HEAD
-list_tunnels(; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels"; aws_config=aws_config)
-list_tunnels(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels", args; aws_config=aws_config)
-=======
-
 list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels"; aws_config=aws_config)
 list_tunnels(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     OpenTunnel()
@@ -90,14 +66,8 @@ Creates a new tunnel, and returns two client access tokens for clients to use to
 - `tags`: A collection of tag metadata.
 - `timeoutConfig`: Timeout configuration for a tunnel.
 """
-<<<<<<< HEAD
-open_tunnel(; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel"; aws_config=aws_config)
-open_tunnel(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel", args; aws_config=aws_config)
-=======
-
 open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel"; aws_config=aws_config)
 open_tunnel(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -109,14 +79,8 @@ A resource tag.
 - `tags`: The tags for the resource.
 
 """
-<<<<<<< HEAD
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -128,11 +92,5 @@ Removes a tag from a resource.
 - `tagKeys`: The keys of the tags to remove.
 
 """
-<<<<<<< HEAD
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

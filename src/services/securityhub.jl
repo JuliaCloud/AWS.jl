@@ -14,14 +14,8 @@ Accepts the invitation to be a member account and be monitored by the Security H
 - `MasterId`: The account ID of the Security Hub master account that sent the invitation.
 
 """
-<<<<<<< HEAD
-accept_invitation(InvitationId, MasterId; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/master", Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId); aws_config=aws_config)
-accept_invitation(InvitationId, MasterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId), args)); aws_config=aws_config)
-=======
-
 accept_invitation(InvitationId, MasterId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master", Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId); aws_config=aws_config)
 accept_invitation(InvitationId, MasterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchDisableStandards()
@@ -32,14 +26,8 @@ Disables the standards specified by the provided StandardsSubscriptionArns. For 
 - `StandardsSubscriptionArns`: The ARNs of the standards subscriptions to disable.
 
 """
-<<<<<<< HEAD
-batch_disable_standards(StandardsSubscriptionArns; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/deregister", Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns); aws_config=aws_config)
-batch_disable_standards(StandardsSubscriptionArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/deregister", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns), args)); aws_config=aws_config)
-=======
-
 batch_disable_standards(StandardsSubscriptionArns; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/deregister", Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns); aws_config=aws_config)
 batch_disable_standards(StandardsSubscriptionArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/deregister", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchEnableStandards()
@@ -50,14 +38,8 @@ Enables the standards specified by the provided StandardsArn. To obtain the ARN 
 - `StandardsSubscriptionRequests`: The list of standards checks to enable.
 
 """
-<<<<<<< HEAD
-batch_enable_standards(StandardsSubscriptionRequests; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/register", Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests); aws_config=aws_config)
-batch_enable_standards(StandardsSubscriptionRequests, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests), args)); aws_config=aws_config)
-=======
-
 batch_enable_standards(StandardsSubscriptionRequests; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/register", Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests); aws_config=aws_config)
 batch_enable_standards(StandardsSubscriptionRequests, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchImportFindings()
@@ -68,14 +50,8 @@ Imports security findings generated from an integrated third-party product into 
 - `Findings`: A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request.
 
 """
-<<<<<<< HEAD
-batch_import_findings(Findings; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings); aws_config=aws_config)
-batch_import_findings(Findings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Findings"=>Findings), args)); aws_config=aws_config)
-=======
-
 batch_import_findings(Findings; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings); aws_config=aws_config)
 batch_import_findings(Findings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Findings"=>Findings), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     BatchUpdateFindings()
@@ -96,14 +72,8 @@ Used by Security Hub customers to update information about their investigation i
 - `VerificationState`: Indicates the veracity of a finding. The available values for VerificationState are as follows.    UNKNOWN – The default disposition of a security finding    TRUE_POSITIVE – The security finding is confirmed    FALSE_POSITIVE – The security finding was determined to be a false alarm    BENIGN_POSITIVE – A special case of TRUE_POSITIVE where the finding doesn't pose any threat, is expected, or both  
 - `Workflow`: Used to update the workflow status of a finding. The workflow status indicates the progress of the investigation into the finding. 
 """
-<<<<<<< HEAD
-batch_update_findings(FindingIdentifiers; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers); aws_config=aws_config)
-batch_update_findings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), args)); aws_config=aws_config)
-=======
-
 batch_update_findings(FindingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers); aws_config=aws_config)
 batch_update_findings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateActionTarget()
@@ -116,14 +86,8 @@ Creates a custom action target in Security Hub. You can use custom actions on fi
 - `Name`: The name of the custom action target.
 
 """
-<<<<<<< HEAD
-create_action_target(Description, Id, Name; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets", Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name); aws_config=aws_config)
-create_action_target(Description, Id, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name), args)); aws_config=aws_config)
-=======
-
 create_action_target(Description, Id, Name; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets", Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name); aws_config=aws_config)
 create_action_target(Description, Id, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInsight()
@@ -136,14 +100,8 @@ Creates a custom insight in Security Hub. An insight is a consolidation of findi
 - `Name`: The name of the custom insight to create.
 
 """
-<<<<<<< HEAD
-create_insight(Filters, GroupByAttribute, Name; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/insights", Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name); aws_config=aws_config)
-create_insight(Filters, GroupByAttribute, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name), args)); aws_config=aws_config)
-=======
-
 create_insight(Filters, GroupByAttribute, Name; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights", Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name); aws_config=aws_config)
 create_insight(Filters, GroupByAttribute, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateMembers()
@@ -153,14 +111,9 @@ Creates a member association in Security Hub between the specified accounts and 
 # Required Parameters
 - `AccountDetails`: The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and optionally the email address.
 
-<<<<<<< HEAD
 """
-create_members(AccountDetails; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}("AccountDetails"=>AccountDetails); aws_config=aws_config)
-create_members(AccountDetails, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountDetails"=>AccountDetails), args)); aws_config=aws_config)
-=======
-create_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members"; aws_config=aws_config)
-create_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+create_members(AccountDetails; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}("AccountDetails"=>AccountDetails); aws_config=aws_config)
+create_members(AccountDetails, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountDetails"=>AccountDetails), args)); aws_config=aws_config)
 
 """
     DeclineInvitations()
@@ -171,14 +124,8 @@ Declines invitations to become a member account. This operation is only used by 
 - `AccountIds`: The list of account IDs for the accounts from which to decline the invitations to Security Hub.
 
 """
-<<<<<<< HEAD
-decline_invitations(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/invitations/decline", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-decline_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-
 decline_invitations(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/invitations/decline", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
 decline_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteActionTarget()
@@ -189,14 +136,8 @@ Deletes a custom action target from Security Hub. Deleting a custom action targe
 - `ActionTargetArn`: The ARN of the custom action target to delete.
 
 """
-<<<<<<< HEAD
-delete_action_target(ActionTargetArn; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)"; aws_config=aws_config)
-delete_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", args; aws_config=aws_config)
-=======
-
 delete_action_target(ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)"; aws_config=aws_config)
 delete_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInsight()
@@ -207,14 +148,8 @@ Deletes the insight specified by the InsightArn.
 - `InsightArn`: The ARN of the insight to delete.
 
 """
-<<<<<<< HEAD
-delete_insight(InsightArn; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/insights/$(InsightArn)"; aws_config=aws_config)
-delete_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/insights/$(InsightArn)", args; aws_config=aws_config)
-=======
-
 delete_insight(InsightArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/insights/$(InsightArn)"; aws_config=aws_config)
 delete_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/insights/$(InsightArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInvitations()
@@ -225,14 +160,8 @@ Deletes invitations received by the AWS account to become a member account. This
 - `AccountIds`: The list of the account IDs that sent the invitations to delete.
 
 """
-<<<<<<< HEAD
-delete_invitations(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/invitations/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-delete_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-
 delete_invitations(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/invitations/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
 delete_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMembers()
@@ -242,14 +171,9 @@ Deletes the specified member accounts from Security Hub. Can be used to delete m
 # Required Parameters
 - `AccountIds`: The list of account IDs for the member accounts to delete.
 
-<<<<<<< HEAD
 """
-delete_members(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-delete_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-delete_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete"; aws_config=aws_config)
-delete_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+delete_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+delete_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     DescribeActionTargets()
@@ -261,14 +185,8 @@ Returns a list of the custom action targets in Security Hub in your account.
 - `MaxResults`: The maximum number of results to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-describe_action_targets(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get"; aws_config=aws_config)
-describe_action_targets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get", args; aws_config=aws_config)
-=======
-
 describe_action_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get"; aws_config=aws_config)
 describe_action_targets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeHub()
@@ -278,14 +196,8 @@ Returns details about the Hub resource in your account, including the HubArn and
 # Optional Parameters
 - `HubArn`: The ARN of the Hub resource to retrieve.
 """
-<<<<<<< HEAD
-describe_hub(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/accounts"; aws_config=aws_config)
-describe_hub(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/accounts", args; aws_config=aws_config)
-=======
-
 describe_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/accounts"; aws_config=aws_config)
 describe_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/accounts", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeOrganizationConfiguration()
@@ -293,8 +205,8 @@ describe_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
 
 """
-describe_organization_configuration(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
-describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", args; aws_config=aws_config)
+describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
+describe_organization_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", args; aws_config=aws_config)
 
 """
     DescribeProducts()
@@ -305,14 +217,8 @@ Returns information about the available products that you can subscribe to and i
 - `MaxResults`: The maximum number of results to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-describe_products(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/products"; aws_config=aws_config)
-describe_products(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/products", args; aws_config=aws_config)
-=======
-
 describe_products(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products"; aws_config=aws_config)
 describe_products(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeStandards()
@@ -323,14 +229,8 @@ Returns a list of the available standards in Security Hub. For each standard, th
 - `MaxResults`: The maximum number of standards to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-describe_standards(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/standards"; aws_config=aws_config)
-describe_standards(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/standards", args; aws_config=aws_config)
-=======
-
 describe_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards"; aws_config=aws_config)
 describe_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeStandardsControls()
@@ -344,14 +244,8 @@ Returns a list of security standards controls. For each control, the results inc
 - `MaxResults`: The maximum number of security standard controls to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-describe_standards_controls(StandardsSubscriptionArn; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)"; aws_config=aws_config)
-describe_standards_controls(StandardsSubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args; aws_config=aws_config)
-=======
-
 describe_standards_controls(StandardsSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)"; aws_config=aws_config)
 describe_standards_controls(StandardsSubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableImportFindingsForProduct()
@@ -362,14 +256,8 @@ Disables the integration of the specified product with Security Hub. After the i
 - `ProductSubscriptionArn`: The ARN of the integrated product to disable the integration for.
 
 """
-<<<<<<< HEAD
-disable_import_findings_for_product(ProductSubscriptionArn; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)"; aws_config=aws_config)
-disable_import_findings_for_product(ProductSubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", args; aws_config=aws_config)
-=======
-
 disable_import_findings_for_product(ProductSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)"; aws_config=aws_config)
 disable_import_findings_for_product(ProductSubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableOrganizationAdminAccount()
@@ -380,8 +268,8 @@ Disables a Security Hub administrator account. Can only be called by the organiz
 - `AdminAccountId`: The AWS account identifier of the Security Hub administrator account.
 
 """
-disable_organization_admin_account(AdminAccountId; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
-disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
+disable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
+disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
 
 """
     DisableSecurityHub()
@@ -389,14 +277,8 @@ disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:
 Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
 
 """
-<<<<<<< HEAD
-disable_security_hub(; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts"; aws_config=aws_config)
-disable_security_hub(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts", args; aws_config=aws_config)
-=======
-
 disable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts"; aws_config=aws_config)
 disable_security_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateFromMasterAccount()
@@ -404,14 +286,8 @@ disable_security_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 Disassociates the current Security Hub member account from the associated master account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the master account (the designated Security Hub administrator) can disassociate a member account.
 
 """
-<<<<<<< HEAD
-disassociate_from_master_account(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
-disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate", args; aws_config=aws_config)
-=======
-
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
 disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisassociateMembers()
@@ -421,14 +297,9 @@ Disassociates the specified member accounts from the associated master account. 
 # Required Parameters
 - `AccountIds`: The account IDs of the member accounts to disassociate from the master account.
 
-<<<<<<< HEAD
 """
-disassociate_members(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-disassociate_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-disassociate_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate"; aws_config=aws_config)
-disassociate_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+disassociate_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+disassociate_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     EnableImportFindingsForProduct()
@@ -439,14 +310,8 @@ Enables the integration of a partner product with Security Hub. Integrated produ
 - `ProductArn`: The ARN of the product to enable the integration for.
 
 """
-<<<<<<< HEAD
-enable_import_findings_for_product(ProductArn; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}("ProductArn"=>ProductArn); aws_config=aws_config)
-enable_import_findings_for_product(ProductArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductArn"=>ProductArn), args)); aws_config=aws_config)
-=======
-
 enable_import_findings_for_product(ProductArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}("ProductArn"=>ProductArn); aws_config=aws_config)
 enable_import_findings_for_product(ProductArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductArn"=>ProductArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableOrganizationAdminAccount()
@@ -457,8 +322,8 @@ Designates the Security Hub administrator account for an organization. Can only 
 - `AdminAccountId`: The AWS account identifier of the account to designate as the Security Hub administrator account.
 
 """
-enable_organization_admin_account(AdminAccountId; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
-enable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
+enable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
+enable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccountId"=>AdminAccountId), args)); aws_config=aws_config)
 
 """
     EnableSecurityHub()
@@ -469,14 +334,8 @@ Enables Security Hub for your account in the current Region or the Region you sp
 - `EnableDefaultStandards`: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
 - `Tags`: The tags to add to the hub resource when you enable Security Hub.
 """
-<<<<<<< HEAD
-enable_security_hub(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/accounts"; aws_config=aws_config)
-enable_security_hub(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/accounts", args; aws_config=aws_config)
-=======
-
 enable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts"; aws_config=aws_config)
 enable_security_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetEnabledStandards()
@@ -488,14 +347,8 @@ Returns a list of the standards that are currently enabled.
 - `NextToken`: The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `StandardsSubscriptionArns`: The list of the standards subscription ARNs for the standards to retrieve.
 """
-<<<<<<< HEAD
-get_enabled_standards(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/get"; aws_config=aws_config)
-get_enabled_standards(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/standards/get", args; aws_config=aws_config)
-=======
-
 get_enabled_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get"; aws_config=aws_config)
 get_enabled_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFindings()
@@ -508,14 +361,8 @@ Returns a list of findings that match the specified criteria.
 - `NextToken`: The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `SortCriteria`: The finding attributes used to sort the list of returned findings.
 """
-<<<<<<< HEAD
-get_findings(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/findings"; aws_config=aws_config)
-get_findings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/findings", args; aws_config=aws_config)
-=======
-
 get_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings"; aws_config=aws_config)
 get_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInsightResults()
@@ -526,14 +373,8 @@ Lists the results of the Security Hub insight specified by the insight ARN.
 - `InsightArn`: The ARN of the insight for which to return results.
 
 """
-<<<<<<< HEAD
-get_insight_results(InsightArn; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/insights/results/$(InsightArn)"; aws_config=aws_config)
-get_insight_results(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/insights/results/$(InsightArn)", args; aws_config=aws_config)
-=======
-
 get_insight_results(InsightArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/insights/results/$(InsightArn)"; aws_config=aws_config)
 get_insight_results(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/insights/results/$(InsightArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInsights()
@@ -545,14 +386,8 @@ Lists and describes insights for the specified insight ARNs.
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-get_insights(; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/insights/get"; aws_config=aws_config)
-get_insights(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/insights/get", args; aws_config=aws_config)
-=======
-
 get_insights(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get"; aws_config=aws_config)
 get_insights(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInvitationsCount()
@@ -560,14 +395,8 @@ get_insights(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation. 
 
 """
-<<<<<<< HEAD
-get_invitations_count(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count"; aws_config=aws_config)
-get_invitations_count(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count", args; aws_config=aws_config)
-=======
-
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count"; aws_config=aws_config)
 get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMasterAccount()
@@ -575,14 +404,8 @@ get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Provides the details for the Security Hub master account for the current member account. Can be used by both member accounts that are in an organization and accounts that were invited manually.
 
 """
-<<<<<<< HEAD
-get_master_account(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)
-get_master_account(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/master", args; aws_config=aws_config)
-=======
-
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)
 get_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMembers()
@@ -593,14 +416,8 @@ Returns the details for the Security Hub member accounts for the specified accou
 - `AccountIds`: The list of account IDs for the Security Hub member accounts to return the details for. 
 
 """
-<<<<<<< HEAD
-get_members(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/get", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-get_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-
 get_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/get", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
 get_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     InviteMembers()
@@ -610,14 +427,9 @@ Invites other AWS accounts to become member accounts for the Security Hub master
 # Required Parameters
 - `AccountIds`: The list of account IDs of the AWS accounts to invite to Security Hub as members. 
 
-<<<<<<< HEAD
 """
-invite_members(AccountIds; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
-invite_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
-=======
-invite_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite"; aws_config=aws_config)
-invite_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+invite_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
+invite_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws_config=aws_config)
 
 """
     ListEnabledProductsForImport()
@@ -628,14 +440,8 @@ Lists all findings-generating solutions (products) that you are subscribed to re
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-list_enabled_products_for_import(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions"; aws_config=aws_config)
-list_enabled_products_for_import(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions", args; aws_config=aws_config)
-=======
-
 list_enabled_products_for_import(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions"; aws_config=aws_config)
 list_enabled_products_for_import(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInvitations()
@@ -646,14 +452,8 @@ Lists all Security Hub membership invitations that were sent to the current AWS 
 - `MaxResults`: The maximum number of items to return in the response. 
 - `NextToken`: The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-<<<<<<< HEAD
-list_invitations(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/invitations"; aws_config=aws_config)
-list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/invitations", args; aws_config=aws_config)
-=======
-
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMembers()
@@ -665,14 +465,8 @@ Lists details about all member accounts for the current Security Hub master acco
 - `NextToken`: The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `OnlyAssociated`: Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts. 
 """
-<<<<<<< HEAD
-list_members(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/members"; aws_config=aws_config)
-list_members(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/members", args; aws_config=aws_config)
-=======
-
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members"; aws_config=aws_config)
 list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListOrganizationAdminAccounts()
@@ -683,8 +477,8 @@ Lists the Security Hub administrator accounts. Can only be called by the organiz
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response. 
 """
-list_organization_admin_accounts(; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
-list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", args; aws_config=aws_config)
+list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
+list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -695,14 +489,8 @@ Returns a list of tags associated with a resource.
 - `ResourceArn`: The ARN of the resource to retrieve tags for.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
-=======
-
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
 list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -714,14 +502,8 @@ Adds one or more tags to a resource.
 - `Tags`: The tags to add to the resource.
 
 """
-<<<<<<< HEAD
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -733,14 +515,8 @@ Removes one or more tags from a resource.
 - `tagKeys`: The tag keys associated with the tags to remove from the resource.
 
 """
-<<<<<<< HEAD
-untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateActionTarget()
@@ -754,14 +530,8 @@ Updates the name and description of a custom action target in Security Hub.
 - `Description`: The updated description for the custom action target.
 - `Name`: The updated name of the custom action target.
 """
-<<<<<<< HEAD
-update_action_target(ActionTargetArn; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)"; aws_config=aws_config)
-update_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", args; aws_config=aws_config)
-=======
-
 update_action_target(ActionTargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)"; aws_config=aws_config)
 update_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFindings()
@@ -775,14 +545,8 @@ update_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_con
 - `Note`: The updated note for the finding.
 - `RecordState`: The updated record state for the finding.
 """
-<<<<<<< HEAD
-update_findings(Filters; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/findings", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-update_findings(Filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/findings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws_config=aws_config)
-=======
-
 update_findings(Filters; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
 update_findings(Filters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateInsight()
@@ -797,14 +561,8 @@ Updates the Security Hub insight identified by the specified insight ARN.
 - `GroupByAttribute`: The updated GroupBy attribute that defines this insight.
 - `Name`: The updated name for the insight.
 """
-<<<<<<< HEAD
-update_insight(InsightArn; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/insights/$(InsightArn)"; aws_config=aws_config)
-update_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/insights/$(InsightArn)", args; aws_config=aws_config)
-=======
-
 update_insight(InsightArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/insights/$(InsightArn)"; aws_config=aws_config)
 update_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/insights/$(InsightArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateOrganizationConfiguration()
@@ -815,8 +573,8 @@ Used to update the configuration related to Organizations. Can only be called fr
 - `AutoEnable`: Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
 
 """
-update_organization_configuration(AutoEnable; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}("AutoEnable"=>AutoEnable); aws_config=aws_config)
-update_organization_configuration(AutoEnable, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoEnable"=>AutoEnable), args)); aws_config=aws_config)
+update_organization_configuration(AutoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}("AutoEnable"=>AutoEnable); aws_config=aws_config)
+update_organization_configuration(AutoEnable, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoEnable"=>AutoEnable), args)); aws_config=aws_config)
 
 """
     UpdateSecurityHubConfiguration()
@@ -826,14 +584,8 @@ Updates configuration options for Security Hub.
 # Optional Parameters
 - `AutoEnableControls`: Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. 
 """
-<<<<<<< HEAD
-update_security_hub_configuration(; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts"; aws_config=aws_config)
-update_security_hub_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts", args; aws_config=aws_config)
-=======
-
 update_security_hub_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts"; aws_config=aws_config)
 update_security_hub_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateStandardsControl()
@@ -847,11 +599,5 @@ Used to control whether an individual security standard control is enabled or di
 - `ControlStatus`: The updated status of the security standard control.
 - `DisabledReason`: A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
 """
-<<<<<<< HEAD
-update_standards_control(StandardsControlArn; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)"; aws_config=aws_config)
-update_standards_control(StandardsControlArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args; aws_config=aws_config)
-=======
-
 update_standards_control(StandardsControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)"; aws_config=aws_config)
 update_standards_control(StandardsControlArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

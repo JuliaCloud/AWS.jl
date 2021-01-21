@@ -13,8 +13,8 @@ Cancels a deployment. This operation cancels the deployment for devices that hav
 - `deploymentId`: The ID of the deployment.
 
 """
-cancel_deployment(deploymentId; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel"; aws_config=aws_config)
-cancel_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", args; aws_config=aws_config)
+cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel"; aws_config=aws_config)
+cancel_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", args; aws_config=aws_config)
 
 """
     CreateComponentVersion()
@@ -26,8 +26,8 @@ Creates a component. Components are software that run on AWS IoT Greengrass core
 - `lambdaFunction`: The parameters to create a component from a Lambda function. You must specify either inlineRecipe or lambdaFunction.
 - `tags`: A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 """
-create_component_version(; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion"; aws_config=aws_config)
-create_component_version(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", args; aws_config=aws_config)
+create_component_version(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion"; aws_config=aws_config)
+create_component_version(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", args; aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -44,8 +44,8 @@ Creates a continuous deployment for a target, which is a AWS IoT Greengrass core
 - `iotJobConfiguration`: The job configuration for the deployment configuration. The job configuration specifies the rollout, timeout, and stop configurations for the deployment configuration.
 - `tags`: A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 """
-create_deployment(targetArn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}("targetArn"=>targetArn); aws_config=aws_config)
-create_deployment(targetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn), args)); aws_config=aws_config)
+create_deployment(targetArn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}("targetArn"=>targetArn); aws_config=aws_config)
+create_deployment(targetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn), args)); aws_config=aws_config)
 
 """
     DeleteComponent()
@@ -56,8 +56,8 @@ Deletes a version of a component from AWS IoT Greengrass.  This operation delete
 - `arn`: The ARN of the component version.
 
 """
-delete_component(arn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
-delete_component(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", args; aws_config=aws_config)
+delete_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
+delete_component(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", args; aws_config=aws_config)
 
 """
     DeleteCoreDevice()
@@ -68,8 +68,8 @@ Deletes a AWS IoT Greengrass core device, which is an AWS IoT thing. This operat
 - `coreDeviceThingName`: The name of the core device. This is also the name of the AWS IoT thing.
 
 """
-delete_core_device(coreDeviceThingName; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
-delete_core_device(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", args; aws_config=aws_config)
+delete_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
+delete_core_device(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", args; aws_config=aws_config)
 
 """
     DescribeComponent()
@@ -80,8 +80,8 @@ Retrieves metadata for a version of a component.
 - `arn`: The ARN of the component version.
 
 """
-describe_component(arn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata"; aws_config=aws_config)
-describe_component(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", args; aws_config=aws_config)
+describe_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata"; aws_config=aws_config)
+describe_component(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", args; aws_config=aws_config)
 
 """
     GetComponent()
@@ -94,8 +94,8 @@ Gets the recipe for a version of a component. Core devices can call this operati
 # Optional Parameters
 - `recipeOutputFormat`: The format of the recipe.
 """
-get_component(arn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
-get_component(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)", args; aws_config=aws_config)
+get_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
+get_component(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)", args; aws_config=aws_config)
 
 """
     GetComponentVersionArtifact()
@@ -107,8 +107,8 @@ Gets the pre-signed URL to a component artifact in an S3 bucket. Core devices ca
 - `artifactName`: The name of the artifact.
 
 """
-get_component_version_artifact(arn, artifactName; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)"; aws_config=aws_config)
-get_component_version_artifact(arn, artifactName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", args; aws_config=aws_config)
+get_component_version_artifact(arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)"; aws_config=aws_config)
+get_component_version_artifact(arn, artifactName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", args; aws_config=aws_config)
 
 """
     GetCoreDevice()
@@ -119,8 +119,8 @@ Retrieves metadata for a AWS IoT Greengrass core device.
 - `coreDeviceThingName`: The name of the core device. This is also the name of the AWS IoT thing.
 
 """
-get_core_device(coreDeviceThingName; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
-get_core_device(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", args; aws_config=aws_config)
+get_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
+get_core_device(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", args; aws_config=aws_config)
 
 """
     GetDeployment()
@@ -131,8 +131,8 @@ Gets a deployment. Deployments define the components that run on AWS IoT Greengr
 - `deploymentId`: The ID of the deployment.
 
 """
-get_deployment(deploymentId; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)"; aws_config=aws_config)
-get_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", args; aws_config=aws_config)
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)"; aws_config=aws_config)
+get_deployment(deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", args; aws_config=aws_config)
 
 """
     ListComponentVersions()
@@ -146,8 +146,8 @@ Retrieves a paginated list of all versions for a component.
 - `maxResults`: The maximum number of results to be returned per paginated request.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
-list_component_versions(arn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions"; aws_config=aws_config)
-list_component_versions(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", args; aws_config=aws_config)
+list_component_versions(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions"; aws_config=aws_config)
+list_component_versions(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", args; aws_config=aws_config)
 
 """
     ListComponents()
@@ -159,8 +159,8 @@ Retrieves a paginated list of component summaries. This list includes components
 - `nextToken`: The token to be used for the next set of paginated results.
 - `scope`: The scope of the components to list. Default: PRIVATE 
 """
-list_components(; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components"; aws_config=aws_config)
-list_components(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", args; aws_config=aws_config)
+list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components"; aws_config=aws_config)
+list_components(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", args; aws_config=aws_config)
 
 """
     ListCoreDevices()
@@ -173,8 +173,8 @@ Retrieves a paginated list of AWS IoT Greengrass core devices.
 - `status`: The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The AWS IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The AWS IoT Greengrass Core software or a component is in a failed state on the core device.  
 - `thingGroupArn`: The ARN of the AWS IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that are members of this thing group.
 """
-list_core_devices(; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices"; aws_config=aws_config)
-list_core_devices(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", args; aws_config=aws_config)
+list_core_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices"; aws_config=aws_config)
+list_core_devices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", args; aws_config=aws_config)
 
 """
     ListDeployments()
@@ -187,8 +187,8 @@ Retrieves a paginated list of deployments.
 - `nextToken`: The token to be used for the next set of paginated results.
 - `targetArn`: The ARN of the target AWS IoT thing or thing group.
 """
-list_deployments(; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments"; aws_config=aws_config)
-list_deployments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", args; aws_config=aws_config)
+list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments"; aws_config=aws_config)
+list_deployments(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", args; aws_config=aws_config)
 
 """
     ListEffectiveDeployments()
@@ -202,8 +202,8 @@ Retrieves a paginated list of deployment jobs that AWS IoT Greengrass sends to A
 - `maxResults`: The maximum number of results to be returned per paginated request.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
-list_effective_deployments(coreDeviceThingName; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments"; aws_config=aws_config)
-list_effective_deployments(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", args; aws_config=aws_config)
+list_effective_deployments(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments"; aws_config=aws_config)
+list_effective_deployments(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", args; aws_config=aws_config)
 
 """
     ListInstalledComponents()
@@ -217,8 +217,8 @@ Retrieves a paginated list of the components that a AWS IoT Greengrass core devi
 - `maxResults`: The maximum number of results to be returned per paginated request.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
-list_installed_components(coreDeviceThingName; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents"; aws_config=aws_config)
-list_installed_components(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", args; aws_config=aws_config)
+list_installed_components(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents"; aws_config=aws_config)
+list_installed_components(coreDeviceThingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -229,8 +229,8 @@ Retrieves the list of tags for an AWS IoT Greengrass resource.
 - `resourceArn`: The ARN of the resource.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     ResolveComponentCandidates()
@@ -242,8 +242,8 @@ Retrieves a list of components that meet the component, version, and platform re
 - `platform`: The platform to use to resolve compatible components.
 
 """
-resolve_component_candidates(componentCandidates, platform; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform); aws_config=aws_config)
-resolve_component_candidates(componentCandidates, platform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform), args)); aws_config=aws_config)
+resolve_component_candidates(componentCandidates, platform; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform); aws_config=aws_config)
+resolve_component_candidates(componentCandidates, platform, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -255,8 +255,8 @@ Adds tags to an AWS IoT Greengrass resource. If a tag already exists for the res
 - `tags`: A list of key-value pairs that contain metadata for the resource. For more information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -268,5 +268,5 @@ Removes a tag from an AWS IoT Greengrass resource.
 - `tagKeys`: A list of keys for tags to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

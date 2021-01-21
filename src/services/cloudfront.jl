@@ -13,14 +13,8 @@ Creates a cache policy. After you create a cache policy, you can attach it to on
 - `CachePolicyConfig`: A cache policy configuration.
 
 """
-<<<<<<< HEAD
-create_cache_policy2020_05_31(CachePolicyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
-create_cache_policy2020_05_31(CachePolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
-=======
-
 create_cache_policy2020_05_31(CachePolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
 create_cache_policy2020_05_31(CachePolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateCloudFrontOriginAccessIdentity2020_05_31()
@@ -31,14 +25,8 @@ Creates a new origin access identity. If you're using Amazon S3 for your origin,
 - `CloudFrontOriginAccessIdentityConfig`: The current configuration information for the identity.
 
 """
-<<<<<<< HEAD
-create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
-create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
-=======
-
 create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
 create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDistribution2020_05_31()
@@ -49,14 +37,8 @@ Creates a new web distribution. You create a CloudFront distribution to tell Clo
 - `DistributionConfig`: The distribution's configuration information.
 
 """
-<<<<<<< HEAD
-create_distribution2020_05_31(DistributionConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
-create_distribution2020_05_31(DistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
-=======
-
 create_distribution2020_05_31(DistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
 create_distribution2020_05_31(DistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDistributionWithTags2020_05_31()
@@ -67,14 +49,8 @@ Create a new distribution with tags.
 - `DistributionConfigWithTags`: The distribution's configuration information. 
 
 """
-<<<<<<< HEAD
-create_distribution_with_tags2020_05_31(DistributionConfigWithTags; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags); aws_config=aws_config)
-create_distribution_with_tags2020_05_31(DistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), args)); aws_config=aws_config)
-=======
-
 create_distribution_with_tags2020_05_31(DistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags); aws_config=aws_config)
 create_distribution_with_tags2020_05_31(DistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateFieldLevelEncryptionConfig2020_05_31()
@@ -85,14 +61,8 @@ Create a new field-level encryption configuration.
 - `FieldLevelEncryptionConfig`: The request to create a new field-level encryption configuration.
 
 """
-<<<<<<< HEAD
-create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
-create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
-=======
-
 create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
 create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateFieldLevelEncryptionProfile2020_05_31()
@@ -103,14 +73,8 @@ Create a field-level encryption profile.
 - `FieldLevelEncryptionProfileConfig`: The request to create a field-level encryption profile.
 
 """
-<<<<<<< HEAD
-create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
-create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
-=======
-
 create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
 create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInvalidation2020_05_31()
@@ -122,14 +86,8 @@ Create a new invalidation.
 - `InvalidationBatch`: The batch information for the invalidation.
 
 """
-<<<<<<< HEAD
-create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}("InvalidationBatch"=>InvalidationBatch); aws_config=aws_config)
-create_invalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws_config=aws_config)
-=======
-
 create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}("InvalidationBatch"=>InvalidationBatch); aws_config=aws_config)
 create_invalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateKeyGroup2020_05_31()
@@ -140,8 +98,8 @@ Creates a key group that you can use with CloudFront signed URLs and signed cook
 - `KeyGroupConfig`: A key group configuration.
 
 """
-create_key_group2020_05_31(KeyGroupConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
-create_key_group2020_05_31(KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
+create_key_group2020_05_31(KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
+create_key_group2020_05_31(KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
 
 """
     CreateMonitoringSubscription2020_05_31()
@@ -153,14 +111,8 @@ Enables additional CloudWatch metrics for the specified CloudFront distribution.
 - `MonitoringSubscription`: A monitoring subscription. This structure contains information about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
 
 """
-<<<<<<< HEAD
-create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription); aws_config=aws_config)
-create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription), args)); aws_config=aws_config)
-=======
-
 create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription); aws_config=aws_config)
 create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateOriginRequestPolicy2020_05_31()
@@ -171,14 +123,8 @@ Creates an origin request policy. After you create an origin request policy, you
 - `OriginRequestPolicyConfig`: An origin request policy configuration.
 
 """
-<<<<<<< HEAD
-create_origin_request_policy2020_05_31(OriginRequestPolicyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
-create_origin_request_policy2020_05_31(OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
-=======
-
 create_origin_request_policy2020_05_31(OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
 create_origin_request_policy2020_05_31(OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreatePublicKey2020_05_31()
@@ -189,14 +135,8 @@ Uploads a public key to CloudFront that you can use with signed URLs and signed 
 - `PublicKeyConfig`: A CloudFront public key configuration.
 
 """
-<<<<<<< HEAD
-create_public_key2020_05_31(PublicKeyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
-create_public_key2020_05_31(PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
-=======
-
 create_public_key2020_05_31(PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
 create_public_key2020_05_31(PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateRealtimeLogConfig2020_05_31()
@@ -212,14 +152,8 @@ Creates a real-time log configuration. After you create a real-time log configur
 # Optional Parameters
 - `Fields`: A list of fields to include in each real-time log record. For more information about fields, see Real-time log configuration fields in the Amazon CloudFront Developer Guide.
 """
-<<<<<<< HEAD
-create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate); aws_config=aws_config)
-create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate), args)); aws_config=aws_config)
-=======
-
 create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate); aws_config=aws_config)
 create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateStreamingDistribution2020_05_31()
@@ -230,14 +164,8 @@ This API is deprecated. Amazon CloudFront is deprecating real-time messaging pro
 - `StreamingDistributionConfig`: The streaming distribution's configuration information.
 
 """
-<<<<<<< HEAD
-create_streaming_distribution2020_05_31(StreamingDistributionConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
-create_streaming_distribution2020_05_31(StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
-=======
-
 create_streaming_distribution2020_05_31(StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
 create_streaming_distribution2020_05_31(StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateStreamingDistributionWithTags2020_05_31()
@@ -248,14 +176,8 @@ This API is deprecated. Amazon CloudFront is deprecating real-time messaging pro
 - `StreamingDistributionConfigWithTags`:  The streaming distribution's configuration information. 
 
 """
-<<<<<<< HEAD
-create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags); aws_config=aws_config)
-create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), args)); aws_config=aws_config)
-=======
-
 create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags); aws_config=aws_config)
 create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCachePolicy2020_05_31()
@@ -268,14 +190,8 @@ Deletes a cache policy. You cannot delete a cache policy if it’s attached to a
 # Optional Parameters
 - `If-Match`: The version of the cache policy that you are deleting. The version is the cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
 """
-<<<<<<< HEAD
-delete_cache_policy2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
-delete_cache_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
 delete_cache_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCloudFrontOriginAccessIdentity2020_05_31()
@@ -288,14 +204,8 @@ Delete an origin access identity.
 # Optional Parameters
 - `If-Match`: The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-delete_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
-delete_cloud_front_origin_access_identity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
 delete_cloud_front_origin_access_identity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDistribution2020_05_31()
@@ -308,14 +218,8 @@ Delete a distribution.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
 """
-<<<<<<< HEAD
-delete_distribution2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
-delete_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
 delete_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFieldLevelEncryptionConfig2020_05_31()
@@ -328,14 +232,8 @@ Remove a field-level encryption configuration.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-delete_field_level_encryption_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
-delete_field_level_encryption_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
 delete_field_level_encryption_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteFieldLevelEncryptionProfile2020_05_31()
@@ -348,14 +246,8 @@ Remove a field-level encryption profile.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-delete_field_level_encryption_profile2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
-delete_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
 delete_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteKeyGroup2020_05_31()
@@ -368,8 +260,8 @@ Deletes a key group. You cannot delete a key group that is referenced in a cache
 # Optional Parameters
 - `If-Match`: The version of the key group that you are deleting. The version is the key group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
 """
-delete_key_group2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
-delete_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
+delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+delete_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteMonitoringSubscription2020_05_31()
@@ -380,14 +272,8 @@ Disables additional CloudWatch metrics for the specified CloudFront distribution
 - `DistributionId`: The ID of the distribution that you are disabling metrics for.
 
 """
-<<<<<<< HEAD
-delete_monitoring_subscription2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
-delete_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
-=======
-
 delete_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
 delete_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteOriginRequestPolicy2020_05_31()
@@ -400,14 +286,8 @@ Deletes an origin request policy. You cannot delete an origin request policy if 
 # Optional Parameters
 - `If-Match`: The version of the origin request policy that you are deleting. The version is the origin request policy’s ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
 """
-<<<<<<< HEAD
-delete_origin_request_policy2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
-delete_origin_request_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
 delete_origin_request_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeletePublicKey2020_05_31()
@@ -420,14 +300,8 @@ Remove a public key you previously added to CloudFront.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-delete_public_key2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
-delete_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
 delete_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteRealtimeLogConfig2020_05_31()
@@ -438,14 +312,8 @@ Deletes a real-time log configuration. You cannot delete a real-time log configu
 - `ARN`: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
 - `Name`: The name of the real-time log configuration to delete.
 """
-<<<<<<< HEAD
-delete_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config)
-delete_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", args; aws_config=aws_config)
-=======
-
 delete_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config)
 delete_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteStreamingDistribution2020_05_31()
@@ -458,14 +326,8 @@ Delete a streaming distribution. To delete an RTMP distribution using the CloudF
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-delete_streaming_distribution2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
-delete_streaming_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
-=======
-
 delete_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
 delete_streaming_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCachePolicy2020_05_31()
@@ -476,14 +338,8 @@ Gets a cache policy, including the following metadata:   The policy’s identifi
 - `Id`: The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
 
 """
-<<<<<<< HEAD
-get_cache_policy2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
-get_cache_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
-=======
-
 get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
 get_cache_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCachePolicyConfig2020_05_31()
@@ -494,14 +350,8 @@ Gets a cache policy configuration. To get a cache policy configuration, you must
 - `Id`: The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
 
 """
-<<<<<<< HEAD
-get_cache_policy_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws_config=aws_config)
-get_cache_policy_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_cache_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws_config=aws_config)
 get_cache_policy_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCloudFrontOriginAccessIdentity2020_05_31()
@@ -512,14 +362,8 @@ Get the information about an origin access identity.
 - `Id`: The identity's ID.
 
 """
-<<<<<<< HEAD
-get_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
-get_cloud_front_origin_access_identity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
-=======
-
 get_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
 get_cloud_front_origin_access_identity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetCloudFrontOriginAccessIdentityConfig2020_05_31()
@@ -530,14 +374,8 @@ Get the configuration information about an origin access identity.
 - `Id`: The identity's ID. 
 
 """
-<<<<<<< HEAD
-get_cloud_front_origin_access_identity_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config"; aws_config=aws_config)
-get_cloud_front_origin_access_identity_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_cloud_front_origin_access_identity_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config"; aws_config=aws_config)
 get_cloud_front_origin_access_identity_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDistribution2020_05_31()
@@ -548,14 +386,8 @@ Get the information about a distribution.
 - `Id`: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
 
 """
-<<<<<<< HEAD
-get_distribution2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
-get_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
-=======
-
 get_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
 get_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDistributionConfig2020_05_31()
@@ -566,14 +398,8 @@ Get the configuration information about a distribution.
 - `Id`: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
 
 """
-<<<<<<< HEAD
-get_distribution_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws_config=aws_config)
-get_distribution_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws_config=aws_config)
 get_distribution_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFieldLevelEncryption2020_05_31()
@@ -584,14 +410,8 @@ Get the field-level encryption configuration information.
 - `Id`: Request the ID for the field-level encryption configuration information.
 
 """
-<<<<<<< HEAD
-get_field_level_encryption2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
-get_field_level_encryption2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
-=======
-
 get_field_level_encryption2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
 get_field_level_encryption2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFieldLevelEncryptionConfig2020_05_31()
@@ -602,14 +422,8 @@ Get the field-level encryption configuration information.
 - `Id`: Request the ID for the field-level encryption configuration information.
 
 """
-<<<<<<< HEAD
-get_field_level_encryption_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws_config=aws_config)
-get_field_level_encryption_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws_config=aws_config)
 get_field_level_encryption_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFieldLevelEncryptionProfile2020_05_31()
@@ -620,14 +434,8 @@ Get the field-level encryption profile information.
 - `Id`: Get the ID for the field-level encryption profile information.
 
 """
-<<<<<<< HEAD
-get_field_level_encryption_profile2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
-get_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
-=======
-
 get_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
 get_field_level_encryption_profile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetFieldLevelEncryptionProfileConfig2020_05_31()
@@ -638,14 +446,8 @@ Get the field-level encryption profile configuration information.
 - `Id`: Get the ID for the field-level encryption profile configuration information.
 
 """
-<<<<<<< HEAD
-get_field_level_encryption_profile_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws_config=aws_config)
-get_field_level_encryption_profile_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_field_level_encryption_profile_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws_config=aws_config)
 get_field_level_encryption_profile_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetInvalidation2020_05_31()
@@ -657,14 +459,8 @@ Get the information about an invalidation.
 - `Id`: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
 
 """
-<<<<<<< HEAD
-get_invalidation2020_05_31(DistributionId, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)"; aws_config=aws_config)
-get_invalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws_config=aws_config)
-=======
-
 get_invalidation2020_05_31(DistributionId, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)"; aws_config=aws_config)
 get_invalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetKeyGroup2020_05_31()
@@ -675,8 +471,8 @@ Gets a key group, including the date and time when the key group was last modifi
 - `Id`: The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
 
 """
-get_key_group2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
-get_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
+get_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+get_key_group2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)", args; aws_config=aws_config)
 
 """
     GetKeyGroupConfig2020_05_31()
@@ -687,8 +483,8 @@ Gets a key group configuration. To get a key group configuration, you must provi
 - `Id`: The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups.
 
 """
-get_key_group_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config"; aws_config=aws_config)
-get_key_group_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config", args; aws_config=aws_config)
+get_key_group_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config"; aws_config=aws_config)
+get_key_group_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetMonitoringSubscription2020_05_31()
@@ -699,14 +495,8 @@ Gets information about whether additional CloudWatch metrics are enabled for the
 - `DistributionId`: The ID of the distribution that you are getting metrics information for.
 
 """
-<<<<<<< HEAD
-get_monitoring_subscription2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
-get_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
-=======
-
 get_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
 get_monitoring_subscription2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetOriginRequestPolicy2020_05_31()
@@ -717,14 +507,8 @@ Gets an origin request policy, including the following metadata:   The policy’
 - `Id`: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-<<<<<<< HEAD
-get_origin_request_policy2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
-get_origin_request_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
-=======
-
 get_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
 get_origin_request_policy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetOriginRequestPolicyConfig2020_05_31()
@@ -735,14 +519,8 @@ Gets an origin request policy configuration. To get an origin request policy con
 - `Id`: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-<<<<<<< HEAD
-get_origin_request_policy_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws_config=aws_config)
-get_origin_request_policy_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_origin_request_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws_config=aws_config)
 get_origin_request_policy_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetPublicKey2020_05_31()
@@ -753,14 +531,8 @@ Gets a public key.
 - `Id`: The identifier of the public key you are getting.
 
 """
-<<<<<<< HEAD
-get_public_key2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
-get_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
-=======
-
 get_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
 get_public_key2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetPublicKeyConfig2020_05_31()
@@ -771,14 +543,8 @@ Gets a public key configuration.
 - `Id`: The identifier of the public key whose configuration you are getting.
 
 """
-<<<<<<< HEAD
-get_public_key_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
-get_public_key_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_public_key_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
 get_public_key_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetRealtimeLogConfig2020_05_31()
@@ -789,14 +555,8 @@ Gets a real-time log configuration. To get a real-time log configuration, you ca
 - `ARN`: The Amazon Resource Name (ARN) of the real-time log configuration to get.
 - `Name`: The name of the real-time log configuration to get.
 """
-<<<<<<< HEAD
-get_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
-get_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", args; aws_config=aws_config)
-=======
-
 get_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
 get_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetStreamingDistribution2020_05_31()
@@ -807,14 +567,8 @@ Gets information about a specified RTMP distribution, including the distribution
 - `Id`: The streaming distribution's ID.
 
 """
-<<<<<<< HEAD
-get_streaming_distribution2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
-get_streaming_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
-=======
-
 get_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
 get_streaming_distribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetStreamingDistributionConfig2020_05_31()
@@ -825,14 +579,8 @@ Get the configuration information about a streaming distribution.
 - `Id`: The streaming distribution's ID.
 
 """
-<<<<<<< HEAD
-get_streaming_distribution_config2020_05_31(Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws_config=aws_config)
-get_streaming_distribution_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", args; aws_config=aws_config)
-=======
-
 get_streaming_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws_config=aws_config)
 get_streaming_distribution_config2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListCachePolicies2020_05_31()
@@ -844,14 +592,8 @@ Gets a list of cache policies. You can optionally apply a filter to return only 
 - `MaxItems`: The maximum number of cache policies that you want in the response.
 - `Type`: A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
 """
-<<<<<<< HEAD
-list_cache_policies2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
-list_cache_policies2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", args; aws_config=aws_config)
-=======
-
 list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
 list_cache_policies2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListCloudFrontOriginAccessIdentities2020_05_31()
@@ -862,14 +604,8 @@ Lists origin access identities.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
 - `MaxItems`: The maximum number of origin access identities you want in the response body. 
 """
-<<<<<<< HEAD
-list_cloud_front_origin_access_identities2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
-list_cloud_front_origin_access_identities2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", args; aws_config=aws_config)
-=======
-
 list_cloud_front_origin_access_identities2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
 list_cloud_front_origin_access_identities2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDistributions2020_05_31()
@@ -880,14 +616,8 @@ List CloudFront distributions.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
 - `MaxItems`: The maximum number of distributions you want in the response body.
 """
-<<<<<<< HEAD
-list_distributions2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
-list_distributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution", args; aws_config=aws_config)
-=======
-
 list_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
 list_distributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDistributionsByCachePolicyId2020_05_31()
@@ -901,14 +631,8 @@ Gets a list of distribution IDs for distributions that have a cache behavior tha
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of distribution IDs that you want in the response.
 """
-<<<<<<< HEAD
-list_distributions_by_cache_policy_id2020_05_31(CachePolicyId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)"; aws_config=aws_config)
-list_distributions_by_cache_policy_id2020_05_31(CachePolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", args; aws_config=aws_config)
-=======
-
 list_distributions_by_cache_policy_id2020_05_31(CachePolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)"; aws_config=aws_config)
 list_distributions_by_cache_policy_id2020_05_31(CachePolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDistributionsByKeyGroup2020_05_31()
@@ -922,8 +646,8 @@ Gets a list of distribution IDs for distributions that have a cache behavior tha
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of distribution IDs that you want in the response.
 """
-list_distributions_by_key_group2020_05_31(KeyGroupId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)"; aws_config=aws_config)
-list_distributions_by_key_group2020_05_31(KeyGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)", args; aws_config=aws_config)
+list_distributions_by_key_group2020_05_31(KeyGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)"; aws_config=aws_config)
+list_distributions_by_key_group2020_05_31(KeyGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)", args; aws_config=aws_config)
 
 """
     ListDistributionsByOriginRequestPolicyId2020_05_31()
@@ -937,14 +661,8 @@ Gets a list of distribution IDs for distributions that have a cache behavior tha
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of distribution IDs that you want in the response.
 """
-<<<<<<< HEAD
-list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)"; aws_config=aws_config)
-list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", args; aws_config=aws_config)
-=======
-
 list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)"; aws_config=aws_config)
 list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDistributionsByRealtimeLogConfig2020_05_31()
@@ -957,14 +675,8 @@ Gets a list of distributions that have a cache behavior that’s associated with
 - `RealtimeLogConfigArn`: The Amazon Resource Name (ARN) of the real-time log configuration whose associated distributions you want to list.
 - `RealtimeLogConfigName`: The name of the real-time log configuration whose associated distributions you want to list.
 """
-<<<<<<< HEAD
-list_distributions_by_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config)
-list_distributions_by_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", args; aws_config=aws_config)
-=======
-
 list_distributions_by_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config)
 list_distributions_by_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDistributionsByWebACLId2020_05_31()
@@ -978,14 +690,8 @@ List the distributions that are associated with a specified AWS WAF web ACL.
 - `Marker`: Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
 - `MaxItems`: The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
 """
-<<<<<<< HEAD
-list_distributions_by_web_aclid2020_05_31(WebACLId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws_config=aws_config)
-list_distributions_by_web_aclid2020_05_31(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", args; aws_config=aws_config)
-=======
-
 list_distributions_by_web_aclid2020_05_31(WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws_config=aws_config)
 list_distributions_by_web_aclid2020_05_31(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFieldLevelEncryptionConfigs2020_05_31()
@@ -996,14 +702,8 @@ List all field-level encryption configurations that have been created in CloudFr
 - `Marker`: Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page). 
 - `MaxItems`: The maximum number of field-level encryption configurations you want in the response body. 
 """
-<<<<<<< HEAD
-list_field_level_encryption_configs2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
-list_field_level_encryption_configs2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption", args; aws_config=aws_config)
-=======
-
 list_field_level_encryption_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
 list_field_level_encryption_configs2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListFieldLevelEncryptionProfiles2020_05_31()
@@ -1014,14 +714,8 @@ Request a list of field-level encryption profiles that have been created in Clou
 - `Marker`: Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page). 
 - `MaxItems`: The maximum number of field-level encryption profiles you want in the response body. 
 """
-<<<<<<< HEAD
-list_field_level_encryption_profiles2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config)
-list_field_level_encryption_profiles2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", args; aws_config=aws_config)
-=======
-
 list_field_level_encryption_profiles2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config)
 list_field_level_encryption_profiles2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInvalidations2020_05_31()
@@ -1035,14 +729,8 @@ Lists invalidation batches.
 - `Marker`: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
 - `MaxItems`: The maximum number of invalidation batches that you want in the response body.
 """
-<<<<<<< HEAD
-list_invalidations2020_05_31(DistributionId; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws_config=aws_config)
-list_invalidations2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", args; aws_config=aws_config)
-=======
-
 list_invalidations2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws_config=aws_config)
 list_invalidations2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListKeyGroups2020_05_31()
@@ -1053,8 +741,8 @@ Gets a list of key groups. You can optionally specify the maximum number of item
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of key groups that you want in the response.
 """
-list_key_groups2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
-list_key_groups2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", args; aws_config=aws_config)
+list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
+list_key_groups2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", args; aws_config=aws_config)
 
 """
     ListOriginRequestPolicies2020_05_31()
@@ -1066,14 +754,8 @@ Gets a list of origin request policies. You can optionally apply a filter to ret
 - `MaxItems`: The maximum number of origin request policies that you want in the response.
 - `Type`: A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
 """
-<<<<<<< HEAD
-list_origin_request_policies2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
-list_origin_request_policies2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", args; aws_config=aws_config)
-=======
-
 list_origin_request_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
 list_origin_request_policies2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListPublicKeys2020_05_31()
@@ -1084,14 +766,8 @@ List all public keys that have been added to CloudFront for this account.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page). 
 - `MaxItems`: The maximum number of public keys you want in the response body. 
 """
-<<<<<<< HEAD
-list_public_keys2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
-list_public_keys2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", args; aws_config=aws_config)
-=======
-
 list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
 list_public_keys2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListRealtimeLogConfigs2020_05_31()
@@ -1102,14 +778,8 @@ Gets a list of real-time log configurations. You can optionally specify the maxi
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of real-time log configurations. The response includes real-time log configurations in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of real-time log configurations that you want in the response.
 """
-<<<<<<< HEAD
-list_realtime_log_configs2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
-list_realtime_log_configs2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", args; aws_config=aws_config)
-=======
-
 list_realtime_log_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
 list_realtime_log_configs2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListStreamingDistributions2020_05_31()
@@ -1120,14 +790,8 @@ List streaming distributions.
 - `Marker`: The value that you provided for the Marker request parameter.
 - `MaxItems`: The value that you provided for the MaxItems request parameter.
 """
-<<<<<<< HEAD
-list_streaming_distributions2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
-list_streaming_distributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution", args; aws_config=aws_config)
-=======
-
 list_streaming_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
 list_streaming_distributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource2020_05_31()
@@ -1138,14 +802,8 @@ List tags for a CloudFront resource.
 - `Resource`:  An ARN of a CloudFront resource.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource2020_05_31(Resource; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
-list_tags_for_resource2020_05_31(Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
-=======
-
 list_tags_for_resource2020_05_31(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
 list_tags_for_resource2020_05_31(Resource, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource2020_05_31()
@@ -1157,14 +815,8 @@ Add tags to a CloudFront resource.
 - `Tags`:  A complex type that contains zero or more Tag elements.
 
 """
-<<<<<<< HEAD
-tag_resource2020_05_31(Resource, Tags; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
-tag_resource2020_05_31(Resource, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws_config=aws_config)
-=======
-
 tag_resource2020_05_31(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
 tag_resource2020_05_31(Resource, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource2020_05_31()
@@ -1176,14 +828,8 @@ Remove tags from a CloudFront resource.
 - `TagKeys`:  A complex type that contains zero or more Tag key elements.
 
 """
-<<<<<<< HEAD
-untag_resource2020_05_31(Resource, TagKeys; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource2020_05_31(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource2020_05_31(Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource2020_05_31(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateCachePolicy2020_05_31()
@@ -1197,14 +843,8 @@ Updates a cache policy configuration. When you update a cache policy configurati
 # Optional Parameters
 - `If-Match`: The version of the cache policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
 """
-<<<<<<< HEAD
-update_cache_policy2020_05_31(CachePolicyConfig, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
-update_cache_policy2020_05_31(CachePolicyConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
-=======
-
 update_cache_policy2020_05_31(CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
 update_cache_policy2020_05_31(CachePolicyConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateCloudFrontOriginAccessIdentity2020_05_31()
@@ -1218,14 +858,8 @@ Update an origin access identity.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
-update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
-=======
-
 update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
 update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDistribution2020_05_31()
@@ -1239,14 +873,8 @@ Updates the configuration for a web distribution.   When you update a distributi
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_distribution2020_05_31(DistributionConfig, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
-update_distribution2020_05_31(DistributionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
-=======
-
 update_distribution2020_05_31(DistributionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
 update_distribution2020_05_31(DistributionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFieldLevelEncryptionConfig2020_05_31()
@@ -1260,14 +888,8 @@ Update a field-level encryption configuration.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
-update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
-=======
-
 update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
 update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateFieldLevelEncryptionProfile2020_05_31()
@@ -1281,14 +903,8 @@ Update a field-level encryption profile.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
-update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
-=======
-
 update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
 update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateKeyGroup2020_05_31()
@@ -1302,8 +918,8 @@ Updates a key group. When you update a key group, all the fields are updated wit
 # Optional Parameters
 - `If-Match`: The version of the key group that you are updating. The version is the key group’s ETag value.
 """
-update_key_group2020_05_31(Id, KeyGroupConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
-update_key_group2020_05_31(Id, KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
+update_key_group2020_05_31(Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
+update_key_group2020_05_31(Id, KeyGroupConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), args)); aws_config=aws_config)
 
 """
     UpdateOriginRequestPolicy2020_05_31()
@@ -1317,14 +933,8 @@ Updates an origin request policy configuration. When you update an origin reques
 # Optional Parameters
 - `If-Match`: The version of the origin request policy that you are updating. The version is returned in the origin request policy’s ETag field in the response to GetOriginRequestPolicyConfig.
 """
-<<<<<<< HEAD
-update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
-update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
-=======
-
 update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
 update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdatePublicKey2020_05_31()
@@ -1338,14 +948,8 @@ Update public key information. Note that the only value you can change is the co
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_public_key2020_05_31(Id, PublicKeyConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
-update_public_key2020_05_31(Id, PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
-=======
-
 update_public_key2020_05_31(Id, PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
 update_public_key2020_05_31(Id, PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateRealtimeLogConfig2020_05_31()
@@ -1359,14 +963,8 @@ Updates a real-time log configuration. When you update a real-time log configura
 - `Name`: The name for this real-time log configuration.
 - `SamplingRate`: The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
 """
-<<<<<<< HEAD
-update_realtime_log_config2020_05_31(; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
-update_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", args; aws_config=aws_config)
-=======
-
 update_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
 update_realtime_log_config2020_05_31(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateStreamingDistribution2020_05_31()
@@ -1380,11 +978,5 @@ Update a streaming distribution.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-<<<<<<< HEAD
-update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
-update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
-=======
-
 update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
 update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

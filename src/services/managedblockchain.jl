@@ -16,14 +16,8 @@ Creates a member within a Managed Blockchain network. Applies only to Hyperledge
 - `networkId`: The unique identifier of the network in which the member is created.
 
 """
-<<<<<<< HEAD
-create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration); aws_config=aws_config)
-create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), args)); aws_config=aws_config)
-=======
-
 create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration); aws_config=aws_config)
 create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateNetwork()
@@ -42,14 +36,8 @@ Creates a new blockchain network using Amazon Managed Blockchain. Applies only t
 - `Description`: An optional description for the network.
 - `FrameworkConfiguration`:  Configuration properties of the blockchain framework relevant to the network configuration. 
 """
-<<<<<<< HEAD
-create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws_config=aws_config)
-create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), args)); aws_config=aws_config)
-=======
-
 create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws_config=aws_config)
 create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateNode()
@@ -64,14 +52,8 @@ Creates a node on the specified blockchain network. Applies to Hyperledger Fabri
 # Optional Parameters
 - `MemberId`: The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
 """
-<<<<<<< HEAD
-create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
-create_node(ClientRequestToken, NodeConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
-=======
-
-create_node(ClientRequestToken, NodeConfiguration, memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
-create_node(ClientRequestToken, NodeConfiguration, memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
+create_node(ClientRequestToken, NodeConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
 
 """
     CreateProposal()
@@ -87,14 +69,8 @@ Creates a proposal for a change to the network that other members of the network
 # Optional Parameters
 - `Description`: A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\"
 """
-<<<<<<< HEAD
-create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws_config=aws_config)
-create_proposal(Actions, ClientRequestToken, MemberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), args)); aws_config=aws_config)
-=======
-
 create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws_config=aws_config)
 create_proposal(Actions, ClientRequestToken, MemberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMember()
@@ -106,14 +82,8 @@ Deletes a member. Deleting a member removes the member and all associated resour
 - `networkId`: The unique identifier of the network from which the member is removed.
 
 """
-<<<<<<< HEAD
-delete_member(memberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-delete_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
-=======
-
 delete_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
 delete_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteNode()
@@ -127,14 +97,8 @@ Deletes a node that your AWS account owns. All data on the node is lost and cann
 # Optional Parameters
 - `memberId`: The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-<<<<<<< HEAD
-delete_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-delete_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
-=======
-
-delete_node(memberId, networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-delete_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+delete_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     GetMember()
@@ -146,14 +110,8 @@ Returns detailed information about a member. Applies only to Hyperledger Fabric.
 - `networkId`: The unique identifier of the network to which the member belongs.
 
 """
-<<<<<<< HEAD
-get_member(memberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-get_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
-=======
-
 get_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
 get_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetNetwork()
@@ -164,14 +122,8 @@ Returns detailed information about a network. Applies to Hyperledger Fabric and 
 - `networkId`: The unique identifier of the network to get information about.
 
 """
-<<<<<<< HEAD
-get_network(networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)"; aws_config=aws_config)
-get_network(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)", args; aws_config=aws_config)
-=======
-
 get_network(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)"; aws_config=aws_config)
 get_network(networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetNode()
@@ -185,14 +137,8 @@ Returns detailed information about a node. Applies to Hyperledger Fabric and Eth
 # Optional Parameters
 - `memberId`: The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-<<<<<<< HEAD
-get_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-get_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
-=======
-
-get_node(memberId, networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-get_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+get_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+get_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     GetProposal()
@@ -204,14 +150,8 @@ Returns detailed information about a proposal. Applies only to Hyperledger Fabri
 - `proposalId`: The unique identifier of the proposal.
 
 """
-<<<<<<< HEAD
-get_proposal(networkId, proposalId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws_config=aws_config)
-get_proposal(networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", args; aws_config=aws_config)
-=======
-
 get_proposal(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws_config=aws_config)
 get_proposal(networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInvitations()
@@ -222,14 +162,8 @@ Returns a list of all invitations for the current AWS account. Applies only to H
 - `maxResults`: The maximum number of invitations to return.
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 """
-<<<<<<< HEAD
-list_invitations(; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations"; aws_config=aws_config)
-list_invitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", args; aws_config=aws_config)
-=======
-
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMembers()
@@ -246,14 +180,8 @@ Returns a list of the members in a network and properties of their configuration
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only members currently in this status are listed.
 """
-<<<<<<< HEAD
-list_members(networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members"; aws_config=aws_config)
-list_members(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members", args; aws_config=aws_config)
-=======
-
 list_members(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members"; aws_config=aws_config)
 list_members(networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListNetworks()
@@ -267,14 +195,8 @@ Returns information about the networks in which the current AWS account particip
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only networks currently in this status are listed. Applies only to Hyperledger Fabric.
 """
-<<<<<<< HEAD
-list_networks(; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config)
-list_networks(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", args; aws_config=aws_config)
-=======
-
 list_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config)
 list_networks(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListNodes()
@@ -290,14 +212,8 @@ Returns information about the nodes within a network. Applies to Hyperledger Fab
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only nodes currently in this status are listed.
 """
-<<<<<<< HEAD
-list_nodes(networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes"; aws_config=aws_config)
-list_nodes(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", args; aws_config=aws_config)
-=======
-
-list_nodes(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes"; aws_config=aws_config)
-list_nodes(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+list_nodes(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes"; aws_config=aws_config)
+list_nodes(networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", args; aws_config=aws_config)
 
 """
     ListProposalVotes()
@@ -312,14 +228,8 @@ Returns the list of votes for a specified proposal, including the value of each 
 - `maxResults`:  The maximum number of votes to return. 
 - `nextToken`:  The pagination token that indicates the next set of results to retrieve. 
 """
-<<<<<<< HEAD
-list_proposal_votes(networkId, proposalId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws_config=aws_config)
-list_proposal_votes(networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", args; aws_config=aws_config)
-=======
-
 list_proposal_votes(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws_config=aws_config)
 list_proposal_votes(networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListProposals()
@@ -333,14 +243,8 @@ Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
 - `maxResults`:  The maximum number of proposals to return. 
 - `nextToken`:  The pagination token that indicates the next set of results to retrieve. 
 """
-<<<<<<< HEAD
-list_proposals(networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws_config=aws_config)
-list_proposals(networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", args; aws_config=aws_config)
-=======
-
 list_proposals(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws_config=aws_config)
 list_proposals(networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectInvitation()
@@ -351,14 +255,8 @@ Rejects an invitation to join a network. This action can be called by a principa
 - `invitationId`: The unique identifier of the invitation to reject.
 
 """
-<<<<<<< HEAD
-reject_invitation(invitationId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws_config=aws_config)
-reject_invitation(invitationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", args; aws_config=aws_config)
-=======
-
 reject_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws_config=aws_config)
 reject_invitation(invitationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMember()
@@ -372,14 +270,8 @@ Updates a member configuration with new parameters. Applies only to Hyperledger 
 # Optional Parameters
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
 """
-<<<<<<< HEAD
-update_member(memberId, networkId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-update_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
-=======
-
 update_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
 update_member(memberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateNode()
@@ -394,14 +286,8 @@ Updates a node configuration with new parameters. Applies only to Hyperledger Fa
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
 - `MemberId`: The unique identifier of the member that owns the node. Applies only to Hyperledger Fabric.
 """
-<<<<<<< HEAD
-update_node(networkId, nodeId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-update_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
-=======
-
-update_node(memberId, networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws_config=aws_config)
-update_node(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+update_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
+update_node(networkId, nodeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", args; aws_config=aws_config)
 
 """
     VoteOnProposal()
@@ -415,11 +301,5 @@ Casts a vote for a specified ProposalId on behalf of a member. The member to vot
 - `proposalId`:  The unique identifier of the proposal. 
 
 """
-<<<<<<< HEAD
-vote_on_proposal(Vote, VoterMemberId, networkId, proposalId; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId); aws_config=aws_config)
-vote_on_proposal(Vote, VoterMemberId, networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), args)); aws_config=aws_config)
-=======
-
 vote_on_proposal(Vote, VoterMemberId, networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId); aws_config=aws_config)
 vote_on_proposal(Vote, VoterMemberId, networkId, proposalId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

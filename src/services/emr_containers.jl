@@ -14,8 +14,8 @@ Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark scr
 - `virtualClusterId`: The ID of the virtual cluster for which the job run will be canceled.
 
 """
-cancel_job_run(jobRunId, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)"; aws_config=aws_config)
-cancel_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", args; aws_config=aws_config)
+cancel_job_run(jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)"; aws_config=aws_config)
+cancel_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", args; aws_config=aws_config)
 
 """
     CreateManagedEndpoint()
@@ -35,8 +35,8 @@ Creates a managed endpoint. A managed endpoint is a gateway that connects EMR St
 - `configurationOverrides`: The configuration settings that will be used to override existing configurations.
 - `tags`: The tags of the managed endpoint. 
 """
-create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type); aws_config=aws_config)
-create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type), args)); aws_config=aws_config)
+create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type); aws_config=aws_config)
+create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type), args)); aws_config=aws_config)
 
 """
     CreateVirtualCluster()
@@ -51,8 +51,8 @@ Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on 
 # Optional Parameters
 - `tags`: The tags assigned to the virtual cluster.
 """
-create_virtual_cluster(clientToken, containerProvider, name; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters", Dict{String, Any}("clientToken"=>clientToken, "containerProvider"=>containerProvider, "name"=>name); aws_config=aws_config)
-create_virtual_cluster(clientToken, containerProvider, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "containerProvider"=>containerProvider, "name"=>name), args)); aws_config=aws_config)
+create_virtual_cluster(clientToken, containerProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters", Dict{String, Any}("clientToken"=>clientToken, "containerProvider"=>containerProvider, "name"=>name); aws_config=aws_config)
+create_virtual_cluster(clientToken, containerProvider, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "containerProvider"=>containerProvider, "name"=>name), args)); aws_config=aws_config)
 
 """
     DeleteManagedEndpoint()
@@ -64,8 +64,8 @@ Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR St
 - `virtualClusterId`: The ID of the endpoint's virtual cluster.
 
 """
-delete_managed_endpoint(endpointId, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)"; aws_config=aws_config)
-delete_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", args; aws_config=aws_config)
+delete_managed_endpoint(endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)"; aws_config=aws_config)
+delete_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", args; aws_config=aws_config)
 
 """
     DeleteVirtualCluster()
@@ -76,8 +76,8 @@ Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on 
 - `virtualClusterId`: The ID of the virtual cluster that will be deleted.
 
 """
-delete_virtual_cluster(virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config)
-delete_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)", args; aws_config=aws_config)
+delete_virtual_cluster(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config)
+delete_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/virtualclusters/$(virtualClusterId)", args; aws_config=aws_config)
 
 """
     DescribeJobRun()
@@ -89,8 +89,8 @@ Displays detailed information about a job run. A job run is a unit of work, such
 - `virtualClusterId`: The ID of the virtual cluster for which the job run is submitted.
 
 """
-describe_job_run(jobRunId, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)"; aws_config=aws_config)
-describe_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", args; aws_config=aws_config)
+describe_job_run(jobRunId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)"; aws_config=aws_config)
+describe_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns/$(jobRunId)", args; aws_config=aws_config)
 
 """
     DescribeManagedEndpoint()
@@ -102,8 +102,8 @@ Displays detailed information about a managed endpoint. A managed endpoint is a 
 - `virtualClusterId`: The ID of the endpoint's virtual cluster.
 
 """
-describe_managed_endpoint(endpointId, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)"; aws_config=aws_config)
-describe_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", args; aws_config=aws_config)
+describe_managed_endpoint(endpointId, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)"; aws_config=aws_config)
+describe_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)", args; aws_config=aws_config)
 
 """
     DescribeVirtualCluster()
@@ -114,8 +114,8 @@ Displays detailed information about a specified virtual cluster. Virtual cluster
 - `virtualClusterId`: The ID of the virtual cluster that will be described.
 
 """
-describe_virtual_cluster(virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config)
-describe_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)", args; aws_config=aws_config)
+describe_virtual_cluster(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)"; aws_config=aws_config)
+describe_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)", args; aws_config=aws_config)
 
 """
     ListJobRuns()
@@ -133,8 +133,8 @@ Lists job runs based on a set of parameters. A job run is a unit of work, such a
 - `nextToken`: The token for the next set of job runs to return.
 - `states`: The states of the job run.
 """
-list_job_runs(virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns"; aws_config=aws_config)
-list_job_runs(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns", args; aws_config=aws_config)
+list_job_runs(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns"; aws_config=aws_config)
+list_job_runs(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/jobruns", args; aws_config=aws_config)
 
 """
     ListManagedEndpoints()
@@ -152,8 +152,8 @@ Lists managed endpoints based on a set of parameters. A managed endpoint is a ga
 - `states`: The states of the managed endpoints.
 - `types`: The types of the managed endpoints.
 """
-list_managed_endpoints(virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints"; aws_config=aws_config)
-list_managed_endpoints(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints", args; aws_config=aws_config)
+list_managed_endpoints(virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints"; aws_config=aws_config)
+list_managed_endpoints(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters/$(virtualClusterId)/endpoints", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -164,8 +164,8 @@ Lists the tags assigned to the resources.
 - `resourceArn`: The ARN of tagged resources.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     ListVirtualClusters()
@@ -181,8 +181,8 @@ Lists information about the specified virtual cluster. Virtual cluster is a mana
 - `nextToken`: The token for the next set of virtual clusters to return. 
 - `states`: The states of the requested virtual clusters.
 """
-list_virtual_clusters(; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters"; aws_config=aws_config)
-list_virtual_clusters(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters", args; aws_config=aws_config)
+list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters"; aws_config=aws_config)
+list_virtual_clusters(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters", args; aws_config=aws_config)
 
 """
     StartJobRun()
@@ -201,8 +201,8 @@ Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark scri
 - `name`: The name of the job run.
 - `tags`: The tags assigned to job runs.
 """
-start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClusterId; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/jobruns", Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "jobDriver"=>jobDriver, "releaseLabel"=>releaseLabel); aws_config=aws_config)
-start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/jobruns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "jobDriver"=>jobDriver, "releaseLabel"=>releaseLabel), args)); aws_config=aws_config)
+start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/jobruns", Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "jobDriver"=>jobDriver, "releaseLabel"=>releaseLabel); aws_config=aws_config)
+start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/jobruns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "jobDriver"=>jobDriver, "releaseLabel"=>releaseLabel), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -214,8 +214,8 @@ Assigns tags to resources. A tag is a label that you assign to an AWS resource. 
 - `tags`: The tags assigned to resources.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -227,5 +227,5 @@ Removes tags from resources.
 - `tagKeys`: The tag keys of the resources.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = emr_containers("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

@@ -13,14 +13,8 @@ Cancels a contact with a specified contact ID.
 - `contactId`: UUID of a contact.
 
 """
-<<<<<<< HEAD
-cancel_contact(contactId; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/contact/$(contactId)"; aws_config=aws_config)
-cancel_contact(contactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/contact/$(contactId)", args; aws_config=aws_config)
-=======
-
 cancel_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/contact/$(contactId)"; aws_config=aws_config)
 cancel_contact(contactId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/contact/$(contactId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateConfig()
@@ -34,14 +28,8 @@ Creates a Config with the specified configData parameters. Only one type of conf
 # Optional Parameters
 - `tags`: Tags assigned to a Config.
 """
-<<<<<<< HEAD
-create_config(configData, name; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/config", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
-create_config(configData, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
-=======
-
 create_config(configData, name; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/config", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
 create_config(configData, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateDataflowEndpointGroup()
@@ -54,14 +42,8 @@ Creates a DataflowEndpoint group containing the specified list of DataflowEndpoi
 # Optional Parameters
 - `tags`: Tags of a dataflow endpoint group.
 """
-<<<<<<< HEAD
-create_dataflow_endpoint_group(endpointDetails; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}("endpointDetails"=>endpointDetails); aws_config=aws_config)
-create_dataflow_endpoint_group(endpointDetails, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointDetails"=>endpointDetails), args)); aws_config=aws_config)
-=======
-
 create_dataflow_endpoint_group(endpointDetails; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}("endpointDetails"=>endpointDetails); aws_config=aws_config)
 create_dataflow_endpoint_group(endpointDetails, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointDetails"=>endpointDetails), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateMissionProfile()
@@ -79,14 +61,8 @@ Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lo
 - `contactPrePassDurationSeconds`: Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
 - `tags`: Tags assigned to a mission profile.
 """
-<<<<<<< HEAD
-create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws_config=aws_config)
-create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn), args)); aws_config=aws_config)
-=======
-
 create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws_config=aws_config)
 create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteConfig()
@@ -98,14 +74,8 @@ Deletes a Config.
 - `configType`: Type of a Config.
 
 """
-<<<<<<< HEAD
-delete_config(configId, configType; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)"; aws_config=aws_config)
-delete_config(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
-=======
-
 delete_config(configId, configType; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)"; aws_config=aws_config)
 delete_config(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDataflowEndpointGroup()
@@ -116,14 +86,8 @@ Deletes a dataflow endpoint group.
 - `dataflowEndpointGroupId`: UUID of a dataflow endpoint group.
 
 """
-<<<<<<< HEAD
-delete_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
-delete_dataflow_endpoint_group(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
-=======
-
 delete_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
 delete_dataflow_endpoint_group(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteMissionProfile()
@@ -134,14 +98,8 @@ Deletes a mission profile.
 - `missionProfileId`: UUID of a mission profile.
 
 """
-<<<<<<< HEAD
-delete_mission_profile(missionProfileId; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
-delete_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
-=======
-
 delete_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
 delete_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeContact()
@@ -152,14 +110,8 @@ Describes an existing contact.
 - `contactId`: UUID of a contact.
 
 """
-<<<<<<< HEAD
-describe_contact(contactId; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/contact/$(contactId)"; aws_config=aws_config)
-describe_contact(contactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/contact/$(contactId)", args; aws_config=aws_config)
-=======
-
 describe_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/contact/$(contactId)"; aws_config=aws_config)
 describe_contact(contactId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/contact/$(contactId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetConfig()
@@ -171,14 +123,8 @@ Returns Config information. Only one Config response can be returned.
 - `configType`: Type of a Config.
 
 """
-<<<<<<< HEAD
-get_config(configId, configType; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)"; aws_config=aws_config)
-get_config(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
-=======
-
 get_config(configId, configType; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)"; aws_config=aws_config)
 get_config(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDataflowEndpointGroup()
@@ -189,14 +135,8 @@ Returns the dataflow endpoint group.
 - `dataflowEndpointGroupId`: UUID of a dataflow endpoint group.
 
 """
-<<<<<<< HEAD
-get_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
-get_dataflow_endpoint_group(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
-=======
-
 get_dataflow_endpoint_group(dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
 get_dataflow_endpoint_group(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMinuteUsage()
@@ -208,14 +148,8 @@ Returns the number of minutes used by account.
 - `year`: The year being requested, in the format of YYYY.
 
 """
-<<<<<<< HEAD
-get_minute_usage(month, year; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}("month"=>month, "year"=>year); aws_config=aws_config)
-get_minute_usage(month, year, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("month"=>month, "year"=>year), args)); aws_config=aws_config)
-=======
-
 get_minute_usage(month, year; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}("month"=>month, "year"=>year); aws_config=aws_config)
 get_minute_usage(month, year, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/minute-usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("month"=>month, "year"=>year), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetMissionProfile()
@@ -226,14 +160,8 @@ Returns a mission profile.
 - `missionProfileId`: UUID of a mission profile.
 
 """
-<<<<<<< HEAD
-get_mission_profile(missionProfileId; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
-get_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
-=======
-
 get_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
 get_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetSatellite()
@@ -244,14 +172,8 @@ Returns a satellite.
 - `satelliteId`: UUID of a satellite.
 
 """
-<<<<<<< HEAD
-get_satellite(satelliteId; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)"; aws_config=aws_config)
-get_satellite(satelliteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)", args; aws_config=aws_config)
-=======
-
 get_satellite(satelliteId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)"; aws_config=aws_config)
 get_satellite(satelliteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite/$(satelliteId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListConfigs()
@@ -262,14 +184,8 @@ Returns a list of Config objects.
 - `maxResults`: Maximum number of Configs returned.
 - `nextToken`: Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
 """
-<<<<<<< HEAD
-list_configs(; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/config"; aws_config=aws_config)
-list_configs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/config", args; aws_config=aws_config)
-=======
-
 list_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config"; aws_config=aws_config)
 list_configs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListContacts()
@@ -288,14 +204,8 @@ Returns a list of contacts. If statusList contains AVAILABLE, the request must i
 - `nextToken`: Next token returned in the request of a previous ListContacts call. Used to get the next page of results.
 - `satelliteArn`: ARN of a satellite.
 """
-<<<<<<< HEAD
-list_contacts(endTime, startTime, statusList; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws_config=aws_config)
-list_contacts(endTime, startTime, statusList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList), args)); aws_config=aws_config)
-=======
-
 list_contacts(endTime, startTime, statusList; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws_config=aws_config)
 list_contacts(endTime, startTime, statusList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDataflowEndpointGroups()
@@ -306,14 +216,8 @@ Returns a list of DataflowEndpoint groups.
 - `maxResults`: Maximum number of dataflow endpoint groups returned.
 - `nextToken`: Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
 """
-<<<<<<< HEAD
-list_dataflow_endpoint_groups(; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config)
-list_dataflow_endpoint_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", args; aws_config=aws_config)
-=======
-
 list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config)
 list_dataflow_endpoint_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListGroundStations()
@@ -325,14 +229,8 @@ Returns a list of ground stations.
 - `nextToken`: Next token that can be supplied in the next call to get the next page of ground stations.
 - `satelliteId`: Satellite ID to retrieve on-boarded ground stations.
 """
-<<<<<<< HEAD
-list_ground_stations(; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/groundstation"; aws_config=aws_config)
-list_ground_stations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/groundstation", args; aws_config=aws_config)
-=======
-
 list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation"; aws_config=aws_config)
 list_ground_stations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListMissionProfiles()
@@ -343,14 +241,8 @@ Returns a list of mission profiles.
 - `maxResults`: Maximum number of mission profiles returned.
 - `nextToken`: Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
 """
-<<<<<<< HEAD
-list_mission_profiles(; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile"; aws_config=aws_config)
-list_mission_profiles(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile", args; aws_config=aws_config)
-=======
-
 list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile"; aws_config=aws_config)
 list_mission_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSatellites()
@@ -361,14 +253,8 @@ Returns a list of satellites.
 - `maxResults`: Maximum number of satellites returned.
 - `nextToken`: Next token that can be supplied in the next call to get the next page of satellites.
 """
-<<<<<<< HEAD
-list_satellites(; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/satellite"; aws_config=aws_config)
-list_satellites(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/satellite", args; aws_config=aws_config)
-=======
-
 list_satellites(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite"; aws_config=aws_config)
 list_satellites(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -379,14 +265,8 @@ Returns a list of tags for a specified resource.
 - `resourceArn`: ARN of a resource.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
-=======
-
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ReserveContact()
@@ -403,14 +283,8 @@ Reserves a contact using specified parameters.
 # Optional Parameters
 - `tags`: Tags assigned to a contact.
 """
-<<<<<<< HEAD
-reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime); aws_config=aws_config)
-reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime), args)); aws_config=aws_config)
-=======
-
 reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime); aws_config=aws_config)
 reserve_contact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/contact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -422,14 +296,8 @@ Assigns a tag to a resource.
 - `tags`: Tags assigned to a resource.
 
 """
-<<<<<<< HEAD
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -441,14 +309,8 @@ Deassigns a resource tag.
 - `tagKeys`: Keys of a resource tag.
 
 """
-<<<<<<< HEAD
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateConfig()
@@ -462,14 +324,8 @@ Updates the Config used when scheduling contacts. Updating a Config will not upd
 - `name`: Name of a Config.
 
 """
-<<<<<<< HEAD
-update_config(configData, configId, configType, name; aws_config::AWSConfig=global_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
-update_config(configData, configId, configType, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
-=======
-
 update_config(configData, configId, configType, name; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
 update_config(configData, configId, configType, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateMissionProfile()
@@ -487,11 +343,5 @@ Updates a mission profile. Updating a mission profile will not update the execut
 - `name`: Name of a mission profile.
 - `trackingConfigArn`: ARN of a tracking Config.
 """
-<<<<<<< HEAD
-update_mission_profile(missionProfileId; aws_config::AWSConfig=global_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
-update_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
-=======
-
 update_mission_profile(missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
 update_mission_profile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("PUT", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

@@ -20,14 +20,8 @@ Creates a detector model.
 - `key`: The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression in the message payload of each input to specify the attribute-value pair that is used to identify the device associated with the input.
 - `tags`: Metadata that can be used to manage the detector model.
 """
-<<<<<<< HEAD
-create_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn); aws_config=aws_config)
-create_detector_model(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), args)); aws_config=aws_config)
-=======
-
 create_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn); aws_config=aws_config)
 create_detector_model(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateInput()
@@ -42,14 +36,8 @@ Creates an input.
 - `inputDescription`: A brief description of the input.
 - `tags`: Metadata that can be used to manage the input.
 """
-<<<<<<< HEAD
-create_input(inputDefinition, inputName; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName); aws_config=aws_config)
-create_input(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), args)); aws_config=aws_config)
-=======
-
 create_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName); aws_config=aws_config)
 create_input(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteDetectorModel()
@@ -60,14 +48,8 @@ Deletes a detector model. Any active instances of the detector model are also de
 - `detectorModelName`: The name of the detector model to be deleted.
 
 """
-<<<<<<< HEAD
-delete_detector_model(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
-delete_detector_model(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)", args; aws_config=aws_config)
-=======
-
 delete_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
 delete_detector_model(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/detector-models/$(detectorModelName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteInput()
@@ -78,14 +60,8 @@ Deletes an input.
 - `inputName`: The name of the input to delete.
 
 """
-<<<<<<< HEAD
-delete_input(inputName; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)"; aws_config=aws_config)
-delete_input(inputName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)", args; aws_config=aws_config)
-=======
-
 delete_input(inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)"; aws_config=aws_config)
 delete_input(inputName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/inputs/$(inputName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeDetectorModel()
@@ -98,14 +74,8 @@ Describes a detector model. If the version parameter is not specified, informati
 # Optional Parameters
 - `version`: The version of the detector model.
 """
-<<<<<<< HEAD
-describe_detector_model(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
-describe_detector_model(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)", args; aws_config=aws_config)
-=======
-
 describe_detector_model(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)"; aws_config=aws_config)
 describe_detector_model(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeInput()
@@ -116,14 +86,8 @@ Describes an input.
 - `inputName`: The name of the input.
 
 """
-<<<<<<< HEAD
-describe_input(inputName; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)"; aws_config=aws_config)
-describe_input(inputName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)", args; aws_config=aws_config)
-=======
-
 describe_input(inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)"; aws_config=aws_config)
 describe_input(inputName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs/$(inputName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeLoggingOptions()
@@ -131,14 +95,8 @@ describe_input(inputName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 Retrieves the current settings of the AWS IoT Events logging options.
 
 """
-<<<<<<< HEAD
-describe_logging_options(; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/logging"; aws_config=aws_config)
-describe_logging_options(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/logging", args; aws_config=aws_config)
-=======
-
 describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging"; aws_config=aws_config)
 describe_logging_options(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDetectorModelVersions()
@@ -152,14 +110,8 @@ Lists all the versions of a detector model. Only the metadata associated with ea
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-<<<<<<< HEAD
-list_detector_model_versions(detectorModelName; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions"; aws_config=aws_config)
-list_detector_model_versions(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", args; aws_config=aws_config)
-=======
-
 list_detector_model_versions(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions"; aws_config=aws_config)
 list_detector_model_versions(detectorModelName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDetectorModels()
@@ -170,14 +122,8 @@ Lists the detector models you have created. Only the metadata associated with ea
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-<<<<<<< HEAD
-list_detector_models(; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models"; aws_config=aws_config)
-list_detector_models(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/detector-models", args; aws_config=aws_config)
-=======
-
 list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models"; aws_config=aws_config)
 list_detector_models(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListInputs()
@@ -188,14 +134,8 @@ Lists the inputs you have created.
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-<<<<<<< HEAD
-list_inputs(; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/inputs"; aws_config=aws_config)
-list_inputs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/inputs", args; aws_config=aws_config)
-=======
-
 list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs"; aws_config=aws_config)
 list_inputs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -206,14 +146,8 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resourceArn`: The ARN of the resource.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
-=======
-
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     PutLoggingOptions()
@@ -224,14 +158,8 @@ Sets or updates the AWS IoT Events logging options. If you update the value of a
 - `loggingOptions`: The new values of the AWS IoT Events logging options.
 
 """
-<<<<<<< HEAD
-put_logging_options(loggingOptions; aws_config::AWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws_config=aws_config)
-put_logging_options(loggingOptions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws_config=aws_config)
-=======
-
 put_logging_options(loggingOptions; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws_config=aws_config)
 put_logging_options(loggingOptions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TagResource()
@@ -243,14 +171,8 @@ Adds to or modifies the tags of the given resource. Tags are metadata that can b
 - `tags`: The new or modified tags for the resource.
 
 """
-<<<<<<< HEAD
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
 tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -262,14 +184,8 @@ Removes the given tags (metadata) from the resource.
 - `tagKeys`: A list of the keys of the tags to be removed from the resource.
 
 """
-<<<<<<< HEAD
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDetectorModel()
@@ -285,14 +201,8 @@ Updates a detector model. Detectors (instances) spawned by the previous version 
 - `detectorModelDescription`: A brief description of the detector model.
 - `evaluationMethod`: Information about the order in which events are evaluated and how actions are executed. 
 """
-<<<<<<< HEAD
-update_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn); aws_config=aws_config)
-update_detector_model(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), args)); aws_config=aws_config)
-=======
-
 update_detector_model(detectorModelDefinition, detectorModelName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn); aws_config=aws_config)
 update_detector_model(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateInput()
@@ -306,11 +216,5 @@ Updates an input.
 # Optional Parameters
 - `inputDescription`: A brief description of the input.
 """
-<<<<<<< HEAD
-update_input(inputDefinition, inputName; aws_config::AWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}("inputDefinition"=>inputDefinition); aws_config=aws_config)
-update_input(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), args)); aws_config=aws_config)
-=======
-
 update_input(inputDefinition, inputName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}("inputDefinition"=>inputDefinition); aws_config=aws_config)
 update_input(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

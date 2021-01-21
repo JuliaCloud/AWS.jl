@@ -14,8 +14,8 @@ Associate a virtual private cloud (VPC) subnet endpoint with your custom routing
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group for the custom routing endpoint.
 
 """
-add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
+add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
+add_custom_routing_endpoints(EndpointConfigurations, EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AddCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigurations"=>EndpointConfigurations, "EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
 
 """
     AdvertiseByoipCidr()
@@ -26,14 +26,8 @@ Advertises an IPv4 address range that is provisioned for use with your AWS resou
 - `Cidr`: The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
 
 """
-<<<<<<< HEAD
-advertise_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-advertise_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
-=======
-
 advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
 advertise_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     AllowCustomRoutingTraffic()
@@ -49,8 +43,8 @@ Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC s
 - `DestinationAddresses`: A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to allow to receive traffic. The IP addresses must be a subset of the IP addresses that you specified for the endpoint group.  DestinationAddresses is required if AllowAllTrafficToEndpoint is FALSE or is not specified.
 - `DestinationPorts`: A list of specific Amazon EC2 instance ports (destination ports) that you want to allow to receive traffic.
 """
-allow_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
-allow_custom_routing_traffic(EndpointGroupArn, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
+allow_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
+allow_custom_routing_traffic(EndpointGroupArn, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("AllowCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
 
 """
     CreateAccelerator()
@@ -67,14 +61,8 @@ Create an accelerator. An accelerator includes one or more listeners that proces
 - `IpAddresses`: Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool.  Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
 - `Tags`: Create tags for an accelerator. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
 """
-<<<<<<< HEAD
-create_accelerator(IdempotencyToken, Name; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
-create_accelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws_config=aws_config)
-=======
-
 create_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
 create_accelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateCustomRoutingAccelerator()
@@ -90,8 +78,8 @@ Create a custom routing accelerator. A custom routing accelerator directs traffi
 - `IpAddressType`: The value for the address type must be IPv4.
 - `Tags`: Create tags for an accelerator. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
 """
-create_custom_routing_accelerator(IdempotencyToken, Name; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
-create_custom_routing_accelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws_config=aws_config)
+create_custom_routing_accelerator(IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws_config=aws_config)
+create_custom_routing_accelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateCustomRoutingEndpointGroup()
@@ -105,8 +93,8 @@ Create an endpoint group for the specified listener for a custom routing acceler
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener for a custom routing endpoint.
 
 """
-create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
+create_custom_routing_endpoint_group(DestinationConfigurations, EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationConfigurations"=>DestinationConfigurations, "EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     CreateCustomRoutingListener()
@@ -119,8 +107,8 @@ Create a listener to process inbound connections from clients to a custom routin
 - `PortRanges`: The port range to support for connections from clients to your accelerator. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
 
 """
-create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges); aws_config=aws_config)
-create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges), args)); aws_config=aws_config)
+create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges); aws_config=aws_config)
+create_custom_routing_listener(AcceleratorArn, IdempotencyToken, PortRanges, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges), args)); aws_config=aws_config)
 
 """
     CreateEndpointGroup()
@@ -142,14 +130,8 @@ Create an endpoint group for the specified listener. An endpoint group is a coll
 - `ThresholdCount`: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
 - `TrafficDialPercentage`: The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
 """
-<<<<<<< HEAD
-create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
-create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
-=======
-
 create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws_config=aws_config)
 create_endpoint_group(EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CreateListener()
@@ -165,14 +147,8 @@ Create a listener to process inbound connections from clients to an accelerator.
 # Optional Parameters
 - `ClientAffinity`: Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the \"five-tuple\" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the \"two-tuple\" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
 """
-<<<<<<< HEAD
-create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol); aws_config=aws_config)
-create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), args)); aws_config=aws_config)
-=======
-
 create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol); aws_config=aws_config)
 create_listener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteAccelerator()
@@ -183,14 +159,8 @@ Delete an accelerator. Before you can delete an accelerator, you must disable it
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of an accelerator.
 
 """
-<<<<<<< HEAD
-delete_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-delete_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 delete_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 delete_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteCustomRoutingAccelerator()
@@ -201,8 +171,8 @@ Delete a custom routing accelerator. Before you can delete an accelerator, you m
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the custom routing accelerator to delete.
 
 """
-delete_custom_routing_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-delete_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+delete_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+delete_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     DeleteCustomRoutingEndpointGroup()
@@ -213,8 +183,8 @@ Delete an endpoint group from a listener for a custom routing accelerator.
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-delete_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-delete_custom_routing_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
+delete_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
+delete_custom_routing_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
 
 """
     DeleteCustomRoutingListener()
@@ -225,8 +195,8 @@ Delete a listener for a custom routing accelerator.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener to delete.
 
 """
-delete_custom_routing_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-delete_custom_routing_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+delete_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+delete_custom_routing_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     DeleteEndpointGroup()
@@ -237,14 +207,8 @@ Delete an endpoint group from a listener.
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-<<<<<<< HEAD
-delete_endpoint_group(EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-delete_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
-=======
-
 delete_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
 delete_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteListener()
@@ -255,14 +219,8 @@ Delete a listener from an accelerator.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-<<<<<<< HEAD
-delete_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-delete_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
-=======
-
 delete_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
 delete_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DenyCustomRoutingTraffic()
@@ -278,8 +236,8 @@ Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC s
 - `DestinationAddresses`: A list of specific Amazon EC2 instance IP addresses (destination addresses) in a subnet that you want to prevent from receiving traffic. The IP addresses must be a subset of the IP addresses allowed for the VPC subnet associated with the endpoint group.
 - `DestinationPorts`: A list of specific Amazon EC2 instance ports (destination ports) in a subnet endpoint that you want to prevent from receiving traffic.
 """
-deny_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
-deny_custom_routing_traffic(EndpointGroupArn, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
+deny_custom_routing_traffic(EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId); aws_config=aws_config)
+deny_custom_routing_traffic(EndpointGroupArn, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DenyCustomRoutingTraffic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
 
 """
     DeprovisionByoipCidr()
@@ -290,14 +248,8 @@ Releases the specified address range that you provisioned to use with your AWS r
 - `Cidr`: The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
 
 """
-<<<<<<< HEAD
-deprovision_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-deprovision_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
-=======
-
 deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
 deprovision_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeAccelerator()
@@ -308,14 +260,8 @@ Describe an accelerator.
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-<<<<<<< HEAD
-describe_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 describe_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 describe_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeAcceleratorAttributes()
@@ -326,14 +272,8 @@ Describe the attributes of an accelerator.
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
 
 """
-<<<<<<< HEAD
-describe_accelerator_attributes(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 describe_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 describe_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeCustomRoutingAccelerator()
@@ -344,8 +284,8 @@ Describe a custom routing accelerator.
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-describe_custom_routing_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+describe_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+describe_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     DescribeCustomRoutingAcceleratorAttributes()
@@ -356,8 +296,8 @@ Describe the attributes of a custom routing accelerator.
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the custom routing accelerator to describe the attributes for.
 
 """
-describe_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-describe_custom_routing_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+describe_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+describe_custom_routing_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     DescribeCustomRoutingEndpointGroup()
@@ -368,8 +308,8 @@ Describe an endpoint group for a custom routing accelerator.
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-describe_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-describe_custom_routing_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
+describe_custom_routing_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
+describe_custom_routing_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
 
 """
     DescribeCustomRoutingListener()
@@ -380,25 +320,20 @@ The description of a listener for a custom routing accelerator.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-describe_custom_routing_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-describe_custom_routing_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+describe_custom_routing_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+describe_custom_routing_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     DescribeEndpointGroup()
 
 Describe an endpoint group. 
 
-<<<<<<< HEAD
 # Required Parameters
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-describe_endpoint_group(EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-describe_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
-=======
 describe_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
 describe_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeListener()
@@ -409,14 +344,8 @@ Describe a listener.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-<<<<<<< HEAD
-describe_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-describe_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
-=======
-
 describe_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
 describe_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListAccelerators()
@@ -427,14 +356,8 @@ List the accelerators for an AWS account.
 - `MaxResults`: The number of Global Accelerator objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-<<<<<<< HEAD
-list_accelerators(; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListAccelerators"; aws_config=aws_config)
-list_accelerators(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListAccelerators", args; aws_config=aws_config)
-=======
-
 list_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListAccelerators"; aws_config=aws_config)
 list_accelerators(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListAccelerators", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListByoipCidrs()
@@ -445,14 +368,8 @@ Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, 
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
-<<<<<<< HEAD
-list_byoip_cidrs(; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs"; aws_config=aws_config)
-list_byoip_cidrs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs", args; aws_config=aws_config)
-=======
-
 list_byoip_cidrs(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs"; aws_config=aws_config)
 list_byoip_cidrs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListByoipCidrs", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListCustomRoutingAccelerators()
@@ -463,8 +380,8 @@ List the custom routing accelerators for an AWS account.
 - `MaxResults`: The number of custom routing Global Accelerator objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-list_custom_routing_accelerators(; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators"; aws_config=aws_config)
-list_custom_routing_accelerators(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators", args; aws_config=aws_config)
+list_custom_routing_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators"; aws_config=aws_config)
+list_custom_routing_accelerators(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingAccelerators", args; aws_config=aws_config)
 
 """
     ListCustomRoutingEndpointGroups()
@@ -478,8 +395,8 @@ List the endpoint groups that are associated with a listener for a custom routin
 - `MaxResults`: The number of endpoint group objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-list_custom_routing_endpoint_groups(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-list_custom_routing_endpoint_groups(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
+list_custom_routing_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
+list_custom_routing_endpoint_groups(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
 
 """
     ListCustomRoutingListeners()
@@ -493,8 +410,8 @@ List the listeners for a custom routing accelerator.
 - `MaxResults`: The number of listener objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-list_custom_routing_listeners(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_custom_routing_listeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+list_custom_routing_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+list_custom_routing_listeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     ListCustomRoutingPortMappings()
@@ -509,8 +426,8 @@ Provides a complete mapping from the public accelerator IP address and port to d
 - `MaxResults`: The number of destination port mappings that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-list_custom_routing_port_mappings(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_custom_routing_port_mappings(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+list_custom_routing_port_mappings(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+list_custom_routing_port_mappings(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     ListCustomRoutingPortMappingsByDestination()
@@ -525,8 +442,8 @@ List the port mappings for a specific EC2 instance (destination) in a VPC subnet
 - `MaxResults`: The number of destination port mappings that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId); aws_config=aws_config)
-list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
+list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId); aws_config=aws_config)
+list_custom_routing_port_mappings_by_destination(DestinationAddress, EndpointId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListCustomRoutingPortMappingsByDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationAddress"=>DestinationAddress, "EndpointId"=>EndpointId), args)); aws_config=aws_config)
 
 """
     ListEndpointGroups()
@@ -540,14 +457,8 @@ List the endpoint groups that are associated with a listener.
 - `MaxResults`: The number of endpoint group objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-<<<<<<< HEAD
-list_endpoint_groups(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-list_endpoint_groups(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
-=======
-
 list_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
 list_endpoint_groups(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListListeners()
@@ -561,14 +472,8 @@ List the listeners for an accelerator.
 - `MaxResults`: The number of listener objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-<<<<<<< HEAD
-list_listeners(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-list_listeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 list_listeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForResource()
@@ -579,14 +484,8 @@ List all tags for an accelerator.  For more information, see Tagging in AWS Glob
 - `ResourceArn`: The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN uniquely identifies an accelerator.
 
 """
-<<<<<<< HEAD
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
-=======
-
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
 list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ProvisionByoipCidr()
@@ -598,14 +497,8 @@ Provisions an IP address range to use with your AWS resources through bring your
 - `CidrAuthorizationContext`: A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. 
 
 """
-<<<<<<< HEAD
-provision_byoip_cidr(Cidr, CidrAuthorizationContext; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext); aws_config=aws_config)
-provision_byoip_cidr(Cidr, CidrAuthorizationContext, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), args)); aws_config=aws_config)
-=======
-
 provision_byoip_cidr(Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext); aws_config=aws_config)
 provision_byoip_cidr(Cidr, CidrAuthorizationContext, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RemoveCustomRoutingEndpoints()
@@ -617,8 +510,8 @@ Remove endpoints from a custom routing accelerator.
 - `EndpointIds`: The IDs for the endpoints. For custom routing accelerators, endpoint IDs are the virtual private cloud (VPC) subnet IDs. 
 
 """
-remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds; aws_config::AWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds); aws_config=aws_config)
-remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds), args)); aws_config=aws_config)
+remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds); aws_config=aws_config)
+remove_custom_routing_endpoints(EndpointGroupArn, EndpointIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("RemoveCustomRoutingEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn, "EndpointIds"=>EndpointIds), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -630,14 +523,8 @@ Add tags to an accelerator resource.  For more information, see Tagging in AWS G
 - `Tags`: The tags to add to a resource. A tag consists of a key and a value that you define.
 
 """
-<<<<<<< HEAD
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
-=======
-
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
 tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UntagResource()
@@ -649,14 +536,8 @@ Remove tags from a Global Accelerator resource. When you specify a tag key, the 
 - `TagKeys`: The tag key pairs that you want to remove from the specified resources.
 
 """
-<<<<<<< HEAD
-untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
-=======
-
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateAccelerator()
@@ -671,14 +552,8 @@ Update an accelerator.   Global Accelerator is a global service that supports en
 - `IpAddressType`: The IP address type, which must be IPv4.
 - `Name`: The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
 """
-<<<<<<< HEAD
-update_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 update_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 update_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateAcceleratorAttributes()
@@ -693,14 +568,8 @@ Update the attributes for an accelerator.
 - `FlowLogsS3Bucket`: The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
 - `FlowLogsS3Prefix`: Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
 """
-<<<<<<< HEAD
-update_accelerator_attributes(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
-=======
-
 update_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
 update_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateCustomRoutingAccelerator()
@@ -715,8 +584,8 @@ Update a custom routing accelerator.
 - `IpAddressType`: The value for the address type must be IPv4.
 - `Name`: The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
 """
-update_custom_routing_accelerator(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+update_custom_routing_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+update_custom_routing_accelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     UpdateCustomRoutingAcceleratorAttributes()
@@ -731,8 +600,8 @@ Update the attributes for a custom routing accelerator.
 - `FlowLogsS3Bucket`: The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
 - `FlowLogsS3Prefix`: Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
-update_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
-update_custom_routing_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
+update_custom_routing_accelerator_attributes(AcceleratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws_config=aws_config)
+update_custom_routing_accelerator_attributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws_config=aws_config)
 
 """
     UpdateCustomRoutingListener()
@@ -744,8 +613,8 @@ Update a listener for a custom routing accelerator.
 - `PortRanges`: The updated port range to support for connections from clients to your accelerator. If you remove ports that are currently being used by a subnet endpoint, the call fails. Separately, you set port ranges for endpoints. For more information, see About endpoints for custom routing accelerators.
 
 """
-update_custom_routing_listener(ListenerArn, PortRanges; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges); aws_config=aws_config)
-update_custom_routing_listener(ListenerArn, PortRanges, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges), args)); aws_config=aws_config)
+update_custom_routing_listener(ListenerArn, PortRanges; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges); aws_config=aws_config)
+update_custom_routing_listener(ListenerArn, PortRanges, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateCustomRoutingListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn, "PortRanges"=>PortRanges), args)); aws_config=aws_config)
 
 """
     UpdateEndpointGroup()
@@ -765,14 +634,8 @@ Update an endpoint group. A resource must be valid and active when you add it as
 - `ThresholdCount`: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
 - `TrafficDialPercentage`: The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
 """
-<<<<<<< HEAD
-update_endpoint_group(EndpointGroupArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
-update_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
-=======
-
 update_endpoint_group(EndpointGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws_config=aws_config)
 update_endpoint_group(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateListener()
@@ -787,14 +650,8 @@ Update a listener.
 - `PortRanges`: The updated list of port ranges for the connections from clients to the accelerator.
 - `Protocol`: The updated protocol for the connections from clients to the accelerator.
 """
-<<<<<<< HEAD
-update_listener(ListenerArn; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
-update_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
-=======
-
 update_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
 update_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     WithdrawByoipCidr()
@@ -805,11 +662,5 @@ Stops advertising an address range that is provisioned as an address pool. You c
 - `Cidr`: The address range, in CIDR notation.
 
 """
-<<<<<<< HEAD
-withdraw_byoip_cidr(Cidr; aws_config::AWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
-withdraw_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
-=======
-
 withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws_config=aws_config)
 withdraw_byoip_cidr(Cidr, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

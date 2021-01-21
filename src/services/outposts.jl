@@ -19,14 +19,8 @@ Creates an Outpost.
 - `Description`: 
 - `Tags`: The tags to apply to the Outpost.
 """
-<<<<<<< HEAD
-create_outpost(Name, SiteId; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
-create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), args)); aws_config=aws_config)
-=======
-
-create_outpost(SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("SiteId"=>SiteId); aws_config=aws_config)
-create_outpost(SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SiteId"=>SiteId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
+create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), args)); aws_config=aws_config)
 
 """
     DeleteOutpost()
@@ -37,14 +31,8 @@ Deletes the Outpost.
 - `OutpostId`: 
 
 """
-<<<<<<< HEAD
-delete_outpost(OutpostId; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)"; aws_config=aws_config)
-delete_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)", args; aws_config=aws_config)
-=======
-
 delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)"; aws_config=aws_config)
 delete_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteSite()
@@ -55,14 +43,8 @@ Deletes the site.
 - `SiteId`: 
 
 """
-<<<<<<< HEAD
-delete_site(SiteId; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)"; aws_config=aws_config)
-delete_site(SiteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)", args; aws_config=aws_config)
-=======
-
 delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)"; aws_config=aws_config)
 delete_site(SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetOutpost()
@@ -73,14 +55,8 @@ Gets information about the specified Outpost.
 - `OutpostId`: 
 
 """
-<<<<<<< HEAD
-get_outpost(OutpostId; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)"; aws_config=aws_config)
-get_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)", args; aws_config=aws_config)
-=======
-
 get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)"; aws_config=aws_config)
 get_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetOutpostInstanceTypes()
@@ -94,14 +70,8 @@ Lists the instance types for the specified Outpost.
 - `MaxResults`: 
 - `NextToken`: 
 """
-<<<<<<< HEAD
-get_outpost_instance_types(OutpostId; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws_config=aws_config)
-get_outpost_instance_types(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args; aws_config=aws_config)
-=======
-
 get_outpost_instance_types(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws_config=aws_config)
 get_outpost_instance_types(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListOutposts()
@@ -112,14 +82,8 @@ List the Outposts for your AWS account.
 - `MaxResults`: 
 - `NextToken`: 
 """
-<<<<<<< HEAD
-list_outposts(; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts"; aws_config=aws_config)
-list_outposts(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/outposts", args; aws_config=aws_config)
-=======
-
 list_outposts(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts"; aws_config=aws_config)
 list_outposts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListSites()
@@ -130,9 +94,8 @@ Lists the sites for the specified AWS account.
 - `MaxResults`: 
 - `NextToken`: 
 """
-<<<<<<< HEAD
-list_sites(; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
-list_sites(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/sites", args; aws_config=aws_config)
+list_sites(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
+list_sites(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -143,8 +106,8 @@ Lists the tags for the specified resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -156,8 +119,8 @@ Adds tags to the specified resource.
 - `Tags`: The tags to add to the resource.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -169,10 +132,5 @@ Removes tags from the specified resource.
 - `tagKeys`: The tag keys.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
-=======
-
-list_sites(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
-list_sites(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

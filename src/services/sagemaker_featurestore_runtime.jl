@@ -15,8 +15,8 @@ Deletes a Record from a FeatureGroup. A new record will show up in the OfflineSt
 - `RecordIdentifierValueAsString`: The value for the RecordIdentifier that uniquely identifies the record, in string format. 
 
 """
-delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
-delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), args)); aws_config=aws_config)
+delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
+delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), args)); aws_config=aws_config)
 
 """
     GetRecord()
@@ -30,8 +30,8 @@ Use for OnlineStore serving from a FeatureStore. Only the latest records stored 
 # Optional Parameters
 - `FeatureName`: List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
 """
-get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
-get_record(FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), args)); aws_config=aws_config)
+get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
+get_record(FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), args)); aws_config=aws_config)
 
 """
     PutRecord()
@@ -43,5 +43,5 @@ Used for data ingestion into the FeatureStore. The PutRecord API writes to both 
 - `Record`: List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:   Use GetRecord to retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord to update feature values.  
 
 """
-put_record(FeatureGroupName, Record; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("Record"=>Record); aws_config=aws_config)
-put_record(FeatureGroupName, Record, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), args)); aws_config=aws_config)
+put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("Record"=>Record); aws_config=aws_config)
+put_record(FeatureGroupName, Record, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), args)); aws_config=aws_config)

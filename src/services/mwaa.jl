@@ -13,8 +13,8 @@ Create a CLI token to use Airflow CLI.
 - `Name`: Create a CLI token request for a MWAA environment.
 
 """
-create_cli_token(Name; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)"; aws_config=aws_config)
-create_cli_token(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)", args; aws_config=aws_config)
+create_cli_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)"; aws_config=aws_config)
+create_cli_token(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)", args; aws_config=aws_config)
 
 """
     CreateEnvironment()
@@ -43,8 +43,8 @@ JSON blob that describes the environment to create.
 - `WebserverAccessMode`: The networking access of your Apache Airflow web server. A public network allows your Airflow UI to be accessed over the Internet by users granted access in your IAM policy. A private network limits access of your Airflow UI to users within your VPC. For more information, see Creating the VPC network for a MWAA environment.
 - `WeeklyMaintenanceWindowStart`: The day and time you want MWAA to start weekly maintenance updates on your environment.
 """
-create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn; aws_config::AWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn); aws_config=aws_config)
-create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), args)); aws_config=aws_config)
+create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn); aws_config=aws_config)
+create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), args)); aws_config=aws_config)
 
 """
     CreateWebLoginToken()
@@ -55,8 +55,8 @@ Create a JWT token to be used to login to Airflow Web UI with claims based Authe
 - `Name`: Create an Airflow Web UI login token request for a MWAA environment.
 
 """
-create_web_login_token(Name; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)"; aws_config=aws_config)
-create_web_login_token(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)", args; aws_config=aws_config)
+create_web_login_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)"; aws_config=aws_config)
+create_web_login_token(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)", args; aws_config=aws_config)
 
 """
     DeleteEnvironment()
@@ -67,8 +67,8 @@ Delete an existing environment.
 - `Name`: The name of the environment to delete.
 
 """
-delete_environment(Name; aws_config::AWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)"; aws_config=aws_config)
-delete_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)", args; aws_config=aws_config)
+delete_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)"; aws_config=aws_config)
+delete_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)", args; aws_config=aws_config)
 
 """
     GetEnvironment()
@@ -79,8 +79,8 @@ Get details of an existing environment.
 - `Name`: The name of the environment to retrieve.
 
 """
-get_environment(Name; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)"; aws_config=aws_config)
-get_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)", args; aws_config=aws_config)
+get_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)"; aws_config=aws_config)
+get_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)", args; aws_config=aws_config)
 
 """
     ListEnvironments()
@@ -91,8 +91,8 @@ List Amazon MWAA Environments.
 - `MaxResults`: The maximum results when listing MWAA environments.
 - `NextToken`: The Next Token when listing MWAA environments.
 """
-list_environments(; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/environments"; aws_config=aws_config)
-list_environments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/environments", args; aws_config=aws_config)
+list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments"; aws_config=aws_config)
+list_environments(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -103,8 +103,8 @@ List the tags for MWAA environments.
 - `ResourceArn`: The ARN of the MWAA environment.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
 
 """
     PublishMetrics()
@@ -116,8 +116,8 @@ An operation for publishing metrics from the customers to the Ops plane.
 - `MetricData`: Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data points with the specified metrica.
 
 """
-publish_metrics(EnvironmentName, MetricData; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}("MetricData"=>MetricData); aws_config=aws_config)
-publish_metrics(EnvironmentName, MetricData, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData), args)); aws_config=aws_config)
+publish_metrics(EnvironmentName, MetricData; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}("MetricData"=>MetricData); aws_config=aws_config)
+publish_metrics(EnvironmentName, MetricData, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -129,8 +129,8 @@ Add tag to the MWAA environments.
 - `Tags`: The tag resource tag of the MWAA environments.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -142,8 +142,8 @@ Remove a tag from the MWAA environments.
 - `tagKeys`: The tag resource key of the MWAA environments.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateEnvironment()
@@ -170,5 +170,5 @@ Update an MWAA environment.
 - `WebserverAccessMode`: The Webserver Access Mode to update of your Amazon MWAA environment.
 - `WeeklyMaintenanceWindowStart`: The Weekly Maintenance Window Start to update of your Amazon MWAA environment.
 """
-update_environment(Name; aws_config::AWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)"; aws_config=aws_config)
-update_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)", args; aws_config=aws_config)
+update_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)"; aws_config=aws_config)
+update_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)", args; aws_config=aws_config)

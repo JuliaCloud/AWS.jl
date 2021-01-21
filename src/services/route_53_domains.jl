@@ -14,14 +14,8 @@ Accepts the transfer of a domain from another AWS account to the current AWS acc
 - `Password`: The password that was returned by the TransferDomainToAnotherAwsAccount request. 
 
 """
-<<<<<<< HEAD
-accept_domain_transfer_from_another_aws_account(DomainName, Password; aws_config::AWSConfig=global_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password); aws_config=aws_config)
-accept_domain_transfer_from_another_aws_account(DomainName, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password), args)); aws_config=aws_config)
-=======
-
 accept_domain_transfer_from_another_aws_account(DomainName, Password; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password); aws_config=aws_config)
 accept_domain_transfer_from_another_aws_account(DomainName, Password, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("AcceptDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Password"=>Password), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CancelDomainTransferToAnotherAwsAccount()
@@ -32,14 +26,8 @@ Cancels the transfer of a domain from the current AWS account to another AWS acc
 - `DomainName`: The name of the domain for which you want to cancel the transfer to another AWS account.
 
 """
-<<<<<<< HEAD
-cancel_domain_transfer_to_another_aws_account(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-cancel_domain_transfer_to_another_aws_account(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 cancel_domain_transfer_to_another_aws_account(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 cancel_domain_transfer_to_another_aws_account(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CancelDomainTransferToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CheckDomainAvailability()
@@ -52,14 +40,8 @@ This operation checks the availability of one domain name. Note that if the avai
 # Optional Parameters
 - `IdnLangCode`: Reserved for future use.
 """
-<<<<<<< HEAD
-check_domain_availability(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-check_domain_availability(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 check_domain_availability(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 check_domain_availability(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CheckDomainAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     CheckDomainTransferability()
@@ -72,14 +54,8 @@ Checks whether a domain name can be transferred to Amazon Route 53.
 # Optional Parameters
 - `AuthCode`: If the registrar for the top-level domain (TLD) requires an authorization code to transfer the domain, the code that you got from the current registrar for the domain.
 """
-<<<<<<< HEAD
-check_domain_transferability(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-check_domain_transferability(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 check_domain_transferability(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 check_domain_transferability(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("CheckDomainTransferability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DeleteTagsForDomain()
@@ -91,14 +67,8 @@ This operation deletes the specified tags for a domain. All tag operations are e
 - `TagsToDelete`: A list of tag keys to delete.
 
 """
-<<<<<<< HEAD
-delete_tags_for_domain(DomainName, TagsToDelete; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete); aws_config=aws_config)
-delete_tags_for_domain(DomainName, TagsToDelete, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete), args)); aws_config=aws_config)
-=======
-
 delete_tags_for_domain(DomainName, TagsToDelete; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete); aws_config=aws_config)
 delete_tags_for_domain(DomainName, TagsToDelete, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DeleteTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TagsToDelete"=>TagsToDelete), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableDomainAutoRenew()
@@ -109,14 +79,8 @@ This operation disables automatic renewal of domain registration for the specifi
 - `DomainName`: The name of the domain that you want to disable automatic renewal for.
 
 """
-<<<<<<< HEAD
-disable_domain_auto_renew(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-disable_domain_auto_renew(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 disable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 disable_domain_auto_renew(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DisableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DisableDomainTransferLock()
@@ -127,14 +91,8 @@ This operation removes the transfer lock on the domain (specifically the clientT
 - `DomainName`: The name of the domain that you want to remove the transfer lock for.
 
 """
-<<<<<<< HEAD
-disable_domain_transfer_lock(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-disable_domain_transfer_lock(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 disable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 disable_domain_transfer_lock(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("DisableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableDomainAutoRenew()
@@ -145,14 +103,8 @@ This operation configures Amazon Route 53 to automatically renew the specified d
 - `DomainName`: The name of the domain that you want to enable automatic renewal for.
 
 """
-<<<<<<< HEAD
-enable_domain_auto_renew(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-enable_domain_auto_renew(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 enable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 enable_domain_auto_renew(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("EnableDomainAutoRenew", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     EnableDomainTransferLock()
@@ -163,14 +115,8 @@ This operation sets the transfer lock on the domain (specifically the clientTran
 - `DomainName`: The name of the domain that you want to set the transfer lock for.
 
 """
-<<<<<<< HEAD
-enable_domain_transfer_lock(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-enable_domain_transfer_lock(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 enable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 enable_domain_transfer_lock(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("EnableDomainTransferLock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetContactReachabilityStatus()
@@ -180,14 +126,8 @@ For operations that require confirmation that the email address for the registra
 # Optional Parameters
 - `domainName`: The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
 """
-<<<<<<< HEAD
-get_contact_reachability_status(; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetContactReachabilityStatus"; aws_config=aws_config)
-get_contact_reachability_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetContactReachabilityStatus", args; aws_config=aws_config)
-=======
-
 get_contact_reachability_status(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetContactReachabilityStatus"; aws_config=aws_config)
 get_contact_reachability_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetContactReachabilityStatus", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDomainDetail()
@@ -198,14 +138,8 @@ This operation returns detailed information about a specified domain that is ass
 - `DomainName`: The name of the domain that you want to get detailed information about.
 
 """
-<<<<<<< HEAD
-get_domain_detail(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-get_domain_detail(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 get_domain_detail(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 get_domain_detail(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetDomainDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetDomainSuggestions()
@@ -218,14 +152,8 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
 - `SuggestionCount`: The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50.
 
 """
-<<<<<<< HEAD
-get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount); aws_config=aws_config)
-get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount), args)); aws_config=aws_config)
-=======
-
 get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount); aws_config=aws_config)
 get_domain_suggestions(DomainName, OnlyAvailable, SuggestionCount, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetDomainSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "OnlyAvailable"=>OnlyAvailable, "SuggestionCount"=>SuggestionCount), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     GetOperationDetail()
@@ -236,14 +164,8 @@ This operation returns the current status of an operation that is not completed.
 - `OperationId`: The identifier for the operation for which you want to get the status. Route 53 returned the identifier in the response to the original request.
 
 """
-<<<<<<< HEAD
-get_operation_detail(OperationId; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config)
-get_operation_detail(OperationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), args)); aws_config=aws_config)
-=======
-
 get_operation_detail(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config)
 get_operation_detail(OperationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("GetOperationDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListDomains()
@@ -254,14 +176,8 @@ This operation returns all the domain names registered with Amazon Route 53 for 
 - `Marker`: For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
 - `MaxItems`: Number of domains to be returned. Default: 20
 """
-<<<<<<< HEAD
-list_domains(; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListDomains"; aws_config=aws_config)
-list_domains(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListDomains", args; aws_config=aws_config)
-=======
-
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListDomains"; aws_config=aws_config)
 list_domains(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListDomains", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListOperations()
@@ -273,14 +189,8 @@ Returns information about all of the operations that return an operation ID and 
 - `MaxItems`: Number of domains to be returned. Default: 20
 - `SubmittedSince`: An optional parameter that lets you get information about all the operations that you submitted after a specified date and time. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
 """
-<<<<<<< HEAD
-list_operations(; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListOperations"; aws_config=aws_config)
-list_operations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListOperations", args; aws_config=aws_config)
-=======
-
 list_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListOperations"; aws_config=aws_config)
 list_operations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListOperations", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListTagsForDomain()
@@ -291,14 +201,8 @@ This operation returns all of the tags that are associated with the specified do
 - `DomainName`: The domain for which you want to get a list of tags.
 
 """
-<<<<<<< HEAD
-list_tags_for_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-list_tags_for_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 list_tags_for_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ListTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RegisterDomain()
@@ -319,14 +223,8 @@ This operation registers a domain. Domains are registered either by Amazon Regis
 - `PrivacyProtectRegistrantContact`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). Default: true 
 - `PrivacyProtectTechContact`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
 """
-<<<<<<< HEAD
-register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config)
-register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), args)); aws_config=aws_config)
-=======
-
 register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config)
 register_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RegisterDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RejectDomainTransferFromAnotherAwsAccount()
@@ -337,14 +235,8 @@ Rejects the transfer of a domain from another AWS account to the current AWS acc
 - `DomainName`: The name of the domain that was specified when another AWS account submitted a TransferDomainToAnotherAwsAccount request. 
 
 """
-<<<<<<< HEAD
-reject_domain_transfer_from_another_aws_account(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-reject_domain_transfer_from_another_aws_account(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 reject_domain_transfer_from_another_aws_account(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 reject_domain_transfer_from_another_aws_account(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RejectDomainTransferFromAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RenewDomain()
@@ -358,14 +250,8 @@ This operation renews a domain for the specified number of years. The cost of re
 # Optional Parameters
 - `DurationInYears`: The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide. Default: 1
 """
-<<<<<<< HEAD
-renew_domain(CurrentExpiryYear, DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName); aws_config=aws_config)
-renew_domain(CurrentExpiryYear, DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 renew_domain(CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName); aws_config=aws_config)
 renew_domain(CurrentExpiryYear, DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RenewDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentExpiryYear"=>CurrentExpiryYear, "DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ResendContactReachabilityEmail()
@@ -375,14 +261,8 @@ For operations that require confirmation that the email address for the registra
 # Optional Parameters
 - `domainName`: The name of the domain for which you want Route 53 to resend a confirmation email to the registrant contact.
 """
-<<<<<<< HEAD
-resend_contact_reachability_email(; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ResendContactReachabilityEmail"; aws_config=aws_config)
-resend_contact_reachability_email(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ResendContactReachabilityEmail", args; aws_config=aws_config)
-=======
-
 resend_contact_reachability_email(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ResendContactReachabilityEmail"; aws_config=aws_config)
 resend_contact_reachability_email(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ResendContactReachabilityEmail", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     RetrieveDomainAuthCode()
@@ -393,14 +273,8 @@ This operation returns the AuthCode for the domain. To transfer a domain to anot
 - `DomainName`: The name of the domain that you want to get an authorization code for.
 
 """
-<<<<<<< HEAD
-retrieve_domain_auth_code(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-retrieve_domain_auth_code(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 retrieve_domain_auth_code(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 retrieve_domain_auth_code(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("RetrieveDomainAuthCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TransferDomain()
@@ -423,14 +297,8 @@ Transfers a domain from another registrar to Amazon Route 53. When the transfer 
 - `PrivacyProtectRegistrantContact`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). Default: true 
 - `PrivacyProtectTechContact`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true 
 """
-<<<<<<< HEAD
-transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AWSConfig=global_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config)
-transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), args)); aws_config=aws_config)
-=======
-
 transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact); aws_config=aws_config)
 transfer_domain(AdminContact, DomainName, DurationInYears, RegistrantContact, TechContact, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("TransferDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminContact"=>AdminContact, "DomainName"=>DomainName, "DurationInYears"=>DurationInYears, "RegistrantContact"=>RegistrantContact, "TechContact"=>TechContact), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     TransferDomainToAnotherAwsAccount()
@@ -442,14 +310,8 @@ Transfers a domain from the current AWS account to another AWS account. Note the
 - `DomainName`: The name of the domain that you want to transfer from the current AWS account to another account.
 
 """
-<<<<<<< HEAD
-transfer_domain_to_another_aws_account(AccountId, DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName); aws_config=aws_config)
-transfer_domain_to_another_aws_account(AccountId, DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 transfer_domain_to_another_aws_account(AccountId, DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName); aws_config=aws_config)
 transfer_domain_to_another_aws_account(AccountId, DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("TransferDomainToAnotherAwsAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDomainContact()
@@ -464,14 +326,8 @@ This operation updates the contact information for a particular domain. You must
 - `RegistrantContact`: Provides detailed contact information.
 - `TechContact`: Provides detailed contact information.
 """
-<<<<<<< HEAD
-update_domain_contact(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-update_domain_contact(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 update_domain_contact(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 update_domain_contact(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDomainContactPrivacy()
@@ -486,14 +342,8 @@ This operation updates the specified domain contact's privacy setting. When priv
 - `RegistrantPrivacy`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
 - `TechPrivacy`: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
 """
-<<<<<<< HEAD
-update_domain_contact_privacy(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-update_domain_contact_privacy(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 update_domain_contact_privacy(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 update_domain_contact_privacy(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainContactPrivacy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateDomainNameservers()
@@ -507,14 +357,8 @@ This operation replaces the current set of name servers for the domain with the 
 # Optional Parameters
 - `FIAuthKey`: The authorization key for .fi domains
 """
-<<<<<<< HEAD
-update_domain_nameservers(DomainName, Nameservers; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers); aws_config=aws_config)
-update_domain_nameservers(DomainName, Nameservers, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers), args)); aws_config=aws_config)
-=======
-
 update_domain_nameservers(DomainName, Nameservers; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers); aws_config=aws_config)
 update_domain_nameservers(DomainName, Nameservers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateDomainNameservers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Nameservers"=>Nameservers), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     UpdateTagsForDomain()
@@ -527,14 +371,8 @@ This operation adds or updates tags for a specified domain. All tag operations a
 # Optional Parameters
 - `TagsToUpdate`: A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
 """
-<<<<<<< HEAD
-update_tags_for_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-update_tags_for_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
-=======
-
 update_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
 update_tags_for_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("UpdateTagsForDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ViewBilling()
@@ -547,11 +385,5 @@ Returns all the domain-related billing records for the current AWS account for a
 - `MaxItems`: The number of billing records to be returned. Default: 20
 - `Start`: The beginning date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
 """
-<<<<<<< HEAD
-view_billing(; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ViewBilling"; aws_config=aws_config)
-view_billing(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route_53_domains("ViewBilling", args; aws_config=aws_config)
-=======
-
 view_billing(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ViewBilling"; aws_config=aws_config)
 view_billing(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains("ViewBilling", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

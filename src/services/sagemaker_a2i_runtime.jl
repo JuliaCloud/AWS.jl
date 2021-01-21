@@ -13,14 +13,8 @@ Deletes the specified human loop for a flow definition.
 - `HumanLoopName`: The name of the human loop that you want to delete.
 
 """
-<<<<<<< HEAD
-delete_human_loop(HumanLoopName; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
-delete_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)", args; aws_config=aws_config)
-=======
-
 delete_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
 delete_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     DescribeHumanLoop()
@@ -31,14 +25,8 @@ Returns information about the specified human loop.
 - `HumanLoopName`: The name of the human loop that you want information about.
 
 """
-<<<<<<< HEAD
-describe_human_loop(HumanLoopName; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
-describe_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)", args; aws_config=aws_config)
-=======
-
 describe_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)"; aws_config=aws_config)
 describe_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)", args; aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     ListHumanLoops()
@@ -55,14 +43,8 @@ Returns information about human loops, given the specified parameters. If a huma
 - `NextToken`: A token to display the next page of results.
 - `SortOrder`: Optional. The order for displaying results. Valid values: Ascending and Descending.
 """
-<<<<<<< HEAD
-list_human_loops(FlowDefinitionArn; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn); aws_config=aws_config)
-list_human_loops(FlowDefinitionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn), args)); aws_config=aws_config)
-=======
-
 list_human_loops(FlowDefinitionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn); aws_config=aws_config)
 list_human_loops(FlowDefinitionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("GET", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StartHumanLoop()
@@ -77,14 +59,8 @@ Starts a human loop, provided that at least one activation condition is met.
 # Optional Parameters
 - `DataAttributes`: Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content.
 """
-<<<<<<< HEAD
-start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName); aws_config=aws_config)
-start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName), args)); aws_config=aws_config)
-=======
-
 start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName); aws_config=aws_config)
 start_human_loop(FlowDefinitionArn, HumanLoopInput, HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionArn"=>FlowDefinitionArn, "HumanLoopInput"=>HumanLoopInput, "HumanLoopName"=>HumanLoopName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype
 
 """
     StopHumanLoop()
@@ -95,11 +71,5 @@ Stops the specified human loop.
 - `HumanLoopName`: The name of the human loop that you want to stop.
 
 """
-<<<<<<< HEAD
-stop_human_loop(HumanLoopName; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}("HumanLoopName"=>HumanLoopName); aws_config=aws_config)
-stop_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanLoopName"=>HumanLoopName), args)); aws_config=aws_config)
-=======
-
 stop_human_loop(HumanLoopName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}("HumanLoopName"=>HumanLoopName); aws_config=aws_config)
 stop_human_loop(HumanLoopName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_a2i_runtime("POST", "/human-loops/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanLoopName"=>HumanLoopName), args)); aws_config=aws_config)
->>>>>>> Give AWSConfig an abstract supertype

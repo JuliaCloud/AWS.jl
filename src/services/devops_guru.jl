@@ -13,8 +13,8 @@ using AWS.UUIDs
 - `Config`:  A NotificationChannelConfig object that specifies what type of notification channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS). 
 
 """
-add_notification_channel(Config; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}("Config"=>Config); aws_config=aws_config)
-add_notification_channel(Config, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config), args)); aws_config=aws_config)
+add_notification_channel(Config; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}("Config"=>Config); aws_config=aws_config)
+add_notification_channel(Config, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config), args)); aws_config=aws_config)
 
 """
     DescribeAccountHealth()
@@ -22,8 +22,8 @@ add_notification_channel(Config, args::AbstractDict{String, <:Any}; aws_config::
  Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your AWS account. Use these numbers to gauge the health of operations in your AWS account. 
 
 """
-describe_account_health(; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health"; aws_config=aws_config)
-describe_account_health(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", args; aws_config=aws_config)
+describe_account_health(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health"; aws_config=aws_config)
+describe_account_health(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", args; aws_config=aws_config)
 
 """
     DescribeAccountOverview()
@@ -36,8 +36,8 @@ describe_account_health(args::AbstractDict{String, Any}; aws_config::AWSConfig=g
 # Optional Parameters
 - `ToTime`:  The end of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred before this day. If this is not specified, then the current day is used. 
 """
-describe_account_overview(FromTime; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}("FromTime"=>FromTime); aws_config=aws_config)
-describe_account_overview(FromTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromTime"=>FromTime), args)); aws_config=aws_config)
+describe_account_overview(FromTime; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}("FromTime"=>FromTime); aws_config=aws_config)
+describe_account_overview(FromTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromTime"=>FromTime), args)); aws_config=aws_config)
 
 """
     DescribeAnomaly()
@@ -48,8 +48,8 @@ describe_account_overview(FromTime, args::AbstractDict{String, <:Any}; aws_confi
 - `Id`:  The ID of the anomaly. 
 
 """
-describe_anomaly(Id; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)"; aws_config=aws_config)
-describe_anomaly(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)", args; aws_config=aws_config)
+describe_anomaly(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)"; aws_config=aws_config)
+describe_anomaly(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)", args; aws_config=aws_config)
 
 """
     DescribeInsight()
@@ -60,8 +60,8 @@ describe_anomaly(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 - `Id`:  The ID of the insight. 
 
 """
-describe_insight(Id; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)"; aws_config=aws_config)
-describe_insight(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)", args; aws_config=aws_config)
+describe_insight(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)"; aws_config=aws_config)
+describe_insight(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)", args; aws_config=aws_config)
 
 """
     DescribeResourceCollectionHealth()
@@ -74,8 +74,8 @@ describe_insight(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-describe_resource_collection_health(ResourceCollectionType; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)"; aws_config=aws_config)
-describe_resource_collection_health(ResourceCollectionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)", args; aws_config=aws_config)
+describe_resource_collection_health(ResourceCollectionType; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)"; aws_config=aws_config)
+describe_resource_collection_health(ResourceCollectionType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)", args; aws_config=aws_config)
 
 """
     DescribeServiceIntegration()
@@ -83,8 +83,8 @@ describe_resource_collection_health(ResourceCollectionType, args::AbstractDict{S
  Returns the integration status of services that are integrated with DevOps Guru. The one service that can be integrated with DevOps Guru is AWS Systems Manager, which can be used to create an OpsItem for each generated insight. 
 
 """
-describe_service_integration(; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations"; aws_config=aws_config)
-describe_service_integration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", args; aws_config=aws_config)
+describe_service_integration(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations"; aws_config=aws_config)
+describe_service_integration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", args; aws_config=aws_config)
 
 """
     GetResourceCollection()
@@ -97,8 +97,8 @@ describe_service_integration(args::AbstractDict{String, Any}; aws_config::AWSCon
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-get_resource_collection(ResourceCollectionType; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)"; aws_config=aws_config)
-get_resource_collection(ResourceCollectionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)", args; aws_config=aws_config)
+get_resource_collection(ResourceCollectionType; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)"; aws_config=aws_config)
+get_resource_collection(ResourceCollectionType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)", args; aws_config=aws_config)
 
 """
     ListAnomaliesForInsight()
@@ -113,8 +113,8 @@ get_resource_collection(ResourceCollectionType, args::AbstractDict{String, <:Any
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 - `StartTimeRange`:  A time range used to specify when the requested anomalies started. All returned anomalies started during this time range. 
 """
-list_anomalies_for_insight(InsightId; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)"; aws_config=aws_config)
-list_anomalies_for_insight(InsightId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)", args; aws_config=aws_config)
+list_anomalies_for_insight(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)"; aws_config=aws_config)
+list_anomalies_for_insight(InsightId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)", args; aws_config=aws_config)
 
 """
     ListEvents()
@@ -128,8 +128,8 @@ list_anomalies_for_insight(InsightId, args::AbstractDict{String, <:Any}; aws_con
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-list_events(Filters; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-list_events(Filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws_config=aws_config)
+list_events(Filters; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
+list_events(Filters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws_config=aws_config)
 
 """
     ListInsights()
@@ -143,8 +143,8 @@ list_events(Filters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-list_insights(StatusFilter; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}("StatusFilter"=>StatusFilter); aws_config=aws_config)
-list_insights(StatusFilter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatusFilter"=>StatusFilter), args)); aws_config=aws_config)
+list_insights(StatusFilter; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}("StatusFilter"=>StatusFilter); aws_config=aws_config)
+list_insights(StatusFilter, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatusFilter"=>StatusFilter), args)); aws_config=aws_config)
 
 """
     ListNotificationChannels()
@@ -154,8 +154,8 @@ list_insights(StatusFilter, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-list_notification_channels(; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/channels"; aws_config=aws_config)
-list_notification_channels(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/channels", args; aws_config=aws_config)
+list_notification_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels"; aws_config=aws_config)
+list_notification_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels", args; aws_config=aws_config)
 
 """
     ListRecommendations()
@@ -168,8 +168,8 @@ list_notification_channels(args::AbstractDict{String, Any}; aws_config::AWSConfi
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-list_recommendations(InsightId; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
-list_recommendations(InsightId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), args)); aws_config=aws_config)
+list_recommendations(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
+list_recommendations(InsightId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), args)); aws_config=aws_config)
 
 """
     PutFeedback()
@@ -179,8 +179,8 @@ list_recommendations(InsightId, args::AbstractDict{String, <:Any}; aws_config::A
 # Optional Parameters
 - `InsightFeedback`:  The feedback from customers is about the recommendations in this insight. 
 """
-put_feedback(; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback"; aws_config=aws_config)
-put_feedback(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", args; aws_config=aws_config)
+put_feedback(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback"; aws_config=aws_config)
+put_feedback(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", args; aws_config=aws_config)
 
 """
     RemoveNotificationChannel()
@@ -191,8 +191,8 @@ put_feedback(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_c
 - `Id`:  The ID of the notification channel to be removed. 
 
 """
-remove_notification_channel(Id; aws_config::AWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)"; aws_config=aws_config)
-remove_notification_channel(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)", args; aws_config=aws_config)
+remove_notification_channel(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)"; aws_config=aws_config)
+remove_notification_channel(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)", args; aws_config=aws_config)
 
 """
     SearchInsights()
@@ -208,8 +208,8 @@ remove_notification_channel(Id, args::AbstractDict{String, <:Any}; aws_config::A
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-search_insights(StartTimeRange, Type; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type); aws_config=aws_config)
-search_insights(StartTimeRange, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type), args)); aws_config=aws_config)
+search_insights(StartTimeRange, Type; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type); aws_config=aws_config)
+search_insights(StartTimeRange, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     UpdateResourceCollection()
@@ -221,8 +221,8 @@ search_insights(StartTimeRange, Type, args::AbstractDict{String, <:Any}; aws_con
 - `ResourceCollection`: 
 
 """
-update_resource_collection(Action, ResourceCollection; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection); aws_config=aws_config)
-update_resource_collection(Action, ResourceCollection, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection), args)); aws_config=aws_config)
+update_resource_collection(Action, ResourceCollection; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection); aws_config=aws_config)
+update_resource_collection(Action, ResourceCollection, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection), args)); aws_config=aws_config)
 
 """
     UpdateServiceIntegration()
@@ -233,5 +233,5 @@ update_resource_collection(Action, ResourceCollection, args::AbstractDict{String
 - `ServiceIntegration`:  An IntegratedServiceConfig object used to specify the integrated service you want to update, and whether you want to update it to enabled or disabled. 
 
 """
-update_service_integration(ServiceIntegration; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}("ServiceIntegration"=>ServiceIntegration); aws_config=aws_config)
-update_service_integration(ServiceIntegration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceIntegration"=>ServiceIntegration), args)); aws_config=aws_config)
+update_service_integration(ServiceIntegration; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}("ServiceIntegration"=>ServiceIntegration); aws_config=aws_config)
+update_service_integration(ServiceIntegration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceIntegration"=>ServiceIntegration), args)); aws_config=aws_config)
