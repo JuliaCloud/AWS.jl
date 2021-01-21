@@ -394,7 +394,7 @@ end
         endpoint = "sdb"
         request.service = endpoint
         expected_result = "https://$endpoint.amazonaws.com$resource"
-        region = "us-east-1"
+        config.region = "us-east-1"
         result = AWS._generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
@@ -466,7 +466,7 @@ end
 
         function _get_secret_string(secret_name)
             response = Secrets_Manager.get_secret_value(secret_name)
-            
+
             return response["SecretString"]
         end
 
@@ -480,7 +480,7 @@ end
 
         @test_throws AWSException _get_secret_string(secret_name)
     end
-    
+
     @testset "low-level secrets manager" begin
         secret_name = "aws-jl-test---" * _now_formatted()
         secret_string = "sshhh it is a secret!"
@@ -496,7 +496,7 @@ end
             "SecretString"=>secret_string,
             "ClientRequestToken"=>string(uuid4()),
         ))
-        
+
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
@@ -573,7 +573,7 @@ end
 
     @testset "high-level sqs" begin
         @service SQS
-        
+
         queue_name = "aws-jl-test---" * _now_formatted()
         expected_message = "Hello for AWS.jl"
 
@@ -586,8 +586,8 @@ end
         # Create Queue
         SQS.create_queue(queue_name)
         queue_url = _get_queue_url(queue_name)
-        
-        try 
+
+        try
             # Get Queues
             @test !isempty(queue_url)
 
@@ -613,7 +613,7 @@ end
             @test message_id == expected_message_id
 
             SQS.send_message(expected_message, queue_url)
-            
+
             result = SQS.receive_message(queue_url)
             message = result["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
@@ -681,7 +681,7 @@ end
         finally
             AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
         end
-        
+
         @test_throws AWSException _get_queue_url(queue_name)
     end
 end
@@ -722,7 +722,7 @@ end
             # GET operation
             result = S3.list_objects(bucket_name)
             @test result["Contents"]["Key"] == file_name
-            
+
             # GET with parameters operation
             max_keys = 1
             result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
@@ -774,7 +774,7 @@ end
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")
             @test result["Contents"]["Key"] == file_name
-            
+
             # GET with parameters operation
             max_keys = 1
             result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
