@@ -535,6 +535,28 @@ update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo; aws
 update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), args)); aws_config=aws_config)
 
 """
+    UpdateBrokerType()
+
+
+            Updates EC2 instance type.
+         
+
+# Required Parameters
+- `clusterArn`: 
+            The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+         
+- `currentVersion`: 
+            The cluster version that you want to change. After this operation completes successfully, the cluster will have a new version.
+         
+- `targetInstanceType`: 
+            The Amazon MSK broker type that you want all of the brokers in this cluster to be.
+         
+
+"""
+update_broker_type(clusterArn, currentVersion, targetInstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType); aws_config=aws_config)
+update_broker_type(clusterArn, currentVersion, targetInstanceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType), args)); aws_config=aws_config)
+
+"""
     UpdateClusterConfiguration()
 
 

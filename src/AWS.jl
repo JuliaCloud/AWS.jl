@@ -27,7 +27,7 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 user_agent = Ref("AWS.jl/1.0.0")
-aws_config = Ref{Any}()
+aws_config = Ref{AbstractAWSConfig}()
 
 """
     global_aws_config()
@@ -353,7 +353,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
-        aws.credentials === nothing || _sign!(aws, request)
+        credentials(aws) === nothing || _sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
@@ -452,7 +452,6 @@ end
 
 function _generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
     SERVICE_HOST = "amazonaws.com"
-
     reg = region(aws)
 
     regionless_services = ("iam", "route53")

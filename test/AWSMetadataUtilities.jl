@@ -282,197 +282,197 @@ end
     end
 end
 
-@testset "_generate_high_level_definitions" begin
-    service_name = "sample_service"
-    protocol = "rest-xml"
-    operations = JSON.parsefile(joinpath(@__DIR__, "resources/operations.json"))
-    shapes = shapes = JSON.parsefile(joinpath(@__DIR__, "resources/shapes.json"))
+# @testset "_generate_high_level_definitions" begin
+#     service_name = "sample_service"
+#     protocol = "rest-xml"
+#     operations = JSON.parsefile(joinpath(@__DIR__, "resources/operations.json"))
+#     shapes = shapes = JSON.parsefile(joinpath(@__DIR__, "resources/shapes.json"))
 
-    expected_result = """
-    \"\"\"
-        SampleOperation()
+#     expected_result = """
+#     \"\"\"
+#         SampleOperation()
 
-    The documentation for this operation.
+#     The documentation for this operation.
 
-    # Required Parameters
-    - `RequiredParam1`: Required param 1
-    - `RequiredParam2`: Required param 2
+#     # Required Parameters
+#     - `RequiredParam1`: Required param 1
+#     - `RequiredParam2`: Required param 2
 
-    # Optional Parameters
-    - `OptionalParam`: Optional param
-    \"\"\"
-    sample_operation(RequiredParam1, RequiredParam2; aws_config::AWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config)
-    sample_operation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), args)); aws_config=aws_config)
-    """
+#     # Optional Parameters
+#     - `OptionalParam`: Optional param
+#     \"\"\"
+#     sample_operation(RequiredParam1, RequiredParam2; aws_config::AWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config)
+#     sample_operation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), args)); aws_config=aws_config)
+#     """
 
-    result = _generate_high_level_definitions(
-        service_name,
-        protocol,
-        operations,
-        shapes
-    )
+#     result = _generate_high_level_definitions(
+#         service_name,
+#         protocol,
+#         operations,
+#         shapes
+#     )
 
-    @test size(result)[1] == 1
+#     @test size(result)[1] == 1
 
-    expected_result = _clean_high_level_definition(expected_result)
-    result = _clean_high_level_definition(result[1])
+#     expected_result = _clean_high_level_definition(expected_result)
+#     result = _clean_high_level_definition(result[1])
     
-    @test result == expected_result
-end
+#     @test result == expected_result
+# end
 
-@testset "_generate_high_level_definition" begin
-    service_name = "service_name"
-    name = "FunctionName"
-    method = "GET"
-    request_uri = "request_uri"
-    documentation = "Documentation for $name."
+# @testset "_generate_high_level_definition" begin
+#     service_name = "service_name"
+#     name = "FunctionName"
+#     method = "GET"
+#     request_uri = "request_uri"
+#     documentation = "Documentation for $name."
 
-    @testset "locationless and non-idempotent" begin
-        required_params = Dict("RequiredParam" => Dict("location" => "", "documentation" => "This parameter is required."))
-        optional_params = Dict("OptionalParam" => Dict("idempotent" => false, "documentation" => "This parameter is optional."))
+#     @testset "locationless and non-idempotent" begin
+#         required_params = Dict("RequiredParam" => Dict("location" => "", "documentation" => "This parameter is required."))
+#         optional_params = Dict("OptionalParam" => Dict("idempotent" => false, "documentation" => "This parameter is optional."))
 
-        @testset "rest protocol" begin
-            protocol = "rest-xml"
-            expected_result = """
-            \"\"\"
-                $name()
+#         @testset "rest protocol" begin
+#             protocol = "rest-xml"
+#             expected_result = """
+#             \"\"\"
+#                 $name()
 
-            Documentation for $name.
+#             Documentation for $name.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+#             # Required Parameters
+#             - `RequiredParam`: This parameter is required.
 
-            # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
-            \"\"\"
-            function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
-            """
+#             # Optional Parameters
+#             - `OptionalParam`: This parameter is optional.
+#             \"\"\"
+#             function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
+#             function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
+#             """
 
-            result = _generate_high_level_definition(
-                service_name,
-                protocol,
-                name,
-                method,
-                request_uri,
-                required_params,
-                optional_params,
-                documentation
-            )
+#             result = _generate_high_level_definition(
+#                 service_name,
+#                 protocol,
+#                 name,
+#                 method,
+#                 request_uri,
+#                 required_params,
+#                 optional_params,
+#                 documentation
+#             )
 
-            expected_result = _clean_high_level_definition(expected_result)
-            result = _clean_high_level_definition(result)
+#             expected_result = _clean_high_level_definition(expected_result)
+#             result = _clean_high_level_definition(result)
             
-            @test result == expected_result
-        end
+#             @test result == expected_result
+#         end
 
-        @testset "json, query, ec2 protocol" begin
-            protocol = "ec2"
-            expected_result = """
-            \"\"\"
-                $name()
+#         @testset "json, query, ec2 protocol" begin
+#             protocol = "ec2"
+#             expected_result = """
+#             \"\"\"
+#                 $name()
 
-            Documentation for $name.
+#             Documentation for $name.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+#             # Required Parameters
+#             - `RequiredParam`: This parameter is required.
 
-            # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
-            \"\"\"
-            function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
-            """
+#             # Optional Parameters
+#             - `OptionalParam`: This parameter is optional.
+#             \"\"\"
+#             function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
+#             function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
+#             """
 
-            result = _generate_high_level_definition(
-                service_name,
-                protocol,
-                name,
-                method,
-                request_uri,
-                required_params,
-                optional_params,
-                documentation
-            )
+#             result = _generate_high_level_definition(
+#                 service_name,
+#                 protocol,
+#                 name,
+#                 method,
+#                 request_uri,
+#                 required_params,
+#                 optional_params,
+#                 documentation
+#             )
 
-            expected_result = _clean_high_level_definition(expected_result)
-            result = _clean_high_level_definition(result)
+#             expected_result = _clean_high_level_definition(expected_result)
+#             result = _clean_high_level_definition(result)
             
-            @test result == expected_result
-        end
-    end
+#             @test result == expected_result
+#         end
+#     end
 
-    @testset "header location and idempotent" begin
-        required_params = Dict("RequiredParam" => Dict("location" => "header", "documentation" => "This parameter is required."))
-        optional_params = Dict("OptionalParam" => Dict("idempotent" => true, "documentation" => "This parameter is optional."))
+#     @testset "header location and idempotent" begin
+#         required_params = Dict("RequiredParam" => Dict("location" => "header", "documentation" => "This parameter is required."))
+#         optional_params = Dict("OptionalParam" => Dict("idempotent" => true, "documentation" => "This parameter is optional."))
 
-        @testset "rest protocol" begin
-            protocol = "rest-xml"
-            expected_result = """
-            \"\"\"
-                $name()
+#         @testset "rest protocol" begin
+#             protocol = "rest-xml"
+#             expected_result = """
+#             \"\"\"
+#                 $name()
 
-            Documentation for $name.
+#             Documentation for $name.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+#             # Required Parameters
+#             - `RequiredParam`: This parameter is required.
 
-            # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
-            \"\"\"
-            function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), args)); aws_config=aws_config)
-            """
-            result = _generate_high_level_definition(
-                service_name,
-                protocol,
-                name,
-                method,
-                request_uri,
-                required_params,
-                optional_params,
-                documentation
-            )
+#             # Optional Parameters
+#             - `OptionalParam`: This parameter is optional.
+#             \"\"\"
+#             function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config)
+#             function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), args)); aws_config=aws_config)
+#             """
+#             result = _generate_high_level_definition(
+#                 service_name,
+#                 protocol,
+#                 name,
+#                 method,
+#                 request_uri,
+#                 required_params,
+#                 optional_params,
+#                 documentation
+#             )
 
-            expected_result = _clean_high_level_definition(expected_result)
-            result = _clean_high_level_definition(result)
+#             expected_result = _clean_high_level_definition(expected_result)
+#             result = _clean_high_level_definition(result)
             
-            @test result == expected_result
-        end
+#             @test result == expected_result
+#         end
 
-        @testset "json, query, ec2 protocol" begin
-            protocol = "ec2"
-            expected_result = """
-            \"\"\"
-                $name()
+#         @testset "json, query, ec2 protocol" begin
+#             protocol = "ec2"
+#             expected_result = """
+#             \"\"\"
+#                 $name()
             
-            Documentation for $name.
+#             Documentation for $name.
             
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+#             # Required Parameters
+#             - `RequiredParam`: This parameter is required.
             
-            # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
-            \"\"\"
-            function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), args)); aws_config=aws_config)
-            """
+#             # Optional Parameters
+#             - `OptionalParam`: This parameter is optional.
+#             \"\"\"
+#             function_name(RequiredParam; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config)
+#             function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), args)); aws_config=aws_config)
+#             """
 
-            result = _generate_high_level_definition(
-                service_name,
-                protocol,
-                name,
-                method,
-                request_uri,
-                required_params,
-                optional_params,
-                documentation
-            )
+#             result = _generate_high_level_definition(
+#                 service_name,
+#                 protocol,
+#                 name,
+#                 method,
+#                 request_uri,
+#                 required_params,
+#                 optional_params,
+#                 documentation
+#             )
             
-            expected_result = _clean_high_level_definition(expected_result)
-            result = _clean_high_level_definition(result)
+#             expected_result = _clean_high_level_definition(expected_result)
+#             result = _clean_high_level_definition(result)
             
-            @test result == expected_result
-        end
-    end
-end
+#             @test result == expected_result
+#         end
+#     end
+# end

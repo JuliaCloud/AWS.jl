@@ -361,6 +361,8 @@ end
 @testset "_generate_service_url" begin
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
+    config = AWSConfig()
+    config.region = region
 
     request = Request(
         service="service",
@@ -373,7 +375,7 @@ end
         endpoint = "sdb"
         request.service = regionless_endpoint
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        result = AWS._generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -382,7 +384,7 @@ end
         endpoint = "sdb"
         request.service = endpoint
         expected_result = "https://$endpoint.$region.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        result = AWS._generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -393,7 +395,7 @@ end
         request.service = endpoint
         expected_result = "https://$endpoint.amazonaws.com$resource"
         region = "us-east-1"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        result = AWS._generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end

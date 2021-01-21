@@ -1,7 +1,6 @@
 abstract type AbstractAWSConfig end
-
-mutable struct AWSConfig <:AbstractAWSConfig
-    credentials::AWSCredentials
+mutable struct AWSConfig <: AbstractAWSConfig
+    credentials::Union{AWSCredentials,Nothing}
     region::String
     output::String
 end
