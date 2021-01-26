@@ -31,14 +31,14 @@ jobs:
             arch: x64
           # Add a 1.5 job because that's what Invenia actually uses
           - os: ubuntu-latest
-            version: 1.5
+            version: "1.5"
             arch: x64
     steps:
       - uses: actions/checkout@v2
       - if: matrix.os == 'ubuntu-latest'
-        run: curl -O https://dl.minio.io/server/minio/release/linux-amd64/minio
+        run: curl -LO https://dl.minio.io/server/minio/release/linux-amd64/minio
       - if: matrix.os == 'macOS-latest'
-        run: curl -O https://dl.minio.io/server/minio/release/darwin-amd64/minio
+        run: curl -LO https://dl.minio.io/server/minio/release/darwin-amd64/minio
       - run: |
           export MINIO_ACCESS_KEY=minio
           export MINIO_SECRET_KEY=minio123

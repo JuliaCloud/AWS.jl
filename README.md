@@ -132,9 +132,9 @@ A more extended example would be to use this package to access a custom minio se
 
 ````julia
 struct MinioConfig <: AbstractAWSConfig
-endpoint::String
-region::String
-creds
+   endpoint::String
+   region::String
+   creds
 end
 AWS.region(c::MinioConfig) = c.region
 AWS.credentials(c::MinioConfig) = c.creds
@@ -158,7 +158,7 @@ function AWS.generate_service_url(aws::MinioConfig, service::String, resource::S
     service == "s3" || throw(ArgumentError("Can only handle s3 requests to Minio"))
     return string(aws.endpoint, resource)
 end
-AWS.global_aws_config(MinioConfig("http://127.0.0.1:9000","aregion",SimpleCredentials("minio", "minio123","")))
+AWS.global_aws_config(MinioConfig("http://127.0.0.1:9000", "aregion", SimpleCredentials("minio", "minio123", "")))
 ````
 
 Now we are ready to use AWS.jl to do S3-compatible requests to a minio server.
