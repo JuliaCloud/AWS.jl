@@ -27,8 +27,8 @@ include("AWSMetadata.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-user_agent = Ref("AWS.jl/1.0.0")
-aws_config = Ref{AbstractAWSConfig}()
+const user_agent = Ref("AWS.jl/1.0.0")
+const aws_config = Ref{AbstractAWSConfig}()
 
 """
     global_aws_config()
