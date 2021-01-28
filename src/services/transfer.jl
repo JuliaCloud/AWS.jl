@@ -22,8 +22,8 @@ Instantiates an autoscaling virtual server based on the selected file transfer p
 - `SecurityPolicyName`: Specifies the name of the security policy that is attached to the server.
 - `Tags`: Key-value pairs that can be used to group and search for servers.
 """
-create_server(; aws_config::AWSConfig=global_aws_config()) = transfer("CreateServer"; aws_config=aws_config)
-create_server(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("CreateServer", args; aws_config=aws_config)
+create_server(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateServer"; aws_config=aws_config)
+create_server(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateServer", args; aws_config=aws_config)
 
 """
     CreateUser()
@@ -44,8 +44,8 @@ Creates a user and associates them with an existing file transfer protocol-enabl
 - `SshPublicKeyBody`: The public portion of the Secure Shell (SSH) key used to authenticate the user to the server.
 - `Tags`: Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
 """
-create_user(Role, ServerId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-create_user(Role, ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
+create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
+create_user(Role, ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteServer()
@@ -56,8 +56,8 @@ Deletes the file transfer protocol-enabled server that you specify. No response 
 - `ServerId`: A unique system-assigned identifier for a server instance.
 
 """
-delete_server(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-delete_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+delete_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     DeleteSshPublicKey()
@@ -70,8 +70,8 @@ Deletes a user's Secure Shell (SSH) public key. No response is returned from thi
 - `UserName`: A unique string that identifies a user whose public key is being deleted.
 
 """
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-delete_ssh_public_key(ServerId, SshPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
+delete_ssh_public_key(ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
+delete_ssh_public_key(ServerId, SshPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyId"=>SshPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteUser()
@@ -83,8 +83,8 @@ Deletes the user belonging to a file transfer protocol-enabled server you specif
 - `UserName`: A unique string that identifies a user that is being deleted from a server.
 
 """
-delete_user(ServerId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-delete_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
+delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
+delete_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DescribeSecurityPolicy()
@@ -95,8 +95,8 @@ Describes the security policy that is attached to your file transfer protocol-en
 - `SecurityPolicyName`: Specifies the name of the security policy that is attached to the server.
 
 """
-describe_security_policy(SecurityPolicyName; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName); aws_config=aws_config)
-describe_security_policy(SecurityPolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName), args)); aws_config=aws_config)
+describe_security_policy(SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName); aws_config=aws_config)
+describe_security_policy(SecurityPolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeSecurityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecurityPolicyName"=>SecurityPolicyName), args)); aws_config=aws_config)
 
 """
     DescribeServer()
@@ -107,8 +107,8 @@ Describes a file transfer protocol-enabled server that you specify by passing th
 - `ServerId`: A system-assigned unique identifier for a server.
 
 """
-describe_server(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-describe_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+describe_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     DescribeUser()
@@ -120,8 +120,8 @@ Describes the user assigned to the specific file transfer protocol-enabled serve
 - `UserName`: The name of the user assigned to one or more servers. User names are part of the sign-in credentials to use the AWS Transfer Family service and perform file transfer tasks.
 
 """
-describe_user(ServerId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-describe_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
+describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
+describe_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ImportSshPublicKey()
@@ -134,8 +134,8 @@ Adds a Secure Shell (SSH) public key to a user account identified by a UserName 
 - `UserName`: The name of the user account that is assigned to one or more servers.
 
 """
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
-import_ssh_public_key(ServerId, SshPublicKeyBody, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), args)); aws_config=aws_config)
+import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
+import_ssh_public_key(ServerId, SshPublicKeyBody, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListSecurityPolicies()
@@ -146,8 +146,8 @@ Lists the security policies that are attached to your file transfer protocol-ena
 - `MaxResults`: Specifies the number of security policies to return as a response to the ListSecurityPolicies query.
 - `NextToken`: When additional results are obtained from the ListSecurityPolicies command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional security policies.
 """
-list_security_policies(; aws_config::AWSConfig=global_aws_config()) = transfer("ListSecurityPolicies"; aws_config=aws_config)
-list_security_policies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("ListSecurityPolicies", args; aws_config=aws_config)
+list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListSecurityPolicies"; aws_config=aws_config)
+list_security_policies(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListSecurityPolicies", args; aws_config=aws_config)
 
 """
     ListServers()
@@ -158,8 +158,8 @@ Lists the file transfer protocol-enabled servers that are associated with your A
 - `MaxResults`: Specifies the number of servers to return as a response to the ListServers query.
 - `NextToken`: When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
 """
-list_servers(; aws_config::AWSConfig=global_aws_config()) = transfer("ListServers"; aws_config=aws_config)
-list_servers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("ListServers", args; aws_config=aws_config)
+list_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListServers"; aws_config=aws_config)
+list_servers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListServers", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -173,8 +173,8 @@ Lists all of the tags associated with the Amazon Resource Number (ARN) you speci
 - `MaxResults`: Specifies the number of tags to return as a response to the ListTagsForResource request.
 - `NextToken`: When you request additional results from the ListTagsForResource operation, a NextToken parameter is returned in the input. You can then pass in a subsequent command to the NextToken parameter to continue listing additional tags.
 """
-list_tags_for_resource(Arn; aws_config::AWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-list_tags_for_resource(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+list_tags_for_resource(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
 
 """
     ListUsers()
@@ -188,8 +188,8 @@ Lists the users for a file transfer protocol-enabled server that you specify by 
 - `MaxResults`: Specifies the number of users to return as a response to the ListUsers request.
 - `NextToken`: When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
 """
-list_users(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-list_users(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+list_users(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     StartServer()
@@ -200,8 +200,8 @@ Changes the state of a file transfer protocol-enabled server from OFFLINE to ONL
 - `ServerId`: A system-assigned unique identifier for a server that you start.
 
 """
-start_server(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-start_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+start_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StartServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     StopServer()
@@ -212,8 +212,8 @@ Changes the state of a file transfer protocol-enabled server from ONLINE to OFFL
 - `ServerId`: A system-assigned unique identifier for a server that you stopped.
 
 """
-stop_server(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-stop_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+stop_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("StopServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -225,8 +225,8 @@ Attaches a key-value pair to a resource, as identified by its Amazon Resource Na
 - `Tags`: Key-value pairs assigned to ARNs that you can use to group and search for resources by type. You can attach this metadata to user accounts for any purpose.
 
 """
-tag_resource(Arn, Tags; aws_config::AWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     TestIdentityProvider()
@@ -242,8 +242,8 @@ If the IdentityProviderType of a file transfer protocol-enabled server is API_Ga
 - `SourceIp`: The source IP address of the user account to be tested.
 - `UserPassword`: The password of the user account to be tested.
 """
-test_identity_provider(ServerId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-test_identity_provider(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
+test_identity_provider(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
+test_identity_provider(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("TestIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -255,8 +255,8 @@ Detaches a key-value pair from a resource, as identified by its Amazon Resource 
 - `TagKeys`: TagKeys are key-value pairs assigned to ARNs that can be used to group and search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
-untag_resource(Arn, TagKeys; aws_config::AWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(Arn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateServer()
@@ -276,8 +276,8 @@ Updates the file transfer protocol-enabled server's properties after that server
 - `Protocols`: Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in AWS Certificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED. 
 - `SecurityPolicyName`: Specifies the name of the security policy that is attached to the server.
 """
-update_server(ServerId; aws_config::AWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
-update_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
+update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+update_server(ServerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), args)); aws_config=aws_config)
 
 """
     UpdateUser()
@@ -296,5 +296,5 @@ Assigns new properties to a user. Parameters you pass modify any or all of the f
 - `PosixProfile`: 
 - `Role`: The IAM role that controls your users' access to your Amazon S3 bucket. The policies attached to this role will determine the level of access you want to provide your users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM role should also contain a trust relationship that allows the server to access your resources when servicing your users' transfer requests.
 """
-update_user(ServerId, UserName; aws_config::AWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
-update_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)
+update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
+update_user(ServerId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), args)); aws_config=aws_config)

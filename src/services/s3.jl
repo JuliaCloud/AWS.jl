@@ -18,8 +18,8 @@ This operation aborts a multipart upload. After a multipart upload is aborted, n
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-abort_multipart_upload(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-abort_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+abort_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+abort_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CompleteMultipartUpload()
@@ -36,8 +36,8 @@ Completes a multipart upload by assembling previously uploaded parts. You first 
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-complete_multipart_upload(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-complete_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+complete_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+complete_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CopyObject()
@@ -88,8 +88,8 @@ Creates a copy of an object that is already stored in Amazon S3.  You can store 
 - `x-amz-tagging-directive`: Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
 """
-copy_object(Bucket, Key, x_amz_copy_source; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
-copy_object(Bucket, Key, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
+copy_object(Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
+copy_object(Bucket, Key, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
 
 """
     CreateBucket()
@@ -109,8 +109,8 @@ Creates a new S3 bucket. To create a bucket, you must register with Amazon S3 an
 - `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the bucket.
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
 """
-create_bucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)"; aws_config=aws_config)
-create_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)", args; aws_config=aws_config)
+create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)"; aws_config=aws_config)
+create_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     CreateMultipartUpload()
@@ -150,8 +150,8 @@ This operation initiates a multipart upload and returns an upload ID. This uploa
 - `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query parameters.
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
 """
-create_multipart_upload(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads"; aws_config=aws_config)
-create_multipart_upload(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads", args; aws_config=aws_config)
+create_multipart_upload(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads"; aws_config=aws_config)
+create_multipart_upload(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads", args; aws_config=aws_config)
 
 """
     DeleteBucket()
@@ -164,8 +164,8 @@ Deletes the S3 bucket. All objects (including all object versions and delete mar
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)"; aws_config=aws_config)
-delete_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)", args; aws_config=aws_config)
+delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)"; aws_config=aws_config)
+delete_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     DeleteBucketAnalyticsConfiguration()
@@ -179,8 +179,8 @@ Deletes an analytics configuration for the bucket (specified by the analytics co
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_analytics_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+delete_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketCors()
@@ -193,8 +193,8 @@ Deletes the cors configuration information set for the bucket. To use this opera
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_cors(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors"; aws_config=aws_config)
-delete_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors", args; aws_config=aws_config)
+delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors"; aws_config=aws_config)
+delete_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors", args; aws_config=aws_config)
 
 """
     DeleteBucketEncryption()
@@ -207,8 +207,8 @@ This implementation of the DELETE operation removes default encryption from the 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_encryption(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption"; aws_config=aws_config)
-delete_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption", args; aws_config=aws_config)
+delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption"; aws_config=aws_config)
+delete_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption", args; aws_config=aws_config)
 
 """
     DeleteBucketIntelligentTieringConfiguration()
@@ -220,8 +220,8 @@ Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The 
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-delete_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
+delete_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketInventoryConfiguration()
@@ -235,8 +235,8 @@ Deletes an inventory configuration (identified by the inventory ID) from the buc
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_inventory_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
+delete_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketLifecycle()
@@ -249,8 +249,8 @@ Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_lifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-delete_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+delete_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     DeleteBucketMetricsConfiguration()
@@ -264,8 +264,8 @@ Deletes a metrics configuration for the Amazon CloudWatch request metrics (speci
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_metrics_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+delete_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketOwnershipControls()
@@ -278,8 +278,8 @@ Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you mu
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_ownership_controls(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
-delete_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
+delete_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
+delete_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
 
 """
     DeleteBucketPolicy()
@@ -292,8 +292,8 @@ This implementation of the DELETE operation uses the policy subresource to delet
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_policy(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy"; aws_config=aws_config)
-delete_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy", args; aws_config=aws_config)
+delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy"; aws_config=aws_config)
+delete_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy", args; aws_config=aws_config)
 
 """
     DeleteBucketReplication()
@@ -306,8 +306,8 @@ delete_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSC
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_replication(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication"; aws_config=aws_config)
-delete_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication", args; aws_config=aws_config)
+delete_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication"; aws_config=aws_config)
+delete_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication", args; aws_config=aws_config)
 
 """
     DeleteBucketTagging()
@@ -320,8 +320,8 @@ Deletes the tags from the bucket. To use this operation, you must have permissio
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_tagging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging"; aws_config=aws_config)
-delete_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging", args; aws_config=aws_config)
+delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging"; aws_config=aws_config)
+delete_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging", args; aws_config=aws_config)
 
 """
     DeleteBucketWebsite()
@@ -334,8 +334,8 @@ This operation removes the website configuration for a bucket. Amazon S3 returns
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_bucket_website(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website"; aws_config=aws_config)
-delete_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website", args; aws_config=aws_config)
+delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website"; aws_config=aws_config)
+delete_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website", args; aws_config=aws_config)
 
 """
     DeleteObject()
@@ -353,8 +353,8 @@ Removes the null version (if there is one) of an object and inserts a delete mar
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
 - `x-amz-request-payer`: 
 """
-delete_object(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-delete_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+delete_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     DeleteObjectTagging()
@@ -369,8 +369,8 @@ Removes the entire tag set from the specified object. For more information about
 - `versionId`: The versionId of the object that the tag-set will be removed from.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_object_tagging(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
-delete_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
+delete_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
+delete_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
 
 """
     DeleteObjects()
@@ -387,8 +387,8 @@ This operation enables you to delete multiple objects from a bucket using a sing
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
 - `x-amz-request-payer`: 
 """
-delete_objects(Bucket, Delete; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}("Delete"=>Delete); aws_config=aws_config)
-delete_objects(Bucket, Delete, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), args)); aws_config=aws_config)
+delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}("Delete"=>Delete); aws_config=aws_config)
+delete_objects(Bucket, Delete, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), args)); aws_config=aws_config)
 
 """
     DeletePublicAccessBlock()
@@ -401,8 +401,8 @@ Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-delete_public_access_block(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
-delete_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
+delete_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
+delete_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
 
 """
     GetBucketAccelerateConfiguration()
@@ -415,8 +415,8 @@ This implementation of the GET operation uses the accelerate subresource to retu
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_accelerate_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate"; aws_config=aws_config)
-get_bucket_accelerate_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate", args; aws_config=aws_config)
+get_bucket_accelerate_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate"; aws_config=aws_config)
+get_bucket_accelerate_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate", args; aws_config=aws_config)
 
 """
     GetBucketAcl()
@@ -429,8 +429,8 @@ This implementation of the GET operation uses the acl subresource to return the 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_acl(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl"; aws_config=aws_config)
-get_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl", args; aws_config=aws_config)
+get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl"; aws_config=aws_config)
+get_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl", args; aws_config=aws_config)
 
 """
     GetBucketAnalyticsConfiguration()
@@ -444,8 +444,8 @@ This implementation of the GET operation returns an analytics configuration (ide
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_analytics_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+get_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketCors()
@@ -458,8 +458,8 @@ Returns the cors configuration information set for the bucket.  To use this oper
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_cors(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors"; aws_config=aws_config)
-get_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors", args; aws_config=aws_config)
+get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors"; aws_config=aws_config)
+get_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors", args; aws_config=aws_config)
 
 """
     GetBucketEncryption()
@@ -472,8 +472,8 @@ Returns the default encryption configuration for an Amazon S3 bucket. For inform
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_encryption(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption"; aws_config=aws_config)
-get_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption", args; aws_config=aws_config)
+get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption"; aws_config=aws_config)
+get_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption", args; aws_config=aws_config)
 
 """
     GetBucketIntelligentTieringConfiguration()
@@ -485,8 +485,8 @@ Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3 
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-get_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
+get_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketInventoryConfiguration()
@@ -500,8 +500,8 @@ Returns an inventory configuration (identified by the inventory configuration ID
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_inventory_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
+get_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketLifecycle()
@@ -514,8 +514,8 @@ get_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_lifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-get_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+get_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     GetBucketLifecycleConfiguration()
@@ -528,8 +528,8 @@ get_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSC
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_lifecycle_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-get_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+get_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+get_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     GetBucketLocation()
@@ -542,8 +542,8 @@ Returns the Region the bucket resides in. You set the bucket's Region using the 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_location(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location"; aws_config=aws_config)
-get_bucket_location(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location", args; aws_config=aws_config)
+get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location"; aws_config=aws_config)
+get_bucket_location(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location", args; aws_config=aws_config)
 
 """
     GetBucketLogging()
@@ -556,8 +556,8 @@ Returns the logging status of a bucket and the permissions users have to view an
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_logging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging"; aws_config=aws_config)
-get_bucket_logging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging", args; aws_config=aws_config)
+get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging"; aws_config=aws_config)
+get_bucket_logging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging", args; aws_config=aws_config)
 
 """
     GetBucketMetricsConfiguration()
@@ -571,8 +571,8 @@ Gets a metrics configuration (specified by the metrics configuration ID) from th
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_metrics_configuration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+get_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketNotification()
@@ -585,8 +585,8 @@ get_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_notification(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
-get_bucket_notification(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
+get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
+get_bucket_notification(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
 
 """
     GetBucketNotificationConfiguration()
@@ -599,8 +599,8 @@ Returns the notification configuration of a bucket. If notifications are not ena
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_notification_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
-get_bucket_notification_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
+get_bucket_notification_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
+get_bucket_notification_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
 
 """
     GetBucketOwnershipControls()
@@ -613,8 +613,8 @@ Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_ownership_controls(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
-get_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
+get_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
+get_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
 
 """
     GetBucketPolicy()
@@ -627,8 +627,8 @@ Returns the policy of a specified bucket. If you are using an identity other tha
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_policy(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy"; aws_config=aws_config)
-get_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy", args; aws_config=aws_config)
+get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy"; aws_config=aws_config)
+get_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy", args; aws_config=aws_config)
 
 """
     GetBucketPolicyStatus()
@@ -641,8 +641,8 @@ Retrieves the policy status for an Amazon S3 bucket, indicating whether the buck
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_policy_status(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus"; aws_config=aws_config)
-get_bucket_policy_status(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus", args; aws_config=aws_config)
+get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus"; aws_config=aws_config)
+get_bucket_policy_status(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus", args; aws_config=aws_config)
 
 """
     GetBucketReplication()
@@ -655,8 +655,8 @@ Returns the replication configuration of a bucket.   It can take a while to prop
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_replication(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication"; aws_config=aws_config)
-get_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication", args; aws_config=aws_config)
+get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication"; aws_config=aws_config)
+get_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication", args; aws_config=aws_config)
 
 """
     GetBucketRequestPayment()
@@ -669,8 +669,8 @@ Returns the request payment configuration of a bucket. To use this version of th
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_request_payment(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment"; aws_config=aws_config)
-get_bucket_request_payment(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment", args; aws_config=aws_config)
+get_bucket_request_payment(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment"; aws_config=aws_config)
+get_bucket_request_payment(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment", args; aws_config=aws_config)
 
 """
     GetBucketTagging()
@@ -683,8 +683,8 @@ Returns the tag set associated with the bucket. To use this operation, you must 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_tagging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging"; aws_config=aws_config)
-get_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging", args; aws_config=aws_config)
+get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging"; aws_config=aws_config)
+get_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging", args; aws_config=aws_config)
 
 """
     GetBucketVersioning()
@@ -697,8 +697,8 @@ Returns the versioning state of a bucket. To retrieve the versioning state of a 
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_versioning(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning"; aws_config=aws_config)
-get_bucket_versioning(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning", args; aws_config=aws_config)
+get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning"; aws_config=aws_config)
+get_bucket_versioning(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning", args; aws_config=aws_config)
 
 """
     GetBucketWebsite()
@@ -711,8 +711,8 @@ Returns the website configuration for a bucket. To host website on Amazon S3, yo
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_bucket_website(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website"; aws_config=aws_config)
-get_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website", args; aws_config=aws_config)
+get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website"; aws_config=aws_config)
+get_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website", args; aws_config=aws_config)
 
 """
     GetObject()
@@ -743,8 +743,8 @@ Retrieves objects from Amazon S3. To use GET, you must have READ access to the o
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-get_object(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-get_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+get_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     GetObjectAcl()
@@ -760,8 +760,8 @@ Returns the access control list (ACL) of an object. To use this operation, you m
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-get_object_acl(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
-get_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
+get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
+get_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
 
 """
     GetObjectLegalHold()
@@ -777,8 +777,8 @@ Gets an object's current Legal Hold status. For more information, see Locking Ob
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-get_object_legal_hold(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
-get_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
+get_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
+get_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
 
 """
     GetObjectLockConfiguration()
@@ -791,8 +791,8 @@ Gets the Object Lock configuration for a bucket. The rule specified in the Objec
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_object_lock_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock"; aws_config=aws_config)
-get_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock", args; aws_config=aws_config)
+get_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock"; aws_config=aws_config)
+get_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock", args; aws_config=aws_config)
 
 """
     GetObjectRetention()
@@ -808,8 +808,8 @@ Retrieves an object's retention settings. For more information, see Locking Obje
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-get_object_retention(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
-get_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
+get_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
+get_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
 
 """
     GetObjectTagging()
@@ -824,8 +824,8 @@ Returns the tag-set of an object. You send the GET request against the tagging s
 - `versionId`: The versionId of the object for which to get the tagging information.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_object_tagging(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
-get_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
+get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
+get_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
 
 """
     GetObjectTorrent()
@@ -840,8 +840,8 @@ Returns torrent files from a bucket. BitTorrent can save you bandwidth when you'
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-get_object_torrent(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent"; aws_config=aws_config)
-get_object_torrent(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent", args; aws_config=aws_config)
+get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent"; aws_config=aws_config)
+get_object_torrent(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent", args; aws_config=aws_config)
 
 """
     GetPublicAccessBlock()
@@ -854,8 +854,8 @@ Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use th
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-get_public_access_block(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
-get_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
+get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
+get_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
 
 """
     HeadBucket()
@@ -868,8 +868,8 @@ This operation is useful to determine if a bucket exists and you have permission
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-head_bucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)"; aws_config=aws_config)
-head_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)", args; aws_config=aws_config)
+head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)"; aws_config=aws_config)
+head_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     HeadObject()
@@ -894,8 +894,8 @@ The HEAD operation retrieves metadata from an object without returning the objec
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-head_object(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-head_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+head_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     ListBucketAnalyticsConfigurations()
@@ -909,8 +909,8 @@ Lists the analytics configurations for the bucket. You can have up to 1,000 anal
 - `continuation-token`: The ContinuationToken that represents a placeholder from where this request should begin.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-list_bucket_analytics_configurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics"; aws_config=aws_config)
-list_bucket_analytics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", args; aws_config=aws_config)
+list_bucket_analytics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics"; aws_config=aws_config)
+list_bucket_analytics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", args; aws_config=aws_config)
 
 """
     ListBucketIntelligentTieringConfigurations()
@@ -923,8 +923,8 @@ Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 # Optional Parameters
 - `continuation-token`: The ContinuationToken that represents a placeholder from where this request should begin.
 """
-list_bucket_intelligent_tiering_configurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering"; aws_config=aws_config)
-list_bucket_intelligent_tiering_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", args; aws_config=aws_config)
+list_bucket_intelligent_tiering_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering"; aws_config=aws_config)
+list_bucket_intelligent_tiering_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", args; aws_config=aws_config)
 
 """
     ListBucketInventoryConfigurations()
@@ -938,8 +938,8 @@ Returns a list of inventory configurations for the bucket. You can have up to 1,
 - `continuation-token`: The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-list_bucket_inventory_configurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory"; aws_config=aws_config)
-list_bucket_inventory_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", args; aws_config=aws_config)
+list_bucket_inventory_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory"; aws_config=aws_config)
+list_bucket_inventory_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", args; aws_config=aws_config)
 
 """
     ListBucketMetricsConfigurations()
@@ -953,8 +953,8 @@ Lists the metrics configurations for the bucket. The metrics configurations are 
 - `continuation-token`: The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-list_bucket_metrics_configurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics"; aws_config=aws_config)
-list_bucket_metrics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", args; aws_config=aws_config)
+list_bucket_metrics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics"; aws_config=aws_config)
+list_bucket_metrics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", args; aws_config=aws_config)
 
 """
     ListBuckets()
@@ -962,8 +962,8 @@ list_bucket_metrics_configurations(Bucket, args::AbstractDict{String, <:Any}; aw
 Returns a list of all buckets owned by the authenticated sender of the request.
 
 """
-list_buckets(; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/"; aws_config=aws_config)
-list_buckets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/", args; aws_config=aws_config)
+list_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/"; aws_config=aws_config)
+list_buckets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/", args; aws_config=aws_config)
 
 """
     ListMultipartUploads()
@@ -982,8 +982,8 @@ This operation lists in-progress multipart uploads. An in-progress multipart upl
 - `upload-id-marker`: Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-list_multipart_uploads(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads"; aws_config=aws_config)
-list_multipart_uploads(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads", args; aws_config=aws_config)
+list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads"; aws_config=aws_config)
+list_multipart_uploads(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads", args; aws_config=aws_config)
 
 """
     ListObjectVersions()
@@ -1002,8 +1002,8 @@ Returns metadata about all versions of the objects in a bucket. You can also use
 - `version-id-marker`: Specifies the object version you want to start listing from.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-list_object_versions(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions"; aws_config=aws_config)
-list_object_versions(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions", args; aws_config=aws_config)
+list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions"; aws_config=aws_config)
+list_object_versions(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions", args; aws_config=aws_config)
 
 """
     ListObjects()
@@ -1022,8 +1022,8 @@ Returns some or all (up to 1,000) of the objects in a bucket. You can use the re
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
 """
-list_objects(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)"; aws_config=aws_config)
-list_objects(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)", args; aws_config=aws_config)
+list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)"; aws_config=aws_config)
+list_objects(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     ListObjectsV2()
@@ -1044,8 +1044,8 @@ Returns some or all (up to 1,000) of the objects in a bucket. You can use the re
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
 """
-list_objects_v2(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2"; aws_config=aws_config)
-list_objects_v2(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2", args; aws_config=aws_config)
+list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2"; aws_config=aws_config)
+list_objects_v2(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2", args; aws_config=aws_config)
 
 """
     ListParts()
@@ -1063,8 +1063,8 @@ Lists the parts that have been uploaded for a specific multipart upload. This op
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-list_parts(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-list_parts(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+list_parts(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+list_parts(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     PutBucketAccelerateConfiguration()
@@ -1078,8 +1078,8 @@ Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acce
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration); aws_config=aws_config)
-put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), args)); aws_config=aws_config)
+put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration); aws_config=aws_config)
+put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketAcl()
@@ -1100,8 +1100,8 @@ Sets the permissions on an existing bucket using access control lists (ACL). For
 - `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the bucket.
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
 """
-put_bucket_acl(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config)
-put_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl", args; aws_config=aws_config)
+put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config)
+put_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl", args; aws_config=aws_config)
 
 """
     PutBucketAnalyticsConfiguration()
@@ -1116,8 +1116,8 @@ Sets an analytics configuration for the bucket (specified by the analytics confi
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id); aws_config=aws_config)
+put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketCors()
@@ -1132,8 +1132,8 @@ Sets the cors configuration for your bucket. If the configuration exists, Amazon
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.  For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_cors(Bucket, CORSConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}("CORSConfiguration"=>CORSConfiguration); aws_config=aws_config)
-put_bucket_cors(Bucket, CORSConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), args)); aws_config=aws_config)
+put_bucket_cors(Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}("CORSConfiguration"=>CORSConfiguration); aws_config=aws_config)
+put_bucket_cors(Bucket, CORSConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketEncryption()
@@ -1148,8 +1148,8 @@ This operation uses the encryption subresource to configure default encryption a
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws_config=aws_config)
-put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), args)); aws_config=aws_config)
+put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws_config=aws_config)
+put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketIntelligentTieringConfiguration()
@@ -1162,8 +1162,8 @@ Puts a S3 Intelligent-Tiering configuration to the specified bucket. The S3 Inte
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id); aws_config=aws_config)
+put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketInventoryConfiguration()
@@ -1178,8 +1178,8 @@ This implementation of the PUT operation adds an inventory configuration (identi
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id); aws_config=aws_config)
+put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketLifecycle()
@@ -1194,8 +1194,8 @@ put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, args::Abs
 - `LifecycleConfiguration`: 
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_lifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-put_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+put_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     PutBucketLifecycleConfiguration()
@@ -1209,8 +1209,8 @@ Creates a new lifecycle configuration for the bucket or replaces an existing lif
 - `LifecycleConfiguration`: Container for lifecycle rules. You can add as many as 1,000 rules.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_lifecycle_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-put_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+put_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+put_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     PutBucketLogging()
@@ -1225,8 +1225,8 @@ Set the logging parameters for a bucket and to specify permissions for who can v
 - `Content-MD5`: The MD5 hash of the PutBucketLogging request body. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_logging(Bucket, BucketLoggingStatus; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus); aws_config=aws_config)
-put_bucket_logging(Bucket, BucketLoggingStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), args)); aws_config=aws_config)
+put_bucket_logging(Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus); aws_config=aws_config)
+put_bucket_logging(Bucket, BucketLoggingStatus, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), args)); aws_config=aws_config)
 
 """
     PutBucketMetricsConfiguration()
@@ -1241,8 +1241,8 @@ Sets a metrics configuration (specified by the metrics configuration ID) for the
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id); aws_config=aws_config)
+put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketNotification()
@@ -1257,8 +1257,8 @@ put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id, args::Abstrac
 - `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_notification(Bucket, NotificationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
-put_bucket_notification(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
+put_bucket_notification(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
+put_bucket_notification(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketNotificationConfiguration()
@@ -1272,8 +1272,8 @@ Enables notifications of specified events for a bucket. For more information abo
 # Optional Parameters
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_notification_configuration(Bucket, NotificationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
-put_bucket_notification_configuration(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
+put_bucket_notification_configuration(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
+put_bucket_notification_configuration(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketOwnershipControls()
@@ -1288,8 +1288,8 @@ Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this opera
 - `Content-MD5`: The MD5 hash of the OwnershipControls request body.  For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_ownership_controls(Bucket, OwnershipControls; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}("OwnershipControls"=>OwnershipControls); aws_config=aws_config)
-put_bucket_ownership_controls(Bucket, OwnershipControls, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), args)); aws_config=aws_config)
+put_bucket_ownership_controls(Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}("OwnershipControls"=>OwnershipControls); aws_config=aws_config)
+put_bucket_ownership_controls(Bucket, OwnershipControls, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), args)); aws_config=aws_config)
 
 """
     PutBucketPolicy()
@@ -1305,8 +1305,8 @@ Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an i
 - `x-amz-confirm-remove-self-bucket-access`: Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_policy(Bucket, Policy; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-put_bucket_policy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+put_bucket_policy(Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+put_bucket_policy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     PutBucketReplication()
@@ -1322,8 +1322,8 @@ put_bucket_policy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws_config:
 - `x-amz-bucket-object-lock-token`: A token to allow Object Lock to be enabled for an existing bucket.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_replication(Bucket, ReplicationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration); aws_config=aws_config)
-put_bucket_replication(Bucket, ReplicationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), args)); aws_config=aws_config)
+put_bucket_replication(Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration); aws_config=aws_config)
+put_bucket_replication(Bucket, ReplicationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketRequestPayment()
@@ -1338,8 +1338,8 @@ Sets the request payment configuration for a bucket. By default, the bucket owne
 - `Content-MD5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_request_payment(Bucket, RequestPaymentConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration); aws_config=aws_config)
-put_bucket_request_payment(Bucket, RequestPaymentConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), args)); aws_config=aws_config)
+put_bucket_request_payment(Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration); aws_config=aws_config)
+put_bucket_request_payment(Bucket, RequestPaymentConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketTagging()
@@ -1354,8 +1354,8 @@ Sets the tags for a bucket. Use tags to organize your AWS bill to reflect your o
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_tagging(Bucket, Tagging; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
-put_bucket_tagging(Bucket, Tagging, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
+put_bucket_tagging(Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
+put_bucket_tagging(Bucket, Tagging, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
 
 """
     PutBucketVersioning()
@@ -1371,8 +1371,8 @@ Sets the versioning state of an existing bucket. To set the versioning state, yo
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
 """
-put_bucket_versioning(Bucket, VersioningConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration); aws_config=aws_config)
-put_bucket_versioning(Bucket, VersioningConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), args)); aws_config=aws_config)
+put_bucket_versioning(Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration); aws_config=aws_config)
+put_bucket_versioning(Bucket, VersioningConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketWebsite()
@@ -1387,8 +1387,8 @@ Sets the configuration of the website that is specified in the website subresour
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_bucket_website(Bucket, WebsiteConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration); aws_config=aws_config)
-put_bucket_website(Bucket, WebsiteConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), args)); aws_config=aws_config)
+put_bucket_website(Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration); aws_config=aws_config)
+put_bucket_website(Bucket, WebsiteConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), args)); aws_config=aws_config)
 
 """
     PutObject()
@@ -1431,8 +1431,8 @@ Adds an object to a bucket. You must have WRITE permissions on a bucket to add a
 - `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, \"Key1=Value1\")
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
 """
-put_object(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-put_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+put_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     PutObjectAcl()
@@ -1456,8 +1456,8 @@ Uses the acl subresource to set the access control list (ACL) permissions for a 
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket. This action is not supported by Amazon S3 on Outposts.
 - `x-amz-request-payer`: 
 """
-put_object_acl(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
-put_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
+put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
+put_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
 
 """
     PutObjectLegalHold()
@@ -1475,8 +1475,8 @@ Applies a Legal Hold configuration to the specified object. This action is not s
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-put_object_legal_hold(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
-put_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
+put_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
+put_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
 
 """
     PutObjectLockConfiguration()
@@ -1493,8 +1493,8 @@ Places an Object Lock configuration on the specified bucket. The rule specified 
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-put_object_lock_configuration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock"; aws_config=aws_config)
-put_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock", args; aws_config=aws_config)
+put_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock"; aws_config=aws_config)
+put_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock", args; aws_config=aws_config)
 
 """
     PutObjectRetention()
@@ -1513,8 +1513,8 @@ Places an Object Retention configuration on an object. This action is not suppor
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-put_object_retention(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
-put_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
+put_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
+put_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
 
 """
     PutObjectTagging()
@@ -1531,8 +1531,8 @@ Sets the supplied tag-set to an object that already exists in a bucket. A tag is
 - `versionId`: The versionId of the object that the tag-set will be added to.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_object_tagging(Bucket, Key, Tagging; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
-put_object_tagging(Bucket, Key, Tagging, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
+put_object_tagging(Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
+put_object_tagging(Bucket, Key, Tagging, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
 
 """
     PutPublicAccessBlock()
@@ -1547,8 +1547,8 @@ Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket.
 - `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body.  For requests made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-put_public_access_block(Bucket, PublicAccessBlockConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration); aws_config=aws_config)
-put_public_access_block(Bucket, PublicAccessBlockConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), args)); aws_config=aws_config)
+put_public_access_block(Bucket, PublicAccessBlockConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration); aws_config=aws_config)
+put_public_access_block(Bucket, PublicAccessBlockConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), args)); aws_config=aws_config)
 
 """
     RestoreObject()
@@ -1565,8 +1565,8 @@ Restores an archived copy of an object back into Amazon S3 This action is not su
 - `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 - `x-amz-request-payer`: 
 """
-restore_object(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore"; aws_config=aws_config)
-restore_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore", args; aws_config=aws_config)
+restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore"; aws_config=aws_config)
+restore_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore", args; aws_config=aws_config)
 
 """
     SelectObjectContent()
@@ -1589,8 +1589,8 @@ This operation filters the contents of an Amazon S3 object based on a simple str
 - `x-amz-server-side-encryption-customer-key`: The SSE Customer Key. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
 - `x-amz-server-side-encryption-customer-key-MD5`: The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
 """
-select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization); aws_config=aws_config)
-select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), args)); aws_config=aws_config)
+select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization); aws_config=aws_config)
+select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), args)); aws_config=aws_config)
 
 """
     UploadPart()
@@ -1613,8 +1613,8 @@ Uploads a part in a multipart upload.  In this operation, you provide part data 
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-upload_part(Bucket, Key, partNumber, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId); aws_config=aws_config)
-upload_part(Bucket, Key, partNumber, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), args)); aws_config=aws_config)
+upload_part(Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId); aws_config=aws_config)
+upload_part(Bucket, Key, partNumber, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     UploadPartCopy()
@@ -1644,5 +1644,5 @@ Uploads a part by copying data from an existing object as data source. You speci
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 - `x-amz-source-expected-bucket-owner`: The account id of the expected source bucket owner. If the source bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
 """
-upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
-upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
+upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
+upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)

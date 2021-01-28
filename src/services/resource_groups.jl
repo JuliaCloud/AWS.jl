@@ -18,8 +18,8 @@ Creates a resource group with the specified name and description. You can option
 - `ResourceQuery`: The resource query that determines which AWS resources are members of this group. For more information about resource queries, see Create a tag-based group in Resource Groups.   A resource group can contain either a ResourceQuery or a Configuration, but not both. 
 - `Tags`: The tags to add to the group. A tag is key-value pair string.
 """
-create_group(Name; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_group(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+create_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_group(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteGroup()
@@ -30,8 +30,8 @@ Deletes the specified resource group. Deleting a resource group does not delete 
 - `Group`: The name or the ARN of the resource group to delete.
 - `GroupName`: Deprecated - don't use this parameter. Use Group instead.
 """
-delete_group(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group"; aws_config=aws_config)
-delete_group(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group", args; aws_config=aws_config)
+delete_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group"; aws_config=aws_config)
+delete_group(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group", args; aws_config=aws_config)
 
 """
     GetGroup()
@@ -42,8 +42,8 @@ Returns information about a specified resource group.  Minimum permissions  To r
 - `Group`: The name or the ARN of the resource group to retrieve.
 - `GroupName`: Deprecated - don't use this parameter. Use Group instead.
 """
-get_group(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group"; aws_config=aws_config)
-get_group(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group", args; aws_config=aws_config)
+get_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group"; aws_config=aws_config)
+get_group(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group", args; aws_config=aws_config)
 
 """
     GetGroupConfiguration()
@@ -53,8 +53,8 @@ Returns the service configuration associated with the specified resource group. 
 # Optional Parameters
 - `Group`: The name or the ARN of the resource group.
 """
-get_group_configuration(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration"; aws_config=aws_config)
-get_group_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration", args; aws_config=aws_config)
+get_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration"; aws_config=aws_config)
+get_group_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration", args; aws_config=aws_config)
 
 """
     GetGroupQuery()
@@ -65,8 +65,8 @@ Retrieves the resource query associated with the specified resource group. For m
 - `Group`: The name or the ARN of the resource group to query.
 - `GroupName`: Don't use this parameter. Use Group instead.
 """
-get_group_query(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query"; aws_config=aws_config)
-get_group_query(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query", args; aws_config=aws_config)
+get_group_query(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query"; aws_config=aws_config)
+get_group_query(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query", args; aws_config=aws_config)
 
 """
     GetTags()
@@ -77,8 +77,8 @@ Returns a list of tags that are associated with a resource group, specified by a
 - `Arn`: The ARN of the resource group whose tags you want to retrieve.
 
 """
-get_tags(Arn; aws_config::AWSConfig=global_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags"; aws_config=aws_config)
-get_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags", args; aws_config=aws_config)
+get_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags"; aws_config=aws_config)
+get_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags", args; aws_config=aws_config)
 
 """
     GroupResources()
@@ -90,8 +90,8 @@ Adds the specified resources to the specified group.  Minimum permissions  To ru
 - `ResourceArns`: The list of ARNs for resources to be added to the group. 
 
 """
-group_resources(Group, ResourceArns; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config)
-group_resources(Group, ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
+group_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config)
+group_resources(Group, ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
 
 """
     ListGroupResources()
@@ -105,8 +105,8 @@ Returns a list of ARNs of the resources that are members of a specified resource
 - `MaxResults`: The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
 - `NextToken`: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
 """
-list_group_resources(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources"; aws_config=aws_config)
-list_group_resources(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources", args; aws_config=aws_config)
+list_group_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources"; aws_config=aws_config)
+list_group_resources(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources", args; aws_config=aws_config)
 
 """
     ListGroups()
@@ -118,8 +118,8 @@ Returns a list of existing resource groups in your account.  Minimum permissions
 - `maxResults`: The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
 - `nextToken`: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
 """
-list_groups(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list"; aws_config=aws_config)
-list_groups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list", args; aws_config=aws_config)
+list_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list"; aws_config=aws_config)
+list_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list", args; aws_config=aws_config)
 
 """
     PutGroupConfiguration()
@@ -130,8 +130,8 @@ Attaches a service configuration to the specified group. This occurs asynchronou
 - `Configuration`: The new configuration to associate with the specified group. A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of GroupConfigurationItem elements. For information about the syntax of a service configuration, see Service configurations for resource groups.  A resource group can contain either a Configuration or a ResourceQuery, but not both. 
 - `Group`: The name or ARN of the resource group with the configuration that you want to update.
 """
-put_group_configuration(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration"; aws_config=aws_config)
-put_group_configuration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration", args; aws_config=aws_config)
+put_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration"; aws_config=aws_config)
+put_group_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration", args; aws_config=aws_config)
 
 """
     SearchResources()
@@ -145,8 +145,8 @@ Returns a list of AWS resource identifiers that matches the specified query. The
 - `MaxResults`: The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
 - `NextToken`: The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value provided by a previous call's NextToken response to indicate where the output should continue from.
 """
-search_resources(ResourceQuery; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config)
-search_resources(ResourceQuery, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), args)); aws_config=aws_config)
+search_resources(ResourceQuery; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config)
+search_resources(ResourceQuery, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), args)); aws_config=aws_config)
 
 """
     Tag()
@@ -158,8 +158,8 @@ Adds tags to a resource group with the specified ARN. Existing tags on a resourc
 - `Tags`: The tags to add to the specified resource group. A tag is a string-to-string map of key-value pairs.
 
 """
-tag(Arn, Tags; aws_config::AWSConfig=global_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UngroupResources()
@@ -171,8 +171,8 @@ Removes the specified resources from the specified group.  Minimum permissions  
 - `ResourceArns`: The ARNs of the resources to be removed from the group.
 
 """
-ungroup_resources(Group, ResourceArns; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config)
-ungroup_resources(Group, ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
+ungroup_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config)
+ungroup_resources(Group, ResourceArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), args)); aws_config=aws_config)
 
 """
     Untag()
@@ -184,8 +184,8 @@ Deletes tags from a specified resource group.  Minimum permissions  To run this 
 - `Keys`: The keys of the tags to be removed.
 
 """
-untag(Arn, Keys; aws_config::AWSConfig=global_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}("Keys"=>Keys); aws_config=aws_config)
-untag(Arn, Keys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys), args)); aws_config=aws_config)
+untag(Arn, Keys; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}("Keys"=>Keys); aws_config=aws_config)
+untag(Arn, Keys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys), args)); aws_config=aws_config)
 
 """
     UpdateGroup()
@@ -197,8 +197,8 @@ Updates the description for an existing group. You cannot update the name of a r
 - `Group`: The name or the ARN of the resource group to modify.
 - `GroupName`: Don't use this parameter. Use Group instead.
 """
-update_group(; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/update-group"; aws_config=aws_config)
-update_group(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/update-group", args; aws_config=aws_config)
+update_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group"; aws_config=aws_config)
+update_group(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group", args; aws_config=aws_config)
 
 """
     UpdateGroupQuery()
@@ -212,5 +212,5 @@ Updates the resource query of a group. For more information about resource queri
 - `Group`: The name or the ARN of the resource group to query.
 - `GroupName`: Don't use this parameter. Use Group instead.
 """
-update_group_query(ResourceQuery; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config)
-update_group_query(ResourceQuery, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), args)); aws_config=aws_config)
+update_group_query(ResourceQuery; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config)
+update_group_query(ResourceQuery, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), args)); aws_config=aws_config)

@@ -13,8 +13,8 @@ Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS 
 - `arn`: The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
 
 """
-associate_certificate(arn; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-associate_certificate(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+associate_certificate(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     CancelJob()
@@ -25,8 +25,8 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 - `id`: The Job ID of the job to be cancelled.
 
 """
-cancel_job(id; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
-cancel_job(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", args; aws_config=aws_config)
+cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
+cancel_job(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", args; aws_config=aws_config)
 
 """
     CreateJob()
@@ -50,8 +50,8 @@ Create a new transcoding job. For information about jobs and job settings, see t
 - `tags`: Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.  Use standard AWS tags on your job for automatic integration with AWS services and for custom integrations and workflows.
 - `userMetadata`: Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
 """
-create_job(role, settings; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_job(role, settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_job(role, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_job(role, settings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateJobTemplate()
@@ -72,8 +72,8 @@ Create a new job template. For information about job templates see the User Guid
 - `statusUpdateInterval`: Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
 - `tags`: The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
 """
-create_job_template(name, settings; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
-create_job_template(name, settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), args)); aws_config=aws_config)
+create_job_template(name, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
+create_job_template(name, settings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), args)); aws_config=aws_config)
 
 """
     CreatePreset()
@@ -89,8 +89,8 @@ Create a new preset. For information about job templates see the User Guide at h
 - `description`: Optional. A description of the preset you are creating.
 - `tags`: The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
 """
-create_preset(name, settings; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
-create_preset(name, settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), args)); aws_config=aws_config)
+create_preset(name, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
+create_preset(name, settings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), args)); aws_config=aws_config)
 
 """
     CreateQueue()
@@ -107,8 +107,8 @@ Create a new transcoding queue. For information about queues, see Working With Q
 - `status`: Initial state of the queue. If you create a paused queue, then jobs in that queue won't begin.
 - `tags`: The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
 """
-create_queue(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_queue(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_queue(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DeleteJobTemplate()
@@ -119,8 +119,8 @@ Permanently delete a job template you have created.
 - `name`: The name of the job template to be deleted.
 
 """
-delete_job_template(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-delete_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
+delete_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
+delete_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
 
 """
     DeletePreset()
@@ -131,8 +131,8 @@ Permanently delete a preset you have created.
 - `name`: The name of the preset to be deleted.
 
 """
-delete_preset(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-delete_preset(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
+delete_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
+delete_preset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
 
 """
     DeleteQueue()
@@ -143,8 +143,8 @@ Permanently delete a queue you have created.
 - `name`: The name of the queue that you want to delete.
 
 """
-delete_queue(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-delete_queue(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)
+delete_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
+delete_queue(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)
 
 """
     DescribeEndpoints()
@@ -156,8 +156,8 @@ Send an request with an empty body to the regional API endpoint to get your acco
 - `mode`: Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
 - `nextToken`: Use this string, provided with the response to a previous request, to request the next batch of endpoints.
 """
-describe_endpoints(; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints"; aws_config=aws_config)
-describe_endpoints(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", args; aws_config=aws_config)
+describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints"; aws_config=aws_config)
+describe_endpoints(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", args; aws_config=aws_config)
 
 """
     DisassociateCertificate()
@@ -168,8 +168,8 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 - `arn`: The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource.
 
 """
-disassociate_certificate(arn; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)"; aws_config=aws_config)
-disassociate_certificate(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", args; aws_config=aws_config)
+disassociate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)"; aws_config=aws_config)
+disassociate_certificate(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", args; aws_config=aws_config)
 
 """
     GetJob()
@@ -180,8 +180,8 @@ Retrieve the JSON for a specific completed transcoding job.
 - `id`: the job ID of the job.
 
 """
-get_job(id; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
-get_job(id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", args; aws_config=aws_config)
+get_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
+get_job(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", args; aws_config=aws_config)
 
 """
     GetJobTemplate()
@@ -192,8 +192,8 @@ Retrieve the JSON for a specific job template.
 - `name`: The name of the job template.
 
 """
-get_job_template(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-get_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
+get_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
+get_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
 
 """
     GetPreset()
@@ -204,8 +204,8 @@ Retrieve the JSON for a specific preset.
 - `name`: The name of the preset.
 
 """
-get_preset(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-get_preset(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
+get_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
+get_preset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
 
 """
     GetQueue()
@@ -216,8 +216,8 @@ Retrieve the JSON for a specific queue.
 - `name`: The name of the queue that you want information about.
 
 """
-get_queue(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-get_queue(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)
+get_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
+get_queue(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)
 
 """
     ListJobTemplates()
@@ -231,8 +231,8 @@ Retrieve a JSON array of up to twenty of your job templates. This will return th
 - `nextToken`: Use this string, provided with the response to a previous request, to request the next batch of job templates.
 - `order`: Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_job_templates(; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates"; aws_config=aws_config)
-list_job_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", args; aws_config=aws_config)
+list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates"; aws_config=aws_config)
+list_job_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -246,8 +246,8 @@ Retrieve a JSON array of up to twenty of your most recently created jobs. This a
 - `queue`: Optional. Provide a queue name to get back only jobs from that queue.
 - `status`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
 """
-list_jobs(; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", args; aws_config=aws_config)
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs"; aws_config=aws_config)
+list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", args; aws_config=aws_config)
 
 """
     ListPresets()
@@ -261,8 +261,8 @@ Retrieve a JSON array of up to twenty of your presets. This will return the pres
 - `nextToken`: Use this string, provided with the response to a previous request, to request the next batch of presets.
 - `order`: Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_presets(; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets"; aws_config=aws_config)
-list_presets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", args; aws_config=aws_config)
+list_presets(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets"; aws_config=aws_config)
+list_presets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", args; aws_config=aws_config)
 
 """
     ListQueues()
@@ -275,8 +275,8 @@ Retrieve a JSON array of up to twenty of your queues. This will return the queue
 - `nextToken`: Use this string, provided with the response to a previous request, to request the next batch of queues.
 - `order`: Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
-list_queues(; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues"; aws_config=aws_config)
-list_queues(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", args; aws_config=aws_config)
+list_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues"; aws_config=aws_config)
+list_queues(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -287,8 +287,8 @@ Retrieve the tags for a MediaConvert resource.
 - `arn`: The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name.
 
 """
-list_tags_for_resource(arn; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
-list_tags_for_resource(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", args; aws_config=aws_config)
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
+list_tags_for_resource(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -300,8 +300,8 @@ Add tags to a MediaConvert queue, preset, or job template. For information about
 - `tags`: The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
 
 """
-tag_resource(arn, tags; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}("arn"=>arn, "tags"=>tags); aws_config=aws_config)
-tag_resource(arn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), args)); aws_config=aws_config)
+tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}("arn"=>arn, "tags"=>tags); aws_config=aws_config)
+tag_resource(arn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -314,8 +314,8 @@ Remove tags from a MediaConvert queue, preset, or job template. For information 
 # Optional Parameters
 - `tagKeys`: The keys of the tags that you want to remove from the resource.
 """
-untag_resource(arn; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
-untag_resource(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", args; aws_config=aws_config)
+untag_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
+untag_resource(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", args; aws_config=aws_config)
 
 """
     UpdateJobTemplate()
@@ -335,8 +335,8 @@ Modify one of your existing job templates.
 - `settings`: JobTemplateSettings contains all the transcode settings saved in the template that will be applied to jobs created from it.
 - `statusUpdateInterval`: Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
 """
-update_job_template(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-update_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
+update_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
+update_job_template(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", args; aws_config=aws_config)
 
 """
     UpdatePreset()
@@ -351,8 +351,8 @@ Modify one of your existing presets.
 - `description`: The new description for the preset, if you are changing it.
 - `settings`: Settings for preset
 """
-update_preset(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-update_preset(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
+update_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
+update_preset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", args; aws_config=aws_config)
 
 """
     UpdateQueue()
@@ -367,5 +367,5 @@ Modify one of your existing queues.
 - `reservationPlanSettings`: The new details of your pricing plan for your reserved queue. When you set up a new pricing plan to replace an expired one, you enter into another 12-month commitment. When you add capacity to your queue by increasing the number of RTS, you extend the term of your commitment to 12 months from when you add capacity. After you make these commitments, you can't cancel them.
 - `status`: Pause or activate a queue by changing its status between ACTIVE and PAUSED. If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause the queue continue to run until they finish or result in an error.
 """
-update_queue(name; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-update_queue(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)
+update_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
+update_queue(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", args; aws_config=aws_config)

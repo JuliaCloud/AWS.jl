@@ -21,8 +21,8 @@ Creates and returns an access token for the authorized client. The access token 
 - `refreshToken`: The token used to obtain an access token in the event that the access token is invalid or expired. This token is not issued by the service.
 - `scope`: The list of scopes that is defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
 """
-create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType); aws_config=aws_config)
-create_token(clientId, clientSecret, deviceCode, grantType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), args)); aws_config=aws_config)
+create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType); aws_config=aws_config)
+create_token(clientId, clientSecret, deviceCode, grantType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), args)); aws_config=aws_config)
 
 """
     RegisterClient()
@@ -36,8 +36,8 @@ Registers a client with AWS SSO. This allows clients to initiate device authoriz
 # Optional Parameters
 - `scopes`: The list of scopes that are defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token.
 """
-register_client(clientName, clientType; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType); aws_config=aws_config)
-register_client(clientName, clientType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), args)); aws_config=aws_config)
+register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType); aws_config=aws_config)
+register_client(clientName, clientType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), args)); aws_config=aws_config)
 
 """
     StartDeviceAuthorization()
@@ -50,5 +50,5 @@ Initiates device authorization by requesting a pair of verification codes from t
 - `startUrl`: The URL for the AWS SSO user portal. For more information, see Using the User Portal in the AWS Single Sign-On User Guide.
 
 """
-start_device_authorization(clientId, clientSecret, startUrl; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl); aws_config=aws_config)
-start_device_authorization(clientId, clientSecret, startUrl, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), args)); aws_config=aws_config)
+start_device_authorization(clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl); aws_config=aws_config)
+start_device_authorization(clientId, clientSecret, startUrl, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), args)); aws_config=aws_config)

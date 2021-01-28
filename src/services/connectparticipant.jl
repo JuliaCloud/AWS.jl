@@ -15,8 +15,8 @@ Allows you to confirm that the attachment has been uploaded using the pre-signed
 - `X-Amz-Bearer`: The authentication token associated with the participant's connection.
 
 """
-complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     CreateParticipantConnection()
@@ -28,8 +28,8 @@ Creates the participant's connection. Note that ParticipantToken is used for inv
 - `X-Amz-Bearer`: This is a header parameter. The Participant Token as obtained from StartChatContact API response.
 
 """
-create_participant_connection(Type, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-create_participant_connection(Type, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+create_participant_connection(Type, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+create_participant_connection(Type, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     DisconnectParticipant()
@@ -42,8 +42,8 @@ Disconnects a participant. Note that ConnectionToken is used for invoking this A
 # Optional Parameters
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-disconnect_participant(X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-disconnect_participant(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+disconnect_participant(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+disconnect_participant(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     GetAttachment()
@@ -55,8 +55,8 @@ Provides a pre-signed URL for download of a completed attachment. This is an asy
 - `X-Amz-Bearer`: The authentication token associated with the participant's connection.
 
 """
-get_attachment(AttachmentId, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-get_attachment(AttachmentId, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+get_attachment(AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+get_attachment(AttachmentId, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     GetTranscript()
@@ -74,8 +74,8 @@ Retrieves a transcript of the session, including details about any attachments. 
 - `SortOrder`: The sort order for the records. Default: DESCENDING.
 - `StartPosition`: A filtering option for where to start.
 """
-get_transcript(X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-get_transcript(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+get_transcript(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     SendEvent()
@@ -90,8 +90,8 @@ Sends an event. Note that ConnectionToken is used for invoking this API instead 
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `Content`: The content of the event to be sent (for example, message text). This is not yet supported.
 """
-send_event(ContentType, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-send_event(ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+send_event(ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+send_event(ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     SendMessage()
@@ -106,8 +106,8 @@ Sends a message. Note that ConnectionToken is used for invoking this API instead
 # Optional Parameters
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-send_message(Content, ContentType, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-send_message(Content, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+send_message(Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+send_message(Content, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
 
 """
     StartAttachmentUpload()
@@ -122,5 +122,5 @@ Provides a pre-signed Amazon S3 URL in response for uploading the file directly 
 - `X-Amz-Bearer`: The authentication token associated with the participant's connection.
 
 """
-start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)
+start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
+start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws_config=aws_config)

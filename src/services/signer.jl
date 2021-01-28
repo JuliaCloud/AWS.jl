@@ -19,8 +19,8 @@ Adds cross-account permissions to a signing profile.
 - `profileVersion`: The version of the signing profile.
 - `revisionId`: A unique identifier for the current profile revision.
 """
-add_profile_permission(action, principal, profileName, statementId; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId); aws_config=aws_config)
-add_profile_permission(action, principal, profileName, statementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId), args)); aws_config=aws_config)
+add_profile_permission(action, principal, profileName, statementId; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId); aws_config=aws_config)
+add_profile_permission(action, principal, profileName, statementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/signing-profiles/$(profileName)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "principal"=>principal, "statementId"=>statementId), args)); aws_config=aws_config)
 
 """
     CancelSigningProfile()
@@ -31,8 +31,8 @@ Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile i
 - `profileName`: The name of the signing profile to be canceled.
 
 """
-cancel_signing_profile(profileName; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)"; aws_config=aws_config)
-cancel_signing_profile(profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
+cancel_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)"; aws_config=aws_config)
+cancel_signing_profile(profileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
 
 """
     DescribeSigningJob()
@@ -43,8 +43,8 @@ Returns information about a specific code signing job. You specify the job by us
 - `jobId`: The ID of the signing job on input.
 
 """
-describe_signing_job(jobId; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-jobs/$(jobId)"; aws_config=aws_config)
-describe_signing_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-jobs/$(jobId)", args; aws_config=aws_config)
+describe_signing_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs/$(jobId)"; aws_config=aws_config)
+describe_signing_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     GetSigningPlatform()
@@ -55,8 +55,8 @@ Returns information on a specific signing platform.
 - `platformId`: The ID of the target signing platform.
 
 """
-get_signing_platform(platformId; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-platforms/$(platformId)"; aws_config=aws_config)
-get_signing_platform(platformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-platforms/$(platformId)", args; aws_config=aws_config)
+get_signing_platform(platformId; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms/$(platformId)"; aws_config=aws_config)
+get_signing_platform(platformId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms/$(platformId)", args; aws_config=aws_config)
 
 """
     GetSigningProfile()
@@ -69,8 +69,8 @@ Returns information on a specific signing profile.
 # Optional Parameters
 - `profileOwner`: The AWS account ID of the profile owner.
 """
-get_signing_profile(profileName; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)"; aws_config=aws_config)
-get_signing_profile(profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
+get_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)"; aws_config=aws_config)
+get_signing_profile(profileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
 
 """
     ListProfilePermissions()
@@ -83,8 +83,8 @@ Lists the cross-account permissions associated with a signing profile.
 # Optional Parameters
 - `nextToken`: String for specifying the next set of paginated results.
 """
-list_profile_permissions(profileName; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions"; aws_config=aws_config)
-list_profile_permissions(profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions", args; aws_config=aws_config)
+list_profile_permissions(profileName; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions"; aws_config=aws_config)
+list_profile_permissions(profileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles/$(profileName)/permissions", args; aws_config=aws_config)
 
 """
     ListSigningJobs()
@@ -102,8 +102,8 @@ Lists all your signing jobs. You can use the maxResults parameter to limit the n
 - `signatureExpiresBefore`: Filters results to return only signing jobs with signatures expiring before a specified timestamp.
 - `status`: A status value with which to filter your results.
 """
-list_signing_jobs(; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-jobs"; aws_config=aws_config)
-list_signing_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-jobs", args; aws_config=aws_config)
+list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs"; aws_config=aws_config)
+list_signing_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs", args; aws_config=aws_config)
 
 """
     ListSigningPlatforms()
@@ -117,8 +117,8 @@ Lists all signing platforms available in code signing that match the request par
 - `partner`: Any partner entities connected to a signing platform.
 - `target`: The validation template that is used by the target signing platform.
 """
-list_signing_platforms(; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-platforms"; aws_config=aws_config)
-list_signing_platforms(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-platforms", args; aws_config=aws_config)
+list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms"; aws_config=aws_config)
+list_signing_platforms(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms", args; aws_config=aws_config)
 
 """
     ListSigningProfiles()
@@ -132,8 +132,8 @@ Lists all available signing profiles in your AWS account. Returns only profiles 
 - `platformId`: Filters results to return only signing jobs initiated for a specified signing platform.
 - `statuses`: Filters results to return only signing jobs with statuses in the specified list.
 """
-list_signing_profiles(; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles"; aws_config=aws_config)
-list_signing_profiles(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/signing-profiles", args; aws_config=aws_config)
+list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles"; aws_config=aws_config)
+list_signing_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -144,8 +144,8 @@ Returns a list of the tags associated with a signing profile resource.
 - `resourceArn`: The Amazon Resource Name (ARN) for the signing profile.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     PutSigningProfile()
@@ -163,8 +163,8 @@ Creates a signing profile. A signing profile is a code signing template that can
 - `signingParameters`: Map of key-value pairs for signing. These can include any information that you want to use during signing.
 - `tags`: Tags to be associated with the signing profile that is being created.
 """
-put_signing_profile(platformId, profileName; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}("platformId"=>platformId); aws_config=aws_config)
-put_signing_profile(platformId, profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId), args)); aws_config=aws_config)
+put_signing_profile(platformId, profileName; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}("platformId"=>platformId); aws_config=aws_config)
+put_signing_profile(platformId, profileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId), args)); aws_config=aws_config)
 
 """
     RemoveProfilePermission()
@@ -177,8 +177,8 @@ Removes cross-account permissions from a signing profile.
 - `statementId`: A unique identifier for the cross-account permissions statement.
 
 """
-remove_profile_permission(profileName, revisionId, statementId; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}("revisionId"=>revisionId); aws_config=aws_config)
-remove_profile_permission(profileName, revisionId, statementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), args)); aws_config=aws_config)
+remove_profile_permission(profileName, revisionId, statementId; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}("revisionId"=>revisionId); aws_config=aws_config)
+remove_profile_permission(profileName, revisionId, statementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/signing-profiles/$(profileName)/permissions/$(statementId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), args)); aws_config=aws_config)
 
 """
     RevokeSignature()
@@ -192,8 +192,8 @@ Changes the state of a signing job to REVOKED. This indicates that the signature
 # Optional Parameters
 - `jobOwner`: AWS account ID of the job owner.
 """
-revoke_signature(jobId, reason; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}("reason"=>reason); aws_config=aws_config)
-revoke_signature(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reason"=>reason), args)); aws_config=aws_config)
+revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}("reason"=>reason); aws_config=aws_config)
+revoke_signature(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-jobs/$(jobId)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reason"=>reason), args)); aws_config=aws_config)
 
 """
     RevokeSigningProfile()
@@ -207,8 +207,8 @@ Changes the state of a signing profile to REVOKED. This indicates that signature
 - `reason`: The reason for revoking a signing profile.
 
 """
-revoke_signing_profile(effectiveTime, profileName, profileVersion, reason; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason); aws_config=aws_config)
-revoke_signing_profile(effectiveTime, profileName, profileVersion, reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason), args)); aws_config=aws_config)
+revoke_signing_profile(effectiveTime, profileName, profileVersion, reason; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason); aws_config=aws_config)
+revoke_signing_profile(effectiveTime, profileName, profileVersion, reason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("PUT", "/signing-profiles/$(profileName)/revoke", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("effectiveTime"=>effectiveTime, "profileVersion"=>profileVersion, "reason"=>reason), args)); aws_config=aws_config)
 
 """
     StartSigningJob()
@@ -224,8 +224,8 @@ Initiates a signing job to be performed on the code provided. Signing jobs are v
 # Optional Parameters
 - `profileOwner`: The AWS account ID of the signing profile owner.
 """
-start_signing_job(clientRequestToken, destination, profileName, source; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source); aws_config=aws_config)
-start_signing_job(clientRequestToken, destination, profileName, source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source), args)); aws_config=aws_config)
+start_signing_job(clientRequestToken, destination, profileName, source; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source); aws_config=aws_config)
+start_signing_job(clientRequestToken, destination, profileName, source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "profileName"=>profileName, "source"=>source), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -237,8 +237,8 @@ Adds one or more tags to a signing profile. Tags are labels that you can use to 
 - `tags`: One or more tags to be associated with the signing profile.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -250,5 +250,5 @@ Removes one or more tags from a signing profile. To remove the tags, specify a l
 - `tagKeys`: A list of tag keys to be removed from the signing profile.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

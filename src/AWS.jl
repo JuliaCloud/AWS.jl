@@ -13,7 +13,8 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
+export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
+export global_aws_config, generate_service_url, set_user_agent, sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
@@ -26,8 +27,8 @@ include("AWSMetadata.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-user_agent = Ref("AWS.jl/1.0.0")
-aws_config = Ref{AWSConfig}()
+const user_agent = Ref("AWS.jl/1.0.0")
+const aws_config = Ref{AbstractAWSConfig}()
 
 """
     global_aws_config()
@@ -51,7 +52,7 @@ end
 
 
 """
-    global_aws_config(config::AWSConfig)
+    global_aws_config(config::AbstractAWSConfig)
 
 Set the global AWSConfig.
 
@@ -61,7 +62,7 @@ Set the global AWSConfig.
 # Returns
 - `AWSConfig`: Global AWSConfig
 """
-function global_aws_config(config::AWSConfig)
+function global_aws_config(config::AbstractAWSConfig)
     return aws_config[] = config
 end
 
@@ -172,15 +173,15 @@ include("AWSServices.jl")
 _http_status(e::HTTP.StatusError) = e.status
 _header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
 
-function _sign!(aws::AWSConfig, request::Request; time::DateTime=now(Dates.UTC))
+function sign!(aws::AbstractAWSConfig, request::Request; time::DateTime=now(Dates.UTC))
     if request.service in ("sdb", "importexport")
-        _sign_aws2!(aws, request, time)
+        sign_aws2!(aws, request, time)
     else
-        _sign_aws4!(aws, request, time)
+        sign_aws4!(aws, request, time)
     end
 end
 
-function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
+function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 2 Authentication query parameters.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
 
@@ -192,7 +193,7 @@ function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
-    creds = check_credentials(aws.credentials)
+    creds = check_credentials(credentials(aws))
     query["AWSAccessKeyId"] = creds.access_key_id
     query["Expires"] = Dates.format(time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z")
     query["SignatureVersion"] = "2"
@@ -212,7 +213,7 @@ function _sign_aws2!(aws::AWSConfig, request::Request, time::DateTime)
     return request
 end
 
-function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
+function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 4 Authentication Headers.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
 
@@ -220,9 +221,9 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     datetime = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
     # Authentication scope...
-    authentication_scope = [date, aws.region, request.service, "aws4_request"]
+    authentication_scope = [date, region(aws), request.service, "aws4_request"]
 
-    creds = check_credentials(aws.credentials)
+    creds = check_credentials(credentials(aws))
     signing_key = "AWS4$(creds.secret_key)"
 
     for scope in authentication_scope
@@ -285,6 +286,19 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     return request
 end
 
+function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
+    SERVICE_HOST = "amazonaws.com"
+    reg = region(aws)
+
+    regionless_services = ("iam", "route53")
+
+    if service in regionless_services || (service == "sdb" && reg == "us-east-1")
+        reg = ""
+    end
+
+    return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+end
+
 function _http_request(request::Request)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
@@ -317,12 +331,12 @@ function _http_request(request::Request)
 end
 
 """
-    submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+    submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
 
 Submit the request to AWS.
 
 # Arguments
-- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 - `request::Request`: All the information about making a request to AWS
 
 # Keywords
@@ -331,7 +345,7 @@ Submit the request to AWS.
 # Returns
 - `Tuple or Dict`: Tuple if returning_headers, otherwise just return a Dict of the response body
 """
-function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+function submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
     response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
@@ -353,7 +367,7 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
     request.url = replace(request.url, " " => "%20")
 
     @repeat 3 try
-        aws.credentials === nothing || _sign!(aws, request)
+        credentials(aws) === nothing || sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
@@ -369,7 +383,7 @@ function submit_request(aws::AWSConfig, request::Request; return_headers::Bool=f
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
         @retry if ecode(e) in EXPIRED_ERROR_CODES
-            check_credentials(aws.credentials, force_refresh=true)
+            check_credentials(credentials(aws), force_refresh=true)
         end
 
         # Throttle handling
@@ -450,17 +464,6 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _generate_service_url(region::String, service::String, resource::String)
-    SERVICE_HOST = "amazonaws.com"
-    regionless_services = ("iam", "route53")
-
-    if service in regionless_services || (service == "sdb" && region == "us-east-1")
-        region = ""
-    end
-
-    return string("https://", service, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, resource)
-end
-
 function _return_headers(args::AbstractDict{String, <:Any})
     return_headers = get(args, "return_headers", false)
 
@@ -500,8 +503,8 @@ end
 
 """
     (service::RestXMLService)(
-        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
-        aws::AWSConfig=aws_config
+        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+        aws::AbstractAWSConfig=aws_config
     )
 
 Perform a RestXML request to AWS.
@@ -512,14 +515,14 @@ Perform a RestXML request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestXMLService)(
-    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=global_aws_config(),
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     request = Request(
         service=service.name,
@@ -552,7 +555,7 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    request.url = generate_service_url(aws_config, request.service, request.resource)
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
@@ -560,8 +563,8 @@ end
 
 """
     (service::QueryService)(
-        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-        aws::AWSConfig=aws_config
+        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+        aws::AbstractAWSConfig=aws_config
     )
 
 Perform a Query request to AWS.
@@ -571,14 +574,14 @@ Perform a Query request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::QueryService)(
-    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=global_aws_config(),
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -589,7 +592,7 @@ function (service::QueryService)(
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -612,7 +615,7 @@ end
 """
     (service::JSONService)(
         operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-        aws::AWSConfig=aws_config
+        aws::AbstractAWSConfig=aws_config
     )
 
 Perform a JSON request to AWS.
@@ -622,14 +625,14 @@ Perform a JSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws_config::AWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -641,7 +644,7 @@ function (service::JSONService)(
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
-        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -661,7 +664,7 @@ end
 """
     (service::RestJSONService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-        aws::AWSConfig=aws_config
+        aws::AbstractAWSConfig=aws_config
     )
 
 Perform a RestJSON request to AWS.
@@ -672,14 +675,14 @@ Perform a RestJSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws_config::AWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return_headers = _return_headers(args)
 
@@ -699,7 +702,7 @@ function (service::RestJSONService)(
         request.response_dict_type = pop!(args, "response_dict_type")
     end
 
-    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
+    request.url = generate_service_url(aws_config, request.service, request.resource)
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)

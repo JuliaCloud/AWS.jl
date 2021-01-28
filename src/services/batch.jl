@@ -14,8 +14,8 @@ Cancels a job in an AWS Batch job queue. Jobs that are in the SUBMITTED, PENDING
 - `reason`: A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
 
 """
-cancel_job(jobId, reason; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
-cancel_job(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), args)); aws_config=aws_config)
+cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
+cancel_job(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), args)); aws_config=aws_config)
 
 """
     CreateComputeEnvironment()
@@ -32,8 +32,8 @@ Creates an AWS Batch compute environment. You can create MANAGED or UNMANAGED co
 - `state`: The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the AWS Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the AWS Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. However, they scale in to minvCpus value after instances become idle.
 - `tags`: The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the underlying compute resources.
 """
-create_compute_environment(computeEnvironmentName, serviceRole, type; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "serviceRole"=>serviceRole, "type"=>type); aws_config=aws_config)
-create_compute_environment(computeEnvironmentName, serviceRole, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "serviceRole"=>serviceRole, "type"=>type), args)); aws_config=aws_config)
+create_compute_environment(computeEnvironmentName, serviceRole, type; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "serviceRole"=>serviceRole, "type"=>type); aws_config=aws_config)
+create_compute_environment(computeEnvironmentName, serviceRole, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "serviceRole"=>serviceRole, "type"=>type), args)); aws_config=aws_config)
 
 """
     CreateJobQueue()
@@ -49,8 +49,8 @@ Creates an AWS Batch job queue. When you create a job queue, you associate one o
 - `state`: The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
 - `tags`: The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your AWS Batch resources in AWS Batch User Guide.
 """
-create_job_queue(computeEnvironmentOrder, jobQueueName, priority; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority); aws_config=aws_config)
-create_job_queue(computeEnvironmentOrder, jobQueueName, priority, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority), args)); aws_config=aws_config)
+create_job_queue(computeEnvironmentOrder, jobQueueName, priority; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority); aws_config=aws_config)
+create_job_queue(computeEnvironmentOrder, jobQueueName, priority, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority), args)); aws_config=aws_config)
 
 """
     DeleteComputeEnvironment()
@@ -61,8 +61,8 @@ Deletes an AWS Batch compute environment. Before you can delete a compute enviro
 - `computeEnvironment`: The name or Amazon Resource Name (ARN) of the compute environment to delete.
 
 """
-delete_compute_environment(computeEnvironment; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
-delete_compute_environment(computeEnvironment, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), args)); aws_config=aws_config)
+delete_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
+delete_compute_environment(computeEnvironment, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), args)); aws_config=aws_config)
 
 """
     DeleteJobQueue()
@@ -73,8 +73,8 @@ Deletes the specified job queue. You must first disable submissions for a queue 
 - `jobQueue`: The short name or full Amazon Resource Name (ARN) of the queue to delete.
 
 """
-delete_job_queue(jobQueue; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
-delete_job_queue(jobQueue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), args)); aws_config=aws_config)
+delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
+delete_job_queue(jobQueue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), args)); aws_config=aws_config)
 
 """
     DeregisterJobDefinition()
@@ -85,8 +85,8 @@ Deregisters an AWS Batch job definition. Job definitions are permanently deleted
 - `jobDefinition`: The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister.
 
 """
-deregister_job_definition(jobDefinition; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}("jobDefinition"=>jobDefinition); aws_config=aws_config)
-deregister_job_definition(jobDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition), args)); aws_config=aws_config)
+deregister_job_definition(jobDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}("jobDefinition"=>jobDefinition); aws_config=aws_config)
+deregister_job_definition(jobDefinition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition), args)); aws_config=aws_config)
 
 """
     DescribeComputeEnvironments()
@@ -98,8 +98,8 @@ Describes one or more of your compute environments. If you're using an unmanaged
 - `maxResults`: The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output. When this parameter is used, DescribeComputeEnvironments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeComputeEnvironments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeComputeEnvironments returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-describe_compute_environments(; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments"; aws_config=aws_config)
-describe_compute_environments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments", args; aws_config=aws_config)
+describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments"; aws_config=aws_config)
+describe_compute_environments(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments", args; aws_config=aws_config)
 
 """
     DescribeJobDefinitions()
@@ -113,8 +113,8 @@ Describes a list of job definitions. You can specify a status (such as ACTIVE) t
 - `nextToken`: The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes. 
 - `status`: The status used to filter job definitions.
 """
-describe_job_definitions(; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions"; aws_config=aws_config)
-describe_job_definitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions", args; aws_config=aws_config)
+describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions"; aws_config=aws_config)
+describe_job_definitions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions", args; aws_config=aws_config)
 
 """
     DescribeJobQueues()
@@ -126,8 +126,8 @@ Describes one or more of your job queues.
 - `maxResults`: The maximum number of results returned by DescribeJobQueues in paginated output. When this parameter is used, DescribeJobQueues only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobQueues request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeJobQueues returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-describe_job_queues(; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues"; aws_config=aws_config)
-describe_job_queues(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues", args; aws_config=aws_config)
+describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues"; aws_config=aws_config)
+describe_job_queues(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues", args; aws_config=aws_config)
 
 """
     DescribeJobs()
@@ -138,8 +138,8 @@ Describes a list of AWS Batch jobs.
 - `jobs`: A list of up to 100 job IDs.
 
 """
-describe_jobs(jobs; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
-describe_jobs(jobs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws_config=aws_config)
+describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
+describe_jobs(jobs, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws_config=aws_config)
 
 """
     ListJobs()
@@ -154,8 +154,8 @@ Returns a list of AWS Batch jobs. You must specify only one of the following ite
 - `multiNodeJobId`: The job ID for a multi-node parallel job. Specifying a multi-node parallel job ID with this parameter lists all nodes that are associated with the specified job.
 - `nextToken`: The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-list_jobs(; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", args; aws_config=aws_config)
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs"; aws_config=aws_config)
+list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -166,8 +166,8 @@ Lists the tags for an AWS Batch resource. AWS Batch resources that support tags 
 - `resourceArn`: The Amazon Resource Name (ARN) that identifies the resource that tags are listed for. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     RegisterJobDefinition()
@@ -188,8 +188,8 @@ Registers an AWS Batch job definition.
 - `tags`: The tags that you apply to the job definition to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS Batch User Guide.
 - `timeout`: The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that's specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the AWS Batch User Guide.
 """
-register_job_definition(jobDefinitionName, type; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type); aws_config=aws_config)
-register_job_definition(jobDefinitionName, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type), args)); aws_config=aws_config)
+register_job_definition(jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type); aws_config=aws_config)
+register_job_definition(jobDefinitionName, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type), args)); aws_config=aws_config)
 
 """
     SubmitJob()
@@ -212,8 +212,8 @@ Submits an AWS Batch job from a job definition. Parameters specified during Subm
 - `tags`: The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
 - `timeout`: The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they haven't finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
 """
-submit_job(jobDefinition, jobName, jobQueue; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue); aws_config=aws_config)
-submit_job(jobDefinition, jobName, jobQueue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue), args)); aws_config=aws_config)
+submit_job(jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue); aws_config=aws_config)
+submit_job(jobDefinition, jobName, jobQueue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -225,8 +225,8 @@ Associates the specified tags to a resource with the specified resourceArn. If e
 - `tags`: The tags that you apply to the resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     TerminateJob()
@@ -238,8 +238,8 @@ Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state 
 - `reason`: A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
 
 """
-terminate_job(jobId, reason; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
-terminate_job(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), args)); aws_config=aws_config)
+terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
+terminate_job(jobId, reason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -251,8 +251,8 @@ Deletes specified tags from an AWS Batch resource.
 - `tagKeys`: The keys of the tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateComputeEnvironment()
@@ -267,8 +267,8 @@ Updates an AWS Batch compute environment.
 - `serviceRole`: The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf. For more information, see AWS Batch service IAM role in the AWS Batch User Guide. If your specified role has a path other than /, then you must either specify the full role ARN (this is recommended) or prefix the role name with the path.  Depending on how you created your AWS Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, AWS Batch assumes that your ARN does not use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments. 
 - `state`: The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the AWS Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the AWS Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out. However, they scale in to minvCpus value after instances become idle.
 """
-update_compute_environment(computeEnvironment; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
-update_compute_environment(computeEnvironment, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), args)); aws_config=aws_config)
+update_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
+update_compute_environment(computeEnvironment, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), args)); aws_config=aws_config)
 
 """
     UpdateJobQueue()
@@ -283,5 +283,5 @@ Updates a job queue.
 - `priority`: The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments cannot be mixed.
 - `state`: Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs cannot be added to the queue, but jobs already in the queue can finish.
 """
-update_job_queue(jobQueue; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
-update_job_queue(jobQueue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), args)); aws_config=aws_config)
+update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
+update_job_queue(jobQueue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), args)); aws_config=aws_config)

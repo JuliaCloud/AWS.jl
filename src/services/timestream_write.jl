@@ -16,8 +16,8 @@ Creates a new Timestream database. If the KMS key is not specified, the database
 - `KmsKeyId`: The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to AWS managed KMS keys for more info.
 - `Tags`:  A list of key-value pairs to label the table. 
 """
-create_database(DatabaseName; aws_config::AWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-create_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
+create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
+create_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     CreateTable()
@@ -32,8 +32,8 @@ The CreateTable operation adds a new table to an existing database in your accou
 - `RetentionProperties`: The duration for which your time series data must be stored in the memory store and the magnetic store.
 - `Tags`:  A list of key-value pairs to label the table. 
 """
-create_table(DatabaseName, TableName; aws_config::AWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-create_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
+create_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+create_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteDatabase()
@@ -44,8 +44,8 @@ Deletes a given Timestream database. This is an irreversible operation. After a 
 - `DatabaseName`: The name of the Timestream database to be deleted.
 
 """
-delete_database(DatabaseName; aws_config::AWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-delete_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
+delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
+delete_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     DeleteTable()
@@ -57,8 +57,8 @@ Deletes a given Timestream table. This is an irreversible operation. After a Tim
 - `TableName`: The name of the Timestream table to be deleted.
 
 """
-delete_table(DatabaseName, TableName; aws_config::AWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-delete_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
+delete_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+delete_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DescribeDatabase()
@@ -69,8 +69,8 @@ Returns information about the database, including the database name, time that t
 - `DatabaseName`: The name of the Timestream database.
 
 """
-describe_database(DatabaseName; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-describe_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
+describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
+describe_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     DescribeEndpoints()
@@ -78,8 +78,8 @@ describe_database(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::A
 DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because Timestream’s SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern and REST APIs.
 
 """
-describe_endpoints(; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints", args; aws_config=aws_config)
+describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints"; aws_config=aws_config)
+describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints", args; aws_config=aws_config)
 
 """
     DescribeTable()
@@ -91,8 +91,8 @@ Returns information about the table, including the table name, database name, re
 - `TableName`: The name of the Timestream table.
 
 """
-describe_table(DatabaseName, TableName; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-describe_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
+describe_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+describe_table(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     ListDatabases()
@@ -103,8 +103,8 @@ Returns a list of your Timestream databases. Service quotas apply. For more info
 - `MaxResults`: The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
 - `NextToken`: The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
 """
-list_databases(; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListDatabases"; aws_config=aws_config)
-list_databases(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListDatabases", args; aws_config=aws_config)
+list_databases(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListDatabases"; aws_config=aws_config)
+list_databases(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListDatabases", args; aws_config=aws_config)
 
 """
     ListTables()
@@ -116,8 +116,8 @@ A list of tables, along with the name, status and retention properties of each t
 - `MaxResults`: The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
 - `NextToken`: The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
 """
-list_tables(; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListTables"; aws_config=aws_config)
-list_tables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListTables", args; aws_config=aws_config)
+list_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTables"; aws_config=aws_config)
+list_tables(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTables", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -128,8 +128,8 @@ list_tables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_
 - `ResourceARN`:  The Timestream resource with tags to be listed. This value is an Amazon Resource Name (ARN). 
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -141,8 +141,8 @@ list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_confi
 - `Tags`:  The tags to be assigned to the Timestream resource. 
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -154,8 +154,8 @@ tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 - `TagKeys`:  A list of tags keys. Existing tags of the resource whose keys are members of this list will be removed from the Timestream resource. 
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDatabase()
@@ -167,8 +167,8 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 - `KmsKeyId`:  The identifier of the new KMS key (KmsKeyId) to be used to encrypt the data stored in the database. If the KmsKeyId currently registered with the database is the same as the KmsKeyId in the request, there will not be any update.  You can specify the KmsKeyId using any of the following:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias   
 
 """
-update_database(DatabaseName, KmsKeyId; aws_config::AWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId); aws_config=aws_config)
-update_database(DatabaseName, KmsKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId), args)); aws_config=aws_config)
+update_database(DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId); aws_config=aws_config)
+update_database(DatabaseName, KmsKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId), args)); aws_config=aws_config)
 
 """
     UpdateTable()
@@ -181,8 +181,8 @@ Modifies the retention duration of the memory store and magnetic store for your 
 - `TableName`: The name of the Timesream table.
 
 """
-update_table(DatabaseName, RetentionProperties, TableName; aws_config::AWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName); aws_config=aws_config)
-update_table(DatabaseName, RetentionProperties, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName), args)); aws_config=aws_config)
+update_table(DatabaseName, RetentionProperties, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName); aws_config=aws_config)
+update_table(DatabaseName, RetentionProperties, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     WriteRecords()
@@ -197,5 +197,5 @@ The WriteRecords operation enables you to write your time series data into Times
 # Optional Parameters
 - `CommonAttributes`: A record containing the common measure and dimension attributes shared across all the records in the request. The measure and dimension attributes specified in here will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. 
 """
-write_records(DatabaseName, Records, TableName; aws_config::AWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName); aws_config=aws_config)
-write_records(DatabaseName, Records, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName), args)); aws_config=aws_config)
+write_records(DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName); aws_config=aws_config)
+write_records(DatabaseName, Records, TableName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName), args)); aws_config=aws_config)

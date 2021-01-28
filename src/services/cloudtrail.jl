@@ -15,8 +15,8 @@ Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing ta
 # Optional Parameters
 - `TagsList`: Contains a list of CloudTrail tags, up to a limit of 50
 """
-add_tags(ResourceId; aws_config::AWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-add_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+add_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     CreateTrail()
@@ -39,8 +39,8 @@ Creates a trail that specifies the settings for delivery of log data to an Amazo
 - `SnsTopicName`: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
 - `TagsList`: 
 """
-create_trail(Name, S3BucketName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName); aws_config=aws_config)
-create_trail(Name, S3BucketName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), args)); aws_config=aws_config)
+create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName); aws_config=aws_config)
+create_trail(Name, S3BucketName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), args)); aws_config=aws_config)
 
 """
     DeleteTrail()
@@ -51,8 +51,8 @@ Deletes a trail. This operation must be called from the region in which the trai
 - `Name`: Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-delete_trail(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DescribeTrails()
@@ -63,8 +63,8 @@ Retrieves settings for one or more trails associated with the current region for
 - `includeShadowTrails`: Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region, or in the case of an organization trail, the replication of an organization trail in member accounts. If you do not include shadow trails, organization trails in a member account and region replication trails will not be returned. The default is true.
 - `trailNameList`: Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified, information for the trail in the current region is returned.   If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.   If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.    If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN. 
 """
-describe_trails(; aws_config::AWSConfig=global_aws_config()) = cloudtrail("DescribeTrails"; aws_config=aws_config)
-describe_trails(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("DescribeTrails", args; aws_config=aws_config)
+describe_trails(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DescribeTrails"; aws_config=aws_config)
+describe_trails(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DescribeTrails", args; aws_config=aws_config)
 
 """
     GetEventSelectors()
@@ -75,8 +75,8 @@ Describes the settings for the event selectors that you configured for your trai
 - `TrailName`: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-get_event_selectors(TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-get_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
+get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
+get_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     GetInsightSelectors()
@@ -87,8 +87,8 @@ Describes the settings for the Insights event selectors that you configured for 
 - `TrailName`: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-get_insight_selectors(TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-get_insight_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
+get_insight_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
+get_insight_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     GetTrail()
@@ -99,8 +99,8 @@ Returns settings information for a specified trail.
 - `Name`: The name or the Amazon Resource Name (ARN) of the trail for which you want to retrieve settings information.
 
 """
-get_trail(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+get_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetTrailStatus()
@@ -111,8 +111,8 @@ Returns a JSON-formatted list of information about the specified trail. Fields i
 - `Name`: Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-get_trail_status(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_trail_status(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+get_trail_status(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     ListPublicKeys()
@@ -124,8 +124,8 @@ Returns all public keys whose private keys were used to sign the digest files wi
 - `NextToken`: Reserved for future use.
 - `StartTime`: Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
 """
-list_public_keys(; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys"; aws_config=aws_config)
-list_public_keys(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys", args; aws_config=aws_config)
+list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys"; aws_config=aws_config)
+list_public_keys(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys", args; aws_config=aws_config)
 
 """
     ListTags()
@@ -138,8 +138,8 @@ Lists the tags for the trail in the current region.
 # Optional Parameters
 - `NextToken`: Reserved for future use.
 """
-list_tags(ResourceIdList; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}("ResourceIdList"=>ResourceIdList); aws_config=aws_config)
-list_tags(ResourceIdList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), args)); aws_config=aws_config)
+list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}("ResourceIdList"=>ResourceIdList); aws_config=aws_config)
+list_tags(ResourceIdList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), args)); aws_config=aws_config)
 
 """
     ListTrails()
@@ -149,8 +149,8 @@ Lists trails that are in the current account.
 # Optional Parameters
 - `NextToken`: The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
 """
-list_trails(; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListTrails"; aws_config=aws_config)
-list_trails(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("ListTrails", args; aws_config=aws_config)
+list_trails(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTrails"; aws_config=aws_config)
+list_trails(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTrails", args; aws_config=aws_config)
 
 """
     LookupEvents()
@@ -165,8 +165,8 @@ Looks up management events or CloudTrail Insights events that are captured by Cl
 - `NextToken`: The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
 - `StartTime`: Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
 """
-lookup_events(; aws_config::AWSConfig=global_aws_config()) = cloudtrail("LookupEvents"; aws_config=aws_config)
-lookup_events(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("LookupEvents", args; aws_config=aws_config)
+lookup_events(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("LookupEvents"; aws_config=aws_config)
+lookup_events(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("LookupEvents", args; aws_config=aws_config)
 
 """
     PutEventSelectors()
@@ -180,8 +180,8 @@ Configures an event selector or advanced event selectors for your trail. Use eve
 - `AdvancedEventSelectors`:  Specifies the settings for advanced event selectors. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see Logging data events for trails in the AWS CloudTrail User Guide. 
 - `EventSelectors`: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail. You can use either EventSelectors or AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
 """
-put_event_selectors(TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-put_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
+put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
+put_event_selectors(TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     PutInsightSelectors()
@@ -193,8 +193,8 @@ Lets you enable Insights event logging by specifying the Insights selectors that
 - `TrailName`: The name of the CloudTrail trail for which you want to change or add Insights selectors.
 
 """
-put_insight_selectors(InsightSelectors, TrailName; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName); aws_config=aws_config)
-put_insight_selectors(InsightSelectors, TrailName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName), args)); aws_config=aws_config)
+put_insight_selectors(InsightSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName); aws_config=aws_config)
+put_insight_selectors(InsightSelectors, TrailName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName), args)); aws_config=aws_config)
 
 """
     RemoveTags()
@@ -207,8 +207,8 @@ Removes the specified tags from a trail.
 # Optional Parameters
 - `TagsList`: Specifies a list of tags to be removed.
 """
-remove_tags(ResourceId; aws_config::AWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-remove_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+remove_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+remove_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     StartLogging()
@@ -219,8 +219,8 @@ Starts the recording of AWS API calls and log file delivery for a trail. For a t
 - `Name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-start_logging(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_logging(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+start_logging(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StopLogging()
@@ -231,8 +231,8 @@ Suspends the recording of AWS API calls and log file delivery for the specified 
 - `Name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail 
 
 """
-stop_logging(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_logging(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+stop_logging(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateTrail()
@@ -254,5 +254,5 @@ Updates the settings that specify delivery of log files. Changes to a trail do n
 - `S3KeyPrefix`: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
 - `SnsTopicName`: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
 """
-update_trail(Name; aws_config::AWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_trail(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)

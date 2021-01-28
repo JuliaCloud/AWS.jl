@@ -14,12 +14,12 @@ Creates a root or subordinate private certificate authority (CA). You must speci
 - `CertificateAuthorityType`: The type of the certificate authority.
 
 # Optional Parameters
-- `IdempotencyToken`: Alphanumeric string that can be used to distinguish between calls to CreateCertificateAuthority. For a given token, ACM Private CA creates exactly one CA. If you issue a subsequent call using the same token, ACM Private CA returns the ARN of the existing CA and takes no further action. If you change the idempotency token across multiple calls, ACM Private CA creates a unique CA for each unique token.
+- `IdempotencyToken`: Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, ACM Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificate authorities.
 - `RevocationConfiguration`: Contains a Boolean value that you can use to enable a certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM Private CA will write the CRL, and an optional CNAME alias that you can use to hide the name of your bucket in the CRL Distribution Points extension of your CA certificate. For more information, see the CrlConfiguration structure. 
 - `Tags`: Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with IAM to manage permissions, see Controlling Access Using IAM Tags.
 """
-create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType); aws_config=aws_config)
-create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType), args)); aws_config=aws_config)
+create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType); aws_config=aws_config)
+create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType), args)); aws_config=aws_config)
 
 """
     CreateCertificateAuthorityAuditReport()
@@ -32,8 +32,8 @@ Creates an audit report that lists every time that your CA private key is used. 
 - `S3BucketName`: The name of the S3 bucket that will contain the audit report.
 
 """
-create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName); aws_config=aws_config)
-create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName), args)); aws_config=aws_config)
+create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName); aws_config=aws_config)
+create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName), args)); aws_config=aws_config)
 
 """
     CreatePermission()
@@ -48,8 +48,8 @@ Grants one or more permissions on a private CA to the AWS Certificate Manager (A
 # Optional Parameters
 - `SourceAccount`: The ID of the calling account.
 """
-create_permission(Actions, CertificateAuthorityArn, Principal; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
-create_permission(Actions, CertificateAuthorityArn, Principal, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), args)); aws_config=aws_config)
+create_permission(Actions, CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
+create_permission(Actions, CertificateAuthorityArn, Principal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), args)); aws_config=aws_config)
 
 """
     DeleteCertificateAuthority()
@@ -62,8 +62,8 @@ Deletes a private certificate authority (CA). You must provide the Amazon Resour
 # Optional Parameters
 - `PermanentDeletionTimeInDays`: The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
 """
-delete_certificate_authority(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-delete_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+delete_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+delete_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     DeletePermission()
@@ -77,8 +77,8 @@ Revokes permissions on a private CA granted to the AWS Certificate Manager (ACM)
 # Optional Parameters
 - `SourceAccount`: The AWS account that calls this action.
 """
-delete_permission(CertificateAuthorityArn, Principal; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
-delete_permission(CertificateAuthorityArn, Principal, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), args)); aws_config=aws_config)
+delete_permission(CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
+delete_permission(CertificateAuthorityArn, Principal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), args)); aws_config=aws_config)
 
 """
     DeletePolicy()
@@ -89,20 +89,20 @@ Deletes the resource-based policy attached to a private CA. Deletion will remove
 - `ResourceArn`: The Amazon Resource Number (ARN) of the private CA that will have its policy deleted. You can find the CA's ARN by calling the ListCertificateAuthorities action. The ARN value must have the form arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab. 
 
 """
-delete_policy(ResourceArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+delete_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DescribeCertificateAuthority()
 
-Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:     CREATING - ACM Private CA is creating your private certificate authority.    PENDING_CERTIFICATE - The certificate is pending. You must use your ACM Private CA-hosted or on-premises root or subordinate CA to sign your private CA CSR and then import it into PCA.     ACTIVE - Your private CA is active.    DISABLED - Your private CA has been disabled.    EXPIRED - Your private CA certificate has expired.    FAILED - Your private CA has failed. Your CA can fail because of problems such a network outage or backend AWS failure or other errors. A failed CA can never return to the pending state. You must create a new CA.     DELETED - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.  
+Lists information about your private certificate authority (CA) or one that has been shared with you. You specify the private CA on input by its ARN (Amazon Resource Name). The output contains the status of your CA. This can be any of the following:     CREATING - ACM Private CA is creating your private certificate authority.    PENDING_CERTIFICATE - The certificate is pending. You must use your ACM Private CA-hosted or on-premises root or subordinate CA to sign your private CA CSR and then import it into PCA.     ACTIVE - Your private CA is active.    DISABLED - Your private CA has been disabled.    EXPIRED - Your private CA certificate has expired.    FAILED - Your private CA has failed. Your CA can fail because of problems such a network outage or back-end AWS failure or other errors. A failed CA can never return to the pending state. You must create a new CA.     DELETED - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.  
 
 # Required Parameters
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
 
 """
-describe_certificate_authority(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-describe_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+describe_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+describe_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     DescribeCertificateAuthorityAuditReport()
@@ -114,8 +114,8 @@ Lists information about a specific audit report created by calling the CreateCer
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) of the private CA. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
 
 """
-describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     GetCertificate()
@@ -127,8 +127,8 @@ Retrieves a certificate from your private CA or one that has been shared with yo
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
 
 """
-get_certificate(CertificateArn, CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate(CertificateArn, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+get_certificate(CertificateArn, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+get_certificate(CertificateArn, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     GetCertificateAuthorityCertificate()
@@ -139,8 +139,8 @@ Retrieves the certificate and certificate chain for your private certificate aut
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) of your private CA. This is of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 . 
 
 """
-get_certificate_authority_certificate(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate_authority_certificate(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+get_certificate_authority_certificate(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+get_certificate_authority_certificate(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     GetCertificateAuthorityCsr()
@@ -151,8 +151,8 @@ Retrieves the certificate signing request (CSR) for your private certificate aut
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
 
 """
-get_certificate_authority_csr(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate_authority_csr(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+get_certificate_authority_csr(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+get_certificate_authority_csr(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     GetPolicy()
@@ -163,13 +163,13 @@ Retrieves the resource-based policy attached to a private CA. If either the priv
 - `ResourceArn`: The Amazon Resource Number (ARN) of the private CA that will have its policy retrieved. You can find the CA's ARN by calling the ListCertificateAuthorities action. 
 
 """
-get_policy(ResourceArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+get_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ImportCertificateAuthorityCertificate()
 
-Imports a signed private CA certificate into ACM Private CA. This action is used when you are using a chain of trust whose root is located outside ACM Private CA. Before you can call this action, the following preparations must in place:   In ACM Private CA, call the CreateCertificateAuthority action to create the private CA that that you plan to back with the imported certificate.   Call the GetCertificateAuthorityCsr action to generate a certificate signing request (CSR).   Sign the CSR using a root or intermediate CA hosted by either an on-premises PKI hierarchy or by a commercial CA.   Create a certificate chain and copy the signed certificate and the certificate chain to your working directory.   ACM Private CA supports three scenarios for installing a CA certificate:   Installing a certificate for a root CA hosted by ACM Private CA.   Installing a subordinate CA certificate whose parent authority is hosted by ACM Private CA.   Installing a subordinate CA certificate whose parent authority is externally hosted.   The following addtitional requirements apply when you import a CA certificate.   Only a self-signed certificate can be imported as a root CA.   A self-signed certificate cannot be imported as a subordinate CA.   Your certificate chain must not include the private CA certificate that you are importing.   Your root CA must be the last certificate in your chain. The subordinate certificate, if any, that your root CA signed must be next to last. The subordinate certificate signed by the preceding subordinate CA must come next, and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  ACM Private CA allows the following extensions to be marked critical in the imported CA certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   ACM Private CA rejects the following extensions when they are marked critical in an imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension  
+Imports a signed private CA certificate into ACM Private CA. This action is used when you are using a chain of trust whose root is located outside ACM Private CA. Before you can call this action, the following preparations must in place:   In ACM Private CA, call the CreateCertificateAuthority action to create the private CA that you plan to back with the imported certificate.   Call the GetCertificateAuthorityCsr action to generate a certificate signing request (CSR).   Sign the CSR using a root or intermediate CA hosted by either an on-premises PKI hierarchy or by a commercial CA.   Create a certificate chain and copy the signed certificate and the certificate chain to your working directory.   ACM Private CA supports three scenarios for installing a CA certificate:   Installing a certificate for a root CA hosted by ACM Private CA.   Installing a subordinate CA certificate whose parent authority is hosted by ACM Private CA.   Installing a subordinate CA certificate whose parent authority is externally hosted.   The following additional requirements apply when you import a CA certificate.   Only a self-signed certificate can be imported as a root CA.   A self-signed certificate cannot be imported as a subordinate CA.   Your certificate chain must not include the private CA certificate that you are importing.   Your root CA must be the last certificate in your chain. The subordinate certificate, if any, that your root CA signed must be next to last. The subordinate certificate signed by the preceding subordinate CA must come next, and so on until your chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.    Enforcement of Critical Constraints  ACM Private CA allows the following extensions to be marked critical in the imported CA certificate or chain.   Basic constraints (must be marked critical)   Subject alternative names   Key usage   Extended key usage   Authority key identifier   Subject key identifier   Issuer alternative name   Subject directory attributes   Subject information access   Certificate policies   Policy mappings   Inhibit anyPolicy   ACM Private CA rejects the following extensions when they are marked critical in an imported CA certificate or chain.   Name constraints   Policy constraints   CRL distribution points   Authority information access   Freshest CRL   Any other extension  
 
 # Required Parameters
 - `Certificate`: The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
@@ -178,8 +178,8 @@ Imports a signed private CA certificate into ACM Private CA. This action is used
 # Optional Parameters
 - `CertificateChain`: A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your ACM Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding.  This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
 """
-import_certificate_authority_certificate(Certificate, CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-import_certificate_authority_certificate(Certificate, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+import_certificate_authority_certificate(Certificate, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+import_certificate_authority_certificate(Certificate, CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     IssueCertificate()
@@ -188,16 +188,18 @@ Uses your private certificate authority (CA), or one that has been shared with y
 
 # Required Parameters
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
-- `Csr`: The certificate signing request (CSR) for the certificate you want to issue. You can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected. 
-- `SigningAlgorithm`: The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR.
-- `Validity`: Information describing the validity period of the certificate. When issuing a certificate, ACM Private CA sets the \"Not Before\" date in the validity field to date and time minus 60 minutes. This is intended to compensate for time inconsistencies across systems of 60 minutes or less.  The validity period configured on a certificate must not exceed the limit set by its parents in the CA hierarchy.
+- `Csr`: The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected. 
+- `SigningAlgorithm`: The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action.
+- `Validity`: Information describing the end of the validity period of the certificate. This parameter sets the “Not After” date for the certificate. Certificate validity is the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the certificate expires, or as a span of time after issuance, stated in days, months, or years. For more information, see Validity in RFC 5280.  This value is unaffected when ValidityNotBefore is also specified. For example, if Validity is set to 20 days in the future, the certificate will expire 20 days from issuance time regardless of the ValidityNotBefore value. The end of the validity period configured on a certificate must not exceed the limit set on its parents in the CA hierarchy.
 
 # Optional Parameters
-- `IdempotencyToken`: Custom string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens time out after one hour. Therefore, if you call IssueCertificate multiple times with the same idempotency token within 5 minutes, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
-- `TemplateArn`: Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. The following service-owned TemplateArn values are supported by ACM Private CA:    arn:aws:acm-pca:::template/CodeSigningCertificate/V1   arn:aws:acm-pca:::template/CodeSigningCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityCertificate/V1   arn:aws:acm-pca:::template/EndEntityCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityClientAuthCertificate/V1   arn:aws:acm-pca:::template/EndEntityClientAuthCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/EndEntityServerAuthCertificate/V1   arn:aws:acm-pca:::template/EndEntityServerAuthCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/OCSPSigningCertificate/V1   arn:aws:acm-pca:::template/OCSPSigningCertificate_CSRPassthrough/V1   arn:aws:acm-pca:::template/RootCACertificate/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1   arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1   For more information, see Using Templates.
+- `ApiPassthrough`: Specifies X.509 certificate information to be included in the issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. For more information about using these templates, see Understanding Certificate Templates. If conflicting or duplicate certificate information is supplied during certificate issuance, ACM Private CA applies order of operation rules to determine what information is used.
+- `IdempotencyToken`: Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you call IssueCertificate multiple times with the same idempotency token within one minute, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
+- `TemplateArn`: Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by ACM Private CA, see Understanding Certificate Templates.
+- `ValidityNotBefore`: Information describing the start of the validity period of the certificate. This parameter sets the “Not Before\" date for the certificate. By default, when issuing a certificate, ACM Private CA sets the \"Not Before\" date to the issuance time minus 60 minutes. This compensates for clock inconsistencies across computer systems. The ValidityNotBefore parameter can be used to customize the “Not Before” value.  Unlike the Validity parameter, the ValidityNotBefore parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time, using the Validity type value ABSOLUTE. For more information, see Validity in this API reference and Validity in RFC 5280.
 """
-issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity; aws_config::AWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity); aws_config=aws_config)
-issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity), args)); aws_config=aws_config)
+issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity); aws_config=aws_config)
+issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity), args)); aws_config=aws_config)
 
 """
     ListCertificateAuthorities()
@@ -209,8 +211,8 @@ Lists the private certificate authorities that you created by using the CreateCe
 - `NextToken`: Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
 - `ResourceOwner`: Use this parameter to filter the returned set of certificate authorities based on their owner. The default is SELF.
 """
-list_certificate_authorities(; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities"; aws_config=aws_config)
-list_certificate_authorities(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities", args; aws_config=aws_config)
+list_certificate_authorities(; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities"; aws_config=aws_config)
+list_certificate_authorities(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities", args; aws_config=aws_config)
 
 """
     ListPermissions()
@@ -224,8 +226,8 @@ List all permissions on a private CA, if any, granted to the AWS Certificate Man
 - `MaxResults`: When paginating results, use this parameter to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
 - `NextToken`: When paginating results, use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
 """
-list_permissions(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-list_permissions(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+list_permissions(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+list_permissions(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     ListTags()
@@ -239,8 +241,8 @@ Lists the tags, if any, that are associated with your private CA or one that has
 - `MaxResults`: Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
 - `NextToken`: Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of NextToken from the response you just received.
 """
-list_tags(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-list_tags(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+list_tags(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+list_tags(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     PutPolicy()
@@ -248,12 +250,12 @@ list_tags(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config
 Attaches a resource-based policy to a private CA.  A policy can also be applied by sharing a private CA through AWS Resource Access Manager (RAM). For more information, see Attach a Policy for Cross-Account Access. The policy can be displayed with GetPolicy and removed with DeletePolicy.  About Policies    A policy grants access on a private CA to an AWS customer account, to AWS Organizations, or to an AWS Organizations unit. Policies are under the control of a CA administrator. For more information, see Using a Resource Based Policy with ACM Private CA.   A policy permits a user of AWS Certificate Manager (ACM) to issue ACM certificates signed by a CA in another account.   For ACM to manage automatic renewal of these certificates, the ACM user must configure a Service Linked Role (SLR). The SLR allows the ACM service to assume the identity of the user, subject to confirmation against the ACM Private CA policy. For more information, see Using a Service Linked Role with ACM.   Updates made in AWS Resource Manager (RAM) are reflected in policies. For more information, see Attach a Policy for Cross-Account Access.  
 
 # Required Parameters
-- `Policy`: The path and filename of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see Overview of JSON Policies.
+- `Policy`: The path and file name of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see Overview of JSON Policies.
 - `ResourceArn`: The Amazon Resource Number (ARN) of the private CA to associate with the policy. The ARN of the CA can be found by calling the ListCertificateAuthorities action. 
 
 """
-put_policy(Policy, ResourceArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+put_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     RestoreCertificateAuthority()
@@ -264,8 +266,8 @@ Restores a certificate authority (CA) that is in the DELETED state. You can rest
 - `CertificateAuthorityArn`: The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action. This must be of the form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012  
 
 """
-restore_certificate_authority(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-restore_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+restore_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+restore_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
 
 """
     RevokeCertificate()
@@ -278,8 +280,8 @@ Revokes a certificate that was issued inside ACM Private CA. If you enable a cer
 - `RevocationReason`: Specifies why you revoked the certificate.
 
 """
-revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason; aws_config::AWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason); aws_config=aws_config)
-revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason), args)); aws_config=aws_config)
+revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason); aws_config=aws_config)
+revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason), args)); aws_config=aws_config)
 
 """
     TagCertificateAuthority()
@@ -291,8 +293,8 @@ Adds one or more tags to your private CA. Tags are labels that you can use to id
 - `Tags`: List of tags to be associated with the CA.
 
 """
-tag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
-tag_certificate_authority(CertificateAuthorityArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
+tag_certificate_authority(CertificateAuthorityArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagCertificateAuthority()
@@ -304,8 +306,8 @@ Remove one or more tags from your private CA. A tag consists of a key-value pair
 - `Tags`: List of tags to be removed from the CA.
 
 """
-untag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
-untag_certificate_authority(CertificateAuthorityArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), args)); aws_config=aws_config)
+untag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
+untag_certificate_authority(CertificateAuthorityArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UpdateCertificateAuthority()
@@ -319,5 +321,5 @@ Updates the status or configuration of a private certificate authority (CA). You
 - `RevocationConfiguration`: Revocation information for your private CA.
 - `Status`: Status of your private CA.
 """
-update_certificate_authority(CertificateAuthorityArn; aws_config::AWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-update_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)
+update_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
+update_certificate_authority(CertificateAuthorityArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), args)); aws_config=aws_config)

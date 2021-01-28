@@ -27,8 +27,8 @@ Retrieves a list of documents that match the specified search criteria. How you 
 - `start`: Specifies the offset of the first search hit you want to return. Note that the result set is zero-based; the first result is at index 0. You can specify either the start or cursor parameter in a request, they are mutually exclusive.  For more information, see Paginating Results in the Amazon CloudSearch Developer Guide.
 - `stats`: Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options supported for statistics.
 """
-search(q; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}("q"=>q); aws_config=aws_config)
-search(q, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), args)); aws_config=aws_config)
+search(q; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}("q"=>q); aws_config=aws_config)
+search(q, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), args)); aws_config=aws_config)
 
 """
     Suggest()
@@ -42,8 +42,8 @@ Retrieves autocomplete suggestions for a partial query string. You can use sugge
 # Optional Parameters
 - `size`: Specifies the maximum number of suggestions to return. 
 """
-suggest(q, suggester; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}("q"=>q, "suggester"=>suggester); aws_config=aws_config)
-suggest(q, suggester, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), args)); aws_config=aws_config)
+suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}("q"=>q, "suggester"=>suggester); aws_config=aws_config)
+suggest(q, suggester, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), args)); aws_config=aws_config)
 
 """
     UploadDocuments()
@@ -55,5 +55,5 @@ Posts a batch of documents to a search domain for indexing. A document batch is 
 - `documents`: A batch of documents formatted in JSON or HTML.
 
 """
-upload_documents(Content_Type, documents; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-upload_documents(Content_Type, documents, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
+upload_documents(Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
+upload_documents(Content_Type, documents, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)

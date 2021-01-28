@@ -61,7 +61,7 @@ end
     )
 
     @testset "sign v2" begin
-        result = AWS._sign_aws2!(aws, request, time)
+        result = AWS.sign_aws2!(aws, request, time)
         content = result.content
         content_type = result.headers["Content-Type"]
 
@@ -87,7 +87,7 @@ end
         expected_content_md5 = base64encode(digest(MD_MD5, request.content))
         expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
-        result = AWS._sign_aws4!(aws, request, time)
+        result = AWS.sign_aws4!(aws, request, time)
         headers = result.headers
 
         @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
@@ -358,9 +358,11 @@ end
     @test result == expected
 end
 
-@testset "_generate_service_url" begin
+@testset "generate_service_url" begin
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
+    config = AWSConfig()
+    config.region = region
 
     request = Request(
         service="service",
@@ -373,7 +375,7 @@ end
         endpoint = "sdb"
         request.service = regionless_endpoint
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -382,7 +384,7 @@ end
         endpoint = "sdb"
         request.service = endpoint
         expected_result = "https://$endpoint.$region.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -392,8 +394,8 @@ end
         endpoint = "sdb"
         request.service = endpoint
         expected_result = "https://$endpoint.amazonaws.com$resource"
-        region = "us-east-1"
-        result = AWS._generate_service_url(region, request.service, request.resource)
+        config.region = "us-east-1"
+        result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
     end
@@ -464,7 +466,7 @@ end
 
         function _get_secret_string(secret_name)
             response = Secrets_Manager.get_secret_value(secret_name)
-            
+
             return response["SecretString"]
         end
 
@@ -478,7 +480,7 @@ end
 
         @test_throws AWSException _get_secret_string(secret_name)
     end
-    
+
     @testset "low-level secrets manager" begin
         secret_name = "aws-jl-test---" * _now_formatted()
         secret_string = "sshhh it is a secret!"
@@ -494,7 +496,7 @@ end
             "SecretString"=>secret_string,
             "ClientRequestToken"=>string(uuid4()),
         ))
-        
+
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
@@ -571,7 +573,7 @@ end
 
     @testset "high-level sqs" begin
         @service SQS
-        
+
         queue_name = "aws-jl-test---" * _now_formatted()
         expected_message = "Hello for AWS.jl"
 
@@ -584,8 +586,8 @@ end
         # Create Queue
         SQS.create_queue(queue_name)
         queue_url = _get_queue_url(queue_name)
-        
-        try 
+
+        try
             # Get Queues
             @test !isempty(queue_url)
 
@@ -611,7 +613,7 @@ end
             @test message_id == expected_message_id
 
             SQS.send_message(expected_message, queue_url)
-            
+
             result = SQS.receive_message(queue_url)
             message = result["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
@@ -679,7 +681,7 @@ end
         finally
             AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
         end
-        
+
         @test_throws AWSException _get_queue_url(queue_name)
     end
 end
@@ -720,7 +722,7 @@ end
             # GET operation
             result = S3.list_objects(bucket_name)
             @test result["Contents"]["Key"] == file_name
-            
+
             # GET with parameters operation
             max_keys = 1
             result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
@@ -772,7 +774,7 @@ end
             # GET operation
             result = AWSServices.s3("GET", "/$bucket_name")
             @test result["Contents"]["Key"] == file_name
-            
+
             # GET with parameters operation
             max_keys = 1
             result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))

@@ -24,8 +24,8 @@ Creates a canary. Canaries are scripts that monitor your endpoints and APIs from
 - `Tags`: A list of key-value pairs to associate with the canary. You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values.
 - `VpcConfig`: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC.
 """
-create_canary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary", Dict{String, Any}("ArtifactS3Location"=>ArtifactS3Location, "Code"=>Code, "ExecutionRoleArn"=>ExecutionRoleArn, "Name"=>Name, "RuntimeVersion"=>RuntimeVersion, "Schedule"=>Schedule); aws_config=aws_config)
-create_canary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArtifactS3Location"=>ArtifactS3Location, "Code"=>Code, "ExecutionRoleArn"=>ExecutionRoleArn, "Name"=>Name, "RuntimeVersion"=>RuntimeVersion, "Schedule"=>Schedule), args)); aws_config=aws_config)
+create_canary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary", Dict{String, Any}("ArtifactS3Location"=>ArtifactS3Location, "Code"=>Code, "ExecutionRoleArn"=>ExecutionRoleArn, "Name"=>Name, "RuntimeVersion"=>RuntimeVersion, "Schedule"=>Schedule); aws_config=aws_config)
+create_canary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArtifactS3Location"=>ArtifactS3Location, "Code"=>Code, "ExecutionRoleArn"=>ExecutionRoleArn, "Name"=>Name, "RuntimeVersion"=>RuntimeVersion, "Schedule"=>Schedule), args)); aws_config=aws_config)
 
 """
     DeleteCanary()
@@ -36,8 +36,8 @@ Permanently deletes the specified canary. When you delete a canary, resources us
 - `name`: The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
 
 """
-delete_canary(name; aws_config::AWSConfig=global_aws_config()) = synthetics("DELETE", "/canary/$(name)"; aws_config=aws_config)
-delete_canary(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("DELETE", "/canary/$(name)", args; aws_config=aws_config)
+delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("DELETE", "/canary/$(name)"; aws_config=aws_config)
+delete_canary(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("DELETE", "/canary/$(name)", args; aws_config=aws_config)
 
 """
     DescribeCanaries()
@@ -48,8 +48,8 @@ This operation returns a list of the canaries in your account, along with full d
 - `MaxResults`: Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
 - `NextToken`: A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results.
 """
-describe_canaries(; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canaries"; aws_config=aws_config)
-describe_canaries(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canaries", args; aws_config=aws_config)
+describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries"; aws_config=aws_config)
+describe_canaries(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries", args; aws_config=aws_config)
 
 """
     DescribeCanariesLastRun()
@@ -60,8 +60,8 @@ Use this operation to see information from the most recent run of each canary th
 - `MaxResults`: Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
 - `NextToken`: A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
 """
-describe_canaries_last_run(; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run"; aws_config=aws_config)
-describe_canaries_last_run(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run", args; aws_config=aws_config)
+describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run"; aws_config=aws_config)
+describe_canaries_last_run(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run", args; aws_config=aws_config)
 
 """
     DescribeRuntimeVersions()
@@ -72,8 +72,8 @@ Returns a list of Synthetics canary runtime versions. For more information, see 
 - `MaxResults`: Specify this parameter to limit how many runs are returned each time you use the DescribeRuntimeVersions operation. If you omit this parameter, the default of 100 is used.
 - `NextToken`: A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
 """
-describe_runtime_versions(; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions"; aws_config=aws_config)
-describe_runtime_versions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions", args; aws_config=aws_config)
+describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions"; aws_config=aws_config)
+describe_runtime_versions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions", args; aws_config=aws_config)
 
 """
     GetCanary()
@@ -84,8 +84,8 @@ Retrieves complete information about one canary. You must specify the name of th
 - `name`: The name of the canary that you want details for.
 
 """
-get_canary(name; aws_config::AWSConfig=global_aws_config()) = synthetics("GET", "/canary/$(name)"; aws_config=aws_config)
-get_canary(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("GET", "/canary/$(name)", args; aws_config=aws_config)
+get_canary(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("GET", "/canary/$(name)"; aws_config=aws_config)
+get_canary(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("GET", "/canary/$(name)", args; aws_config=aws_config)
 
 """
     GetCanaryRuns()
@@ -99,8 +99,8 @@ Retrieves a list of runs for a specified canary.
 - `MaxResults`: Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
 - `NextToken`: A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
 """
-get_canary_runs(name; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/runs"; aws_config=aws_config)
-get_canary_runs(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/runs", args; aws_config=aws_config)
+get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/runs"; aws_config=aws_config)
+get_canary_runs(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/runs", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -111,8 +111,8 @@ Displays the tags associated with a canary.
 - `resourceArn`: The ARN of the canary that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = synthetics("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     StartCanary()
@@ -123,8 +123,8 @@ Use this operation to run a canary that has already been created. The frequency 
 - `name`: The name of the canary that you want to run. To find canary names, use DescribeCanaries.
 
 """
-start_canary(name; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/start"; aws_config=aws_config)
-start_canary(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/start", args; aws_config=aws_config)
+start_canary(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/start"; aws_config=aws_config)
+start_canary(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/start", args; aws_config=aws_config)
 
 """
     StopCanary()
@@ -135,8 +135,8 @@ Stops the canary to prevent all future runs. If the canary is currently running,
 - `name`: The name of the canary that you want to stop. To find the names of your canaries, use DescribeCanaries.
 
 """
-stop_canary(name; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/stop"; aws_config=aws_config)
-stop_canary(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/stop", args; aws_config=aws_config)
+stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/stop"; aws_config=aws_config)
+stop_canary(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canary/$(name)/stop", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -148,8 +148,8 @@ Assigns one or more tags (key-value pairs) to the specified canary.  Tags can he
 - `resourceArn`: The ARN of the canary that you're adding tags to. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
 
 """
-tag_resource(Tags, resourceArn; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -161,8 +161,8 @@ Removes one or more tags from the specified canary.
 - `tagKeys`: The list of tag keys to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = synthetics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateCanary()
@@ -182,5 +182,5 @@ Use this operation to change the settings of a canary that has already been crea
 - `SuccessRetentionPeriodInDays`: The number of days to retain data about successful runs of this canary.
 - `VpcConfig`: If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC.
 """
-update_canary(name; aws_config::AWSConfig=global_aws_config()) = synthetics("PATCH", "/canary/$(name)"; aws_config=aws_config)
-update_canary(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = synthetics("PATCH", "/canary/$(name)", args; aws_config=aws_config)
+update_canary(name; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("PATCH", "/canary/$(name)"; aws_config=aws_config)
+update_canary(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("PATCH", "/canary/$(name)", args; aws_config=aws_config)

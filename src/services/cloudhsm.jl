@@ -14,8 +14,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `TagList`: One or more tags.
 
 """
-add_tags_to_resource(ResourceArn, TagList; aws_config::AWSConfig=global_aws_config()) = cloudhsm("AddTagsToResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList); aws_config=aws_config)
-add_tags_to_resource(ResourceArn, TagList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), args)); aws_config=aws_config)
+add_tags_to_resource(ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("AddTagsToResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList); aws_config=aws_config)
+add_tags_to_resource(ResourceArn, TagList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), args)); aws_config=aws_config)
 
 """
     CreateHapg()
@@ -26,8 +26,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `Label`: The label of the new high-availability partition group.
 
 """
-create_hapg(Label; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateHapg", Dict{String, Any}("Label"=>Label); aws_config=aws_config)
-create_hapg(Label, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label), args)); aws_config=aws_config)
+create_hapg(Label; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateHapg", Dict{String, Any}("Label"=>Label); aws_config=aws_config)
+create_hapg(Label, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label), args)); aws_config=aws_config)
 
 """
     CreateHsm()
@@ -46,8 +46,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `ExternalId`: The external ID from IamRoleArn, if present.
 - `SyslogIp`: The IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
 """
-create_hsm(IamRoleArn, SshKey, SubnetId, SubscriptionType; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateHsm", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "SshKey"=>SshKey, "SubnetId"=>SubnetId, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
-create_hsm(IamRoleArn, SshKey, SubnetId, SubscriptionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "SshKey"=>SshKey, "SubnetId"=>SubnetId, "SubscriptionType"=>SubscriptionType), args)); aws_config=aws_config)
+create_hsm(IamRoleArn, SshKey, SubnetId, SubscriptionType; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateHsm", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "SshKey"=>SshKey, "SubnetId"=>SubnetId, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
+create_hsm(IamRoleArn, SshKey, SubnetId, SubscriptionType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "SshKey"=>SshKey, "SubnetId"=>SubnetId, "SubscriptionType"=>SubscriptionType), args)); aws_config=aws_config)
 
 """
     CreateLunaClient()
@@ -60,8 +60,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 # Optional Parameters
 - `Label`: The label for the client.
 """
-create_luna_client(Certificate; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateLunaClient", Dict{String, Any}("Certificate"=>Certificate); aws_config=aws_config)
-create_luna_client(Certificate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("CreateLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate), args)); aws_config=aws_config)
+create_luna_client(Certificate; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateLunaClient", Dict{String, Any}("Certificate"=>Certificate); aws_config=aws_config)
+create_luna_client(Certificate, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("CreateLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate), args)); aws_config=aws_config)
 
 """
     DeleteHapg()
@@ -72,8 +72,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `HapgArn`: The ARN of the high-availability partition group to delete.
 
 """
-delete_hapg(HapgArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
-delete_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
+delete_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
+delete_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
 
 """
     DeleteHsm()
@@ -84,8 +84,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `HsmArn`: The ARN of the HSM to delete.
 
 """
-delete_hsm(HsmArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteHsm", Dict{String, Any}("HsmArn"=>HsmArn); aws_config=aws_config)
-delete_hsm(HsmArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), args)); aws_config=aws_config)
+delete_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteHsm", Dict{String, Any}("HsmArn"=>HsmArn); aws_config=aws_config)
+delete_hsm(HsmArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), args)); aws_config=aws_config)
 
 """
     DeleteLunaClient()
@@ -96,8 +96,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `ClientArn`: The ARN of the client to delete.
 
 """
-delete_luna_client(ClientArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteLunaClient", Dict{String, Any}("ClientArn"=>ClientArn); aws_config=aws_config)
-delete_luna_client(ClientArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DeleteLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn), args)); aws_config=aws_config)
+delete_luna_client(ClientArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteLunaClient", Dict{String, Any}("ClientArn"=>ClientArn); aws_config=aws_config)
+delete_luna_client(ClientArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DeleteLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn), args)); aws_config=aws_config)
 
 """
     DescribeHapg()
@@ -108,8 +108,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `HapgArn`: The ARN of the high-availability partition group to describe.
 
 """
-describe_hapg(HapgArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
-describe_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
+describe_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
+describe_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
 
 """
     DescribeHsm()
@@ -120,8 +120,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `HsmArn`: The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
 - `HsmSerialNumber`: The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
 """
-describe_hsm(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeHsm"; aws_config=aws_config)
-describe_hsm(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeHsm", args; aws_config=aws_config)
+describe_hsm(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeHsm"; aws_config=aws_config)
+describe_hsm(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeHsm", args; aws_config=aws_config)
 
 """
     DescribeLunaClient()
@@ -132,8 +132,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `CertificateFingerprint`: The certificate fingerprint.
 - `ClientArn`: The ARN of the client.
 """
-describe_luna_client(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeLunaClient"; aws_config=aws_config)
-describe_luna_client(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("DescribeLunaClient", args; aws_config=aws_config)
+describe_luna_client(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeLunaClient"; aws_config=aws_config)
+describe_luna_client(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("DescribeLunaClient", args; aws_config=aws_config)
 
 """
     GetConfig()
@@ -146,8 +146,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `HapgList`: A list of ARNs that identify the high-availability partition groups that are associated with the client.
 
 """
-get_config(ClientArn, ClientVersion, HapgList; aws_config::AWSConfig=global_aws_config()) = cloudhsm("GetConfig", Dict{String, Any}("ClientArn"=>ClientArn, "ClientVersion"=>ClientVersion, "HapgList"=>HapgList); aws_config=aws_config)
-get_config(ClientArn, ClientVersion, HapgList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("GetConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn, "ClientVersion"=>ClientVersion, "HapgList"=>HapgList), args)); aws_config=aws_config)
+get_config(ClientArn, ClientVersion, HapgList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("GetConfig", Dict{String, Any}("ClientArn"=>ClientArn, "ClientVersion"=>ClientVersion, "HapgList"=>HapgList); aws_config=aws_config)
+get_config(ClientArn, ClientVersion, HapgList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("GetConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientArn"=>ClientArn, "ClientVersion"=>ClientVersion, "HapgList"=>HapgList), args)); aws_config=aws_config)
 
 """
     ListAvailableZones()
@@ -155,8 +155,8 @@ get_config(ClientArn, ClientVersion, HapgList, args::AbstractDict{String, <:Any}
 This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM, the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Availability Zones that have available AWS CloudHSM capacity.
 
 """
-list_available_zones(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListAvailableZones"; aws_config=aws_config)
-list_available_zones(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListAvailableZones", args; aws_config=aws_config)
+list_available_zones(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListAvailableZones"; aws_config=aws_config)
+list_available_zones(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListAvailableZones", args; aws_config=aws_config)
 
 """
     ListHapgs()
@@ -166,8 +166,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 # Optional Parameters
 - `NextToken`: The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
 """
-list_hapgs(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListHapgs"; aws_config=aws_config)
-list_hapgs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListHapgs", args; aws_config=aws_config)
+list_hapgs(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListHapgs"; aws_config=aws_config)
+list_hapgs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListHapgs", args; aws_config=aws_config)
 
 """
     ListHsms()
@@ -177,8 +177,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 # Optional Parameters
 - `NextToken`: The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
 """
-list_hsms(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListHsms"; aws_config=aws_config)
-list_hsms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListHsms", args; aws_config=aws_config)
+list_hsms(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListHsms"; aws_config=aws_config)
+list_hsms(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListHsms", args; aws_config=aws_config)
 
 """
     ListLunaClients()
@@ -188,8 +188,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 # Optional Parameters
 - `NextToken`: The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
 """
-list_luna_clients(; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListLunaClients"; aws_config=aws_config)
-list_luna_clients(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListLunaClients", args; aws_config=aws_config)
+list_luna_clients(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListLunaClients"; aws_config=aws_config)
+list_luna_clients(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListLunaClients", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -200,8 +200,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `ResourceArn`: The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ModifyHapg()
@@ -215,8 +215,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `Label`: The new label for the high-availability partition group.
 - `PartitionSerialList`: The list of partition serial numbers to make members of the high-availability partition group.
 """
-modify_hapg(HapgArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
-modify_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
+modify_hapg(HapgArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyHapg", Dict{String, Any}("HapgArn"=>HapgArn); aws_config=aws_config)
+modify_hapg(HapgArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyHapg", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HapgArn"=>HapgArn), args)); aws_config=aws_config)
 
 """
     ModifyHsm()
@@ -233,8 +233,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `SubnetId`: The new identifier of the subnet that the HSM is in. The new subnet must be in the same Availability Zone as the current subnet.
 - `SyslogIp`: The new IP address for the syslog monitoring server. The AWS CloudHSM service only supports one syslog monitoring server.
 """
-modify_hsm(HsmArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyHsm", Dict{String, Any}("HsmArn"=>HsmArn); aws_config=aws_config)
-modify_hsm(HsmArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), args)); aws_config=aws_config)
+modify_hsm(HsmArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyHsm", Dict{String, Any}("HsmArn"=>HsmArn); aws_config=aws_config)
+modify_hsm(HsmArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmArn"=>HsmArn), args)); aws_config=aws_config)
 
 """
     ModifyLunaClient()
@@ -246,8 +246,8 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `ClientArn`: The ARN of the client.
 
 """
-modify_luna_client(Certificate, ClientArn; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyLunaClient", Dict{String, Any}("Certificate"=>Certificate, "ClientArn"=>ClientArn); aws_config=aws_config)
-modify_luna_client(Certificate, ClientArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("ModifyLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "ClientArn"=>ClientArn), args)); aws_config=aws_config)
+modify_luna_client(Certificate, ClientArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyLunaClient", Dict{String, Any}("Certificate"=>Certificate, "ClientArn"=>ClientArn); aws_config=aws_config)
+modify_luna_client(Certificate, ClientArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("ModifyLunaClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "ClientArn"=>ClientArn), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromResource()
@@ -259,5 +259,5 @@ This is documentation for AWS CloudHSM Classic. For more information, see AWS Cl
 - `TagKeyList`: The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
 
 """
-remove_tags_from_resource(ResourceArn, TagKeyList; aws_config::AWSConfig=global_aws_config()) = cloudhsm("RemoveTagsFromResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeyList"=>TagKeyList); aws_config=aws_config)
-remove_tags_from_resource(ResourceArn, TagKeyList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudhsm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
+remove_tags_from_resource(ResourceArn, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("RemoveTagsFromResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeyList"=>TagKeyList); aws_config=aws_config)
+remove_tags_from_resource(ResourceArn, TagKeyList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeyList"=>TagKeyList), args)); aws_config=aws_config)

@@ -15,8 +15,8 @@ Creates a storage container to hold objects. A container is similar to a bucket 
 # Optional Parameters
 - `Tags`: An array of key:value pairs that you define. These values can be anything that you want. Typically, the tag key represents a category (such as \"environment\") and the tag value represents a specific value within that category (such as \"test,\" \"development,\" or \"production\"). You can add up to 50 tags to each container. For more information about tagging, including naming and usage conventions, see Tagging Resources in MediaStore.
 """
-create_container(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("CreateContainer", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-create_container(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("CreateContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+create_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("CreateContainer", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+create_container(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("CreateContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DeleteContainer()
@@ -27,8 +27,8 @@ Deletes the specified container. Before you make a DeleteContainer request, dele
 - `ContainerName`: The name of the container to delete. 
 
 """
-delete_container(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteContainer", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-delete_container(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+delete_container(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteContainer", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+delete_container(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteContainer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DeleteContainerPolicy()
@@ -39,8 +39,8 @@ Deletes the access policy that is associated with the specified container.
 - `ContainerName`: The name of the container that holds the policy.
 
 """
-delete_container_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-delete_container_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+delete_container_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+delete_container_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DeleteCorsPolicy()
@@ -51,8 +51,8 @@ Deletes the cross-origin resource sharing (CORS) configuration information that 
 - `ContainerName`: The name of the container to remove the policy from.
 
 """
-delete_cors_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-delete_cors_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+delete_cors_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+delete_cors_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DeleteLifecyclePolicy()
@@ -63,8 +63,8 @@ Removes an object lifecycle policy from a container. It takes up to 20 minutes f
 - `ContainerName`: The name of the container that holds the object lifecycle policy.
 
 """
-delete_lifecycle_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-delete_lifecycle_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+delete_lifecycle_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+delete_lifecycle_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DeleteMetricPolicy()
@@ -75,8 +75,8 @@ Deletes the metric policy that is associated with the specified container. If th
 - `ContainerName`: The name of the container that is associated with the metric policy that you want to delete.
 
 """
-delete_metric_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-delete_metric_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DeleteMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+delete_metric_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+delete_metric_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DeleteMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     DescribeContainer()
@@ -86,8 +86,8 @@ Retrieves the properties of the requested container. This request is commonly us
 # Optional Parameters
 - `ContainerName`: The name of the container to query.
 """
-describe_container(; aws_config::AWSConfig=global_aws_config()) = mediastore("DescribeContainer"; aws_config=aws_config)
-describe_container(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("DescribeContainer", args; aws_config=aws_config)
+describe_container(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DescribeContainer"; aws_config=aws_config)
+describe_container(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("DescribeContainer", args; aws_config=aws_config)
 
 """
     GetContainerPolicy()
@@ -98,8 +98,8 @@ Retrieves the access policy for the specified container. For information about t
 - `ContainerName`: The name of the container. 
 
 """
-get_container_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("GetContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-get_container_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("GetContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+get_container_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+get_container_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     GetCorsPolicy()
@@ -110,8 +110,8 @@ Returns the cross-origin resource sharing (CORS) configuration information that 
 - `ContainerName`: The name of the container that the policy is assigned to.
 
 """
-get_cors_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("GetCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-get_cors_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("GetCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+get_cors_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+get_cors_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     GetLifecyclePolicy()
@@ -122,8 +122,8 @@ Retrieves the object lifecycle policy that is assigned to a container.
 - `ContainerName`: The name of the container that the object lifecycle policy is assigned to.
 
 """
-get_lifecycle_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("GetLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-get_lifecycle_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+get_lifecycle_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+get_lifecycle_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     GetMetricPolicy()
@@ -134,8 +134,8 @@ Returns the metric policy for the specified container.
 - `ContainerName`: The name of the container that is associated with the metric policy.
 
 """
-get_metric_policy(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("GetMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-get_metric_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("GetMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+get_metric_policy(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+get_metric_policy(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("GetMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     ListContainers()
@@ -146,8 +146,8 @@ Lists the properties of all containers in AWS Elemental MediaStore.  You can que
 - `MaxResults`: Enter the maximum number of containers in the response. Use from 1 to 255 characters. 
 - `NextToken`: Only if you used MaxResults in the first command, enter the token (which was included in the previous response) to obtain the next set of containers. This token is included in a response only if there actually are more containers to list.
 """
-list_containers(; aws_config::AWSConfig=global_aws_config()) = mediastore("ListContainers"; aws_config=aws_config)
-list_containers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("ListContainers", args; aws_config=aws_config)
+list_containers(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("ListContainers"; aws_config=aws_config)
+list_containers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("ListContainers", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -158,8 +158,8 @@ Returns a list of the tags assigned to the specified container.
 - `Resource`: The Amazon Resource Name (ARN) for the container.
 
 """
-list_tags_for_resource(Resource; aws_config::AWSConfig=global_aws_config()) = mediastore("ListTagsForResource", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
-list_tags_for_resource(Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
+list_tags_for_resource(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("ListTagsForResource", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
+list_tags_for_resource(Resource, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     PutContainerPolicy()
@@ -171,8 +171,8 @@ Creates an access policy for the specified container to restrict the users and c
 - `Policy`: The contents of the policy, which includes the following:    One Version tag   One Statement tag that contains the standard tags for the policy.  
 
 """
-put_container_policy(ContainerName, Policy; aws_config::AWSConfig=global_aws_config()) = mediastore("PutContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "Policy"=>Policy); aws_config=aws_config)
-put_container_policy(ContainerName, Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("PutContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "Policy"=>Policy), args)); aws_config=aws_config)
+put_container_policy(ContainerName, Policy; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutContainerPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "Policy"=>Policy); aws_config=aws_config)
+put_container_policy(ContainerName, Policy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutContainerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     PutCorsPolicy()
@@ -184,8 +184,8 @@ Sets the cross-origin resource sharing (CORS) configuration on a container so th
 - `CorsPolicy`: The CORS policy to apply to the container. 
 
 """
-put_cors_policy(ContainerName, CorsPolicy; aws_config::AWSConfig=global_aws_config()) = mediastore("PutCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "CorsPolicy"=>CorsPolicy); aws_config=aws_config)
-put_cors_policy(ContainerName, CorsPolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("PutCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "CorsPolicy"=>CorsPolicy), args)); aws_config=aws_config)
+put_cors_policy(ContainerName, CorsPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutCorsPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "CorsPolicy"=>CorsPolicy); aws_config=aws_config)
+put_cors_policy(ContainerName, CorsPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutCorsPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "CorsPolicy"=>CorsPolicy), args)); aws_config=aws_config)
 
 """
     PutLifecyclePolicy()
@@ -197,8 +197,8 @@ Writes an object lifecycle policy to a container. If the container already has a
 - `LifecyclePolicy`: The object lifecycle policy to apply to the container.
 
 """
-put_lifecycle_policy(ContainerName, LifecyclePolicy; aws_config::AWSConfig=global_aws_config()) = mediastore("PutLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName, "LifecyclePolicy"=>LifecyclePolicy); aws_config=aws_config)
-put_lifecycle_policy(ContainerName, LifecyclePolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "LifecyclePolicy"=>LifecyclePolicy), args)); aws_config=aws_config)
+put_lifecycle_policy(ContainerName, LifecyclePolicy; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutLifecyclePolicy", Dict{String, Any}("ContainerName"=>ContainerName, "LifecyclePolicy"=>LifecyclePolicy); aws_config=aws_config)
+put_lifecycle_policy(ContainerName, LifecyclePolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutLifecyclePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "LifecyclePolicy"=>LifecyclePolicy), args)); aws_config=aws_config)
 
 """
     PutMetricPolicy()
@@ -210,8 +210,8 @@ The metric policy that you want to add to the container. A metric policy allows 
 - `MetricPolicy`: The metric policy that you want to associate with the container. In the policy, you must indicate whether you want MediaStore to send container-level metrics. You can also include up to five rules to define groups of objects that you want MediaStore to send object-level metrics for. If you include rules in the policy, construct each rule with both of the following:   An object group that defines which objects to include in the group. The definition can be a path or a file name, but it can't have more than 900 characters. Valid characters are: a-z, A-Z, 0-9, _ (underscore), = (equal), : (colon), . (period), - (hyphen), ~ (tilde), / (forward slash), and * (asterisk). Wildcards (*) are acceptable.   An object group name that allows you to refer to the object group. The name can't have more than 30 characters. Valid characters are: a-z, A-Z, 0-9, and _ (underscore).  
 
 """
-put_metric_policy(ContainerName, MetricPolicy; aws_config::AWSConfig=global_aws_config()) = mediastore("PutMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "MetricPolicy"=>MetricPolicy); aws_config=aws_config)
-put_metric_policy(ContainerName, MetricPolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("PutMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "MetricPolicy"=>MetricPolicy), args)); aws_config=aws_config)
+put_metric_policy(ContainerName, MetricPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutMetricPolicy", Dict{String, Any}("ContainerName"=>ContainerName, "MetricPolicy"=>MetricPolicy); aws_config=aws_config)
+put_metric_policy(ContainerName, MetricPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("PutMetricPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName, "MetricPolicy"=>MetricPolicy), args)); aws_config=aws_config)
 
 """
     StartAccessLogging()
@@ -222,8 +222,8 @@ Starts access logging on the specified container. When you enable access logging
 - `ContainerName`: The name of the container that you want to start access logging on.
 
 """
-start_access_logging(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("StartAccessLogging", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-start_access_logging(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("StartAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+start_access_logging(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("StartAccessLogging", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+start_access_logging(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("StartAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     StopAccessLogging()
@@ -234,8 +234,8 @@ Stops access logging on the specified container. When you stop access logging on
 - `ContainerName`: The name of the container that you want to stop access logging on.
 
 """
-stop_access_logging(ContainerName; aws_config::AWSConfig=global_aws_config()) = mediastore("StopAccessLogging", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
-stop_access_logging(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("StopAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
+stop_access_logging(ContainerName; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("StopAccessLogging", Dict{String, Any}("ContainerName"=>ContainerName); aws_config=aws_config)
+stop_access_logging(ContainerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("StopAccessLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContainerName"=>ContainerName), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -247,8 +247,8 @@ Adds tags to the specified AWS Elemental MediaStore container. Tags are key:valu
 - `Tags`: An array of key:value pairs that you want to add to the container. You need to specify only the tags that you want to add or update. For example, suppose a container already has two tags (customer:CompanyA and priority:High). You want to change the priority tag and also add a third tag (type:Contract). For TagResource, you specify the following tags: priority:Medium, type:Contract. The result is that your container has three tags: customer:CompanyA, priority:Medium, and type:Contract.
 
 """
-tag_resource(Resource, Tags; aws_config::AWSConfig=global_aws_config()) = mediastore("TagResource", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(Resource, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("TagResource", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(Resource, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -260,5 +260,5 @@ Removes tags from the specified container. You can specify one or more tags to r
 - `TagKeys`: A comma-separated list of keys for tags that you want to remove from the container. For example, if your container has two tags (customer:CompanyA and priority:High) and you want to remove one of the tags (priority:High), you specify the key for the tag that you want to remove (priority).
 
 """
-untag_resource(Resource, TagKeys; aws_config::AWSConfig=global_aws_config()) = mediastore("UntagResource", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("UntagResource", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws_config=aws_config)

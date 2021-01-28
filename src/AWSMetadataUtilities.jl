@@ -73,7 +73,7 @@ function _get_service_and_version(filename::String)
     try
         # Remove ".normal.json" suffix
         service_and_version = join(split(filename, '.')[1:end-2],'.')
-        
+
         service_and_version = split(service_and_version, '-')
         service = join(service_and_version[1:end-3], '-')
         version = join(service_and_version[end-2:end], '-')
@@ -242,7 +242,7 @@ function _format_function_name(function_name::String)
     # [A-Z](?![A-Z]) => Match a single uppercase character that is not followed by another uppercase character
     # |(A-Z]{1,})    => Match 1-Infinite amounts of uppercase characters
     function_name = replace(function_name, r"[A-Z](?![A-Z])|([A-Z]{1,})" => s"_\g<0>")
-    
+
     # Lowercase the entire string
     function_name = lowercase(function_name)
 
@@ -273,7 +273,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
     # Arguments
     - `parameter::String`: Name of the original parameter
     - `input_shape::AbstractDict{String, <:Any}`: The parameter shape
-    
+
     # Returns
     - `String`: Either the original parameter name, the locationName for the parameter, or the locationName nested one shape deeper
     """
@@ -318,7 +318,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
             if !haskey(required_parameters, parameter_name)
                 documentation = _clean_documentation(get(member_value, "documentation", ""))
                 idempotent = get(member_value, "idempotencyToken", false)
-                
+
                 optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
                     "documentation" => documentation,
                     "idempotent" => idempotent,
@@ -433,7 +433,7 @@ function _generate_high_level_definition(
         _generate_rest_operation_defintion(required_params::AbstractDict{String, Any}, optional_params::AbstractDict{String, Any}, function_name::String, service_name::String, method::String, request_uri::String)
 
     Generate function definition for a service request given required, header and idempotent parameters.
-    
+
     # Arguments
     - `required_params::AbstractDict{String, Any}`: All required parameters which the function needs
     - `optional_params::AbstractDict{String, Any}`: All optional parameters which can be passed in
@@ -452,7 +452,7 @@ function _generate_high_level_definition(
 
         # Pre Julia-1.3 workaround
         req_keys = [replace(key, "-"=>"_") for key in collect(keys(required_params))]
-        
+
         required_params = filter(p -> (p[2]["location"] != "uri"), required_params)
         header_params = filter(p -> (p[2]["location"] == "header"), required_params)
         required_params = setdiff(required_params, header_params)
@@ -473,31 +473,31 @@ function _generate_high_level_definition(
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
 
         formatted_function_name = _format_function_name(function_name)
-        
+
         if required_keys && (idempotent || headers)
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif !required_keys && (idempotent || headers)
             return """
-                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
                 """
         elseif required_keys && !isempty(req_kv)
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
                 """
         elseif required_keys
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
         else
             return """
-                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
                 """
         end
     end
@@ -531,23 +531,23 @@ function _generate_high_level_definition(
 
         if required && idempotent
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif required
             return """
-                $formatted_function_name($(join(req_keys, ", ")); aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
                 """
         elseif idempotent
             return """
-                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
                 """
         else
             return """
-                $formatted_function_name(; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
+                $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
+                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
                 """
         end
     end
@@ -556,7 +556,7 @@ function _generate_high_level_definition(
         _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
 
     Generate the docstring for the `function_name`.
-    
+
     # Arguments
     - `function_name`: Name of the function
     - `documentation`: Documentation associated with the function

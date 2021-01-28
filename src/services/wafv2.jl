@@ -14,8 +14,8 @@ using AWS.UUIDs
 - `WebACLArn`: The Amazon Resource Name (ARN) of the Web ACL that you want to associate with the resource.
 
 """
-associate_web_acl(ResourceArn, WebACLArn; aws_config::AWSConfig=global_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn); aws_config=aws_config)
-associate_web_acl(ResourceArn, WebACLArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn), args)); aws_config=aws_config)
+associate_web_acl(ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn); aws_config=aws_config)
+associate_web_acl(ResourceArn, WebACLArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLArn"=>WebACLArn), args)); aws_config=aws_config)
 
 """
     CheckCapacity()
@@ -27,8 +27,8 @@ associate_web_acl(ResourceArn, WebACLArn, args::AbstractDict{String, <:Any}; aws
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-check_capacity(Rules, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope); aws_config=aws_config)
-check_capacity(Rules, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope), args)); aws_config=aws_config)
+check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope); aws_config=aws_config)
+check_capacity(Rules, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CheckCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rules"=>Rules, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     CreateIPSet()
@@ -45,8 +45,8 @@ check_capacity(Rules, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSC
 - `Description`: A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
 - `Tags`: An array of key:value pairs to associate with the resource.
 """
-create_ipset(Addresses, IPAddressVersion, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-create_ipset(Addresses, IPAddressVersion, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+create_ipset(Addresses, IPAddressVersion, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+create_ipset(Addresses, IPAddressVersion, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "IPAddressVersion"=>IPAddressVersion, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     CreateRegexPatternSet()
@@ -62,8 +62,8 @@ create_ipset(Addresses, IPAddressVersion, Name, Scope, args::AbstractDict{String
 - `Description`: A description of the set that helps with identification. You cannot change the description of a set after you create it.
 - `Tags`: An array of key:value pairs to associate with the resource.
 """
-create_regex_pattern_set(Name, RegularExpressionList, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config)
-create_regex_pattern_set(Name, RegularExpressionList, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), args)); aws_config=aws_config)
+create_regex_pattern_set(Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config)
+create_regex_pattern_set(Name, RegularExpressionList, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     CreateRuleGroup()
@@ -81,8 +81,8 @@ create_regex_pattern_set(Name, RegularExpressionList, Scope, args::AbstractDict{
 - `Rules`: The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them. 
 - `Tags`: An array of key:value pairs to associate with the resource.
 """
-create_rule_group(Capacity, Name, Scope, VisibilityConfig; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
-create_rule_group(Capacity, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
+create_rule_group(Capacity, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
+create_rule_group(Capacity, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
 
 """
     CreateWebACL()
@@ -100,8 +100,8 @@ create_rule_group(Capacity, Name, Scope, VisibilityConfig, args::AbstractDict{St
 - `Rules`: The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them. 
 - `Tags`: An array of key:value pairs to associate with the resource.
 """
-create_web_acl(DefaultAction, Name, Scope, VisibilityConfig; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
-create_web_acl(DefaultAction, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
+create_web_acl(DefaultAction, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
+create_web_acl(DefaultAction, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
 
 """
     DeleteFirewallManagerRuleGroups()
@@ -113,8 +113,8 @@ Deletes all rule groups that are managed by AWS Firewall Manager for the specifi
 - `WebACLLockToken`: A token used for optimistic locking. AWS WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. AWS WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation. 
 
 """
-delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken); aws_config=aws_config)
-delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken), args)); aws_config=aws_config)
+delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken); aws_config=aws_config)
+delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteFirewallManagerRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn, "WebACLLockToken"=>WebACLLockToken), args)); aws_config=aws_config)
 
 """
     DeleteIPSet()
@@ -128,8 +128,8 @@ delete_firewall_manager_rule_groups(WebACLArn, WebACLLockToken, args::AbstractDi
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-delete_ipset(Id, LockToken, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-delete_ipset(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+delete_ipset(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+delete_ipset(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     DeleteLoggingConfiguration()
@@ -140,8 +140,8 @@ delete_ipset(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_
 - `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
 
 """
-delete_logging_configuration(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+delete_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DeletePermissionPolicy()
@@ -152,8 +152,8 @@ Permanently deletes an IAM policy from the specified rule group. You must be the
 - `ResourceArn`: The Amazon Resource Name (ARN) of the rule group from which you want to delete the policy. You must be the owner of the rule group to perform this operation.
 
 """
-delete_permission_policy(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+delete_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DeleteRegexPatternSet()
@@ -167,8 +167,8 @@ delete_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_con
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-delete_regex_pattern_set(Id, LockToken, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-delete_regex_pattern_set(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+delete_regex_pattern_set(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+delete_regex_pattern_set(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     DeleteRuleGroup()
@@ -182,8 +182,8 @@ delete_regex_pattern_set(Id, LockToken, Name, Scope, args::AbstractDict{String, 
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-delete_rule_group(Id, LockToken, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-delete_rule_group(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+delete_rule_group(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+delete_rule_group(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     DeleteWebACL()
@@ -197,8 +197,8 @@ delete_rule_group(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any};
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-delete_web_acl(Id, LockToken, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-delete_web_acl(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+delete_web_acl(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+delete_web_acl(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     DescribeManagedRuleGroup()
@@ -211,8 +211,8 @@ delete_web_acl(Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aw
 - `VendorName`: The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
 
 """
-describe_managed_rule_group(Name, Scope, VendorName; aws_config::AWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config)
-describe_managed_rule_group(Name, Scope, VendorName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), args)); aws_config=aws_config)
+describe_managed_rule_group(Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config)
+describe_managed_rule_group(Name, Scope, VendorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), args)); aws_config=aws_config)
 
 """
     DisassociateWebACL()
@@ -223,8 +223,8 @@ describe_managed_rule_group(Name, Scope, VendorName, args::AbstractDict{String, 
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an API Gateway REST API: arn:aws:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:aws:appsync:region:account-id:apis/GraphQLApiId    
 
 """
-disassociate_web_acl(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-disassociate_web_acl(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+disassociate_web_acl(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetIPSet()
@@ -237,8 +237,8 @@ disassociate_web_acl(ResourceArn, args::AbstractDict{String, <:Any}; aws_config:
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-get_ipset(Id, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("GetIPSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-get_ipset(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetIPSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+get_ipset(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     GetLoggingConfiguration()
@@ -249,8 +249,8 @@ get_ipset(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 - `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
 
 """
-get_logging_configuration(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+get_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetPermissionPolicy()
@@ -261,8 +261,8 @@ Returns the IAM policy that is attached to the specified rule group. You must be
 - `ResourceArn`: The Amazon Resource Name (ARN) of the rule group for which you want to get the policy.
 
 """
-get_permission_policy(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+get_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetRateBasedStatementManagedKeys()
@@ -276,8 +276,8 @@ get_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config
 - `WebACLName`: The name of the Web ACL. You cannot change the name of a Web ACL after you create it.
 
 """
-get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName); aws_config=aws_config)
-get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName), args)); aws_config=aws_config)
+get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName); aws_config=aws_config)
+get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRateBasedStatementManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "Scope"=>Scope, "WebACLId"=>WebACLId, "WebACLName"=>WebACLName), args)); aws_config=aws_config)
 
 """
     GetRegexPatternSet()
@@ -290,8 +290,8 @@ get_rate_based_statement_managed_keys(RuleName, Scope, WebACLId, WebACLName, arg
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-get_regex_pattern_set(Id, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-get_regex_pattern_set(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+get_regex_pattern_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+get_regex_pattern_set(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     GetRuleGroup()
@@ -304,8 +304,8 @@ get_regex_pattern_set(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_co
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-get_rule_group(Id, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRuleGroup", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-get_rule_group(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+get_rule_group(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRuleGroup", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+get_rule_group(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     GetSampledRequests()
@@ -320,8 +320,8 @@ get_rule_group(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::A
 - `WebAclArn`: The Amazon resource name (ARN) of the WebACL for which you want a sample of requests.
 
 """
-get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn; aws_config::AWSConfig=global_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn); aws_config=aws_config)
-get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn), args)); aws_config=aws_config)
+get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn); aws_config=aws_config)
+get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleMetricName"=>RuleMetricName, "Scope"=>Scope, "TimeWindow"=>TimeWindow, "WebAclArn"=>WebAclArn), args)); aws_config=aws_config)
 
 """
     GetWebACL()
@@ -334,8 +334,8 @@ get_sampled_requests(MaxItems, RuleMetricName, Scope, TimeWindow, WebAclArn, arg
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 
 """
-get_web_acl(Id, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("GetWebACL", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-get_web_acl(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetWebACL", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+get_web_acl(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     GetWebACLForResource()
@@ -346,8 +346,8 @@ get_web_acl(Id, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSC
 - `ResourceArn`: The ARN (Amazon Resource Name) of the resource.
 
 """
-get_web_aclfor_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_web_aclfor_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+get_web_aclfor_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListAvailableManagedRuleGroups()
@@ -361,8 +361,8 @@ get_web_aclfor_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_conf
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_available_managed_rule_groups(Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
-list_available_managed_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
+list_available_managed_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_available_managed_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     ListIPSets()
@@ -376,8 +376,8 @@ list_available_managed_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_ipsets(Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("ListIPSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
-list_ipsets(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListIPSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
+list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListIPSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_ipsets(Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListIPSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     ListLoggingConfigurations()
@@ -389,8 +389,8 @@ list_ipsets(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=glob
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 - `Scope`: Specifies whether this is for an AWS CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.   
 """
-list_logging_configurations(; aws_config::AWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations"; aws_config=aws_config)
-list_logging_configurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations", args; aws_config=aws_config)
+list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations"; aws_config=aws_config)
+list_logging_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations", args; aws_config=aws_config)
 
 """
     ListRegexPatternSets()
@@ -404,8 +404,8 @@ list_logging_configurations(args::AbstractDict{String, <:Any}; aws_config::AWSCo
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_regex_pattern_sets(Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
-list_regex_pattern_sets(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
+list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_regex_pattern_sets(Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListRegexPatternSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     ListResourcesForWebACL()
@@ -418,8 +418,8 @@ list_regex_pattern_sets(Scope, args::AbstractDict{String, <:Any}; aws_config::AW
 # Optional Parameters
 - `ResourceType`: Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API. 
 """
-list_resources_for_web_acl(WebACLArn; aws_config::AWSConfig=global_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}("WebACLArn"=>WebACLArn); aws_config=aws_config)
-list_resources_for_web_acl(WebACLArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn), args)); aws_config=aws_config)
+list_resources_for_web_acl(WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}("WebACLArn"=>WebACLArn); aws_config=aws_config)
+list_resources_for_web_acl(WebACLArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLArn"=>WebACLArn), args)); aws_config=aws_config)
 
 """
     ListRuleGroups()
@@ -433,8 +433,8 @@ list_resources_for_web_acl(WebACLArn, args::AbstractDict{String, <:Any}; aws_con
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_rule_groups(Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
-list_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
+list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListRuleGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -448,8 +448,8 @@ list_rule_groups(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     ListWebACLs()
@@ -463,8 +463,8 @@ list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_confi
 - `Limit`: The maximum number of objects that you want AWS WAF to return for this request. If more objects are available, in the response, AWS WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
 - `NextMarker`: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, AWS WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
 """
-list_web_acls(Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
-list_web_acls(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
+list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_web_acls(Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListWebACLs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     PutLoggingConfiguration()
@@ -475,8 +475,8 @@ list_web_acls(Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=gl
 - `LoggingConfiguration`: 
 
 """
-put_logging_configuration(LoggingConfiguration; aws_config::AWSConfig=global_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config)
-put_logging_configuration(LoggingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws_config=aws_config)
+put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config)
+put_logging_configuration(LoggingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws_config=aws_config)
 
 """
     PutPermissionPolicy()
@@ -488,8 +488,8 @@ Attaches an IAM policy to the specified resource. Use this to share a rule group
 - `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
 
 """
-put_permission_policy(Policy, ResourceArn; aws_config::AWSConfig=global_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_permission_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+put_permission_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -501,8 +501,8 @@ put_permission_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aw
 - `Tags`: An array of key:value pairs to associate with the resource.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = wafv2("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -514,8 +514,8 @@ tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 - `TagKeys`: An array of keys identifying the tags to disassociate from the resource.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = wafv2("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateIPSet()
@@ -532,8 +532,8 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 # Optional Parameters
 - `Description`: A description of the IP set that helps with identification. You cannot change the description of an IP set after you create it.
 """
-update_ipset(Addresses, Id, LockToken, Name, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
-update_ipset(Addresses, Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
+update_ipset(Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+update_ipset(Addresses, Id, LockToken, Name, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     UpdateRegexPatternSet()
@@ -550,8 +550,8 @@ update_ipset(Addresses, Id, LockToken, Name, Scope, args::AbstractDict{String, <
 # Optional Parameters
 - `Description`: A description of the set that helps with identification. You cannot change the description of a set after you create it.
 """
-update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config)
-update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), args)); aws_config=aws_config)
+update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope); aws_config=aws_config)
+update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "RegularExpressionList"=>RegularExpressionList, "Scope"=>Scope), args)); aws_config=aws_config)
 
 """
     UpdateRuleGroup()
@@ -569,8 +569,8 @@ update_regex_pattern_set(Id, LockToken, Name, RegularExpressionList, Scope, args
 - `Description`: A description of the rule group that helps with identification. You cannot change the description of a rule group after you create it.
 - `Rules`: The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them. 
 """
-update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
-update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
+update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
+update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
 
 """
     UpdateWebACL()
@@ -589,5 +589,5 @@ update_rule_group(Id, LockToken, Name, Scope, VisibilityConfig, args::AbstractDi
 - `Description`: A description of the Web ACL that helps with identification. You cannot change the description of a Web ACL after you create it.
 - `Rules`: The Rule statements used to identify the web requests that you want to allow, block, or count. Each rule includes one top-level statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them. 
 """
-update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
-update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)
+update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig); aws_config=aws_config)
+update_web_acl(DefaultAction, Id, LockToken, Name, Scope, VisibilityConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultAction"=>DefaultAction, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VisibilityConfig"=>VisibilityConfig), args)); aws_config=aws_config)

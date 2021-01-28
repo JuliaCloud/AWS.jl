@@ -16,8 +16,8 @@ Checks the availability of one or more image layers within a repository in a pub
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the public registry that contains the image layers to check. If you do not specify a registry, the default public registry is assumed.
 """
-batch_check_layer_availability(layerDigests, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_check_layer_availability(layerDigests, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName); aws_config=aws_config)
+batch_check_layer_availability(layerDigests, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     BatchDeleteImage()
@@ -31,8 +31,8 @@ Deletes a list of specified images within a repository in a public registry. Ima
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
 """
-batch_delete_image(imageIds, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_delete_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
+batch_delete_image(imageIds, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     CompleteLayerUpload()
@@ -47,8 +47,8 @@ Informs Amazon ECR that the image layer upload has completed for a specified pub
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default public registry is assumed.
 """
-complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-complete_layer_upload(layerDigests, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
+complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
+complete_layer_upload(layerDigests, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CreateRepository()
@@ -61,8 +61,8 @@ Creates a repository in a public registry. For more information, see Amazon ECR 
 # Optional Parameters
 - `catalogData`: The details about the repository that are publicly visible in the Amazon ECR Public Gallery.
 """
-create_repository(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-create_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+create_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DeleteRepository()
@@ -76,8 +76,8 @@ Deletes a repository in a public registry. If the repository contains images, yo
 - `force`:  If a repository contains images, forces the deletion.
 - `registryId`: The AWS account ID associated with the public registry that contains the repository to delete. If you do not specify a registry, the default public registry is assumed.
 """
-delete_repository(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+delete_repository(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DeleteRepositoryPolicy()
@@ -90,8 +90,8 @@ Deletes the repository policy associated with the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the public registry that contains the repository policy to delete. If you do not specify a registry, the default public registry is assumed.
 """
-delete_repository_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+delete_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeImageTags()
@@ -106,8 +106,8 @@ Returns the image tag details for a repository in a public registry.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeImageTags request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
 - `registryId`: The AWS account ID associated with the public registry that contains the repository in which to describe images. If you do not specify a registry, the default public registry is assumed.
 """
-describe_image_tags(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-describe_image_tags(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+describe_image_tags(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+describe_image_tags(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeImages()
@@ -123,8 +123,8 @@ Returns metadata about the images in a repository in a public registry.  Beginni
 - `nextToken`: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
 - `registryId`: The AWS account ID associated with the public registry that contains the repository in which to describe images. If you do not specify a registry, the default public registry is assumed.
 """
-describe_images(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-describe_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+describe_images(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     DescribeRegistries()
@@ -135,8 +135,8 @@ Returns details for a public registry.
 - `maxResults`: The maximum number of repository results returned by DescribeRegistries in paginated output. When this parameter is used, DescribeRegistries only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRegistries request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRegistries returns up to 100 results and a nextToken value, if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeRegistries request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-describe_registries(; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeRegistries"; aws_config=aws_config)
-describe_registries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeRegistries", args; aws_config=aws_config)
+describe_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRegistries"; aws_config=aws_config)
+describe_registries(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRegistries", args; aws_config=aws_config)
 
 """
     DescribeRepositories()
@@ -149,8 +149,8 @@ Describes repositories in a public registry.
 - `registryId`: The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
 - `repositoryNames`: A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
 """
-describe_repositories(; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeRepositories"; aws_config=aws_config)
-describe_repositories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("DescribeRepositories", args; aws_config=aws_config)
+describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRepositories"; aws_config=aws_config)
+describe_repositories(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRepositories", args; aws_config=aws_config)
 
 """
     GetAuthorizationToken()
@@ -158,8 +158,8 @@ describe_repositories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=g
 Retrieves an authorization token. An authorization token represents your IAM authentication credentials and can be used to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
 
 """
-get_authorization_token(; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken"; aws_config=aws_config)
-get_authorization_token(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken", args; aws_config=aws_config)
+get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken"; aws_config=aws_config)
+get_authorization_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken", args; aws_config=aws_config)
 
 """
     GetRegistryCatalogData()
@@ -167,8 +167,8 @@ get_authorization_token(args::AbstractDict{String, <:Any}; aws_config::AWSConfig
 Retrieves catalog metadata for a public registry.
 
 """
-get_registry_catalog_data(; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData"; aws_config=aws_config)
-get_registry_catalog_data(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData", args; aws_config=aws_config)
+get_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData"; aws_config=aws_config)
+get_registry_catalog_data(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData", args; aws_config=aws_config)
 
 """
     GetRepositoryCatalogData()
@@ -181,8 +181,8 @@ Retrieve catalog metadata for a repository in a public registry. This metadata i
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
 """
-get_repository_catalog_data(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_repository_catalog_data(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_repository_catalog_data(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+get_repository_catalog_data(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     GetRepositoryPolicy()
@@ -195,8 +195,8 @@ Retrieves the repository policy for the specified repository.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the public registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
 """
-get_repository_policy(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+get_repository_policy(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     InitiateLayerUpload()
@@ -209,8 +209,8 @@ Notifies Amazon ECR that you intend to upload an image layer. When an image is p
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default public registry is assumed.
 """
-initiate_layer_upload(repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-initiate_layer_upload(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
+initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
+initiate_layer_upload(repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     PutImage()
@@ -227,8 +227,8 @@ Creates or updates the image manifest and tags associated with an image. When an
 - `imageTag`: The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
 - `registryId`: The AWS account ID associated with the public registry that contains the repository in which to put the image. If you do not specify a registry, the default public registry is assumed.
 """
-put_image(imageManifest, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_image(imageManifest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_image(imageManifest, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     PutRegistryCatalogData()
@@ -238,8 +238,8 @@ Create or updates the catalog data for a public registry.
 # Optional Parameters
 - `displayName`: The display name for a public registry. The display name is shown as the repository author in the Amazon ECR Public Gallery.  The registry display name is only publicly visible in the Amazon ECR Public Gallery for verified accounts. 
 """
-put_registry_catalog_data(; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData"; aws_config=aws_config)
-put_registry_catalog_data(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData", args; aws_config=aws_config)
+put_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData"; aws_config=aws_config)
+put_registry_catalog_data(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData", args; aws_config=aws_config)
 
 """
     PutRepositoryCatalogData()
@@ -253,8 +253,8 @@ Creates or updates the catalog data for a repository in a public registry.
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the public registry the repository is in. If you do not specify a registry, the default public registry is assumed.
 """
-put_repository_catalog_data(catalogData, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_repository_catalog_data(catalogData, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+put_repository_catalog_data(catalogData, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName); aws_config=aws_config)
+put_repository_catalog_data(catalogData, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     SetRepositoryPolicy()
@@ -269,8 +269,8 @@ Applies a repository policy to the specified public repository to control access
 - `force`: If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
 - `registryId`: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
 """
-set_repository_policy(policyText, repositoryName; aws_config::AWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName); aws_config=aws_config)
-set_repository_policy(policyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
+set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName); aws_config=aws_config)
+set_repository_policy(policyText, repositoryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), args)); aws_config=aws_config)
 
 """
     UploadLayerPart()
@@ -287,5 +287,5 @@ Uploads an image layer part to Amazon ECR. When an image is pushed, each new ima
 # Optional Parameters
 - `registryId`: The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default public registry is assumed.
 """
-upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)
+upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
+upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), args)); aws_config=aws_config)

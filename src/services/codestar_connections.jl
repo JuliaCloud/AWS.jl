@@ -17,8 +17,8 @@ Creates a connection that can then be given to other AWS services like CodePipel
 - `ProviderType`: The name of the external provider where your third-party code repository is configured.
 - `Tags`: The key-value pair to use when tagging the resource.
 """
-create_connection(ConnectionName; aws_config::AWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws_config=aws_config)
-create_connection(ConnectionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), args)); aws_config=aws_config)
+create_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws_config=aws_config)
+create_connection(ConnectionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), args)); aws_config=aws_config)
 
 """
     CreateHost()
@@ -33,8 +33,8 @@ Creates a resource that represents the infrastructure where a third-party provid
 # Optional Parameters
 - `VpcConfiguration`: The VPC configuration to be provisioned for the host. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
 """
-create_host(Name, ProviderEndpoint, ProviderType; aws_config::AWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType); aws_config=aws_config)
-create_host(Name, ProviderEndpoint, ProviderType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType), args)); aws_config=aws_config)
+create_host(Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType); aws_config=aws_config)
+create_host(Name, ProviderEndpoint, ProviderType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType), args)); aws_config=aws_config)
 
 """
     DeleteConnection()
@@ -45,8 +45,8 @@ The connection to be deleted.
 - `ConnectionArn`: The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted. 
 
 """
-delete_connection(ConnectionArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
-delete_connection(ConnectionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), args)); aws_config=aws_config)
+delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
+delete_connection(ConnectionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), args)); aws_config=aws_config)
 
 """
     DeleteHost()
@@ -57,8 +57,8 @@ The host to be deleted. Before you delete a host, all connections associated to 
 - `HostArn`: The Amazon Resource Name (ARN) of the host to be deleted.
 
 """
-delete_host(HostArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-delete_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)
+delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
+delete_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)
 
 """
     GetConnection()
@@ -69,8 +69,8 @@ Returns the connection ARN and details such as status, owner, and provider type.
 - `ConnectionArn`: The Amazon Resource Name (ARN) of a connection.
 
 """
-get_connection(ConnectionArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
-get_connection(ConnectionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), args)); aws_config=aws_config)
+get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
+get_connection(ConnectionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), args)); aws_config=aws_config)
 
 """
     GetHost()
@@ -81,8 +81,8 @@ Returns the host ARN and details such as status, provider type, endpoint, and, i
 - `HostArn`: The Amazon Resource Name (ARN) of the requested host.
 
 """
-get_host(HostArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-get_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)
+get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
+get_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)
 
 """
     ListConnections()
@@ -95,8 +95,8 @@ Lists the connections associated with your account.
 - `NextToken`: The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list.
 - `ProviderTypeFilter`: Filters the list of connections to those associated with a specified provider, such as Bitbucket.
 """
-list_connections(; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListConnections"; aws_config=aws_config)
-list_connections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListConnections", args; aws_config=aws_config)
+list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListConnections"; aws_config=aws_config)
+list_connections(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListConnections", args; aws_config=aws_config)
 
 """
     ListHosts()
@@ -107,8 +107,8 @@ Lists the hosts associated with your account.
 - `MaxResults`: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
 """
-list_hosts(; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListHosts"; aws_config=aws_config)
-list_hosts(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListHosts", args; aws_config=aws_config)
+list_hosts(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListHosts"; aws_config=aws_config)
+list_hosts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListHosts", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -119,8 +119,8 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -132,8 +132,8 @@ Adds to or modifies the tags of the given resource. Tags are metadata that can b
 - `Tags`: The tags you want to modify or add to the resource.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -145,8 +145,8 @@ Removes tags from an AWS resource.
 - `TagKeys`: The list of keys for the tags to be removed from the resource.
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateHost()
@@ -160,5 +160,5 @@ Updates a specified host with the provided configurations.
 - `ProviderEndpoint`: The URL or endpoint of the host to be updated.
 - `VpcConfiguration`: The VPC configuration of the host to be updated. A VPC must be configured and the infrastructure to be represented by the host must already be connected to the VPC.
 """
-update_host(HostArn; aws_config::AWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-update_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)
+update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
+update_host(HostArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), args)); aws_config=aws_config)

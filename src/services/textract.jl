@@ -16,8 +16,8 @@ Analyzes an input document for relationships between detected items.  The types 
 # Optional Parameters
 - `HumanLoopConfig`: Sets the configuration for the human in the loop workflow for analyzing documents.
 """
-analyze_document(Document, FeatureTypes; aws_config::AWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-analyze_document(Document, FeatureTypes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), args)); aws_config=aws_config)
+analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
+analyze_document(Document, FeatureTypes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), args)); aws_config=aws_config)
 
 """
     DetectDocumentText()
@@ -28,8 +28,8 @@ Detects text in the input document. Amazon Textract can detect lines of text and
 - `Document`: The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
 
 """
-detect_document_text(Document; aws_config::AWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
-detect_document_text(Document, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), args)); aws_config=aws_config)
+detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
+detect_document_text(Document, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), args)); aws_config=aws_config)
 
 """
     GetDocumentAnalysis()
@@ -43,8 +43,8 @@ Gets the results for an Amazon Textract asynchronous operation that analyzes tex
 - `MaxResults`: The maximum number of results to return per paginated call. The largest value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The default value is 1,000.
 - `NextToken`: If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
 """
-get_document_analysis(JobId; aws_config::AWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_analysis(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_document_analysis(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetDocumentTextDetection()
@@ -58,8 +58,8 @@ Gets the results for an Amazon Textract asynchronous operation that detects text
 - `MaxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The default value is 1,000.
 - `NextToken`: If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response. You can use this pagination token to retrieve the next set of blocks.
 """
-get_document_text_detection(JobId; aws_config::AWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_text_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+get_document_text_detection(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     StartDocumentAnalysis()
@@ -77,8 +77,8 @@ Starts the asynchronous analysis of an input document for relationships between 
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
 - `OutputConfig`: Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
 """
-start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-start_document_analysis(DocumentLocation, FeatureTypes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), args)); aws_config=aws_config)
+start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
+start_document_analysis(DocumentLocation, FeatureTypes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), args)); aws_config=aws_config)
 
 """
     StartDocumentTextDetection()
@@ -95,5 +95,5 @@ Starts the asynchronous detection of text in a document. Amazon Textract can det
 - `NotificationChannel`: The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
 - `OutputConfig`: Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
 """
-start_document_text_detection(DocumentLocation; aws_config::AWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}("DocumentLocation"=>DocumentLocation); aws_config=aws_config)
-start_document_text_detection(DocumentLocation, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), args)); aws_config=aws_config)
+start_document_text_detection(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}("DocumentLocation"=>DocumentLocation); aws_config=aws_config)
+start_document_text_detection(DocumentLocation, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), args)); aws_config=aws_config)

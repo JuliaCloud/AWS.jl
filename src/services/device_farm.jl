@@ -18,8 +18,8 @@ Creates a device pool.
 - `description`: The device pool's description.
 - `maxDevices`: The number of devices that Device Farm can add to your device pool. Device Farm adds devices that are available and meet the criteria that you assign for the rules parameter. Depending on how many devices meet these constraints, your device pool might contain fewer devices than the value for this parameter. By specifying the maximum number of devices, you can control the costs that you incur by running tests.
 """
-create_device_pool(name, projectArn, rules; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateDevicePool", Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "rules"=>rules); aws_config=aws_config)
-create_device_pool(name, projectArn, rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "rules"=>rules), args)); aws_config=aws_config)
+create_device_pool(name, projectArn, rules; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateDevicePool", Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "rules"=>rules); aws_config=aws_config)
+create_device_pool(name, projectArn, rules, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "rules"=>rules), args)); aws_config=aws_config)
 
 """
     CreateInstanceProfile()
@@ -35,8 +35,8 @@ Creates a profile that can be applied to one or more private fleet device instan
 - `packageCleanup`: When set to true, Device Farm removes app packages after a test run. The default value is false for private devices.
 - `rebootAfterUse`: When set to true, Device Farm reboots the instance after a test run. The default value is true.
 """
-create_instance_profile(name; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateInstanceProfile", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_instance_profile(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_instance_profile(name; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateInstanceProfile", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_instance_profile(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateNetworkProfile()
@@ -59,8 +59,8 @@ Creates a network profile.
 - `uplinkJitterMs`: Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
 - `uplinkLossPercent`: Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
 """
-create_network_profile(name, projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateNetworkProfile", Dict{String, Any}("name"=>name, "projectArn"=>projectArn); aws_config=aws_config)
-create_network_profile(name, projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn), args)); aws_config=aws_config)
+create_network_profile(name, projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateNetworkProfile", Dict{String, Any}("name"=>name, "projectArn"=>projectArn); aws_config=aws_config)
+create_network_profile(name, projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     CreateProject()
@@ -73,8 +73,8 @@ Creates a project.
 # Optional Parameters
 - `defaultJobTimeoutMinutes`: Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
 """
-create_project(name; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_project(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateRemoteAccessSession()
@@ -97,8 +97,8 @@ Specifies and starts a remote access session.
 - `skipAppResign`: When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information on how Device Farm modifies your uploads during tests, see Do you modify my app? 
 - `sshPublicKey`: Ignored. The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This key is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
 """
-create_remote_access_session(deviceArn, projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateRemoteAccessSession", Dict{String, Any}("deviceArn"=>deviceArn, "projectArn"=>projectArn); aws_config=aws_config)
-create_remote_access_session(deviceArn, projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceArn"=>deviceArn, "projectArn"=>projectArn), args)); aws_config=aws_config)
+create_remote_access_session(deviceArn, projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateRemoteAccessSession", Dict{String, Any}("deviceArn"=>deviceArn, "projectArn"=>projectArn); aws_config=aws_config)
+create_remote_access_session(deviceArn, projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceArn"=>deviceArn, "projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     CreateTestGridProject()
@@ -111,8 +111,8 @@ Creates a Selenium testing project. Projects are used to track TestGridSession i
 # Optional Parameters
 - `description`: Human-readable description of the project.
 """
-create_test_grid_project(name; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_test_grid_project(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_test_grid_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
+create_test_grid_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateTestGridUrl()
@@ -124,8 +124,8 @@ Creates a signed, short-term URL that can be passed to a Selenium RemoteWebDrive
 - `projectArn`: ARN (from CreateTestGridProject or ListTestGridProjects) to associate with the short-term URL. 
 
 """
-create_test_grid_url(expiresInSeconds, projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateTestGridUrl", Dict{String, Any}("expiresInSeconds"=>expiresInSeconds, "projectArn"=>projectArn); aws_config=aws_config)
-create_test_grid_url(expiresInSeconds, projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateTestGridUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expiresInSeconds"=>expiresInSeconds, "projectArn"=>projectArn), args)); aws_config=aws_config)
+create_test_grid_url(expiresInSeconds, projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridUrl", Dict{String, Any}("expiresInSeconds"=>expiresInSeconds, "projectArn"=>projectArn); aws_config=aws_config)
+create_test_grid_url(expiresInSeconds, projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expiresInSeconds"=>expiresInSeconds, "projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     CreateUpload()
@@ -140,8 +140,8 @@ Uploads an app or test scripts.
 # Optional Parameters
 - `contentType`: The upload's content type (for example, application/octet-stream).
 """
-create_upload(name, projectArn, type; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateUpload", Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "type"=>type); aws_config=aws_config)
-create_upload(name, projectArn, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "type"=>type), args)); aws_config=aws_config)
+create_upload(name, projectArn, type; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateUpload", Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "type"=>type); aws_config=aws_config)
+create_upload(name, projectArn, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "projectArn"=>projectArn, "type"=>type), args)); aws_config=aws_config)
 
 """
     CreateVPCEConfiguration()
@@ -156,8 +156,8 @@ Creates a configuration record in Device Farm for your Amazon Virtual Private Cl
 # Optional Parameters
 - `vpceConfigurationDescription`: An optional description that provides details about your VPC endpoint configuration.
 """
-create_vpceconfiguration(serviceDnsName, vpceConfigurationName, vpceServiceName; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateVPCEConfiguration", Dict{String, Any}("serviceDnsName"=>serviceDnsName, "vpceConfigurationName"=>vpceConfigurationName, "vpceServiceName"=>vpceServiceName); aws_config=aws_config)
-create_vpceconfiguration(serviceDnsName, vpceConfigurationName, vpceServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("CreateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceDnsName"=>serviceDnsName, "vpceConfigurationName"=>vpceConfigurationName, "vpceServiceName"=>vpceServiceName), args)); aws_config=aws_config)
+create_vpceconfiguration(serviceDnsName, vpceConfigurationName, vpceServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateVPCEConfiguration", Dict{String, Any}("serviceDnsName"=>serviceDnsName, "vpceConfigurationName"=>vpceConfigurationName, "vpceServiceName"=>vpceServiceName); aws_config=aws_config)
+create_vpceconfiguration(serviceDnsName, vpceConfigurationName, vpceServiceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceDnsName"=>serviceDnsName, "vpceConfigurationName"=>vpceConfigurationName, "vpceServiceName"=>vpceServiceName), args)); aws_config=aws_config)
 
 """
     DeleteDevicePool()
@@ -168,8 +168,8 @@ Deletes a device pool given the pool ARN. Does not allow deletion of curated poo
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm device pool to delete.
 
 """
-delete_device_pool(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteInstanceProfile()
@@ -180,8 +180,8 @@ Deletes a profile that can be applied to one or more private device instances.
 - `arn`: The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
 
 """
-delete_instance_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteNetworkProfile()
@@ -192,8 +192,8 @@ Deletes a network profile.
 - `arn`: The ARN of the network profile to delete.
 
 """
-delete_network_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteProject()
@@ -204,8 +204,8 @@ Deletes an AWS Device Farm project, given the project ARN.  Deleting this resour
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
 
 """
-delete_project(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_project(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_project(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteRemoteAccessSession()
@@ -216,8 +216,8 @@ Deletes a completed remote access session and its results.
 - `arn`: The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
 
 """
-delete_remote_access_session(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteRun()
@@ -228,8 +228,8 @@ Deletes the run, given the run ARN.  Deleting this resource does not stop an in-
 - `arn`: The Amazon Resource Name (ARN) for the run to delete.
 
 """
-delete_run(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_run(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_run(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteTestGridProject()
@@ -240,8 +240,8 @@ delete_run(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_
 - `projectArn`: The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
 
 """
-delete_test_grid_project(projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
-delete_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
+delete_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
+delete_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     DeleteUpload()
@@ -252,8 +252,8 @@ Deletes an upload given the upload ARN.
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm upload to delete.
 
 """
-delete_upload(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     DeleteVPCEConfiguration()
@@ -264,8 +264,8 @@ Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
 - `arn`: The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to delete.
 
 """
-delete_vpceconfiguration(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("DeleteVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+delete_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+delete_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("DeleteVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetAccountSettings()
@@ -273,8 +273,8 @@ delete_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWS
 Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the account.
 
 """
-get_account_settings(; aws_config::AWSConfig=global_aws_config()) = device_farm("GetAccountSettings"; aws_config=aws_config)
-get_account_settings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetAccountSettings", args; aws_config=aws_config)
+get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetAccountSettings"; aws_config=aws_config)
+get_account_settings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetAccountSettings", args; aws_config=aws_config)
 
 """
     GetDevice()
@@ -285,8 +285,8 @@ Gets information about a unique device type.
 - `arn`: The device type's ARN.
 
 """
-get_device(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevice", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_device(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_device(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevice", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_device(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetDeviceInstance()
@@ -297,8 +297,8 @@ Returns information about a device instance that belongs to a private device fle
 - `arn`: The Amazon Resource Name (ARN) of the instance you're requesting information about.
 
 """
-get_device_instance(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDeviceInstance", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_device_instance(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDeviceInstance", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_device_instance(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetDevicePool()
@@ -309,8 +309,8 @@ Gets information about a device pool.
 - `arn`: The device pool's ARN.
 
 """
-get_device_pool(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetDevicePoolCompatibility()
@@ -326,8 +326,8 @@ Gets information about compatibility with a device pool.
 - `test`: Information about the uploaded test to be run against the device pool.
 - `testType`: The test type for the specified device pool. Allowed values include the following:   BUILTIN_FUZZ.   BUILTIN_EXPLORER. For Android, an app explorer that traverses an Android app, interacting with it and capturing screenshots at the same time.   APPIUM_JAVA_JUNIT.   APPIUM_JAVA_TESTNG.   APPIUM_PYTHON.   APPIUM_NODE.   APPIUM_RUBY.   APPIUM_WEB_JAVA_JUNIT.   APPIUM_WEB_JAVA_TESTNG.   APPIUM_WEB_PYTHON.   APPIUM_WEB_NODE.   APPIUM_WEB_RUBY.   CALABASH.   INSTRUMENTATION.   UIAUTOMATION.   UIAUTOMATOR.   XCTEST.   XCTEST_UI.  
 """
-get_device_pool_compatibility(devicePoolArn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevicePoolCompatibility", Dict{String, Any}("devicePoolArn"=>devicePoolArn); aws_config=aws_config)
-get_device_pool_compatibility(devicePoolArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetDevicePoolCompatibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("devicePoolArn"=>devicePoolArn), args)); aws_config=aws_config)
+get_device_pool_compatibility(devicePoolArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevicePoolCompatibility", Dict{String, Any}("devicePoolArn"=>devicePoolArn); aws_config=aws_config)
+get_device_pool_compatibility(devicePoolArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetDevicePoolCompatibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("devicePoolArn"=>devicePoolArn), args)); aws_config=aws_config)
 
 """
     GetInstanceProfile()
@@ -338,8 +338,8 @@ Returns information about the specified instance profile.
 - `arn`: The Amazon Resource Name (ARN) of an instance profile.
 
 """
-get_instance_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetJob()
@@ -350,8 +350,8 @@ Gets information about a job.
 - `arn`: The job's ARN.
 
 """
-get_job(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetJob", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_job(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_job(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetJob", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_job(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetNetworkProfile()
@@ -362,8 +362,8 @@ Returns information about a network profile.
 - `arn`: The ARN of the network profile to return information about.
 
 """
-get_network_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetOfferingStatus()
@@ -373,8 +373,8 @@ Gets the current status and future status of all offerings purchased by an AWS a
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-get_offering_status(; aws_config::AWSConfig=global_aws_config()) = device_farm("GetOfferingStatus"; aws_config=aws_config)
-get_offering_status(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetOfferingStatus", args; aws_config=aws_config)
+get_offering_status(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetOfferingStatus"; aws_config=aws_config)
+get_offering_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetOfferingStatus", args; aws_config=aws_config)
 
 """
     GetProject()
@@ -385,8 +385,8 @@ Gets information about a project.
 - `arn`: The project's ARN.
 
 """
-get_project(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_project(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_project(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetRemoteAccessSession()
@@ -397,8 +397,8 @@ Returns a link to a currently running remote access session.
 - `arn`: The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
 
 """
-get_remote_access_session(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetRun()
@@ -409,8 +409,8 @@ Gets information about a run.
 - `arn`: The run's ARN.
 
 """
-get_run(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_run(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_run(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetSuite()
@@ -421,8 +421,8 @@ Gets information about a suite.
 - `arn`: The suite's ARN.
 
 """
-get_suite(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetSuite", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_suite(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetSuite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_suite(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetSuite", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_suite(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetSuite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetTest()
@@ -433,8 +433,8 @@ Gets information about a test.
 - `arn`: The test's ARN.
 
 """
-get_test(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTest", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_test(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_test(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTest", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_test(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetTestGridProject()
@@ -445,8 +445,8 @@ Retrieves information about a Selenium testing project.
 - `projectArn`: The ARN of the Selenium testing project, from either CreateTestGridProject or ListTestGridProjects.
 
 """
-get_test_grid_project(projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
-get_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
+get_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
+get_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     GetTestGridSession()
@@ -458,8 +458,8 @@ A session is an instance of a browser created through a RemoteWebDriver with the
 - `sessionArn`: An ARN that uniquely identifies a TestGridSession.
 - `sessionId`: An ID associated with this session.
 """
-get_test_grid_session(; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTestGridSession"; aws_config=aws_config)
-get_test_grid_session(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetTestGridSession", args; aws_config=aws_config)
+get_test_grid_session(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTestGridSession"; aws_config=aws_config)
+get_test_grid_session(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetTestGridSession", args; aws_config=aws_config)
 
 """
     GetUpload()
@@ -470,8 +470,8 @@ Gets information about an upload.
 - `arn`: The upload's ARN.
 
 """
-get_upload(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     GetVPCEConfiguration()
@@ -482,8 +482,8 @@ Returns information about the configuration settings for your Amazon Virtual Pri
 - `arn`: The Amazon Resource Name (ARN) of the VPC endpoint configuration you want to describe.
 
 """
-get_vpceconfiguration(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("GetVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-get_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("GetVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+get_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+get_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("GetVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     InstallToRemoteAccessSession()
@@ -495,8 +495,8 @@ Installs an application to the device in a remote access session. For Android ap
 - `remoteAccessSessionArn`: The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
 
 """
-install_to_remote_access_session(appArn, remoteAccessSessionArn; aws_config::AWSConfig=global_aws_config()) = device_farm("InstallToRemoteAccessSession", Dict{String, Any}("appArn"=>appArn, "remoteAccessSessionArn"=>remoteAccessSessionArn); aws_config=aws_config)
-install_to_remote_access_session(appArn, remoteAccessSessionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("InstallToRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "remoteAccessSessionArn"=>remoteAccessSessionArn), args)); aws_config=aws_config)
+install_to_remote_access_session(appArn, remoteAccessSessionArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("InstallToRemoteAccessSession", Dict{String, Any}("appArn"=>appArn, "remoteAccessSessionArn"=>remoteAccessSessionArn); aws_config=aws_config)
+install_to_remote_access_session(appArn, remoteAccessSessionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("InstallToRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appArn"=>appArn, "remoteAccessSessionArn"=>remoteAccessSessionArn), args)); aws_config=aws_config)
 
 """
     ListArtifacts()
@@ -510,8 +510,8 @@ Gets information about artifacts.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_artifacts(arn, type; aws_config::AWSConfig=global_aws_config()) = device_farm("ListArtifacts", Dict{String, Any}("arn"=>arn, "type"=>type); aws_config=aws_config)
-list_artifacts(arn, type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "type"=>type), args)); aws_config=aws_config)
+list_artifacts(arn, type; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListArtifacts", Dict{String, Any}("arn"=>arn, "type"=>type); aws_config=aws_config)
+list_artifacts(arn, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "type"=>type), args)); aws_config=aws_config)
 
 """
     ListDeviceInstances()
@@ -522,8 +522,8 @@ Returns information about the private device instances associated with one or mo
 - `maxResults`: An integer that specifies the maximum number of items you want to return in the API response.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_device_instances(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDeviceInstances"; aws_config=aws_config)
-list_device_instances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDeviceInstances", args; aws_config=aws_config)
+list_device_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDeviceInstances"; aws_config=aws_config)
+list_device_instances(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDeviceInstances", args; aws_config=aws_config)
 
 """
     ListDevicePools()
@@ -537,8 +537,8 @@ Gets information about device pools.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 - `type`: The device pools' type. Allowed values include:   CURATED: A device pool that is created and managed by AWS Device Farm.   PRIVATE: A device pool that is created and managed by the device pool developer.  
 """
-list_device_pools(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDevicePools", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_device_pools(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDevicePools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_device_pools(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDevicePools", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_device_pools(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDevicePools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListDevices()
@@ -550,8 +550,8 @@ Gets information about unique device types.
 - `filters`: Used to select a set of devices. A filter is made up of an attribute, an operator, and one or more values.   Attribute: The aspect of a device such as platform or model used as the selection criteria in a device filter. Allowed values include:   ARN: The Amazon Resource Name (ARN) of the device (for example, arn:aws:devicefarm:us-west-2::device:12345Example).   PLATFORM: The device platform. Valid values are ANDROID or IOS.   OS_VERSION: The operating system version (for example, 10.3.2).   MODEL: The device model (for example, iPad 5th Gen).   AVAILABILITY: The current availability of the device. Valid values are AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.   FORM_FACTOR: The device form factor. Valid values are PHONE or TABLET.   MANUFACTURER: The device manufacturer (for example, Apple).   REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access. Valid values are TRUE or FALSE.   REMOTE_DEBUG_ENABLED: Whether the device is enabled for remote debugging. Valid values are TRUE or FALSE. Because remote debugging is no longer supported, this attribute is ignored.   INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.   INSTANCE_LABELS: The label of the device instance.   FLEET_TYPE: The fleet type. Valid values are PUBLIC or PRIVATE.     Operator: The filter operator.   The EQUALS operator is available for every attribute except INSTANCE_LABELS.   The CONTAINS operator is available for the INSTANCE_LABELS and MODEL attributes.   The IN and NOT_IN operators are available for the ARN, OS_VERSION, MODEL, MANUFACTURER, and INSTANCE_ARN attributes.   The LESS_THAN, GREATER_THAN, LESS_THAN_OR_EQUALS, and GREATER_THAN_OR_EQUALS operators are also available for the OS_VERSION attribute.     Values: An array of one or more filter values.   The IN and NOT_IN operators take a values array that has one or more elements.   The other operators require an array with a single element.   In a request, the AVAILABILITY attribute takes the following values: AVAILABLE, HIGHLY_AVAILABLE, BUSY, or TEMPORARY_NOT_AVAILABLE.    
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_devices(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDevices"; aws_config=aws_config)
-list_devices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListDevices", args; aws_config=aws_config)
+list_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDevices"; aws_config=aws_config)
+list_devices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListDevices", args; aws_config=aws_config)
 
 """
     ListInstanceProfiles()
@@ -562,8 +562,8 @@ Returns information about all the instance profiles in an AWS account.
 - `maxResults`: An integer that specifies the maximum number of items you want to return in the API response.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_instance_profiles(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListInstanceProfiles"; aws_config=aws_config)
-list_instance_profiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListInstanceProfiles", args; aws_config=aws_config)
+list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListInstanceProfiles"; aws_config=aws_config)
+list_instance_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListInstanceProfiles", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -576,8 +576,8 @@ Gets information about jobs for a given test run.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_jobs(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListJobs", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_jobs(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_jobs(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListJobs", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_jobs(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListNetworkProfiles()
@@ -591,8 +591,8 @@ Returns the list of available network profiles.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 - `type`: The type of network profile to return information about. Valid values are listed here.
 """
-list_network_profiles(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListNetworkProfiles", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_network_profiles(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListNetworkProfiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_network_profiles(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListNetworkProfiles", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_network_profiles(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListNetworkProfiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListOfferingPromotions()
@@ -602,8 +602,8 @@ Returns a list of offering promotions. Each offering promotion record contains t
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_offering_promotions(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferingPromotions"; aws_config=aws_config)
-list_offering_promotions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferingPromotions", args; aws_config=aws_config)
+list_offering_promotions(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferingPromotions"; aws_config=aws_config)
+list_offering_promotions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferingPromotions", args; aws_config=aws_config)
 
 """
     ListOfferingTransactions()
@@ -613,8 +613,8 @@ Returns a list of all historical purchases, renewals, and system renewal transac
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_offering_transactions(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferingTransactions"; aws_config=aws_config)
-list_offering_transactions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferingTransactions", args; aws_config=aws_config)
+list_offering_transactions(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferingTransactions"; aws_config=aws_config)
+list_offering_transactions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferingTransactions", args; aws_config=aws_config)
 
 """
     ListOfferings()
@@ -624,8 +624,8 @@ Returns a list of products or offerings that the user can manage through the API
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_offerings(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferings"; aws_config=aws_config)
-list_offerings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListOfferings", args; aws_config=aws_config)
+list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferings"; aws_config=aws_config)
+list_offerings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListOfferings", args; aws_config=aws_config)
 
 """
     ListProjects()
@@ -636,8 +636,8 @@ Gets information about projects.
 - `arn`: Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_projects(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListProjects"; aws_config=aws_config)
-list_projects(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListProjects", args; aws_config=aws_config)
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListProjects"; aws_config=aws_config)
+list_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListProjects", args; aws_config=aws_config)
 
 """
     ListRemoteAccessSessions()
@@ -650,8 +650,8 @@ Returns a list of all currently running remote access sessions.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_remote_access_sessions(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListRemoteAccessSessions", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_remote_access_sessions(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListRemoteAccessSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_remote_access_sessions(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListRemoteAccessSessions", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_remote_access_sessions(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListRemoteAccessSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListRuns()
@@ -664,8 +664,8 @@ Gets information about runs, given an AWS Device Farm project ARN.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_runs(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListRuns", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_runs(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_runs(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListRuns", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_runs(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListSamples()
@@ -678,8 +678,8 @@ Gets information about samples, given an AWS Device Farm job ARN.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_samples(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListSamples", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_samples(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListSamples", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_samples(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListSamples", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_samples(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListSamples", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListSuites()
@@ -692,8 +692,8 @@ Gets information about test suites for a given job.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_suites(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListSuites", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_suites(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListSuites", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_suites(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListSuites", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_suites(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListSuites", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -704,8 +704,8 @@ List the tags for an AWS Device Farm resource.
 - `ResourceARN`: The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     ListTestGridProjects()
@@ -716,8 +716,8 @@ Gets a list of all Selenium testing projects in your account.
 - `maxResult`: Return no more than this number of results.
 - `nextToken`: From a response, used to continue a paginated listing. 
 """
-list_test_grid_projects(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridProjects"; aws_config=aws_config)
-list_test_grid_projects(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridProjects", args; aws_config=aws_config)
+list_test_grid_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridProjects"; aws_config=aws_config)
+list_test_grid_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridProjects", args; aws_config=aws_config)
 
 """
     ListTestGridSessionActions()
@@ -731,8 +731,8 @@ Returns a list of the actions taken in a TestGridSession.
 - `maxResult`: The maximum number of sessions to return per response.
 - `nextToken`: Pagination token.
 """
-list_test_grid_session_actions(sessionArn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessionActions", Dict{String, Any}("sessionArn"=>sessionArn); aws_config=aws_config)
-list_test_grid_session_actions(sessionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessionActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), args)); aws_config=aws_config)
+list_test_grid_session_actions(sessionArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessionActions", Dict{String, Any}("sessionArn"=>sessionArn); aws_config=aws_config)
+list_test_grid_session_actions(sessionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessionActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), args)); aws_config=aws_config)
 
 """
     ListTestGridSessionArtifacts()
@@ -747,8 +747,8 @@ Retrieves a list of artifacts created during the session.
 - `nextToken`: Pagination token.
 - `type`: Limit results to a specified type of artifact.
 """
-list_test_grid_session_artifacts(sessionArn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessionArtifacts", Dict{String, Any}("sessionArn"=>sessionArn); aws_config=aws_config)
-list_test_grid_session_artifacts(sessionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessionArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), args)); aws_config=aws_config)
+list_test_grid_session_artifacts(sessionArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessionArtifacts", Dict{String, Any}("sessionArn"=>sessionArn); aws_config=aws_config)
+list_test_grid_session_artifacts(sessionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessionArtifacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionArn"=>sessionArn), args)); aws_config=aws_config)
 
 """
     ListTestGridSessions()
@@ -767,8 +767,8 @@ Retrieves a list of sessions for a TestGridProject.
 - `nextToken`: Pagination token.
 - `status`: Return only sessions in this state.
 """
-list_test_grid_sessions(projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessions", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
-list_test_grid_sessions(projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTestGridSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
+list_test_grid_sessions(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessions", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
+list_test_grid_sessions(projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTestGridSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     ListTests()
@@ -781,8 +781,8 @@ Gets information about tests in a given test suite.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_tests(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTests", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_tests(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_tests(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTests", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_tests(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListUniqueProblems()
@@ -795,8 +795,8 @@ Gets information about unique problems, such as exceptions or crashes. Unique pr
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_unique_problems(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListUniqueProblems", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_unique_problems(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListUniqueProblems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_unique_problems(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListUniqueProblems", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_unique_problems(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListUniqueProblems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListUploads()
@@ -810,8 +810,8 @@ Gets information about uploads, given an AWS Device Farm project ARN.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 - `type`: The type of upload. Must be one of the following values:   ANDROID_APP   IOS_APP   WEB_APP   EXTERNAL_DATA   APPIUM_JAVA_JUNIT_TEST_PACKAGE   APPIUM_JAVA_TESTNG_TEST_PACKAGE   APPIUM_PYTHON_TEST_PACKAGE   APPIUM_NODE_TEST_PACKAGE   APPIUM_RUBY_TEST_PACKAGE   APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE   APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE   APPIUM_WEB_PYTHON_TEST_PACKAGE   APPIUM_WEB_NODE_TEST_PACKAGE   APPIUM_WEB_RUBY_TEST_PACKAGE   CALABASH_TEST_PACKAGE   INSTRUMENTATION_TEST_PACKAGE   UIAUTOMATION_TEST_PACKAGE   UIAUTOMATOR_TEST_PACKAGE   XCTEST_TEST_PACKAGE   XCTEST_UI_TEST_PACKAGE   APPIUM_JAVA_JUNIT_TEST_SPEC   APPIUM_JAVA_TESTNG_TEST_SPEC   APPIUM_PYTHON_TEST_SPEC   APPIUM_NODE_TEST_SPEC    APPIUM_RUBY_TEST_SPEC   APPIUM_WEB_JAVA_JUNIT_TEST_SPEC   APPIUM_WEB_JAVA_TESTNG_TEST_SPEC   APPIUM_WEB_PYTHON_TEST_SPEC   APPIUM_WEB_NODE_TEST_SPEC   APPIUM_WEB_RUBY_TEST_SPEC   INSTRUMENTATION_TEST_SPEC   XCTEST_UI_TEST_SPEC  
 """
-list_uploads(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("ListUploads", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_uploads(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListUploads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+list_uploads(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListUploads", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+list_uploads(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListUploads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     ListVPCEConfigurations()
@@ -822,8 +822,8 @@ Returns information about all Amazon Virtual Private Cloud (VPC) endpoint config
 - `maxResults`: An integer that specifies the maximum number of items you want to return in the API response.
 - `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
 """
-list_vpceconfigurations(; aws_config::AWSConfig=global_aws_config()) = device_farm("ListVPCEConfigurations"; aws_config=aws_config)
-list_vpceconfigurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ListVPCEConfigurations", args; aws_config=aws_config)
+list_vpceconfigurations(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListVPCEConfigurations"; aws_config=aws_config)
+list_vpceconfigurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListVPCEConfigurations", args; aws_config=aws_config)
 
 """
     PurchaseOffering()
@@ -835,8 +835,8 @@ Immediately purchases offerings for an AWS account. Offerings renew with the lat
 - `offeringPromotionId`: The ID of the offering promotion to be applied to the purchase.
 - `quantity`: The number of device slots to purchase in an offering request.
 """
-purchase_offering(; aws_config::AWSConfig=global_aws_config()) = device_farm("PurchaseOffering"; aws_config=aws_config)
-purchase_offering(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("PurchaseOffering", args; aws_config=aws_config)
+purchase_offering(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering"; aws_config=aws_config)
+purchase_offering(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering", args; aws_config=aws_config)
 
 """
     RenewOffering()
@@ -847,8 +847,8 @@ Explicitly sets the quantity of devices to renew for an offering, starting from 
 - `offeringId`: The ID of a request to renew an offering.
 - `quantity`: The quantity requested in an offering renewal.
 """
-renew_offering(; aws_config::AWSConfig=global_aws_config()) = device_farm("RenewOffering"; aws_config=aws_config)
-renew_offering(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("RenewOffering", args; aws_config=aws_config)
+renew_offering(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering"; aws_config=aws_config)
+renew_offering(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering", args; aws_config=aws_config)
 
 """
     ScheduleRun()
@@ -867,8 +867,8 @@ Schedules a run.
 - `executionConfiguration`: Specifies configuration information about a test run, such as the execution timeout (in minutes).
 - `name`: The name for the run to be scheduled.
 """
-schedule_run(projectArn, test; aws_config::AWSConfig=global_aws_config()) = device_farm("ScheduleRun", Dict{String, Any}("projectArn"=>projectArn, "test"=>test); aws_config=aws_config)
-schedule_run(projectArn, test, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("ScheduleRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "test"=>test), args)); aws_config=aws_config)
+schedule_run(projectArn, test; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ScheduleRun", Dict{String, Any}("projectArn"=>projectArn, "test"=>test); aws_config=aws_config)
+schedule_run(projectArn, test, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ScheduleRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "test"=>test), args)); aws_config=aws_config)
 
 """
     StopJob()
@@ -879,8 +879,8 @@ Initiates a stop request for the current job. AWS Device Farm immediately stops 
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm job to stop.
 
 """
-stop_job(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("StopJob", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-stop_job(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("StopJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+stop_job(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopJob", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+stop_job(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     StopRemoteAccessSession()
@@ -891,8 +891,8 @@ Ends a specified remote access session.
 - `arn`: The Amazon Resource Name (ARN) of the remote access session to stop.
 
 """
-stop_remote_access_session(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("StopRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-stop_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("StopRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+stop_remote_access_session(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopRemoteAccessSession", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+stop_remote_access_session(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopRemoteAccessSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     StopRun()
@@ -903,8 +903,8 @@ Initiates a stop request for the current test run. AWS Device Farm immediately s
 - `arn`: Represents the Amazon Resource Name (ARN) of the Device Farm run to stop.
 
 """
-stop_run(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("StopRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-stop_run(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("StopRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+stop_run(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopRun", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+stop_run(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("StopRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -916,8 +916,8 @@ Associates the specified tags to a resource with the specified resourceArn. If e
 - `Tags`: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = device_farm("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -929,8 +929,8 @@ Deletes the specified tags from a resource.
 - `TagKeys`: The keys of the tags to be removed.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = device_farm("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDeviceInstance()
@@ -944,8 +944,8 @@ Updates information about a private device instance.
 - `labels`: An array of strings that you want to associate with the device instance.
 - `profileArn`: The ARN of the profile that you want to associate with the device instance.
 """
-update_device_instance(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateDeviceInstance", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_device_instance(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_device_instance(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateDeviceInstance", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_device_instance(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateDeviceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateDevicePool()
@@ -962,8 +962,8 @@ Modifies the name, description, and rules in a device pool given the attributes 
 - `name`: A string that represents the name of the device pool to update.
 - `rules`: Represents the rules to modify for the device pool. Updating rules is optional. If you update rules for your request, the update replaces the existing rules.
 """
-update_device_pool(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_device_pool(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateDevicePool", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_device_pool(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateDevicePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateInstanceProfile()
@@ -980,8 +980,8 @@ Updates information about an existing private device instance profile.
 - `packageCleanup`: The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
 - `rebootAfterUse`: The updated choice for whether you want to reboot the device after use. The default value is true.
 """
-update_instance_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_instance_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateInstanceProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_instance_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateNetworkProfile()
@@ -1004,8 +1004,8 @@ Updates the network profile.
 - `uplinkJitterMs`: Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
 - `uplinkLossPercent`: Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
 """
-update_network_profile(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_network_profile(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateNetworkProfile", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_network_profile(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateProject()
@@ -1019,8 +1019,8 @@ Modifies the specified project name, given the project ARN and a new name.
 - `defaultJobTimeoutMinutes`: The number of minutes a test run in the project executes before it times out.
 - `name`: A string that represents the new name of the project that you are updating.
 """
-update_project(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_project(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_project(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateProject", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_project(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateTestGridProject()
@@ -1034,8 +1034,8 @@ Change details of a project.
 - `description`: Human-readable description for the project.
 - `name`: Human-readable name for the project.
 """
-update_test_grid_project(projectArn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
-update_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
+update_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
+update_test_grid_project(projectArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), args)); aws_config=aws_config)
 
 """
     UpdateUpload()
@@ -1050,8 +1050,8 @@ Updates an uploaded test spec.
 - `editContent`: Set to true if the YAML file has changed and must be updated. Otherwise, set to false.
 - `name`: The upload's test spec file name. The name must not contain any forward slashes (/). The test spec file name must end with the .yaml or .yml file extension.
 """
-update_upload(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_upload(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateUpload", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_upload(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
 
 """
     UpdateVPCEConfiguration()
@@ -1067,5 +1067,5 @@ Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configu
 - `vpceConfigurationName`: The friendly name you give to your VPC endpoint configuration to manage your configurations more easily.
 - `vpceServiceName`: The name of the VPC endpoint service running in your AWS account that you want Device Farm to test.
 """
-update_vpceconfiguration(arn; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = device_farm("UpdateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
+update_vpceconfiguration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateVPCEConfiguration", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
+update_vpceconfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateVPCEConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)

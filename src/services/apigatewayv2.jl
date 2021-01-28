@@ -26,8 +26,8 @@ Creates an Api resource.
 - `target`: This property is part of quick create. Quick create produces an API with an integration, a default catch-all route, and a default stage which is configured to automatically deploy changes. For HTTP integrations, specify a fully qualified URL. For Lambda integrations, specify a function ARN. The type of the integration will be HTTP_PROXY or AWS_PROXY, respectively. Supported only for HTTP APIs.
 - `version`: A version identifier for the API.
 """
-create_api(name, protocolType; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis", Dict{String, Any}("name"=>name, "protocolType"=>protocolType); aws_config=aws_config)
-create_api(name, protocolType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "protocolType"=>protocolType), args)); aws_config=aws_config)
+create_api(name, protocolType; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis", Dict{String, Any}("name"=>name, "protocolType"=>protocolType); aws_config=aws_config)
+create_api(name, protocolType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "protocolType"=>protocolType), args)); aws_config=aws_config)
 
 """
     CreateApiMapping()
@@ -42,8 +42,8 @@ Creates an API mapping.
 # Optional Parameters
 - `apiMappingKey`: The API mapping key.
 """
-create_api_mapping(apiId, domainName, stage; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", Dict{String, Any}("apiId"=>apiId, "stage"=>stage); aws_config=aws_config)
-create_api_mapping(apiId, domainName, stage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId, "stage"=>stage), args)); aws_config=aws_config)
+create_api_mapping(apiId, domainName, stage; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", Dict{String, Any}("apiId"=>apiId, "stage"=>stage); aws_config=aws_config)
+create_api_mapping(apiId, domainName, stage, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId, "stage"=>stage), args)); aws_config=aws_config)
 
 """
     CreateAuthorizer()
@@ -66,8 +66,8 @@ Creates an Authorizer for an API.
 - `identityValidationExpression`: This parameter is not used.
 - `jwtConfiguration`: Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs.
 """
-create_authorizer(apiId, authorizerType, identitySource, name; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", Dict{String, Any}("authorizerType"=>authorizerType, "identitySource"=>identitySource, "name"=>name); aws_config=aws_config)
-create_authorizer(apiId, authorizerType, identitySource, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerType"=>authorizerType, "identitySource"=>identitySource, "name"=>name), args)); aws_config=aws_config)
+create_authorizer(apiId, authorizerType, identitySource, name; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", Dict{String, Any}("authorizerType"=>authorizerType, "identitySource"=>identitySource, "name"=>name); aws_config=aws_config)
+create_authorizer(apiId, authorizerType, identitySource, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerType"=>authorizerType, "identitySource"=>identitySource, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -81,8 +81,8 @@ Creates a Deployment for an API.
 - `description`: The description for the deployment resource.
 - `stageName`: The name of the Stage resource for the Deployment resource to create.
 """
-create_deployment(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments"; aws_config=aws_config)
-create_deployment(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments", args; aws_config=aws_config)
+create_deployment(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments"; aws_config=aws_config)
+create_deployment(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments", args; aws_config=aws_config)
 
 """
     CreateDomainName()
@@ -97,8 +97,8 @@ Creates a domain name.
 - `mutualTlsAuthentication`: The mutual TLS authentication configuration for a custom domain name.
 - `tags`: The collection of tags associated with a domain name.
 """
-create_domain_name(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-create_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), args)); aws_config=aws_config)
+create_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
+create_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), args)); aws_config=aws_config)
 
 """
     CreateIntegration()
@@ -132,8 +132,8 @@ Creates an Integration.
 - `timeoutInMillis`: Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29 seconds for WebSocket APIs and 30 seconds for HTTP APIs.
 - `tlsConfig`: The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
 """
-create_integration(apiId, integrationType; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", Dict{String, Any}("integrationType"=>integrationType); aws_config=aws_config)
-create_integration(apiId, integrationType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationType"=>integrationType), args)); aws_config=aws_config)
+create_integration(apiId, integrationType; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", Dict{String, Any}("integrationType"=>integrationType); aws_config=aws_config)
+create_integration(apiId, integrationType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationType"=>integrationType), args)); aws_config=aws_config)
 
 """
     CreateIntegrationResponse()
@@ -151,8 +151,8 @@ Creates an IntegrationResponses.
 - `responseTemplates`: The collection of response templates for the integration response as a string-to-string map of key-value pairs. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
 - `templateSelectionExpression`: The template selection expression for the integration response. Supported only for WebSocket APIs.
 """
-create_integration_response(apiId, integrationId, integrationResponseKey; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", Dict{String, Any}("integrationResponseKey"=>integrationResponseKey); aws_config=aws_config)
-create_integration_response(apiId, integrationId, integrationResponseKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationResponseKey"=>integrationResponseKey), args)); aws_config=aws_config)
+create_integration_response(apiId, integrationId, integrationResponseKey; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", Dict{String, Any}("integrationResponseKey"=>integrationResponseKey); aws_config=aws_config)
+create_integration_response(apiId, integrationId, integrationResponseKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("integrationResponseKey"=>integrationResponseKey), args)); aws_config=aws_config)
 
 """
     CreateModel()
@@ -168,8 +168,8 @@ Creates a Model for an API.
 - `contentType`: The content-type for the model, for example, \"application/json\".
 - `description`: The description of the model.
 """
-create_model(apiId, name, schema; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/models", Dict{String, Any}("name"=>name, "schema"=>schema); aws_config=aws_config)
-create_model(apiId, name, schema, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), args)); aws_config=aws_config)
+create_model(apiId, name, schema; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/models", Dict{String, Any}("name"=>name, "schema"=>schema); aws_config=aws_config)
+create_model(apiId, name, schema, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), args)); aws_config=aws_config)
 
 """
     CreateRoute()
@@ -192,8 +192,8 @@ Creates a Route for an API.
 - `routeResponseSelectionExpression`: The route response selection expression for the route. Supported only for WebSocket APIs.
 - `target`: The target for the route.
 """
-create_route(apiId, routeKey; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes", Dict{String, Any}("routeKey"=>routeKey); aws_config=aws_config)
-create_route(apiId, routeKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeKey"=>routeKey), args)); aws_config=aws_config)
+create_route(apiId, routeKey; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes", Dict{String, Any}("routeKey"=>routeKey); aws_config=aws_config)
+create_route(apiId, routeKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeKey"=>routeKey), args)); aws_config=aws_config)
 
 """
     CreateRouteResponse()
@@ -210,8 +210,8 @@ Creates a RouteResponse for a Route.
 - `responseModels`: The response models for the route response.
 - `responseParameters`: The route response parameters.
 """
-create_route_response(apiId, routeId, routeResponseKey; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", Dict{String, Any}("routeResponseKey"=>routeResponseKey); aws_config=aws_config)
-create_route_response(apiId, routeId, routeResponseKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeResponseKey"=>routeResponseKey), args)); aws_config=aws_config)
+create_route_response(apiId, routeId, routeResponseKey; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", Dict{String, Any}("routeResponseKey"=>routeResponseKey); aws_config=aws_config)
+create_route_response(apiId, routeId, routeResponseKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeResponseKey"=>routeResponseKey), args)); aws_config=aws_config)
 
 """
     CreateStage()
@@ -233,8 +233,8 @@ Creates a Stage for an API.
 - `stageVariables`: A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 - `tags`: The collection of tags. Each tag element is associated with a given resource.
 """
-create_stage(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages", Dict{String, Any}("stageName"=>stageName); aws_config=aws_config)
-create_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stageName"=>stageName), args)); aws_config=aws_config)
+create_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages", Dict{String, Any}("stageName"=>stageName); aws_config=aws_config)
+create_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stageName"=>stageName), args)); aws_config=aws_config)
 
 """
     CreateVpcLink()
@@ -249,8 +249,8 @@ Creates a VPC link.
 - `securityGroupIds`: A list of security group IDs for the VPC link.
 - `tags`: A list of tags.
 """
-create_vpc_link(name, subnetIds; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/vpclinks", Dict{String, Any}("name"=>name, "subnetIds"=>subnetIds); aws_config=aws_config)
-create_vpc_link(name, subnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "subnetIds"=>subnetIds), args)); aws_config=aws_config)
+create_vpc_link(name, subnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/vpclinks", Dict{String, Any}("name"=>name, "subnetIds"=>subnetIds); aws_config=aws_config)
+create_vpc_link(name, subnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "subnetIds"=>subnetIds), args)); aws_config=aws_config)
 
 """
     DeleteAccessLogSettings()
@@ -262,8 +262,8 @@ Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage
 - `stageName`: The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
 
 """
-delete_access_log_settings(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings"; aws_config=aws_config)
-delete_access_log_settings(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings", args; aws_config=aws_config)
+delete_access_log_settings(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings"; aws_config=aws_config)
+delete_access_log_settings(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings", args; aws_config=aws_config)
 
 """
     DeleteApi()
@@ -274,8 +274,8 @@ Deletes an Api resource.
 - `apiId`: The API identifier.
 
 """
-delete_api(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)"; aws_config=aws_config)
-delete_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)", args; aws_config=aws_config)
+delete_api(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)"; aws_config=aws_config)
+delete_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)", args; aws_config=aws_config)
 
 """
     DeleteApiMapping()
@@ -287,8 +287,8 @@ Deletes an API mapping.
 - `domainName`: The domain name.
 
 """
-delete_api_mapping(apiMappingId, domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)"; aws_config=aws_config)
-delete_api_mapping(apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args; aws_config=aws_config)
+delete_api_mapping(apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)"; aws_config=aws_config)
+delete_api_mapping(apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args; aws_config=aws_config)
 
 """
     DeleteAuthorizer()
@@ -300,8 +300,8 @@ Deletes an Authorizer.
 - `authorizerId`: The authorizer identifier.
 
 """
-delete_authorizer(apiId, authorizerId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
-delete_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
+delete_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
+delete_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
 
 """
     DeleteCorsConfiguration()
@@ -312,8 +312,8 @@ Deletes a CORS configuration.
 - `apiId`: The API identifier.
 
 """
-delete_cors_configuration(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors"; aws_config=aws_config)
-delete_cors_configuration(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors", args; aws_config=aws_config)
+delete_cors_configuration(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors"; aws_config=aws_config)
+delete_cors_configuration(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors", args; aws_config=aws_config)
 
 """
     DeleteDeployment()
@@ -325,8 +325,8 @@ Deletes a Deployment.
 - `deploymentId`: The deployment ID.
 
 """
-delete_deployment(apiId, deploymentId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
-delete_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
+delete_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
+delete_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
 
 """
     DeleteDomainName()
@@ -337,8 +337,8 @@ Deletes a domain name.
 - `domainName`: The domain name.
 
 """
-delete_domain_name(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
-delete_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
+delete_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
+delete_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
 
 """
     DeleteIntegration()
@@ -350,8 +350,8 @@ Deletes an Integration.
 - `integrationId`: The integration ID.
 
 """
-delete_integration(apiId, integrationId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
-delete_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
+delete_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
+delete_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
 
 """
     DeleteIntegrationResponse()
@@ -364,8 +364,8 @@ Deletes an IntegrationResponses.
 - `integrationResponseId`: The integration response ID.
 
 """
-delete_integration_response(apiId, integrationId, integrationResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
-delete_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
+delete_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
+delete_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
 
 """
     DeleteModel()
@@ -377,8 +377,8 @@ Deletes a Model.
 - `modelId`: The model ID.
 
 """
-delete_model(apiId, modelId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
-delete_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
+delete_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
+delete_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
 
 """
     DeleteRoute()
@@ -390,8 +390,8 @@ Deletes a Route.
 - `routeId`: The route ID.
 
 """
-delete_route(apiId, routeId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
-delete_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
+delete_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
+delete_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
 
 """
     DeleteRouteRequestParameter()
@@ -404,8 +404,8 @@ Deletes a route request parameter.
 - `routeId`: The route ID.
 
 """
-delete_route_request_parameter(apiId, requestParameterKey, routeId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)"; aws_config=aws_config)
-delete_route_request_parameter(apiId, requestParameterKey, routeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)", args; aws_config=aws_config)
+delete_route_request_parameter(apiId, requestParameterKey, routeId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)"; aws_config=aws_config)
+delete_route_request_parameter(apiId, requestParameterKey, routeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)", args; aws_config=aws_config)
 
 """
     DeleteRouteResponse()
@@ -418,8 +418,8 @@ Deletes a RouteResponse.
 - `routeResponseId`: The route response ID.
 
 """
-delete_route_response(apiId, routeId, routeResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
-delete_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
+delete_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
+delete_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
 
 """
     DeleteRouteSettings()
@@ -432,8 +432,8 @@ Deletes the RouteSettings for a stage.
 - `stageName`: The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
 
 """
-delete_route_settings(apiId, routeKey, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)"; aws_config=aws_config)
-delete_route_settings(apiId, routeKey, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)", args; aws_config=aws_config)
+delete_route_settings(apiId, routeKey, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)"; aws_config=aws_config)
+delete_route_settings(apiId, routeKey, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)", args; aws_config=aws_config)
 
 """
     DeleteStage()
@@ -445,8 +445,8 @@ Deletes a Stage.
 - `stageName`: The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
 
 """
-delete_stage(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
-delete_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
+delete_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
+delete_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
 
 """
     DeleteVpcLink()
@@ -457,8 +457,8 @@ Deletes a VPC link.
 - `vpcLinkId`: The ID of the VPC link.
 
 """
-delete_vpc_link(vpcLinkId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
-delete_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)
+delete_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
+delete_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)
 
 """
     ExportApi()
@@ -475,8 +475,8 @@ delete_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 - `includeExtensions`: Specifies whether to include API Gateway extensions in the exported API definition. API Gateway extensions are included by default.
 - `stageName`: The name of the API stage to export. If you don't specify this property, a representation of the latest API configuration is exported.
 """
-export_api(apiId, outputType, specification; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", Dict{String, Any}("outputType"=>outputType); aws_config=aws_config)
-export_api(apiId, outputType, specification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputType"=>outputType), args)); aws_config=aws_config)
+export_api(apiId, outputType, specification; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", Dict{String, Any}("outputType"=>outputType); aws_config=aws_config)
+export_api(apiId, outputType, specification, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("outputType"=>outputType), args)); aws_config=aws_config)
 
 """
     GetApi()
@@ -487,8 +487,8 @@ Gets an Api resource.
 - `apiId`: The API identifier.
 
 """
-get_api(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)"; aws_config=aws_config)
-get_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)", args; aws_config=aws_config)
+get_api(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)"; aws_config=aws_config)
+get_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)", args; aws_config=aws_config)
 
 """
     GetApiMapping()
@@ -500,8 +500,8 @@ Gets an API mapping.
 - `domainName`: The domain name.
 
 """
-get_api_mapping(apiMappingId, domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)"; aws_config=aws_config)
-get_api_mapping(apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args; aws_config=aws_config)
+get_api_mapping(apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)"; aws_config=aws_config)
+get_api_mapping(apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args; aws_config=aws_config)
 
 """
     GetApiMappings()
@@ -515,8 +515,8 @@ Gets API mappings.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_api_mappings(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings"; aws_config=aws_config)
-get_api_mappings(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings", args; aws_config=aws_config)
+get_api_mappings(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings"; aws_config=aws_config)
+get_api_mappings(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings", args; aws_config=aws_config)
 
 """
     GetApis()
@@ -527,8 +527,8 @@ Gets a collection of Api resources.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_apis(; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis"; aws_config=aws_config)
-get_apis(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis", args; aws_config=aws_config)
+get_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis"; aws_config=aws_config)
+get_apis(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis", args; aws_config=aws_config)
 
 """
     GetAuthorizer()
@@ -540,8 +540,8 @@ Gets an Authorizer.
 - `authorizerId`: The authorizer identifier.
 
 """
-get_authorizer(apiId, authorizerId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
-get_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
+get_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
+get_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
 
 """
     GetAuthorizers()
@@ -555,8 +555,8 @@ Gets the Authorizers for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_authorizers(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers"; aws_config=aws_config)
-get_authorizers(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers", args; aws_config=aws_config)
+get_authorizers(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers"; aws_config=aws_config)
+get_authorizers(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers", args; aws_config=aws_config)
 
 """
     GetDeployment()
@@ -568,8 +568,8 @@ Gets a Deployment.
 - `deploymentId`: The deployment ID.
 
 """
-get_deployment(apiId, deploymentId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
-get_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
+get_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
+get_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
 
 """
     GetDeployments()
@@ -583,8 +583,8 @@ Gets the Deployments for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_deployments(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments"; aws_config=aws_config)
-get_deployments(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments", args; aws_config=aws_config)
+get_deployments(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments"; aws_config=aws_config)
+get_deployments(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments", args; aws_config=aws_config)
 
 """
     GetDomainName()
@@ -595,8 +595,8 @@ Gets a domain name.
 - `domainName`: The domain name.
 
 """
-get_domain_name(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
-get_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
+get_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
+get_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
 
 """
     GetDomainNames()
@@ -607,8 +607,8 @@ Gets the domain names for an AWS account.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_domain_names(; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames"; aws_config=aws_config)
-get_domain_names(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames", args; aws_config=aws_config)
+get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames"; aws_config=aws_config)
+get_domain_names(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames", args; aws_config=aws_config)
 
 """
     GetIntegration()
@@ -620,8 +620,8 @@ Gets an Integration.
 - `integrationId`: The integration ID.
 
 """
-get_integration(apiId, integrationId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
-get_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
+get_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
+get_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
 
 """
     GetIntegrationResponse()
@@ -634,8 +634,8 @@ Gets an IntegrationResponses.
 - `integrationResponseId`: The integration response ID.
 
 """
-get_integration_response(apiId, integrationId, integrationResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
-get_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
+get_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
+get_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
 
 """
     GetIntegrationResponses()
@@ -650,8 +650,8 @@ Gets the IntegrationResponses for an Integration.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_integration_responses(apiId, integrationId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses"; aws_config=aws_config)
-get_integration_responses(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", args; aws_config=aws_config)
+get_integration_responses(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses"; aws_config=aws_config)
+get_integration_responses(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", args; aws_config=aws_config)
 
 """
     GetIntegrations()
@@ -665,8 +665,8 @@ Gets the Integrations for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_integrations(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations"; aws_config=aws_config)
-get_integrations(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations", args; aws_config=aws_config)
+get_integrations(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations"; aws_config=aws_config)
+get_integrations(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations", args; aws_config=aws_config)
 
 """
     GetModel()
@@ -678,8 +678,8 @@ Gets a Model.
 - `modelId`: The model ID.
 
 """
-get_model(apiId, modelId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
-get_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
+get_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
+get_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
 
 """
     GetModelTemplate()
@@ -691,8 +691,8 @@ Gets a model template.
 - `modelId`: The model ID.
 
 """
-get_model_template(apiId, modelId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template"; aws_config=aws_config)
-get_model_template(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template", args; aws_config=aws_config)
+get_model_template(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template"; aws_config=aws_config)
+get_model_template(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template", args; aws_config=aws_config)
 
 """
     GetModels()
@@ -706,8 +706,8 @@ Gets the Models for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_models(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models"; aws_config=aws_config)
-get_models(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models", args; aws_config=aws_config)
+get_models(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models"; aws_config=aws_config)
+get_models(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/models", args; aws_config=aws_config)
 
 """
     GetRoute()
@@ -719,8 +719,8 @@ Gets a Route.
 - `routeId`: The route ID.
 
 """
-get_route(apiId, routeId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
-get_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
+get_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
+get_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
 
 """
     GetRouteResponse()
@@ -733,8 +733,8 @@ Gets a RouteResponse.
 - `routeResponseId`: The route response ID.
 
 """
-get_route_response(apiId, routeId, routeResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
-get_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
+get_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
+get_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
 
 """
     GetRouteResponses()
@@ -749,8 +749,8 @@ Gets the RouteResponses for a Route.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_route_responses(apiId, routeId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses"; aws_config=aws_config)
-get_route_responses(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", args; aws_config=aws_config)
+get_route_responses(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses"; aws_config=aws_config)
+get_route_responses(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", args; aws_config=aws_config)
 
 """
     GetRoutes()
@@ -764,8 +764,8 @@ Gets the Routes for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_routes(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes"; aws_config=aws_config)
-get_routes(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes", args; aws_config=aws_config)
+get_routes(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes"; aws_config=aws_config)
+get_routes(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes", args; aws_config=aws_config)
 
 """
     GetStage()
@@ -777,8 +777,8 @@ Gets a Stage.
 - `stageName`: The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
 
 """
-get_stage(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
-get_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
+get_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
+get_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
 
 """
     GetStages()
@@ -792,8 +792,8 @@ Gets the Stages for an API.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_stages(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages"; aws_config=aws_config)
-get_stages(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages", args; aws_config=aws_config)
+get_stages(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages"; aws_config=aws_config)
+get_stages(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages", args; aws_config=aws_config)
 
 """
     GetTags()
@@ -804,8 +804,8 @@ Gets a collection of Tag resources.
 - `resource-arn`: The resource ARN for the tag.
 
 """
-get_tags(resource_arn; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/tags/$(resource-arn)"; aws_config=aws_config)
-get_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/tags/$(resource-arn)", args; aws_config=aws_config)
+get_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/tags/$(resource-arn)"; aws_config=aws_config)
+get_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/tags/$(resource-arn)", args; aws_config=aws_config)
 
 """
     GetVpcLink()
@@ -816,8 +816,8 @@ Gets a VPC link.
 - `vpcLinkId`: The ID of the VPC link.
 
 """
-get_vpc_link(vpcLinkId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
-get_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)
+get_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
+get_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)
 
 """
     GetVpcLinks()
@@ -828,8 +828,8 @@ Gets a collection of VPC links.
 - `maxResults`: The maximum number of elements to be returned for this resource.
 - `nextToken`: The next page of elements from this collection. Not valid for the last element of the collection.
 """
-get_vpc_links(; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks"; aws_config=aws_config)
-get_vpc_links(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks", args; aws_config=aws_config)
+get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks"; aws_config=aws_config)
+get_vpc_links(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks", args; aws_config=aws_config)
 
 """
     ImportApi()
@@ -843,8 +843,8 @@ Imports an API.
 - `basepath`: Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
 - `failOnWarnings`: Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
 """
-import_api(body; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis", Dict{String, Any}("body"=>body); aws_config=aws_config)
-import_api(body, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
+import_api(body; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis", Dict{String, Any}("body"=>body); aws_config=aws_config)
+import_api(body, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
 
 """
     ReimportApi()
@@ -859,8 +859,8 @@ Puts an Api resource.
 - `basepath`: Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
 - `failOnWarnings`: Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered.
 """
-reimport_api(apiId, body; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis/$(apiId)", Dict{String, Any}("body"=>body); aws_config=aws_config)
-reimport_api(apiId, body, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis/$(apiId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
+reimport_api(apiId, body; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis/$(apiId)", Dict{String, Any}("body"=>body); aws_config=aws_config)
+reimport_api(apiId, body, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PUT", "/v2/apis/$(apiId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
 
 """
     ResetAuthorizersCache()
@@ -872,8 +872,8 @@ Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
 - `stageName`: The stage name. Stage names can contain only alphanumeric characters, hyphens, and underscores, or be default. Maximum length is 128 characters.
 
 """
-reset_authorizers_cache(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers"; aws_config=aws_config)
-reset_authorizers_cache(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers", args; aws_config=aws_config)
+reset_authorizers_cache(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers"; aws_config=aws_config)
+reset_authorizers_cache(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -886,8 +886,8 @@ Creates a new Tag resource to represent a tag.
 # Optional Parameters
 - `tags`: The collection of tags. Each tag element is associated with a given resource.
 """
-tag_resource(resource_arn; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/tags/$(resource-arn)"; aws_config=aws_config)
-tag_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/tags/$(resource-arn)", args; aws_config=aws_config)
+tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/tags/$(resource-arn)"; aws_config=aws_config)
+tag_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("POST", "/v2/tags/$(resource-arn)", args; aws_config=aws_config)
 
 """
     UntagResource()
@@ -899,8 +899,8 @@ Deletes a Tag.
 - `tagKeys`: The Tag keys to delete
 
 """
-untag_resource(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateApi()
@@ -923,8 +923,8 @@ Updates an Api resource.
 - `target`: This property is part of quick create. For HTTP integrations, specify a fully qualified URL. For Lambda integrations, specify a function ARN. The type of the integration will be HTTP_PROXY or AWS_PROXY, respectively. The value provided updates the integration URI and integration type. You can update a quick-created target, but you can't remove it from an API. Supported only for HTTP APIs.
 - `version`: A version identifier for the API.
 """
-update_api(apiId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)"; aws_config=aws_config)
-update_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)", args; aws_config=aws_config)
+update_api(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)"; aws_config=aws_config)
+update_api(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)", args; aws_config=aws_config)
 
 """
     UpdateApiMapping()
@@ -940,8 +940,8 @@ The API mapping.
 - `apiMappingKey`: The API mapping key.
 - `stage`: The API stage.
 """
-update_api_mapping(apiId, apiMappingId, domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", Dict{String, Any}("apiId"=>apiId); aws_config=aws_config)
-update_api_mapping(apiId, apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId), args)); aws_config=aws_config)
+update_api_mapping(apiId, apiMappingId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", Dict{String, Any}("apiId"=>apiId); aws_config=aws_config)
+update_api_mapping(apiId, apiMappingId, domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiId"=>apiId), args)); aws_config=aws_config)
 
 """
     UpdateAuthorizer()
@@ -965,8 +965,8 @@ Updates an Authorizer.
 - `jwtConfiguration`: Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs.
 - `name`: The name of the authorizer.
 """
-update_authorizer(apiId, authorizerId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
-update_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
+update_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)"; aws_config=aws_config)
+update_authorizer(apiId, authorizerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args; aws_config=aws_config)
 
 """
     UpdateDeployment()
@@ -980,8 +980,8 @@ Updates a Deployment.
 # Optional Parameters
 - `description`: The description for the deployment resource.
 """
-update_deployment(apiId, deploymentId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
-update_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
+update_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)"; aws_config=aws_config)
+update_deployment(apiId, deploymentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args; aws_config=aws_config)
 
 """
     UpdateDomainName()
@@ -995,8 +995,8 @@ Updates a domain name.
 - `domainNameConfigurations`: The domain name configurations.
 - `mutualTlsAuthentication`: The mutual TLS authentication configuration for a custom domain name.
 """
-update_domain_name(domainName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
-update_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
+update_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)"; aws_config=aws_config)
+update_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)", args; aws_config=aws_config)
 
 """
     UpdateIntegration()
@@ -1031,8 +1031,8 @@ Updates an Integration.
 - `timeoutInMillis`: Custom timeout between 50 and 29,000 milliseconds for WebSocket APIs and between 50 and 30,000 milliseconds for HTTP APIs. The default timeout is 29 seconds for WebSocket APIs and 30 seconds for HTTP APIs.
 - `tlsConfig`: The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs.
 """
-update_integration(apiId, integrationId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
-update_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
+update_integration(apiId, integrationId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)"; aws_config=aws_config)
+update_integration(apiId, integrationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)", args; aws_config=aws_config)
 
 """
     UpdateIntegrationResponse()
@@ -1058,8 +1058,8 @@ Updates an IntegrationResponses.
 - `responseTemplates`: The collection of response templates for the integration response as a string-to-string map of key-value pairs. Response templates are represented as a key/value map, with a content-type as the key and a template as the value.
 - `templateSelectionExpression`: The template selection expression for the integration response. Supported only for WebSocket APIs.
 """
-update_integration_response(apiId, integrationId, integrationResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
-update_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
+update_integration_response(apiId, integrationId, integrationResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)"; aws_config=aws_config)
+update_integration_response(apiId, integrationId, integrationResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args; aws_config=aws_config)
 
 """
     UpdateModel()
@@ -1076,8 +1076,8 @@ Updates a Model.
 - `name`: The name of the model.
 - `schema`: The schema for the model. For application/json models, this should be JSON schema draft 4 model.
 """
-update_model(apiId, modelId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
-update_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
+update_model(apiId, modelId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)"; aws_config=aws_config)
+update_model(apiId, modelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)", args; aws_config=aws_config)
 
 """
     UpdateRoute()
@@ -1101,8 +1101,8 @@ Updates a Route.
 - `routeResponseSelectionExpression`: The route response selection expression for the route. Supported only for WebSocket APIs.
 - `target`: The target for the route.
 """
-update_route(apiId, routeId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
-update_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
+update_route(apiId, routeId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)"; aws_config=aws_config)
+update_route(apiId, routeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)", args; aws_config=aws_config)
 
 """
     UpdateRouteResponse()
@@ -1120,8 +1120,8 @@ Updates a RouteResponse.
 - `responseParameters`: The route response parameters.
 - `routeResponseKey`: The route response key.
 """
-update_route_response(apiId, routeId, routeResponseId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
-update_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
+update_route_response(apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)"; aws_config=aws_config)
+update_route_response(apiId, routeId, routeResponseId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args; aws_config=aws_config)
 
 """
     UpdateStage()
@@ -1142,8 +1142,8 @@ Updates a Stage.
 - `routeSettings`: Route settings for the stage.
 - `stageVariables`: A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
-update_stage(apiId, stageName; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
-update_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
+update_stage(apiId, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)"; aws_config=aws_config)
+update_stage(apiId, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)", args; aws_config=aws_config)
 
 """
     UpdateVpcLink()
@@ -1156,5 +1156,5 @@ Updates a VPC link.
 # Optional Parameters
 - `name`: The name of the VPC link.
 """
-update_vpc_link(vpcLinkId; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
-update_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)
+update_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)"; aws_config=aws_config)
+update_vpc_link(vpcLinkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)", args; aws_config=aws_config)

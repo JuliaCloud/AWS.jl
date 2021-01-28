@@ -13,8 +13,8 @@ Cancels execution of a task.  When you cancel a task execution, the transfer of 
 - `TaskExecutionArn`: The Amazon Resource Name (ARN) of the task execution to cancel.
 
 """
-cancel_task_execution(TaskExecutionArn; aws_config::AWSConfig=global_aws_config()) = datasync("CancelTaskExecution", Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
-cancel_task_execution(TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CancelTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
+cancel_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CancelTaskExecution", Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
+cancel_task_execution(TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CancelTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
 
 """
     CreateAgent()
@@ -31,8 +31,8 @@ Activates an AWS DataSync agent that you have deployed on your host. The activat
 - `Tags`: The key-value pair that represents the tag that you want to associate with the agent. The value can be an empty string. This value helps you manage, filter, and search for your agents.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @.  
 - `VpcEndpointId`: The ID of the VPC (virtual private cloud) endpoint that the agent has access to. This is the client-side VPC endpoint, also called a PrivateLink. If you don't have a PrivateLink VPC endpoint, see Creating a VPC Endpoint Service Configuration in the Amazon VPC User Guide. VPC endpoint ID looks like this: vpce-01234d5aff67890e1.
 """
-create_agent(ActivationKey; aws_config::AWSConfig=global_aws_config()) = datasync("CreateAgent", Dict{String, Any}("ActivationKey"=>ActivationKey); aws_config=aws_config)
-create_agent(ActivationKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey), args)); aws_config=aws_config)
+create_agent(ActivationKey; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateAgent", Dict{String, Any}("ActivationKey"=>ActivationKey); aws_config=aws_config)
+create_agent(ActivationKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey), args)); aws_config=aws_config)
 
 """
     CreateLocationEfs()
@@ -47,8 +47,8 @@ Creates an endpoint for an Amazon EFS file system.
 - `Subdirectory`: A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, AWS DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example, /path/to/folder. 
 - `Tags`: The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
 """
-create_location_efs(Ec2Config, EfsFilesystemArn; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationEfs", Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn); aws_config=aws_config)
-create_location_efs(Ec2Config, EfsFilesystemArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn), args)); aws_config=aws_config)
+create_location_efs(Ec2Config, EfsFilesystemArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationEfs", Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn); aws_config=aws_config)
+create_location_efs(Ec2Config, EfsFilesystemArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2Config"=>Ec2Config, "EfsFilesystemArn"=>EfsFilesystemArn), args)); aws_config=aws_config)
 
 """
     CreateLocationFsxWindows()
@@ -66,8 +66,8 @@ Creates an endpoint for an Amazon FSx for Windows file system.
 - `Subdirectory`: A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows file system is used to read data from the Amazon FSx for Windows source location or write data to the FSx for Windows destination.
 - `Tags`: The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
 """
-create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationFsxWindows", Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User); aws_config=aws_config)
-create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User), args)); aws_config=aws_config)
+create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationFsxWindows", Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User); aws_config=aws_config)
+create_location_fsx_windows(FsxFilesystemArn, Password, SecurityGroupArns, User, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FsxFilesystemArn"=>FsxFilesystemArn, "Password"=>Password, "SecurityGroupArns"=>SecurityGroupArns, "User"=>User), args)); aws_config=aws_config)
 
 """
     CreateLocationNfs()
@@ -83,8 +83,8 @@ Defines a file system on a Network File System (NFS) server that can be read fro
 - `MountOptions`: The NFS mount options that DataSync can use to mount your NFS share.
 - `Tags`: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
 """
-create_location_nfs(OnPremConfig, ServerHostname, Subdirectory; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationNfs", Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory); aws_config=aws_config)
-create_location_nfs(OnPremConfig, ServerHostname, Subdirectory, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory), args)); aws_config=aws_config)
+create_location_nfs(OnPremConfig, ServerHostname, Subdirectory; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationNfs", Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory); aws_config=aws_config)
+create_location_nfs(OnPremConfig, ServerHostname, Subdirectory, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OnPremConfig"=>OnPremConfig, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory), args)); aws_config=aws_config)
 
 """
     CreateLocationObjectStorage()
@@ -104,8 +104,8 @@ Creates an endpoint for a self-managed object storage bucket. For more informati
 - `Subdirectory`: The subdirectory in the self-managed object storage server that is used to read data from.
 - `Tags`: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
 """
-create_location_object_storage(AgentArns, BucketName, ServerHostname; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationObjectStorage", Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname); aws_config=aws_config)
-create_location_object_storage(AgentArns, BucketName, ServerHostname, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname), args)); aws_config=aws_config)
+create_location_object_storage(AgentArns, BucketName, ServerHostname; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationObjectStorage", Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname); aws_config=aws_config)
+create_location_object_storage(AgentArns, BucketName, ServerHostname, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "BucketName"=>BucketName, "ServerHostname"=>ServerHostname), args)); aws_config=aws_config)
 
 """
     CreateLocationS3()
@@ -122,8 +122,8 @@ Creates an endpoint for an Amazon S3 bucket. For more information, see https://d
 - `Subdirectory`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is used to read data from the S3 source location or write data to the S3 destination.
 - `Tags`: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
 """
-create_location_s3(S3BucketArn, S3Config; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationS3", Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config); aws_config=aws_config)
-create_location_s3(S3BucketArn, S3Config, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config), args)); aws_config=aws_config)
+create_location_s3(S3BucketArn, S3Config; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationS3", Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config); aws_config=aws_config)
+create_location_s3(S3BucketArn, S3Config, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3BucketArn"=>S3BucketArn, "S3Config"=>S3Config), args)); aws_config=aws_config)
 
 """
     CreateLocationSmb()
@@ -142,8 +142,8 @@ Defines a file system on a Server Message Block (SMB) server that can be read fr
 - `MountOptions`: The mount options used by DataSync to access the SMB server.
 - `Tags`: The key-value pair that represents the tag that you want to add to the location. The value can be an empty string. We recommend using tags to name your resources.
 """
-create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationSmb", Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User); aws_config=aws_config)
-create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User), args)); aws_config=aws_config)
+create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationSmb", Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User); aws_config=aws_config)
+create_location_smb(AgentArns, Password, ServerHostname, Subdirectory, User, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArns"=>AgentArns, "Password"=>Password, "ServerHostname"=>ServerHostname, "Subdirectory"=>Subdirectory, "User"=>User), args)); aws_config=aws_config)
 
 """
     CreateTask()
@@ -162,8 +162,8 @@ Creates a task. A task is a set of two locations (source and destination) and a 
 - `Schedule`: Specifies a schedule used to periodically transfer files from a source to a destination location. The schedule should be specified in UTC time. For more information, see task-scheduling.
 - `Tags`: The key-value pair that represents the tag that you want to add to the resource. The value can be an empty string. 
 """
-create_task(DestinationLocationArn, SourceLocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("CreateTask", Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn); aws_config=aws_config)
-create_task(DestinationLocationArn, SourceLocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("CreateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn), args)); aws_config=aws_config)
+create_task(DestinationLocationArn, SourceLocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateTask", Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn); aws_config=aws_config)
+create_task(DestinationLocationArn, SourceLocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("CreateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationLocationArn"=>DestinationLocationArn, "SourceLocationArn"=>SourceLocationArn), args)); aws_config=aws_config)
 
 """
     DeleteAgent()
@@ -174,8 +174,8 @@ Deletes an agent. To specify which agent to delete, use the Amazon Resource Name
 - `AgentArn`: The Amazon Resource Name (ARN) of the agent to delete. Use the ListAgents operation to return a list of agents for your account and AWS Region.
 
 """
-delete_agent(AgentArn; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
-delete_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
+delete_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
+delete_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
 
 """
     DeleteLocation()
@@ -186,8 +186,8 @@ Deletes the configuration of a location used by AWS DataSync.
 - `LocationArn`: The Amazon Resource Name (ARN) of the location to delete.
 
 """
-delete_location(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteLocation", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-delete_location(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteLocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+delete_location(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteLocation", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+delete_location(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteLocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DeleteTask()
@@ -198,8 +198,8 @@ Deletes a task.
 - `TaskArn`: The Amazon Resource Name (ARN) of the task to delete.
 
 """
-delete_task(TaskArn; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
-delete_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DeleteTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
+delete_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
+delete_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DeleteTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
 
 """
     DescribeAgent()
@@ -210,8 +210,8 @@ Returns metadata such as the name, the network interfaces, and the status (that 
 - `AgentArn`: The Amazon Resource Name (ARN) of the agent to describe.
 
 """
-describe_agent(AgentArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
-describe_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
+describe_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
+describe_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationEfs()
@@ -222,8 +222,8 @@ Returns metadata, such as the path information about an Amazon EFS location.
 - `LocationArn`: The Amazon Resource Name (ARN) of the EFS location to describe.
 
 """
-describe_location_efs(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationEfs", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_efs(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_efs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationEfs", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_efs(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationEfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationFsxWindows()
@@ -234,8 +234,8 @@ Returns metadata, such as the path information about an Amazon FSx for Windows l
 - `LocationArn`: The Amazon Resource Name (ARN) of the FSx for Windows location to describe.
 
 """
-describe_location_fsx_windows(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationFsxWindows", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_fsx_windows(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_fsx_windows(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationFsxWindows", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_fsx_windows(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationFsxWindows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationNfs()
@@ -246,8 +246,8 @@ Returns metadata, such as the path information, about an NFS location.
 - `LocationArn`: The Amazon Resource Name (ARN) of the NFS location to describe.
 
 """
-describe_location_nfs(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationNfs", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_nfs(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_nfs(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationNfs", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_nfs(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationNfs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationObjectStorage()
@@ -258,8 +258,8 @@ Returns metadata about a self-managed object storage server location. For more i
 - `LocationArn`: The Amazon Resource Name (ARN) of the self-managed object storage server location that was described.
 
 """
-describe_location_object_storage(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationObjectStorage", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_object_storage(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_object_storage(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationObjectStorage", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_object_storage(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationObjectStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationS3()
@@ -270,8 +270,8 @@ Returns metadata, such as bucket name, about an Amazon S3 bucket location.
 - `LocationArn`: The Amazon Resource Name (ARN) of the Amazon S3 bucket location to describe.
 
 """
-describe_location_s3(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationS3", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_s3(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_s3(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationS3", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_s3(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeLocationSmb()
@@ -282,8 +282,8 @@ Returns metadata, such as the path and user information about an SMB location.
 - `LocationArn`: The Amazon Resource Name (ARN) of the SMB location to describe.
 
 """
-describe_location_smb(LocationArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationSmb", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
-describe_location_smb(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
+describe_location_smb(LocationArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationSmb", Dict{String, Any}("LocationArn"=>LocationArn); aws_config=aws_config)
+describe_location_smb(LocationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeLocationSmb", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationArn"=>LocationArn), args)); aws_config=aws_config)
 
 """
     DescribeTask()
@@ -294,8 +294,8 @@ Returns metadata about a task.
 - `TaskArn`: The Amazon Resource Name (ARN) of the task to describe.
 
 """
-describe_task(TaskArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
-describe_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
+describe_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
+describe_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
 
 """
     DescribeTaskExecution()
@@ -306,8 +306,8 @@ Returns detailed metadata about a task that is being executed.
 - `TaskExecutionArn`: The Amazon Resource Name (ARN) of the task that is being executed.
 
 """
-describe_task_execution(TaskExecutionArn; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeTaskExecution", Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
-describe_task_execution(TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("DescribeTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
+describe_task_execution(TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeTaskExecution", Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
+describe_task_execution(TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("DescribeTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
 
 """
     ListAgents()
@@ -318,8 +318,8 @@ Returns a list of agents owned by an AWS account in the AWS Region specified in 
 - `MaxResults`: The maximum number of agents to list.
 - `NextToken`: An opaque string that indicates the position at which to begin the next list of agents.
 """
-list_agents(; aws_config::AWSConfig=global_aws_config()) = datasync("ListAgents"; aws_config=aws_config)
-list_agents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("ListAgents", args; aws_config=aws_config)
+list_agents(; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListAgents"; aws_config=aws_config)
+list_agents(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListAgents", args; aws_config=aws_config)
 
 """
     ListLocations()
@@ -331,8 +331,8 @@ Returns a list of source and destination locations. If you have more locations t
 - `MaxResults`: The maximum number of locations to return.
 - `NextToken`: An opaque string that indicates the position at which to begin the next list of locations.
 """
-list_locations(; aws_config::AWSConfig=global_aws_config()) = datasync("ListLocations"; aws_config=aws_config)
-list_locations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("ListLocations", args; aws_config=aws_config)
+list_locations(; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListLocations"; aws_config=aws_config)
+list_locations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListLocations", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -346,8 +346,8 @@ Returns all the tags associated with a specified resource.
 - `MaxResults`: The maximum number of locations to return.
 - `NextToken`: An opaque string that indicates the position at which to begin the next list of locations.
 """
-list_tags_for_resource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = datasync("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListTaskExecutions()
@@ -359,8 +359,8 @@ Returns a list of executed tasks.
 - `NextToken`: An opaque string that indicates the position at which to begin the next list of the executed tasks.
 - `TaskArn`: The Amazon Resource Name (ARN) of the task whose tasks you want to list.
 """
-list_task_executions(; aws_config::AWSConfig=global_aws_config()) = datasync("ListTaskExecutions"; aws_config=aws_config)
-list_task_executions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("ListTaskExecutions", args; aws_config=aws_config)
+list_task_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTaskExecutions"; aws_config=aws_config)
+list_task_executions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTaskExecutions", args; aws_config=aws_config)
 
 """
     ListTasks()
@@ -372,8 +372,8 @@ Returns a list of all the tasks.
 - `MaxResults`: The maximum number of tasks to return.
 - `NextToken`: An opaque string that indicates the position at which to begin the next list of tasks.
 """
-list_tasks(; aws_config::AWSConfig=global_aws_config()) = datasync("ListTasks"; aws_config=aws_config)
-list_tasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("ListTasks", args; aws_config=aws_config)
+list_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTasks"; aws_config=aws_config)
+list_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("ListTasks", args; aws_config=aws_config)
 
 """
     StartTaskExecution()
@@ -387,8 +387,8 @@ Starts a specific invocation of a task. A TaskExecution value represents an indi
 - `Includes`: A list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by \"|\" (that is, a pipe). For example: \"/folder1|/folder2\"   
 - `OverrideOptions`: 
 """
-start_task_execution(TaskArn; aws_config::AWSConfig=global_aws_config()) = datasync("StartTaskExecution", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
-start_task_execution(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("StartTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
+start_task_execution(TaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("StartTaskExecution", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
+start_task_execution(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("StartTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -400,8 +400,8 @@ Applies a key-value pair to an AWS resource.
 - `Tags`: The tags to apply.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = datasync("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -413,8 +413,8 @@ Removes a tag from an AWS resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource to remove the tag from.
 
 """
-untag_resource(Keys, ResourceArn; aws_config::AWSConfig=global_aws_config()) = datasync("UntagResource", Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-untag_resource(Keys, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+untag_resource(Keys, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UntagResource", Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+untag_resource(Keys, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     UpdateAgent()
@@ -427,8 +427,8 @@ Updates the name of an agent.
 # Optional Parameters
 - `Name`: The name that you want to use to configure the agent.
 """
-update_agent(AgentArn; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
-update_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
+update_agent(AgentArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateAgent", Dict{String, Any}("AgentArn"=>AgentArn); aws_config=aws_config)
+update_agent(AgentArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AgentArn"=>AgentArn), args)); aws_config=aws_config)
 
 """
     UpdateTask()
@@ -445,8 +445,8 @@ Updates the metadata associated with a task.
 - `Options`: 
 - `Schedule`: Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see task-scheduling.
 """
-update_task(TaskArn; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
-update_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
+update_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
+update_task(TaskArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), args)); aws_config=aws_config)
 
 """
     UpdateTaskExecution()
@@ -458,5 +458,5 @@ Updates execution of a task. You can modify bandwidth throttling for a task exec
 - `TaskExecutionArn`: The Amazon Resource Name (ARN) of the specific task execution that is being updated. 
 
 """
-update_task_execution(Options, TaskExecutionArn; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
-update_task_execution(Options, TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)
+update_task_execution(Options, TaskExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn); aws_config=aws_config)
+update_task_execution(Options, TaskExecutionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTaskExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Options"=>Options, "TaskExecutionArn"=>TaskExecutionArn), args)); aws_config=aws_config)

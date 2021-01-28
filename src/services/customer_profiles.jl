@@ -16,8 +16,8 @@ Associates a new key value with a specific profile, such as a Contact Trace Reco
 - `Values`: A list of key values.
 
 """
-add_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config)
-add_profile_key(DomainName, KeyName, ProfileId, Values, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), args)); aws_config=aws_config)
+add_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config)
+add_profile_key(DomainName, KeyName, ProfileId, Values, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), args)); aws_config=aws_config)
 
 """
     CreateDomain()
@@ -33,8 +33,8 @@ Creates a domain, which is a container for all customer data, such as customer p
 - `DefaultEncryptionKey`: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
 - `Tags`: The tags used to organize, track, or control access for this resource.
 """
-create_domain(DefaultExpirationDays, DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays); aws_config=aws_config)
-create_domain(DefaultExpirationDays, DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays), args)); aws_config=aws_config)
+create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays); aws_config=aws_config)
+create_domain(DefaultExpirationDays, DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays), args)); aws_config=aws_config)
 
 """
     CreateProfile()
@@ -67,8 +67,8 @@ Creates a standard profile. A standard profile represents the following attribut
 - `PhoneNumber`: The customer's phone number, which has not been specified as a mobile, home, or business number.
 - `ShippingAddress`: The customer’s shipping address.
 """
-create_profile(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles"; aws_config=aws_config)
-create_profile(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles", args; aws_config=aws_config)
+create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles"; aws_config=aws_config)
+create_profile(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles", args; aws_config=aws_config)
 
 """
     DeleteDomain()
@@ -79,8 +79,8 @@ Deletes a specific domain and all of its customer data, such as customer profile
 - `DomainName`: The unique name of the domain.
 
 """
-delete_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)"; aws_config=aws_config)
-delete_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)", args; aws_config=aws_config)
+delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)"; aws_config=aws_config)
+delete_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)", args; aws_config=aws_config)
 
 """
     DeleteIntegration()
@@ -93,8 +93,8 @@ Removes an integration from a specific domain.
 # Optional Parameters
 - `Uri`: The URI of the S3 bucket or any other type of data source.
 """
-delete_integration(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete"; aws_config=aws_config)
-delete_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", args; aws_config=aws_config)
+delete_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete"; aws_config=aws_config)
+delete_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", args; aws_config=aws_config)
 
 """
     DeleteProfile()
@@ -106,8 +106,8 @@ Deletes the standard customer profile and all data pertaining to the profile.
 - `ProfileId`: The unique identifier of a customer profile.
 
 """
-delete_profile(DomainName, ProfileId; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config)
-delete_profile(DomainName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), args)); aws_config=aws_config)
+delete_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config)
+delete_profile(DomainName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), args)); aws_config=aws_config)
 
 """
     DeleteProfileKey()
@@ -121,8 +121,8 @@ Removes a searchable key from a customer profile.
 - `Values`: A list of key values.
 
 """
-delete_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config)
-delete_profile_key(DomainName, KeyName, ProfileId, Values, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), args)); aws_config=aws_config)
+delete_profile_key(DomainName, KeyName, ProfileId, Values; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values); aws_config=aws_config)
+delete_profile_key(DomainName, KeyName, ProfileId, Values, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/keys/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "ProfileId"=>ProfileId, "Values"=>Values), args)); aws_config=aws_config)
 
 """
     DeleteProfileObject()
@@ -136,8 +136,8 @@ Removes an object associated with a profile of a given ProfileObjectType.
 - `ProfileObjectUniqueKey`: The unique identifier of the profile object generated by the service.
 
 """
-delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey); aws_config=aws_config)
-delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey), args)); aws_config=aws_config)
+delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey); aws_config=aws_config)
+delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey), args)); aws_config=aws_config)
 
 """
     DeleteProfileObjectType()
@@ -149,8 +149,8 @@ Removes a ProfileObjectType from a specific domain as well as removes all the Pr
 - `ObjectTypeName`: The name of the profile object type.
 
 """
-delete_profile_object_type(DomainName, ObjectTypeName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config)
-delete_profile_object_type(DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", args; aws_config=aws_config)
+delete_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config)
+delete_profile_object_type(DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", args; aws_config=aws_config)
 
 """
     GetDomain()
@@ -161,8 +161,8 @@ Returns information about a specific domain.
 - `DomainName`: A unique name for the domain.
 
 """
-get_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)"; aws_config=aws_config)
-get_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)", args; aws_config=aws_config)
+get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)"; aws_config=aws_config)
+get_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)", args; aws_config=aws_config)
 
 """
     GetIntegration()
@@ -175,8 +175,8 @@ Returns an integration for a domain.
 # Optional Parameters
 - `Uri`: The URI of the S3 bucket or any other type of data source.
 """
-get_integration(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations"; aws_config=aws_config)
-get_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", args; aws_config=aws_config)
+get_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations"; aws_config=aws_config)
+get_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", args; aws_config=aws_config)
 
 """
     GetProfileObjectType()
@@ -188,8 +188,8 @@ Returns the object types for a specific domain.
 - `ObjectTypeName`: The name of the profile object type.
 
 """
-get_profile_object_type(DomainName, ObjectTypeName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config)
-get_profile_object_type(DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", args; aws_config=aws_config)
+get_profile_object_type(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)"; aws_config=aws_config)
+get_profile_object_type(DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", args; aws_config=aws_config)
 
 """
     GetProfileObjectTypeTemplate()
@@ -200,8 +200,8 @@ Returns the template information for a specific object type. A template is a pre
 - `TemplateId`: A unique identifier for the object template.
 
 """
-get_profile_object_type_template(TemplateId; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)"; aws_config=aws_config)
-get_profile_object_type_template(TemplateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)", args; aws_config=aws_config)
+get_profile_object_type_template(TemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)"; aws_config=aws_config)
+get_profile_object_type_template(TemplateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates/$(TemplateId)", args; aws_config=aws_config)
 
 """
     ListAccountIntegrations()
@@ -215,8 +215,8 @@ Lists all of the integrations associated to a specific URI in the AWS account.
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous ListAccountIntegrations API call.
 """
-list_account_integrations(Uri; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config)
-list_account_integrations(Uri, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), args)); aws_config=aws_config)
+list_account_integrations(Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config)
+list_account_integrations(Uri, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), args)); aws_config=aws_config)
 
 """
     ListDomains()
@@ -227,8 +227,8 @@ Returns a list of all the domains for an AWS account that have been created.
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous ListDomain API call.
 """
-list_domains(; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains"; aws_config=aws_config)
-list_domains(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains", args; aws_config=aws_config)
+list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains"; aws_config=aws_config)
+list_domains(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains", args; aws_config=aws_config)
 
 """
     ListIntegrations()
@@ -242,8 +242,8 @@ Lists all of the integrations in your domain.
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous ListIntegrations API call.
 """
-list_integrations(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations"; aws_config=aws_config)
-list_integrations(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations", args; aws_config=aws_config)
+list_integrations(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations"; aws_config=aws_config)
+list_integrations(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/integrations", args; aws_config=aws_config)
 
 """
     ListProfileObjectTypeTemplates()
@@ -254,8 +254,8 @@ Lists all of the template information for object types.
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
-list_profile_object_type_templates(; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/templates"; aws_config=aws_config)
-list_profile_object_type_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/templates", args; aws_config=aws_config)
+list_profile_object_type_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates"; aws_config=aws_config)
+list_profile_object_type_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates", args; aws_config=aws_config)
 
 """
     ListProfileObjectTypes()
@@ -269,8 +269,8 @@ Lists all of the templates available within the service.
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: Identifies the next page of results to return.
 """
-list_profile_object_types(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types"; aws_config=aws_config)
-list_profile_object_types(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types", args; aws_config=aws_config)
+list_profile_object_types(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types"; aws_config=aws_config)
+list_profile_object_types(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/object-types", args; aws_config=aws_config)
 
 """
     ListProfileObjects()
@@ -286,8 +286,8 @@ Returns a list of objects associated with a profile of a given ProfileObjectType
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous call to ListProfileObjects.
 """
-list_profile_objects(DomainName, ObjectTypeName, ProfileId; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId); aws_config=aws_config)
-list_profile_objects(DomainName, ObjectTypeName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId), args)); aws_config=aws_config)
+list_profile_objects(DomainName, ObjectTypeName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId); aws_config=aws_config)
+list_profile_objects(DomainName, ObjectTypeName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -298,8 +298,8 @@ Displays the tags associated with an Amazon Connect Customer Profiles resource. 
 - `resourceArn`: The ARN of the resource for which you want to view tags.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     PutIntegration()
@@ -314,8 +314,8 @@ Adds an integration between the service and a third-party service, which include
 # Optional Parameters
 - `Tags`: The tags used to organize, track, or control access for this resource.
 """
-put_integration(DomainName, ObjectTypeName, Uri; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri); aws_config=aws_config)
-put_integration(DomainName, ObjectTypeName, Uri, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri), args)); aws_config=aws_config)
+put_integration(DomainName, ObjectTypeName, Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri); aws_config=aws_config)
+put_integration(DomainName, ObjectTypeName, Uri, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri), args)); aws_config=aws_config)
 
 """
     PutProfileObject()
@@ -328,8 +328,8 @@ Adds additional objects to customer profiles of a given ObjectType. When adding 
 - `ObjectTypeName`: The name of the profile object type.
 
 """
-put_profile_object(DomainName, Object, ObjectTypeName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName); aws_config=aws_config)
-put_profile_object(DomainName, Object, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName), args)); aws_config=aws_config)
+put_profile_object(DomainName, Object, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName); aws_config=aws_config)
+put_profile_object(DomainName, Object, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles/objects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Object"=>Object, "ObjectTypeName"=>ObjectTypeName), args)); aws_config=aws_config)
 
 """
     PutProfileObjectType()
@@ -350,8 +350,8 @@ Defines a ProfileObjectType.
 - `Tags`: The tags used to organize, track, or control access for this resource.
 - `TemplateId`: A unique identifier for the object template.
 """
-put_profile_object_type(Description, DomainName, ObjectTypeName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}("Description"=>Description); aws_config=aws_config)
-put_profile_object_type(Description, DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description), args)); aws_config=aws_config)
+put_profile_object_type(Description, DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}("Description"=>Description); aws_config=aws_config)
+put_profile_object_type(Description, DomainName, ObjectTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/object-types/$(ObjectTypeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description), args)); aws_config=aws_config)
 
 """
     SearchProfiles()
@@ -367,8 +367,8 @@ Searches for profiles within a specific domain name using name, phone number, em
 - `max-results`: The maximum number of objects returned per page.
 - `next-token`: The pagination token from the previous SearchProfiles API call.
 """
-search_profiles(DomainName, KeyName, Values; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values); aws_config=aws_config)
-search_profiles(DomainName, KeyName, Values, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values), args)); aws_config=aws_config)
+search_profiles(DomainName, KeyName, Values; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values); aws_config=aws_config)
+search_profiles(DomainName, KeyName, Values, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyName"=>KeyName, "Values"=>Values), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -380,8 +380,8 @@ Assigns one or more tags (key-value pairs) to the specified Amazon Connect Custo
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -393,8 +393,8 @@ Removes one or more tags from the specified Amazon Connect Customer Profiles res
 - `tagKeys`: The list of tag keys to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDomain()
@@ -410,8 +410,8 @@ Updates the properties of a domain, including creating or selecting a dead lette
 - `DefaultExpirationDays`: The default number of days until the data within the domain expires.
 - `Tags`: The tags used to organize, track, or control access for this resource.
 """
-update_domain(DomainName; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)"; aws_config=aws_config)
-update_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)", args; aws_config=aws_config)
+update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)"; aws_config=aws_config)
+update_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)", args; aws_config=aws_config)
 
 """
     UpdateProfile()
@@ -445,5 +445,5 @@ Updates the properties of a profile. The ProfileId is required for updating a cu
 - `PhoneNumber`: The customer's phone number, which has not been specified as a mobile, home, or business number.
 - `ShippingAddress`: The customer’s shipping address.
 """
-update_profile(DomainName, ProfileId; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config)
-update_profile(DomainName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), args)); aws_config=aws_config)
+update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config)
+update_profile(DomainName, ProfileId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileId"=>ProfileId), args)); aws_config=aws_config)

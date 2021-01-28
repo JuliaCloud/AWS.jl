@@ -40,4 +40,8 @@ end
     include("issues.jl")
     include("test_pkg.jl")
     include("utilities.jl")
+
+    if haskey(ENV, "TEST_MINIO")
+        include("minio.jl")
+    end
 end

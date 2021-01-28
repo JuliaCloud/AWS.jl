@@ -16,8 +16,8 @@ Creates a backup plan using a backup plan name and backup rules. A backup plan i
 - `BackupPlanTags`: To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair. The specified tags are assigned to all backups created with this plan.
 - `CreatorRequestId`: Identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional.
 """
-create_backup_plan(BackupPlan; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
-create_backup_plan(BackupPlan, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), args)); aws_config=aws_config)
+create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
+create_backup_plan(BackupPlan, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), args)); aws_config=aws_config)
 
 """
     CreateBackupSelection()
@@ -31,8 +31,8 @@ Creates a JSON document that specifies a set of resources to assign to a backup 
 # Optional Parameters
 - `CreatorRequestId`: A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
 """
-create_backup_selection(BackupSelection, backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}("BackupSelection"=>BackupSelection); aws_config=aws_config)
-create_backup_selection(BackupSelection, backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupSelection"=>BackupSelection), args)); aws_config=aws_config)
+create_backup_selection(BackupSelection, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}("BackupSelection"=>BackupSelection); aws_config=aws_config)
+create_backup_selection(BackupSelection, backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupSelection"=>BackupSelection), args)); aws_config=aws_config)
 
 """
     CreateBackupVault()
@@ -47,8 +47,8 @@ Creates a logical container where backups are stored. A CreateBackupVault reques
 - `CreatorRequestId`: A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
 - `EncryptionKeyArn`: The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
 """
-create_backup_vault(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-create_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
+create_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
+create_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
 
 """
     DeleteBackupPlan()
@@ -59,8 +59,8 @@ Deletes a backup plan. A backup plan can only be deleted after all associated se
 - `backupPlanId`: Uniquely identifies a backup plan.
 
 """
-delete_backup_plan(backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)"; aws_config=aws_config)
-delete_backup_plan(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)", args; aws_config=aws_config)
+delete_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)"; aws_config=aws_config)
+delete_backup_plan(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)", args; aws_config=aws_config)
 
 """
     DeleteBackupSelection()
@@ -72,8 +72,8 @@ Deletes the resource selection associated with a backup plan that is specified b
 - `selectionId`: Uniquely identifies the body of a request to assign a set of resources to a backup plan.
 
 """
-delete_backup_selection(backupPlanId, selectionId; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
-delete_backup_selection(backupPlanId, selectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args; aws_config=aws_config)
+delete_backup_selection(backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
+delete_backup_selection(backupPlanId, selectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args; aws_config=aws_config)
 
 """
     DeleteBackupVault()
@@ -84,8 +84,8 @@ Deletes the backup vault identified by its name. A vault can be deleted only if 
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-delete_backup_vault(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-delete_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
+delete_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
+delete_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
 
 """
     DeleteBackupVaultAccessPolicy()
@@ -96,8 +96,8 @@ Deletes the policy document that manages permissions on a backup vault.
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-delete_backup_vault_access_policy(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-delete_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
+delete_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
+delete_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
 
 """
     DeleteBackupVaultNotifications()
@@ -108,8 +108,8 @@ Deletes event notifications for the specified backup vault.
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-delete_backup_vault_notifications(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
-delete_backup_vault_notifications(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration", args; aws_config=aws_config)
+delete_backup_vault_notifications(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
+delete_backup_vault_notifications(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration", args; aws_config=aws_config)
 
 """
     DeleteRecoveryPoint()
@@ -121,8 +121,8 @@ Deletes the recovery point specified by a recovery point ID.
 - `recoveryPointArn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 """
-delete_recovery_point(backupVaultName, recoveryPointArn; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-delete_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
+delete_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
+delete_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
 
 """
     DescribeBackupJob()
@@ -133,8 +133,8 @@ Returns backup job details for the specified BackupJobId.
 - `backupJobId`: Uniquely identifies a request to AWS Backup to back up a resource.
 
 """
-describe_backup_job(backupJobId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
-describe_backup_job(backupJobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)", args; aws_config=aws_config)
+describe_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
+describe_backup_job(backupJobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)", args; aws_config=aws_config)
 
 """
     DescribeBackupVault()
@@ -145,8 +145,8 @@ Returns metadata about a backup vault specified by its name.
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-describe_backup_vault(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-describe_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
+describe_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
+describe_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)", args; aws_config=aws_config)
 
 """
     DescribeCopyJob()
@@ -157,8 +157,8 @@ Returns metadata associated with creating a copy of a resource.
 - `copyJobId`: Uniquely identifies a copy job.
 
 """
-describe_copy_job(copyJobId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)"; aws_config=aws_config)
-describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)", args; aws_config=aws_config)
+describe_copy_job(copyJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)"; aws_config=aws_config)
+describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)", args; aws_config=aws_config)
 
 """
     DescribeGlobalSettings()
@@ -166,8 +166,8 @@ describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::AWSC
 The current feature settings for the AWS Account.
 
 """
-describe_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
-describe_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/global-settings", args; aws_config=aws_config)
+describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
+describe_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", args; aws_config=aws_config)
 
 """
     DescribeProtectedResource()
@@ -178,8 +178,8 @@ Returns information about a saved resource, including the last time it was backe
 - `resourceArn`: An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
 
 """
-describe_protected_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)"; aws_config=aws_config)
-describe_protected_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)", args; aws_config=aws_config)
+describe_protected_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)"; aws_config=aws_config)
+describe_protected_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)", args; aws_config=aws_config)
 
 """
     DescribeRecoveryPoint()
@@ -191,8 +191,8 @@ Returns metadata associated with a recovery point, including ID, status, encrypt
 - `recoveryPointArn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 """
-describe_recovery_point(backupVaultName, recoveryPointArn; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-describe_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
+describe_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
+describe_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
 
 """
     DescribeRegionSettings()
@@ -200,8 +200,8 @@ describe_recovery_point(backupVaultName, recoveryPointArn, args::AbstractDict{St
 Returns the current service opt-in settings for the Region. If service-opt-in is enabled for a service, AWS Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, AWS Backup does not try to protect that service's resources in this Region, AWS Backup does not try to protect that service's resources in this Region.
 
 """
-describe_region_settings(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/account-settings"; aws_config=aws_config)
-describe_region_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/account-settings", args; aws_config=aws_config)
+describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings"; aws_config=aws_config)
+describe_region_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings", args; aws_config=aws_config)
 
 """
     DescribeRestoreJob()
@@ -212,8 +212,8 @@ Returns metadata associated with a restore job that is specified by a job ID.
 - `restoreJobId`: Uniquely identifies the job that restores a recovery point.
 
 """
-describe_restore_job(restoreJobId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)"; aws_config=aws_config)
-describe_restore_job(restoreJobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)", args; aws_config=aws_config)
+describe_restore_job(restoreJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)"; aws_config=aws_config)
+describe_restore_job(restoreJobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)", args; aws_config=aws_config)
 
 """
     ExportBackupPlanTemplate()
@@ -224,8 +224,8 @@ Returns the backup plan that is specified by the plan ID as a backup template.
 - `backupPlanId`: Uniquely identifies a backup plan.
 
 """
-export_backup_plan_template(backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/"; aws_config=aws_config)
-export_backup_plan_template(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/", args; aws_config=aws_config)
+export_backup_plan_template(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/"; aws_config=aws_config)
+export_backup_plan_template(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/", args; aws_config=aws_config)
 
 """
     GetBackupPlan()
@@ -238,8 +238,8 @@ Returns BackupPlan details for the specified BackupPlanId. Returns the body of a
 # Optional Parameters
 - `versionId`: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
 """
-get_backup_plan(backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/"; aws_config=aws_config)
-get_backup_plan(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/", args; aws_config=aws_config)
+get_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/"; aws_config=aws_config)
+get_backup_plan(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/", args; aws_config=aws_config)
 
 """
     GetBackupPlanFromJSON()
@@ -250,8 +250,8 @@ Returns a valid JSON document specifying a backup plan or an error.
 - `BackupPlanTemplateJson`: A customer-supplied backup plan document in JSON format.
 
 """
-get_backup_plan_from_json(BackupPlanTemplateJson; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson); aws_config=aws_config)
-get_backup_plan_from_json(BackupPlanTemplateJson, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson), args)); aws_config=aws_config)
+get_backup_plan_from_json(BackupPlanTemplateJson; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson); aws_config=aws_config)
+get_backup_plan_from_json(BackupPlanTemplateJson, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson), args)); aws_config=aws_config)
 
 """
     GetBackupPlanFromTemplate()
@@ -262,8 +262,8 @@ Returns the template specified by its templateId as a backup plan.
 - `templateId`: Uniquely identifies a stored backup plan template.
 
 """
-get_backup_plan_from_template(templateId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan"; aws_config=aws_config)
-get_backup_plan_from_template(templateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan", args; aws_config=aws_config)
+get_backup_plan_from_template(templateId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan"; aws_config=aws_config)
+get_backup_plan_from_template(templateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan", args; aws_config=aws_config)
 
 """
     GetBackupSelection()
@@ -275,8 +275,8 @@ Returns selection metadata and a document in JSON format that specifies a list o
 - `selectionId`: Uniquely identifies the body of a request to assign a set of resources to a backup plan.
 
 """
-get_backup_selection(backupPlanId, selectionId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
-get_backup_selection(backupPlanId, selectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args; aws_config=aws_config)
+get_backup_selection(backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
+get_backup_selection(backupPlanId, selectionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args; aws_config=aws_config)
 
 """
     GetBackupVaultAccessPolicy()
@@ -287,8 +287,8 @@ Returns the access policy document that is associated with the named backup vaul
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-get_backup_vault_access_policy(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-get_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
+get_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
+get_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
 
 """
     GetBackupVaultNotifications()
@@ -299,8 +299,8 @@ Returns event notifications for the specified backup vault.
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-get_backup_vault_notifications(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
-get_backup_vault_notifications(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration", args; aws_config=aws_config)
+get_backup_vault_notifications(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
+get_backup_vault_notifications(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration", args; aws_config=aws_config)
 
 """
     GetRecoveryPointRestoreMetadata()
@@ -312,8 +312,8 @@ Returns a set of metadata key-value pairs that were used to create the backup.
 - `recoveryPointArn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 """
-get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata"; aws_config=aws_config)
-get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata", args; aws_config=aws_config)
+get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata"; aws_config=aws_config)
+get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata", args; aws_config=aws_config)
 
 """
     GetSupportedResourceTypes()
@@ -321,8 +321,8 @@ get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn, args::Abs
 Returns the AWS resource types supported by AWS Backup.
 
 """
-get_supported_resource_types(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types"; aws_config=aws_config)
-get_supported_resource_types(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", args; aws_config=aws_config)
+get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types"; aws_config=aws_config)
+get_supported_resource_types(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", args; aws_config=aws_config)
 
 """
     ListBackupJobs()
@@ -340,8 +340,8 @@ Returns a list of existing backup jobs for an authenticated account.
 - `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
 - `state`: Returns only backup jobs that are in the specified state.
 """
-list_backup_jobs(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/"; aws_config=aws_config)
-list_backup_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", args; aws_config=aws_config)
+list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/"; aws_config=aws_config)
+list_backup_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", args; aws_config=aws_config)
 
 """
     ListBackupPlanTemplates()
@@ -352,8 +352,8 @@ Returns metadata of your saved backup plan templates, including the template ID,
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_backup_plan_templates(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans"; aws_config=aws_config)
-list_backup_plan_templates(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", args; aws_config=aws_config)
+list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans"; aws_config=aws_config)
+list_backup_plan_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", args; aws_config=aws_config)
 
 """
     ListBackupPlanVersions()
@@ -367,8 +367,8 @@ Returns version metadata of your backup plans, including Amazon Resource Names (
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_backup_plan_versions(backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/"; aws_config=aws_config)
-list_backup_plan_versions(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/", args; aws_config=aws_config)
+list_backup_plan_versions(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/"; aws_config=aws_config)
+list_backup_plan_versions(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/", args; aws_config=aws_config)
 
 """
     ListBackupPlans()
@@ -380,8 +380,8 @@ Returns a list of existing backup plans for an authenticated account. The list i
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_backup_plans(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/"; aws_config=aws_config)
-list_backup_plans(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", args; aws_config=aws_config)
+list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/"; aws_config=aws_config)
+list_backup_plans(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", args; aws_config=aws_config)
 
 """
     ListBackupSelections()
@@ -395,8 +395,8 @@ Returns an array containing metadata of the resources associated with the target
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_backup_selections(backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/"; aws_config=aws_config)
-list_backup_selections(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/", args; aws_config=aws_config)
+list_backup_selections(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/"; aws_config=aws_config)
+list_backup_selections(backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/", args; aws_config=aws_config)
 
 """
     ListBackupVaults()
@@ -407,8 +407,8 @@ Returns a list of recovery point storage containers along with information about
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_backup_vaults(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/"; aws_config=aws_config)
-list_backup_vaults(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", args; aws_config=aws_config)
+list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/"; aws_config=aws_config)
+list_backup_vaults(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", args; aws_config=aws_config)
 
 """
     ListCopyJobs()
@@ -426,8 +426,8 @@ Returns metadata about your copy jobs.
 - `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
 - `state`: Returns only copy jobs that are in the specified state.
 """
-list_copy_jobs(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/"; aws_config=aws_config)
-list_copy_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", args; aws_config=aws_config)
+list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/"; aws_config=aws_config)
+list_copy_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", args; aws_config=aws_config)
 
 """
     ListProtectedResources()
@@ -438,8 +438,8 @@ Returns an array of resources successfully backed up by AWS Backup, including th
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_protected_resources(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/"; aws_config=aws_config)
-list_protected_resources(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/", args; aws_config=aws_config)
+list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/"; aws_config=aws_config)
+list_protected_resources(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/", args; aws_config=aws_config)
 
 """
     ListRecoveryPointsByBackupVault()
@@ -458,8 +458,8 @@ Returns detailed information about the recovery points stored in a backup vault.
 - `resourceArn`: Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
 - `resourceType`: Returns only recovery points that match the specified resource type.
 """
-list_recovery_points_by_backup_vault(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/"; aws_config=aws_config)
-list_recovery_points_by_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/", args; aws_config=aws_config)
+list_recovery_points_by_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/"; aws_config=aws_config)
+list_recovery_points_by_backup_vault(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/", args; aws_config=aws_config)
 
 """
     ListRecoveryPointsByResource()
@@ -473,8 +473,8 @@ Returns detailed information about recovery points of the type specified by a re
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_recovery_points_by_resource(resourceArn; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/"; aws_config=aws_config)
-list_recovery_points_by_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/", args; aws_config=aws_config)
+list_recovery_points_by_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/"; aws_config=aws_config)
+list_recovery_points_by_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/", args; aws_config=aws_config)
 
 """
     ListRestoreJobs()
@@ -489,8 +489,8 @@ Returns a list of jobs that AWS Backup initiated to restore a saved resource, in
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 - `status`: Returns only restore jobs associated with the specified job status.
 """
-list_restore_jobs(; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/"; aws_config=aws_config)
-list_restore_jobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", args; aws_config=aws_config)
+list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/"; aws_config=aws_config)
+list_restore_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", args; aws_config=aws_config)
 
 """
     ListTags()
@@ -504,8 +504,8 @@ Returns a list of key-value pairs assigned to a target recovery point, backup pl
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 """
-list_tags(resourceArn; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/"; aws_config=aws_config)
-list_tags(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/", args; aws_config=aws_config)
+list_tags(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/"; aws_config=aws_config)
+list_tags(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/", args; aws_config=aws_config)
 
 """
     PutBackupVaultAccessPolicy()
@@ -518,8 +518,8 @@ Sets a resource-based policy that is used to manage access permissions on the ta
 # Optional Parameters
 - `Policy`: The backup vault access policy document in JSON format.
 """
-put_backup_vault_access_policy(backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-put_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
+put_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
+put_backup_vault_access_policy(backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy", args; aws_config=aws_config)
 
 """
     PutBackupVaultNotifications()
@@ -532,8 +532,8 @@ Turns on notifications on a backup vault for the specified topic and events.
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 
 """
-put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn); aws_config=aws_config)
-put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn), args)); aws_config=aws_config)
+put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn); aws_config=aws_config)
+put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn), args)); aws_config=aws_config)
 
 """
     StartBackupJob()
@@ -553,8 +553,8 @@ Starts an on-demand backup job for the specified resource.
 - `RecoveryPointTags`: To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
 - `StartWindowMinutes`: A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
 """
-start_backup_job(BackupVaultName, IamRoleArn, ResourceArn; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+start_backup_job(BackupVaultName, IamRoleArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     StartCopyJob()
@@ -571,8 +571,8 @@ Starts a job to create a one-time copy of the specified resource.
 - `IdempotencyToken`: A customer chosen string that can be used to distinguish between calls to StartCopyJob.
 - `Lifecycle`: 
 """
-start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName); aws_config=aws_config)
-start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName), args)); aws_config=aws_config)
+start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName); aws_config=aws_config)
+start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName), args)); aws_config=aws_config)
 
 """
     StartRestoreJob()
@@ -588,8 +588,8 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
 - `IdempotencyToken`: A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
 - `ResourceType`: Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
 """
-start_restore_job(IamRoleArn, Metadata, RecoveryPointArn; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn); aws_config=aws_config)
-start_restore_job(IamRoleArn, Metadata, RecoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn), args)); aws_config=aws_config)
+start_restore_job(IamRoleArn, Metadata, RecoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn); aws_config=aws_config)
+start_restore_job(IamRoleArn, Metadata, RecoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn), args)); aws_config=aws_config)
 
 """
     StopBackupJob()
@@ -600,8 +600,8 @@ Attempts to cancel a job to create a one-time backup of a resource.
 - `backupJobId`: Uniquely identifies a request to AWS Backup to back up a resource.
 
 """
-stop_backup_job(backupJobId; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
-stop_backup_job(backupJobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)", args; aws_config=aws_config)
+stop_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
+stop_backup_job(backupJobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -613,8 +613,8 @@ Assigns a set of key-value pairs to a recovery point, backup plan, or backup vau
 - `resourceArn`: An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
 
 """
-tag_resource(Tags, resourceArn; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -626,8 +626,8 @@ Removes a set of key-value pairs from a recovery point, backup plan, or backup v
 - `resourceArn`: An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
 
 """
-untag_resource(TagKeyList, resourceArn; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}("TagKeyList"=>TagKeyList); aws_config=aws_config)
-untag_resource(TagKeyList, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
+untag_resource(TagKeyList, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}("TagKeyList"=>TagKeyList); aws_config=aws_config)
+untag_resource(TagKeyList, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
 
 """
     UpdateBackupPlan()
@@ -639,8 +639,8 @@ Updates an existing backup plan identified by its backupPlanId with the input do
 - `backupPlanId`: Uniquely identifies a backup plan.
 
 """
-update_backup_plan(BackupPlan, backupPlanId; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
-update_backup_plan(BackupPlan, backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), args)); aws_config=aws_config)
+update_backup_plan(BackupPlan, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
+update_backup_plan(BackupPlan, backupPlanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), args)); aws_config=aws_config)
 
 """
     UpdateGlobalSettings()
@@ -650,8 +650,8 @@ Updates the current global settings for the AWS Account. Use the DescribeGlobalS
 # Optional Parameters
 - `GlobalSettings`: A list of resources along with the opt-in preferences for the account.
 """
-update_global_settings(; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
-update_global_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/global-settings", args; aws_config=aws_config)
+update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
+update_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", args; aws_config=aws_config)
 
 """
     UpdateRecoveryPointLifecycle()
@@ -665,8 +665,8 @@ Sets the transition lifecycle of a recovery point. The lifecycle defines when a 
 # Optional Parameters
 - `Lifecycle`: The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
 """
-update_recovery_point_lifecycle(backupVaultName, recoveryPointArn; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-update_recovery_point_lifecycle(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
+update_recovery_point_lifecycle(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
+update_recovery_point_lifecycle(backupVaultName, recoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args; aws_config=aws_config)
 
 """
     UpdateRegionSettings()
@@ -676,5 +676,5 @@ Updates the current service opt-in settings for the Region. If service-opt-in is
 # Optional Parameters
 - `ResourceTypeOptInPreference`: Updates the list of services along with the opt-in preferences for the Region.
 """
-update_region_settings(; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/account-settings"; aws_config=aws_config)
-update_region_settings(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = backup("PUT", "/account-settings", args; aws_config=aws_config)
+update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings"; aws_config=aws_config)
+update_region_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings", args; aws_config=aws_config)

@@ -33,8 +33,8 @@ Creates an application, optionally including an AWS SAM file to create the first
  The file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody and templateUrl; otherwise an error results.
 - `templateUrl`: A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
 """
-create_application(author, description, name; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}("author"=>author, "description"=>description, "name"=>name); aws_config=aws_config)
-create_application(author, description, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), args)); aws_config=aws_config)
+create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}("author"=>author, "description"=>description, "name"=>name); aws_config=aws_config)
+create_application(author, description, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateApplicationVersion()
@@ -51,8 +51,8 @@ Creates an application version.
 - `templateBody`: The raw packaged AWS SAM template of your application.
 - `templateUrl`: A link to the packaged AWS SAM template of your application.
 """
-create_application_version(applicationId, semanticVersion; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)"; aws_config=aws_config)
-create_application_version(applicationId, semanticVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", args; aws_config=aws_config)
+create_application_version(applicationId, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)"; aws_config=aws_config)
+create_application_version(applicationId, semanticVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", args; aws_config=aws_config)
 
 """
     CreateCloudFormationChangeSet()
@@ -108,8 +108,8 @@ Creates an AWS CloudFormation change set for the given application.
   API.
 - `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
-create_cloud_formation_change_set(applicationId, stackName; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}("stackName"=>stackName); aws_config=aws_config)
-create_cloud_formation_change_set(applicationId, stackName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), args)); aws_config=aws_config)
+create_cloud_formation_change_set(applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}("stackName"=>stackName); aws_config=aws_config)
+create_cloud_formation_change_set(applicationId, stackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), args)); aws_config=aws_config)
 
 """
     CreateCloudFormationTemplate()
@@ -124,8 +124,8 @@ Creates an AWS CloudFormation template.
  https://semver.org/
  
 """
-create_cloud_formation_template(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates"; aws_config=aws_config)
-create_cloud_formation_template(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", args; aws_config=aws_config)
+create_cloud_formation_template(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates"; aws_config=aws_config)
+create_cloud_formation_template(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", args; aws_config=aws_config)
 
 """
     DeleteApplication()
@@ -136,8 +136,8 @@ Deletes the specified application.
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
 
 """
-delete_application(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)"; aws_config=aws_config)
-delete_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", args; aws_config=aws_config)
+delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)"; aws_config=aws_config)
+delete_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", args; aws_config=aws_config)
 
 """
     GetApplication()
@@ -150,8 +150,8 @@ Gets the specified application.
 # Optional Parameters
 - `semanticVersion`: The semantic version of the application to get.
 """
-get_application(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)"; aws_config=aws_config)
-get_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)", args; aws_config=aws_config)
+get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)"; aws_config=aws_config)
+get_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)", args; aws_config=aws_config)
 
 """
     GetApplicationPolicy()
@@ -162,8 +162,8 @@ Retrieves the policy for the application.
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
 
 """
-get_application_policy(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy"; aws_config=aws_config)
-get_application_policy(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", args; aws_config=aws_config)
+get_application_policy(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy"; aws_config=aws_config)
+get_application_policy(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", args; aws_config=aws_config)
 
 """
     GetCloudFormationTemplate()
@@ -175,8 +175,8 @@ Gets the specified AWS CloudFormation template.
 - `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 """
-get_cloud_formation_template(applicationId, templateId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)"; aws_config=aws_config)
-get_cloud_formation_template(applicationId, templateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", args; aws_config=aws_config)
+get_cloud_formation_template(applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)"; aws_config=aws_config)
+get_cloud_formation_template(applicationId, templateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", args; aws_config=aws_config)
 
 """
     ListApplicationDependencies()
@@ -191,8 +191,8 @@ Retrieves the list of applications nested in the containing application.
 - `nextToken`: A token to specify where to start paginating.
 - `semanticVersion`: The semantic version of the application to get.
 """
-list_application_dependencies(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies"; aws_config=aws_config)
-list_application_dependencies(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", args; aws_config=aws_config)
+list_application_dependencies(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies"; aws_config=aws_config)
+list_application_dependencies(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", args; aws_config=aws_config)
 
 """
     ListApplicationVersions()
@@ -206,8 +206,8 @@ Lists versions for the specified application.
 - `maxItems`: The total number of items to return.
 - `nextToken`: A token to specify where to start paginating.
 """
-list_application_versions(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions"; aws_config=aws_config)
-list_application_versions(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", args; aws_config=aws_config)
+list_application_versions(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions"; aws_config=aws_config)
+list_application_versions(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", args; aws_config=aws_config)
 
 """
     ListApplications()
@@ -218,8 +218,8 @@ Lists applications owned by the requester.
 - `maxItems`: The total number of items to return.
 - `nextToken`: A token to specify where to start paginating.
 """
-list_applications(; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications"; aws_config=aws_config)
-list_applications(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", args; aws_config=aws_config)
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications"; aws_config=aws_config)
+list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", args; aws_config=aws_config)
 
 """
     PutApplicationPolicy()
@@ -234,8 +234,8 @@ Sets the permission policy for an application. For the list of actions supported
 - `statements`: An array of policy statements applied to the application.
 
 """
-put_application_policy(applicationId, statements; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}("statements"=>statements); aws_config=aws_config)
-put_application_policy(applicationId, statements, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), args)); aws_config=aws_config)
+put_application_policy(applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}("statements"=>statements); aws_config=aws_config)
+put_application_policy(applicationId, statements, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), args)); aws_config=aws_config)
 
 """
     UnshareApplication()
@@ -247,8 +247,8 @@ Unshares an application from an AWS Organization.This operation can be called on
 - `organizationId`: The AWS Organization ID to unshare the application from.
 
 """
-unshare_application(applicationId, organizationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}("organizationId"=>organizationId); aws_config=aws_config)
-unshare_application(applicationId, organizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), args)); aws_config=aws_config)
+unshare_application(applicationId, organizationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}("organizationId"=>organizationId); aws_config=aws_config)
+unshare_application(applicationId, organizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), args)); aws_config=aws_config)
 
 """
     UpdateApplication()
@@ -266,5 +266,5 @@ Updates the specified application.
 - `readmeBody`: A text readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
 - `readmeUrl`: A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
 """
-update_application(applicationId; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)"; aws_config=aws_config)
-update_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", args; aws_config=aws_config)
+update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)"; aws_config=aws_config)
+update_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", args; aws_config=aws_config)
