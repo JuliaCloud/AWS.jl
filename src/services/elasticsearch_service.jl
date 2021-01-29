@@ -496,7 +496,9 @@ Modifies the cluster configuration of the specified Elasticsearch domain, settin
 - `DomainEndpointOptions`: Options to specify configuration that will be applied to the domain endpoint.
 - `EBSOptions`: Specify the type and size of the EBS volume that you want to use. 
 - `ElasticsearchClusterConfig`: The type and number of instances to instantiate for the domain cluster.
+- `EncryptionAtRestOptions`: Specifies the Encryption At Rest Options.
 - `LogPublishingOptions`: Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
+- `NodeToNodeEncryptionOptions`: Specifies the NodeToNodeEncryptionOptions.
 - `SnapshotOptions`: Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours. 
 - `VPCOptions`: Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
 """
