@@ -35,6 +35,7 @@ Creates a new blockchain network using Amazon Managed Blockchain. Applies only t
 # Optional Parameters
 - `Description`: An optional description for the network.
 - `FrameworkConfiguration`:  Configuration properties of the blockchain framework relevant to the network configuration. 
+- `Tags`: Tags to assign to the network. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws_config=aws_config)
 create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), args)); aws_config=aws_config)
@@ -42,7 +43,7 @@ create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfigurat
 """
     CreateNode()
 
-Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum.
+Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and Ethereum. Ethereum on Managed Blockchain is in preview release and is subject to change.
 
 # Required Parameters
 - `ClientRequestToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time. This identifier is required only if you make a service request directly using an HTTP client. It is generated automatically if you use an AWS SDK or the AWS CLI.
@@ -51,6 +52,7 @@ Creates a node on the specified blockchain network. Applies to Hyperledger Fabri
 
 # Optional Parameters
 - `MemberId`: The unique identifier of the member that owns this node. Applies only to Hyperledger Fabric.
+- `Tags`: Tags to assign to the node. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
 create_node(ClientRequestToken, NodeConfiguration, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws_config=aws_config)
@@ -68,6 +70,7 @@ Creates a proposal for a change to the network that other members of the network
 
 # Optional Parameters
 - `Description`: A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\"
+- `Tags`: Tags to assign to the proposal. Each tag consists of a key and optional value. When specifying tags during creation, you can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource. If the proposal is for a network invitation, the invitation inherits the tags added to the proposal. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
 """
 create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws_config=aws_config)
 create_proposal(Actions, ClientRequestToken, MemberId, networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), args)); aws_config=aws_config)
@@ -247,6 +250,18 @@ list_proposals(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = m
 list_proposals(networkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", args; aws_config=aws_config)
 
 """
+    ListTagsForResource()
+
+Returns a list of tags for the specified resource. Each tag consists of a key and optional value. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+
+"""
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+
+"""
     RejectInvitation()
 
 Rejects an invitation to join a network. This action can be called by a principal in an AWS account that has received an invitation to create a member and join a network. Applies only to Hyperledger Fabric.
@@ -257,6 +272,32 @@ Rejects an invitation to join a network. This action can be called by a principa
 """
 reject_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws_config=aws_config)
 reject_invitation(invitationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", args; aws_config=aws_config)
+
+"""
+    TagResource()
+
+Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource. Each tag consists of a key and optional value. When you specify a tag key that already exists, the tag value is overwritten with the new value. Use UntagResource to remove tag keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, your request fails and returns an error. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+
+# Required Parameters
+- `Tags`: The tags to assign to the specified resource. Tag values can be empty, for example, \"MyTagKey\" : \"\". You can specify multiple key-value pairs in a single request, with an overall maximum of 50 added to each resource.
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+
+"""
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+
+"""
+    UntagResource()
+
+Removes the specified tags from the Amazon Managed Blockchain resource. For more information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `tagKeys`: The tag keys.
+
+"""
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateMember()

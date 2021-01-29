@@ -829,8 +829,8 @@ Delete an OTA update.
 - `otaUpdateId`: The ID of the OTA update to delete.
 
 # Optional Parameters
-- `deleteStream`: Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.
-- `forceDeleteAWSJob`: Specifies if the AWS Job associated with the OTA update should be deleted when the OTA update is deleted.
+- `deleteStream`: When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
+- `forceDeleteAWSJob`: When true, deletes the AWS job created by the OTAUpdate process even if it is \"IN_PROGRESS\". Otherwise, if the job is not in a terminal state (\"COMPLETED\" or \"CANCELED\") an exception will occur. The default is false.
 """
 delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/otaUpdates/$(otaUpdateId)"; aws_config=aws_config)
 delete_otaupdate(otaUpdateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/otaUpdates/$(otaUpdateId)", args; aws_config=aws_config)

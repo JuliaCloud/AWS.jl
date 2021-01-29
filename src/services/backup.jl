@@ -40,7 +40,7 @@ create_backup_selection(BackupSelection, backupPlanId, args::AbstractDict{String
 Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID.  Sensitive data, such as passport numbers, should not be included the name of a backup vault. 
 
 # Required Parameters
-- `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
+- `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of letters, numbers, and hyphens.
 
 # Optional Parameters
 - `BackupVaultTags`: Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
@@ -163,7 +163,7 @@ describe_copy_job(copyJobId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     DescribeGlobalSettings()
 
-The current feature settings for the AWS Account.
+Describes the global settings of the AWS account, including whether it is opted in to cross-account backup.
 
 """
 describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
@@ -330,14 +330,14 @@ get_supported_resource_types(args::AbstractDict{String, Any}; aws_config::Abstra
 Returns a list of existing backup jobs for an authenticated account.
 
 # Optional Parameters
-- `accountId`: The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID.
+- `accountId`: The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an AWS Organizations management account, passing * returns all jobs across the organization.
 - `backupVaultName`: Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
 - `createdAfter`: Returns only backup jobs that were created after the specified date.
 - `createdBefore`: Returns only backup jobs that were created before the specified date.
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
 - `resourceArn`: Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
-- `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+- `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway  
 - `state`: Returns only backup jobs that are in the specified state.
 """
 list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/"; aws_config=aws_config)
@@ -423,7 +423,7 @@ Returns metadata about your copy jobs.
 - `maxResults`: The maximum number of items to be returned.
 - `nextToken`: The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token. 
 - `resourceArn`: Returns only copy jobs that match the specified resource Amazon Resource Name (ARN). 
-- `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+- `resourceType`: Returns only backup jobs for the specified resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway  
 - `state`: Returns only copy jobs that are in the specified state.
 """
 list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/"; aws_config=aws_config)
@@ -547,11 +547,11 @@ Starts an on-demand backup job for the specified resource.
 
 # Optional Parameters
 - `BackupOptions`: Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to \"WindowsVSS”:“enabled\" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default.
-- `CompleteWindowMinutes`: A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
+- `CompleteWindowMinutes`: A value in minutes during which a successfully started backup must complete, or else AWS Backup will cancel the job. This value is optional. This value begins counting down from when the backup was scheduled. It does not add additional time for StartWindowMinutes, or if the backup started later than scheduled.
 - `IdempotencyToken`: A customer chosen string that can be used to distinguish between calls to StartBackupJob.
-- `Lifecycle`: The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
+- `Lifecycle`: The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
 - `RecoveryPointTags`: To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
-- `StartWindowMinutes`: A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
+- `StartWindowMinutes`: A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.
 """
 start_backup_job(BackupVaultName, IamRoleArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
 start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
@@ -581,12 +581,12 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
 
 # Required Parameters
 - `IamRoleArn`: The Amazon Resource Name (ARN) of the IAM role that AWS Backup uses to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
-- `Metadata`: A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : A serialized list of up to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional.  
+- `Metadata`: A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : An array of one to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional. For example, \"itemsToRestore\":\"[\"/my.test\"]\".  
 - `RecoveryPointArn`: An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 # Optional Parameters
 - `IdempotencyToken`: A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
-- `ResourceType`: Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Storage Gateway for AWS Storage Gateway  
+- `ResourceType`: Starts a job to restore a recovery point for one of the following resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for AWS Storage Gateway  
 """
 start_restore_job(IamRoleArn, Metadata, RecoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn); aws_config=aws_config)
 start_restore_job(IamRoleArn, Metadata, RecoveryPointArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn), args)); aws_config=aws_config)
@@ -645,7 +645,7 @@ update_backup_plan(BackupPlan, backupPlanId, args::AbstractDict{String, <:Any}; 
 """
     UpdateGlobalSettings()
 
-Updates the current global settings for the AWS Account. Use the DescribeGlobalSettings API to determine the current settings.
+Updates the current global settings for the AWS account. Use the DescribeGlobalSettings API to determine the current settings.
 
 # Optional Parameters
 - `GlobalSettings`: A list of resources along with the opt-in preferences for the account.
@@ -656,7 +656,7 @@ update_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 """
     UpdateRecoveryPointLifecycle()
 
-Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. 
+Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold storage.
 
 # Required Parameters
 - `backupVaultName`: The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.

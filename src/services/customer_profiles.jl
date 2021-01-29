@@ -89,12 +89,11 @@ Removes an integration from a specific domain.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
-
-# Optional Parameters
 - `Uri`: The URI of the S3 bucket or any other type of data source.
+
 """
-delete_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete"; aws_config=aws_config)
-delete_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", args; aws_config=aws_config)
+delete_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config)
+delete_integration(DomainName, Uri, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), args)); aws_config=aws_config)
 
 """
     DeleteProfile()
@@ -171,12 +170,11 @@ Returns an integration for a domain.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
-
-# Optional Parameters
 - `Uri`: The URI of the S3 bucket or any other type of data source.
+
 """
-get_integration(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations"; aws_config=aws_config)
-get_integration(DomainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", args; aws_config=aws_config)
+get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config)
+get_integration(DomainName, Uri, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), args)); aws_config=aws_config)
 
 """
     GetProfileObjectType()

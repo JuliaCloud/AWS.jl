@@ -7,11 +7,11 @@ using AWS.UUIDs
 """
     BatchDeleteRecipeVersion()
 
-Deletes one or more versions of a recipe at a time.
+Deletes one or more versions of a recipe at a time. The entire request will be rejected if:   The recipe does not exist.   There is an invalid version identifier in the list of versions.   The verision list is empty.   The version list size exceeds 50.   The verison list contains duplicate entries.   The request will complete successfully, but with partial failures, if:   A version does not exist.   A version is being used by a job.   You specify LATEST_WORKING, but it's being used by a project.   The version fails to be deleted.   The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
 
 # Required Parameters
-- `RecipeVersions`: An array of version identifiers to be deleted.
-- `name`: The name of the recipe to be modified.
+- `RecipeVersions`: An array of version identifiers, for the recipe versions to be deleted. You can specify numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
+- `name`: The name of the recipe whose versions are to be deleted.
 
 """
 batch_delete_recipe_version(RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}("RecipeVersions"=>RecipeVersions); aws_config=aws_config)
@@ -20,11 +20,11 @@ batch_delete_recipe_version(RecipeVersions, name, args::AbstractDict{String, <:A
 """
     CreateDataset()
 
-Creates a new AWS Glue DataBrew dataset for this AWS account.
+Creates a new DataBrew dataset.
 
 # Required Parameters
 - `Input`: 
-- `Name`: The name of the dataset to be created.
+- `Name`: The name of the dataset to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 
 # Optional Parameters
 - `FormatOptions`: 
@@ -36,18 +36,18 @@ create_dataset(Input, Name, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     CreateProfileJob()
 
-Creates a new job to profile an AWS Glue DataBrew dataset that exists in the current AWS account.
+Creates a new job to analyze a dataset and create its data profile.
 
 # Required Parameters
 - `DatasetName`: The name of the dataset that this job is to act upon.
-- `Name`: The name of the job to be created.
+- `Name`: The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 - `OutputLocation`: 
-- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
 - `EncryptionKeyArn`: The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
 - `EncryptionMode`: The encryption mode for the job, which can be one of the following:    SSE-KMS - para&gt;SSE-KMS - server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.  
-- `LogSubscription`: A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+- `LogSubscription`: Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
 - `MaxCapacity`: The maximum number of nodes that DataBrew can use when the job processes data.
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `Tags`: Metadata tags to apply to this job.
@@ -59,11 +59,11 @@ create_profile_job(DatasetName, Name, OutputLocation, RoleArn, args::AbstractDic
 """
     CreateProject()
 
-Creates a new AWS Glue DataBrew project in the current AWS account.
+Creates a new DataBrew project.
 
 # Required Parameters
-- `DatasetName`: The name of the dataset to associate this project with.
-- `Name`: A unique name for the new project.
+- `DatasetName`: The name of an existing dataset to associate this project with.
+- `Name`: A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 - `RecipeName`: The name of an existing recipe to associate with the project.
 - `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
 
@@ -77,10 +77,10 @@ create_project(DatasetName, Name, RecipeName, RoleArn, args::AbstractDict{String
 """
     CreateRecipe()
 
-Creates a new AWS Glue DataBrew recipe for the current AWS account.
+Creates a new DataBrew recipe.
 
 # Required Parameters
-- `Name`: A unique name for the recipe.
+- `Name`: A unique name for the recipe. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 - `Steps`: An array containing the steps to be performed by the recipe. Each recipe step consists of one recipe action and (optionally) an array of condition expressions.
 
 # Optional Parameters
@@ -93,23 +93,23 @@ create_recipe(Name, Steps, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     CreateRecipeJob()
 
-Creates a new job for an existing AWS Glue DataBrew recipe in the current AWS account. You can create a standalone job using either a project, or a combination of a recipe and a dataset.
+Creates a new job to transform input data, using steps defined in an existing AWS Glue DataBrew recipe
 
 # Required Parameters
-- `Name`: A unique name for the job.
+- `Name`: A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 - `Outputs`: One or more artifacts that represent the output from running the job.
-- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
 - `DatasetName`: The name of the dataset that this job processes.
 - `EncryptionKeyArn`: The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
 - `EncryptionMode`: The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.  
-- `LogSubscription`: A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+- `LogSubscription`: Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
 - `MaxCapacity`: The maximum number of nodes that DataBrew can consume when the job processes data.
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `ProjectName`: Either the name of an existing project, or a combination of a recipe and a dataset to associate with the recipe.
 - `RecipeReference`: 
-- `Tags`: Metadata tags to apply to this job dataset.
+- `Tags`: Metadata tags to apply to this job.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
 create_recipe_job(Name, Outputs, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
@@ -118,11 +118,11 @@ create_recipe_job(Name, Outputs, RoleArn, args::AbstractDict{String, <:Any}; aws
 """
     CreateSchedule()
 
-Creates a new schedule for one or more AWS Glue DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
+Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
 
 # Required Parameters
-- `CronExpression`: The date or dates and time or times, in cron format, when the jobs are to be run.
-- `Name`: A unique name for the schedule.
+- `CronExpression`: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+- `Name`: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
 
 # Optional Parameters
 - `JobNames`: The name or names of one or more jobs to be run.
@@ -134,7 +134,7 @@ create_schedule(CronExpression, Name, args::AbstractDict{String, <:Any}; aws_con
 """
     DeleteDataset()
 
-Deletes a dataset from AWS Glue DataBrew.
+Deletes a dataset from DataBrew.
 
 # Required Parameters
 - `name`: The name of the dataset to be deleted.
@@ -146,7 +146,7 @@ delete_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DeleteJob()
 
-Deletes the specified AWS Glue DataBrew job from the current AWS account. The job can be for a recipe or for a profile.
+Deletes the specified DataBrew job.
 
 # Required Parameters
 - `name`: The name of the job to be deleted.
@@ -158,7 +158,7 @@ delete_job(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 """
     DeleteProject()
 
-Deletes an existing AWS Glue DataBrew project from the current AWS account.
+Deletes an existing DataBrew project.
 
 # Required Parameters
 - `name`: The name of the project to be deleted.
@@ -170,11 +170,11 @@ delete_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DeleteRecipeVersion()
 
-Deletes a single version of an AWS Glue DataBrew recipe.
+Deletes a single version of a DataBrew recipe.
 
 # Required Parameters
-- `name`: The name of the recipe to be deleted.
-- `recipeVersion`: The version of the recipe to be deleted.
+- `name`: The name of the recipe.
+- `recipeVersion`: The version of the recipe to be deleted. You can specify a numeric versions (X.Y) or LATEST_WORKING. LATEST_PUBLISHED is not supported.
 
 """
 delete_recipe_version(name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)"; aws_config=aws_config)
@@ -183,7 +183,7 @@ delete_recipe_version(name, recipeVersion, args::AbstractDict{String, <:Any}; aw
 """
     DeleteSchedule()
 
-Deletes the specified AWS Glue DataBrew schedule from the current AWS account.
+Deletes the specified DataBrew schedule.
 
 # Required Parameters
 - `name`: The name of the schedule to be deleted.
@@ -195,7 +195,7 @@ delete_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     DescribeDataset()
 
-Returns the definition of a specific AWS Glue DataBrew dataset that is in the current AWS account.
+Returns the definition of a specific DataBrew dataset.
 
 # Required Parameters
 - `name`: The name of the dataset to be described.
@@ -207,7 +207,7 @@ describe_dataset(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DescribeJob()
 
-Returns the definition of a specific AWS Glue DataBrew job that is in the current AWS account.
+Returns the definition of a specific DataBrew job.
 
 # Required Parameters
 - `name`: The name of the job to be described.
@@ -219,7 +219,7 @@ describe_job(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     DescribeProject()
 
-Returns the definition of a specific AWS Glue DataBrew project that is in the current AWS account.
+Returns the definition of a specific DataBrew project.
 
 # Required Parameters
 - `name`: The name of the project to be described.
@@ -231,7 +231,7 @@ describe_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DescribeRecipe()
 
-Returns the definition of a specific AWS Glue DataBrew recipe that is in the current AWS account.
+Returns the definition of a specific DataBrew recipe corresponding to a particular version.
 
 # Required Parameters
 - `name`: The name of the recipe to be described.
@@ -245,7 +245,7 @@ describe_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     DescribeSchedule()
 
-Returns the definition of a specific AWS Glue DataBrew schedule that is in the current AWS account.
+Returns the definition of a specific DataBrew schedule.
 
 # Required Parameters
 - `name`: The name of the schedule to be described.
@@ -257,11 +257,11 @@ describe_schedule(name, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     ListDatasets()
 
-Lists all of the AWS Glue DataBrew datasets for the current AWS account.
+Lists all of the DataBrew datasets.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A token generated by DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call. 
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets"; aws_config=aws_config)
 list_datasets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", args; aws_config=aws_config)
@@ -269,14 +269,14 @@ list_datasets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 """
     ListJobRuns()
 
-Lists all of the previous runs of a particular AWS Glue DataBrew job in the current AWS account.
+Lists all of the previous runs of a particular DataBrew job.
 
 # Required Parameters
 - `name`: The name of the job.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A token generated by AWS Glue DataBrew that specifies where to continue pagination if a previous request was truncated. To get the next set of pages, pass in the NextToken value from the response object of the previous page call. 
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns"; aws_config=aws_config)
 list_job_runs(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns", args; aws_config=aws_config)
@@ -284,7 +284,7 @@ list_job_runs(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     ListJobs()
 
-Lists the AWS Glue DataBrew jobs in the current AWS account.
+Lists all of the DataBrew jobs that are defined.
 
 # Optional Parameters
 - `datasetName`: The name of a dataset. Using this parameter indicates to return only those jobs that act on the specified dataset.
@@ -298,11 +298,11 @@ list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_
 """
     ListProjects()
 
-Lists all of the DataBrew projects in the current AWS account.
+Lists all of the DataBrew projects that are defined.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A pagination token that can be used in a subsequent request.
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects"; aws_config=aws_config)
 list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", args; aws_config=aws_config)
@@ -310,14 +310,14 @@ list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 """
     ListRecipeVersions()
 
-Lists all of the versions of a particular AWS Glue DataBrew recipe in the current AWS account.
+Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
 
 # Required Parameters
 - `name`: The name of the recipe for which to return version information.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A pagination token that can be used in a subsequent request.
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}("name"=>name); aws_config=aws_config)
 list_recipe_versions(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
@@ -325,12 +325,12 @@ list_recipe_versions(name, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     ListRecipes()
 
-Lists all of the AWS Glue DataBrew recipes in the current AWS account.
+Lists all of the DataBrew recipes that are defined.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A pagination token that can be used in a subsequent request.
-- `recipeVersion`: A version identifier. Using this parameter indicates to return only those recipes that have this version identifier.
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
+- `recipeVersion`: Return only those recipes with a version identifier of LATEST_WORKING or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED 
 """
 list_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes"; aws_config=aws_config)
 list_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", args; aws_config=aws_config)
@@ -338,12 +338,12 @@ list_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     ListSchedules()
 
-Lists the AWS Glue DataBrew schedules in the current AWS account.
+Lists the DataBrew schedules that are defined.
 
 # Optional Parameters
 - `jobName`: The name of the job that these schedules apply to.
 - `maxResults`: The maximum number of results to return in this request. 
-- `nextToken`: A pagination token that can be used in a subsequent request.
+- `nextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules"; aws_config=aws_config)
 list_schedules(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", args; aws_config=aws_config)
@@ -351,7 +351,7 @@ list_schedules(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=gl
 """
     ListTagsForResource()
 
-Lists all the tags for an AWS Glue DataBrew resource. 
+Lists all the tags for a DataBrew resource. 
 
 # Required Parameters
 - `ResourceArn`: The Amazon Resource Name (ARN) string that uniquely identifies the DataBrew resource. 
@@ -363,7 +363,7 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PublishRecipe()
 
-Publishes a new major version of an AWS Glue DataBrew recipe that exists in the current AWS account.
+Publishes a new version of a DataBrew recipe.
 
 # Required Parameters
 - `name`: The name of the recipe to be published.
@@ -377,14 +377,14 @@ publish_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     SendProjectSessionAction()
 
-Performs a recipe step within an interactive AWS Glue DataBrew session that's currently open.
+Performs a recipe step within an interactive DataBrew session that's currently open.
 
 # Required Parameters
 - `name`: The name of the project to apply the action to.
 
 # Optional Parameters
 - `ClientSessionId`: A unique identifier for an interactive session that's currently open and ready for work. The action will be performed on this session.
-- `Preview`: Returns the result of the recipe step, without applying it. The result isn't added to the view frame stack.
+- `Preview`: If true, the result of the recipe step will be returned, but not applied.
 - `RecipeStep`: 
 - `StepIndex`: The index from which to preview a step. This index is used to preview the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack.
 - `ViewFrame`: 
@@ -395,7 +395,7 @@ send_project_session_action(name, args::AbstractDict{String, <:Any}; aws_config:
 """
     StartJobRun()
 
-Runs an AWS Glue DataBrew job that exists in the current AWS account.
+Runs a DataBrew job.
 
 # Required Parameters
 - `name`: The name of the job to be run.
@@ -407,7 +407,7 @@ start_job_run(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     StartProjectSession()
 
-Creates an interactive session, enabling you to manipulate an AWS Glue DataBrew project.
+Creates an interactive session, enabling you to manipulate data in a DataBrew project.
 
 # Required Parameters
 - `name`: The name of the project to act upon.
@@ -421,7 +421,7 @@ start_project_session(name, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     StopJobRun()
 
-Stops the specified job from running in the current AWS account.
+Stops a particular run of a job.
 
 # Required Parameters
 - `name`: The name of the job to be stopped.
@@ -434,7 +434,7 @@ stop_job_run(name, runId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     TagResource()
 
-Adds metadata tags to an AWS Glue DataBrew resource, such as a dataset, job, project, or recipe.
+Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
 
 # Required Parameters
 - `ResourceArn`: The DataBrew resource to which tags should be added. The value for this parameter is an Amazon Resource Name (ARN). For DataBrew, you can tag a dataset, a job, a project, or a recipe.
@@ -447,10 +447,10 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes metadata tags from an AWS Glue DataBrew resource.
+Removes metadata tags from a DataBrew resource.
 
 # Required Parameters
-- `ResourceArn`: An DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). 
+- `ResourceArn`: A DataBrew resource from which you want to remove a tag or tags. The value for this parameter is an Amazon Resource Name (ARN). 
 - `tagKeys`: The tag keys (names) of one or more tags to be removed.
 
 """
@@ -460,7 +460,7 @@ untag_resource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateDataset()
 
-Modifies the definition of an existing AWS Glue DataBrew dataset in the current AWS account.
+Modifies the definition of an existing DataBrew dataset.
 
 # Required Parameters
 - `Input`: 
@@ -475,18 +475,18 @@ update_dataset(Input, name, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     UpdateProfileJob()
 
-Modifies the definition of an existing AWS Glue DataBrew job in the current AWS account.
+Modifies the definition of an existing profile job.
 
 # Required Parameters
 - `OutputLocation`: 
-- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to be updated.
 
 # Optional Parameters
 - `EncryptionKeyArn`: The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
 - `EncryptionMode`: The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.  
-- `LogSubscription`: A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
-- `MaxCapacity`: The maximum number of nodes that DataBrew can use when the job processes data.
+- `LogSubscription`: Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
+- `MaxCapacity`: The maximum number of compute nodes that DataBrew can use when the job processes data.
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
 """
@@ -496,7 +496,7 @@ update_profile_job(OutputLocation, RoleArn, name, args::AbstractDict{String, <:A
 """
     UpdateProject()
 
-Modifies the definition of an existing AWS Glue DataBrew project in the current AWS account.
+Modifies the definition of an existing DataBrew project.
 
 # Required Parameters
 - `RoleArn`: The Amazon Resource Name (ARN) of the IAM role to be assumed for this request.
@@ -511,7 +511,7 @@ update_project(RoleArn, name, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     UpdateRecipe()
 
-Modifies the definition of the latest working version of an AWS Glue DataBrew recipe in the current AWS account.
+Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
 
 # Required Parameters
 - `name`: The name of the recipe to be updated.
@@ -526,17 +526,17 @@ update_recipe(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     UpdateRecipeJob()
 
-Modifies the definition of an existing AWS Glue DataBrew recipe job in the current AWS account.
+Modifies the definition of an existing DataBrew recipe job.
 
 # Required Parameters
 - `Outputs`: One or more artifacts that represent the output from running the job. 
-- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed for this request.
+- `RoleArn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to update.
 
 # Optional Parameters
 - `EncryptionKeyArn`: The Amazon Resource Name (ARN) of an encryption key that is used to protect the job.
 - `EncryptionMode`: The encryption mode for the job, which can be one of the following:    SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 - Server-side encryption with keys managed by Amazon S3.  
-- `LogSubscription`: A value that enables or disables Amazon CloudWatch logging for the current AWS account. If logging is enabled, CloudWatch writes one log stream for each job run.
+- `LogSubscription`: Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
 - `MaxCapacity`: The maximum number of nodes that DataBrew can consume when the job processes data.
 - `MaxRetries`: The maximum number of times to retry the job after a job run fails.
 - `Timeout`: The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
@@ -547,10 +547,10 @@ update_recipe_job(Outputs, RoleArn, name, args::AbstractDict{String, <:Any}; aws
 """
     UpdateSchedule()
 
-Modifies the definition of an existing AWS Glue DataBrew schedule in the current AWS account.
+Modifies the definition of an existing DataBrew schedule.
 
 # Required Parameters
-- `CronExpression`: The date or dates and time or times, in cron format, when the jobs are to be run.
+- `CronExpression`: The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
 - `name`: The name of the schedule to update.
 
 # Optional Parameters

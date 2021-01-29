@@ -100,11 +100,11 @@ get_component(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     GetComponentVersionArtifact()
 
-Gets the pre-signed URL to a component artifact in an S3 bucket. Core devices can call this operation to identify the URL that they can use to download an artifact to install.
+Gets the pre-signed URL to download a public component artifact. Core devices call this operation to identify the URL that they can use to download an artifact to install.
 
 # Required Parameters
-- `arn`: The ARN of the component version.
-- `artifactName`: The name of the artifact.
+- `arn`: The ARN of the component version. Specify the ARN of a public component version.
+- `artifactName`: The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
 
 """
 get_component_version_artifact(arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)"; aws_config=aws_config)
