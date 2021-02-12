@@ -459,7 +459,7 @@ function credentials_from_webtoken()
     token_role_session = "AWS_ROLE_SESSION_NAME"
     token_web_identity = "AWS_WEB_IDENTITY_TOKEN_FILE"
 
-    has_all_keys = 
+    has_all_keys =
         haskey(ENV, token_role_arn) &&
         haskey(ENV, token_role_session) &&
         haskey(ENV, token_web_identity)
@@ -475,7 +475,7 @@ function credentials_from_webtoken()
     resp = @mock AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
-            "RoleArn" => role_arn, 
+            "RoleArn" => role_arn,
             "RoleSessionName" => role_session,
             "WebIdentityToken" => web_identity
         );
@@ -562,13 +562,13 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
         aws_config=config
     )
 
-    role_creds = role["Credentials"]
+    role_creds = role["AssumeRoleResult"]["Credentials"]
 
     return AWSCredentials(
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
         role_creds["SessionToken"];
-        expiry=unix2datetime(role_creds["Expiration"])
+        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z'))
     )
 end
 
