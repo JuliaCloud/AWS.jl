@@ -164,6 +164,7 @@ function AWSCredentials(; profile=nothing)
         creds === nothing || break
     end
 
+    creds === nothing && throw(NoCredentials("Can't find AWS credentials!"))
     creds.renew = credential_function
 
     return creds
