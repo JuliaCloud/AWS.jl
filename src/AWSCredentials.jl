@@ -146,8 +146,8 @@ function AWSCredentials(; profile=nothing)
         profile = get(ENV, "AWS_PROFILE", get(ENV, "AWS_DEFAULT_PROFILE", nothing))
     end
 
-    # Define our search options, expected to be callable with no arguments. Should return
-    # `nothing` when credentials are not able to be located
+    # Define our search options, expected to be callable with no arguments.
+    # Throw NoCredentials if none are found
     functions = [
         env_var_credentials,
         () -> dot_aws_credentials(profile),
