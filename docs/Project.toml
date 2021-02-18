@@ -1,0 +1,3 @@
+[deps]
+AWS = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
