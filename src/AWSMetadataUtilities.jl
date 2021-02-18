@@ -569,7 +569,7 @@ function _generate_high_level_definition(
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
         operation_definition = """
             $(repeat('"', 3))
-                $function_name()
+                $function_name
 
             $(_wraplines(documentation))\n
             """
@@ -599,7 +599,7 @@ function _generate_high_level_definition(
         operation_definition *= repeat('"', 3)
     end
 
-    doc_string = _generate_docstring(name, documentation, required_parameters, optional_parameters)
+    doc_string = _generate_docstring(_format_function_name(name), documentation, required_parameters, optional_parameters)
 
     if protocol in ("json", "query", "ec2")
         function_string = _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
