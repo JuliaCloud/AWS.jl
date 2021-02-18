@@ -138,7 +138,7 @@ Checks credential locations in the order:
 # Throws
 - `error("Can't find AWS Credentials")`: AWSCredentials could not be found
 """
-function AWSCredentials(; profile=nothing)
+function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
 
@@ -164,7 +164,14 @@ function AWSCredentials(; profile=nothing)
         creds === nothing || break
     end
 
-    creds === nothing && throw(NoCredentials("Can't find AWS credentials!"))
+    # If credentials are nothing, default to throwing an error
+    creds === nothing && throw_cred_error && throw(NoCredentials("Can't find AWS credentials!"))
+
+    # Otherwise if credentials are nothing, return nothing
+    if creds === nothing
+        return nothing
+    end
+
     creds.renew = credential_function
 
     return creds
