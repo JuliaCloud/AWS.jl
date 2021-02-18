@@ -2,45 +2,59 @@ using AWS
 using Documenter
 
 
-# Generate a docs page for each high-level service API.
-const SERVICES_DIR = joinpath(@__DIR__, "src", "services")
-const SERVICES_PAGES = Pair{String,String}[]
-mkpath(SERVICES_DIR)
-
 "Transform snake-case names, like `this_name`, to pascal-snake-case, like `This_Name`."
 pascal_snake_case(s) = join(titlecase.(split(s, "_")), "_")
 
-for jl_file in readdir(joinpath(pkgdir(AWS), "src", "services"))
-    service = first(splitext(jl_file))
-    # Create a module, e.g. `@service S3`, so we can extract docstrings from it.
-    service_module = Symbol(pascal_snake_case(service))
-    @eval @service $service_module
-    @info "Generating documentation pages for `@service $service_module`"
+"""
+    _generate_high_level_services_docs() -> Vector{Pair{String,String}}
 
-    md_file = string(service, ".md")
-    open(joinpath(SERVICES_DIR, md_file), "w") do md
-        write(md, """
-            ```@meta
-            CurrentModule = Main.$service_module
-            ```
+Generate a documentation page for each high-level AWS Service API, and
+return a `Vector` of `"service name" => "docs/src/services/service_name.md"` pairs.
 
-            # $service_module
+Documentation pages are created at `docs/src/services/{service_name}.md`, and
+populated with all docstrings from a module created with `@service Service_Name`.
+"""
+function _generate_high_level_services_docs()
+    services_dir = joinpath(@__DIR__, "src", "services")
+    mkpath(services_dir)
 
-            This page documents function available when using the `$service_module` module,
-            created with [`@service $service_module`](@ref AWS.@service).
+    services_pages = Pair{String,String}[]
+    for jl_file in readdir(joinpath(pkgdir(AWS), "src", "services"))
+        service = first(splitext(jl_file))
+        # Create a module, e.g. `@service S3`, so we can extract docstrings from it.
+        service_module = Symbol(pascal_snake_case(service))
+        @eval @service $service_module
 
-            ```@index
-            Pages   = ["$md_file"]
-            Modules = [$service_module]
-            ```
+        # Avoid `_`s in sidebar/titles/contents as it causes italics in markdown contexts.
+        service_name = replace(string(service_module), "_" => " ")
 
-            ```@autodocs
-            Modules = [$service_module]
-            ```
-            """
-        )
+        @info "Generating documentation page for `@service $service_module`"
+        md_file = string(service, ".md")
+        open(joinpath(services_dir, md_file), "w") do md
+            write(md, """
+                ```@meta
+                CurrentModule = Main.$service_module
+                ```
+
+                # $service_name
+
+                This page documents function available when using the `$service_module`
+                module, created with [`@service $service_module`](@ref AWS.@service).
+
+                ```@index
+                Pages   = ["$md_file"]
+                Modules = [$service_module]
+                ```
+
+                ```@autodocs
+                Modules = [$service_module]
+                ```
+                """
+            )
+        end
+        push!(services_pages, service_name => joinpath("services", md_file))
     end
-    push!(SERVICES_PAGES, string(service_module) => joinpath("services", md_file))
+    return services_pages
 end
 
 makedocs(;
@@ -54,7 +68,7 @@ makedocs(;
     pages=[
         "Home" => "index.md",
         "AWS" => "aws.md",
-        "@services" => SERVICES_PAGES,
+        "Services" => _generate_high_level_services_docs(),
     ],
     strict=true,
     checkdocs=:exports,
