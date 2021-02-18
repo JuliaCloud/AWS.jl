@@ -164,12 +164,13 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
         creds === nothing || break
     end
 
-    # If credentials are nothing, default to throwing an error
-    creds === nothing && throw_cred_error && throw(NoCredentials("Can't find AWS credentials!"))
-
-    # Otherwise if credentials are nothing, return nothing
+    # If credentials are nothing, default to throwing an error, otherwise return nothing
     if creds === nothing
-        return nothing
+        if throw_cred_error
+            throw(NoCredentials("Can't find AWS credentials!"))
+        else
+            return nothing
+        end
     end
 
     creds.renew = credential_function
