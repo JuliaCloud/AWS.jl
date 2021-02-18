@@ -4,7 +4,7 @@
 deps = ["Base64", "Compat", "Dates", "GitHub", "HTTP", "IniFile", "JSON", "MbedTLS", "Mocking", "OrderedCollections", "Retry", "Sockets", "UUIDs", "XMLDict"]
 path = ".."
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
-version = "1.25.1"
+version = "1.25.2"
 
 [[Artifacts]]
 deps = ["Pkg"]
