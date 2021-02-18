@@ -330,6 +330,38 @@ function _http_request(request::Request)
     end
 end
 
+
+"""
+    _clean_uri(uri::AbstractString)
+
+Escape special AWS S3 characters properly.
+
+AWS S3 allows for various special characters in file names, these characters are not being
+properly escaped before we make the requests.
+
+We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` characters which
+are used in the filepathing for sub-directories.
+
+# Arguments
+- `uri::AbstractString`: URI to to cleaned
+
+# Returns
+- `String`: URI with characters escaped
+"""
+function _clean_uri(uri::AbstractString)
+    chars_to_clean = [
+        ' ' => "%20",
+        '!' => "%21",
+        ''' => "%27",
+        '(' => "%28",
+        ')' => "%29",
+        '*' => "%2A"
+    ]
+
+    return reduce(replace, chars_to_clean, init=uri)
+end
+
+
 """
     submit_request(aws::AbstractAWSConfig, request::Request; return_headers::Bool=false)
 
@@ -364,7 +396,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
-    request.url = replace(request.url, " " => "%20")
+    request.url = _clean_uri(request.url)
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)

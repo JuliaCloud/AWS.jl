@@ -743,7 +743,7 @@ end
 
     @testset "low-level s3" begin
         bucket_name = "aws-jl-test---" * _now_formatted()
-        file_name = string(uuid4())
+        file_name = "*)('! .txt"  # Special characters which S3 allows
 
         function _bucket_exists(bucket_name)
             try
