@@ -41,11 +41,13 @@ function _generate_high_level_services_docs()
                 This page documents function available when using the `$service_module`
                 module, created with [`@service $service_module`](@ref AWS.@service).
 
+                ### Index
                 ```@index
                 Pages   = ["$md_file"]
                 Modules = [$service_module]
                 ```
 
+                ### Documentation
                 ```@autodocs
                 Modules = [$service_module]
                 ```

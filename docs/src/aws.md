@@ -4,10 +4,12 @@
 CurrentModule = AWS
 ```
 
+### Index
 ```@index
 Modules = [AWS]
 ```
 
+### Documentation
 ```@autodocs
 Modules = [AWS]
 Order = [:module, :macro, :type, :function, :constant]
