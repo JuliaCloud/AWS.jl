@@ -65,7 +65,7 @@ makedocs(;
     sitename="AWS.jl",
     format=Documenter.HTML(;
         prettyurls=false,
-        canonical="https://invenia.github.io/AWS.jl",
+        canonical="https://juliacloud.github.io/AWS.jl",
     ),
     pages=[
         "Home" => "index.md",
