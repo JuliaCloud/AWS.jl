@@ -526,6 +526,12 @@ end
             @test splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
             @test splitline(str, 4) == ("jμΛ", "Iα")
         end
+        @testset "does not split on punctuation" begin
+            str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
+            result = splitline(str, ncodeunits(str) - 1)
+            # don't split escaped closing quote `\"` into `\` and `"`
+            @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
+        end
     end
     @testset "wraplines" begin
         str = "This sentence contains exactly `η = 50` codeunits"

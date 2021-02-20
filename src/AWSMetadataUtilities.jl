@@ -642,6 +642,9 @@ function splitline(str, limit)
     # split on whitespace if possible, else just split when we hit the limit.
     split_point = something(findlast(==(' '), first_line), limit)
     stop = validindex(first_line, split_point)
+    while ispunct(first_line[stop])  # avoid splitting escaped characters.
+        stop = prevind(first_line, stop)
+    end
     restart = nextind(first_line, stop)
     return (str[1:stop], str[restart:end])
 end
