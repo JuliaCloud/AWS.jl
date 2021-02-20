@@ -542,7 +542,7 @@ end
         @testset "limit == 1" begin
             wrapped = wraplines(str, 1)
             @test wrapped isa String
-            @test wrapped == replace(join((c for c in str), "\n"), " " => "")
+            @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
         end
         @testset "limit >= ncodeunits" begin
             for limit in (50, 99)
