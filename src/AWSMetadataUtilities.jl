@@ -634,25 +634,25 @@ Split the string `str` at or before `limit`.
 function splitline(str, limit)
     limit ≥ 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
     length(str) ≤ limit && return (str, "")
-    limit = validind(str, limit)
+    limit = validindex(str, limit)
     first_line = str[1:limit]
     # split on whitespace if possible, else just split when we hit the limit.
     split_point = something(findlast(==(' '), first_line), limit)
-    stop = validind(first_line, split_point)
+    stop = validindex(first_line, split_point)
     restart = nextind(first_line, stop)
     return (str[1:stop], str[restart:end])
 end
 
 """
-    validind(str, i)
+    validindex(str, i)
 
 Return a valid index into the string `str`, rounding towards the first index of `str` if
 `i` is not itself a valid index into `str`.
 
-`i` must be within the bounds of `string`. `validind(str, i)` only protects against a
+`i` must be within the bounds of `string`. `validindex(str, i)` only protects against a
 `StringIndexError`, not a `BoundsError`.
 """
-function validind(str, limit)
+function validindex(str, limit)
     prev = max(firstindex(str), prevind(str, limit))
     next = nextind(str, prev)
     return next == limit ? limit : prev
