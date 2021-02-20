@@ -10,12 +10,14 @@ using AWS.UUIDs
 Creates a Data Store that can ingest and export FHIR formatted data.
 
 # Required Parameters
-- `DatastoreTypeVersion`: The FHIR version of the Data Store. The only supported version is R4.
+- `DatastoreTypeVersion`: The FHIR version of the Data Store. The only supported version is
+  R4.
 
 # Optional Parameters
 - `ClientToken`: Optional user provided token used for ensuring idempotency.
 - `DatastoreName`: The user generated name for the Data Store.
-- `PreloadDataConfig`: Optional parameter to preload data upon creation of the Data Store. Currently, the only supported preloaded data is synthetic data generated from Synthea.
+- `PreloadDataConfig`: Optional parameter to preload data upon creation of the Data Store.
+  Currently, the only supported preloaded data is synthetic data generated from Synthea.
 """
 create_fhirdatastore(DatastoreTypeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_fhirdatastore(DatastoreTypeVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -23,7 +25,7 @@ create_fhirdatastore(DatastoreTypeVersion, args::AbstractDict{String, <:Any}; aw
 """
     DeleteFHIRDatastore()
 
-Deletes a Data Store. 
+Deletes a Data Store.
 
 # Optional Parameters
 - `DatastoreId`:  The AWS-generated ID for the Data Store to be deleted.
@@ -34,10 +36,13 @@ delete_fhirdatastore(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DescribeFHIRDatastore()
 
-Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data Store ARN, Data Store name, Data Store status, created at, Data Store type version, and Data Store endpoint.
+Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data
+Store ARN, Data Store name, Data Store status, created at, Data Store type version, and
+Data Store endpoint.
 
 # Optional Parameters
-- `DatastoreId`: The AWS-generated Data Store id. This is part of the ‘CreateFHIRDatastore’ output.
+- `DatastoreId`: The AWS-generated Data Store id. This is part of the
+  ‘CreateFHIRDatastore’ output.
 """
 describe_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRDatastore"; aws_config=aws_config)
 describe_fhirdatastore(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRDatastore", args; aws_config=aws_config)
@@ -45,10 +50,12 @@ describe_fhirdatastore(args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DescribeFHIRExportJob()
 
-Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+Displays the properties of a FHIR export job, including the ID, ARN, name, and the status
+of the job.
 
 # Required Parameters
-- `DatastoreId`: The AWS generated ID for the Data Store from which files are being exported from for an export job.
+- `DatastoreId`: The AWS generated ID for the Data Store from which files are being
+  exported from for an export job.
 - `JobId`: The AWS generated ID for an export job.
 
 """
@@ -58,7 +65,8 @@ describe_fhirexport_job(DatastoreId, JobId, args::AbstractDict{String, <:Any}; a
 """
     DescribeFHIRImportJob()
 
-Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+Displays the properties of a FHIR import job, including the ID, ARN, name, and the status
+of the job.
 
 # Required Parameters
 - `DatastoreId`: The AWS-generated ID of the Data Store.
@@ -71,11 +79,13 @@ describe_fhirimport_job(DatastoreId, JobId, args::AbstractDict{String, <:Any}; a
 """
     ListFHIRDatastores()
 
-Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store status.
+Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store
+status.
 
 # Optional Parameters
 - `Filter`: Lists all filters associated with a FHIR Data Store request.
-- `MaxResults`: The maximum number of Data Stores returned in a single page of a ListFHIRDatastoresRequest call.
+- `MaxResults`: The maximum number of Data Stores returned in a single page of a
+  ListFHIRDatastoresRequest call.
 - `NextToken`: Fetches the next page of Data Stores when results are paginated.
 """
 list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRDatastores"; aws_config=aws_config)
@@ -89,8 +99,10 @@ Begins a FHIR export job.
 # Required Parameters
 - `ClientToken`: An optional user provided token used for ensuring idempotency.
 - `DataAccessRoleArn`: The Amazon Resource Name used during the initiation of the job.
-- `DatastoreId`: The AWS generated ID for the Data Store from which files are being exported for an export job.
-- `OutputDataConfig`: The output data configuration that was supplied when the export job was created.
+- `DatastoreId`: The AWS generated ID for the Data Store from which files are being
+  exported for an export job.
+- `OutputDataConfig`: The output data configuration that was supplied when the export job
+  was created.
 
 # Optional Parameters
 - `JobName`: The user generated name for an export job.
@@ -105,9 +117,11 @@ Begins a FHIR Import job.
 
 # Required Parameters
 - `ClientToken`: Optional user provided token used for ensuring idempotency.
-- `DataAccessRoleArn`: The Amazon Resource Name (ARN) that gives Amazon HealthLake access permission.
+- `DataAccessRoleArn`: The Amazon Resource Name (ARN) that gives Amazon HealthLake access
+  permission.
 - `DatastoreId`: The AWS-generated Data Store ID.
-- `InputDataConfig`: The input properties of the FHIR Import job in the StartFHIRImport job request.
+- `InputDataConfig`: The input properties of the FHIR Import job in the StartFHIRImport job
+  request.
 
 # Optional Parameters
 - `JobName`: The name of the FHIR Import job in the StartFHIRImport job request.

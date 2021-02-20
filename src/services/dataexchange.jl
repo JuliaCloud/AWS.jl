@@ -22,12 +22,17 @@ cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 This operation creates a data set.
 
 # Required Parameters
-- `AssetType`: The type of file your data is stored in. Currently, the supported asset type is S3_SNAPSHOT.
-- `Description`: A description for the data set. This value can be up to 16,348 characters long.
+- `AssetType`: The type of file your data is stored in. Currently, the supported asset type
+  is S3_SNAPSHOT.
+- `Description`: A description for the data set. This value can be up to 16,348 characters
+  long.
 - `Name`: The name of the data set.
 
 # Optional Parameters
-- `Tags`: A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
+- `Tags`: A data set tag is an optional label that you can assign to a data set when you
+  create it. Each tag consists of a key and an optional value, both of which you define. When
+  you use tagging, you can also use tag-based access control in IAM policies to control
+  access to these data sets and revisions.
 """
 create_data_set(AssetType, Description, Name; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name); aws_config=aws_config)
 create_data_set(AssetType, Description, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), args)); aws_config=aws_config)
@@ -55,7 +60,10 @@ This operation creates a revision for a data set.
 
 # Optional Parameters
 - `Comment`: An optional comment about the revision.
-- `Tags`: A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.
+- `Tags`: A revision tag is an optional label that you can assign to a revision when you
+  create it. Each tag consists of a key and an optional value, both of which you define. When
+  you use tagging, you can also use tag-based access control in IAM policies to control
+  access to these data sets and revisions.
 """
 create_revision(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
 create_revision(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
@@ -160,7 +168,8 @@ This operation lists a data set's revisions sorted by CreatedAt in descending or
 
 # Optional Parameters
 - `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of results.
+- `nextToken`: The token value retrieved from a previous call to access the next page of
+  results.
 """
 list_data_set_revisions(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
 list_data_set_revisions(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
@@ -168,12 +177,16 @@ list_data_set_revisions(DataSetId, args::AbstractDict{String, <:Any}; aws_config
 """
     ListDataSets()
 
-This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+This operation lists your data sets. When listing by origin OWNED, results are sorted by
+CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the
+maxResults parameter is ignored.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of results.
-- `origin`: A property that defines the data set as OWNED by the account (for providers) or ENTITLED to the account (for subscribers).
+- `nextToken`: The token value retrieved from a previous call to access the next page of
+  results.
+- `origin`: A property that defines the data set as OWNED by the account (for providers) or
+  ENTITLED to the account (for subscribers).
 """
 list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
 list_data_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", args; aws_config=aws_config)
@@ -186,7 +199,8 @@ This operation lists your jobs sorted by CreatedAt in descending order.
 # Optional Parameters
 - `dataSetId`: The unique identifier for a data set.
 - `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of results.
+- `nextToken`: The token value retrieved from a previous call to access the next page of
+  results.
 - `revisionId`: The unique identifier for a revision.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
@@ -203,7 +217,8 @@ This operation lists a revision's assets sorted alphabetically in descending ord
 
 # Optional Parameters
 - `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of results.
+- `nextToken`: The token value retrieved from a previous call to access the next page of
+  results.
 """
 list_revision_assets(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets"; aws_config=aws_config)
 list_revision_assets(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", args; aws_config=aws_config)
@@ -266,7 +281,9 @@ This operation updates an asset.
 # Required Parameters
 - `AssetId`: The unique identifier for an asset.
 - `DataSetId`: The unique identifier for a data set.
-- `Name`: The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key.
+- `Name`: The name of the asset. When importing from Amazon S3, the S3 object key is used
+  as the asset name. When exporting to Amazon S3, the asset name is used as default target S3
+  object key.
 - `RevisionId`: The unique identifier for a revision.
 
 """
@@ -299,7 +316,9 @@ This operation updates a revision.
 
 # Optional Parameters
 - `Comment`: An optional comment about the revision.
-- `Finalized`: Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products.
+- `Finalized`: Finalizing a revision tells AWS Data Exchange that your changes to the
+  assets in the revision are complete. After it's in this read-only state, you can publish
+  the revision to your products.
 """
 update_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
 update_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)

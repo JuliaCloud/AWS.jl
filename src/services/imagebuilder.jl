@@ -7,11 +7,13 @@ using AWS.UUIDs
 """
     CancelImageCreation()
 
-CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
+CancelImageCreation cancels the creation of Image. This operation can only be used on
+images in a non-terminal state.
 
 # Required Parameters
 - `clientToken`: The idempotency token used to make this request idempotent.
-- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image whose creation you want to cancel.
+- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image whose creation you
+  want to cancel.
 
 """
 cancel_image_creation(clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CancelImageCreation", Dict{String, Any}("clientToken"=>clientToken, "imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
@@ -26,16 +28,25 @@ Creates a new component that can be used to build, validate, test, and assess yo
 - `clientToken`: The idempotency token of the component.
 - `name`: The name of the component.
 - `platform`: The platform of the component.
-- `semanticVersion`: The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
+- `semanticVersion`: The semantic version of the component. This version follows the
+  semantic version syntax. For example, major.minor.patch. This could be versioned like
+  software (2.0.1) or like a date (2019.12.01).
 
 # Optional Parameters
-- `changeDescription`: The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
-- `data`: The data of the component. Used to specify the data inline. Either data or uri can be used to specify the data within the component.
+- `changeDescription`: The change description of the component. Describes what change has
+  been made in this version, or what makes this version different from other versions of this
+  component.
+- `data`: The data of the component. Used to specify the data inline. Either data or uri
+  can be used to specify the data within the component.
 - `description`: The description of the component. Describes the contents of the component.
 - `kmsKeyId`: The ID of the KMS key that should be used to encrypt this component.
-- `supportedOsVersions`:  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+- `supportedOsVersions`:  The operating system (OS) version supported by the component. If
+  the OS information is available, a prefix match is performed against the parent image OS
+  version during image recipe creation.
 - `tags`: The tags of the component.
-- `uri`: The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
+- `uri`: The uri of the component. Must be an S3 URL and the requester must have permission
+  to access the S3 bucket. If you use S3, you can specify component content up to your
+  service quota. Either data or uri can be used to specify the data within the component.
 """
 create_component(clientToken, name, platform, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion); aws_config=aws_config)
 create_component(clientToken, name, platform, semanticVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion), args)); aws_config=aws_config)
@@ -43,24 +54,29 @@ create_component(clientToken, name, platform, semanticVersion, args::AbstractDic
 """
     CreateContainerRecipe()
 
-Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
+Creates a new container recipe. Container recipes define how images are configured, tested,
+and assessed.
 
 # Required Parameters
 - `clientToken`: The client token used to make this request idempotent.
 - `components`: Components for build and test that are included in the container recipe.
 - `containerType`: The type of container to create.
-- `dockerfileTemplateData`: The Dockerfile template used to build your image as an inline data blob.
+- `dockerfileTemplateData`: The Dockerfile template used to build your image as an inline
+  data blob.
 - `name`: The name of the container recipe.
 - `parentImage`: The source image for the container recipe.
-- `semanticVersion`: The semantic version of the container recipe (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+- `semanticVersion`: The semantic version of the container recipe
+  (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
 - `targetRepository`: The destination repository for the container image.
 
 # Optional Parameters
 - `description`: The description of the container recipe.
-- `dockerfileTemplateUri`: The S3 URI for the Dockerfile that will be used to build your container image.
+- `dockerfileTemplateUri`: The S3 URI for the Dockerfile that will be used to build your
+  container image.
 - `imageOsVersionOverride`: Specifies the operating system version for the source image.
 - `kmsKeyId`: Identifies which KMS key is used to encrypt the container image.
-- `platformOverride`: Specifies the operating system platform when you use a custom source image.
+- `platformOverride`: Specifies the operating system platform when you use a custom source
+  image.
 - `tags`: Tags that are attached to the container recipe.
 - `workingDirectory`: The working directory for use during build and test workflows.
 """
@@ -70,16 +86,17 @@ create_container_recipe(clientToken, components, containerType, dockerfileTempla
 """
     CreateDistributionConfiguration()
 
-Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
+Creates a new distribution configuration. Distribution configurations define and configure
+the outputs of your pipeline.
 
 # Required Parameters
-- `clientToken`:  The idempotency token of the distribution configuration. 
-- `distributions`:  The distributions of the distribution configuration. 
-- `name`:  The name of the distribution configuration. 
+- `clientToken`:  The idempotency token of the distribution configuration.
+- `distributions`:  The distributions of the distribution configuration.
+- `name`:  The name of the distribution configuration.
 
 # Optional Parameters
-- `description`:  The description of the distribution configuration. 
-- `tags`:  The tags of the distribution configuration. 
+- `description`:  The description of the distribution configuration.
+- `tags`:  The tags of the distribution configuration.
 """
 create_distribution_configuration(clientToken, distributions, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateDistributionConfiguration", Dict{String, Any}("clientToken"=>clientToken, "distributions"=>distributions, "name"=>name); aws_config=aws_config)
 create_distribution_configuration(clientToken, distributions, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "distributions"=>distributions, "name"=>name), args)); aws_config=aws_config)
@@ -87,19 +104,26 @@ create_distribution_configuration(clientToken, distributions, name, args::Abstra
 """
     CreateImage()
 
- Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. 
+ Creates a new image. This request will create a new image along with all of the configured
+output resources defined in the distribution configuration.
 
 # Required Parameters
-- `clientToken`:  The idempotency token used to make this request idempotent. 
-- `infrastructureConfigurationArn`:  The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested. 
+- `clientToken`:  The idempotency token used to make this request idempotent.
+- `infrastructureConfigurationArn`:  The Amazon Resource Name (ARN) of the infrastructure
+  configuration that defines the environment in which your image will be built and tested.
 
 # Optional Parameters
-- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that defines how images are configured and tested.
-- `distributionConfigurationArn`:  The Amazon Resource Name (ARN) of the distribution configuration that defines and configures the outputs of your pipeline. 
-- `enhancedImageMetadataEnabled`:  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
-- `imageRecipeArn`:  The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed. 
-- `imageTestsConfiguration`:  The image tests configuration of the image. 
-- `tags`:  The tags of the image. 
+- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that defines
+  how images are configured and tested.
+- `distributionConfigurationArn`:  The Amazon Resource Name (ARN) of the distribution
+  configuration that defines and configures the outputs of your pipeline.
+- `enhancedImageMetadataEnabled`:  Collects additional information about the image being
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `imageRecipeArn`:  The Amazon Resource Name (ARN) of the image recipe that defines how
+  images are configured, tested, and assessed.
+- `imageTestsConfiguration`:  The image tests configuration of the image.
+- `tags`:  The tags of the image.
 """
 create_image(clientToken, infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImage", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
 create_image(clientToken, infrastructureConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn), args)); aws_config=aws_config)
@@ -107,23 +131,31 @@ create_image(clientToken, infrastructureConfigurationArn, args::AbstractDict{Str
 """
     CreateImagePipeline()
 
- Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
+ Creates a new image pipeline. Image pipelines enable you to automate the creation and
+distribution of images.
 
 # Required Parameters
-- `clientToken`:  The idempotency token used to make this request idempotent. 
-- `infrastructureConfigurationArn`:  The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline. 
-- `name`:  The name of the image pipeline. 
+- `clientToken`:  The idempotency token used to make this request idempotent.
+- `infrastructureConfigurationArn`:  The Amazon Resource Name (ARN) of the infrastructure
+  configuration that will be used to build images created by this image pipeline.
+- `name`:  The name of the image pipeline.
 
 # Optional Parameters
-- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that is used to configure images created by this container pipeline.
-- `description`:  The description of the image pipeline. 
-- `distributionConfigurationArn`:  The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images created by this image pipeline. 
-- `enhancedImageMetadataEnabled`:  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
-- `imageRecipeArn`:  The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline. 
-- `imageTestsConfiguration`:  The image test configuration of the image pipeline. 
-- `schedule`:  The schedule of the image pipeline. 
-- `status`:  The status of the image pipeline. 
-- `tags`:  The tags of the image pipeline. 
+- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that is used
+  to configure images created by this container pipeline.
+- `description`:  The description of the image pipeline.
+- `distributionConfigurationArn`:  The Amazon Resource Name (ARN) of the distribution
+  configuration that will be used to configure and distribute images created by this image
+  pipeline.
+- `enhancedImageMetadataEnabled`:  Collects additional information about the image being
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `imageRecipeArn`:  The Amazon Resource Name (ARN) of the image recipe that will be used
+  to configure images created by this image pipeline.
+- `imageTestsConfiguration`:  The image test configuration of the image pipeline.
+- `schedule`:  The schedule of the image pipeline.
+- `status`:  The status of the image pipeline.
+- `tags`:  The tags of the image pipeline.
 """
 create_image_pipeline(clientToken, infrastructureConfigurationArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImagePipeline", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "name"=>name); aws_config=aws_config)
 create_image_pipeline(clientToken, infrastructureConfigurationArn, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "name"=>name), args)); aws_config=aws_config)
@@ -131,19 +163,25 @@ create_image_pipeline(clientToken, infrastructureConfigurationArn, name, args::A
 """
     CreateImageRecipe()
 
- Creates a new image recipe. Image recipes define how images are configured, tested, and assessed. 
+ Creates a new image recipe. Image recipes define how images are configured, tested, and
+assessed.
 
 # Required Parameters
-- `clientToken`: The idempotency token used to make this request idempotent. 
-- `components`: The components of the image recipe. 
-- `name`:  The name of the image recipe. 
-- `parentImage`: The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder. 
-- `semanticVersion`: The semantic version of the image recipe. 
+- `clientToken`: The idempotency token used to make this request idempotent.
+- `components`: The components of the image recipe.
+- `name`:  The name of the image recipe.
+- `parentImage`: The parent image of the image recipe. The value of the string can be the
+  ARN of the parent image or an AMI ID. The format for the ARN follows this example:
+  arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x
+  . You can provide the specific version that you want to use, or you can use a wildcard in
+  all of the fields. If you enter an AMI ID for the string value, you must have access to the
+  AMI, and the AMI must be in the same Region in which you are using Image Builder.
+- `semanticVersion`: The semantic version of the image recipe.
 
 # Optional Parameters
-- `blockDeviceMappings`: The block device mappings of the image recipe. 
-- `description`:  The description of the image recipe. 
-- `tags`:  The tags of the image recipe. 
+- `blockDeviceMappings`: The block device mappings of the image recipe.
+- `description`:  The description of the image recipe.
+- `tags`:  The tags of the image recipe.
 - `workingDirectory`: The working directory to be used during build and test workflows.
 """
 create_image_recipe(clientToken, components, name, parentImage, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImageRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion); aws_config=aws_config)
@@ -152,24 +190,32 @@ create_image_recipe(clientToken, components, name, parentImage, semanticVersion,
 """
     CreateInfrastructureConfiguration()
 
- Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
+ Creates a new infrastructure configuration. An infrastructure configuration defines the
+environment in which your image will be built and tested.
 
 # Required Parameters
-- `clientToken`: The idempotency token used to make this request idempotent. 
-- `instanceProfileName`: The instance profile to associate with the instance used to customize your EC2 AMI. 
-- `name`: The name of the infrastructure configuration. 
+- `clientToken`: The idempotency token used to make this request idempotent.
+- `instanceProfileName`: The instance profile to associate with the instance used to
+  customize your EC2 AMI.
+- `name`: The name of the infrastructure configuration.
 
 # Optional Parameters
-- `description`: The description of the infrastructure configuration. 
-- `instanceTypes`: The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
-- `keyPair`: The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
-- `logging`: The logging configuration of the infrastructure configuration. 
+- `description`: The description of the infrastructure configuration.
+- `instanceTypes`: The instance types of the infrastructure configuration. You can specify
+  one or more instance types to use for this build. The service will pick one of these
+  instance types based on availability.
+- `keyPair`: The key pair of the infrastructure configuration. This can be used to log on
+  to and debug the instance used to create your image.
+- `logging`: The logging configuration of the infrastructure configuration.
 - `resourceTags`: The tags attached to the resource created by Image Builder.
-- `securityGroupIds`: The security group IDs to associate with the instance used to customize your EC2 AMI. 
-- `snsTopicArn`: The SNS topic on which to send image build events. 
-- `subnetId`: The subnet ID in which to place the instance used to customize your EC2 AMI. 
-- `tags`: The tags of the infrastructure configuration. 
-- `terminateInstanceOnFailure`: The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+- `securityGroupIds`: The security group IDs to associate with the instance used to
+  customize your EC2 AMI.
+- `snsTopicArn`: The SNS topic on which to send image build events.
+- `subnetId`: The subnet ID in which to place the instance used to customize your EC2 AMI.
+- `tags`: The tags of the infrastructure configuration.
+- `terminateInstanceOnFailure`: The terminate instance on failure setting of the
+  infrastructure configuration. Set to false if you want Image Builder to retain the instance
+  used to configure your AMI if the build or test phase of your workflow fails.
 """
 create_infrastructure_configuration(clientToken, instanceProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", Dict{String, Any}("clientToken"=>clientToken, "instanceProfileName"=>instanceProfileName, "name"=>name); aws_config=aws_config)
 create_infrastructure_configuration(clientToken, instanceProfileName, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceProfileName"=>instanceProfileName, "name"=>name), args)); aws_config=aws_config)
@@ -177,10 +223,11 @@ create_infrastructure_configuration(clientToken, instanceProfileName, name, args
 """
     DeleteComponent()
 
- Deletes a component build version. 
+ Deletes a component build version.
 
 # Required Parameters
-- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component build version to delete. 
+- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component build version
+  to delete.
 
 """
 delete_component(componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteComponent", Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn); aws_config=aws_config)
@@ -201,10 +248,11 @@ delete_container_recipe(containerRecipeArn, args::AbstractDict{String, <:Any}; a
 """
     DeleteDistributionConfiguration()
 
- Deletes a distribution configuration. 
+ Deletes a distribution configuration.
 
 # Required Parameters
-- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution configuration to delete. 
+- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution
+  configuration to delete.
 
 """
 delete_distribution_configuration(distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteDistributionConfiguration", Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn); aws_config=aws_config)
@@ -213,10 +261,10 @@ delete_distribution_configuration(distributionConfigurationArn, args::AbstractDi
 """
     DeleteImage()
 
- Deletes an image. 
+ Deletes an image.
 
 # Required Parameters
-- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image to delete. 
+- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image to delete.
 
 """
 delete_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImage", Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
@@ -225,10 +273,10 @@ delete_image(imageBuildVersionArn, args::AbstractDict{String, <:Any}; aws_config
 """
     DeleteImagePipeline()
 
- Deletes an image pipeline. 
+ Deletes an image pipeline.
 
 # Required Parameters
-- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline to delete. 
+- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline to delete.
 
 """
 delete_image_pipeline(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImagePipeline", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
@@ -237,10 +285,10 @@ delete_image_pipeline(imagePipelineArn, args::AbstractDict{String, <:Any}; aws_c
 """
     DeleteImageRecipe()
 
- Deletes an image recipe. 
+ Deletes an image recipe.
 
 # Required Parameters
-- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe to delete. 
+- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe to delete.
 
 """
 delete_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImageRecipe", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
@@ -249,10 +297,11 @@ delete_image_recipe(imageRecipeArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     DeleteInfrastructureConfiguration()
 
- Deletes an infrastructure configuration. 
+ Deletes an infrastructure configuration.
 
 # Required Parameters
-- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
+- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure
+  configuration to delete.
 
 """
 delete_infrastructure_configuration(infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration", Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
@@ -261,10 +310,11 @@ delete_infrastructure_configuration(infrastructureConfigurationArn, args::Abstra
 """
     GetComponent()
 
- Gets a component object. 
+ Gets a component object.
 
 # Required Parameters
-- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires \"/d+\" suffix.
+- `componentBuildVersionArn`: The Amazon Resource Name (ARN) of the component that you want
+  to retrieve. Regex requires \"/d+\" suffix.
 
 """
 get_component(componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponent", Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn); aws_config=aws_config)
@@ -273,10 +323,11 @@ get_component(componentBuildVersionArn, args::AbstractDict{String, <:Any}; aws_c
 """
     GetComponentPolicy()
 
- Gets a component policy. 
+ Gets a component policy.
 
 # Required Parameters
-- `componentArn`: The Amazon Resource Name (ARN) of the component whose policy you want to retrieve. 
+- `componentArn`: The Amazon Resource Name (ARN) of the component whose policy you want to
+  retrieve.
 
 """
 get_component_policy(componentArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponentPolicy", Dict{String, Any}("componentArn"=>componentArn); aws_config=aws_config)
@@ -300,7 +351,8 @@ get_container_recipe(containerRecipeArn, args::AbstractDict{String, <:Any}; aws_
 Retrieves the policy for a container recipe.
 
 # Required Parameters
-- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe for the policy being requested.
+- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe for the
+  policy being requested.
 
 """
 get_container_recipe_policy(containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetContainerRecipePolicy", Dict{String, Any}("containerRecipeArn"=>containerRecipeArn); aws_config=aws_config)
@@ -309,10 +361,11 @@ get_container_recipe_policy(containerRecipeArn, args::AbstractDict{String, <:Any
 """
     GetDistributionConfiguration()
 
- Gets a distribution configuration. 
+ Gets a distribution configuration.
 
 # Required Parameters
-- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve. 
+- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution
+  configuration that you want to retrieve.
 
 """
 get_distribution_configuration(distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetDistributionConfiguration", Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn); aws_config=aws_config)
@@ -321,10 +374,11 @@ get_distribution_configuration(distributionConfigurationArn, args::AbstractDict{
 """
     GetImage()
 
- Gets an image. 
+ Gets an image.
 
 # Required Parameters
-- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image that you want to retrieve. 
+- `imageBuildVersionArn`: The Amazon Resource Name (ARN) of the image that you want to
+  retrieve.
 
 """
 get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImage", Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
@@ -333,10 +387,11 @@ get_image(imageBuildVersionArn, args::AbstractDict{String, <:Any}; aws_config::A
 """
     GetImagePipeline()
 
- Gets an image pipeline. 
+ Gets an image pipeline.
 
 # Required Parameters
-- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. 
+- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to
+  retrieve.
 
 """
 get_image_pipeline(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePipeline", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
@@ -345,10 +400,11 @@ get_image_pipeline(imagePipelineArn, args::AbstractDict{String, <:Any}; aws_conf
 """
     GetImagePolicy()
 
- Gets an image policy. 
+ Gets an image policy.
 
 # Required Parameters
-- `imageArn`: The Amazon Resource Name (ARN) of the image whose policy you want to retrieve. 
+- `imageArn`: The Amazon Resource Name (ARN) of the image whose policy you want to
+  retrieve.
 
 """
 get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePolicy", Dict{String, Any}("imageArn"=>imageArn); aws_config=aws_config)
@@ -357,10 +413,11 @@ get_image_policy(imageArn, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     GetImageRecipe()
 
- Gets an image recipe. 
+ Gets an image recipe.
 
 # Required Parameters
-- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. 
+- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that you want to
+  retrieve.
 
 """
 get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipe", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
@@ -369,10 +426,11 @@ get_image_recipe(imageRecipeArn, args::AbstractDict{String, <:Any}; aws_config::
 """
     GetImageRecipePolicy()
 
- Gets an image recipe policy. 
+ Gets an image recipe policy.
 
 # Required Parameters
-- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve. 
+- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe whose policy you
+  want to retrieve.
 
 """
 get_image_recipe_policy(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipePolicy", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
@@ -381,10 +439,11 @@ get_image_recipe_policy(imageRecipeArn, args::AbstractDict{String, <:Any}; aws_c
 """
     GetInfrastructureConfiguration()
 
- Gets an infrastructure configuration. 
+ Gets an infrastructure configuration.
 
 # Required Parameters
-- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure configuration that you want to retrieve. 
+- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure
+  configuration that you want to retrieve.
 
 """
 get_infrastructure_configuration(infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetInfrastructureConfiguration", Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
@@ -393,23 +452,31 @@ get_infrastructure_configuration(infrastructureConfigurationArn, args::AbstractD
 """
     ImportComponent()
 
-Imports a component and transforms its data into a component document. 
+Imports a component and transforms its data into a component document.
 
 # Required Parameters
-- `clientToken`: The idempotency token of the component. 
-- `format`: The format of the resource that you want to import as a component. 
-- `name`:  The name of the component. 
-- `platform`: The platform of the component. 
-- `semanticVersion`: The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
-- `type`: The type of the component denotes whether the component is used to build the image or only to test it. 
+- `clientToken`: The idempotency token of the component.
+- `format`: The format of the resource that you want to import as a component.
+- `name`:  The name of the component.
+- `platform`: The platform of the component.
+- `semanticVersion`: The semantic version of the component. This version follows the
+  semantic version syntax. For example, major.minor.patch. This could be versioned like
+  software (2.0.1) or like a date (2019.12.01).
+- `type`: The type of the component denotes whether the component is used to build the
+  image or only to test it.
 
 # Optional Parameters
-- `changeDescription`: The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component. 
-- `data`: The data of the component. Used to specify the data inline. Either data or uri can be used to specify the data within the component.
-- `description`: The description of the component. Describes the contents of the component. 
-- `kmsKeyId`: The ID of the KMS key that should be used to encrypt this component. 
-- `tags`: The tags of the component. 
-- `uri`: The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component. 
+- `changeDescription`: The change description of the component. Describes what change has
+  been made in this version, or what makes this version different from other versions of this
+  component.
+- `data`: The data of the component. Used to specify the data inline. Either data or uri
+  can be used to specify the data within the component.
+- `description`: The description of the component. Describes the contents of the component.
+- `kmsKeyId`: The ID of the KMS key that should be used to encrypt this component.
+- `tags`: The tags of the component.
+- `uri`: The uri of the component. Must be an S3 URL and the requester must have permission
+  to access the S3 bucket. If you use S3, you can specify component content up to your
+  service quota. Either data or uri can be used to specify the data within the component.
 """
 import_component(clientToken, format, name, platform, semanticVersion, type; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type); aws_config=aws_config)
 import_component(clientToken, format, name, platform, semanticVersion, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type), args)); aws_config=aws_config)
@@ -417,14 +484,16 @@ import_component(clientToken, format, name, platform, semanticVersion, type, arg
 """
     ListComponentBuildVersions()
 
- Returns the list of component build versions for the specified semantic version. 
+ Returns the list of component build versions for the specified semantic version.
 
 # Required Parameters
-- `componentVersionArn`: The component version Amazon Resource Name (ARN) whose versions you want to list. 
+- `componentVersionArn`: The component version Amazon Resource Name (ARN) whose versions
+  you want to list.
 
 # Optional Parameters
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_component_build_versions(componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponentBuildVersions", Dict{String, Any}("componentVersionArn"=>componentVersionArn); aws_config=aws_config)
 list_component_build_versions(componentVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponentBuildVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentVersionArn"=>componentVersionArn), args)); aws_config=aws_config)
@@ -432,14 +501,18 @@ list_component_build_versions(componentVersionArn, args::AbstractDict{String, <:
 """
     ListComponents()
 
-Returns the list of component build versions for the specified semantic version. 
+Returns the list of component build versions for the specified semantic version.
 
 # Optional Parameters
 - `byName`: Returns the list of component build versions for the specified semantic version.
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
-- `owner`: The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
+- `owner`: The owner defines which components you want to list. By default, this request
+  will only show components owned by your account. You can use this field to specify if you
+  want to view components owned by yourself, by Amazon, or those components that have been
+  shared with you by other customers.
 """
 list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents"; aws_config=aws_config)
 list_components(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents", args; aws_config=aws_config)
@@ -450,10 +523,14 @@ list_components(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=g
 Returns a list of container recipes.
 
 # Optional Parameters
-- `filters`: Request filters that are used to narrow the list of container images that are returned.
+- `filters`: Request filters that are used to narrow the list of container images that are
+  returned.
 - `maxResults`: The maximum number of results to return in the list.
-- `nextToken`: Provides a token for pagination, which determines where to begin the next set of results when the current set reaches the maximum for one request.
-- `owner`: Returns container recipes belonging to the specified owner, that have been shared with you. You can omit this field to return container recipes belonging to your account.
+- `nextToken`: Provides a token for pagination, which determines where to begin the next
+  set of results when the current set reaches the maximum for one request.
+- `owner`: Returns container recipes belonging to the specified owner, that have been
+  shared with you. You can omit this field to return container recipes belonging to your
+  account.
 """
 list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes"; aws_config=aws_config)
 list_container_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes", args; aws_config=aws_config)
@@ -461,12 +538,13 @@ list_container_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 """
     ListDistributionConfigurations()
 
-Returns a list of distribution configurations. 
+Returns a list of distribution configurations.
 
 # Optional Parameters
-- `filters`: The filters.     name - The name of this distribution configuration.  
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `filters`: The filters.     name - The name of this distribution configuration.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_distribution_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations"; aws_config=aws_config)
 list_distribution_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations", args; aws_config=aws_config)
@@ -474,15 +552,17 @@ list_distribution_configurations(args::AbstractDict{String, Any}; aws_config::Ab
 """
     ListImageBuildVersions()
 
- Returns a list of image build versions. 
+ Returns a list of image build versions.
 
 # Required Parameters
-- `imageVersionArn`: The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve. 
+- `imageVersionArn`: The Amazon Resource Name (ARN) of the image whose build versions you
+  want to retrieve.
 
 # Optional Parameters
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_image_build_versions(imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageBuildVersions", Dict{String, Any}("imageVersionArn"=>imageVersionArn); aws_config=aws_config)
 list_image_build_versions(imageVersionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageBuildVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageVersionArn"=>imageVersionArn), args)); aws_config=aws_config)
@@ -490,15 +570,17 @@ list_image_build_versions(imageVersionArn, args::AbstractDict{String, <:Any}; aw
 """
     ListImagePipelineImages()
 
- Returns a list of images created by the specified pipeline. 
+ Returns a list of images created by the specified pipeline.
 
 # Required Parameters
-- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. 
+- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline whose images you
+  want to view.
 
 # Optional Parameters
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_image_pipeline_images(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelineImages", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
 list_image_pipeline_images(imagePipelineArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelineImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imagePipelineArn"=>imagePipelineArn), args)); aws_config=aws_config)
@@ -506,12 +588,13 @@ list_image_pipeline_images(imagePipelineArn, args::AbstractDict{String, <:Any}; 
 """
     ListImagePipelines()
 
-Returns a list of image pipelines. 
+Returns a list of image pipelines.
 
 # Optional Parameters
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines"; aws_config=aws_config)
 list_image_pipelines(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines", args; aws_config=aws_config)
@@ -519,13 +602,17 @@ list_image_pipelines(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 """
     ListImageRecipes()
 
- Returns a list of image recipes. 
+ Returns a list of image recipes.
 
 # Optional Parameters
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
-- `owner`: The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
+- `owner`: The owner defines which image recipes you want to list. By default, this request
+  will only show image recipes owned by your account. You can use this field to specify if
+  you want to view image recipes owned by yourself, by Amazon, or those image recipes that
+  have been shared with you by other customers.
 """
 list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes"; aws_config=aws_config)
 list_image_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes", args; aws_config=aws_config)
@@ -533,15 +620,19 @@ list_image_recipes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfi
 """
     ListImages()
 
- Returns the list of images that you have access to. 
+ Returns the list of images that you have access to.
 
 # Optional Parameters
 - `byName`: Requests a list of images with a specific recipe name.
-- `filters`: The filters. 
+- `filters`: The filters.
 - `includeDeprecated`: Includes deprecated images in the response list.
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
-- `owner`: The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers. 
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
+- `owner`: The owner defines which images you want to list. By default, this request will
+  only show images owned by your account. You can use this field to specify if you want to
+  view images owned by yourself, by Amazon, or those images that have been shared with you by
+  other customers.
 """
 list_images(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages"; aws_config=aws_config)
 list_images(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages", args; aws_config=aws_config)
@@ -549,12 +640,13 @@ list_images(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=globa
 """
     ListInfrastructureConfigurations()
 
- Returns a list of infrastructure configurations. 
+ Returns a list of infrastructure configurations.
 
 # Optional Parameters
-- `filters`: The filters. 
-- `maxResults`: The maximum items to return in a request. 
-- `nextToken`: A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+- `filters`: The filters.
+- `maxResults`: The maximum items to return in a request.
+- `nextToken`: A token to specify where to start paginating. This is the NextToken from a
+  previously truncated response.
 """
 list_infrastructure_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations"; aws_config=aws_config)
 list_infrastructure_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations", args; aws_config=aws_config)
@@ -562,10 +654,11 @@ list_infrastructure_configurations(args::AbstractDict{String, Any}; aws_config::
 """
     ListTagsForResource()
 
- Returns the list of tags for the specified resource. 
+ Returns the list of tags for the specified resource.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. 
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
+  retrieve.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
@@ -574,11 +667,15 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutComponentPolicy()
 
- Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+ Applies a policy to a component. We recommend that you call the RAM API
+CreateResourceShare to share resources. If you call the Image Builder API
+PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in
+order for the resource to be visible to all principals with whom the resource is shared.
 
 # Required Parameters
-- `componentArn`: The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
-- `policy`: The policy to apply. 
+- `componentArn`: The Amazon Resource Name (ARN) of the component that this policy should
+  be applied to.
+- `policy`: The policy to apply.
 
 """
 put_component_policy(componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutComponentPolicy", Dict{String, Any}("componentArn"=>componentArn, "policy"=>policy); aws_config=aws_config)
@@ -587,10 +684,18 @@ put_component_policy(componentArn, policy, args::AbstractDict{String, <:Any}; aw
 """
     PutContainerRecipePolicy()
 
-Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+Applies a policy to a container image. We recommend that you call the RAM API
+CreateResourceShare
+(https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share
+resources. If you call the Image Builder API PutContainerImagePolicy, you must also call
+the RAM API PromoteResourceShareCreatedFromPolicy
+(https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPoli
+cy.html) in order for the resource to be visible to all principals with whom the resource
+is shared.
 
 # Required Parameters
-- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that this policy should be applied to.
+- `containerRecipeArn`: The Amazon Resource Name (ARN) of the container recipe that this
+  policy should be applied to.
 - `policy`: The policy to apply to the container recipe.
 
 """
@@ -600,11 +705,15 @@ put_container_recipe_policy(containerRecipeArn, policy, args::AbstractDict{Strin
 """
     PutImagePolicy()
 
-Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to
+share resources. If you call the Image Builder API PutImagePolicy, you must also call the
+RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to
+all principals with whom the resource is shared.
 
 # Required Parameters
-- `imageArn`: The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
-- `policy`: The policy to apply. 
+- `imageArn`: The Amazon Resource Name (ARN) of the image that this policy should be
+  applied to.
+- `policy`: The policy to apply.
 
 """
 put_image_policy(imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImagePolicy", Dict{String, Any}("imageArn"=>imageArn, "policy"=>policy); aws_config=aws_config)
@@ -613,11 +722,15 @@ put_image_policy(imageArn, policy, args::AbstractDict{String, <:Any}; aws_config
 """
     PutImageRecipePolicy()
 
- Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be visible to all principals with whom the resource is shared. 
+ Applies a policy to an image recipe. We recommend that you call the RAM API
+CreateResourceShare to share resources. If you call the Image Builder API
+PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy
+in order for the resource to be visible to all principals with whom the resource is shared.
 
 # Required Parameters
-- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
-- `policy`: The policy to apply. 
+- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that this policy
+  should be applied to.
+- `policy`: The policy to apply.
 
 """
 put_image_recipe_policy(imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImageRecipePolicy", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn, "policy"=>policy); aws_config=aws_config)
@@ -626,11 +739,12 @@ put_image_recipe_policy(imageRecipeArn, policy, args::AbstractDict{String, <:Any
 """
     StartImagePipelineExecution()
 
- Manually triggers a pipeline to create an image. 
+ Manually triggers a pipeline to create an image.
 
 # Required Parameters
-- `clientToken`: The idempotency token used to make this request idempotent. 
-- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. 
+- `clientToken`: The idempotency token used to make this request idempotent.
+- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to
+  manually invoke.
 
 """
 start_image_pipeline_execution(clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/StartImagePipelineExecution", Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
@@ -639,11 +753,11 @@ start_image_pipeline_execution(clientToken, imagePipelineArn, args::AbstractDict
 """
     TagResource()
 
- Adds a tag to a resource. 
+ Adds a tag to a resource.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to tag. 
-- `tags`: The tags to apply to the resource. 
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
+- `tags`: The tags to apply to the resource.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
@@ -652,11 +766,11 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
- Removes a tag from a resource. 
+ Removes a tag from a resource.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to untag. 
-- `tagKeys`: The tag keys to remove from the resource. 
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource that you want to untag.
+- `tagKeys`: The tag keys to remove from the resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
@@ -665,15 +779,17 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateDistributionConfiguration()
 
- Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline. 
+ Updates a new distribution configuration. Distribution configurations define and configure
+the outputs of your pipeline.
 
 # Required Parameters
-- `clientToken`: The idempotency token of the distribution configuration. 
-- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution configuration that you want to update. 
-- `distributions`: The distributions of the distribution configuration. 
+- `clientToken`: The idempotency token of the distribution configuration.
+- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution
+  configuration that you want to update.
+- `distributions`: The distributions of the distribution configuration.
 
 # Optional Parameters
-- `description`: The description of the distribution configuration. 
+- `description`: The description of the distribution configuration.
 """
 update_distribution_configuration(clientToken, distributionConfigurationArn, distributions; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateDistributionConfiguration", Dict{String, Any}("clientToken"=>clientToken, "distributionConfigurationArn"=>distributionConfigurationArn, "distributions"=>distributions); aws_config=aws_config)
 update_distribution_configuration(clientToken, distributionConfigurationArn, distributions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "distributionConfigurationArn"=>distributionConfigurationArn, "distributions"=>distributions), args)); aws_config=aws_config)
@@ -681,22 +797,30 @@ update_distribution_configuration(clientToken, distributionConfigurationArn, dis
 """
     UpdateImagePipeline()
 
- Updates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images. 
+ Updates a new image pipeline. Image pipelines enable you to automate the creation and
+distribution of images.
 
 # Required Parameters
-- `clientToken`: The idempotency token used to make this request idempotent. 
-- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to update. 
-- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline. 
+- `clientToken`: The idempotency token used to make this request idempotent.
+- `imagePipelineArn`: The Amazon Resource Name (ARN) of the image pipeline that you want to
+  update.
+- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure
+  configuration that will be used to build images updated by this image pipeline.
 
 # Optional Parameters
 - `containerRecipeArn`: The Amazon Resource Name (ARN) of the container pipeline to update.
-- `description`: The description of the image pipeline. 
-- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline. 
-- `enhancedImageMetadataEnabled`:  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
-- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline. 
-- `imageTestsConfiguration`: The image test configuration of the image pipeline. 
-- `schedule`: The schedule of the image pipeline. 
-- `status`: The status of the image pipeline. 
+- `description`: The description of the image pipeline.
+- `distributionConfigurationArn`: The Amazon Resource Name (ARN) of the distribution
+  configuration that will be used to configure and distribute images updated by this image
+  pipeline.
+- `enhancedImageMetadataEnabled`:  Collects additional information about the image being
+  created, including the operating system (OS) version and package list. This information is
+  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `imageRecipeArn`: The Amazon Resource Name (ARN) of the image recipe that will be used to
+  configure images updated by this image pipeline.
+- `imageTestsConfiguration`: The image test configuration of the image pipeline.
+- `schedule`: The schedule of the image pipeline.
+- `status`: The status of the image pipeline.
 """
 update_image_pipeline(clientToken, imagePipelineArn, infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateImagePipeline", Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn, "infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
 update_image_pipeline(clientToken, imagePipelineArn, infrastructureConfigurationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn, "infrastructureConfigurationArn"=>infrastructureConfigurationArn), args)); aws_config=aws_config)
@@ -704,23 +828,32 @@ update_image_pipeline(clientToken, imagePipelineArn, infrastructureConfiguration
 """
     UpdateInfrastructureConfiguration()
 
- Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested. 
+ Updates a new infrastructure configuration. An infrastructure configuration defines the
+environment in which your image will be built and tested.
 
 # Required Parameters
-- `clientToken`: The idempotency token used to make this request idempotent. 
-- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update. 
-- `instanceProfileName`: The instance profile to associate with the instance used to customize your EC2 AMI. 
+- `clientToken`: The idempotency token used to make this request idempotent.
+- `infrastructureConfigurationArn`: The Amazon Resource Name (ARN) of the infrastructure
+  configuration that you want to update.
+- `instanceProfileName`: The instance profile to associate with the instance used to
+  customize your EC2 AMI.
 
 # Optional Parameters
-- `description`: The description of the infrastructure configuration. 
-- `instanceTypes`: The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
-- `keyPair`: The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
-- `logging`: The logging configuration of the infrastructure configuration. 
+- `description`: The description of the infrastructure configuration.
+- `instanceTypes`: The instance types of the infrastructure configuration. You can specify
+  one or more instance types to use for this build. The service will pick one of these
+  instance types based on availability.
+- `keyPair`: The key pair of the infrastructure configuration. This can be used to log on
+  to and debug the instance used to create your image.
+- `logging`: The logging configuration of the infrastructure configuration.
 - `resourceTags`: The tags attached to the resource created by Image Builder.
-- `securityGroupIds`: The security group IDs to associate with the instance used to customize your EC2 AMI. 
-- `snsTopicArn`: The SNS topic on which to send image build events. 
-- `subnetId`: The subnet ID to place the instance used to customize your EC2 AMI in. 
-- `terminateInstanceOnFailure`: The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+- `securityGroupIds`: The security group IDs to associate with the instance used to
+  customize your EC2 AMI.
+- `snsTopicArn`: The SNS topic on which to send image build events.
+- `subnetId`: The subnet ID to place the instance used to customize your EC2 AMI in.
+- `terminateInstanceOnFailure`: The terminate instance on failure setting of the
+  infrastructure configuration. Set to false if you want Image Builder to retain the instance
+  used to configure your AMI if the build or test phase of your workflow fails.
 """
 update_infrastructure_configuration(clientToken, infrastructureConfigurationArn, instanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "instanceProfileName"=>instanceProfileName); aws_config=aws_config)
 update_infrastructure_configuration(clientToken, infrastructureConfigurationArn, instanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "instanceProfileName"=>instanceProfileName), args)); aws_config=aws_config)

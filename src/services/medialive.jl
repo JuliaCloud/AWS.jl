@@ -7,10 +7,12 @@ using AWS.UUIDs
 """
     AcceptInputDeviceTransfer()
 
-Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+Accept an incoming input device transfer. The ownership of the device will transfer to your
+AWS account.
 
 # Required Parameters
-- `inputDeviceId`: The unique ID of the input device to accept. For example, hd-123456789abcdef.
+- `inputDeviceId`: The unique ID of the input device to accept. For example,
+  hd-123456789abcdef.
 
 """
 accept_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/accept"; aws_config=aws_config)
@@ -75,7 +77,8 @@ batch_update_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::
 Cancel an input device transfer that you have requested.
 
 # Required Parameters
-- `inputDeviceId`: The unique ID of the input device to cancel. For example, hd-123456789abcdef.
+- `inputDeviceId`: The unique ID of the input device to cancel. For example,
+  hd-123456789abcdef.
 
 """
 cancel_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/cancel"; aws_config=aws_config)
@@ -88,19 +91,22 @@ Creates a new channel
 
 # Optional Parameters
 - `cdiInputSpecification`: Specification of CDI inputs for this channel
-- `channelClass`: The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
-- `destinations`: 
-- `encoderSettings`: 
+- `channelClass`: The class for this channel. STANDARD for a channel with two pipelines or
+  SINGLE_PIPELINE for a channel with one pipeline.
+- `destinations`:
+- `encoderSettings`:
 - `inputAttachments`: List of input attachments for channel.
 - `inputSpecification`: Specification of network and file inputs for this channel
 - `logLevel`: The log level to write to CloudWatch Logs.
 - `name`: Name of channel.
-- `requestId`: Unique request ID to be specified. This is needed to prevent retries from
+- `requestId`: Unique request ID to be specified. This is needed to prevent retries
+  from
 creating multiple resources.
-
 - `reserved`: Deprecated field that's only usable by whitelisted customers.
-- `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
+- `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the
+  Channel.
 - `tags`: A collection of key-value pairs.
+- `vpc`: Settings for VPC output
 """
 create_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
 create_channel(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
@@ -114,22 +120,26 @@ Create an input
 - `destinations`: Destination settings for PUSH type inputs.
 - `inputDevices`: Settings for the devices.
 - `inputSecurityGroups`: A list of security groups referenced by IDs to attach to the input.
-- `mediaConnectFlows`: A list of the MediaConnect Flows that you want to use in this input. You can specify as few as one
-Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-
+- `mediaConnectFlows`: A list of the MediaConnect Flows that you want to use in this input.
+  You can specify as few as one
+Flow and presently, as many as two. The only requirement is
+  when you have more than one is that each Flow is in a
+separate Availability Zone as this
+  ensures your EML input is redundant to AZ issues.
 - `name`: Name of the input.
 - `requestId`: Unique identifier of the request to ensure the request is handled
-exactly once in case of retries.
-
-- `roleArn`: The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
+exactly
+  once in case of retries.
+- `roleArn`: The Amazon Resource Name (ARN) of the role this input assumes during and after
+  creation.
 - `sources`: The source URLs for a PULL-type input. Every PULL type input needs
-exactly two source URLs for redundancy.
-Only specify sources for PULL type Inputs. Leave Destinations empty.
-
+exactly two
+  source URLs for redundancy.
+Only specify sources for PULL type Inputs. Leave Destinations
+  empty.
 - `tags`: A collection of key-value pairs.
-- `type`: 
-- `vpc`: 
+- `type`:
+- `vpc`:
 """
 create_input(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
 create_input(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
@@ -152,12 +162,12 @@ create_input_security_group(args::AbstractDict{String, Any}; aws_config::Abstrac
 Create a new multiplex.
 
 # Required Parameters
-- `availabilityZones`: A list of availability zones for the multiplex. You must specify exactly two.
+- `availabilityZones`: A list of availability zones for the multiplex. You must specify
+  exactly two.
 - `multiplexSettings`: Configuration for a multiplex event.
 - `name`: Name of multiplex.
 - `requestId`: Unique request ID. This prevents retries from creating multiple
 resources.
-
 
 # Optional Parameters
 - `tags`: A collection of key-value pairs.
@@ -177,10 +187,26 @@ Create a new program in the multiplex.
 - `requestId`: Unique request ID. This prevents retries from creating multiple
 resources.
 
-
 """
 create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId); aws_config=aws_config)
 create_multiplex_program(multiplexId, multiplexProgramSettings, programName, requestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), args)); aws_config=aws_config)
+
+"""
+    CreatePartnerInput()
+
+Create a partner input
+
+# Required Parameters
+- `inputId`: Unique ID of the input.
+
+# Optional Parameters
+- `requestId`: Unique identifier of the request to ensure the request is handled
+exactly
+  once in case of retries.
+- `tags`: A collection of key-value pairs.
+"""
+create_partner_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs/$(inputId)/partners", Dict{String, Any}("requestId"=>string(uuid4())); aws_config=aws_config)
+create_partner_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputs/$(inputId)/partners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateTags()
@@ -188,10 +214,10 @@ create_multiplex_program(multiplexId, multiplexProgramSettings, programName, req
 Create tags for a resource
 
 # Required Parameters
-- `resource-arn`: 
+- `resource-arn`:
 
 # Optional Parameters
-- `tags`: 
+- `tags`:
 """
 create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
 create_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/tags/$(resource-arn)", args; aws_config=aws_config)
@@ -287,7 +313,7 @@ delete_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::Abstra
 Removes tags for a resource
 
 # Required Parameters
-- `resource-arn`: 
+- `resource-arn`:
 - `tagKeys`: An array of tag keys to delete
 
 """
@@ -413,8 +439,8 @@ Get a channel schedule
 - `channelId`: Id of the channel whose schedule is being updated.
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 describe_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws_config=aws_config)
 describe_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels/$(channelId)/schedule", args; aws_config=aws_config)
@@ -425,8 +451,8 @@ describe_schedule(channelId, args::AbstractDict{String, <:Any}; aws_config::Abst
 Produces list of channels that have been created
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels"; aws_config=aws_config)
 list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", args; aws_config=aws_config)
@@ -434,14 +460,16 @@ list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 """
     ListInputDeviceTransfers()
 
-List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+List input devices that are currently being transferred. List input devices that you are
+transferring from your AWS account or input devices that another AWS account is
+transferring to you.
 
 # Required Parameters
-- `transferType`: 
+- `transferType`:
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 list_input_device_transfers(transferType; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}("transferType"=>transferType); aws_config=aws_config)
 list_input_device_transfers(transferType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDeviceTransfers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("transferType"=>transferType), args)); aws_config=aws_config)
@@ -452,8 +480,8 @@ list_input_device_transfers(transferType, args::AbstractDict{String, <:Any}; aws
 List input devices
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices"; aws_config=aws_config)
 list_input_devices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices", args; aws_config=aws_config)
@@ -464,8 +492,8 @@ list_input_devices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfi
 Produces a list of Input Security Groups for an account
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups"; aws_config=aws_config)
 list_input_security_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", args; aws_config=aws_config)
@@ -476,8 +504,8 @@ list_input_security_groups(args::AbstractDict{String, Any}; aws_config::Abstract
 Produces list of inputs that have been created
 
 # Optional Parameters
-- `maxResults`: 
-- `nextToken`: 
+- `maxResults`:
+- `nextToken`:
 """
 list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs"; aws_config=aws_config)
 list_inputs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs", args; aws_config=aws_config)
@@ -516,22 +544,18 @@ List offerings available for purchase.
 
 # Optional Parameters
 - `channelClass`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
-
-- `channelConfiguration`: Filter to offerings that match the configuration of an existing channel, e.g. '2345678' (a channel ID)
-
+- `channelConfiguration`: Filter to offerings that match the configuration of an existing
+  channel, e.g. '2345678' (a channel ID)
 - `codec`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
 - `duration`: Filter by offering duration, e.g. '12'
-- `maxResults`: 
+- `maxResults`:
 - `maximumBitrate`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
-
 - `maximumFramerate`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
-- `nextToken`: 
+- `nextToken`:
 - `resolution`: Filter by resolution, 'SD', 'HD', 'FHD', or 'UHD'
 - `resourceType`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
 - `specialFeature`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
-
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
-
 """
 list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings"; aws_config=aws_config)
 list_offerings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings", args; aws_config=aws_config)
@@ -543,19 +567,15 @@ List purchased reservations.
 
 # Optional Parameters
 - `channelClass`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
-
 - `codec`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
-- `maxResults`: 
+- `maxResults`:
 - `maximumBitrate`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
-
 - `maximumFramerate`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
-- `nextToken`: 
+- `nextToken`:
 - `resolution`: Filter by resolution, 'SD', 'HD', 'FHD', or 'UHD'
 - `resourceType`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
 - `specialFeature`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
-
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
-
 """
 list_reservations(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations"; aws_config=aws_config)
 list_reservations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations", args; aws_config=aws_config)
@@ -566,7 +586,7 @@ list_reservations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 Produces list of tags that have been created for a resource
 
 # Required Parameters
-- `resource-arn`: 
+- `resource-arn`:
 
 """
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/tags/$(resource-arn)"; aws_config=aws_config)
@@ -583,8 +603,11 @@ Purchase an offering and create a reservation.
 
 # Optional Parameters
 - `name`: Name for the new reservation
-- `requestId`: Unique request ID to be specified. This is needed to prevent retries from creating multiple resources.
-- `start`: Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
+- `requestId`: Unique request ID to be specified. This is needed to prevent retries from
+  creating multiple resources.
+- `start`: Requested reservation start time (UTC) in ISO-8601 format. The specified time
+  must be between the first day of the current month and one year from now. If no value is
+  given, the default is now.
 - `tags`: A collection of key-value pairs
 """
 purchase_offering(count, offeringId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws_config=aws_config)
@@ -596,7 +619,8 @@ purchase_offering(count, offeringId, args::AbstractDict{String, <:Any}; aws_conf
 Reject the transfer of the specified input device to your AWS account.
 
 # Required Parameters
-- `inputDeviceId`: The unique ID of the input device to reject. For example, hd-123456789abcdef.
+- `inputDeviceId`: The unique ID of the input device to reject. For example,
+  hd-123456789abcdef.
 
 """
 reject_input_device_transfer(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/reject"; aws_config=aws_config)
@@ -617,7 +641,8 @@ start_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     StartMultiplex()
 
-Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
+Start (run) the multiplex. Starting the multiplex does not start the channels. You must
+explicitly start each channel.
 
 # Required Parameters
 - `multiplexId`: The ID of the multiplex.
@@ -653,13 +678,15 @@ stop_multiplex(multiplexId, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     TransferInputDevice()
 
-Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+Start an input device transfer to another AWS account. After you make the request, the
+other account must accept or reject the transfer.
 
 # Required Parameters
 - `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 # Optional Parameters
-- `targetCustomerId`: The AWS account ID (12 digits) for the recipient of the device transfer.
+- `targetCustomerId`: The AWS account ID (12 digits) for the recipient of the device
+  transfer.
 - `transferMessage`: An optional message for the recipient. Maximum 280 characters.
 """
 transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config)
@@ -677,11 +704,13 @@ Updates a channel.
 - `cdiInputSpecification`: Specification of CDI inputs for this channel
 - `destinations`: A list of output destinations for this channel.
 - `encoderSettings`: The encoder settings for this channel.
-- `inputAttachments`: 
+- `inputAttachments`:
 - `inputSpecification`: Specification of network and file inputs for this channel
 - `logLevel`: The log level to write to CloudWatch Logs.
 - `name`: The name of the channel.
-- `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
+- `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the
+  Channel. If you do not specify this on an update call but the role was previously set that
+  role will be removed.
 """
 update_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)"; aws_config=aws_config)
 update_channel(channelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/channels/$(channelId)", args; aws_config=aws_config)
@@ -713,16 +742,20 @@ Updates an input.
 - `destinations`: Destination settings for PUSH type inputs.
 - `inputDevices`: Settings for the devices.
 - `inputSecurityGroups`: A list of security groups referenced by IDs to attach to the input.
-- `mediaConnectFlows`: A list of the MediaConnect Flow ARNs that you want to use as the source of the input. You can specify as few as one
-Flow and presently, as many as two. The only requirement is when you have more than one is that each Flow is in a
-separate Availability Zone as this ensures your EML input is redundant to AZ issues.
-
+- `mediaConnectFlows`: A list of the MediaConnect Flow ARNs that you want to use as the
+  source of the input. You can specify as few as one
+Flow and presently, as many as two. The
+  only requirement is when you have more than one is that each Flow is in a
+separate
+  Availability Zone as this ensures your EML input is redundant to AZ issues.
 - `name`: Name of the input.
-- `roleArn`: The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
+- `roleArn`: The Amazon Resource Name (ARN) of the role this input assumes during and after
+  creation.
 - `sources`: The source URLs for a PULL-type input. Every PULL type input needs
-exactly two source URLs for redundancy.
-Only specify sources for PULL type Inputs. Leave Destinations empty.
-
+exactly two
+  source URLs for redundancy.
+Only specify sources for PULL type Inputs. Leave Destinations
+  empty.
 """
 update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)"; aws_config=aws_config)
 update_input(inputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("PUT", "/prod/inputs/$(inputId)", args; aws_config=aws_config)

@@ -7,7 +7,11 @@ using AWS.UUIDs
 """
     AcceptInvitation()
 
-Accepts the invitation to be a member account and be monitored by the Security Hub master account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the master account to view findings generated in the member account.
+Accepts the invitation to be a member account and be monitored by the Security Hub master
+account that the invitation was sent from. This operation is only used by member accounts
+that are not added through Organizations. When the member account accepts the invitation,
+permission is granted to the master account to view findings generated in the member
+account.
 
 # Required Parameters
 - `InvitationId`: The ID of the invitation sent from the Security Hub master account.
@@ -20,7 +24,8 @@ accept_invitation(InvitationId, MasterId, args::AbstractDict{String, <:Any}; aws
 """
     BatchDisableStandards()
 
-Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the AWS Security Hub User Guide.
+Disables the standards specified by the provided StandardsSubscriptionArns. For more
+information, see Security Standards section of the AWS Security Hub User Guide.
 
 # Required Parameters
 - `StandardsSubscriptionArns`: The ARNs of the standards subscriptions to disable.
@@ -32,7 +37,9 @@ batch_disable_standards(StandardsSubscriptionArns, args::AbstractDict{String, <:
 """
     BatchEnableStandards()
 
-Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the  DescribeStandards  operation. For more information, see the Security Standards section of the AWS Security Hub User Guide.
+Enables the standards specified by the provided StandardsArn. To obtain the ARN for a
+standard, use the  DescribeStandards  operation. For more information, see the Security
+Standards section of the AWS Security Hub User Guide.
 
 # Required Parameters
 - `StandardsSubscriptionRequests`: The list of standards checks to enable.
@@ -44,10 +51,21 @@ batch_enable_standards(StandardsSubscriptionRequests, args::AbstractDict{String,
 """
     BatchImportFindings()
 
-Imports security findings generated from an integrated third-party product into Security Hub. This action is requested by the integrated product to import its findings into Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow     BatchImportFindings can be used to update the following finding fields and objects only if they have not been updated using BatchUpdateFindings. After they are updated using BatchUpdateFindings, these fields cannot be updated using BatchImportFindings.    Confidence     Criticality     RelatedFindings     Severity     Types   
+Imports security findings generated from an integrated third-party product into Security
+Hub. This action is requested by the integrated product to import its findings into
+Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for
+any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be
+used to update the following finding fields and objects, which Security Hub customers use
+to manage their investigation workflow.    Note     UserDefinedFields     VerificationState
+    Workflow     BatchImportFindings can be used to update the following finding fields and
+objects only if they have not been updated using BatchUpdateFindings. After they are
+updated using BatchUpdateFindings, these fields cannot be updated using
+BatchImportFindings.    Confidence     Criticality     RelatedFindings     Severity
+Types
 
 # Required Parameters
-- `Findings`: A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request.
+- `Findings`: A list of findings to import. To successfully import a finding, it must
+  follow the AWS Security Finding Format. Maximum of 100 findings per request.
 
 """
 batch_import_findings(Findings; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings); aws_config=aws_config)
@@ -56,21 +74,46 @@ batch_import_findings(Findings, args::AbstractDict{String, <:Any}; aws_config::A
 """
     BatchUpdateFindings()
 
-Used by Security Hub customers to update information about their investigation into a finding. Requested by master accounts or member accounts. Master accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Master and member accounts can use BatchUpdateFindings to update the following finding fields and objects.    Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow    You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See Configuring access to BatchUpdateFindings in the AWS Security Hub User Guide.
+Used by Security Hub customers to update information about their investigation into a
+finding. Requested by master accounts or member accounts. Master accounts can update
+findings for their account and their member accounts. Member accounts can update findings
+for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt
+for a finding. Master and member accounts can use BatchUpdateFindings to update the
+following finding fields and objects.    Confidence     Criticality     Note
+RelatedFindings     Severity     Types     UserDefinedFields     VerificationState
+Workflow    You can configure IAM policies to restrict access to fields and field values.
+For example, you might not want member accounts to be able to suppress findings or change
+the finding severity. See Configuring access to BatchUpdateFindings in the AWS Security Hub
+User Guide.
 
 # Required Parameters
-- `FindingIdentifiers`: The list of findings to update. BatchUpdateFindings can be used to update up to 100 findings at a time. For each finding, the list provides the finding identifier and the ARN of the finding provider.
+- `FindingIdentifiers`: The list of findings to update. BatchUpdateFindings can be used to
+  update up to 100 findings at a time. For each finding, the list provides the finding
+  identifier and the ARN of the finding provider.
 
 # Optional Parameters
-- `Confidence`: The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
-- `Criticality`: The updated value for the level of importance assigned to the resources associated with the findings. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources. 
-- `Note`: 
+- `Confidence`: The updated value for the finding confidence. Confidence is defined as the
+  likelihood that a finding accurately identifies the behavior or issue that it was intended
+  to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero
+  percent confidence and 100 means 100 percent confidence.
+- `Criticality`: The updated value for the level of importance assigned to the resources
+  associated with the findings. A score of 0 means that the underlying resources have no
+  criticality, and a score of 100 is reserved for the most critical resources.
+- `Note`:
 - `RelatedFindings`: A list of findings that are related to the updated findings.
 - `Severity`: Used to update the finding severity.
-- `Types`: One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are as follows.   Software and Configuration Checks   TTPs   Effects   Unusual Behaviors   Sensitive Data Identifications   
-- `UserDefinedFields`: A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
-- `VerificationState`: Indicates the veracity of a finding. The available values for VerificationState are as follows.    UNKNOWN – The default disposition of a security finding    TRUE_POSITIVE – The security finding is confirmed    FALSE_POSITIVE – The security finding was determined to be a false alarm    BENIGN_POSITIVE – A special case of TRUE_POSITIVE where the finding doesn't pose any threat, is expected, or both  
-- `Workflow`: Used to update the workflow status of a finding. The workflow status indicates the progress of the investigation into the finding. 
+- `Types`: One or more finding types in the format of namespace/category/classifier that
+  classify a finding. Valid namespace values are as follows.   Software and Configuration
+  Checks   TTPs   Effects   Unusual Behaviors   Sensitive Data Identifications
+- `UserDefinedFields`: A list of name/value string pairs associated with the finding. These
+  are custom, user-defined fields added to a finding.
+- `VerificationState`: Indicates the veracity of a finding. The available values for
+  VerificationState are as follows.    UNKNOWN – The default disposition of a security
+  finding    TRUE_POSITIVE – The security finding is confirmed    FALSE_POSITIVE – The
+  security finding was determined to be a false alarm    BENIGN_POSITIVE – A special case
+  of TRUE_POSITIVE where the finding doesn't pose any threat, is expected, or both
+- `Workflow`: Used to update the workflow status of a finding. The workflow status
+  indicates the progress of the investigation into the finding.
 """
 batch_update_findings(FindingIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers); aws_config=aws_config)
 batch_update_findings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), args)); aws_config=aws_config)
@@ -78,7 +121,8 @@ batch_update_findings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws
 """
     CreateActionTarget()
 
-Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+Creates a custom action target in Security Hub. You can use custom actions on findings and
+insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
 
 # Required Parameters
 - `Description`: The description for the custom action target.
@@ -92,11 +136,17 @@ create_action_target(Description, Id, Name, args::AbstractDict{String, <:Any}; a
 """
     CreateInsight()
 
-Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+Creates a custom insight in Security Hub. An insight is a consolidation of findings that
+relate to a security issue that requires attention or remediation. To group the related
+findings in the insight, use the GroupByAttribute.
 
 # Required Parameters
-- `Filters`: One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
-- `GroupByAttribute`: The attribute used to group the findings for the insight. The grouping attribute identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.
+- `Filters`: One or more attributes used to filter the findings included in the insight.
+  The insight only includes findings that match the criteria defined in the filters.
+- `GroupByAttribute`: The attribute used to group the findings for the insight. The
+  grouping attribute identifies the type of item that the insight applies to. For example, if
+  an insight is grouped by resource identifier, then the insight produces a list of resource
+  identifiers.
 - `Name`: The name of the custom insight to create.
 
 """
@@ -106,10 +156,28 @@ create_insight(Filters, GroupByAttribute, Name, args::AbstractDict{String, <:Any
 """
     CreateMembers()
 
-Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the master account. If you are integrated with Organizations, then the master account is the Security Hub administrator account that is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are part of an organization, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new accounts in an organization.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the  InviteMembers  operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are part of an organization do not receive an invitation. They automatically become a member account in Security Hub. A permissions policy is added that permits the master account to view the findings generated in the member account. When Security Hub is enabled in a member account, findings are sent to both the member and master accounts.  To remove the association between the master and member accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
+Creates a member association in Security Hub between the specified accounts and the account
+used to make the request, which is the master account. If you are integrated with
+Organizations, then the master account is the Security Hub administrator account that is
+designated by the organization management account.  CreateMembers is always used to add
+accounts that are not organization members. For accounts that are part of an organization,
+CreateMembers is only used in the following cases:   Security Hub is not configured to
+automatically add new accounts in an organization.   The account was disassociated or
+deleted in Security Hub.   This action can only be used by an account that has Security Hub
+enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. For
+accounts that are not organization members, you create the account association and then
+send an invitation to the member account. To send the invitation, you use the
+InviteMembers  operation. If the account owner accepts the invitation, the account becomes
+a member account in Security Hub. Accounts that are part of an organization do not receive
+an invitation. They automatically become a member account in Security Hub. A permissions
+policy is added that permits the master account to view the findings generated in the
+member account. When Security Hub is enabled in a member account, findings are sent to both
+the member and master accounts.  To remove the association between the master and member
+accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
 
 # Required Parameters
-- `AccountDetails`: The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and optionally the email address.
+- `AccountDetails`: The list of accounts to associate with the Security Hub master account.
+  For each account, the list includes the account ID and optionally the email address.
 
 """
 create_members(AccountDetails; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members", Dict{String, Any}("AccountDetails"=>AccountDetails); aws_config=aws_config)
@@ -118,10 +186,12 @@ create_members(AccountDetails, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DeclineInvitations()
 
-Declines invitations to become a member account. This operation is only used by accounts that are not part of an organization. Organization accounts do not receive invitations.
+Declines invitations to become a member account. This operation is only used by accounts
+that are not part of an organization. Organization accounts do not receive invitations.
 
 # Required Parameters
-- `AccountIds`: The list of account IDs for the accounts from which to decline the invitations to Security Hub.
+- `AccountIds`: The list of account IDs for the accounts from which to decline the
+  invitations to Security Hub.
 
 """
 decline_invitations(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/invitations/decline", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -130,7 +200,9 @@ decline_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::A
 """
     DeleteActionTarget()
 
-Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+Deletes a custom action target from Security Hub. Deleting a custom action target does not
+affect any findings or insights that were already sent to Amazon CloudWatch Events using
+the custom action.
 
 # Required Parameters
 - `ActionTargetArn`: The ARN of the custom action target to delete.
@@ -154,7 +226,9 @@ delete_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     DeleteInvitations()
 
-Deletes invitations received by the AWS account to become a member account. This operation is only used by accounts that are not part of an organization. Organization accounts do not receive invitations.
+Deletes invitations received by the AWS account to become a member account. This operation
+is only used by accounts that are not part of an organization. Organization accounts do not
+receive invitations.
 
 # Required Parameters
 - `AccountIds`: The list of the account IDs that sent the invitations to delete.
@@ -166,7 +240,9 @@ delete_invitations(AccountIds, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DeleteMembers()
 
-Deletes the specified member accounts from Security Hub. Can be used to delete member accounts that belong to an organization as well as member accounts that were invited manually.
+Deletes the specified member accounts from Security Hub. Can be used to delete member
+accounts that belong to an organization as well as member accounts that were invited
+manually.
 
 # Required Parameters
 - `AccountIds`: The list of account IDs for the member accounts to delete.
@@ -181,9 +257,13 @@ delete_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::Abstra
 Returns a list of the custom action targets in Security Hub in your account.
 
 # Optional Parameters
-- `ActionTargetArns`: A list of custom action target ARNs for the custom action targets to retrieve.
+- `ActionTargetArns`: A list of custom action target ARNs for the custom action targets to
+  retrieve.
 - `MaxResults`: The maximum number of results to return.
-- `NextToken`: The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent
+  calls to the operation, to continue listing data, set the value of this parameter to the
+  value returned from the previous response.
 """
 describe_action_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get"; aws_config=aws_config)
 describe_action_targets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get", args; aws_config=aws_config)
@@ -191,7 +271,8 @@ describe_action_targets(args::AbstractDict{String, Any}; aws_config::AbstractAWS
 """
     DescribeHub()
 
-Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+Returns details about the Hub resource in your account, including the HubArn and the time
+when you enabled Security Hub.
 
 # Optional Parameters
 - `HubArn`: The ARN of the Hub resource to retrieve.
@@ -202,7 +283,8 @@ describe_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     DescribeOrganizationConfiguration()
 
-Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
+Returns information about the Organizations configuration for Security Hub. Can only be
+called from a Security Hub administrator account.
 
 """
 describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
@@ -211,11 +293,18 @@ describe_organization_configuration(args::AbstractDict{String, Any}; aws_config:
 """
     DescribeProducts()
 
-Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
+Returns information about product integrations in Security Hub. You can optionally provide
+an integration ARN. If you provide an integration ARN, then the results only include that
+integration. If you do not provide an integration ARN, then the results include all of the
+available product integrations.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return.
-- `NextToken`: The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls
+  to the operation, to continue listing data, set the value of this parameter to the value
+  returned from the previous response.
+- `ProductArn`: The ARN of the integration to return.
 """
 describe_products(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products"; aws_config=aws_config)
 describe_products(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products", args; aws_config=aws_config)
@@ -223,11 +312,15 @@ describe_products(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     DescribeStandards()
 
-Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
+Returns a list of the available standards in Security Hub. For each standard, the results
+include the standard ARN, the name, and a description.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of standards to return.
-- `NextToken`: The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls
+  to the operation, to continue listing data, set the value of this parameter to the value
+  returned from the previous response.
 """
 describe_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards"; aws_config=aws_config)
 describe_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards", args; aws_config=aws_config)
@@ -235,14 +328,21 @@ describe_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfi
 """
     DescribeStandardsControls()
 
-Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+Returns a list of security standards controls. For each control, the results include
+information about whether it is currently enabled, the severity, and a link to remediation
+information.
 
 # Required Parameters
-- `StandardsSubscriptionArn`: The ARN of a resource that represents your subscription to a supported standard. To get the subscription ARNs of the standards you have enabled, use the  GetEnabledStandards  operation.
+- `StandardsSubscriptionArn`: The ARN of a resource that represents your subscription to a
+  supported standard. To get the subscription ARNs of the standards you have enabled, use the
+   GetEnabledStandards  operation.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of security standard controls to return.
-- `NextToken`: The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  DescribeStandardsControls operation, set the value of this parameter to NULL. For
+  subsequent calls to the operation, to continue listing data, set the value of this
+  parameter to the value returned from the previous response.
 """
 describe_standards_controls(StandardsSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)"; aws_config=aws_config)
 describe_standards_controls(StandardsSubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args; aws_config=aws_config)
@@ -250,10 +350,12 @@ describe_standards_controls(StandardsSubscriptionArn, args::AbstractDict{String,
 """
     DisableImportFindingsForProduct()
 
-Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+Disables the integration of the specified product with Security Hub. After the integration
+is disabled, findings from that product are no longer sent to Security Hub.
 
 # Required Parameters
-- `ProductSubscriptionArn`: The ARN of the integrated product to disable the integration for.
+- `ProductSubscriptionArn`: The ARN of the integrated product to disable the integration
+  for.
 
 """
 disable_import_findings_for_product(ProductSubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)"; aws_config=aws_config)
@@ -262,7 +364,8 @@ disable_import_findings_for_product(ProductSubscriptionArn, args::AbstractDict{S
 """
     DisableOrganizationAdminAccount()
 
-Disables a Security Hub administrator account. Can only be called by the organization management account.
+Disables a Security Hub administrator account. Can only be called by the organization
+management account.
 
 # Required Parameters
 - `AdminAccountId`: The AWS account identifier of the Security Hub administrator account.
@@ -274,7 +377,14 @@ disable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:
 """
     DisableSecurityHub()
 
-Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+Disables Security Hub in your account only in the current Region. To disable Security Hub
+in all Regions, you must submit one request per Region where you have enabled Security Hub.
+When you disable Security Hub for a master account, it doesn't disable Security Hub for any
+associated member accounts. When you disable Security Hub, your existing findings and
+insights and any Security Hub configuration settings are deleted after 90 days and cannot
+be recovered. Any standards that were enabled are disabled, and your master and member
+account associations are removed. If you want to save your existing findings, you must
+export them before you disable Security Hub.
 
 """
 disable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts"; aws_config=aws_config)
@@ -283,7 +393,10 @@ disable_security_hub(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 """
     DisassociateFromMasterAccount()
 
-Disassociates the current Security Hub member account from the associated master account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the master account (the designated Security Hub administrator) can disassociate a member account.
+Disassociates the current Security Hub member account from the associated master account.
+This operation is only used by accounts that are not part of an organization. For
+organization accounts, only the master account (the designated Security Hub administrator)
+can disassociate a member account.
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
@@ -292,10 +405,13 @@ disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::Ab
 """
     DisassociateMembers()
 
-Disassociates the specified member accounts from the associated master account. Can be used to disassociate both accounts that are in an organization and accounts that were invited manually.
+Disassociates the specified member accounts from the associated master account. Can be used
+to disassociate both accounts that are in an organization and accounts that were invited
+manually.
 
 # Required Parameters
-- `AccountIds`: The account IDs of the member accounts to disassociate from the master account.
+- `AccountIds`: The account IDs of the member accounts to disassociate from the master
+  account.
 
 """
 disassociate_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -304,7 +420,9 @@ disassociate_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::
 """
     EnableImportFindingsForProduct()
 
-Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
+Enables the integration of a partner product with Security Hub. Integrated products send
+findings to Security Hub. When you enable a product integration, a permissions policy that
+grants permission for the product to send findings to Security Hub is applied.
 
 # Required Parameters
 - `ProductArn`: The ARN of the product to enable the integration for.
@@ -316,10 +434,12 @@ enable_import_findings_for_product(ProductArn, args::AbstractDict{String, <:Any}
 """
     EnableOrganizationAdminAccount()
 
-Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
+Designates the Security Hub administrator account for an organization. Can only be called
+by the organization management account.
 
 # Required Parameters
-- `AdminAccountId`: The AWS account identifier of the account to designate as the Security Hub administrator account.
+- `AdminAccountId`: The AWS account identifier of the account to designate as the Security
+  Hub administrator account.
 
 """
 enable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
@@ -328,10 +448,22 @@ enable_organization_admin_account(AdminAccountId, args::AbstractDict{String, <:A
 """
     EnableSecurityHub()
 
-Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards.   CIS AWS Foundations   AWS Foundational Security Best Practices   You do not enable the Payment Card Industry Data Security Standard (PCI DSS) standard.  To not enable the automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the  BatchEnableStandards  operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more, see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
+Enables Security Hub for your account in the current Region or the Region you specify in
+the request. When you enable Security Hub, you grant to Security Hub the permissions
+necessary to gather findings from other services that are integrated with Security Hub.
+When you use the EnableSecurityHub operation to enable Security Hub, you also automatically
+enable the following standards.   CIS AWS Foundations   AWS Foundational Security Best
+Practices   You do not enable the Payment Card Industry Data Security Standard (PCI DSS)
+standard.  To not enable the automatically enabled standards, set EnableDefaultStandards to
+false. After you enable Security Hub, to enable a standard, use the  BatchEnableStandards
+operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more,
+see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
 
 # Optional Parameters
-- `EnableDefaultStandards`: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+- `EnableDefaultStandards`: Whether to enable the security standards that Security Hub has
+  designated as automatically enabled. If you do not provide a value for
+  EnableDefaultStandards, it is set to true. To not enable the automatically enabled
+  standards, set EnableDefaultStandards to false.
 - `Tags`: The tags to add to the hub resource when you enable Security Hub.
 """
 enable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts"; aws_config=aws_config)
@@ -344,8 +476,12 @@ Returns a list of the standards that are currently enabled.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in the response.
-- `NextToken`: The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
-- `StandardsSubscriptionArns`: The list of the standards subscription ARNs for the standards to retrieve.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent
+  calls to the operation, to continue listing data, set the value of this parameter to the
+  value returned from the previous response.
+- `StandardsSubscriptionArns`: The list of the standards subscription ARNs for the
+  standards to retrieve.
 """
 get_enabled_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get"; aws_config=aws_config)
 get_enabled_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get", args; aws_config=aws_config)
@@ -356,9 +492,15 @@ get_enabled_standards(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Returns a list of findings that match the specified criteria.
 
 # Optional Parameters
-- `Filters`: The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
+- `Filters`: The finding attributes used to define a condition to filter the returned
+  findings. You can filter by up to 10 finding attributes. For each attribute, you can
+  provide up to 20 filter values. Note that in the available filter fields, WorkflowState is
+  deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
 - `MaxResults`: The maximum number of findings to return.
-- `NextToken`: The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the
+  operation, to continue listing data, set the value of this parameter to the value returned
+  from the previous response.
 - `SortCriteria`: The finding attributes used to sort the list of returned findings.
 """
 get_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings"; aws_config=aws_config)
@@ -382,9 +524,14 @@ get_insight_results(InsightArn, args::AbstractDict{String, <:Any}; aws_config::A
 Lists and describes insights for the specified insight ARNs.
 
 # Optional Parameters
-- `InsightArns`: The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
+- `InsightArns`: The ARNs of the insights to describe. If you do not provide any insight
+  ARNs, then GetInsights returns all of your custom insights. It does not return any managed
+  insights.
 - `MaxResults`: The maximum number of items to return in the response.
-- `NextToken`: The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the
+  operation, to continue listing data, set the value of this parameter to the value returned
+  from the previous response.
 """
 get_insights(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get"; aws_config=aws_config)
 get_insights(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get", args; aws_config=aws_config)
@@ -392,7 +539,8 @@ get_insights(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     GetInvitationsCount()
 
-Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation. 
+Returns the count of all Security Hub membership invitations that were sent to the current
+member account, not including the currently accepted invitation.
 
 """
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count"; aws_config=aws_config)
@@ -401,7 +549,9 @@ get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     GetMasterAccount()
 
-Provides the details for the Security Hub master account for the current member account. Can be used by both member accounts that are in an organization and accounts that were invited manually.
+Provides the details for the Security Hub master account for the current member account.
+Can be used by both member accounts that are in an organization and accounts that were
+invited manually.
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)
@@ -410,10 +560,14 @@ get_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfi
 """
     GetMembers()
 
-Returns the details for the Security Hub member accounts for the specified account IDs. A master account can be either a delegated Security Hub administrator account for an organization or a master account that enabled Security Hub manually. The results include both member accounts that are in an organization and accounts that were invited manually.
+Returns the details for the Security Hub member accounts for the specified account IDs. A
+master account can be either a delegated Security Hub administrator account for an
+organization or a master account that enabled Security Hub manually. The results include
+both member accounts that are in an organization and accounts that were invited manually.
 
 # Required Parameters
-- `AccountIds`: The list of account IDs for the Security Hub member accounts to return the details for. 
+- `AccountIds`: The list of account IDs for the Security Hub member accounts to return the
+  details for.
 
 """
 get_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/get", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -422,10 +576,17 @@ get_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     InviteMembers()
 
-Invites other AWS accounts to become member accounts for the Security Hub master account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the  CreateMembers  action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the master account can view the findings generated from the member account.
+Invites other AWS accounts to become member accounts for the Security Hub master account
+that the invitation is sent from. This operation is only used to invite accounts that do
+not belong to an organization. Organization accounts do not receive invitations. Before you
+can use this action to invite a member, you must first use the  CreateMembers  action to
+create the member account in Security Hub. When the account owner enables Security Hub and
+accepts the invitation to become a member account, the master account can view the findings
+generated from the member account.
 
 # Required Parameters
-- `AccountIds`: The list of account IDs of the AWS accounts to invite to Security Hub as members. 
+- `AccountIds`: The list of account IDs of the AWS accounts to invite to Security Hub as
+  members.
 
 """
 invite_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -434,11 +595,15 @@ invite_members(AccountIds, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     ListEnabledProductsForImport()
 
-Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+Lists all findings-generating solutions (products) that you are subscribed to receive
+findings from in Security Hub.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of items to return in the response.
-- `NextToken`: The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  ListEnabledProductsForImport operation, set the value of this parameter to NULL. For
+  subsequent calls to the operation, to continue listing data, set the value of this
+  parameter to the value returned from the previous response.
 """
 list_enabled_products_for_import(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions"; aws_config=aws_config)
 list_enabled_products_for_import(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions", args; aws_config=aws_config)
@@ -446,11 +611,16 @@ list_enabled_products_for_import(args::AbstractDict{String, Any}; aws_config::Ab
 """
     ListInvitations()
 
-Lists all Security Hub membership invitations that were sent to the current AWS account. This operation is only used by accounts that do not belong to an organization. Organization accounts do not receive invitations.
+Lists all Security Hub membership invitations that were sent to the current AWS account.
+This operation is only used by accounts that do not belong to an organization. Organization
+accounts do not receive invitations.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to return in the response. 
-- `NextToken`: The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
+- `MaxResults`: The maximum number of items to return in the response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to
+  the operation, to continue listing data, set the value of this parameter to the value
+  returned from the previous response.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations", args; aws_config=aws_config)
@@ -458,12 +628,21 @@ list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 """
     ListMembers()
 
-Lists details about all member accounts for the current Security Hub master account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+Lists details about all member accounts for the current Security Hub master account. The
+results include both member accounts that belong to an organization and member accounts
+that were invited manually.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to return in the response. 
-- `NextToken`: The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
-- `OnlyAssociated`: Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts. 
+- `MaxResults`: The maximum number of items to return in the response.
+- `NextToken`: The token that is required for pagination. On your first call to the
+  ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the
+  operation, to continue listing data, set the value of this parameter to the value returned
+  from the previous response.
+- `OnlyAssociated`: Specifies which member accounts to include in the response based on
+  their relationship status with the master account. The default value is TRUE. If
+  OnlyAssociated is set to TRUE, the response includes member accounts whose relationship
+  status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response
+  includes all existing member accounts.
 """
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members"; aws_config=aws_config)
 list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members", args; aws_config=aws_config)
@@ -471,11 +650,15 @@ list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     ListOrganizationAdminAccounts()
 
-Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+Lists the Security Hub administrator accounts. Can only be called by the organization
+management account.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of items to return in the response.
-- `NextToken`: The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response. 
+- `NextToken`: The token that is required for pagination. On your first call to the
+  ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For
+  subsequent calls to the operation, to continue listing data, set the value of this
+  parameter to the value returned from the previous response.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
 list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", args; aws_config=aws_config)
@@ -536,7 +719,9 @@ update_action_target(ActionTargetArn, args::AbstractDict{String, <:Any}; aws_con
 """
     UpdateFindings()
 
- UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
+ UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates
+the Note and RecordState of the Security Hub-aggregated findings that the filter attributes
+specify. Any member account that can view the finding also sees the update to the finding.
 
 # Required Parameters
 - `Filters`: A collection of attributes that specify which findings you want to update.
@@ -567,10 +752,13 @@ update_insight(InsightArn, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     UpdateOrganizationConfiguration()
 
-Used to update the configuration related to Organizations. Can only be called from a Security Hub administrator account.
+Used to update the configuration related to Organizations. Can only be called from a
+Security Hub administrator account.
 
 # Required Parameters
-- `AutoEnable`: Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
+- `AutoEnable`: Whether to automatically enable Security Hub for new accounts in the
+  organization. By default, this is false, and new accounts are not added automatically. To
+  automatically enable Security Hub for new accounts, set this to true.
 
 """
 update_organization_configuration(AutoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/configuration", Dict{String, Any}("AutoEnable"=>AutoEnable); aws_config=aws_config)
@@ -582,7 +770,9 @@ update_organization_configuration(AutoEnable, args::AbstractDict{String, <:Any};
 Updates configuration options for Security Hub.
 
 # Optional Parameters
-- `AutoEnableControls`: Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. 
+- `AutoEnableControls`: Whether to automatically enable new controls when they are added to
+  standards that are enabled. By default, this is set to true, and new controls are enabled
+  automatically. To not automatically enable new controls, set this to false.
 """
 update_security_hub_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts"; aws_config=aws_config)
 update_security_hub_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts", args; aws_config=aws_config)
@@ -597,7 +787,8 @@ Used to control whether an individual security standard control is enabled or di
 
 # Optional Parameters
 - `ControlStatus`: The updated status of the security standard control.
-- `DisabledReason`: A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
+- `DisabledReason`: A description of the reason why you are disabling a security standard
+  control. If you are disabling a control, then this is required.
 """
 update_standards_control(StandardsControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)"; aws_config=aws_config)
 update_standards_control(StandardsControlArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args; aws_config=aws_config)

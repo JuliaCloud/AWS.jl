@@ -20,7 +20,8 @@ add_custom_attributes(CustomAttributes, UserPoolId, args::AbstractDict{String, <
 """
     AdminAddUserToGroup()
 
-Adds the specified user to the specified group. Calling this action requires developer credentials.
+Adds the specified user to the specified group. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `GroupName`: The group name.
@@ -34,14 +35,30 @@ admin_add_user_to_group(GroupName, UserPoolId, Username, args::AbstractDict{Stri
 """
     AdminConfirmSignUp()
 
-Confirms user registration as an admin without using a confirmation code. Works on any user. Calling this action requires developer credentials.
+Confirms user registration as an admin without using a confirmation code. Works on any
+user. Calling this action requires developer credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for which you want to confirm user registration.
 - `Username`: The user name for which you want to confirm user registration.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  If your user pool configuration includes triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is specified for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. In this payload, the clientMetadata attribute provides the data that you assigned to the ClientMetadata parameter in your AdminConfirmSignUp request. In your function code in AWS Lambda, you can process the ClientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  If your user pool configuration includes
+  triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is
+  specified for the post confirmation trigger. When Amazon Cognito invokes this function, it
+  passes a JSON payload, which the function receives as input. In this payload, the
+  clientMetadata attribute provides the data that you assigned to the ClientMetadata
+  parameter in your AdminConfirmSignUp request. In your function code in AWS Lambda, you can
+  process the ClientMetadata value to enhance your workflow for your specific needs. For more
+  information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
+  Developer Guide.  Take the following limitations into consideration when you use the
+  ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
+  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
 """
 admin_confirm_sign_up(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminConfirmSignUp", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_confirm_sign_up(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -49,20 +66,84 @@ admin_confirm_sign_up(UserPoolId, Username, args::AbstractDict{String, <:Any}; a
 """
     AdminCreateUser()
 
-Creates a new user in the specified user pool. If MessageAction is not set, the default is to send a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to create or update a user pool. This template includes your custom sign-up instructions and placeholders for user name and temporary password. Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction parameter, and Amazon Cognito will not send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.  AdminCreateUser requires developer credentials.
+Creates a new user in the specified user pool. If MessageAction is not set, the default is
+to send a welcome message via email or phone (SMS). This message is based on a template
+that you configured in your call to create or update a user pool. This template includes
+your custom sign-up instructions and placeholders for user name and temporary password.
+Alternatively, you can call AdminCreateUser with “SUPPRESS” for the MessageAction
+parameter, and Amazon Cognito will not send any email.  In either case, the user will be in
+the FORCE_CHANGE_PASSWORD state until they sign in and change their password.
+AdminCreateUser requires developer credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool where the user will be created.
-- `Username`: The username for the user. Must be unique within the user pool. Must be a UTF-8 string between 1 and 128 characters. After the user is created, the username cannot be changed.
+- `Username`: The username for the user. Must be unique within the user pool. Must be a
+  UTF-8 string between 1 and 128 characters. After the user is created, the username cannot
+  be changed.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `DesiredDeliveryMediums`: Specify \"EMAIL\" if email will be used to send the welcome message. Specify \"SMS\" if the phone number will be used. The default value is \"SMS\". More than one value can be specified.
-- `ForceAliasCreation`: This parameter is only used if the phone_number_verified or email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set to True and the phone number or email address specified in the UserAttributes parameter already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user. The previous user will no longer be able to log in using that alias. If this parameter is set to False, the API throws an AliasExistsException error if the alias already exists. The default value is False.
-- `MessageAction`: Set to \"RESEND\" to resend the invitation message to a user that already exists and reset the expiration limit on the user's account. Set to \"SUPPRESS\" to suppress sending the message. Only one value can be specified.
-- `TemporaryPassword`: The user's temporary password. This password must conform to the password policy that you specified when you created the user pool. The temporary password is valid only once. To complete the Admin Create User flow, the user must enter the temporary password in the sign-in page along with a new password to be used in all future sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito generates one for you. The temporary password can only be used until the user account expiration limit that you specified when you created the user pool. To reset the account after that time limit, you must call AdminCreateUser again, specifying \"RESEND\" for the MessageAction parameter.
-- `UserAttributes`: An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username. However, any attributes that you specify as required (when creating a user pool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser) or by the user (when he or she signs up in response to your welcome message). For custom attributes, you must prepend the custom: prefix to the attribute name. To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools. In your call to AdminCreateUser, you can set the email_verified attribute to True, and you can set the phone_number_verified attribute to True. (You can also do this by calling AdminUpdateUserAttributes.)    email: The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True, or if \"EMAIL\" is specified in the DesiredDeliveryMediums parameter.    phone_number: The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True, or if \"SMS\" is specified in the DesiredDeliveryMediums parameter.  
-- `ValidationData`: The user's validation data. This is an array of name-value pairs that contain user attributes and attribute values that you can use for custom validation, such as restricting the types of user accounts that can be registered. For example, you might choose to allow or disallow user sign-up based on the user's domain. To configure custom validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and uses it in the validation process. The user's validation data is not persisted.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon
+  Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon
+  Cognito invokes this function, it passes a JSON payload, which the function receives as
+  input. This payload contains a clientMetadata attribute, which provides the data that you
+  assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function
+  code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for
+  your specific needs. For more information, see Customizing User Pool Workflows with Lambda
+  Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
+  consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
+  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
+- `DesiredDeliveryMediums`: Specify \"EMAIL\" if email will be used to send the welcome
+  message. Specify \"SMS\" if the phone number will be used. The default value is \"SMS\".
+  More than one value can be specified.
+- `ForceAliasCreation`: This parameter is only used if the phone_number_verified or
+  email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set
+  to True and the phone number or email address specified in the UserAttributes parameter
+  already exists as an alias with a different user, the API call will migrate the alias from
+  the previous user to the newly created user. The previous user will no longer be able to
+  log in using that alias. If this parameter is set to False, the API throws an
+  AliasExistsException error if the alias already exists. The default value is False.
+- `MessageAction`: Set to \"RESEND\" to resend the invitation message to a user that
+  already exists and reset the expiration limit on the user's account. Set to \"SUPPRESS\" to
+  suppress sending the message. Only one value can be specified.
+- `TemporaryPassword`: The user's temporary password. This password must conform to the
+  password policy that you specified when you created the user pool. The temporary password
+  is valid only once. To complete the Admin Create User flow, the user must enter the
+  temporary password in the sign-in page along with a new password to be used in all future
+  sign-ins. This parameter is not required. If you do not specify a value, Amazon Cognito
+  generates one for you. The temporary password can only be used until the user account
+  expiration limit that you specified when you created the user pool. To reset the account
+  after that time limit, you must call AdminCreateUser again, specifying \"RESEND\" for the
+  MessageAction parameter.
+- `UserAttributes`: An array of name-value pairs that contain user attributes and attribute
+  values to be set for the user to be created. You can create a user without specifying any
+  attributes other than Username. However, any attributes that you specify as required (when
+  creating a user pool or in the Attributes tab of the console) must be supplied either by
+  you (in your call to AdminCreateUser) or by the user (when he or she signs up in response
+  to your welcome message). For custom attributes, you must prepend the custom: prefix to the
+  attribute name. To send a message inviting the user to sign up, you must specify the user's
+  email address or phone number. This can be done in your call to AdminCreateUser or in the
+  Users tab of the Amazon Cognito console for managing your user pools. In your call to
+  AdminCreateUser, you can set the email_verified attribute to True, and you can set the
+  phone_number_verified attribute to True. (You can also do this by calling
+  AdminUpdateUserAttributes.)    email: The email address of the user to whom the message
+  that contains the code and username will be sent. Required if the email_verified attribute
+  is set to True, or if \"EMAIL\" is specified in the DesiredDeliveryMediums parameter.
+  phone_number: The phone number of the user to whom the message that contains the code and
+  username will be sent. Required if the phone_number_verified attribute is set to True, or
+  if \"SMS\" is specified in the DesiredDeliveryMediums parameter.
+- `ValidationData`: The user's validation data. This is an array of name-value pairs that
+  contain user attributes and attribute values that you can use for custom validation, such
+  as restricting the types of user accounts that can be registered. For example, you might
+  choose to allow or disallow user sign-up based on the user's domain. To configure custom
+  validation, you must create a Pre Sign-up Lambda trigger for the user pool as described in
+  the Amazon Cognito Developer Guide. The Lambda trigger receives the validation data and
+  uses it in the validation process. The user's validation data is not persisted.
 """
 admin_create_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminCreateUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_create_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminCreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -70,7 +151,8 @@ admin_create_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_c
 """
     AdminDeleteUser()
 
-Deletes a user as an administrator. Works on any user. Calling this action requires developer credentials.
+Deletes a user as an administrator. Works on any user. Calling this action requires
+developer credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool where you want to delete the user.
@@ -83,10 +165,12 @@ admin_delete_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_c
 """
     AdminDeleteUserAttributes()
 
-Deletes the user attributes in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
+Deletes the user attributes in a user pool as an administrator. Works on any user. Calling
+this action requires developer credentials.
 
 # Required Parameters
-- `UserAttributeNames`: An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
+- `UserAttributeNames`: An array of strings representing the user attribute names you wish
+  to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
 - `UserPoolId`: The user pool ID for the user pool where you want to delete user attributes.
 - `Username`: The user name of the user from which you would like to delete attributes.
 
@@ -97,7 +181,25 @@ admin_delete_user_attributes(UserAttributeNames, UserPoolId, Username, args::Abs
 """
     AdminDisableProviderForUser()
 
-Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser) signs in, they must create a new user account. See AdminLinkProviderForUser. This action is enabled only for admin access and requires developer credentials. The ProviderName must match the value specified when creating an IdP for the pool.  To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user pool for the user. The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user. For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked using  AdminLinkProviderForUser call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
+Disables the user from signing in with the specified external (SAML or social) identity
+provider. If the user to disable is a Cognito User Pools native username + password user,
+they are not permitted to use their password to sign-in. If the user to disable is a linked
+external IdP user, any link between that user and an existing user is removed. The next
+time the external user (no longer attached to the previously linked DestinationUser) signs
+in, they must create a new user account. See AdminLinkProviderForUser. This action is
+enabled only for admin access and requires developer credentials. The ProviderName must
+match the value specified when creating an IdP for the pool.  To disable a native username
++ password user, the ProviderName value must be Cognito and the ProviderAttributeName must
+be Cognito_Subject, with the ProviderAttributeValue being the name that is used in the user
+pool for the user. The ProviderAttributeName must always be Cognito_Subject for social
+identity providers. The ProviderAttributeValue must always be the exact subject that was
+used when the user was originally linked as a source user. For de-linking a SAML identity,
+there are two scenarios. If the linked identity has not yet been used to sign-in, the
+ProviderAttributeName and ProviderAttributeValue must be the same values that were used for
+the SourceUser when the identities were originally linked using  AdminLinkProviderForUser
+call. (If the linking was done with ProviderAttributeName set to Cognito_Subject, the same
+applies here). However, if the user has already signed in, the ProviderAttributeName must
+be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
 
 # Required Parameters
 - `User`: The user to be disabled.
@@ -123,7 +225,8 @@ admin_disable_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_
 """
     AdminEnableUser()
 
-Enables the specified user as an administrator. Works on any user. Calling this action requires developer credentials.
+Enables the specified user as an administrator. Works on any user. Calling this action
+requires developer credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool where you want to enable the user.
@@ -164,10 +267,12 @@ admin_get_device(DeviceKey, UserPoolId, Username, args::AbstractDict{String, <:A
 """
     AdminGetUser()
 
-Gets the specified user by user name in a user pool as an administrator. Works on any user. Calling this action requires developer credentials.
+Gets the specified user by user name in a user pool as an administrator. Works on any user.
+Calling this action requires developer credentials.
 
 # Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to get information about the user.
+- `UserPoolId`: The user pool ID for the user pool where you want to get information about
+  the user.
 - `Username`: The user name of the user you wish to retrieve.
 
 """
@@ -177,18 +282,67 @@ admin_get_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_conf
 """
     AdminInitiateAuth()
 
-Initiates the authentication flow, as an administrator. Calling this action requires developer credentials.
+Initiates the authentication flow, as an administrator. Calling this action requires
+developer credentials.
 
 # Required Parameters
-- `AuthFlow`: The authentication flow for this call to execute. The API action will depend on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow, Cognito receives the password in the request instead of using the SRP process to verify passwords.  
+- `AuthFlow`: The authentication flow for this call to execute. The API action will depend
+  on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and
+  return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP
+  variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in
+  USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:
+  USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.
+  REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and
+  ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.
+  ADMIN_NO_SRP_AUTH: Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD
+  directly if the flow is enabled for calling the app client.    USER_PASSWORD_AUTH: Non-SRP
+  authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda
+  trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not
+  found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based user password
+  authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow,
+  Cognito receives the password in the request instead of using the SRP process to verify
+  passwords.
 - `ClientId`: The app client ID.
 - `UserPoolId`: The ID of the Amazon Cognito user pool.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
-- `AuthParameters`: The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For ADMIN_NO_SRP_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).  
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminInitiateAuth API action, Amazon Cognito invokes the AWS Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:   Pre signup   Pre authentication   User migration   When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload, which the function receives as input. This payload contains a validationData attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminInitiateAuth request. In your function code in AWS Lambda, you can process the validationData value to enhance your workflow for your specific needs. When you use the AdminInitiateAuth API action, Amazon Cognito also invokes the functions for the following triggers, but it does not provide the ClientMetadata value as input:   Post authentication   Custom message   Pre token generation   Create auth challenge   Define auth challenge   Verify auth challenge   For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for
+  AdminInitiateAuth calls.
+- `AuthParameters`: The authentication parameters. These are inputs corresponding to the
+  AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For
+  USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app
+  client is configured with a client secret), DEVICE_KEY.   For
+  REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the
+  app client is configured with a client secret), DEVICE_KEY.   For ADMIN_NO_SRP_AUTH:
+  USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD
+  (required), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client
+  is configured with client secret), DEVICE_KEY. To start the authentication flow with
+  password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for
+  certain custom workflows that this action triggers. You create custom workflows by
+  assigning AWS Lambda functions to user pool triggers. When you use the AdminInitiateAuth
+  API action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
+  triggers. The ClientMetadata value is passed as input to the functions for only the
+  following triggers:   Pre signup   Pre authentication   User migration   When Amazon
+  Cognito invokes the functions for these triggers, it passes a JSON payload, which the
+  function receives as input. This payload contains a validationData attribute, which
+  provides the data that you assigned to the ClientMetadata parameter in your
+  AdminInitiateAuth request. In your function code in AWS Lambda, you can process the
+  validationData value to enhance your workflow for your specific needs. When you use the
+  AdminInitiateAuth API action, Amazon Cognito also invokes the functions for the following
+  triggers, but it does not provide the ClientMetadata value as input:   Post authentication
+   Custom message   Pre token generation   Create auth challenge   Define auth challenge
+  Verify auth challenge   For more information, see Customizing User Pool Workflows with
+  Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
+  consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
+  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
+- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 admin_initiate_auth(AuthFlow, ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminInitiateAuth", Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 admin_initiate_auth(AuthFlow, ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminInitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -196,11 +350,44 @@ admin_initiate_auth(AuthFlow, ClientId, UserPoolId, args::AbstractDict{String, <
 """
     AdminLinkProviderForUser()
 
-Links an existing user account in a user pool (DestinationUser) to an identity from an external identity provider (SourceUser) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.   For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.   The maximum number of federated identities linked to a user is 5.   Because this API allows a user with an external federated identity to sign in as an existing user in the user pool, it is critical that it only be used with external identity providers and provider attributes that have been trusted by the application owner.  This action is enabled only for admin access and requires developer credentials.
+Links an existing user account in a user pool (DestinationUser) to an identity from an
+external identity provider (SourceUser) based on a specified attribute name and value from
+the external identity provider. This allows you to create a link from the existing user
+account to an external federated user identity that has not yet been used to sign in, so
+that the federated user identity can be used to sign in as the existing user account.   For
+example, if there is an existing user with a username and password, this API links that
+user to a federated user identity, so that when the federated user identity is used, the
+user signs in as the existing user account.   The maximum number of federated identities
+linked to a user is 5.   Because this API allows a user with an external federated identity
+to sign in as an existing user in the user pool, it is critical that it only be used with
+external identity providers and provider attributes that have been trusted by the
+application owner.  This action is enabled only for admin access and requires developer
+credentials.
 
 # Required Parameters
-- `DestinationUser`: The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
-- `SourceUser`: An external identity provider account for a user who does not currently exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is a federated social identity provider user (Facebook, Google, or Login with Amazon), you must set the ProviderAttributeName to Cognito_Subject. For social identity providers, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social identity provider token.  For SAML, the ProviderAttributeName can be any value that matches a claim in the SAML assertion. If you wish to link SAML users based on the subject of the SAML assertion, you should map the subject to a claim through the SAML identity provider and submit that claim name as the ProviderAttributeName. If you set ProviderAttributeName to Cognito_Subject, Cognito will automatically parse the default unique identifier found in the subject from the SAML token.
+- `DestinationUser`: The existing user in the user pool to be linked to the external
+  identity provider user account. Can be a native (Username + Password) Cognito User Pools
+  user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist,
+  an exception is thrown. This is the user that is returned when the new user (with the
+  linked identity provider attribute) signs in. For a native username + password user, the
+  ProviderAttributeValue for the DestinationUser should be the username in the user pool. For
+  a federated user, it should be the provider-specific user_id. The ProviderAttributeName of
+  the DestinationUser is ignored. The ProviderName should be set to Cognito for users in
+  Cognito user pools.
+- `SourceUser`: An external identity provider account for a user who does not currently
+  exist yet in the user pool. This user must be a federated user (for example, a SAML or
+  Facebook user), not another native user. If the SourceUser is a federated social identity
+  provider user (Facebook, Google, or Login with Amazon), you must set the
+  ProviderAttributeName to Cognito_Subject. For social identity providers, the ProviderName
+  will be Facebook, Google, or LoginWithAmazon, and Cognito will automatically parse the
+  Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The
+  ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value
+  found in the social identity provider token.  For SAML, the ProviderAttributeName can be
+  any value that matches a claim in the SAML assertion. If you wish to link SAML users based
+  on the subject of the SAML assertion, you should map the subject to a claim through the
+  SAML identity provider and submit that claim name as the ProviderAttributeName. If you set
+  ProviderAttributeName to Cognito_Subject, Cognito will automatically parse the default
+  unique identifier found in the subject from the SAML token.
 - `UserPoolId`: The user pool ID for the user pool.
 
 """
@@ -226,7 +413,8 @@ admin_list_devices(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_
 """
     AdminListGroupsForUser()
 
-Lists the groups that the user belongs to. Calling this action requires developer credentials.
+Lists the groups that the user belongs to. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool.
@@ -234,7 +422,8 @@ Lists the groups that the user belongs to. Calling this action requires develope
 
 # Optional Parameters
 - `Limit`: The limit of the request to list groups.
-- `NextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `NextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 admin_list_groups_for_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListGroupsForUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_list_groups_for_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -242,7 +431,8 @@ admin_list_groups_for_user(UserPoolId, Username, args::AbstractDict{String, <:An
 """
     AdminListUserAuthEvents()
 
-Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
+Lists a history of user activity and any risks detected as part of Amazon Cognito advanced
+security.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID.
@@ -258,7 +448,8 @@ admin_list_user_auth_events(UserPoolId, Username, args::AbstractDict{String, <:A
 """
     AdminRemoveUserFromGroup()
 
-Removes the specified user from the specified group. Calling this action requires developer credentials.
+Removes the specified user from the specified group. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `GroupName`: The group name.
@@ -272,14 +463,38 @@ admin_remove_user_from_group(GroupName, UserPoolId, Username, args::AbstractDict
 """
     AdminResetUserPassword()
 
-Resets the specified user's password in a user pool as an administrator. Works on any user. When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password. Calling this action requires developer credentials.
+Resets the specified user's password in a user pool as an administrator. Works on any user.
+When a developer calls this API, the current password is invalidated, so it must be
+changed. If a user tries to sign in after the API is called, the app will get a
+PasswordResetRequiredException exception back and should direct the user down the flow to
+reset the password, which is the same as the forgot password flow. In addition, if the user
+pool has phone verification selected and a verified phone number exists for the user, or if
+email verification is selected and a verified email exists for the user, calling this API
+will also result in sending a message to the end user with the code to change their
+password. Calling this action requires developer credentials.
 
 # Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to reset the user's password.
+- `UserPoolId`: The user pool ID for the user pool where you want to reset the user's
+  password.
 - `Username`: The user name of the user whose password you wish to reset.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action,
+  Amazon Cognito invokes the function that is assigned to the custom message trigger. When
+  Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
+  as input. This payload contains a clientMetadata attribute, which provides the data that
+  you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In
+  your function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  workflow for your specific needs. For more information, see Customizing User Pool Workflows
+  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
+  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
+  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
 """
 admin_reset_user_password(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminResetUserPassword", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_reset_user_password(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminResetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -287,7 +502,8 @@ admin_reset_user_password(UserPoolId, Username, args::AbstractDict{String, <:Any
 """
     AdminRespondToAuthChallenge()
 
-Responds to an authentication challenge, as an administrator. Calling this action requires developer credentials.
+Responds to an authentication challenge, as an administrator. Calling this action requires
+developer credentials.
 
 # Required Parameters
 - `ChallengeName`: The challenge name. For more information, see AdminInitiateAuth.
@@ -295,11 +511,47 @@ Responds to an authentication challenge, as an administrator. Calling this actio
 - `UserPoolId`: The ID of the Amazon Cognito user pool.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
-- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if app client is configured with client secret).    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if app client is configured with client secret).    ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME, SECRET_HASH (if app client is configured with client secret).     NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is configured with client secret).    The value of the USERNAME attribute must be the user's actual username, not an alias (such as email address or phone number). To make this easier, the AdminInitiateAuth response includes the actual username value in the USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to AdminInitiateAuth.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, post authentication, user migration, pre token generation, define auth challenge, create auth challenge, and verify auth challenge response. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
-- `Session`: The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
+- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for
+  AdminRespondToAuthChallenge calls.
+- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the
+  value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if
+  app client is configured with client secret).    PASSWORD_VERIFIER:
+  PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if
+  app client is configured with client secret).    ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME,
+  SECRET_HASH (if app client is configured with client secret).     NEW_PASSWORD_REQUIRED:
+  NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is
+  configured with client secret).    The value of the USERNAME attribute must be the user's
+  actual username, not an alias (such as email address or phone number). To make this easier,
+  the AdminInitiateAuth response includes the actual username value in the
+  USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to
+  AdminInitiateAuth.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API
+  action, Amazon Cognito invokes any functions that are assigned to the following triggers:
+  pre sign-up, custom message, post authentication, user migration, pre token generation,
+  define auth challenge, create auth challenge, and verify auth challenge response. When
+  Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function
+  receives as input. This payload contains a clientMetadata attribute, which provides the
+  data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge
+  request. In your function code in AWS Lambda, you can process the clientMetadata value to
+  enhance your workflow for your specific needs. For more information, see Customizing User
+  Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the
+  following limitations into consideration when you use the ClientMetadata parameter:
+  Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS
+  Lambda triggers that are assigned to a user pool to support custom workflows. If your user
+  pool configuration does not include triggers, the ClientMetadata parameter serves no
+  purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does
+  not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.
+  
+- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
+- `Session`: The session which should be passed both ways in challenge-response calls to
+  the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller
+  needs to go through another challenge, they return a session with other challenge
+  parameters. This session should be passed as it is to the next RespondToAuthChallenge API
+  call.
 """
 admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRespondToAuthChallenge", Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -307,7 +559,11 @@ admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId, args::Abstr
 """
     AdminSetUserMFAPreference()
 
-Sets the user's multi-factor authentication (MFA) preference, including which MFA options are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in.
+Sets the user's multi-factor authentication (MFA) preference, including which MFA options
+are enabled and if any are preferred. Only one factor can be set as preferred. The
+preferred MFA factor will be used to authenticate a user if multiple factors are enabled.
+If multiple options are enabled and no preference is set, a challenge to choose an MFA
+option will be returned during sign in.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID.
@@ -323,11 +579,18 @@ admin_set_user_mfapreference(UserPoolId, Username, args::AbstractDict{String, <:
 """
     AdminSetUserPassword()
 
-Sets the specified user's password in a user pool as an administrator. Works on any user.  The password can be temporary or permanent. If it is temporary, the user status will be placed into the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge. If the user does not sign in before it expires, the user will not be able to sign in and their password will need to be reset by an administrator.  Once the user has set a new password, or the password is permanent, the user status will be set to Confirmed.
+Sets the specified user's password in a user pool as an administrator. Works on any user.
+The password can be temporary or permanent. If it is temporary, the user status will be
+placed into the FORCE_CHANGE_PASSWORD state. When the user next tries to sign in, the
+InitiateAuth/AdminInitiateAuth response will contain the NEW_PASSWORD_REQUIRED challenge.
+If the user does not sign in before it expires, the user will not be able to sign in and
+their password will need to be reset by an administrator.  Once the user has set a new
+password, or the password is permanent, the user status will be set to Confirmed.
 
 # Required Parameters
 - `Password`: The password for the user.
-- `UserPoolId`: The user pool ID for the user pool where you want to set the user's password.
+- `UserPoolId`: The user pool ID for the user pool where you want to set the user's
+  password.
 - `Username`: The user name of the user whose password you wish to set.
 
 # Optional Parameters
@@ -339,11 +602,15 @@ admin_set_user_password(Password, UserPoolId, Username, args::AbstractDict{Strin
 """
     AdminSetUserSettings()
 
- This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use AdminSetUserMFAPreference instead.
+ This action is no longer supported. You can use it to configure only SMS MFA. You can't
+use it to configure TOTP software token MFA. To configure either type of MFA, use
+AdminSetUserMFAPreference instead.
 
 # Required Parameters
-- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS for delivery.
-- `UserPoolId`: The ID of the user pool that contains the user that you are setting options for.
+- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS
+  for delivery.
+- `UserPoolId`: The ID of the user pool that contains the user that you are setting options
+  for.
 - `Username`: The user name of the user that you are setting options for.
 
 """
@@ -353,7 +620,9 @@ admin_set_user_settings(MFAOptions, UserPoolId, Username, args::AbstractDict{Str
 """
     AdminUpdateAuthEventFeedback()
 
-Provides feedback for an authentication event as to whether it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+Provides feedback for an authentication event as to whether it was from a valid user. This
+feedback is used for improving the risk evaluation decision for the user pool as part of
+Amazon Cognito advanced security.
 
 # Required Parameters
 - `EventId`: The authentication event ID.
@@ -368,7 +637,8 @@ admin_update_auth_event_feedback(EventId, FeedbackValue, UserPoolId, Username, a
 """
     AdminUpdateDeviceStatus()
 
-Updates the device status as an administrator. Calling this action requires developer credentials.
+Updates the device status as an administrator. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `DeviceKey`: The device key.
@@ -376,7 +646,8 @@ Updates the device status as an administrator. Calling this action requires deve
 - `Username`: The user name.
 
 # Optional Parameters
-- `DeviceRememberedStatus`: The status indicating whether a device has been remembered or not.
+- `DeviceRememberedStatus`: The status indicating whether a device has been remembered or
+  not.
 """
 admin_update_device_status(DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateDeviceStatus", Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_update_device_status(DeviceKey, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateDeviceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -384,15 +655,36 @@ admin_update_device_status(DeviceKey, UserPoolId, Username, args::AbstractDict{S
 """
     AdminUpdateUserAttributes()
 
-Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user. For custom attributes, you must prepend the custom: prefix to the attribute name. In addition to updating user attributes, this API can also be used to mark phone and email as verified. Calling this action requires developer credentials.
+Updates the specified user's attributes, including developer attributes, as an
+administrator. Works on any user. For custom attributes, you must prepend the custom:
+prefix to the attribute name. In addition to updating user attributes, this API can also be
+used to mark phone and email as verified. Calling this action requires developer
+credentials.
 
 # Required Parameters
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+  attributes, you must prepend the custom: prefix to the attribute name.
 - `UserPoolId`: The user pool ID for the user pool where you want to update user attributes.
 - `Username`: The user name of the user for whom you want to update user attributes.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API
+  action, Amazon Cognito invokes the function that is assigned to the custom message trigger.
+  When Amazon Cognito invokes this function, it passes a JSON payload, which the function
+  receives as input. This payload contains a clientMetadata attribute, which provides the
+  data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes
+  request. In your function code in AWS Lambda, you can process the clientMetadata value to
+  enhance your workflow for your specific needs. For more information, see Customizing User
+  Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the
+  following limitations into consideration when you use the ClientMetadata parameter:
+  Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS
+  Lambda triggers that are assigned to a user pool to support custom workflows. If your user
+  pool configuration does not include triggers, the ClientMetadata parameter serves no
+  purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does
+  not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.
+  
 """
 admin_update_user_attributes(UserAttributes, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateUserAttributes", Dict{String, Any}("UserAttributes"=>UserAttributes, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
 admin_update_user_attributes(UserAttributes, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserAttributes"=>UserAttributes, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
@@ -400,7 +692,10 @@ admin_update_user_attributes(UserAttributes, UserPoolId, Username, args::Abstrac
 """
     AdminUserGlobalSignOut()
 
-Signs out users from all devices, as an administrator. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued. Calling this action requires developer credentials.
+Signs out users from all devices, as an administrator. It also invalidates all refresh
+tokens issued to a user. The user's current access and Id tokens remain valid until their
+expiry. Access and Id tokens expire one hour after they are issued. Calling this action
+requires developer credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID.
@@ -413,11 +708,13 @@ admin_user_global_sign_out(UserPoolId, Username, args::AbstractDict{String, <:An
 """
     AssociateSoftwareToken()
 
-Returns a unique generated shared secret key code for the user account. The request takes an access token or a session string, but not both.
+Returns a unique generated shared secret key code for the user account. The request takes
+an access token or a session string, but not both.
 
 # Optional Parameters
 - `AccessToken`: The access token.
-- `Session`: The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+- `Session`: The session which should be passed both ways in challenge-response calls to
+  the service. This allows authentication of the user as part of the MFA setup process.
 """
 associate_software_token(; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AssociateSoftwareToken"; aws_config=aws_config)
 associate_software_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AssociateSoftwareToken", args; aws_config=aws_config)
@@ -459,15 +756,36 @@ Allows a user to enter a confirmation code to reset a forgotten password.
 
 # Required Parameters
 - `ClientId`: The app client ID of the app associated with the user pool.
-- `ConfirmationCode`: The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see ForgotPassword.
+- `ConfirmationCode`: The confirmation code sent by a user's request to retrieve a
+  forgotten password. For more information, see ForgotPassword.
 - `Password`: The password sent by a user's request to retrieve a forgotten password.
-- `Username`: The user name of the user for whom you want to enter a code to retrieve a forgotten password.
+- `Username`: The user name of the user for whom you want to enter a code to retrieve a
+  forgotten password.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  ConfirmForgotPassword calls.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action,
+  Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When
+  Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
+  as input. This payload contains a clientMetadata attribute, which provides the data that
+  you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your
+  function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  workflow for your specific needs. For more information, see Customizing User Pool Workflows
+  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
+  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
+  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
+- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
+  key of a user pool client and username plus the client ID in the message.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 confirm_forgot_password(ClientId, ConfirmationCode, Password, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmForgotPassword", Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Password"=>Password, "Username"=>Username); aws_config=aws_config)
 confirm_forgot_password(ClientId, ConfirmationCode, Password, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Password"=>Password, "Username"=>Username), args)); aws_config=aws_config)
@@ -479,15 +797,39 @@ Confirms registration of a user and handles the existing alias from a previous u
 
 # Required Parameters
 - `ClientId`: The ID of the app client associated with the user pool.
-- `ConfirmationCode`: The confirmation code sent by a user's request to confirm registration.
+- `ConfirmationCode`: The confirmation code sent by a user's request to confirm
+  registration.
 - `Username`: The user name of the user whose registration you wish to confirm.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `ForceAliasCreation`: Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False. If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False, the API will throw an AliasExistsException error.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  ConfirmSignUp calls.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon
+  Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon
+  Cognito invokes this function, it passes a JSON payload, which the function receives as
+  input. This payload contains a clientMetadata attribute, which provides the data that you
+  assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function
+  code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for
+  your specific needs. For more information, see Customizing User Pool Workflows with Lambda
+  Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
+  consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
+  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
+- `ForceAliasCreation`: Boolean to be specified to force user confirmation irrespective of
+  existing alias. By default set to False. If this parameter is set to True and the phone
+  number/email used for sign up confirmation already exists as an alias with a different
+  user, the API call will migrate the alias from the previous user to the newly created user
+  being confirmed. If set to False, the API will throw an AliasExistsException error.
+- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
+  key of a user pool client and username plus the client ID in the message.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 confirm_sign_up(ClientId, ConfirmationCode, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmSignUp", Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Username"=>Username); aws_config=aws_config)
 confirm_sign_up(ClientId, ConfirmationCode, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Username"=>Username), args)); aws_config=aws_config)
@@ -495,7 +837,8 @@ confirm_sign_up(ClientId, ConfirmationCode, Username, args::AbstractDict{String,
 """
     CreateGroup()
 
-Creates a new group in the specified user pool. Calling this action requires developer credentials.
+Creates a new group in the specified user pool. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `GroupName`: The name of the group. Must be unique.
@@ -503,7 +846,17 @@ Creates a new group in the specified user pool. Calling this action requires dev
 
 # Optional Parameters
 - `Description`: A string containing the description of the group.
-- `Precedence`: A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens. The default Precedence value is null.
+- `Precedence`: A nonnegative integer value that specifies the precedence of this group
+  relative to the other groups that a user can belong to in the user pool. Zero is the
+  highest precedence value. Groups with lower Precedence values take precedence over groups
+  with higher or null Precedence values. If a user belongs to two or more groups, it is the
+  group with the lowest precedence value whose role ARN will be used in the cognito:roles and
+  cognito:preferred_role claims in the user's tokens. Two groups can have the same Precedence
+  value. If this happens, neither group takes precedence over the other. If two groups with
+  the same Precedence have the same role ARN, that role is used in the cognito:preferred_role
+  claim in tokens for users in each group. If the two groups have different role ARNs, the
+  cognito:preferred_role claim is not set in users' tokens. The default Precedence value is
+  null.
 - `RoleArn`: The role ARN for the group.
 """
 create_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
@@ -515,13 +868,24 @@ create_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_confi
 Creates an identity provider for a user pool.
 
 # Required Parameters
-- `ProviderDetails`: The identity provider details. The following list describes the provider detail keys for each identity provider type.   For Google and Login with Amazon:   client_id   client_secret   authorize_scopes     For Facebook:   client_id   client_secret   authorize_scopes   api_version     For Sign in with Apple:   client_id   team_id   key_id   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret   attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available from discovery URL specified by oidc_issuer key    token_url if not available from discovery URL specified by oidc_issuer key    attributes_url if not available from discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL specified by oidc_issuer key      For SAML providers:   MetadataFile OR MetadataURL   IDPSignout optional     
+- `ProviderDetails`: The identity provider details. The following list describes the
+  provider detail keys for each identity provider type.   For Google and Login with Amazon:
+  client_id   client_secret   authorize_scopes     For Facebook:   client_id   client_secret
+   authorize_scopes   api_version     For Sign in with Apple:   client_id   team_id   key_id
+   private_key   authorize_scopes     For OIDC providers:   client_id   client_secret
+  attributes_request_method   oidc_issuer   authorize_scopes   authorize_url if not available
+  from discovery URL specified by oidc_issuer key    token_url if not available from
+  discovery URL specified by oidc_issuer key    attributes_url if not available from
+  discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL
+  specified by oidc_issuer key      For SAML providers:   MetadataFile OR MetadataURL
+  IDPSignout optional
 - `ProviderName`: The identity provider name.
 - `ProviderType`: The identity provider type.
 - `UserPoolId`: The user pool ID.
 
 # Optional Parameters
-- `AttributeMapping`: A mapping of identity provider attributes to standard and custom user pool attributes.
+- `AttributeMapping`: A mapping of identity provider attributes to standard and custom user
+  pool attributes.
 - `IdpIdentifiers`: A list of identity provider identifiers.
 """
 create_identity_provider(ProviderDetails, ProviderName, ProviderType, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateIdentityProvider", Dict{String, Any}("ProviderDetails"=>ProviderDetails, "ProviderName"=>ProviderName, "ProviderType"=>ProviderType, "UserPoolId"=>UserPoolId); aws_config=aws_config)
@@ -533,7 +897,9 @@ create_identity_provider(ProviderDetails, ProviderName, ProviderType, UserPoolId
 Creates a new OAuth2.0 resource server and defines custom scopes in it.
 
 # Required Parameters
-- `Identifier`: A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com.
+- `Identifier`: A unique resource server identifier for the resource server. This could be
+  an HTTPS endpoint where the resource server is located. For example,
+  https://my-weather-api.example.com.
 - `Name`: A friendly name for the resource server.
 - `UserPoolId`: The user pool ID for the user pool.
 
@@ -549,7 +915,8 @@ create_resource_server(Identifier, Name, UserPoolId, args::AbstractDict{String, 
 Creates the user import job.
 
 # Required Parameters
-- `CloudWatchLogsRoleArn`: The role ARN for the Amazon CloudWatch Logging role for the user import job.
+- `CloudWatchLogsRoleArn`: The role ARN for the Amazon CloudWatch Logging role for the user
+  import job.
 - `JobName`: The job name for the user import job.
 - `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
 
@@ -566,26 +933,49 @@ Creates a new Amazon Cognito user pool and sets the password policy for the pool
 - `PoolName`: A string used to name the user pool.
 
 # Optional Parameters
-- `AccountRecoverySetting`: Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
+- `AccountRecoverySetting`: Use this setting to define which verified available method a
+  user can use to recover their password when they call ForgotPassword. It allows you to
+  define a preferred method when a user has more than one method available. With this
+  setting, SMS does not qualify for a valid password recovery mechanism if the user also has
+  SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to
+  determine the recovery method where SMS is preferred over email.
 - `AdminCreateUserConfig`: The configuration for AdminCreateUser requests.
-- `AliasAttributes`: Attributes supported as an alias for this user pool. Possible values: phone_number, email, or preferred_username.
-- `AutoVerifiedAttributes`: The attributes to be auto-verified. Possible values: email, phone_number.
+- `AliasAttributes`: Attributes supported as an alias for this user pool. Possible values:
+  phone_number, email, or preferred_username.
+- `AutoVerifiedAttributes`: The attributes to be auto-verified. Possible values: email,
+  phone_number.
 - `DeviceConfiguration`: The device configuration.
 - `EmailConfiguration`: The email configuration.
-- `EmailVerificationMessage`: A string representing the email verification message. EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER. 
-- `EmailVerificationSubject`: A string representing the email verification subject. EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER. 
-- `LambdaConfig`: The Lambda trigger configuration information for the new user pool.  In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.  For more information on using the Lambda API to add permission, see  AddPermission .  For adding permission using the AWS CLI, see  add-permission . 
+- `EmailVerificationMessage`: A string representing the email verification message.
+  EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER.
+- `EmailVerificationSubject`: A string representing the email verification subject.
+  EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER.
+- `LambdaConfig`: The Lambda trigger configuration information for the new user pool.  In a
+  push model, event sources (such as Amazon S3 and custom applications) need permission to
+  invoke a function. So you will need to make an extra call to add permission for these event
+  sources to invoke your Lambda function.  For more information on using the Lambda API to
+  add permission, see  AddPermission .  For adding permission using the AWS CLI, see
+  add-permission .
 - `MfaConfiguration`: Specifies MFA configuration details.
 - `Policies`: The policies associated with the new user pool.
-- `Schema`: An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
+- `Schema`: An array of schema attributes for the new user pool. These attributes can be
+  standard or custom attributes.
 - `SmsAuthenticationMessage`: A string representing the SMS authentication message.
 - `SmsConfiguration`: The SMS configuration.
 - `SmsVerificationMessage`: A string representing the SMS verification message.
-- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value \"AUDIT\".
-- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
-- `UsernameAttributes`: Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
-- `UsernameConfiguration`: You can choose to set case sensitivity on the username input for the selected sign-in option. For example, when this is set to False, users will be able to sign in using either \"username\" or \"Username\". This configuration is immutable once it has been set. For more information, see UsernameConfigurationType.
-- `VerificationMessageTemplate`: The template for the verification message that the user sees when the app requests permission to access the user's information.
+- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key
+  AdvancedSecurityMode to the value \"AUDIT\".
+- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that
+  you can use to categorize and manage user pools in different ways, such as by purpose,
+  owner, environment, or other criteria.
+- `UsernameAttributes`: Specifies whether email addresses or phone numbers can be specified
+  as usernames when a user signs up.
+- `UsernameConfiguration`: You can choose to set case sensitivity on the username input for
+  the selected sign-in option. For example, when this is set to False, users will be able to
+  sign in using either \"username\" or \"Username\". This configuration is immutable once it
+  has been set. For more information, see UsernameConfigurationType.
+- `VerificationMessageTemplate`: The template for the verification message that the user
+  sees when the app requests permission to access the user's information.
 """
 create_user_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPool", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
 create_user_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), args)); aws_config=aws_config)
@@ -597,26 +987,84 @@ Creates the user pool client.
 
 # Required Parameters
 - `ClientName`: The client name for the user pool client you would like to create.
-- `UserPoolId`: The user pool ID for the user pool where you want to create a user pool client.
+- `UserPoolId`: The user pool ID for the user pool where you want to create a user pool
+  client.
 
 # Optional Parameters
-- `AccessTokenValidity`: The time limit, between 5 minutes and 1 day, after which the access token is no longer valid and cannot be used. This value will be overridden if you have entered a value in TokenValidityUnits.
-- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
-- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
-- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are: phone, email, openid, and profile. Possible values provided by AWS are: aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
-- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint projects within that same region.  
-- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.  
-- `GenerateSecret`: Boolean to specify whether you want to generate a secret for the user pool client being created.
-- `IdTokenValidity`: The time limit, between 5 minutes and 1 day, after which the ID token is no longer valid and cannot be used. This value will be overridden if you have entered a value in TokenValidityUnits.
+- `AccessTokenValidity`: The time limit, between 5 minutes and 1 day, after which the
+  access token is no longer valid and cannot be used. This value will be overridden if you
+  have entered a value in TokenValidityUnits.
+- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow,
+  which provides an authorization code as the response. This code can be exchanged for access
+  tokens with the token endpoint. Set to implicit to specify that the client should get the
+  access token (and, optionally, ID token, based on scopes) directly. Set to
+  client_credentials to specify that the client should get the access token (and, optionally,
+  ID token, based on scopes) from the token endpoint using a combination of client and
+  client_secret.
+- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the
+  OAuth protocol when interacting with Cognito user pools.
+- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are:
+  phone, email, openid, and profile. Possible values provided by AWS are:
+  aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
+- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting
+  metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
+  only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where
+  Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint
+  projects within that same region.
+- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A
+  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
+- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A
+  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
+- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool
+  clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the
+  ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without
+  ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based
+  user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the
+  ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in
+  the request instead of using the SRP (Secure Remote Password protocol) protocol to verify
+  passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.
+  ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito
+  receives the password in the request instead of using the SRP protocol to verify passwords.
+     ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH:
+  Enable authflow to refresh tokens.
+- `GenerateSecret`: Boolean to specify whether you want to generate a secret for the user
+  pool client being created.
+- `IdTokenValidity`: The time limit, between 5 minutes and 1 day, after which the ID token
+  is no longer valid and cannot be used. This value will be overridden if you have entered a
+  value in TokenValidityUnits.
 - `LogoutURLs`: A list of allowed logout URLs for the identity providers.
-- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are
+  returned by Cognito APIs during authentication, account confirmation, and password recovery
+  when the user does not exist in the user pool. When set to ENABLED and the user does not
+  exist, authentication returns an error indicating either the username or password was
+  incorrect, and account confirmation and password recovery return a response indicating a
+  code was sent to a simulated destination. When set to LEGACY, those APIs will return a
+  UserNotFoundException exception if the user does not exist in the user pool. Valid values
+  include:    ENABLED - This prevents user existence-related errors.    LEGACY - This
+  represents the old behavior of Cognito where user existence related errors are not
+  prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will
+  default to ENABLED for newly created user pool clients if no value is provided.
 - `ReadAttributes`: The read attributes.
-- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-- `SupportedIdentityProviders`: A list of provider names for the identity providers that are supported on this client. The following are supported: COGNITO, Facebook, Google and LoginWithAmazon.
-- `TokenValidityUnits`: The units in which the validity times are represented in. Default for RefreshToken is days, and default for ID and access tokens are hours.
-- `WriteAttributes`: The user pool attributes that the app client can write to. If your app client allows users to sign in through an identity provider, this array must include all attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped attributes when users sign in to your application through an identity provider. If your app client lacks write access to a mapped attribute, Amazon Cognito throws an error when it attempts to update the attribute. For more information, see Specifying Identity Provider Attribute Mappings for Your User Pool.
+- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no
+  longer valid and cannot be used.
+- `SupportedIdentityProviders`: A list of provider names for the identity providers that
+  are supported on this client. The following are supported: COGNITO, Facebook, Google and
+  LoginWithAmazon.
+- `TokenValidityUnits`: The units in which the validity times are represented in. Default
+  for RefreshToken is days, and default for ID and access tokens are hours.
+- `WriteAttributes`: The user pool attributes that the app client can write to. If your app
+  client allows users to sign in through an identity provider, this array must include all
+  attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped
+  attributes when users sign in to your application through an identity provider. If your app
+  client lacks write access to a mapped attribute, Amazon Cognito throws an error when it
+  attempts to update the attribute. For more information, see Specifying Identity Provider
+  Attribute Mappings for Your User Pool.
 """
 create_user_pool_client(ClientName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolClient", Dict{String, Any}("ClientName"=>ClientName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 create_user_pool_client(ClientName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientName"=>ClientName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -631,7 +1079,11 @@ Creates a new domain for a user pool.
 - `UserPoolId`: The user pool ID.
 
 # Optional Parameters
-- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application. Provide this parameter only if you want to use a custom domain for your user pool. Otherwise, you can exclude this parameter and use the Amazon Cognito hosted domain instead. For more information about the hosted domain and custom domains, see Configuring a User Pool Domain.
+- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and
+  sign-in webpages for your application. Provide this parameter only if you want to use a
+  custom domain for your user pool. Otherwise, you can exclude this parameter and use the
+  Amazon Cognito hosted domain instead. For more information about the hosted domain and
+  custom domains, see Configuring a User Pool Domain.
 """
 create_user_pool_domain(Domain, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolDomain", Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 create_user_pool_domain(Domain, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -639,7 +1091,8 @@ create_user_pool_domain(Domain, UserPoolId, args::AbstractDict{String, <:Any}; a
 """
     DeleteGroup()
 
-Deletes a group. Currently only groups with no members can be deleted. Calling this action requires developer credentials.
+Deletes a group. Currently only groups with no members can be deleted. Calling this action
+requires developer credentials.
 
 # Required Parameters
 - `GroupName`: The name of the group.
@@ -694,7 +1147,8 @@ Deletes the attributes for a user.
 
 # Required Parameters
 - `AccessToken`: The access token used in the request to delete user attributes.
-- `UserAttributeNames`: An array of strings representing the user attribute names you wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
+- `UserAttributeNames`: An array of strings representing the user attribute names you wish
+  to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
 
 """
 delete_user_attributes(AccessToken, UserAttributeNames; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserAttributes", Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributeNames"=>UserAttributeNames); aws_config=aws_config)
@@ -806,7 +1260,8 @@ describe_user_pool(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DescribeUserPoolClient()
 
-Client method for returning the configuration information and metadata of the specified user pool app client.
+Client method for returning the configuration information and metadata of the specified
+user pool app client.
 
 # Required Parameters
 - `ClientId`: The app client ID of the app associated with the user pool.
@@ -845,17 +1300,44 @@ forget_device(DeviceKey, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     ForgotPassword()
 
-Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. The method used to send the confirmation code is sent according to the specified AccountRecoverySetting. For more information, see Recovering User Accounts in the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email exists, an InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword.
+Calling this API causes a message to be sent to the end user with a confirmation code that
+is required to change the user's password. For the Username parameter, you can use the
+username or user alias. The method used to send the confirmation code is sent according to
+the specified AccountRecoverySetting. For more information, see Recovering User Accounts in
+the Amazon Cognito Developer Guide. If neither a verified phone number nor a verified email
+exists, an InvalidParameterException is thrown. To use the confirmation code for resetting
+the password, call ConfirmForgotPassword.
 
 # Required Parameters
 - `ClientId`: The ID of the client associated with the user pool.
-- `Username`: The user name of the user for whom you want to enter a code to reset a forgotten password.
+- `Username`: The user name of the user for whom you want to enter a code to reset a
+  forgotten password.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and user migration. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ForgotPassword request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  ForgotPassword calls.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon
+  Cognito invokes any functions that are assigned to the following triggers: pre sign-up,
+  custom message, and user migration. When Amazon Cognito invokes any of these functions, it
+  passes a JSON payload, which the function receives as input. This payload contains a
+  clientMetadata attribute, which provides the data that you assigned to the ClientMetadata
+  parameter in your ForgotPassword request. In your function code in AWS Lambda, you can
+  process the clientMetadata value to enhance your workflow for your specific needs. For more
+  information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
+  Developer Guide.  Take the following limitations into consideration when you use the
+  ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
+  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
+- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
+  key of a user pool client and username plus the client ID in the message.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 forgot_password(ClientId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgotPassword", Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username); aws_config=aws_config)
 forgot_password(ClientId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), args)); aws_config=aws_config)
@@ -927,7 +1409,10 @@ get_signing_certificate(UserPoolId, args::AbstractDict{String, <:Any}; aws_confi
 """
     GetUICustomization()
 
-Gets the UI Customization information for a particular app client's app UI, if there is something set. If nothing is set for the particular client, but there is an existing pool level customization (app clientId will be ALL), then that is returned. If nothing is present, then an empty shape is returned.
+Gets the UI Customization information for a particular app client's app UI, if there is
+something set. If nothing is set for the particular client, but there is an existing pool
+level customization (app clientId will be ALL), then that is returned. If nothing is
+present, then an empty shape is returned.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool.
@@ -944,7 +1429,8 @@ get_uicustomization(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::A
 Gets the user attributes and metadata for a user.
 
 # Required Parameters
-- `AccessToken`: The access token returned by the server response to get information about the user.
+- `AccessToken`: The access token returned by the server response to get information about
+  the user.
 
 """
 get_user(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUser", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
@@ -956,11 +1442,29 @@ get_user(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 Gets the user attribute verification code for the specified attribute name.
 
 # Required Parameters
-- `AccessToken`: The access token returned by the server response to get the user attribute verification code.
-- `AttributeName`: The attribute name returned by the server response to get the user attribute verification code.
+- `AccessToken`: The access token returned by the server response to get the user attribute
+  verification code.
+- `AttributeName`: The attribute name returned by the server response to get the user
+  attribute verification code.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your GetUserAttributeVerificationCode request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode
+  API action, Amazon Cognito invokes the function that is assigned to the custom message
+  trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the
+  function receives as input. This payload contains a clientMetadata attribute, which
+  provides the data that you assigned to the ClientMetadata parameter in your
+  GetUserAttributeVerificationCode request. In your function code in AWS Lambda, you can
+  process the clientMetadata value to enhance your workflow for your specific needs. For more
+  information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
+  Developer Guide.  Take the following limitations into consideration when you use the
+  ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
+  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
 """
 get_user_attribute_verification_code(AccessToken, AttributeName; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserAttributeVerificationCode", Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName); aws_config=aws_config)
 get_user_attribute_verification_code(AccessToken, AttributeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserAttributeVerificationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName), args)); aws_config=aws_config)
@@ -980,7 +1484,9 @@ get_user_pool_mfa_config(UserPoolId, args::AbstractDict{String, <:Any}; aws_conf
 """
     GlobalSignOut()
 
-Signs out users from all devices. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued.
+Signs out users from all devices. It also invalidates all refresh tokens issued to a user.
+The user's current access and Id tokens remain valid until their expiry. Access and Id
+tokens expire one hour after they are issued.
 
 # Required Parameters
 - `AccessToken`: The access token.
@@ -995,14 +1501,59 @@ global_sign_out(AccessToken, args::AbstractDict{String, <:Any}; aws_config::Abst
 Initiates the authentication flow.
 
 # Required Parameters
-- `AuthFlow`: The authentication flow for this call to execute. The API action will depend on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:    USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.    REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.    USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow, Cognito receives the password in the request instead of using the SRP process to verify passwords.    ADMIN_NO_SRP_AUTH is not a valid value.
+- `AuthFlow`: The authentication flow for this call to execute. The API action will depend
+  on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and
+  return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP
+  variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in
+  USERNAME and PASSWORD and return the next challenge or tokens.   Valid values include:
+  USER_SRP_AUTH: Authentication flow for the Secure Remote Password (SRP) protocol.
+  REFRESH_TOKEN_AUTH/REFRESH_TOKEN: Authentication flow for refreshing the access token and
+  ID token by supplying a valid refresh token.    CUSTOM_AUTH: Custom authentication flow.
+  USER_PASSWORD_AUTH: Non-SRP authentication flow; USERNAME and PASSWORD are passed directly.
+  If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda
+  if the USERNAME is not found in the user pool.     ADMIN_USER_PASSWORD_AUTH: Admin-based
+  user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In
+  this flow, Cognito receives the password in the request instead of using the SRP process to
+  verify passwords.    ADMIN_NO_SRP_AUTH is not a valid value.
 - `ClientId`: The app client ID.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
-- `AuthParameters`: The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To start the authentication flow with password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).  
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for certain custom workflows that this action triggers. You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the InitiateAuth API action, Amazon Cognito invokes the AWS Lambda functions that are specified for various triggers. The ClientMetadata value is passed as input to the functions for only the following triggers:   Pre signup   Pre authentication   User migration   When Amazon Cognito invokes the functions for these triggers, it passes a JSON payload, which the function receives as input. This payload contains a validationData attribute, which provides the data that you assigned to the ClientMetadata parameter in your InitiateAuth request. In your function code in AWS Lambda, you can process the validationData value to enhance your workflow for your specific needs. When you use the InitiateAuth API action, Amazon Cognito also invokes the functions for the following triggers, but it does not provide the ClientMetadata value as input:   Post authentication   Custom message   Pre token generation   Create auth challenge   Define auth challenge   Verify auth challenge   For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  InitiateAuth calls.
+- `AuthParameters`: The authentication parameters. These are inputs corresponding to the
+  AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For
+  USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app
+  client is configured with a client secret), DEVICE_KEY.   For
+  REFRESH_TOKEN_AUTH/REFRESH_TOKEN: REFRESH_TOKEN (required), SECRET_HASH (required if the
+  app client is configured with a client secret), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME
+  (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To
+  start the authentication flow with password verification, include ChallengeName: SRP_A and
+  SRP_A: (The SRP_A Value).
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for
+  certain custom workflows that this action triggers. You create custom workflows by
+  assigning AWS Lambda functions to user pool triggers. When you use the InitiateAuth API
+  action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
+  triggers. The ClientMetadata value is passed as input to the functions for only the
+  following triggers:   Pre signup   Pre authentication   User migration   When Amazon
+  Cognito invokes the functions for these triggers, it passes a JSON payload, which the
+  function receives as input. This payload contains a validationData attribute, which
+  provides the data that you assigned to the ClientMetadata parameter in your InitiateAuth
+  request. In your function code in AWS Lambda, you can process the validationData value to
+  enhance your workflow for your specific needs. When you use the InitiateAuth API action,
+  Amazon Cognito also invokes the functions for the following triggers, but it does not
+  provide the ClientMetadata value as input:   Post authentication   Custom message   Pre
+  token generation   Create auth challenge   Define auth challenge   Verify auth challenge
+  For more information, see Customizing User Pool Workflows with Lambda Triggers in the
+  Amazon Cognito Developer Guide.  Take the following limitations into consideration when you
+  use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value.
+  This data is available only to AWS Lambda triggers that are assigned to a user pool to
+  support custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 initiate_auth(AuthFlow, ClientId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("InitiateAuth", Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId); aws_config=aws_config)
 initiate_auth(AuthFlow, ClientId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("InitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId), args)); aws_config=aws_config)
@@ -1025,14 +1576,16 @@ list_devices(AccessToken, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     ListGroups()
 
-Lists the groups associated with a user pool. Calling this action requires developer credentials.
+Lists the groups associated with a user pool. Calling this action requires developer
+credentials.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool.
 
 # Optional Parameters
 - `Limit`: The limit of the request to list groups.
-- `NextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `NextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_groups(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListGroups", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
 list_groups(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1070,10 +1623,14 @@ list_resource_servers(UserPoolId, args::AbstractDict{String, <:Any}; aws_config:
 """
     ListTagsForResource()
 
-Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you can apply to user pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
+Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you
+can apply to user pools to categorize and manage them in different ways, such as by
+purpose, owner, environment, or other criteria. You can use this action up to 10 times per
+second, per account.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned
+  to.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
@@ -1089,7 +1646,8 @@ Lists the user import jobs.
 - `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
 
 # Optional Parameters
-- `PaginationToken`: An identifier that was returned from the previous call to ListUserImportJobs, which can be used to return the next set of import jobs in the list.
+- `PaginationToken`: An identifier that was returned from the previous call to
+  ListUserImportJobs, which can be used to return the next set of import jobs in the list.
 """
 list_user_import_jobs(MaxResults, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserImportJobs", Dict{String, Any}("MaxResults"=>MaxResults, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 list_user_import_jobs(MaxResults, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserImportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1103,8 +1661,10 @@ Lists the clients that have been created for the specified user pool.
 - `UserPoolId`: The user pool ID for the user pool where you want to list user pool clients.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results you want the request to return when listing the user pool clients.
-- `NextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `MaxResults`: The maximum number of results you want the request to return when listing
+  the user pool clients.
+- `NextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_user_pool_clients(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPoolClients", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
 list_user_pool_clients(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPoolClients", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1115,10 +1675,12 @@ list_user_pool_clients(UserPoolId, args::AbstractDict{String, <:Any}; aws_config
 Lists the user pools associated with an AWS account.
 
 # Required Parameters
-- `MaxResults`: The maximum number of results you want the request to return when listing the user pools.
+- `MaxResults`: The maximum number of results you want the request to return when listing
+  the user pools.
 
 # Optional Parameters
-- `NextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `NextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_user_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPools", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
 list_user_pools(MaxResults, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws_config=aws_config)
@@ -1132,10 +1694,26 @@ Lists the users in the Amazon Cognito user pool.
 - `UserPoolId`: The user pool ID for the user pool on which the search should be performed.
 
 # Optional Parameters
-- `AttributesToGet`: An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
-- `Filter`: A filter string of the form \"AttributeName Filter-Type \"AttributeValue\"\". Quotation marks within the filter string must be escaped using the backslash () character. For example, \"family_name = \"Reddy\"\".    AttributeName: The name of the attribute to search for. You can only search for one attribute at a time.    Filter-Type: For an exact match, use =, for example, \"given_name = \"Jon\"\". For a prefix (\"starts with\") match, use ^=, for example, \"given_name ^= \"Jon\"\".     AttributeValue: The attribute value that must be matched for each user.   If the filter string is empty, ListUsers returns all users in the user pool. You can only search for the following standard attributes:    username (case-sensitive)    email     phone_number     name     given_name     family_name     preferred_username     cognito:user_status (called Status in the Console) (case-insensitive)    status (called Enabled in the Console) (case-sensitive)     sub    Custom attributes are not searchable. For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide.
+- `AttributesToGet`: An array of strings, where each string is the name of a user attribute
+  to be returned for each user in the search results. If the array is null, all attributes
+  are returned.
+- `Filter`: A filter string of the form \"AttributeName Filter-Type \"AttributeValue\"\".
+  Quotation marks within the filter string must be escaped using the backslash () character.
+  For example, \"family_name = \"Reddy\"\".    AttributeName: The name of the attribute to
+  search for. You can only search for one attribute at a time.    Filter-Type: For an exact
+  match, use =, for example, \"given_name = \"Jon\"\". For a prefix (\"starts with\") match,
+  use ^=, for example, \"given_name ^= \"Jon\"\".     AttributeValue: The attribute value
+  that must be matched for each user.   If the filter string is empty, ListUsers returns all
+  users in the user pool. You can only search for the following standard attributes:
+  username (case-sensitive)    email     phone_number     name     given_name     family_name
+      preferred_username     cognito:user_status (called Status in the Console)
+  (case-insensitive)    status (called Enabled in the Console) (case-sensitive)     sub
+  Custom attributes are not searchable. For more information, see Searching for Users Using
+  the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer
+  Guide.
 - `Limit`: Maximum number of users to be returned.
-- `PaginationToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `PaginationToken`: An identifier that was returned from the previous call to this
+  operation, which can be used to return the next set of items in the list.
 """
 list_users(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsers", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
 list_users(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1151,7 +1729,8 @@ Lists the users in the specified group. Calling this action requires developer c
 
 # Optional Parameters
 - `Limit`: The limit of the request to list users.
-- `NextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `NextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_users_in_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsersInGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 list_users_in_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsersInGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1159,17 +1738,37 @@ list_users_in_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aw
 """
     ResendConfirmationCode()
 
-Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
+Resends the confirmation (for confirmation of registration) to a specific user in the user
+pool.
 
 # Required Parameters
 - `ClientId`: The ID of the client associated with the user pool.
 - `Username`: The user name of the user to whom you wish to resend a confirmation code.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for ResendConfirmationCode calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  ResendConfirmationCode calls.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action,
+  Amazon Cognito invokes the function that is assigned to the custom message trigger. When
+  Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
+  as input. This payload contains a clientMetadata attribute, which provides the data that
+  you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In
+  your function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  workflow for your specific needs. For more information, see Customizing User Pool Workflows
+  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
+  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
+  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
+- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
+  key of a user pool client and username plus the client ID in the message.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 resend_confirmation_code(ClientId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ResendConfirmationCode", Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username); aws_config=aws_config)
 resend_confirmation_code(ClientId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ResendConfirmationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), args)); aws_config=aws_config)
@@ -1180,15 +1779,48 @@ resend_confirmation_code(ClientId, Username, args::AbstractDict{String, <:Any}; 
 Responds to the authentication challenge.
 
 # Required Parameters
-- `ChallengeName`: The challenge name. For more information, see InitiateAuth.  ADMIN_NO_SRP_AUTH is not a valid value.
+- `ChallengeName`: The challenge name. For more information, see InitiateAuth.
+  ADMIN_NO_SRP_AUTH is not a valid value.
 - `ClientId`: The app client ID.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
-- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the value of ChallengeName, for example:   SECRET_HASH (if app client is configured with client secret) applies to all inputs below (including SOFTWARE_TOKEN_MFA).     SMS_MFA: SMS_MFA_CODE, USERNAME.    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME.    NEW_PASSWORD_REQUIRED: NEW_PASSWORD, any other required attributes, USERNAME.     SOFTWARE_TOKEN_MFA: USERNAME and SOFTWARE_TOKEN_MFA_CODE are required attributes.    DEVICE_SRP_AUTH requires USERNAME, DEVICE_KEY, SRP_A (and SECRET_HASH).    DEVICE_PASSWORD_VERIFIER requires everything that PASSWORD_VERIFIER requires plus DEVICE_KEY.  
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action, Amazon Cognito invokes any functions that are assigned to the following triggers: post authentication, pre token generation, define auth challenge, create auth challenge, and verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your RespondToAuthChallenge request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `Session`: The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  RespondToAuthChallenge calls.
+- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the
+  value of ChallengeName, for example:   SECRET_HASH (if app client is configured with client
+  secret) applies to all inputs below (including SOFTWARE_TOKEN_MFA).     SMS_MFA:
+  SMS_MFA_CODE, USERNAME.    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE,
+  PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME.    NEW_PASSWORD_REQUIRED: NEW_PASSWORD,
+  any other required attributes, USERNAME.     SOFTWARE_TOKEN_MFA: USERNAME and
+  SOFTWARE_TOKEN_MFA_CODE are required attributes.    DEVICE_SRP_AUTH requires USERNAME,
+  DEVICE_KEY, SRP_A (and SECRET_HASH).    DEVICE_PASSWORD_VERIFIER requires everything that
+  PASSWORD_VERIFIER requires plus DEVICE_KEY.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action,
+  Amazon Cognito invokes any functions that are assigned to the following triggers: post
+  authentication, pre token generation, define auth challenge, create auth challenge, and
+  verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON
+  payload, which the function receives as input. This payload contains a clientMetadata
+  attribute, which provides the data that you assigned to the ClientMetadata parameter in
+  your RespondToAuthChallenge request. In your function code in AWS Lambda, you can process
+  the clientMetadata value to enhance your workflow for your specific needs. For more
+  information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
+  Developer Guide.  Take the following limitations into consideration when you use the
+  ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
+  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
+- `Session`: The session which should be passed both ways in challenge-response calls to
+  the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller
+  needs to go through another challenge, they return a session with other challenge
+  parameters. This session should be passed as it is to the next RespondToAuthChallenge API
+  call.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 """
 respond_to_auth_challenge(ChallengeName, ClientId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("RespondToAuthChallenge", Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId); aws_config=aws_config)
 respond_to_auth_challenge(ChallengeName, ClientId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("RespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId), args)); aws_config=aws_config)
@@ -1196,14 +1828,21 @@ respond_to_auth_challenge(ChallengeName, ClientId, args::AbstractDict{String, <:
 """
     SetRiskConfiguration()
 
-Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId, pass null values for all four configuration types. To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns keyAdvancedSecurityMode.
+Configures actions on detected risks. To delete the risk configuration for UserPoolId or
+ClientId, pass null values for all four configuration types. To enable Amazon Cognito
+advanced security features, update the user pool to include the UserPoolAddOns
+keyAdvancedSecurityMode.
 
 # Required Parameters
-- `UserPoolId`: The user pool ID. 
+- `UserPoolId`: The user pool ID.
 
 # Optional Parameters
 - `AccountTakeoverRiskConfiguration`: The account takeover risk configuration.
-- `ClientId`: The app client ID. If ClientId is null, then the risk configuration is mapped to userPoolId. When the client ID is null, the same risk configuration is applied to all the clients in the userPool. Otherwise, ClientId is mapped to the client. When the client ID is not null, the user pool configuration is overridden and the risk configuration for the client is used instead.
+- `ClientId`: The app client ID. If ClientId is null, then the risk configuration is mapped
+  to userPoolId. When the client ID is null, the same risk configuration is applied to all
+  the clients in the userPool. Otherwise, ClientId is mapped to the client. When the client
+  ID is not null, the user pool configuration is overridden and the risk configuration for
+  the client is used instead.
 - `CompromisedCredentialsRiskConfiguration`: The compromised credentials risk configuration.
 - `RiskExceptionConfiguration`: The configuration to override the risk decision.
 """
@@ -1213,7 +1852,13 @@ set_risk_configuration(UserPoolId, args::AbstractDict{String, <:Any}; aws_config
 """
     SetUICustomization()
 
-Sets the UI customization information for a user pool's built-in app UI. You can specify app UI customization settings for a single client (with a specific clientId) or for all clients (by setting the clientId to ALL). If you specify ALL, the default configuration will be used for every client that has no UI customization set previously. If you specify UI customization settings for a particular client, it will no longer fall back to the ALL configuration.   To use this API, your user pool must have a domain associated with it. Otherwise, there is no place to host the app's pages, and the service will throw an error. 
+Sets the UI customization information for a user pool's built-in app UI. You can specify
+app UI customization settings for a single client (with a specific clientId) or for all
+clients (by setting the clientId to ALL). If you specify ALL, the default configuration
+will be used for every client that has no UI customization set previously. If you specify
+UI customization settings for a particular client, it will no longer fall back to the ALL
+configuration.   To use this API, your user pool must have a domain associated with it.
+Otherwise, there is no place to host the app's pages, and the service will throw an error.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool.
@@ -1229,7 +1874,15 @@ set_uicustomization(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     SetUserMFAPreference()
 
-Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are enabled and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are enabled. If multiple options are enabled and no preference is set, a challenge to choose an MFA option will be returned during sign in. If an MFA type is enabled for a user, the user will be prompted for MFA during all sign in attempts, unless device tracking is turned on and the device has been trusted. If you would like MFA to be applied selectively based on the assessed risk level of sign in attempts, disable MFA for users and turn on Adaptive Authentication for the user pool.
+Set the user's multi-factor authentication (MFA) method preference, including which MFA
+factors are enabled and if any are preferred. Only one factor can be set as preferred. The
+preferred MFA factor will be used to authenticate a user if multiple factors are enabled.
+If multiple options are enabled and no preference is set, a challenge to choose an MFA
+option will be returned during sign in. If an MFA type is enabled for a user, the user will
+be prompted for MFA during all sign in attempts, unless device tracking is turned on and
+the device has been trusted. If you would like MFA to be applied selectively based on the
+assessed risk level of sign in attempts, disable MFA for users and turn on Adaptive
+Authentication for the user pool.
 
 # Required Parameters
 - `AccessToken`: The access token for the user.
@@ -1250,7 +1903,9 @@ Set the user pool multi-factor authentication (MFA) configuration.
 - `UserPoolId`: The user pool ID.
 
 # Optional Parameters
-- `MfaConfiguration`: The MFA configuration. Valid values include:    OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.  
+- `MfaConfiguration`: The MFA configuration. Valid values include:    OFF MFA will not be
+  used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be
+  required only for individual users who have an MFA factor enabled.
 - `SmsMfaConfiguration`: The SMS text message MFA configuration.
 - `SoftwareTokenMfaConfiguration`: The software token MFA configuration.
 """
@@ -1260,11 +1915,14 @@ set_user_pool_mfa_config(UserPoolId, args::AbstractDict{String, <:Any}; aws_conf
 """
     SetUserSettings()
 
- This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure TOTP software token MFA. To configure either type of MFA, use SetUserMFAPreference instead.
+ This action is no longer supported. You can use it to configure only SMS MFA. You can't
+use it to configure TOTP software token MFA. To configure either type of MFA, use
+SetUserMFAPreference instead.
 
 # Required Parameters
 - `AccessToken`: The access token for the set user settings request.
-- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS for delivery.
+- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS
+  for delivery.
 
 """
 set_user_settings(AccessToken, MFAOptions; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserSettings", Dict{String, Any}("AccessToken"=>AccessToken, "MFAOptions"=>MFAOptions); aws_config=aws_config)
@@ -1273,7 +1931,8 @@ set_user_settings(AccessToken, MFAOptions, args::AbstractDict{String, <:Any}; aw
 """
     SignUp()
 
-Registers the user in the specified user pool and creates a user name, password, and user attributes.
+Registers the user in the specified user pool and creates a user name, password, and user
+attributes.
 
 # Required Parameters
 - `ClientId`: The ID of the client associated with the user pool.
@@ -1281,11 +1940,32 @@ Registers the user in the specified user pool and creates a user name, password,
 - `Username`: The user name of the user you wish to register.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito invokes any functions that are assigned to the following triggers: pre sign-up, custom message, and post confirmation. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your SignUp request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+  SignUp calls.
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito
+  invokes any functions that are assigned to the following triggers: pre sign-up, custom
+  message, and post confirmation. When Amazon Cognito invokes any of these functions, it
+  passes a JSON payload, which the function receives as input. This payload contains a
+  clientMetadata attribute, which provides the data that you assigned to the ClientMetadata
+  parameter in your SignUp request. In your function code in AWS Lambda, you can process the
+  clientMetadata value to enhance your workflow for your specific needs. For more
+  information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
+  Developer Guide.  Take the following limitations into consideration when you use the
+  ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
+  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  custom workflows. If your user pool configuration does not include triggers, the
+  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
+  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
+  don't use it to provide sensitive information.
+- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
+  key of a user pool client and username plus the client ID in the message.
+- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+  attributes, you must prepend the custom: prefix to the attribute name.
+- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
+  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+  security.
 - `ValidationData`: The validation data in the request to register a user.
 """
 sign_up(ClientId, Password, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SignUp", Dict{String, Any}("ClientId"=>ClientId, "Password"=>Password, "Username"=>Username); aws_config=aws_config)
@@ -1320,7 +2000,17 @@ stop_user_import_job(JobId, UserPoolId, args::AbstractDict{String, <:Any}; aws_c
 """
     TagResource()
 
-Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an IAM policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
+Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
+categorize and manage user pools in different ways, such as by purpose, owner, environment,
+or other criteria. Each tag consists of a key and value, both of which you define. A key is
+a general category for more specific values. For example, if you have two versions of a
+user pool, one for testing and another for production, you might assign an Environment tag
+key to both user pools. The value of this key might be Test for one user pool and
+Production for the other. Tags are useful for cost tracking and access control. You can
+activate your tags so that they appear on the Billing and Cost Management console, where
+you can track the costs associated with your user pools. In an IAM policy, you can
+constrain permissions for user pools based on specific tags or tag values. You can use this
+action up to 5 times per second, per account. A user pool can have as many as 50 tags.
 
 # Required Parameters
 - `ResourceArn`: The Amazon Resource Name (ARN) of the user pool to assign the tags to.
@@ -1333,10 +2023,12 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes the specified tags from an Amazon Cognito user pool. You can use this action up to 5 times per second, per account
+Removes the specified tags from an Amazon Cognito user pool. You can use this action up to
+5 times per second, per account
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned to.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned
+  to.
 - `TagKeys`: The keys of the tags to remove from the user pool.
 
 """
@@ -1346,7 +2038,9 @@ untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateAuthEventFeedback()
 
-Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+Provides the feedback for an authentication event whether it was from a valid user or not.
+This feedback is used for improving the risk evaluation decision for the user pool as part
+of Amazon Cognito advanced security.
 
 # Required Parameters
 - `EventId`: The event ID.
@@ -1377,7 +2071,9 @@ update_device_status(AccessToken, DeviceKey, args::AbstractDict{String, <:Any}; 
 """
     UpdateGroup()
 
-Updates the specified group with the specified attributes. Calling this action requires developer credentials.  If you don't provide a value for an attribute, it will be set to the default value. 
+Updates the specified group with the specified attributes. Calling this action requires
+developer credentials.  If you don't provide a value for an attribute, it will be set to
+the default value.
 
 # Required Parameters
 - `GroupName`: The name of the group.
@@ -1385,8 +2081,10 @@ Updates the specified group with the specified attributes. Calling this action r
 
 # Optional Parameters
 - `Description`: A string containing the new description of the group.
-- `Precedence`: The new precedence value for the group. For more information about this parameter, see CreateGroup.
-- `RoleArn`: The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
+- `Precedence`: The new precedence value for the group. For more information about this
+  parameter, see CreateGroup.
+- `RoleArn`: The new role ARN for the group. This is used for setting the cognito:roles and
+  cognito:preferred_role claims in the token.
 """
 update_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 update_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1403,7 +2101,8 @@ Updates identity provider information for a user pool.
 # Optional Parameters
 - `AttributeMapping`: The identity provider attribute mapping to be changed.
 - `IdpIdentifiers`: A list of identity provider identifiers.
-- `ProviderDetails`: The identity provider details to be updated, such as MetadataURL and MetadataFile.
+- `ProviderDetails`: The identity provider details to be updated, such as MetadataURL and
+  MetadataFile.
 """
 update_identity_provider(ProviderName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateIdentityProvider", Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
 update_identity_provider(ProviderName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
@@ -1411,7 +2110,8 @@ update_identity_provider(ProviderName, UserPoolId, args::AbstractDict{String, <:
 """
     UpdateResourceServer()
 
-Updates the name and scopes of resource server. All other fields are read-only.  If you don't provide a value for an attribute, it will be set to the default value. 
+Updates the name and scopes of resource server. All other fields are read-only.  If you
+don't provide a value for an attribute, it will be set to the default value.
 
 # Required Parameters
 - `Identifier`: The identifier for the resource server.
@@ -1431,10 +2131,26 @@ Allows a user to update a specific attribute (one at a time).
 
 # Required Parameters
 - `AccessToken`: The access token for the request to update user attributes.
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
+- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+  attributes, you must prepend the custom: prefix to the attribute name.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers.  You create custom workflows by assigning AWS Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action, Amazon Cognito invokes the function that is assigned to the custom message trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute, which provides the data that you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your function code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for your specific needs. For more information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration does not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.   
+- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action,
+  Amazon Cognito invokes the function that is assigned to the custom message trigger. When
+  Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
+  as input. This payload contains a clientMetadata attribute, which provides the data that
+  you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your
+  function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  workflow for your specific needs. For more information, see Customizing User Pool Workflows
+  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
+  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
+  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  assigned to a user pool to support custom workflows. If your user pool configuration does
+  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
+  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
+  ClientMetadata value, so don't use it to provide sensitive information.
 """
 update_user_attributes(AccessToken, UserAttributes; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes); aws_config=aws_config)
 update_user_attributes(AccessToken, UserAttributes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes), args)); aws_config=aws_config)
@@ -1442,27 +2158,42 @@ update_user_attributes(AccessToken, UserAttributes, args::AbstractDict{String, <
 """
     UpdateUserPool()
 
-Updates the specified user pool with the specified attributes. You can get a list of the current user pool settings using DescribeUserPool.  If you don't provide a value for an attribute, it will be set to the default value. 
+Updates the specified user pool with the specified attributes. You can get a list of the
+current user pool settings using DescribeUserPool.  If you don't provide a value for an
+attribute, it will be set to the default value.
 
 # Required Parameters
 - `UserPoolId`: The user pool ID for the user pool you want to update.
 
 # Optional Parameters
-- `AccountRecoverySetting`: Use this setting to define which verified available method a user can use to recover their password when they call ForgotPassword. It allows you to define a preferred method when a user has more than one method available. With this setting, SMS does not qualify for a valid password recovery mechanism if the user also has SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email.
+- `AccountRecoverySetting`: Use this setting to define which verified available method a
+  user can use to recover their password when they call ForgotPassword. It allows you to
+  define a preferred method when a user has more than one method available. With this
+  setting, SMS does not qualify for a valid password recovery mechanism if the user also has
+  SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to
+  determine the recovery method where SMS is preferred over email.
 - `AdminCreateUserConfig`: The configuration for AdminCreateUser requests.
-- `AutoVerifiedAttributes`: The attributes that are automatically verified when the Amazon Cognito service makes a request to update user pools.
+- `AutoVerifiedAttributes`: The attributes that are automatically verified when the Amazon
+  Cognito service makes a request to update user pools.
 - `DeviceConfiguration`: Device configuration.
 - `EmailConfiguration`: Email configuration.
 - `EmailVerificationMessage`: The contents of the email verification message.
 - `EmailVerificationSubject`: The subject of the email verification message.
-- `LambdaConfig`: The AWS Lambda configuration information from the request to update the user pool.
-- `MfaConfiguration`: Can be one of the following values:    OFF - MFA tokens are not required and cannot be specified during user registration.    ON - MFA tokens are required for all user registrations. You can only specify required when you are initially creating a user pool.    OPTIONAL - Users have the option when registering to create an MFA token.  
+- `LambdaConfig`: The AWS Lambda configuration information from the request to update the
+  user pool.
+- `MfaConfiguration`: Can be one of the following values:    OFF - MFA tokens are not
+  required and cannot be specified during user registration.    ON - MFA tokens are required
+  for all user registrations. You can only specify required when you are initially creating a
+  user pool.    OPTIONAL - Users have the option when registering to create an MFA token.
 - `Policies`: A container with the policies you wish to update in a user pool.
 - `SmsAuthenticationMessage`: The contents of the SMS authentication message.
 - `SmsConfiguration`: SMS configuration.
 - `SmsVerificationMessage`: A container with information about the SMS verification message.
-- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value \"AUDIT\".
-- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria.
+- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key
+  AdvancedSecurityMode to the value \"AUDIT\".
+- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that
+  you can use to categorize and manage user pools in different ways, such as by purpose,
+  owner, environment, or other criteria.
 - `VerificationMessageTemplate`: The template for verification messages.
 """
 update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPool", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
@@ -1471,29 +2202,79 @@ update_user_pool(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     UpdateUserPoolClient()
 
-Updates the specified user pool app client with the specified attributes. You can get a list of the current user pool app client settings using DescribeUserPoolClient.  If you don't provide a value for an attribute, it will be set to the default value. 
+Updates the specified user pool app client with the specified attributes. You can get a
+list of the current user pool app client settings using DescribeUserPoolClient.  If you
+don't provide a value for an attribute, it will be set to the default value.
 
 # Required Parameters
 - `ClientId`: The ID of the client associated with the user pool.
-- `UserPoolId`: The user pool ID for the user pool where you want to update the user pool client.
+- `UserPoolId`: The user pool ID for the user pool where you want to update the user pool
+  client.
 
 # Optional Parameters
-- `AccessTokenValidity`: The time limit, after which the access token is no longer valid and cannot be used.
-- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the token endpoint. Set to implicit to specify that the client should get the access token (and, optionally, ID token, based on scopes) directly. Set to client_credentials to specify that the client should get the access token (and, optionally, ID token, based on scopes) from the token endpoint using a combination of client and client_secret.
-- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
-- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are: phone, email, openid, and profile. Possible values provided by AWS are: aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
-- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint projects within that same region.  
-- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
+- `AccessTokenValidity`: The time limit, after which the access token is no longer valid
+  and cannot be used.
+- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow,
+  which provides an authorization code as the response. This code can be exchanged for access
+  tokens with the token endpoint. Set to implicit to specify that the client should get the
+  access token (and, optionally, ID token, based on scopes) directly. Set to
+  client_credentials to specify that the client should get the access token (and, optionally,
+  ID token, based on scopes) from the token endpoint using a combination of client and
+  client_secret.
+- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the
+  OAuth protocol when interacting with Cognito user pools.
+- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are:
+  phone, email, openid, and profile. Possible values provided by AWS are:
+  aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
+- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting
+  metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
+  only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where
+  Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint
+  projects within that same region.
+- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A
+  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
 - `ClientName`: The client name from the update user pool client request.
-- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes only. App callback URLs such as myapp://example are also supported.
-- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in the request instead of using the SRP (Secure Remote Password protocol) protocol to verify passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.    ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito receives the password in the request instead of using the SRP protocol to verify passwords.    ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.  
-- `IdTokenValidity`: The time limit, after which the ID token is no longer valid and cannot be used.
+- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A
+  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
+- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool
+  clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the
+  ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without
+  ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based
+  user password authentication flow ADMIN_USER_PASSWORD_AUTH. This setting replaces the
+  ADMIN_NO_SRP_AUTH setting. With this authentication flow, Cognito receives the password in
+  the request instead of using the SRP (Secure Remote Password protocol) protocol to verify
+  passwords.    ALLOW_CUSTOM_AUTH: Enable Lambda trigger based authentication.
+  ALLOW_USER_PASSWORD_AUTH: Enable user password-based authentication. In this flow, Cognito
+  receives the password in the request instead of using the SRP protocol to verify passwords.
+     ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH:
+  Enable authflow to refresh tokens.
+- `IdTokenValidity`: The time limit, after which the ID token is no longer valid and cannot
+  be used.
 - `LogoutURLs`: A list of allowed logout URLs for the identity providers.
-- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are returned by Cognito APIs during authentication, account confirmation, and password recovery when the user does not exist in the user pool. When set to ENABLED and the user does not exist, authentication returns an error indicating either the username or password was incorrect, and account confirmation and password recovery return a response indicating a code was sent to a simulated destination. When set to LEGACY, those APIs will return a UserNotFoundException exception if the user does not exist in the user pool. Valid values include:    ENABLED - This prevents user existence-related errors.    LEGACY - This represents the old behavior of Cognito where user existence related errors are not prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will default to ENABLED for newly created user pool clients if no value is provided. 
+- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are
+  returned by Cognito APIs during authentication, account confirmation, and password recovery
+  when the user does not exist in the user pool. When set to ENABLED and the user does not
+  exist, authentication returns an error indicating either the username or password was
+  incorrect, and account confirmation and password recovery return a response indicating a
+  code was sent to a simulated destination. When set to LEGACY, those APIs will return a
+  UserNotFoundException exception if the user does not exist in the user pool. Valid values
+  include:    ENABLED - This prevents user existence-related errors.    LEGACY - This
+  represents the old behavior of Cognito where user existence related errors are not
+  prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will
+  default to ENABLED for newly created user pool clients if no value is provided.
 - `ReadAttributes`: The read-only attributes of the user pool.
-- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no longer valid and cannot be used.
-- `SupportedIdentityProviders`: A list of provider names for the identity providers that are supported on this client.
-- `TokenValidityUnits`: The units in which the validity times are represented in. Default for RefreshToken is days, and default for ID and access tokens are hours.
+- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no
+  longer valid and cannot be used.
+- `SupportedIdentityProviders`: A list of provider names for the identity providers that
+  are supported on this client.
+- `TokenValidityUnits`: The units in which the validity times are represented in. Default
+  for RefreshToken is days, and default for ID and access tokens are hours.
 - `WriteAttributes`: The writeable attributes of the user pool.
 """
 update_user_pool_client(ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolClient", Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
@@ -1502,12 +2283,33 @@ update_user_pool_client(ClientId, UserPoolId, args::AbstractDict{String, <:Any};
 """
     UpdateUserPoolDomain()
 
-Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and sign-in pages for your application. When you set up a custom domain, you provide a certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use this operation to change the certificate that you applied to your custom domain. Usually, this is unnecessary following routine certificate renewal with ACM. When you renew your existing certificate in ACM, the ARN for your certificate remains the same, and your custom domain uses the new certificate automatically. However, if you replace your existing certificate with a new one, ACM gives the new certificate a new ARN. To apply the new certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region. After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new certificate to your custom domain. For more information about adding a custom domain to your user pool, see Using Your Own Domain for the Hosted UI.
+Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user
+pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new
+certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A
+custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and
+sign-in pages for your application. When you set up a custom domain, you provide a
+certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use
+this operation to change the certificate that you applied to your custom domain. Usually,
+this is unnecessary following routine certificate renewal with ACM. When you renew your
+existing certificate in ACM, the ARN for your certificate remains the same, and your custom
+domain uses the new certificate automatically. However, if you replace your existing
+certificate with a new one, ACM gives the new certificate a new ARN. To apply the new
+certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you
+add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region.
+After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new
+certificate to your custom domain. For more information about adding a custom domain to
+your user pool, see Using Your Own Domain for the Hosted UI.
 
 # Required Parameters
-- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and sign-in pages for your application. Use this object to specify an SSL certificate that is managed by ACM.
-- `Domain`: The domain name for the custom domain that hosts the sign-up and sign-in pages for your application. For example: auth.example.com.  This string can include only lowercase letters, numbers, and hyphens. Do not use a hyphen for the first or last character. Use periods to separate subdomain names.
-- `UserPoolId`: The ID of the user pool that is associated with the custom domain that you are updating the certificate for.
+- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and
+  sign-in pages for your application. Use this object to specify an SSL certificate that is
+  managed by ACM.
+- `Domain`: The domain name for the custom domain that hosts the sign-up and sign-in pages
+  for your application. For example: auth.example.com.  This string can include only
+  lowercase letters, numbers, and hyphens. Do not use a hyphen for the first or last
+  character. Use periods to separate subdomain names.
+- `UserPoolId`: The ID of the user pool that is associated with the custom domain that you
+  are updating the certificate for.
 
 """
 update_user_pool_domain(CustomDomainConfig, Domain, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolDomain", Dict{String, Any}("CustomDomainConfig"=>CustomDomainConfig, "Domain"=>Domain, "UserPoolId"=>UserPoolId); aws_config=aws_config)
@@ -1516,15 +2318,19 @@ update_user_pool_domain(CustomDomainConfig, Domain, UserPoolId, args::AbstractDi
 """
     VerifySoftwareToken()
 
-Use this API to register a user's entered TOTP code and mark the user's software token MFA status as \"verified\" if successful. The request takes an access token or a session string, but not both.
+Use this API to register a user's entered TOTP code and mark the user's software token MFA
+status as \"verified\" if successful. The request takes an access token or a session
+string, but not both.
 
 # Required Parameters
-- `UserCode`: The one time password computed using the secret code returned by AssociateSoftwareToken\".
+- `UserCode`: The one time password computed using the secret code returned by
+  AssociateSoftwareToken\".
 
 # Optional Parameters
 - `AccessToken`: The access token.
 - `FriendlyDeviceName`: The friendly device name.
-- `Session`: The session which should be passed both ways in challenge-response calls to the service.
+- `Session`: The session which should be passed both ways in challenge-response calls to
+  the service.
 """
 verify_software_token(UserCode; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifySoftwareToken", Dict{String, Any}("UserCode"=>UserCode); aws_config=aws_config)
 verify_software_token(UserCode, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifySoftwareToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserCode"=>UserCode), args)); aws_config=aws_config)

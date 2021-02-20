@@ -11,11 +11,15 @@ Accepts an Amazon Macie membership invitation that was received from a specific 
 
 # Required Parameters
 - `invitationId`: The unique identifier for the invitation to accept.
-- `masterAccount`: The AWS account ID for the account that sent the invitation.
 
+# Optional Parameters
+- `administratorAccountId`: The AWS account ID for the account that sent the invitation.
+- `masterAccount`: (Deprecated) The AWS account ID for the account that sent the
+  invitation. This property has been replaced by the administratorAccountId property and is
+  retained only for backward compatibility.
 """
-accept_invitation(invitationId, masterAccount; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount); aws_config=aws_config)
-accept_invitation(invitationId, masterAccount, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId, "masterAccount"=>masterAccount), args)); aws_config=aws_config)
+accept_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId); aws_config=aws_config)
+accept_invitation(invitationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId), args)); aws_config=aws_config)
 
 """
     BatchGetCustomDataIdentifiers()
@@ -23,7 +27,8 @@ accept_invitation(invitationId, masterAccount, args::AbstractDict{String, <:Any}
 Retrieves information about one or more custom data identifiers.
 
 # Optional Parameters
-- `ids`: An array of strings that lists the unique identifiers for the custom data identifiers to retrieve information about.
+- `ids`: An array of strings that lists the unique identifiers for the custom data
+  identifiers to retrieve information about.
 """
 batch_get_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get"; aws_config=aws_config)
 batch_get_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get", args; aws_config=aws_config)
@@ -34,18 +39,34 @@ batch_get_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::A
  Creates and defines the settings for a classification job.
 
 # Required Parameters
-- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-- `jobType`: The schedule for running the job. Valid values are: ONE_TIME - Run the job only once. If you specify this value, don't specify a value for the scheduleFrequency property. SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this value, use the scheduleFrequency property to define the recurrence pattern for the job.
+- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `jobType`: The schedule for running the job. Valid values are: ONE_TIME - Run the job
+  only once. If you specify this value, don't specify a value for the scheduleFrequency
+  property. SCHEDULED - Run the job on a daily, weekly, or monthly basis. If you specify this
+  value, use the scheduleFrequency property to define the recurrence pattern for the job.
 - `name`: A custom name for the job. The name can contain as many as 500 characters.
-- `s3JobDefinition`: The S3 buckets that contain the objects to analyze, and the scope of that analysis.
+- `s3JobDefinition`: The S3 buckets that contain the objects to analyze, and the scope of
+  that analysis.
 
 # Optional Parameters
-- `customDataIdentifierIds`: The custom data identifiers to use for data analysis and classification.
-- `description`: A custom description of the job. The description can contain as many as 200 characters.
-- `initialRun`: Specifies whether to analyze all existing, eligible objects immediately after the job is created.
-- `samplingPercentage`: The sampling depth, as a percentage, to apply when processing objects. This value determines the percentage of eligible objects that the job analyzes. If this value is less than 100, Amazon Macie selects the objects to analyze at random, up to the specified percentage, and analyzes all the data in those objects.
-- `scheduleFrequency`: The recurrence pattern for running the job. To run the job only once, don't specify a value for this property and set the value for the jobType property to ONE_TIME.
-- `tags`: A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `customDataIdentifierIds`: The custom data identifiers to use for data analysis and
+  classification.
+- `description`: A custom description of the job. The description can contain as many as
+  200 characters.
+- `initialRun`: Specifies whether to analyze all existing, eligible objects immediately
+  after the job is created.
+- `samplingPercentage`: The sampling depth, as a percentage, to apply when processing
+  objects. This value determines the percentage of eligible objects that the job analyzes. If
+  this value is less than 100, Amazon Macie selects the objects to analyze at random, up to
+  the specified percentage, and analyzes all the data in those objects.
+- `scheduleFrequency`: The recurrence pattern for running the job. To run the job only
+  once, don't specify a value for this property and set the value for the jobType property to
+  ONE_TIME.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the job. A job
+  can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value.
+  The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256
+  characters.
 """
 create_classification_job(clientToken, jobType, name, s3JobDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition); aws_config=aws_config)
 create_classification_job(clientToken, jobType, name, s3JobDefinition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), args)); aws_config=aws_config)
@@ -56,14 +77,35 @@ create_classification_job(clientToken, jobType, name, s3JobDefinition, args::Abs
 Creates and defines the criteria and other settings for a custom data identifier.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-- `description`: A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see the identifier's description, depending on the actions that they're allowed to perform in Amazon Macie.
-- `ignoreWords`: An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression is the same as any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
-- `keywords`: An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters. Keywords aren't case sensitive.
-- `maximumMatchDistance`: The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
-- `name`: A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see the identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.
-- `regex`: The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
-- `tags`: A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `description`: A custom description of the custom data identifier. The description can
+  contain as many as 512 characters. We strongly recommend that you avoid including any
+  sensitive data in the description of a custom data identifier. Other users of your account
+  might be able to see the identifier's description, depending on the actions that they're
+  allowed to perform in Amazon Macie.
+- `ignoreWords`: An array that lists specific character sequences (ignore words) to exclude
+  from the results. If the text matched by the regular expression is the same as any string
+  in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
+  Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
+- `keywords`: An array that lists specific character sequences (keywords), one of which
+  must be within proximity (maximumMatchDistance) of the regular expression to match. The
+  array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.
+  Keywords aren't case sensitive.
+- `maximumMatchDistance`: The maximum number of characters that can exist between text that
+  matches the regex pattern and the character sequences specified by the keywords array.
+  Macie includes or excludes a result based on the proximity of a keyword to text that
+  matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
+- `name`: A custom name for the custom data identifier. The name can contain as many as 128
+  characters. We strongly recommend that you avoid including any sensitive data in the name
+  of a custom data identifier. Other users of your account might be able to see the
+  identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.
+- `regex`: The regular expression (regex) that defines the pattern to match. The expression
+  can contain as many as 512 characters.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the custom
+  data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists
+  of a tag key and an associated tag value. The maximum length of a tag key is 128
+  characters. The maximum length of a tag value is 256 characters.
 """
 create_custom_data_identifier(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 create_custom_data_identifier(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -74,15 +116,29 @@ create_custom_data_identifier(args::AbstractDict{String, <:Any}; aws_config::Abs
 Creates and defines the criteria and other settings for a findings filter.
 
 # Required Parameters
-- `action`: The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
+- `action`: The action to perform on findings that meet the filter criteria
+  (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
+  findings; and, NOOP, don't perform any action on the findings.
 - `findingCriteria`: The criteria to use to filter findings.
-- `name`: A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
+- `name`: A custom name for the filter. The name must contain at least 3 characters and can
+  contain as many as 64 characters. We strongly recommend that you avoid including any
+  sensitive data in the name of a filter. Other users of your account might be able to see
+  the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-- `description`: A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users of your account might be able to see the filter's description, depending on the actions that they're allowed to perform in Amazon Macie.
-- `position`: The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
-- `tags`: A map of key-value pairs that specifies the tags to associate with the filter. A findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `description`: A custom description of the filter. The description can contain as many as
+  512 characters. We strongly recommend that you avoid including any sensitive data in the
+  description of a filter. Other users of your account might be able to see the filter's
+  description, depending on the actions that they're allowed to perform in Amazon Macie.
+- `position`: The position of the filter in the list of saved filters on the Amazon Macie
+  console. This value also determines the order in which the filter is applied to findings,
+  relative to other filters that are also applied to the findings.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the filter. A
+  findings filter can have a maximum of 50 tags. Each tag consists of a tag key and an
+  associated tag value. The maximum length of a tag key is 128 characters. The maximum length
+  of a tag value is 256 characters.
 """
 create_findings_filter(action, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_findings_filter(action, findingCriteria, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -90,14 +146,19 @@ create_findings_filter(action, findingCriteria, name, args::AbstractDict{String,
 """
     CreateInvitations()
 
- Sends an Amazon Macie membership invitation to one or more accounts.
+Sends an Amazon Macie membership invitation to one or more accounts.
 
 # Required Parameters
-- `accountIds`: An array that lists AWS account IDs, one for each account to send the invitation to.
+- `accountIds`: An array that lists AWS account IDs, one for each account to send the
+  invitation to.
 
 # Optional Parameters
-- `disableEmailNotification`: Specifies whether to send an email notification to the root user of each account that the invitation will be sent to. This notification is in addition to an alert that the root user receives in AWS Personal Health Dashboard. To send an email notification to the root user of each account, set this value to true.
-- `message`: A custom message to include in the invitation. Amazon Macie adds this message to the standard content that it sends for an invitation.
+- `disableEmailNotification`: Specifies whether to send an email notification to the root
+  user of each account that the invitation will be sent to. This notification is in addition
+  to an alert that the root user receives in AWS Personal Health Dashboard. To send an email
+  notification to the root user of each account, set this value to true.
+- `message`: A custom message to include in the invitation. Amazon Macie adds this message
+  to the standard content that it sends for an invitation.
 """
 create_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 create_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
@@ -105,13 +166,16 @@ create_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     CreateMember()
 
- Associates an account with an Amazon Macie master account.
+Associates an account with an Amazon Macie administrator account.
 
 # Required Parameters
-- `account`: The details for the account to associate with the master account.
+- `account`: The details for the account to associate with the administrator account.
 
 # Optional Parameters
-- `tags`: A map of key-value pairs that specifies the tags to associate with the account in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the account in
+  Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a tag key and
+  an associated tag value. The maximum length of a tag key is 128 characters. The maximum
+  length of a tag value is 256 characters.
 """
 create_member(account; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}("account"=>account); aws_config=aws_config)
 create_member(account, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), args)); aws_config=aws_config)
@@ -122,7 +186,9 @@ create_member(account, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
  Creates sample findings.
 
 # Optional Parameters
-- `findingTypes`: An array that lists one or more types of findings to include in the set of sample findings. Currently, the only supported value is Policy:IAMUser/S3BucketEncryptionDisabled. 
+- `findingTypes`: An array that lists one or more types of findings to include in the set
+  of sample findings. Currently, the only supported value is
+  Policy:IAMUser/S3BucketEncryptionDisabled.
 """
 create_sample_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample"; aws_config=aws_config)
 create_sample_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample", args; aws_config=aws_config)
@@ -133,7 +199,8 @@ create_sample_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 Declines Amazon Macie membership invitations that were received from specific accounts.
 
 # Required Parameters
-- `accountIds`: An array that lists AWS account IDs, one for each account that sent an invitation to decline.
+- `accountIds`: An array that lists AWS account IDs, one for each account that sent an
+  invitation to decline.
 
 """
 decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -145,7 +212,8 @@ decline_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::A
 Soft deletes a custom data identifier.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 delete_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
@@ -157,7 +225,8 @@ delete_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config:
 Deletes a findings filter.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 delete_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)"; aws_config=aws_config)
@@ -169,7 +238,8 @@ delete_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::Abstra
 Deletes Amazon Macie membership invitations that were received from specific accounts.
 
 # Required Parameters
-- `accountIds`: An array that lists AWS account IDs, one for each account that sent an invitation to delete.
+- `accountIds`: An array that lists AWS account IDs, one for each account that sent an
+  invitation to delete.
 
 """
 delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -178,10 +248,11 @@ delete_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DeleteMember()
 
-Deletes the association between an Amazon Macie master account and an account.
+Deletes the association between an Amazon Macie administrator account and an account.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 delete_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)"; aws_config=aws_config)
@@ -190,12 +261,15 @@ delete_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 """
     DescribeBuckets()
 
- Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
+ Retrieves (queries) statistical data and other information about one or more S3 buckets
+that Amazon Macie monitors and analyzes.
 
 # Optional Parameters
 - `criteria`: The criteria to use to filter the query results.
-- `maxResults`: The maximum number of items to include in each page of the response. The default value is 50.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `maxResults`: The maximum number of items to include in each page of the response. The
+  default value is 50.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 - `sortCriteria`: The criteria to use to sort the query results.
 """
 describe_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3"; aws_config=aws_config)
@@ -234,19 +308,29 @@ disable_macie(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 """
     DisableOrganizationAdminAccount()
 
-Disables an account as the delegated Amazon Macie administrator account for an AWS organization.
+Disables an account as the delegated Amazon Macie administrator account for an AWS
+organization.
 
 # Required Parameters
-- `adminAccountId`: The AWS account ID of the delegated administrator account.
+- `adminAccountId`: The AWS account ID of the delegated Amazon Macie administrator account.
 
 """
 disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
 disable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), args)); aws_config=aws_config)
 
 """
+    DisassociateFromAdministratorAccount()
+
+Disassociates a member account from its Amazon Macie administrator account.
+
+"""
+disassociate_from_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/administrator/disassociate"; aws_config=aws_config)
+disassociate_from_administrator_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/administrator/disassociate", args; aws_config=aws_config)
+
+"""
     DisassociateFromMasterAccount()
 
-Disassociates a member account from its Amazon Macie master account.
+(Deprecated) Disassociates a member account from its Amazon Macie administrator account.
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate"; aws_config=aws_config)
@@ -255,10 +339,11 @@ disassociate_from_master_account(args::AbstractDict{String, Any}; aws_config::Ab
 """
     DisassociateMember()
 
-Disassociates an Amazon Macie master account from a member account.
+Disassociates an Amazon Macie administrator account from a member account.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 disassociate_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)"; aws_config=aws_config)
@@ -270,9 +355,13 @@ disassociate_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Enables Amazon Macie and specifies the configuration settings for a Macie account.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
-- `findingPublishingFrequency`: Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
-- `status`: Specifies the status for the account. To enable Amazon Macie and start all Amazon Macie activities for the account, set this value to ENABLED.
+- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
+- `findingPublishingFrequency`: Specifies how often to publish updates to policy findings
+  for the account. This includes publishing updates to AWS Security Hub and Amazon
+  EventBridge (formerly called Amazon CloudWatch Events).
+- `status`: Specifies the status for the account. To enable Amazon Macie and start all
+  Macie activities for the account, set this value to ENABLED.
 """
 enable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 enable_macie(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -280,21 +369,34 @@ enable_macie(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     EnableOrganizationAdminAccount()
 
-Designates an account as the delegated Amazon Macie administrator account for an AWS organization.
+Designates an account as the delegated Amazon Macie administrator account for an AWS
+organization.
 
 # Required Parameters
-- `adminAccountId`: The AWS account ID for the account to designate as the delegated Amazon Macie administrator account for the organization.
+- `adminAccountId`: The AWS account ID for the account to designate as the delegated Amazon
+  Macie administrator account for the organization.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive token that you provide to ensure the idempotency
+  of the request.
 """
 enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())); aws_config=aws_config)
 enable_organization_admin_account(adminAccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
+    GetAdministratorAccount()
+
+Retrieves information about the Amazon Macie administrator account for an account.
+
+"""
+get_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/administrator"; aws_config=aws_config)
+get_administrator_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/administrator", args; aws_config=aws_config)
+
+"""
     GetBucketStatistics()
 
- Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie monitors and analyzes.
+ Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie
+monitors and analyzes.
 
 # Optional Parameters
 - `accountId`: The unique identifier for the AWS account.
@@ -317,7 +419,8 @@ get_classification_export_configuration(args::AbstractDict{String, Any}; aws_con
 Retrieves the criteria and other settings for a custom data identifier.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 get_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
@@ -329,7 +432,12 @@ get_custom_data_identifier(id, args::AbstractDict{String, <:Any}; aws_config::Ab
  Retrieves (queries) aggregated statistical data about findings.
 
 # Required Parameters
-- `groupBy`: The finding property to use to group the query results. Valid values are: classificationDetails.jobId - The unique identifier for the classification job that produced the finding. resourcesAffected.s3Bucket.name - The name of the S3 bucket that the finding applies to. severity.description - The severity level of the finding, such as High or Medium. type - The type of finding, such as Policy:IAMUser/S3BucketPublic and SensitiveData:S3Object/Personal.
+- `groupBy`: The finding property to use to group the query results. Valid values are:
+  classificationDetails.jobId - The unique identifier for the classification job that
+  produced the finding. resourcesAffected.s3Bucket.name - The name of the S3 bucket that the
+  finding applies to. severity.description - The severity level of the finding, such as High
+  or Medium. type - The type of finding, such as Policy:IAMUser/S3BucketPublic and
+  SensitiveData:S3Object/Personal.
 
 # Optional Parameters
 - `findingCriteria`: The criteria to use to filter the query results.
@@ -345,7 +453,8 @@ get_finding_statistics(groupBy, args::AbstractDict{String, <:Any}; aws_config::A
 Retrieves the details of one or more findings.
 
 # Required Parameters
-- `findingIds`: An array of strings that lists the unique identifiers for the findings to retrieve.
+- `findingIds`: An array of strings that lists the unique identifiers for the findings to
+  retrieve.
 
 # Optional Parameters
 - `sortCriteria`: The criteria for sorting the results of the request.
@@ -359,7 +468,8 @@ get_findings(findingIds, args::AbstractDict{String, <:Any}; aws_config::Abstract
 Retrieves the criteria and other settings for a findings filter.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 get_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)"; aws_config=aws_config)
@@ -386,7 +496,8 @@ get_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     GetMasterAccount()
 
-Retrieves information about the Amazon Macie master account for an account.
+(Deprecated) Retrieves information about the Amazon Macie administrator account for an
+account.
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master"; aws_config=aws_config)
@@ -395,10 +506,12 @@ get_master_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfi
 """
     GetMember()
 
-Retrieves information about a member account that's associated with an Amazon Macie master account.
+Retrieves information about an account that's associated with an Amazon Macie administrator
+account.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 """
 get_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)"; aws_config=aws_config)
@@ -410,10 +523,17 @@ get_member(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 Retrieves (queries) quotas and aggregated usage data for one or more accounts.
 
 # Optional Parameters
-- `filterBy`: An array of objects, one for each condition to use to filter the query results. If the array contains more than one object, Amazon Macie uses an AND operator to join the conditions specified by the objects.
+- `filterBy`: An array of objects, one for each condition to use to filter the query
+  results. If you specify more than one condition, Amazon Macie uses an AND operator to join
+  the conditions.
 - `maxResults`: The maximum number of items to include in each page of the response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 - `sortBy`: The criteria to use to sort the query results.
+- `timeRange`: The inclusive time period to query usage data for. Valid values are:
+  MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding
+  30 days. If you don't specify a value, Amazon Macie provides usage data for the preceding
+  30 days.
 """
 get_usage_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics"; aws_config=aws_config)
 get_usage_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics", args; aws_config=aws_config)
@@ -423,6 +543,11 @@ get_usage_statistics(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 
 Retrieves (queries) aggregated usage data for an account.
 
+# Optional Parameters
+- `timeRange`: The time period to retrieve the data for. Valid values are: MONTH_TO_DATE,
+  for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If
+  you don’t specify a value for this parameter, Amazon Macie provides aggregated usage data
+  for the preceding 30 days.
 """
 get_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage"; aws_config=aws_config)
 get_usage_totals(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage", args; aws_config=aws_config)
@@ -435,7 +560,8 @@ Retrieves a subset of information about one or more classification jobs.
 # Optional Parameters
 - `filterCriteria`: The criteria to use to filter the results.
 - `maxResults`: The maximum number of items to include in each page of the response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 - `sortCriteria`: The criteria to use to sort the results.
 """
 list_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list"; aws_config=aws_config)
@@ -448,7 +574,8 @@ Retrieves a subset of information about all the custom data identifiers for an a
 
 # Optional Parameters
 - `maxResults`: The maximum number of items to include in each page of the response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 """
 list_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list"; aws_config=aws_config)
 list_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list", args; aws_config=aws_config)
@@ -461,7 +588,8 @@ list_custom_data_identifiers(args::AbstractDict{String, Any}; aws_config::Abstra
 # Optional Parameters
 - `findingCriteria`: The criteria to use to filter the results.
 - `maxResults`: The maximum number of items to include in each page of the response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 - `sortCriteria`: The criteria to use to sort the results.
 """
 list_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings"; aws_config=aws_config)
@@ -474,7 +602,8 @@ Retrieves a subset of information about all the findings filters for an account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 """
 list_findings_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters"; aws_config=aws_config)
 list_findings_filters(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters", args; aws_config=aws_config)
@@ -482,11 +611,13 @@ list_findings_filters(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     ListInvitations()
 
-Retrieves information about all the Amazon Macie membership invitations that were received by an account.
+Retrieves information about all the Amazon Macie membership invitations that were received
+by an account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations", args; aws_config=aws_config)
@@ -494,12 +625,17 @@ list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 """
     ListMembers()
 
-Retrieves information about the accounts that are associated with an Amazon Macie master account.
+Retrieves information about the accounts that are associated with an Amazon Macie
+administrator account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
-- `onlyAssociated`: Specifies which accounts to include in the response, based on the status of an account's relationship with the master account. By default, the response includes only current member accounts. To include all accounts, set the value for this parameter to false.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+- `onlyAssociated`: Specifies which accounts to include in the response, based on the
+  status of an account's relationship with the administrator account. By default, the
+  response includes only current member accounts. To include all accounts, set the value for
+  this parameter to false.
 """
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members"; aws_config=aws_config)
 list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members", args; aws_config=aws_config)
@@ -507,11 +643,13 @@ list_members(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     ListOrganizationAdminAccounts()
 
-Retrieves information about the delegated Amazon Macie administrator account for an AWS organization.
+Retrieves information about the delegated Amazon Macie administrator account for an AWS
+organization.
 
 # Optional Parameters
 - `maxResults`: The maximum number of items to include in each page of a paginated response.
-- `nextToken`: The nextToken string that specifies which page of results to return in a paginated response.
+- `nextToken`: The nextToken string that specifies which page of results to return in a
+  paginated response.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin"; aws_config=aws_config)
 list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin", args; aws_config=aws_config)
@@ -519,10 +657,12 @@ list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::Ab
 """
     ListTagsForResource()
 
-Retrieves the tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.
+Retrieves the tags (keys and values) that are associated with a classification job, custom
+data identifier, findings filter, or member account.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
+- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data
+  identifier, findings filter, or member account.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
@@ -534,7 +674,8 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 Creates or updates the configuration settings for storing data classification results.
 
 # Required Parameters
-- `configuration`: The location to store data classification results in, and the encryption settings to use when storing results in that location.
+- `configuration`: The location to store data classification results in, and the encryption
+  settings to use when storing results in that location.
 
 """
 put_classification_export_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config)
@@ -543,11 +684,16 @@ put_classification_export_configuration(configuration, args::AbstractDict{String
 """
     TagResource()
 
-Adds or updates one or more tags (keys and values) that are associated with a classification job, custom data identifier, findings filter, or member account.
+Adds or updates one or more tags (keys and values) that are associated with a
+classification job, custom data identifier, findings filter, or member account.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
-- `tags`: A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data
+  identifier, findings filter, or member account.
+- `tags`: A map of key-value pairs that specifies the tags to associate with the resource.
+  A resource can have a maximum of 50 tags. Each tag consists of a tag key and an associated
+  tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag
+  value is 256 characters.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
@@ -559,13 +705,24 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 Tests a custom data identifier.
 
 # Required Parameters
-- `regex`: The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
-- `sampleText`: The sample text to inspect by using the custom data identifier. The text can contain as many as 1,000 characters.
+- `regex`: The regular expression (regex) that defines the pattern to match. The expression
+  can contain as many as 512 characters.
+- `sampleText`: The sample text to inspect by using the custom data identifier. The text
+  can contain as many as 1,000 characters.
 
 # Optional Parameters
-- `ignoreWords`: An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression is the same as any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
-- `keywords`: An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters. Keywords aren't case sensitive.
-- `maximumMatchDistance`: The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
+- `ignoreWords`: An array that lists specific character sequences (ignore words) to exclude
+  from the results. If the text matched by the regular expression is the same as any string
+  in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words.
+  Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
+- `keywords`: An array that lists specific character sequences (keywords), one of which
+  must be within proximity (maximumMatchDistance) of the regular expression to match. The
+  array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.
+  Keywords aren't case sensitive.
+- `maximumMatchDistance`: The maximum number of characters that can exist between text that
+  matches the regex pattern and the character sequences specified by the keywords array.
+  Macie includes or excludes a result based on the proximity of a keyword to text that
+  matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
 """
 test_custom_data_identifier(regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText); aws_config=aws_config)
 test_custom_data_identifier(regex, sampleText, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), args)); aws_config=aws_config)
@@ -573,11 +730,15 @@ test_custom_data_identifier(regex, sampleText, args::AbstractDict{String, <:Any}
 """
     UntagResource()
 
-Removes one or more tags (keys and values) from a classification job, custom data identifier, findings filter, or member account.
+Removes one or more tags (keys and values) from a classification job, custom data
+identifier, findings filter, or member account.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
-- `tagKeys`: The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
+- `resourceArn`: The Amazon Resource Name (ARN) of the classification job, custom data
+  identifier, findings filter, or member account.
+- `tagKeys`: The key of the tag to remove from the resource. To remove multiple tags,
+  append the tagKeys parameter and argument for each additional tag to remove, separated by
+  an ampersand (&amp;).
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
@@ -590,7 +751,22 @@ Changes the status of a classification job.
 
 # Required Parameters
 - `jobId`: The unique identifier for the classification job.
-- `jobStatus`: The new status for the job. Valid values are: CANCELLED - Stops the job permanently and cancels it. This value is valid only if the job's current status is IDLE, PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is valid only if the job's current status is USER_PAUSED. If you paused the job while it was actively running and you specify this value less than 30 days after you paused the job, Macie immediately resumes processing from the point where you paused the job. Otherwise, Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED - Pauses the job temporarily. This value is valid only if the job's current status is IDLE or RUNNING. If you specify this value and the job's current status is RUNNING, Macie immediately begins to pause all processing tasks for the job. If you pause a one-time job and you don't resume it within 30 days, the job expires and Macie cancels the job. If you pause a recurring job when its status is RUNNING and you don't resume it within 30 days, the job run expires and Macie cancels the run. To check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
+- `jobStatus`: The new status for the job. Valid values are: CANCELLED - Stops the job
+  permanently and cancels it. This value is valid only if the job's current status is IDLE,
+  PAUSED, RUNNING, or USER_PAUSED. If you specify this value and the job's current status is
+  RUNNING, Amazon Macie immediately begins to stop all processing tasks for the job. You
+  can't resume or restart a job after you cancel it. RUNNING - Resumes the job. This value is
+  valid only if the job's current status is USER_PAUSED. If you paused the job while it was
+  actively running and you specify this value less than 30 days after you paused the job,
+  Macie immediately resumes processing from the point where you paused the job. Otherwise,
+  Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED
+  - Pauses the job temporarily. This value is valid only if the job's current status is IDLE
+  or RUNNING. If you specify this value and the job's current status is RUNNING, Macie
+  immediately begins to pause all processing tasks for the job. If you pause a one-time job
+  and you don't resume it within 30 days, the job expires and Macie cancels the job. If you
+  pause a recurring job when its status is RUNNING and you don't resume it within 30 days,
+  the job run expires and Macie cancels the run. To check the expiration date, refer to the
+  UserPausedDetails.jobExpiresAt property.
 
 """
 update_classification_job(jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}("jobStatus"=>jobStatus); aws_config=aws_config)
@@ -602,14 +778,25 @@ update_classification_job(jobId, jobStatus, args::AbstractDict{String, <:Any}; a
 Updates the criteria and other settings for a findings filter.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
 
 # Optional Parameters
-- `action`: The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
-- `description`: A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users might be able to see the filter's description, depending on the actions that they're allowed to perform in Amazon Macie.
+- `action`: The action to perform on findings that meet the filter criteria
+  (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
+  findings; and, NOOP, don't perform any action on the findings.
+- `description`: A custom description of the filter. The description can contain as many as
+  512 characters. We strongly recommend that you avoid including any sensitive data in the
+  description of a filter. Other users might be able to see the filter's description,
+  depending on the actions that they're allowed to perform in Amazon Macie.
 - `findingCriteria`: The criteria to use to filter findings.
-- `name`: A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
-- `position`: The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
+- `name`: A custom name for the filter. The name must contain at least 3 characters and can
+  contain as many as 64 characters. We strongly recommend that you avoid including any
+  sensitive data in the name of a filter. Other users might be able to see the filter's name,
+  depending on the actions that they're allowed to perform in Amazon Macie.
+- `position`: The position of the filter in the list of saved filters on the Amazon Macie
+  console. This value also determines the order in which the filter is applied to findings,
+  relative to other filters that are also applied to the findings.
 """
 update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)"; aws_config=aws_config)
 update_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", args; aws_config=aws_config)
@@ -617,11 +804,16 @@ update_findings_filter(id, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     UpdateMacieSession()
 
-Suspends or re-enables an Amazon Macie account, or updates the configuration settings for a Macie account.
+Suspends or re-enables an Amazon Macie account, or updates the configuration settings for a
+Macie account.
 
 # Optional Parameters
-- `findingPublishingFrequency`: Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
-- `status`: Specifies whether to change the status of the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
+- `findingPublishingFrequency`: Specifies how often to publish updates to policy findings
+  for the account. This includes publishing updates to AWS Security Hub and Amazon
+  EventBridge (formerly called Amazon CloudWatch Events).
+- `status`: Specifies whether to change the status of the account. Valid values are:
+  ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie
+  activities for the account.
 """
 update_macie_session(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie"; aws_config=aws_config)
 update_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie", args; aws_config=aws_config)
@@ -629,11 +821,14 @@ update_macie_session(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 """
     UpdateMemberSession()
 
- Enables an Amazon Macie master account to suspend or re-enable a member account.
+Enables an Amazon Macie administrator to suspend or re-enable a member account.
 
 # Required Parameters
-- `id`: The unique identifier for the Amazon Macie resource or account that the request applies to.
-- `status`: Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
+- `id`: The unique identifier for the Amazon Macie resource or account that the request
+  applies to.
+- `status`: Specifies the new status for the account. Valid values are: ENABLED, resume all
+  Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the
+  account.
 
 """
 update_member_session(id, status; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}("status"=>status); aws_config=aws_config)
@@ -645,7 +840,8 @@ update_member_session(id, status, args::AbstractDict{String, <:Any}; aws_config:
 Updates the Amazon Macie configuration settings for an AWS organization.
 
 # Required Parameters
-- `autoEnable`: Specifies whether Amazon Macie is enabled automatically for each account, when the account is added to the AWS organization.
+- `autoEnable`: Specifies whether Amazon Macie is enabled automatically for each account,
+  when the account is added to the AWS organization.
 
 """
 update_organization_configuration(autoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)

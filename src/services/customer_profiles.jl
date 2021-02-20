@@ -7,7 +7,9 @@ using AWS.UUIDs
 """
     AddProfileKey()
 
-Associates a new key value with a specific profile, such as a Contact Trace Record (CTR) ContactId. A profile object can have a single unique key and any number of additional keys that can be used to identify the profile that it belongs to.
+Associates a new key value with a specific profile, such as a Contact Trace Record (CTR)
+ContactId. A profile object can have a single unique key and any number of additional keys
+that can be used to identify the profile that it belongs to.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -22,15 +24,25 @@ add_profile_key(DomainName, KeyName, ProfileId, Values, args::AbstractDict{Strin
 """
     CreateDomain()
 
-Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
+Creates a domain, which is a container for all customer data, such as customer profile
+attributes, object types, profile keys, and encryption keys. You can create multiple
+domains, and each domain can have multiple third-party integrations. Each Amazon Connect
+instance can be associated with only one domain. Multiple Amazon Connect instances can be
+associated with one domain.
 
 # Required Parameters
-- `DefaultExpirationDays`: The default number of days until the data within the domain expires.
+- `DefaultExpirationDays`: The default number of days until the data within the domain
+  expires.
 - `DomainName`: The unique name of the domain.
 
 # Optional Parameters
-- `DeadLetterQueueUrl`: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
-- `DefaultEncryptionKey`: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
+- `DeadLetterQueueUrl`: The URL of the SQS dead letter queue, which is used for reporting
+  errors associated with ingesting data from third party applications. You must set up a
+  policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect
+  Customer Profiles to send messages to the DeadLetterQueue.
+- `DefaultEncryptionKey`: The default encryption key, which is an AWS managed key, is used
+  when no specific type of encryption key is specified. It is used to encrypt all data before
+  it is placed in permanent or semi-permanent storage.
 - `Tags`: The tags used to organize, track, or control access for this resource.
 """
 create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays); aws_config=aws_config)
@@ -39,7 +51,8 @@ create_domain(DefaultExpirationDays, DomainName, args::AbstractDict{String, <:An
 """
     CreateProfile()
 
-Creates a standard profile. A standard profile represents the following attributes for a customer profile in a domain.
+Creates a standard profile. A standard profile represents the following attributes for a
+customer profile in a domain.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -47,14 +60,16 @@ Creates a standard profile. A standard profile represents the following attribut
 # Optional Parameters
 - `AccountNumber`: A unique account number that you have given to the customer.
 - `AdditionalInformation`: Any additional information relevant to the customer's profile.
-- `Address`: A generic address associated with the customer that is not mailing, shipping, or billing.
+- `Address`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
 - `Attributes`: A key value pair of attributes of a customer profile.
 - `BillingAddress`: The customer’s billing address.
 - `BirthDate`: The customer’s birth date.
 - `BusinessEmailAddress`: The customer’s business email address.
 - `BusinessName`: The name of the customer’s business.
 - `BusinessPhoneNumber`: The customer’s business phone number.
-- `EmailAddress`: The customer's email address, which has not been specified as a personal or business address.
+- `EmailAddress`: The customer's email address, which has not been specified as a personal
+  or business address.
 - `FirstName`: The customer’s first name.
 - `Gender`: The gender with which the customer identifies.
 - `HomePhoneNumber`: The customer’s home phone number.
@@ -64,7 +79,8 @@ Creates a standard profile. A standard profile represents the following attribut
 - `MobilePhoneNumber`: The customer’s mobile phone number.
 - `PartyType`: The type of profile used to describe the customer.
 - `PersonalEmailAddress`: The customer’s personal email address.
-- `PhoneNumber`: The customer's phone number, which has not been specified as a mobile, home, or business number.
+- `PhoneNumber`: The customer's phone number, which has not been specified as a mobile,
+  home, or business number.
 - `ShippingAddress`: The customer’s shipping address.
 """
 create_profile(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles"; aws_config=aws_config)
@@ -73,7 +89,8 @@ create_profile(DomainName, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     DeleteDomain()
 
-Deletes a specific domain and all of its customer data, such as customer profile attributes and their related objects.
+Deletes a specific domain and all of its customer data, such as customer profile attributes
+and their related objects.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -132,7 +149,8 @@ Removes an object associated with a profile of a given ProfileObjectType.
 - `DomainName`: The unique name of the domain.
 - `ObjectTypeName`: The name of the profile object type.
 - `ProfileId`: The unique identifier of a customer profile.
-- `ProfileObjectUniqueKey`: The unique identifier of the profile object generated by the service.
+- `ProfileObjectUniqueKey`: The unique identifier of the profile object generated by the
+  service.
 
 """
 delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUniqueKey; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/delete", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "ProfileId"=>ProfileId, "ProfileObjectUniqueKey"=>ProfileObjectUniqueKey); aws_config=aws_config)
@@ -141,7 +159,10 @@ delete_profile_object(DomainName, ObjectTypeName, ProfileId, ProfileObjectUnique
 """
     DeleteProfileObjectType()
 
-Removes a ProfileObjectType from a specific domain as well as removes all the ProfileObjects of that type. It also disables integrations from this specific ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that were populated from this ProfileObjectType.
+Removes a ProfileObjectType from a specific domain as well as removes all the
+ProfileObjects of that type. It also disables integrations from this specific
+ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that
+were populated from this ProfileObjectType.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -192,7 +213,10 @@ get_profile_object_type(DomainName, ObjectTypeName, args::AbstractDict{String, <
 """
     GetProfileObjectTypeTemplate()
 
-Returns the template information for a specific object type. A template is a predefined ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the template.
+Returns the template information for a specific object type. A template is a predefined
+ProfileObjectType, such as “Salesforce-Account” or “Salesforce-Contact.” When a
+user sends a ProfileObject, using the PutProfileObject API, with an ObjectTypeName that
+matches one of the TemplateIds, it uses the mappings from the template.
 
 # Required Parameters
 - `TemplateId`: A unique identifier for the object template.
@@ -290,7 +314,8 @@ list_profile_objects(DomainName, ObjectTypeName, ProfileId, args::AbstractDict{S
 """
     ListTagsForResource()
 
-Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
+Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect
+Customer Profiles, domains, profile object types, and integrations can be tagged.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource for which you want to view tags.
@@ -302,7 +327,8 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutIntegration()
 
-Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain.
+Adds an integration between the service and a third-party service, which includes Amazon
+AppFlow and Amazon Connect. An integration can belong to only one domain.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -318,7 +344,14 @@ put_integration(DomainName, ObjectTypeName, Uri, args::AbstractDict{String, <:An
 """
     PutProfileObject()
 
-Adds additional objects to customer profiles of a given ObjectType. When adding a specific profile object, like a Contact Trace Record (CTR), an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional CTRs with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. PutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
+Adds additional objects to customer profiles of a given ObjectType. When adding a specific
+profile object, like a Contact Trace Record (CTR), an inferred profile can get created if
+it is not mapped to an existing profile. The resulting profile will only have a phone
+number populated in the standard ProfileObject. Any additional CTRs with the same phone
+number will be mapped to the same inferred profile. When a ProfileObject is created and if
+a ProfileObjectType already exists for the ProfileObject, it will provide data to a
+standard profile depending on the ProfileObjectType definition. PutProfileObject needs an
+ObjectType, which can be created using PutProfileObjectType.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -340,8 +373,13 @@ Defines a ProfileObjectType.
 - `ObjectTypeName`: The name of the profile object type.
 
 # Optional Parameters
-- `AllowProfileCreation`: Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
-- `EncryptionKey`: The customer-provided key to encrypt the profile object that will be created in this profile object type.
+- `AllowProfileCreation`: Indicates whether a profile should be created when data is
+  received if one doesn’t exist for an object of this type. The default is FALSE. If the
+  AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard
+  profile and associate this object with the profile. If it is set to TRUE, and if no match
+  is found, then the service creates a new standard profile.
+- `EncryptionKey`: The customer-provided key to encrypt the profile object that will be
+  created in this profile object type.
 - `ExpirationDays`: The number of days until the data in the object expires.
 - `Fields`: A map of the name and ObjectType field.
 - `Keys`: A list of unique keys that can be used to map data to the profile.
@@ -354,11 +392,15 @@ put_profile_object_type(Description, DomainName, ObjectTypeName, args::AbstractD
 """
     SearchProfiles()
 
-Searches for profiles within a specific domain name using name, phone number, email address, account number, or a custom defined index.
+Searches for profiles within a specific domain name using name, phone number, email
+address, account number, or a custom defined index.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
-- `KeyName`: A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _zendeskUserId, _zendeskExternalId, _serviceNowSystemId.
+- `KeyName`: A searchable identifier of a customer profile. The predefined keys you can use
+  to search include: _account, _profileId, _fullName, _phone, _email, _ctrContactId,
+  _marketoLeadId, _salesforceAccountId, _salesforceContactId, _zendeskUserId,
+  _zendeskExternalId, _serviceNowSystemId.
 - `Values`: A list of key values.
 
 # Optional Parameters
@@ -371,7 +413,16 @@ search_profiles(DomainName, KeyName, Values, args::AbstractDict{String, <:Any}; 
 """
     TagResource()
 
-Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer Profiles resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
+Assigns one or more tags (key-value pairs) to the specified Amazon Connect Customer
+Profiles resource. Tags can help you organize and categorize your resources. You can also
+use them to scope user permissions by granting a user permission to access or change only
+resources with certain tag values. In Connect Customer Profiles, domains, profile object
+types, and integrations can be tagged. Tags don't have any semantic meaning to AWS and are
+interpreted strictly as strings of characters. You can use the TagResource action with a
+resource that already has tags. If you specify a new tag key, this tag is appended to the
+list of tags associated with the resource. If you specify a tag key that is already
+associated with the resource, the new tag value that you specify replaces the previous
+value for that tag. You can associate as many as 50 tags with a resource.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource that you're adding tags to.
@@ -384,7 +435,8 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
+Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In
+Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource from which you are removing tags.
@@ -397,15 +449,24 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateDomain()
 
-Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. Once a domain is created, the name can’t be changed.
+Updates the properties of a domain, including creating or selecting a dead letter queue or
+an encryption key. Once a domain is created, the name can’t be changed.
 
 # Required Parameters
 - `DomainName`: The unique name for the domain.
 
 # Optional Parameters
-- `DeadLetterQueueUrl`: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. If specified as an empty string, it will clear any existing value. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
-- `DefaultEncryptionKey`: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage. If specified as an empty string, it will clear any existing value.
-- `DefaultExpirationDays`: The default number of days until the data within the domain expires.
+- `DeadLetterQueueUrl`: The URL of the SQS dead letter queue, which is used for reporting
+  errors associated with ingesting data from third party applications. If specified as an
+  empty string, it will clear any existing value. You must set up a policy on the
+  DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to
+  send messages to the DeadLetterQueue.
+- `DefaultEncryptionKey`: The default encryption key, which is an AWS managed key, is used
+  when no specific type of encryption key is specified. It is used to encrypt all data before
+  it is placed in permanent or semi-permanent storage. If specified as an empty string, it
+  will clear any existing value.
+- `DefaultExpirationDays`: The default number of days until the data within the domain
+  expires.
 - `Tags`: The tags used to organize, track, or control access for this resource.
 """
 update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)"; aws_config=aws_config)
@@ -414,7 +475,10 @@ update_domain(DomainName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     UpdateProfile()
 
-Updates the properties of a profile. The ProfileId is required for updating a customer profile. When calling the UpdateProfile API, specifying an empty string value means that any existing value will be removed. Not specifying a string value means that any value already there will be kept.
+Updates the properties of a profile. The ProfileId is required for updating a customer
+profile. When calling the UpdateProfile API, specifying an empty string value means that
+any existing value will be removed. Not specifying a string value means that any value
+already there will be kept.
 
 # Required Parameters
 - `DomainName`: The unique name of the domain.
@@ -423,14 +487,16 @@ Updates the properties of a profile. The ProfileId is required for updating a cu
 # Optional Parameters
 - `AccountNumber`: A unique account number that you have given to the customer.
 - `AdditionalInformation`: Any additional information relevant to the customer's profile.
-- `Address`: A generic address associated with the customer that is not mailing, shipping, or billing.
+- `Address`: A generic address associated with the customer that is not mailing, shipping,
+  or billing.
 - `Attributes`: A key value pair of attributes of a customer profile.
 - `BillingAddress`: The customer’s billing address.
 - `BirthDate`: The customer’s birth date.
 - `BusinessEmailAddress`: The customer’s business email address.
 - `BusinessName`: The name of the customer’s business.
 - `BusinessPhoneNumber`: The customer’s business phone number.
-- `EmailAddress`: The customer's email address, which has not been specified as a personal or business address.
+- `EmailAddress`: The customer's email address, which has not been specified as a personal
+  or business address.
 - `FirstName`: The customer’s first name.
 - `Gender`: The gender with which the customer identifies.
 - `HomePhoneNumber`: The customer’s home phone number.
@@ -440,7 +506,8 @@ Updates the properties of a profile. The ProfileId is required for updating a cu
 - `MobilePhoneNumber`: The customer’s mobile phone number.
 - `PartyType`: The type of profile used to describe the customer.
 - `PersonalEmailAddress`: The customer’s personal email address.
-- `PhoneNumber`: The customer's phone number, which has not been specified as a mobile, home, or business number.
+- `PhoneNumber`: The customer's phone number, which has not been specified as a mobile,
+  home, or business number.
 - `ShippingAddress`: The customer’s shipping address.
 """
 update_profile(DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/profiles", Dict{String, Any}("ProfileId"=>ProfileId); aws_config=aws_config)

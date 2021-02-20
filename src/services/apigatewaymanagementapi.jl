@@ -10,7 +10,7 @@ using AWS.UUIDs
 Delete the connection with the provided id.
 
 # Required Parameters
-- `connectionId`: 
+- `connectionId`:
 
 """
 delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)"; aws_config=aws_config)
@@ -22,7 +22,7 @@ delete_connection(connectionId, args::AbstractDict{String, <:Any}; aws_config::A
 Get information about the connection with the provided id.
 
 # Required Parameters
-- `connectionId`: 
+- `connectionId`:
 
 """
 get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)"; aws_config=aws_config)

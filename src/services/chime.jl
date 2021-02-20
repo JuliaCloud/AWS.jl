@@ -28,7 +28,9 @@ Associates phone numbers with the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 # Optional Parameters
-- `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
+- `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon
+  Chime Voice Connector and removes any previously existing associations. If false, does not
+  associate any phone numbers that have previously existing associations.
 """
 associate_phone_numbers_with_voice_connector(E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws_config=aws_config)
 associate_phone_numbers_with_voice_connector(E164PhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws_config=aws_config)
@@ -43,7 +45,9 @@ Associates phone numbers with the specified Amazon Chime Voice Connector group.
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 # Optional Parameters
-- `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector Group and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
+- `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon
+  Chime Voice Connector Group and removes any previously existing associations. If false,
+  does not associate any phone numbers that have previously existing associations.
 """
 associate_phone_numbers_with_voice_connector_group(E164PhoneNumbers, voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws_config=aws_config)
 associate_phone_numbers_with_voice_connector_group(E164PhoneNumbers, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws_config=aws_config)
@@ -64,7 +68,9 @@ associate_signin_delegate_groups_with_account(SigninDelegateGroups, accountId, a
 """
     BatchCreateAttendee()
 
- Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide. 
+ Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more
+information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
+Developer Guide.
 
 # Required Parameters
 - `Attendees`: The request containing the attendees to create.
@@ -77,7 +83,9 @@ batch_create_attendee(Attendees, meetingId, args::AbstractDict{String, <:Any}; a
 """
     BatchCreateRoomMembership()
 
-Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
+Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be
+users or bots. The member role designates whether the member is a chat room administrator
+or a general chat room member.
 
 # Required Parameters
 - `MembershipItemList`: The list of membership items.
@@ -91,7 +99,9 @@ batch_create_room_membership(MembershipItemList, accountId, roomId, args::Abstra
 """
     BatchDeletePhoneNumber()
 
- Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted.   Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. 
+ Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any
+users or Amazon Chime Voice Connectors before they can be deleted.   Phone numbers remain
+in the Deletion queue for 7 days before they are deleted permanently.
 
 # Required Parameters
 - `PhoneNumberIds`: List of phone number IDs.
@@ -103,7 +113,15 @@ batch_delete_phone_number(PhoneNumberIds, args::AbstractDict{String, <:Any}; aws
 """
     BatchSuspendUser()
 
-Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.  To sign out users without suspending them, use the LogoutUser action. 
+Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more
+information about different account types, see Managing Your Amazon Chime Accounts in the
+Amazon Chime Administration Guide. Users suspended from a Team account are disassociated
+from the account,but they can continue to use Amazon Chime as free users. To remove the
+suspension from suspended Team account users, invite them to the Team account again. You
+can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are
+immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension
+from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.  To sign out
+users without suspending them, use the LogoutUser action.
 
 # Required Parameters
 - `UserIdList`: The request containing the user IDs to suspend.
@@ -116,7 +134,12 @@ batch_suspend_user(UserIdList, accountId, args::AbstractDict{String, <:Any}; aws
 """
     BatchUnsuspendUser()
 
-Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.  Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored. 
+Removes the suspension from up to 50 previously suspended users for the specified Amazon
+Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using
+this action. For more information about different account types, see Managing Your Amazon
+Chime Accounts in the Amazon Chime Administration Guide.  Previously suspended users who
+are unsuspended using this action are returned to Registered status. Users who are not
+previously suspended are ignored.
 
 # Required Parameters
 - `UserIdList`: The request containing the user IDs to unsuspend.
@@ -129,10 +152,17 @@ batch_unsuspend_user(UserIdList, accountId, args::AbstractDict{String, <:Any}; a
 """
     BatchUpdatePhoneNumber()
 
- Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem . For example, you can update either the product type or the calling name.  For product types, choose from Amazon Chime Business Calling and Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+ Updates phone number product types or calling names. You can update one attribute at a
+time for each UpdatePhoneNumberRequestItem . For example, you can update either the product
+type or the calling name.  For product types, choose from Amazon Chime Business Calling and
+Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice
+Connector product type. Updates to outbound calling names can take up to 72 hours to
+complete. Pending updates to outbound calling names must be complete before you can request
+another update.
 
 # Required Parameters
-- `UpdatePhoneNumberRequestItems`: The request containing the phone number IDs and product types or calling names to update.
+- `UpdatePhoneNumberRequestItems`: The request containing the phone number IDs and product
+  types or calling names to update.
 
 """
 batch_update_phone_number(UpdatePhoneNumberRequestItems; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems); aws_config=aws_config)
@@ -141,7 +171,9 @@ batch_update_phone_number(UpdatePhoneNumberRequestItems, args::AbstractDict{Stri
 """
     BatchUpdateUser()
 
- Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action. 
+ Updates user details within the UpdateUserRequestItem object for up to 20 users for the
+specified Amazon Chime account. Currently, only LicenseType updates are supported for this
+action.
 
 # Required Parameters
 - `UpdateUserRequestItems`: The request containing the user IDs and details to update.
@@ -154,7 +186,9 @@ batch_update_user(UpdateUserRequestItems, accountId, args::AbstractDict{String, 
 """
     CreateAccount()
 
-Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
+Creates an Amazon Chime account under the administrator's AWS account. Only Team account
+types are currently supported for this action. For more information about different account
+types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime account.
@@ -166,7 +200,9 @@ create_account(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     CreateAppInstance()
 
-Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging customers use this API. CreateAppInstance supports idempotency behavior as described in the AWS API Standard.
+Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging
+customers use this API. CreateAppInstance supports idempotency behavior as described in the
+AWS API Standard.
 
 # Required Parameters
 - `ClientRequestToken`: The ClientRequestToken of the AppInstance.
@@ -182,7 +218,10 @@ create_app_instance(ClientRequestToken, Name, args::AbstractDict{String, <:Any};
 """
     CreateAppInstanceAdmin()
 
-Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the following actions.     ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
+Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the
+following actions.     ChannelModerator actions across all channels in the AppInstance.
+DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an
+AppInstanceAdmin role.
 
 # Required Parameters
 - `AppInstanceAdminArn`: The ARN of the administrator of the current AppInstance.
@@ -195,7 +234,8 @@ create_app_instance_admin(AppInstanceAdminArn, appInstanceArn, args::AbstractDic
 """
     CreateAppInstanceUser()
 
-Creates a user under an Amazon Chime AppInstance. The request consists of a unique appInstanceUserId and Name for that user.
+Creates a user under an Amazon Chime AppInstance. The request consists of a unique
+appInstanceUserId and Name for that user.
 
 # Required Parameters
 - `AppInstanceArn`: The ARN of the AppInstance request.
@@ -213,10 +253,12 @@ create_app_instance_user(AppInstanceArn, AppInstanceUserId, ClientRequestToken, 
 """
     CreateAttendee()
 
- Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide. 
+ Creates a new attendee for an active Amazon Chime SDK meeting. For more information about
+the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Required Parameters
-- `ExternalUserId`: The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+- `ExternalUserId`: The Amazon Chime SDK external user ID. An idempotency token. Links the
+  attendee to an identity managed by a builder application.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 # Optional Parameters
@@ -243,7 +285,9 @@ create_bot(DisplayName, accountId, args::AbstractDict{String, <:Any}; aws_config
 """
     CreateChannel()
 
-Creates a channel to which you can add users and send messages.  Restriction: You can't change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Creates a channel to which you can add users and send messages.  Restriction: You can't
+change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the
+AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `AppInstanceArn`: The ARN of the channel request.
@@ -252,8 +296,12 @@ Creates a channel to which you can add users and send messages.  Restriction: Yo
 
 # Optional Parameters
 - `Metadata`: The metadata of the creation request. Limited to 1KB and UTF-8.
-- `Mode`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and channel members can add themselves and other members to unrestricted channels. Only administrators and moderators can add members to restricted channels.
-- `Privacy`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the AppInstance.
+- `Mode`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and
+  channel members can add themselves and other members to unrestricted channels. Only
+  administrators and moderators can add members to restricted channels.
+- `Privacy`: The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't
+  discoverable by users outside the channel. Public channels are discoverable by anyone in
+  the AppInstance.
 - `Tags`: The tags for the creation request.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
@@ -263,7 +311,12 @@ create_channel(AppInstanceArn, ClientRequestToken, Name, args::AbstractDict{Stri
 """
     CreateChannelBan()
 
-Permanently bans a member from a channel. Moderators can't add banned members to a channel. To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans are cleaned up when you delete users or channels. If you ban a user who is already part of a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Permanently bans a member from a channel. Moderators can't add banned members to a channel.
+To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans
+are cleaned up when you delete users or channels. If you ban a user who is already part of
+a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer
+request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
+as the value in the header.
 
 # Required Parameters
 - `MemberArn`: The ARN of the member being banned.
@@ -278,11 +331,20 @@ create_channel_ban(MemberArn, channelArn, args::AbstractDict{String, <:Any}; aws
 """
     CreateChannelMembership()
 
-Adds a user to a channel. The InvitedBy response field is derived from the request header. A channel member can:   List messages   Send messages   Receive messages   Edit their own messages   Leave the channel   Privacy settings impact this action as follows:   Public Channels: You do not need to be a member to list messages, but you must be a member to send messages.   Private Channels: You must be a member to list or send messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Adds a user to a channel. The InvitedBy response field is derived from the request header.
+A channel member can:   List messages   Send messages   Receive messages   Edit their own
+messages   Leave the channel   Privacy settings impact this action as follows:   Public
+Channels: You do not need to be a member to list messages, but you must be a member to send
+messages.   Private Channels: You must be a member to list or send messages.    The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `MemberArn`: The ARN of the member you want to add to the channel.
-- `Type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned. This is only supported by moderators.
+- `Type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
+  returned as part of ListChannelMemberships. Hidden members are only returned if the type
+  filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+  This is only supported by moderators.
 - `channelArn`: The ARN of the channel to which you're adding users.
 
 # Optional Parameters
@@ -294,7 +356,11 @@ create_channel_membership(MemberArn, Type, channelArn, args::AbstractDict{String
 """
     CreateChannelModerator()
 
-Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of the channel.   Add and remove other moderators of the channel.   Add and remove user bans for the channel.   Redact messages in the channel.   List messages in the channel.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of
+the channel.   Add and remove other moderators of the channel.   Add and remove user bans
+for the channel.   Redact messages in the channel.   List messages in the channel.    The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `ChannelModeratorArn`: The ARN of the moderator.
@@ -309,16 +375,25 @@ create_channel_moderator(ChannelModeratorArn, channelArn, args::AbstractDict{Str
 """
     CreateMeeting()
 
- Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
+attendees. For more information about specifying media Regions, see Amazon Chime SDK Media
+Regions in the Amazon Chime Developer Guide . For more information about the Amazon Chime
+SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
 
 # Required Parameters
-- `ClientRequestToken`: The unique identifier for the client request. Use a different token for different meetings.
+- `ClientRequestToken`: The unique identifier for the client request. Use a different token
+  for different meetings.
 
 # Optional Parameters
 - `ExternalMeetingId`: The external meeting ID.
-- `MediaRegion`:  The Region in which to create the meeting. Default: us-east-1.   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . 
+- `MediaRegion`:  The Region in which to create the meeting. Default: us-east-1.
+  Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 ,
+  ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 ,
+  eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 ,
+  us-west-2 .
 - `MeetingHostId`: Reserved.
-- `NotificationsConfiguration`: The configuration for resource targets to receive notifications when meeting and attendee events occur.
+- `NotificationsConfiguration`: The configuration for resource targets to receive
+  notifications when meeting and attendee events occur.
 - `Tags`: The tag key-value pairs.
 """
 create_meeting(ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config)
@@ -327,11 +402,17 @@ create_meeting(ClientRequestToken, args::AbstractDict{String, <:Any}; aws_config
 """
     CreateMeetingDialOut()
 
-Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
+Uses the join token and call metadata in a meeting request (From number, To number, and so
+forth) to initiate an outbound call to a public switched telephone network (PSTN) and join
+them into a Chime meeting. Also ensures that the From number belongs to the customer. To
+play welcome audio or implement an interactive voice response (IVR), use the
+CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
 
 # Required Parameters
-- `FromPhoneNumber`: Phone number used as the caller ID when the remote party receives a call.
-- `JoinToken`: Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action to get a join token.
+- `FromPhoneNumber`: Phone number used as the caller ID when the remote party receives a
+  call.
+- `JoinToken`: Token used by the Amazon Chime SDK attendee. Call the CreateAttendee action
+  to get a join token.
 - `ToPhoneNumber`: Phone number called when inviting someone to a meeting.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
@@ -342,17 +423,25 @@ create_meeting_dial_out(FromPhoneNumber, JoinToken, ToPhoneNumber, meetingId, ar
 """
     CreateMeetingWithAttendees()
 
- Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
+more information about specifying media Regions, see Amazon Chime SDK Media Regions in the
+Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see Using
+the Amazon Chime SDK in the Amazon Chime Developer Guide .
 
 # Required Parameters
-- `ClientRequestToken`: The unique identifier for the client request. Use a different token for different meetings.
+- `ClientRequestToken`: The unique identifier for the client request. Use a different token
+  for different meetings.
 
 # Optional Parameters
 - `Attendees`: The request containing the attendees to create.
 - `ExternalMeetingId`: The external meeting ID.
-- `MediaRegion`:  The Region in which to create the meeting. Default: us-east-1 .   Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 . 
+- `MediaRegion`:  The Region in which to create the meeting. Default: us-east-1 .
+  Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 ,
+  ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 ,
+  eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 ,
+  us-west-2 .
 - `MeetingHostId`: Reserved.
-- `NotificationsConfiguration`: 
+- `NotificationsConfiguration`:
 - `Tags`: The tag key-value pairs.
 """
 create_meeting_with_attendees(ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config)
@@ -361,7 +450,9 @@ create_meeting_with_attendees(ClientRequestToken, args::AbstractDict{String, <:A
 """
     CreatePhoneNumberOrder()
 
-Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use the Amazon Chime Voice Connector product type.
+Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business
+Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use
+the Amazon Chime Voice Connector product type.
 
 # Required Parameters
 - `E164PhoneNumbers`: List of phone numbers, in E.164 format.
@@ -374,7 +465,8 @@ create_phone_number_order(E164PhoneNumbers, ProductType, args::AbstractDict{Stri
 """
     CreateProxySession()
 
-Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.
+Creates a proxy session on the specified Amazon Chime Voice Connector for the specified
+participant phone numbers.
 
 # Required Parameters
 - `Capabilities`: The proxy session capabilities.
@@ -383,10 +475,12 @@ Creates a proxy session on the specified Amazon Chime Voice Connector for the sp
 
 # Optional Parameters
 - `ExpiryMinutes`: The number of minutes allowed for the proxy session.
-- `GeoMatchLevel`: The preference for matching the country or area code of the proxy phone number with that of the first participant.
+- `GeoMatchLevel`: The preference for matching the country or area code of the proxy phone
+  number with that of the first participant.
 - `GeoMatchParams`: The country and area code for the proxy phone number.
 - `Name`: The name of the proxy session.
-- `NumberSelectionBehavior`: The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
+- `NumberSelectionBehavior`: The preference for proxy phone number reuse, or stickiness,
+  between the same participants across sessions.
 """
 create_proxy_session(Capabilities, ParticipantPhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers); aws_config=aws_config)
 create_proxy_session(Capabilities, ParticipantPhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers), args)); aws_config=aws_config)
@@ -409,7 +503,9 @@ create_room(Name, accountId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     CreateRoomMembership()
 
-Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
+Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either
+a user or a bot. The member role designates whether the member is a chat room administrator
+or a general chat room member.
 
 # Required Parameters
 - `MemberId`: The Amazon Chime member ID (user ID or bot ID).
@@ -429,7 +525,8 @@ Creates a SIP media application.
 
 # Required Parameters
 - `AwsRegion`: The AWS Region assigned to the SIP media application.
-- `Endpoints`: List of endpoints (Lambda Amazon Resource Names) specified for the SIP media application. Currently, only one endpoint is supported.
+- `Endpoints`: List of endpoints (Lambda Amazon Resource Names) specified for the SIP media
+  application. Currently, only one endpoint is supported.
 - `Name`: The SIP media application name.
 
 """
@@ -439,7 +536,8 @@ create_sip_media_application(AwsRegion, Endpoints, Name, args::AbstractDict{Stri
 """
     CreateSipMediaApplicationCall()
 
-Creates an outbound call to a phone number from the phone number specified in the request, and it invokes the endpoint of the specified sipMediaApplicationId.
+Creates an outbound call to a phone number from the phone number specified in the request,
+and it invokes the endpoint of the specified sipMediaApplicationId.
 
 # Required Parameters
 - `FromPhoneNumber`: The phone number that a user calls from.
@@ -453,13 +551,21 @@ create_sip_media_application_call(FromPhoneNumber, ToPhoneNumber, sipMediaApplic
 """
     CreateSipRule()
 
-Creates a SIP rule which can be used to run a SIP media application as a target for a specific trigger type.
+Creates a SIP rule which can be used to run a SIP media application as a target for a
+specific trigger type.
 
 # Required Parameters
 - `Name`: The name of the SIP rule.
-- `TargetApplications`: List of SIP media applications with priority and AWS Region. Only one SIP application per AWS Region can be used.
-- `TriggerType`: The type of trigger assigned to the SIP rule in TriggerValue, currently RequestUriHostname or ToPhoneNumber.
-- `TriggerValue`: If TriggerType is RequestUriHostname, the value can be the outbound host name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, the value can be a customer-owned phone number in the E164 format. The SipMediaApplication specified in the SipRule is triggered if the request URI in an incoming SIP request matches the RequestUriHostname, or if the To header in the incoming SIP request matches the ToPhoneNumber value.
+- `TargetApplications`: List of SIP media applications with priority and AWS Region. Only
+  one SIP application per AWS Region can be used.
+- `TriggerType`: The type of trigger assigned to the SIP rule in TriggerValue, currently
+  RequestUriHostname or ToPhoneNumber.
+- `TriggerValue`: If TriggerType is RequestUriHostname, the value can be the outbound host
+  name of an Amazon Chime Voice Connector. If TriggerType is ToPhoneNumber, the value can be
+  a customer-owned phone number in the E164 format. The SipMediaApplication specified in the
+  SipRule is triggered if the request URI in an incoming SIP request matches the
+  RequestUriHostname, or if the To header in the incoming SIP request matches the
+  ToPhoneNumber value.
 
 # Optional Parameters
 - `Disabled`: Enables or disables a rule. You must disable rules before you can delete them.
@@ -486,14 +592,20 @@ create_user(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     CreateVoiceConnector()
 
-Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region.  Enabling CreateVoiceConnectorRequestRequireEncryption configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked. 
+Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can
+choose to create an Amazon Chime Voice Connector in a specific AWS Region.  Enabling
+CreateVoiceConnectorRequestRequireEncryption configures your Amazon Chime Voice Connector
+to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use
+TLS transport, and unencrypted outbound calls are blocked.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime Voice Connector.
-- `RequireEncryption`: When enabled, requires encryption for the Amazon Chime Voice Connector.
+- `RequireEncryption`: When enabled, requires encryption for the Amazon Chime Voice
+  Connector.
 
 # Optional Parameters
-- `AwsRegion`:  The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1 . 
+- `AwsRegion`:  The AWS Region in which the Amazon Chime Voice Connector is created.
+  Default value: us-east-1 .
 """
 create_voice_connector(Name, RequireEncryption; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors", Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption); aws_config=aws_config)
 create_voice_connector(Name, RequireEncryption, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/voice-connectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), args)); aws_config=aws_config)
@@ -501,7 +613,11 @@ create_voice_connector(Name, RequireEncryption, args::AbstractDict{String, <:Any
 """
     CreateVoiceConnectorGroup()
 
-Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
+Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You
+can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by
+including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors
+from different AWS Regions in your group. This creates a fault tolerant mechanism for
+fallback in case of availability events.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime Voice Connector group.
@@ -515,7 +631,13 @@ create_voice_connector_group(Name, args::AbstractDict{String, <:Any}; aws_config
 """
     DeleteAccount()
 
-Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support.  After 90 days, deleted accounts are permanently removed from your Disabled accounts list. 
+Deletes the specified Amazon Chime account. You must suspend all users before deleting Team
+account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and
+EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account
+before deletion. As soon as you release the domain, all users under that account are
+suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore
+deleted account from your Disabled accounts list, you must contact AWS Support.  After 90
+days, deleted accounts are permanently removed from your Disabled accounts list.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -576,7 +698,10 @@ delete_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}; 
 """
     DeleteAttendee()
 
- Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken . Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
+JoinToken . Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
+For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the
+Amazon Chime Developer Guide .
 
 # Required Parameters
 - `attendeeId`: The Amazon Chime SDK attendee ID.
@@ -589,7 +714,9 @@ delete_attendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws_co
 """
     DeleteChannel()
 
-Immediately makes a channel and its memberships inaccessible and marks them for deletion. This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Immediately makes a channel and its memberships inaccessible and marks them for deletion.
+This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use
+the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel being deleted.
@@ -603,7 +730,9 @@ delete_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     DeleteChannelBan()
 
-Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel from which the AppInstanceUser was banned.
@@ -618,7 +747,8 @@ delete_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; aws
 """
     DeleteChannelMembership()
 
-Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use
+the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel from which you want to remove the user.
@@ -633,7 +763,10 @@ delete_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:An
 """
     DeleteChannelMessage()
 
-Deletes a channel message. Only admins can perform this action. Deletion makes messages inaccessible immediately. A background process deletes any revisions created by UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Deletes a channel message. Only admins can perform this action. Deletion makes messages
+inaccessible immediately. A background process deletes any revisions created by
+UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the
+AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -648,7 +781,8 @@ delete_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any};
 """
     DeleteChannelModerator()
 
-Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the
+AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -676,7 +810,10 @@ delete_events_configuration(accountId, botId, args::AbstractDict{String, <:Any};
 """
     DeleteMeeting()
 
-Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees are also deleted, clients connected to the meeting are disconnected, and clients can no longer join the meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees
+are also deleted, clients connected to the meeting are disconnected, and clients can no
+longer join the meeting. For more information about the Amazon Chime SDK, see Using the
+Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Required Parameters
 - `meetingId`: The Amazon Chime SDK meeting ID.
@@ -688,7 +825,10 @@ delete_meeting(meetingId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     DeletePhoneNumber()
 
-Moves the specified phone number into the Deletionqueue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted.  Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently. 
+Moves the specified phone number into the Deletionqueue. A phone number must be
+disassociated from any users or Amazon Chime Voice Connectors before it can be deleted.
+Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted
+permanently.
 
 # Required Parameters
 - `phoneNumberId`: The phone number ID.
@@ -764,7 +904,8 @@ delete_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     DeleteVoiceConnector()
 
-Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
+Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the
+Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -776,7 +917,8 @@ delete_voice_connector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws_
 """
     DeleteVoiceConnectorEmergencyCallingConfiguration()
 
-Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.
+Deletes the emergency calling configuration details from the specified Amazon Chime Voice
+Connector.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -788,7 +930,8 @@ delete_voice_connector_emergency_calling_configuration(voiceConnectorId, args::A
 """
     DeleteVoiceConnectorGroup()
 
- Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted. 
+ Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and
+phone numbers associated with the group must be removed before it can be deleted.
 
 # Required Parameters
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
@@ -800,7 +943,9 @@ delete_voice_connector_group(voiceConnectorGroupId, args::AbstractDict{String, <
 """
     DeleteVoiceConnectorOrigination()
 
-Deletes the origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings. 
+Deletes the origination settings for the specified Amazon Chime Voice Connector.  If
+emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted
+prior to deleting the origination settings.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -836,7 +981,9 @@ delete_voice_connector_streaming_configuration(voiceConnectorId, args::AbstractD
 """
     DeleteVoiceConnectorTermination()
 
-Deletes the termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings. 
+Deletes the termination settings for the specified Amazon Chime Voice Connector.  If
+emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted
+prior to deleting the termination settings.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -848,10 +995,12 @@ delete_voice_connector_termination(voiceConnectorId, args::AbstractDict{String, 
 """
     DeleteVoiceConnectorTerminationCredentials()
 
-Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
+Deletes the specified SIP credentials used by your equipment to authenticate during call
+termination.
 
 # Required Parameters
-- `Usernames`: The RFC2617 compliant username associated with the SIP credentials, in US-ASCII format.
+- `Usernames`: The RFC2617 compliant username associated with the SIP credentials, in
+  US-ASCII format.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
@@ -886,7 +1035,7 @@ describe_app_instance_admin(appInstanceAdminArn, appInstanceArn, args::AbstractD
 """
     DescribeAppInstanceUser()
 
- Returns the full details of an AppInstanceUser . 
+ Returns the full details of an AppInstanceUser .
 
 # Required Parameters
 - `appInstanceUserArn`: The ARN of the AppInstanceUser.
@@ -898,7 +1047,9 @@ describe_app_instance_user(appInstanceUserArn, args::AbstractDict{String, <:Any}
 """
     DescribeChannel()
 
-Returns the full details of a channel in an Amazon Chime AppInstance.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Returns the full details of a channel in an Amazon Chime AppInstance.  The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -912,7 +1063,9 @@ describe_channel(channelArn, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     DescribeChannelBan()
 
-Returns the full details of a channel ban.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Returns the full details of a channel ban.  The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel from which the user is banned.
@@ -927,7 +1080,9 @@ describe_channel_ban(channelArn, memberArn, args::AbstractDict{String, <:Any}; a
 """
     DescribeChannelMembership()
 
-Returns the full details of a user's channel membership.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Returns the full details of a user's channel membership.  The x-amz-chime-bearer request
+header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
+value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -942,7 +1097,9 @@ describe_channel_membership(channelArn, memberArn, args::AbstractDict{String, <:
 """
     DescribeChannelMembershipForAppInstanceUser()
 
- Returns the details of a channel based on the membership of the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+ Returns the details of a channel based on the membership of the specified AppInstanceUser.
+ The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
+that makes the API call as the value in the header.
 
 # Required Parameters
 - `app-instance-user-arn`: The ARN of the user in a channel.
@@ -957,7 +1114,9 @@ describe_channel_membership_for_app_instance_user(app_instance_user_arn, channel
 """
     DescribeChannelModeratedByAppInstanceUser()
 
-Returns the full details of a channel moderated by the specified AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Returns the full details of a channel moderated by the specified AppInstanceUser.  The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `app-instance-user-arn`: The ARN of the AppInstanceUser in the moderated channel.
@@ -972,7 +1131,9 @@ describe_channel_moderated_by_app_instance_user(app_instance_user_arn, channelAr
 """
     DescribeChannelModerator()
 
-Returns the full details of a single ChannelModerator.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Returns the full details of a single ChannelModerator.  The x-amz-chime-bearer request
+header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
+value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -1013,7 +1174,8 @@ disassociate_phone_numbers_from_voice_connector(E164PhoneNumbers, voiceConnector
 """
     DisassociatePhoneNumbersFromVoiceConnectorGroup()
 
-Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.
+Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector
+group.
 
 # Required Parameters
 - `E164PhoneNumbers`: List of phone numbers, in E.164 format.
@@ -1039,7 +1201,8 @@ disassociate_signin_delegate_groups_from_account(GroupNames, accountId, args::Ab
 """
     GetAccount()
 
-Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
+Retrieves details for the specified Amazon Chime account, such as account type and
+supported licenses.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1051,7 +1214,9 @@ get_account(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     GetAccountSettings()
 
-Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
+Retrieves account settings for the specified Amazon Chime account ID, such as remote
+control and dialout settings. For more information about these settings, see Use the
+Policies Page in the Amazon Chime Administration Guide.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1087,7 +1252,9 @@ get_app_instance_streaming_configurations(appInstanceArn, args::AbstractDict{Str
 """
     GetAttendee()
 
- Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For
+more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon
+Chime Developer Guide .
 
 # Required Parameters
 - `attendeeId`: The Amazon Chime SDK attendee ID.
@@ -1100,7 +1267,8 @@ get_attendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws_confi
 """
     GetBot()
 
-Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
+Retrieves details for the specified bot, such as bot email address, bot type, status, and
+display name.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1113,7 +1281,9 @@ get_bot(accountId, botId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     GetChannelMessage()
 
-Gets the full details of a channel message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Gets the full details of a channel message.  The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -1128,7 +1298,8 @@ get_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any}; aw
 """
     GetEventsConfiguration()
 
-Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
+Gets details for an events configuration that allows a bot to receive outgoing events, such
+as an HTTPS endpoint or Lambda function ARN.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1141,7 +1312,8 @@ get_events_configuration(accountId, botId, args::AbstractDict{String, <:Any}; aw
 """
     GetGlobalSettings()
 
-Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
+Retrieves global settings for the administrator's AWS account, such as Amazon Chime
+Business Calling and Amazon Chime Voice Connector settings.
 
 """
 get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings"; aws_config=aws_config)
@@ -1150,7 +1322,9 @@ get_global_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 """
     GetMeeting()
 
- Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
+information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
+Developer Guide .
 
 # Required Parameters
 - `meetingId`: The Amazon Chime SDK meeting ID.
@@ -1171,7 +1345,8 @@ get_messaging_session_endpoint(args::AbstractDict{String, Any}; aws_config::Abst
 """
     GetPhoneNumber()
 
-Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
+Retrieves details for the specified phone number ID, such as associations, capabilities,
+and product type.
 
 # Required Parameters
 - `phoneNumberId`: The phone number ID.
@@ -1183,7 +1358,8 @@ get_phone_number(phoneNumberId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     GetPhoneNumberOrder()
 
-Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
+Retrieves details for the specified phone number order, such as the order creation
+timestamp, phone numbers in E.164 format, product type, and order status.
 
 # Required Parameters
 - `phoneNumberOrderId`: The ID for the phone number order.
@@ -1195,7 +1371,8 @@ get_phone_number_order(phoneNumberOrderId, args::AbstractDict{String, <:Any}; aw
 """
     GetPhoneNumberSettings()
 
-Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
+Retrieves the phone number settings for the administrator's AWS account, such as the
+default outbound calling name.
 
 """
 get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings/phone-number"; aws_config=aws_config)
@@ -1217,7 +1394,9 @@ get_proxy_session(proxySessionId, voiceConnectorId, args::AbstractDict{String, <
 """
     GetRetentionSettings()
 
- Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide . 
+ Gets the retention settings for the specified Amazon Chime Enterprise account. For more
+information about retention settings, see Managing Chat Retention Policies in the Amazon
+Chime Administration Guide .
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1229,7 +1408,8 @@ get_retention_settings(accountId, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetRoom()
 
-Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
+Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise
+account.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1242,7 +1422,8 @@ get_room(accountId, roomId, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     GetSipMediaApplication()
 
-Retrieves the information for a SIP media application, including name, AWS Region, and endpoints.
+Retrieves the information for a SIP media application, including name, AWS Region, and
+endpoints.
 
 # Required Parameters
 - `sipMediaApplicationId`: The SIP media application ID.
@@ -1266,7 +1447,8 @@ get_sip_media_application_logging_configuration(sipMediaApplicationId, args::Abs
 """
     GetSipRule()
 
-Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target endpoints.
+Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target
+endpoints.
 
 # Required Parameters
 - `sipRuleId`: The SIP rule ID.
@@ -1278,7 +1460,9 @@ get_sip_rule(sipRuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     GetUser()
 
-Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN.  To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address. 
+Retrieves details for the specified user ID, such as primary email address, license
+type,and personal meeting PIN.  To retrieve user details with an email address instead of a
+user ID, use the ListUsers action, and then filter by email address.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1304,7 +1488,8 @@ get_user_settings(accountId, userId, args::AbstractDict{String, <:Any}; aws_conf
 """
     GetVoiceConnector()
 
-Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name, outbound host, and encryption requirements.
+Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name,
+outbound host, and encryption requirements.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1316,7 +1501,8 @@ get_voice_connector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws_con
 """
     GetVoiceConnectorEmergencyCallingConfiguration()
 
-Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.
+Gets the emergency calling configuration details for the specified Amazon Chime Voice
+Connector.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1328,7 +1514,8 @@ get_voice_connector_emergency_calling_configuration(voiceConnectorId, args::Abst
 """
     GetVoiceConnectorGroup()
 
- Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps,name, and associated VoiceConnectorItems . 
+ Retrieves details for the specified Amazon Chime Voice Connector group, such as
+timestamps,name, and associated VoiceConnectorItems .
 
 # Required Parameters
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
@@ -1340,7 +1527,8 @@ get_voice_connector_group(voiceConnectorGroupId, args::AbstractDict{String, <:An
 """
     GetVoiceConnectorLoggingConfiguration()
 
-Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+Retrieves the logging configuration details for the specified Amazon Chime Voice Connector.
+Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1376,7 +1564,9 @@ get_voice_connector_proxy(voiceConnectorId, args::AbstractDict{String, <:Any}; a
 """
     GetVoiceConnectorStreamingConfiguration()
 
-Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
+Retrieves the streaming configuration details for the specified Amazon Chime Voice
+Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also
+shows the retention period, in hours, for the Amazon Kinesis data.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1400,7 +1590,8 @@ get_voice_connector_termination(voiceConnectorId, args::AbstractDict{String, <:A
 """
     GetVoiceConnectorTerminationHealth()
 
-Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
+Retrieves information about the last time a SIP OPTIONS ping was received from your SIP
+infrastructure for the specified Amazon Chime Voice Connector.
 
 # Required Parameters
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
@@ -1412,7 +1603,8 @@ get_voice_connector_termination_health(voiceConnectorId, args::AbstractDict{Stri
 """
     InviteUsers()
 
-Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
+Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team
+account. Only Team account types are currently supported for this action.
 
 # Required Parameters
 - `UserEmailList`: The user email addresses to which to send the email invitation.
@@ -1427,7 +1619,9 @@ invite_users(UserEmailList, accountId, args::AbstractDict{String, <:Any}; aws_co
 """
     ListAccounts()
 
-Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, toucan filter by the user's email address, which returns one account result.
+Lists the Amazon Chime accounts under the administrator's AWS account. You can filter
+accounts by account name prefix. To find out which Amazon Chime account a user belongs to,
+toucan filter by the user's email address, which returns one account result.
 
 # Optional Parameters
 - `max-results`: The maximum number of results to return in a single call. Defaults to 100.
@@ -1448,7 +1642,8 @@ Returns a list of the administrators in the AppInstance.
 
 # Optional Parameters
 - `max-results`: The maximum number of administrators that you want to return.
-- `next-token`: The token returned from previous API requests until the number of administrators is reached.
+- `next-token`: The token returned from previous API requests until the number of
+  administrators is reached.
 """
 list_app_instance_admins(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins"; aws_config=aws_config)
 list_app_instance_admins(appInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances/$(appInstanceArn)/admins", args; aws_config=aws_config)
@@ -1456,14 +1651,15 @@ list_app_instance_admins(appInstanceArn, args::AbstractDict{String, <:Any}; aws_
 """
     ListAppInstanceUsers()
 
- List all AppInstanceUsers created under a single AppInstance. 
+ List all AppInstanceUsers created under a single AppInstance.
 
 # Required Parameters
 - `app-instance-arn`: The ARN of the AppInstance.
 
 # Optional Parameters
 - `max-results`: The maximum number of requests that you want returned.
-- `next-token`: The token passed by previous API calls until all requested users are returned.
+- `next-token`: The token passed by previous API calls until all requested users are
+  returned.
 """
 list_app_instance_users(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
 list_app_instance_users(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instance-users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("app-instance-arn"=>app_instance_arn), args)); aws_config=aws_config)
@@ -1475,7 +1671,8 @@ Lists all Amazon Chime AppInstances created under a single AWS account.
 
 # Optional Parameters
 - `max-results`: The maximum number of AppInstances that you want to return.
-- `next-token`: The token passed by previous API requests until you reach the maximum number of AppInstances.
+- `next-token`: The token passed by previous API requests until you reach the maximum
+  number of AppInstances.
 """
 list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances"; aws_config=aws_config)
 list_app_instances(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances", args; aws_config=aws_config)
@@ -1496,7 +1693,8 @@ list_attendee_tags(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws
 """
     ListAttendees()
 
- Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
+the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
 
 # Required Parameters
 - `meetingId`: The Amazon Chime SDK meeting ID.
@@ -1517,7 +1715,8 @@ Lists the bots associated with the administrator's Amazon Chime Enterprise accou
 - `accountId`: The Amazon Chime account ID.
 
 # Optional Parameters
-- `max-results`: The maximum number of results to return in a single call. The default is 10.
+- `max-results`: The maximum number of results to return in a single call. The default is
+  10.
 - `next-token`: The token to use to retrieve the next page of results.
 """
 list_bots(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/accounts/$(accountId)/bots"; aws_config=aws_config)
@@ -1526,14 +1725,17 @@ list_bots(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     ListChannelBans()
 
-Lists all the users banned from a particular channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Lists all the users banned from a particular channel.  The x-amz-chime-bearer request
+header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
+value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
 
 # Optional Parameters
 - `max-results`: The maximum number of bans that you want returned.
-- `next-token`: The token passed by previous API calls until all requested bans are returned.
+- `next-token`: The token passed by previous API calls until all requested bans are
+  returned.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_bans(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/bans"; aws_config=aws_config)
@@ -1542,15 +1744,20 @@ list_channel_bans(channelArn, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     ListChannelMemberships()
 
-Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
 
 # Required Parameters
 - `channelArn`: The maximum number of channel memberships that you want returned.
 
 # Optional Parameters
 - `max-results`: The maximum number of channel memberships that you want returned.
-- `next-token`: The token passed by previous API calls until all requested channel memberships are returned.
-- `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+- `next-token`: The token passed by previous API calls until all requested channel
+  memberships are returned.
+- `type`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
+  returned as part of ListChannelMemberships. Hidden members are only returned if the type
+  filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_memberships(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/memberships"; aws_config=aws_config)
@@ -1559,12 +1766,16 @@ list_channel_memberships(channelArn, args::AbstractDict{String, <:Any}; aws_conf
 """
     ListChannelMembershipsForAppInstanceUser()
 
- Lists all channels that a particular AppInstanceUser is a part of. Only an AppInstanceAdmin can call the API with a user ARN that is not their own.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+ Lists all channels that a particular AppInstanceUser is a part of. Only an
+AppInstanceAdmin can call the API with a user ARN that is not their own.   The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Optional Parameters
 - `app-instance-user-arn`: The ARN of the AppInstanceUsers
 - `max-results`: The maximum number of users that you want returned.
-- `next-token`: The token returned from previous API requests until the number of channel memberships is reached.
+- `next-token`: The token returned from previous API requests until the number of channel
+  memberships is reached.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_memberships_for_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships"; aws_config=aws_config)
@@ -1573,17 +1784,24 @@ list_channel_memberships_for_app_instance_user(args::AbstractDict{String, Any}; 
 """
     ListChannelMessages()
 
-List all the messages in a channel. Returns a paginated list of ChannelMessages. By default, sorted by creation timestamp in descending order .  Redacted messages appear in the results as empty, since they are only redacted, not deleted. Deleted messages do not appear in the results. This action always returns the latest version of an edited message. Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+List all the messages in a channel. Returns a paginated list of ChannelMessages. By
+default, sorted by creation timestamp in descending order .  Redacted messages appear in
+the results as empty, since they are only redacted, not deleted. Deleted messages do not
+appear in the results. This action always returns the latest version of an edited message.
+Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the
+user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
 
 # Optional Parameters
 - `max-results`: The maximum number of messages that you want returned.
-- `next-token`: The token passed by previous API calls until all requested messages are returned.
+- `next-token`: The token passed by previous API calls until all requested messages are
+  returned.
 - `not-after`: The final or ending time stamp for your requested messages.
 - `not-before`: The initial or starting time stamp for your requested messages.
-- `sort-order`: The order in which you want messages sorted. Default is Descending, based on time created.
+- `sort-order`: The order in which you want messages sorted. Default is Descending, based
+  on time created.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_messages(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/messages"; aws_config=aws_config)
@@ -1592,14 +1810,17 @@ list_channel_messages(channelArn, args::AbstractDict{String, <:Any}; aws_config:
 """
     ListChannelModerators()
 
-Lists all the moderators for a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Lists all the moderators for a channel.  The x-amz-chime-bearer request header is
+mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
+the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
 
 # Optional Parameters
 - `max-results`: The maximum number of moderators that you want returned.
-- `next-token`: The token passed by previous API calls until all requested moderators are returned.
+- `next-token`: The token passed by previous API calls until all requested moderators are
+  returned.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_moderators(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels/$(channelArn)/moderators"; aws_config=aws_config)
@@ -1608,15 +1829,22 @@ list_channel_moderators(channelArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListChannels()
 
-Lists all Channels created under a single Chime App as a paginated list. You can specify filters to narrow results.  Functionality &amp; restrictions     Use privacy = PUBLIC to retrieve all public channels in the account    Only an AppInstanceAdmin can set privacy = PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Lists all Channels created under a single Chime App as a paginated list. You can specify
+filters to narrow results.  Functionality &amp; restrictions     Use privacy = PUBLIC to
+retrieve all public channels in the account    Only an AppInstanceAdmin can set privacy =
+PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request
+header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
+value in the header.
 
 # Required Parameters
 - `app-instance-arn`: The ARN of the AppInstance.
 
 # Optional Parameters
 - `max-results`: The maximum number of channels that you want to return.
-- `next-token`: The token passed by previous API calls until all requested channels are returned.
-- `privacy`:  The privacy setting. PUBLIC retrieves all the public channels. PRIVATE retrieves private channels. Only an AppInstanceAdmin can retrieve private channels. 
+- `next-token`: The token passed by previous API calls until all requested channels are
+  returned.
+- `privacy`:  The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
+  retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channels(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels", Dict{String, Any}("app-instance-arn"=>app_instance_arn); aws_config=aws_config)
@@ -1625,12 +1853,15 @@ list_channels(app_instance_arn, args::AbstractDict{String, <:Any}; aws_config::A
 """
     ListChannelsModeratedByAppInstanceUser()
 
-A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request
+header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
+value in the header.
 
 # Optional Parameters
 - `app-instance-user-arn`: The ARN of the user in the moderated channel.
 - `max-results`: The maximum number of channels in the request.
-- `next-token`: The token returned from previous API requests until the number of channels moderated by the user is reached.
+- `next-token`: The token returned from previous API requests until the number of channels
+  moderated by the user is reached.
 - `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channels_moderated_by_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
@@ -1651,7 +1882,8 @@ list_meeting_tags(meetingId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     ListMeetings()
 
- Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide . 
+ Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
 
 # Optional Parameters
 - `max-results`: The maximum number of results to return in a single call.
@@ -1675,7 +1907,8 @@ list_phone_number_orders(args::AbstractDict{String, Any}; aws_config::AbstractAW
 """
     ListPhoneNumbers()
 
-Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
+Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon
+Chime Voice Connector, or Amazon Chime Voice Connector group.
 
 # Optional Parameters
 - `filter-name`: The filter to use to limit the number of results.
@@ -1707,7 +1940,8 @@ list_proxy_sessions(voiceConnectorId, args::AbstractDict{String, <:Any}; aws_con
 """
     ListRoomMemberships()
 
-Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
+Lists the membership details for the specified room in an Amazon Chime Enterprise account,
+such as the members' IDs, email addresses, and names.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1723,7 +1957,9 @@ list_room_memberships(accountId, roomId, args::AbstractDict{String, <:Any}; aws_
 """
     ListRooms()
 
-Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
+Lists the room details for the specified Amazon Chime Enterprise account. Optionally,
+filter the results by a member ID (user ID or bot ID) to see a list of rooms that the
+member belongs to.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1776,7 +2012,8 @@ list_tags_for_resource(arn, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     ListUsers()
 
-Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
+Lists the users that belong to the specified Amazon Chime account. You can specify an email
+address to list only the user that the email address belongs to.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1868,7 +2105,9 @@ put_app_instance_streaming_configurations(AppInstanceStreamingConfigurations, ap
 """
     PutEventsConfiguration()
 
-Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see Bot.
+Creates an events configuration that allows a bot to receive outgoing events sent by Amazon
+Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see
+Bot.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -1876,7 +2115,8 @@ Creates an events configuration that allows a bot to receive outgoing events sen
 
 # Optional Parameters
 - `LambdaFunctionArn`: Lambda function ARN that allows the bot to receive outgoing events.
-- `OutboundEventsHTTPSEndpoint`: HTTPS endpoint that allows the bot to receive outgoing events.
+- `OutboundEventsHTTPSEndpoint`: HTTPS endpoint that allows the bot to receive outgoing
+  events.
 """
 put_events_configuration(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws_config=aws_config)
 put_events_configuration(accountId, botId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws_config=aws_config)
@@ -1884,7 +2124,13 @@ put_events_configuration(accountId, botId, args::AbstractDict{String, <:Any}; aw
 """
     PutRetentionSettings()
 
- Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide .   To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide . 
+ Puts retention settings for the specified Amazon Chime Enterprise account. We recommend
+using AWS CloudTrail to monitor usage of this API for your account. For more information,
+see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration
+Guide .   To turn off existing retention settings, remove the number of days from the
+corresponding RetentionDays field in the RetentionSettings object. For more information
+about retention settings, see Managing Chat Retention Policies in the Amazon Chime
+Administration Guide .
 
 # Required Parameters
 - `RetentionSettings`: The retention settings.
@@ -1911,7 +2157,10 @@ put_sip_media_application_logging_configuration(sipMediaApplicationId, args::Abs
 """
     PutVoiceConnectorEmergencyCallingConfiguration()
 
-Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured.
+Puts emergency calling configuration details to the specified Amazon Chime Voice Connector,
+such as emergency phone numbers and calling countries. Origination and termination settings
+must be enabled for the Amazon Chime Voice Connector before emergency calling can be
+configured.
 
 # Required Parameters
 - `EmergencyCallingConfiguration`: The emergency calling configuration details.
@@ -1924,7 +2173,9 @@ put_voice_connector_emergency_calling_configuration(EmergencyCallingConfiguratio
 """
     PutVoiceConnectorLoggingConfiguration()
 
-Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging
+configuration specifies whether SIP message logs are enabled for sending to Amazon
+CloudWatch Logs.
 
 # Required Parameters
 - `LoggingConfiguration`: The logging configuration details to add.
@@ -1937,7 +2188,9 @@ put_voice_connector_logging_configuration(LoggingConfiguration, voiceConnectorId
 """
     PutVoiceConnectorOrigination()
 
-Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings. 
+Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency
+calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to
+turning off origination settings.
 
 # Required Parameters
 - `Origination`: The origination setting details to add.
@@ -1958,7 +2211,8 @@ Puts the specified proxy configuration to the specified Amazon Chime Voice Conne
 - `voiceConnectorId`: The Amazon Chime voice connector ID.
 
 # Optional Parameters
-- `Disabled`: When true, stops proxy sessions from being created on the specified Amazon Chime Voice Connector.
+- `Disabled`: When true, stops proxy sessions from being created on the specified Amazon
+  Chime Voice Connector.
 - `FallBackPhoneNumber`: The phone number to route calls to after a proxy session expires.
 """
 put_voice_connector_proxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries); aws_config=aws_config)
@@ -1967,7 +2221,9 @@ put_voice_connector_proxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries,
 """
     PutVoiceConnectorStreamingConfiguration()
 
-Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis data.
+Adds a streaming configuration for the specified Amazon Chime Voice Connector. The
+streaming configuration specifies whether media streaming is enabled for sending to
+Indonesians. It also sets the retention period, in hours, for the Amazon Kinesis data.
 
 # Required Parameters
 - `StreamingConfiguration`: The streaming configuration details to add.
@@ -1980,7 +2236,9 @@ put_voice_connector_streaming_configuration(StreamingConfiguration, voiceConnect
 """
     PutVoiceConnectorTermination()
 
-Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings. 
+Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency
+calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to
+turning off termination settings.
 
 # Required Parameters
 - `Termination`: The termination setting details to add.
@@ -2007,7 +2265,10 @@ put_voice_connector_termination_credentials(voiceConnectorId, args::AbstractDict
 """
     RedactChannelMessage()
 
-Redacts message content, but not metadata. The message exists in the back end, but the action returns null content, and the state shows as redacted.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Redacts message content, but not metadata. The message exists in the back end, but the
+action returns null content, and the state shows as redacted.  The x-amz-chime-bearer
+request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
+as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel containing the messages that you want to redact.
@@ -2063,7 +2324,8 @@ regenerate_security_token(accountId, botId, args::AbstractDict{String, <:Any}; a
 """
     ResetPersonalPIN()
 
-Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN.
+Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns
+the User object with the updated personal meeting PIN.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2105,12 +2367,17 @@ search_available_phone_numbers(args::AbstractDict{String, Any}; aws_config::Abst
 """
     SendChannelMessage()
 
-Sends a message to a particular channel that the member is a part of.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata. 
+Sends a message to a particular channel that the member is a part of.  The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of
+data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no
+metadata.
 
 # Required Parameters
 - `ClientRequestToken`: The Idempotency token for each client request.
 - `Content`: The content of the message.
-- `Persistence`: Boolean that controls whether the message is persisted on the back end. Required.
+- `Persistence`: Boolean that controls whether the message is persisted on the back end.
+  Required.
 - `Type`: The type of message, STANDARD or CONTROL.
 - `channelArn`: The ARN of the channel.
 
@@ -2204,7 +2471,8 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateAccount()
 
-Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
+Updates account details for the specified Amazon Chime account. Currently, only account
+name updates are supported for this action.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2218,7 +2486,9 @@ update_account(accountId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     UpdateAccountSettings()
 
-Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
+Updates the settings for the specified Amazon Chime account. You can update settings for
+remote control of shared screens, or for the dial-out option. For more information about
+these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
 
 # Required Parameters
 - `AccountSettings`: The Amazon Chime account settings to update.
@@ -2261,7 +2531,8 @@ update_app_instance_user(Name, appInstanceUserArn, args::AbstractDict{String, <:
 """
     UpdateBot()
 
-Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
+Updates the status of the specified bot, such as starting or stopping the bot from running
+in your Amazon Chime Enterprise account.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2276,7 +2547,9 @@ update_bot(accountId, botId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     UpdateChannel()
 
-Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `Mode`: The mode of the update request.
@@ -2293,7 +2566,8 @@ update_channel(Mode, Name, channelArn, args::AbstractDict{String, <:Any}; aws_co
 """
     UpdateChannelMessage()
 
-Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use
+the AppInstanceUserArn of the user that makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -2310,7 +2584,9 @@ update_channel_message(channelArn, messageId, args::AbstractDict{String, <:Any};
 """
     UpdateChannelReadMarker()
 
-The details of the time when a user last read messages in a channel.  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header. 
+The details of the time when a user last read messages in a channel.  The
+x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
+makes the API call as the value in the header.
 
 # Required Parameters
 - `channelArn`: The ARN of the channel.
@@ -2324,7 +2600,8 @@ update_channel_read_marker(channelArn, args::AbstractDict{String, <:Any}; aws_co
 """
     UpdateGlobalSettings()
 
-Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
+Updates global settings for the administrator's AWS account, such as Amazon Chime Business
+Calling and Amazon Chime Voice Connector settings.
 
 # Required Parameters
 - `BusinessCalling`: The Amazon Chime Business Calling settings.
@@ -2337,7 +2614,12 @@ update_global_settings(BusinessCalling, VoiceConnector, args::AbstractDict{Strin
 """
     UpdatePhoneNumber()
 
-Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
+Updates phone number details, such as product type or calling name, for the specified phone
+number ID. You can update one phone number detail at a time. For example, you can update
+either the product type or the calling name in one action. For toll-free numbers, you must
+use the Amazon Chime Voice Connector product type. Updates to outbound calling names can
+take up to 72 hours to complete. Pending updates to outbound calling names must be complete
+before you can request another update.
 
 # Required Parameters
 - `phoneNumberId`: The phone number ID.
@@ -2352,7 +2634,9 @@ update_phone_number(phoneNumberId, args::AbstractDict{String, <:Any}; aws_config
 """
     UpdatePhoneNumberSettings()
 
-Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
+Updates the phone number settings for the administrator's AWS account, such as the default
+outbound calling name. You can update the default outbound calling name once every seven
+days. Outbound calling names can take up to 72 hours to update.
 
 # Required Parameters
 - `CallingName`: The default outbound calling name for the account.
@@ -2380,7 +2664,8 @@ update_proxy_session(Capabilities, proxySessionId, voiceConnectorId, args::Abstr
 """
     UpdateRoom()
 
-Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
+Updates room details, such as the room name, for a room in an Amazon Chime Enterprise
+account.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2395,7 +2680,10 @@ update_room(accountId, roomId, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     UpdateRoomMembership()
 
-Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
+Updates room membership details, such as the member role, for a room in an Amazon Chime
+Enterprise account. The member role designates whether the member is a chat room
+administrator or a general chat room member. The member role can be updated only for user
+IDs.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2442,7 +2730,8 @@ update_sip_rule(Name, sipRuleId, args::AbstractDict{String, <:Any}; aws_config::
 """
     UpdateUser()
 
- Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action. 
+ Updates user details for a specified user ID. Currently, only LicenseType updates are
+supported for this action.
 
 # Required Parameters
 - `accountId`: The Amazon Chime account ID.
@@ -2450,7 +2739,8 @@ update_sip_rule(Name, sipRuleId, args::AbstractDict{String, <:Any}; aws_config::
 
 # Optional Parameters
 - `AlexaForBusinessMetadata`: The Alexa for Business metadata.
-- `LicenseType`: The user license type to update. This must be a supported license type for the Amazon Chime account that the user belongs to.
+- `LicenseType`: The user license type to update. This must be a supported license type for
+  the Amazon Chime account that the user belongs to.
 - `UserType`: The user type.
 """
 update_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)/users/$(userId)"; aws_config=aws_config)
@@ -2477,7 +2767,8 @@ Updates details for the specified Amazon Chime Voice Connector.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime Voice Connector.
-- `RequireEncryption`: When enabled, requires encryption for the Amazon Chime Voice Connector.
+- `RequireEncryption`: When enabled, requires encryption for the Amazon Chime Voice
+  Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
@@ -2487,11 +2778,12 @@ update_voice_connector(Name, RequireEncryption, voiceConnectorId, args::Abstract
 """
     UpdateVoiceConnectorGroup()
 
-Updates details of the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
+Updates details of the specified Amazon Chime Voice Connector group, such as the name and
+Amazon Chime Voice Connector priority ranking.
 
 # Required Parameters
 - `Name`: The name of the Amazon Chime Voice Connector group.
-- `VoiceConnectorItems`:  The VoiceConnectorItems to associate with the group. 
+- `VoiceConnectorItems`:  The VoiceConnectorItems to associate with the group.
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 """

@@ -11,24 +11,47 @@ Creates a broker. Note: This API is asynchronous.
 
 # Optional Parameters
 - `authenticationStrategy`: The authentication strategy used to secure the broker.
-- `autoMinorVersionUpgrade`: Required. Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
-- `brokerName`: Required. The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
+- `autoMinorVersionUpgrade`: Required. Enables automatic upgrades to new minor versions for
+  brokers, as Apache releases the versions. The automatic upgrades occur during the
+  maintenance window of the broker or after a manual broker reboot.
+- `brokerName`: Required. The name of the broker. This value must be unique in your AWS
+  account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores,
+  and must not contain whitespaces, brackets, wildcard characters, or special characters.
 - `configuration`: A list of information about the configuration.
-- `creatorRequestId`: The unique ID that the requester receives for the created broker. Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your application doesn't require idempotency.
+- `creatorRequestId`: The unique ID that the requester receives for the created broker.
+  Amazon MQ passes your ID with the API action. Note: We recommend using a Universally Unique
+  Identifier (UUID) for the creatorRequestId. You may omit the creatorRequestId if your
+  application doesn't require idempotency.
 - `deploymentMode`: Required. The deployment mode of the broker.
 - `encryptionOptions`: Encryption options for the broker.
-- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
-- `engineVersion`: Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports
+  ACTIVEMQ and RABBITMQ.
+- `engineVersion`: Required. The version of the broker engine. For a list of supported
+  engine versions, see
+  https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
 - `hostInstanceType`: Required. The broker's instance type.
-- `ldapServerMetadata`: The metadata of the LDAP server used to authenticate and authorize connections to the broker.
+- `ldapServerMetadata`: The metadata of the LDAP server used to authenticate and authorize
+  connections to the broker.
 - `logs`: Enables Amazon CloudWatch logging for brokers.
 - `maintenanceWindowStartTime`: The parameters that determine the WeeklyStartTime.
-- `publiclyAccessible`: Required. Enables connections from applications outside of the VPC that hosts the broker's subnets.
-- `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
+- `publiclyAccessible`: Required. Enables connections from applications outside of the VPC
+  that hosts the broker's subnets.
+- `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes
+  connections to brokers.
 - `storageType`: The broker's storage type.
-- `subnetIds`: The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ) requires two subnets. A CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements when deployed with public accessibility, deployment without public accessibility requires at least one subnet.
+- `subnetIds`: The list of groups that define which subnets and IP ranges the broker can
+  use from different Availability Zones. A SINGLE_INSTANCE deployment requires one subnet
+  (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ)
+  requires two subnets. A CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements
+  when deployed with public accessibility, deployment without public accessibility requires
+  at least one subnet.
 - `tags`: Create tags when creating the broker.
-- `users`: Required. The list of broker users (persons or applications) who can access queues and topics. For RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ Web Console. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `users`: Required. The list of broker users (persons or applications) who can access
+  queues and topics. For RabbitMQ brokers, one and only one administrative user is accepted
+  and created when a broker is first provisioned. All subsequent broker users are created by
+  making RabbitMQ API calls directly to brokers or via the RabbitMQ Web Console. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
 """
 create_broker(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/brokers", Dict{String, Any}("creatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_broker(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
@@ -36,13 +59,19 @@ create_broker(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     CreateConfiguration()
 
-Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+Creates a new configuration for the specified configuration name. Amazon MQ uses the
+default configuration (the engine type and version).
 
 # Optional Parameters
 - `authenticationStrategy`: The authentication strategy associated with the configuration.
-- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports ACTIVEMQ and RABBITMQ.
-- `engineVersion`: Required. The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-- `name`: Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
+- `engineType`: Required. The type of broker engine. Note: Currently, Amazon MQ supports
+  ACTIVEMQ and RABBITMQ.
+- `engineVersion`: Required. The version of the broker engine. For a list of supported
+  engine versions, see
+  https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+- `name`: Required. The name of the configuration. This value can contain only alphanumeric
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
+  characters long.
 - `tags`: Create tags when creating the configuration.
 """
 create_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/configurations"; aws_config=aws_config)
@@ -69,12 +98,17 @@ Creates an ActiveMQ user.
 
 # Required Parameters
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
-- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 
 # Optional Parameters
 - `consoleAccess`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-- `password`: Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
+- `password`: Required. The password of the user. This value must be at least 12 characters
+  long, must contain at least 4 unique characters, and must not contain commas.
 """
 create_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)"; aws_config=aws_config)
 create_user(broker_id, username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", args; aws_config=aws_config)
@@ -111,7 +145,9 @@ Deletes an ActiveMQ user.
 
 # Required Parameters
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
-- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 
 """
 delete_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config()) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)"; aws_config=aws_config)
@@ -123,7 +159,9 @@ delete_user(broker_id, username, args::AbstractDict{String, <:Any}; aws_config::
 Returns information about the specified broker.
 
 # Required Parameters
-- `broker-id`: The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
+- `broker-id`: The name of the broker. This value must be unique in your AWS account, 1-50
+  characters long, must contain only letters, numbers, dashes, and underscores, and must not
+  contain whitespaces, brackets, wildcard characters, or special characters.
 
 """
 describe_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers/$(broker-id)"; aws_config=aws_config)
@@ -136,8 +174,10 @@ Describe available engine types and versions.
 
 # Optional Parameters
 - `engineType`: Filter response by engine type.
-- `maxResults`: The maximum number of engine types that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of engine types that Amazon MQ can return per page (20
+  by default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-engine-types"; aws_config=aws_config)
 describe_broker_engine_types(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-engine-types", args; aws_config=aws_config)
@@ -150,8 +190,10 @@ Describe available broker instance options.
 # Optional Parameters
 - `engineType`: Filter response by engine type.
 - `hostInstanceType`: Filter response by host instance type.
-- `maxResults`: The maximum number of instance options that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of instance options that Amazon MQ can return per page
+  (20 by default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 - `storageType`: Filter response by storage type.
 """
 describe_broker_instance_options(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-instance-options"; aws_config=aws_config)
@@ -189,7 +231,9 @@ Returns information about an ActiveMQ user.
 
 # Required Parameters
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
-- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `username`: The username of the ActiveMQ user. This value can contain only alphanumeric
+  characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100
+  characters long.
 
 """
 describe_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)"; aws_config=aws_config)
@@ -201,8 +245,10 @@ describe_user(broker_id, username, args::AbstractDict{String, <:Any}; aws_config
 Returns a list of all brokers.
 
 # Optional Parameters
-- `maxResults`: The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of brokers that Amazon MQ can return per page (20 by
+  default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 list_brokers(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers"; aws_config=aws_config)
 list_brokers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers", args; aws_config=aws_config)
@@ -216,8 +262,10 @@ Returns a list of all revisions for the specified configuration.
 - `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
 
 # Optional Parameters
-- `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20
+  by default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 list_configuration_revisions(configuration_id; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions"; aws_config=aws_config)
 list_configuration_revisions(configuration_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions", args; aws_config=aws_config)
@@ -228,8 +276,10 @@ list_configuration_revisions(configuration_id, args::AbstractDict{String, <:Any}
 Returns a list of all configurations.
 
 # Optional Parameters
-- `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20
+  by default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 list_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations"; aws_config=aws_config)
 list_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations", args; aws_config=aws_config)
@@ -255,8 +305,10 @@ Returns a list of all ActiveMQ users.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 # Optional Parameters
-- `maxResults`: The maximum number of ActiveMQ users that can be returned per page (20 by default). This value must be an integer from 5 to 100.
-- `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+- `maxResults`: The maximum number of ActiveMQ users that can be returned per page (20 by
+  default). This value must be an integer from 5 to 100.
+- `nextToken`: The token that specifies the next page of results Amazon MQ should return.
+  To request the first page, leave nextToken empty.
 """
 list_users(broker_id; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers/$(broker-id)/users"; aws_config=aws_config)
 list_users(broker_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers/$(broker-id)/users", args; aws_config=aws_config)
@@ -283,13 +335,22 @@ Adds a pending configuration change to a broker.
 
 # Optional Parameters
 - `authenticationStrategy`: The authentication strategy used to secure the broker.
-- `autoMinorVersionUpgrade`: Enables automatic upgrades to new minor versions for brokers, as Apache releases the versions. The automatic upgrades occur during the maintenance window of the broker or after a manual broker reboot.
+- `autoMinorVersionUpgrade`: Enables automatic upgrades to new minor versions for brokers,
+  as Apache releases the versions. The automatic upgrades occur during the maintenance window
+  of the broker or after a manual broker reboot.
 - `configuration`: A list of information about the configuration.
-- `engineVersion`: The version of the broker engine. For a list of supported engine versions, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-- `hostInstanceType`: The host instance type of the broker to upgrade to. For a list of supported instance types, see https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
-- `ldapServerMetadata`: The metadata of the LDAP server used to authenticate and authorize connections to the broker.
+- `engineVersion`: The version of the broker engine. For a list of supported engine
+  versions, see
+  https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+- `hostInstanceType`: The host instance type of the broker to upgrade to. For a list of
+  supported instance types, see
+  https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-ty
+  pes
+- `ldapServerMetadata`: The metadata of the LDAP server used to authenticate and authorize
+  connections to the broker.
 - `logs`: Enables Amazon CloudWatch logging for brokers.
-- `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
+- `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes
+  connections to brokers.
 """
 update_broker(broker_id; aws_config::AbstractAWSConfig=global_aws_config()) = mq("PUT", "/v1/brokers/$(broker-id)"; aws_config=aws_config)
 update_broker(broker_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("PUT", "/v1/brokers/$(broker-id)", args; aws_config=aws_config)
@@ -316,12 +377,17 @@ Updates the information for an ActiveMQ user.
 
 # Required Parameters
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
-- `username`: Required. The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+- `username`: Required. The username of the ActiveMQ user. This value can contain only
+  alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value
+  must be 2-100 characters long.
 
 # Optional Parameters
 - `consoleAccess`: Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-- `password`: The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
+- `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value
+  can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _
+  ~). This value must be 2-100 characters long.
+- `password`: The password of the user. This value must be at least 12 characters long,
+  must contain at least 4 unique characters, and must not contain commas.
 """
 update_user(broker_id, username; aws_config::AbstractAWSConfig=global_aws_config()) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)"; aws_config=aws_config)
 update_user(broker_id, username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", args; aws_config=aws_config)

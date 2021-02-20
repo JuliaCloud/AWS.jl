@@ -13,7 +13,8 @@ Accepts an invitation to a resource share from another AWS account.
 - `resourceShareInvitationArn`: The Amazon Resource Name (ARN) of the invitation.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 """
 accept_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
 accept_resource_share_invitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws_config=aws_config)
@@ -27,7 +28,8 @@ Associates the specified resource share with the specified principals and resour
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `principals`: The principals.
 - `resourceArns`: The Amazon Resource Names (ARN) of the resources.
 """
@@ -44,8 +46,11 @@ Associates a permission with a resource share.
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `replace`: Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `replace`: Indicates whether the permission should replace the permissions that are
+  currently associated with the resource share. Use true to replace the current permissions.
+  Use false to add the permission to the current permission.
 """
 associate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws_config=aws_config)
 associate_resource_share_permission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws_config=aws_config)
@@ -59,11 +64,17 @@ Creates a resource share.
 - `name`: The name of the resource share.
 
 # Optional Parameters
-- `allowExternalPrincipals`: Indicates whether principals outside your AWS organization can be associated with a resource share.
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `permissionArns`: The ARNs of the permissions to associate with the resource share. If you do not specify an ARN for the permission, AWS RAM automatically attaches the default version of the permission for each resource type.
-- `principals`: The principals to associate with the resource share. The possible values are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
-- `resourceArns`: The Amazon Resource Names (ARN) of the resources to associate with the resource share.
+- `allowExternalPrincipals`: Indicates whether principals outside your AWS organization can
+  be associated with a resource share.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `permissionArns`: The ARNs of the permissions to associate with the resource share. If
+  you do not specify an ARN for the permission, AWS RAM automatically attaches the default
+  version of the permission for each resource type.
+- `principals`: The principals to associate with the resource share. The possible values
+  are IDs of AWS accounts, the ARN of an OU or organization from AWS Organizations.
+- `resourceArns`: The Amazon Resource Names (ARN) of the resources to associate with the
+  resource share.
 - `tags`: One or more tags.
 """
 create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/createresourceshare", Dict{String, Any}("name"=>name); aws_config=aws_config)
@@ -78,7 +89,8 @@ Deletes the specified resource share.
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 """
 delete_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
 delete_resource_share(resourceShareArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws_config=aws_config)
@@ -92,7 +104,8 @@ Disassociates the specified principals or resources from the specified resource 
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `principals`: The principals.
 - `resourceArns`: The Amazon Resource Names (ARNs) of the resources.
 """
@@ -109,7 +122,8 @@ Disassociates an AWS RAM permission from a resource share.
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 """
 disassociate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws_config=aws_config)
 disassociate_resource_share_permission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws_config=aws_config)
@@ -117,7 +131,8 @@ disassociate_resource_share_permission(permissionArn, resourceShareArn, args::Ab
 """
     EnableSharingWithAwsOrganization()
 
-Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
+Enables resource sharing within your AWS Organization. The caller must be the master
+account for the AWS Organization.
 
 """
 enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization"; aws_config=aws_config)
@@ -146,7 +161,8 @@ Gets the policies for the specified resources that you own and have shared.
 - `resourceArns`: The Amazon Resource Names (ARN) of the resources.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 - `principal`: The principal.
 """
@@ -159,14 +175,19 @@ get_resource_policies(resourceArns, args::AbstractDict{String, <:Any}; aws_confi
 Gets the resources or principals for the resource shares that you own.
 
 # Required Parameters
-- `associationType`: The association type. Specify PRINCIPAL to list the principals that are associated with the specified resource share. Specify RESOURCE to list the resources that are associated with the specified resource share.
+- `associationType`: The association type. Specify PRINCIPAL to list the principals that
+  are associated with the specified resource share. Specify RESOURCE to list the resources
+  that are associated with the specified resource share.
 
 # Optional Parameters
 - `associationStatus`: The association status.
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
-- `principal`: The principal. You cannot specify this parameter if the association type is RESOURCE.
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource. You cannot specify this parameter if the association type is PRINCIPAL.
+- `principal`: The principal. You cannot specify this parameter if the association type is
+  RESOURCE.
+- `resourceArn`: The Amazon Resource Name (ARN) of the resource. You cannot specify this
+  parameter if the association type is PRINCIPAL.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 """
 get_resource_share_associations(associationType; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareassociations", Dict{String, Any}("associationType"=>associationType); aws_config=aws_config)
@@ -178,7 +199,8 @@ get_resource_share_associations(associationType, args::AbstractDict{String, <:An
 Gets the invitations for resource sharing that you've received.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 - `resourceShareInvitationArns`: The Amazon Resource Names (ARN) of the invitations.
@@ -195,7 +217,8 @@ Gets the resource shares that you own or the resource shares that are shared wit
 - `resourceOwner`: The type of owner.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `name`: The name of the resource share.
 - `nextToken`: The token for the next page of results.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
@@ -208,13 +231,15 @@ get_resource_shares(resourceOwner, args::AbstractDict{String, <:Any}; aws_config
 """
     ListPendingInvitationResources()
 
-Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
+Lists the resources in a resource share that is shared with you but that the invitation is
+still pending for.
 
 # Required Parameters
 - `resourceShareInvitationArn`: The Amazon Resource Name (ARN) of the invitation.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
 list_pending_invitation_resources(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
@@ -226,9 +251,11 @@ list_pending_invitation_resources(resourceShareInvitationArn, args::AbstractDict
 Lists the AWS RAM permissions.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
-- `resourceType`: Specifies the resource type for which to list permissions. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
+- `resourceType`: Specifies the resource type for which to list permissions. For example,
+  to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
 """
 list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions"; aws_config=aws_config)
 list_permissions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions", args; aws_config=aws_config)
@@ -236,18 +263,24 @@ list_permissions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 """
     ListPrincipals()
 
-Lists the principals that you have shared resources with or that have shared resources with you.
+Lists the principals that you have shared resources with or that have shared resources with
+you.
 
 # Required Parameters
 - `resourceOwner`: The type of owner.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 - `principals`: The principals.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
-- `resourceType`: The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule 
+- `resourceType`: The resource type. Valid values: codebuild:Project |
+  codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet |
+  ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
+  | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group |
+  rds:Cluster | route53resolver:ResolverRule
 """
 list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_principals(resourceOwner, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws_config=aws_config)
@@ -261,7 +294,8 @@ Lists the AWS RAM permissions that are associated with a resource share.
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
 list_resource_share_permissions(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
@@ -273,7 +307,8 @@ list_resource_share_permissions(resourceShareArn, args::AbstractDict{String, <:A
 Lists the shareable resource types supported by AWS RAM.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
 list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes"; aws_config=aws_config)
@@ -282,18 +317,24 @@ list_resource_types(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 """
     ListResources()
 
-Lists the resources that you added to a resource shares or the resources that are shared with you.
+Lists the resources that you added to a resource shares or the resources that are shared
+with you.
 
 # Required Parameters
 - `resourceOwner`: The type of owner.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 - `principal`: The principal.
 - `resourceArns`: The Amazon Resource Names (ARN) of the resources.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
-- `resourceType`: The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule 
+- `resourceType`: The resource type. Valid values: codebuild:Project |
+  codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet |
+  ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
+  | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group |
+  rds:Cluster | route53resolver:ResolverRule
 """
 list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_resources(resourceOwner, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws_config=aws_config)
@@ -301,7 +342,10 @@ list_resources(resourceOwner, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     PromoteResourceShareCreatedFromPolicy()
 
-Resource shares that were created by attaching a policy to a resource are visible only to the resource share owner, and the resource share cannot be modified in AWS RAM. Use this API action to promote the resource share. When you promote the resource share, it becomes:   Visible to all principals that it is shared with.   Modifiable in AWS RAM.  
+Resource shares that were created by attaching a policy to a resource are visible only to
+the resource share owner, and the resource share cannot be modified in AWS RAM. Use this
+API action to promote the resource share. When you promote the resource share, it becomes:
+ Visible to all principals that it is shared with.   Modifiable in AWS RAM.
 
 # Required Parameters
 - `resourceShareArn`: The ARN of the resource share to promote.
@@ -319,7 +363,8 @@ Rejects an invitation to a resource share from another AWS account.
 - `resourceShareInvitationArn`: The Amazon Resource Name (ARN) of the invitation.
 
 # Optional Parameters
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 """
 reject_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
 reject_resource_share_invitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws_config=aws_config)
@@ -359,8 +404,10 @@ Updates the specified resource share that you own.
 - `resourceShareArn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
-- `allowExternalPrincipals`: Indicates whether principals outside your AWS organization can be associated with a resource share.
-- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `allowExternalPrincipals`: Indicates whether principals outside your AWS organization can
+  be associated with a resource share.
+- `clientToken`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `name`: The name of the resource share.
 """
 update_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/updateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)

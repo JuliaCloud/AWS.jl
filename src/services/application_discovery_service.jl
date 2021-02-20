@@ -10,8 +10,10 @@ using AWS.UUIDs
 Associates one or more configuration items with an application.
 
 # Required Parameters
-- `applicationConfigurationId`: The configuration ID of an application with which items are to be associated.
-- `configurationIds`: The ID of each configuration item to be associated with an application.
+- `applicationConfigurationId`: The configuration ID of an application with which items are
+  to be associated.
+- `configurationIds`: The ID of each configuration item to be associated with an
+  application.
 
 """
 associate_configuration_items_to_application(applicationConfigurationId, configurationIds; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("AssociateConfigurationItemsToApplication", Dict{String, Any}("applicationConfigurationId"=>applicationConfigurationId, "configurationIds"=>configurationIds); aws_config=aws_config)
@@ -20,7 +22,13 @@ associate_configuration_items_to_application(applicationConfigurationId, configu
 """
     BatchDeleteImportData()
 
-Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications.  AWS Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
+Deletes one or more import tasks, each identified by their import ID. Each import task has
+a number of records that can identify servers or applications.  AWS Application Discovery
+Service has built-in matching logic that will identify when discovered servers match
+existing entries that you've previously discovered, the information for the
+already-existing discovered server is updated. When you delete an import task that contains
+records that were used to match, the information in those matched records that comes from
+the deleted records will also be deleted.
 
 # Required Parameters
 - `importTaskIds`: The IDs for the import tasks that you want to delete.
@@ -46,11 +54,14 @@ create_application(name, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     CreateTags()
 
-Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items.
+Creates one or more tags for configuration items. Tags are metadata that help you
+categorize IT assets. This API accepts a list of multiple configuration items.
 
 # Required Parameters
 - `configurationIds`: A list of configuration items that you want to tag.
-- `tags`: Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {\"key\": \"serverType\", \"value\": \"webServer\"} 
+- `tags`: Tags that you want to associate with one or more configuration items. Specify the
+  tags that you want to create in a key-value format. For example:  {\"key\": \"serverType\",
+  \"value\": \"webServer\"}
 
 """
 create_tags(configurationIds, tags; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("CreateTags", Dict{String, Any}("configurationIds"=>configurationIds, "tags"=>tags); aws_config=aws_config)
@@ -71,13 +82,16 @@ delete_applications(configurationIds, args::AbstractDict{String, <:Any}; aws_con
 """
     DeleteTags()
 
-Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
+Deletes the association between configuration items and one or more tags. This API accepts
+a list of multiple configuration items.
 
 # Required Parameters
 - `configurationIds`: A list of configuration items with tags that you want to delete.
 
 # Optional Parameters
-- `tags`: Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {\"key\": \"serverType\", \"value\": \"webServer\"} 
+- `tags`: Tags that you want to delete from one or more configuration items. Specify the
+  tags that you want to delete in a key-value format. For example:  {\"key\": \"serverType\",
+  \"value\": \"webServer\"}
 """
 delete_tags(configurationIds; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DeleteTags", Dict{String, Any}("configurationIds"=>configurationIds); aws_config=aws_config)
 delete_tags(configurationIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationIds"=>configurationIds), args)); aws_config=aws_config)
@@ -85,13 +99,22 @@ delete_tags(configurationIds, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     DescribeAgents()
 
-Lists agents or connectors as specified by ID or other filters. All agents/connectors associated with your user account can be listed if you call DescribeAgents as is without passing any parameters.
+Lists agents or connectors as specified by ID or other filters. All agents/connectors
+associated with your user account can be listed if you call DescribeAgents as is without
+passing any parameters.
 
 # Optional Parameters
-- `agentIds`: The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
-- `filters`: You can filter the request using various logical operators and a key-value format. For example:   {\"key\": \"collectionStatus\", \"value\": \"STARTED\"} 
-- `maxResults`: The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequestagentIds but set DescribeAgentsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
+- `agentIds`: The agent or the Connector IDs for which you want information. If you specify
+  no IDs, the system returns information about all agents/Connectors associated with your AWS
+  user account.
+- `filters`: You can filter the request using various logical operators and a key-value
+  format. For example:   {\"key\": \"collectionStatus\", \"value\": \"STARTED\"}
+- `maxResults`: The total number of agents/Connectors to return in a single page of output.
+  The maximum value is 100.
+- `nextToken`: Token to retrieve the next set of results. For example, if you previously
+  specified 100 IDs for DescribeAgentsRequestagentIds but set DescribeAgentsRequestmaxResults
+  to 10, you received a set of 10 results along with a token. Use that token in this query to
+  get the next set of 10.
 """
 describe_agents(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeAgents"; aws_config=aws_config)
 describe_agents(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeAgents", args; aws_config=aws_config)
@@ -99,7 +122,13 @@ describe_agents(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 """
     DescribeConfigurations()
 
-Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be for the same asset type from one of the following:   server   application   process   connection   Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action in the AWS Application Discovery Service User Guide. 
+Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be
+for the same asset type from one of the following:   server   application   process
+connection   Output fields are specific to the asset type specified. For example, the
+output for a server configuration item includes a list of attributes about the server, such
+as host name, operating system, number of network cards, etc. For a complete list of
+outputs for each asset type, see Using the DescribeConfigurations Action in the AWS
+Application Discovery Service User Guide.
 
 # Required Parameters
 - `configurationIds`: One or more configuration IDs.
@@ -111,11 +140,13 @@ describe_configurations(configurationIds, args::AbstractDict{String, <:Any}; aws
 """
     DescribeContinuousExports()
 
-Lists exports as specified by ID. All continuous exports associated with your user account can be listed if you call DescribeContinuousExports as is without passing any parameters.
+Lists exports as specified by ID. All continuous exports associated with your user account
+can be listed if you call DescribeContinuousExports as is without passing any parameters.
 
 # Optional Parameters
 - `exportIds`: The unique IDs assigned to the exports.
-- `maxResults`: A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
+- `maxResults`: A number between 1 and 100 specifying the maximum number of continuous
+  export descriptions returned.
 - `nextToken`: The token from the previous call to DescribeExportTasks.
 """
 describe_continuous_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeContinuousExports"; aws_config=aws_config)
@@ -128,7 +159,8 @@ describe_continuous_exports(args::AbstractDict{String, <:Any}; aws_config::Abstr
 
 # Optional Parameters
 - `exportIds`: A list of continuous export IDs to search for.
-- `maxResults`: A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
+- `maxResults`: A number between 1 and 100 specifying the maximum number of continuous
+  export descriptions returned.
 - `nextToken`: The token from the previous call to describe-export-tasks.
 """
 describe_export_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeExportConfigurations"; aws_config=aws_config)
@@ -137,13 +169,20 @@ describe_export_configurations(args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DescribeExportTasks()
 
-Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
+Retrieve status of one or more export tasks. You can retrieve the status of up to 100
+export tasks.
 
 # Optional Parameters
 - `exportIds`: One or more unique identifiers used to query the status of an export request.
-- `filters`: One or more filters.    AgentId - ID of the agent whose collected data will be exported  
-- `maxResults`: The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
-- `nextToken`: The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+- `filters`: One or more filters.    AgentId - ID of the agent whose collected data will be
+  exported
+- `maxResults`: The maximum number of volume results returned by DescribeExportTasks in
+  paginated output. When this parameter is used, DescribeExportTasks only returns maxResults
+  results in a single page along with a nextToken response element.
+- `nextToken`: The nextToken value returned from a previous paginated DescribeExportTasks
+  request where maxResults was used and the results exceeded the value of that parameter.
+  Pagination continues from the end of the previous results that returned the nextToken
+  value. This value is null when there are no more results to return.
 """
 describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeExportTasks"; aws_config=aws_config)
 describe_export_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeExportTasks", args; aws_config=aws_config)
@@ -151,11 +190,15 @@ describe_export_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     DescribeImportTasks()
 
-Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
+Returns an array of import tasks for your account, including status information, times,
+IDs, the Amazon S3 Object URL for the import file, and more.
 
 # Optional Parameters
-- `filters`: An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
-- `maxResults`: The maximum number of results that you want this request to return, up to 100.
+- `filters`: An array of name-value pairs that you provide to filter the results for the
+  DescribeImportTask request to a specific subset of results. Currently, wildcard values
+  aren't supported for filters.
+- `maxResults`: The maximum number of results that you want this request to return, up to
+  100.
 - `nextToken`: The token to request a specific page of results.
 """
 describe_import_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeImportTasks"; aws_config=aws_config)
@@ -164,11 +207,17 @@ describe_import_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     DescribeTags()
 
-Retrieves a list of configuration items that have tags as specified by the key-value pairs, name and value, passed to the optional parameter filters. There are three valid tag filter names:   tagKey   tagValue   configurationId   Also, all configuration items associated with your user account that have tags can be listed if you call DescribeTags as is without passing any parameters.
+Retrieves a list of configuration items that have tags as specified by the key-value pairs,
+name and value, passed to the optional parameter filters. There are three valid tag filter
+names:   tagKey   tagValue   configurationId   Also, all configuration items associated
+with your user account that have tags can be listed if you call DescribeTags as is without
+passing any parameters.
 
 # Optional Parameters
-- `filters`: You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
-- `maxResults`: The total number of items to return in a single page of output. The maximum value is 100.
+- `filters`: You can filter the list using a key-value format. You can separate these items
+  by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.
+- `maxResults`: The total number of items to return in a single page of output. The maximum
+  value is 100.
 - `nextToken`: A token to start the list. Use this token to get the next set of results.
 """
 describe_tags(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("DescribeTags"; aws_config=aws_config)
@@ -180,7 +229,8 @@ describe_tags(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 Disassociates one or more configuration items from an application.
 
 # Required Parameters
-- `applicationConfigurationId`: Configuration ID of an application from which each item is disassociated.
+- `applicationConfigurationId`: Configuration ID of an application from which each item is
+  disassociated.
 - `configurationIds`: Configuration ID of each item to be disassociated from an application.
 
 """
@@ -190,7 +240,12 @@ disassociate_configuration_items_from_application(applicationConfigurationId, co
 """
     ExportConfigurations()
 
-Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
+Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an
+Amazon S3 bucket or an application that enables you to view and evaluate the data. Data
+includes tags and tag associations, processes, connections, servers, and system
+performance. This API returns an export ID that you can query using the
+DescribeExportConfigurations API. The system imposes a limit of two configuration exports
+in six hours.
 
 """
 export_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("ExportConfigurations"; aws_config=aws_config)
@@ -199,7 +254,8 @@ export_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     GetDiscoverySummary()
 
-Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
+Retrieves a short summary of discovered assets. This API operation takes no request
+parameters and is called as is at the command prompt as shown in the example.
 
 """
 get_discovery_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("GetDiscoverySummary"; aws_config=aws_config)
@@ -208,16 +264,25 @@ get_discovery_summary(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     ListConfigurations()
 
-Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
+Retrieves a list of configuration items as specified by the value passed to the required
+parameter configurationType. Optional filtering may be applied to refine search results.
 
 # Required Parameters
-- `configurationType`: A valid configuration identified by Application Discovery Service. 
+- `configurationType`: A valid configuration identified by Application Discovery Service.
 
 # Optional Parameters
-- `filters`: You can filter the request using various logical operators and a key-value format. For example:   {\"key\": \"serverType\", \"value\": \"webServer\"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
+- `filters`: You can filter the request using various logical operators and a key-value
+  format. For example:   {\"key\": \"serverType\", \"value\": \"webServer\"}  For a complete
+  list of filter options and guidance about using them with this action, see Using the
+  ListConfigurations Action in the AWS Application Discovery Service User Guide.
 - `maxResults`: The total number of items to return. The maximum value is 100.
-- `nextToken`: Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-- `orderBy`: Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
+- `nextToken`: Token to retrieve the next set of results. For example, if a previous call
+  to ListConfigurations returned 100 items, but you set ListConfigurationsRequestmaxResults
+  to 10, you received a set of 10 results along with a token. Use that token in this query to
+  get the next set of 10.
+- `orderBy`: Certain filter criteria return output that can be sorted in ascending or
+  descending order. For a list of output characteristics for each filter, see Using the
+  ListConfigurations Action in the AWS Application Discovery Service User Guide.
 """
 list_configurations(configurationType; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("ListConfigurations", Dict{String, Any}("configurationType"=>configurationType); aws_config=aws_config)
 list_configurations(configurationType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("ListConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationType"=>configurationType), args)); aws_config=aws_config)
@@ -233,8 +298,12 @@ Retrieves a list of servers that are one network hop away from a specified serve
 # Optional Parameters
 - `maxResults`: Maximum number of results to return in a single page of output.
 - `neighborConfigurationIds`: List of configuration IDs to test for one-hop-away.
-- `nextToken`: Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequestneighborConfigurationIds but set ListServerNeighborsRequestmaxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
-- `portInformationNeeded`: Flag to indicate if port and protocol information is needed as part of the response.
+- `nextToken`: Token to retrieve the next set of results. For example, if you previously
+  specified 100 IDs for ListServerNeighborsRequestneighborConfigurationIds but set
+  ListServerNeighborsRequestmaxResults to 10, you received a set of 10 results along with a
+  token. Use that token in this query to get the next set of 10.
+- `portInformationNeeded`: Flag to indicate if port and protocol information is needed as
+  part of the response.
 """
 list_server_neighbors(configurationId; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("ListServerNeighbors", Dict{String, Any}("configurationId"=>configurationId); aws_config=aws_config)
 list_server_neighbors(configurationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("ListServerNeighbors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationId"=>configurationId), args)); aws_config=aws_config)
@@ -254,7 +323,12 @@ start_continuous_export(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Instructs the specified agents or connectors to start collecting data.
 
 # Required Parameters
-- `agentIds`: The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+- `agentIds`: The IDs of the agents or connectors from which to start collecting data. If
+  you send a request to an agent/connector ID that you do not have permission to contact,
+  according to your AWS account, the service does not throw an exception. Instead, it returns
+  the error in the Description field. If you send a request to multiple agents/connectors and
+  you do not have permission to contact some of those agents/connectors, the system does not
+  throw an exception. Instead, the system shows Failed in the Description field.
 
 """
 start_data_collection_by_agent_ids(agentIds; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("StartDataCollectionByAgentIds", Dict{String, Any}("agentIds"=>agentIds); aws_config=aws_config)
@@ -263,13 +337,29 @@ start_data_collection_by_agent_ids(agentIds, args::AbstractDict{String, <:Any}; 
 """
     StartExportTask()
 
- Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports.   If you do not include an agentIds filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day. 
+ Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a
+filter, the task exports up to 72 hours of detailed data collected by the identified
+Application Discovery Agent, including network, process, and performance details. A time
+range for exported agent data may be set by using startTime and endTime. Export of detailed
+agent data is limited to five concurrently running exports.   If you do not include an
+agentIds filter, summary data is exported that includes both AWS Agentless Discovery
+Connector data and summary data from AWS Discovery Agents. Export of summary data is
+limited to two exports per day.
 
 # Optional Parameters
-- `endTime`: The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
-- `exportDataFormat`: The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated. 
-- `filters`: If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
-- `startTime`: The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
+- `endTime`: The end timestamp for exported data from the single Application Discovery
+  Agent selected in the filters. If no value is specified, exported data includes the most
+  recent data collected by the agent.
+- `exportDataFormat`: The file format for the returned export data. Default value is CSV.
+  Note: The GRAPHML option has been deprecated.
+- `filters`: If a filter is present, it selects the single agentId of the Application
+  Discovery Agent for which data is exported. The agentId can be found in the results of the
+  DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and
+  exported data includes both Agentless Discovery Connector data and summary data from
+  Application Discovery agents.
+- `startTime`: The start timestamp for exported data from the single Application Discovery
+  Agent selected in the filters. If no value is specified, data is exported starting from the
+  first data collected by the agent.
 """
 start_export_task(; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("StartExportTask"; aws_config=aws_config)
 start_export_task(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("StartExportTask", args; aws_config=aws_config)
@@ -277,14 +367,37 @@ start_export_task(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 """
     StartImportTask()
 
-Starts an import task, which allows you to import details of your on-premises environment directly into AWS Migration Hub without having to use the Application Discovery Service (ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the option to perform migration assessment and planning directly from your imported data, including the ability to group your devices as applications and track their migration status. To start an import request, do this:   Download the specially formatted comma separated value (CSV) import template, which you can find here: https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_template.csv.   Fill out the template with your server and application data.   Upload your import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file must be in the CSV format.   Use the console or the StartImportTask command with the AWS CLI or one of the AWS SDKs to import the records from your file.   For more information, including step-by-step procedures, see Migration Hub Import in the AWS Application Discovery Service User Guide.  There are limits to the number of import tasks you can create (and delete) in an AWS account. For more information, see AWS Application Discovery Service Limits in the AWS Application Discovery Service User Guide. 
+Starts an import task, which allows you to import details of your on-premises environment
+directly into AWS Migration Hub without having to use the Application Discovery Service
+(ADS) tools such as the Discovery Connector or Discovery Agent. This gives you the option
+to perform migration assessment and planning directly from your imported data, including
+the ability to group your devices as applications and track their migration status. To
+start an import request, do this:   Download the specially formatted comma separated value
+(CSV) import template, which you can find here:
+https://s3-us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_tem
+plate.csv.   Fill out the template with your server and application data.   Upload your
+import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file
+must be in the CSV format.   Use the console or the StartImportTask command with the AWS
+CLI or one of the AWS SDKs to import the records from your file.   For more information,
+including step-by-step procedures, see Migration Hub Import in the AWS Application
+Discovery Service User Guide.  There are limits to the number of import tasks you can
+create (and delete) in an AWS account. For more information, see AWS Application Discovery
+Service Limits in the AWS Application Discovery Service User Guide.
 
 # Required Parameters
-- `importUrl`: The URL for your import file that you've uploaded to Amazon S3.  If you're using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV  
-- `name`: A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
+- `importUrl`: The URL for your import file that you've uploaded to Amazon S3.  If you're
+  using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV
+- `name`: A descriptive name for this request. You can use this name to filter future
+  requests related to this import task, such as identifying applications and servers that
+  were included in this import task. We recommend that you use a meaningful name for each
+  import task.
 
 # Optional Parameters
-- `clientRequestToken`: Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
+- `clientRequestToken`: Optional. A unique token that you can provide to prevent the same
+  import request from occurring more than once. If you don't provide a token, a token is
+  automatically generated. Sending more than one StartImportTask request with the same client
+  request token will return information about the original import task with that client
+  request token.
 """
 start_import_task(importUrl, name; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("StartImportTask", Dict{String, Any}("importUrl"=>importUrl, "name"=>name, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 start_import_task(importUrl, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_discovery_service("StartImportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importUrl"=>importUrl, "name"=>name, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)

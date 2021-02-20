@@ -17,7 +17,7 @@ Creates a new MediaPackage VOD Asset resource.
 
 # Optional Parameters
 - `resourceId`: The resource ID to include in SPEKE key requests.
-- `tags`: 
+- `tags`:
 """
 create_asset(id, packagingGroupId, sourceArn, sourceRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/assets", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn); aws_config=aws_config)
 create_asset(id, packagingGroupId, sourceArn, sourceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn), args)); aws_config=aws_config)
@@ -32,11 +32,11 @@ Creates a new MediaPackage VOD PackagingConfiguration resource.
 - `packagingGroupId`: The ID of a PackagingGroup.
 
 # Optional Parameters
-- `cmafPackage`: 
-- `dashPackage`: 
-- `hlsPackage`: 
-- `mssPackage`: 
-- `tags`: 
+- `cmafPackage`:
+- `dashPackage`:
+- `hlsPackage`:
+- `mssPackage`:
+- `tags`:
 """
 create_packaging_configuration(id, packagingGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId); aws_config=aws_config)
 create_packaging_configuration(id, packagingGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId), args)); aws_config=aws_config)
@@ -50,8 +50,8 @@ Creates a new MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of the PackagingGroup.
 
 # Optional Parameters
-- `authorization`: 
-- `tags`: 
+- `authorization`:
+- `tags`:
 """
 create_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}("id"=>id); aws_config=aws_config)
 create_packaging_group(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
@@ -149,7 +149,8 @@ Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 # Optional Parameters
 - `maxResults`: Upper bound on number of records to return.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
-- `packagingGroupId`: Returns MediaPackage VOD PackagingConfigurations associated with the specified PackagingGroup.
+- `packagingGroupId`: Returns MediaPackage VOD PackagingConfigurations associated with the
+  specified PackagingGroup.
 """
 list_packaging_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_configurations"; aws_config=aws_config)
 list_packaging_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_configurations", args; aws_config=aws_config)
@@ -172,7 +173,8 @@ list_packaging_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Returns a list of the tags assigned to the specified resource.
 
 # Required Parameters
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
+  the response to any request to the resource.
 
 """
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
@@ -184,7 +186,8 @@ list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_conf
 Adds tags to the specified resource. You can specify one or more tags to add.
 
 # Required Parameters
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
+  the response to any request to the resource.
 - `tags`: A collection of tags associated with a resource
 
 """
@@ -197,7 +200,8 @@ tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
 # Required Parameters
-- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+- `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
+  the response to any request to the resource.
 - `tagKeys`: A comma-separated list of the tag keys to remove from the resource.
 
 """
@@ -207,13 +211,14 @@ untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_con
 """
     UpdatePackagingGroup()
 
-Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+Updates a specific packaging group. You can't change the id attribute or any other
+system-generated attributes.
 
 # Required Parameters
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 # Optional Parameters
-- `authorization`: 
+- `authorization`:
 """
 update_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("PUT", "/packaging_groups/$(id)"; aws_config=aws_config)
 update_packaging_group(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("PUT", "/packaging_groups/$(id)", args; aws_config=aws_config)

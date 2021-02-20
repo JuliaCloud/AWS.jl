@@ -7,11 +7,14 @@ using AWS.UUIDs
 """
     AssociateAttributeGroup()
 
-Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
+Associates an attribute group with an application to augment the application's metadata
+with the group's attributes. This feature enables applications to be described with
+user-defined details that are machine-readable, such as third-party integrations.
 
 # Required Parameters
 - `application`: The name or ID of the application.
-- `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
+- `attributeGroup`: The name or ID of the attribute group that holds the attributes to
+  describe the application.
 
 """
 associate_attribute_group(application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("PUT", "/applications/$(application)/attribute-groups/$(attributeGroup)"; aws_config=aws_config)
@@ -20,7 +23,8 @@ associate_attribute_group(application, attributeGroup, args::AbstractDict{String
 """
     AssociateResource()
 
-Associates a resource with an application. Both the resource and the application can be specified either by ID or name.
+Associates a resource with an application. Both the resource and the application can be
+specified either by ID or name.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -34,11 +38,17 @@ associate_resource(application, resource, resourceType, args::AbstractDict{Strin
 """
     CreateApplication()
 
-Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
+Creates a new application that is the top-level node in a hierarchy of related cloud
+resource abstractions.
 
 # Required Parameters
-- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails.
-- `name`: The name of the application. The name must be unique in the region in which you are creating the application.
+- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a
+  request that completed successfully using the same client token and the same parameters,
+  the retry succeeds without performing any further actions. If you retry a successful
+  request using the same client token, but one or more of the parameters are different, the
+  retry fails.
+- `name`: The name of the application. The name must be unique in the region in which you
+  are creating the application.
 
 # Optional Parameters
 - `description`: The description of the application.
@@ -50,11 +60,19 @@ create_application(clientToken, name, args::AbstractDict{String, <:Any}; aws_con
 """
     CreateAttributeGroup()
 
-Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
+Creates a new attribute group as a container for user-defined attributes. This feature
+enables users to have full control over their cloud application's metadata in a rich
+machine-readable format to facilitate integration with automated workflows and third-party
+tools.
 
 # Required Parameters
-- `attributes`: A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
-- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails.
+- `attributes`: A JSON string in the form of nested key-value pairs that represent the
+  attributes in the group and describes an application and its components.
+- `clientToken`: A unique identifier that you provide to ensure idempotency. If you retry a
+  request that completed successfully using the same client token and the same parameters,
+  the retry succeeds without performing any further actions. If you retry a successful
+  request using the same client token, but one or more of the parameters are different, the
+  retry fails.
 - `name`: The name of the attribute group.
 
 # Optional Parameters
@@ -67,7 +85,9 @@ create_attribute_group(attributes, clientToken, name, args::AbstractDict{String,
 """
     DeleteApplication()
 
-Deletes an application that is specified either by its application ID or name. All associated attribute groups and resources must be disassociated from it before deleting an application.
+Deletes an application that is specified either by its application ID or name. All
+associated attribute groups and resources must be disassociated from it before deleting an
+application.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -82,7 +102,8 @@ delete_application(application, args::AbstractDict{String, <:Any}; aws_config::A
 Deletes an attribute group, specified either by its attribute group ID or name.
 
 # Required Parameters
-- `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
+- `attributeGroup`: The name or ID of the attribute group that holds the attributes to
+  describe the application.
 
 """
 delete_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("DELETE", "/attribute-groups/$(attributeGroup)"; aws_config=aws_config)
@@ -91,11 +112,14 @@ delete_attribute_group(attributeGroup, args::AbstractDict{String, <:Any}; aws_co
 """
     DisassociateAttributeGroup()
 
-Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup.
+Disassociates an attribute group from an application to remove the extra attributes
+contained in the attribute group from the application's metadata. This operation reverts
+AssociateAttributeGroup.
 
 # Required Parameters
 - `application`: The name or ID of the application.
-- `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
+- `attributeGroup`: The name or ID of the attribute group that holds the attributes to
+  describe the application.
 
 """
 disassociate_attribute_group(application, attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("DELETE", "/applications/$(application)/attribute-groups/$(attributeGroup)"; aws_config=aws_config)
@@ -104,7 +128,8 @@ disassociate_attribute_group(application, attributeGroup, args::AbstractDict{Str
 """
     DisassociateResource()
 
-Disassociates a resource from application. Both the resource and the application can be specified either by ID or name.
+Disassociates a resource from application. Both the resource and the application can be
+specified either by ID or name.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -118,7 +143,11 @@ disassociate_resource(application, resource, resourceType, args::AbstractDict{St
 """
     GetApplication()
 
-Retrieves metadata information about one of your applications. The application can be specified either by its unique ID or by its name (which is unique within one account in one region at a given point in time). Specify by ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
+Retrieves metadata information about one of your applications. The application can be
+specified either by its unique ID or by its name (which is unique within one account in one
+region at a given point in time). Specify by ID in automated workflows if you want to make
+sure that the exact same application is returned or a ResourceNotFoundException is thrown,
+avoiding the ABA addressing problem.
 
 # Required Parameters
 - `application`: The name or ID of the application.
@@ -130,10 +159,12 @@ get_application(application, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     GetAttributeGroup()
 
-Retrieves an attribute group, either by its name or its ID. The attribute group can be specified either by its unique ID or by its name.
+Retrieves an attribute group, either by its name or its ID. The attribute group can be
+specified either by its unique ID or by its name.
 
 # Required Parameters
-- `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
+- `attributeGroup`: The name or ID of the attribute group that holds the attributes to
+  describe the application.
 
 """
 get_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups/$(attributeGroup)"; aws_config=aws_config)
@@ -145,8 +176,9 @@ get_attribute_group(attributeGroup, args::AbstractDict{String, <:Any}; aws_confi
 Retrieves a list of all of your applications. Results are paginated.
 
 # Optional Parameters
-- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
-- `nextToken`: The token to use to get the next page of results after a previous API call. 
+- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If
+  this parameter is omitted, it defaults to 25. This value is optional.
+- `nextToken`: The token to use to get the next page of results after a previous API call.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications"; aws_config=aws_config)
 list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications", args; aws_config=aws_config)
@@ -154,14 +186,16 @@ list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     ListAssociatedAttributeGroups()
 
-Lists all attribute groups that are associated with specified application. Results are paginated.
+Lists all attribute groups that are associated with specified application. Results are
+paginated.
 
 # Required Parameters
 - `application`: The name or ID of the application.
 
 # Optional Parameters
-- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
-- `nextToken`: The token to use to get the next page of results after a previous API call. 
+- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If
+  this parameter is omitted, it defaults to 25. This value is optional.
+- `nextToken`: The token to use to get the next page of results after a previous API call.
 """
 list_associated_attribute_groups(application; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications/$(application)/attribute-groups"; aws_config=aws_config)
 list_associated_attribute_groups(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications/$(application)/attribute-groups", args; aws_config=aws_config)
@@ -175,8 +209,9 @@ Lists all resources that are associated with specified application. Results are 
 - `application`: The name or ID of the application.
 
 # Optional Parameters
-- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
-- `nextToken`: The token to use to get the next page of results after a previous API call. 
+- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If
+  this parameter is omitted, it defaults to 25. This value is optional.
+- `nextToken`: The token to use to get the next page of results after a previous API call.
 """
 list_associated_resources(application; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications/$(application)/resources"; aws_config=aws_config)
 list_associated_resources(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications/$(application)/resources", args; aws_config=aws_config)
@@ -187,8 +222,9 @@ list_associated_resources(application, args::AbstractDict{String, <:Any}; aws_co
 Lists all attribute groups which you have access to. Results are paginated.
 
 # Optional Parameters
-- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If this parameter is omitted, it defaults to 25. This value is optional.
-- `nextToken`: The token to use to get the next page of results after a previous API call. 
+- `maxResults`: The upper bound of the number of results to return (cannot exceed 25). If
+  this parameter is omitted, it defaults to 25. This value is optional.
+- `nextToken`: The token to use to get the next page of results after a previous API call.
 """
 list_attribute_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups"; aws_config=aws_config)
 list_attribute_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups", args; aws_config=aws_config)
@@ -208,10 +244,14 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     SyncResource()
 
-Syncs the resource with what is currently recorded in App registry. Specifically, the resource’s App registry system tags are synced with its associated application. The resource is removed if it is not associated with the application. The caller must have permissions to read and update the resource.
+Syncs the resource with what is currently recorded in App registry. Specifically, the
+resource’s App registry system tags are synced with its associated application. The
+resource is removed if it is not associated with the application. The caller must have
+permissions to read and update the resource.
 
 # Required Parameters
-- `resource`: An entity you can work with and specify with a name or ID. Examples include an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon S3 bucket.
+- `resource`: An entity you can work with and specify with a name or ID. Examples include
+  an Amazon EC2 instance, an AWS CloudFormation stack, or an Amazon S3 bucket.
 - `resourceType`: The type of resource of which the application will be associated.
 
 """
@@ -221,7 +261,10 @@ sync_resource(resource, resourceType, args::AbstractDict{String, <:Any}; aws_con
 """
     TagResource()
 
-Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
+Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of
+a key and an optional value. If a tag with the same key is already associated with the
+resource, this action updates its value. This operation returns an empty response if the
+call was successful.
 
 # Required Parameters
 - `resourceArn`: The Amazon resource name (ARN) that specifies the resource.
@@ -234,7 +277,8 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes tags from a resource. This operation returns an empty response if the call was successful.
+Removes tags from a resource. This operation returns an empty response if the call was
+successful.
 
 # Required Parameters
 - `resourceArn`: The Amazon resource name (ARN) that specifies the resource.
@@ -254,7 +298,8 @@ Updates an existing application with new attributes.
 
 # Optional Parameters
 - `description`: The new description of the application.
-- `name`: The new name of the application. The name must be unique in the region in which you are updating the application.
+- `name`: The new name of the application. The name must be unique in the region in which
+  you are updating the application.
 """
 update_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/applications/$(application)"; aws_config=aws_config)
 update_application(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/applications/$(application)", args; aws_config=aws_config)
@@ -262,15 +307,18 @@ update_application(application, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UpdateAttributeGroup()
 
-Updates an existing attribute group with new details. 
+Updates an existing attribute group with new details.
 
 # Required Parameters
-- `attributeGroup`: The name or ID of the attribute group that holds the attributes to describe the application.
+- `attributeGroup`: The name or ID of the attribute group that holds the attributes to
+  describe the application.
 
 # Optional Parameters
-- `attributes`: A JSON string in the form of nested key-value pairs that represent the attributes in the group and describes an application and its components.
+- `attributes`: A JSON string in the form of nested key-value pairs that represent the
+  attributes in the group and describes an application and its components.
 - `description`: The description of the attribute group that the user provides.
-- `name`: The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group.
+- `name`: The new name of the attribute group. The name must be unique in the region in
+  which you are updating the attribute group.
 """
 update_attribute_group(attributeGroup; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/attribute-groups/$(attributeGroup)"; aws_config=aws_config)
 update_attribute_group(attributeGroup, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("PATCH", "/attribute-groups/$(attributeGroup)", args; aws_config=aws_config)

@@ -10,14 +10,24 @@ using AWS.UUIDs
 Creates a cache for the GraphQL API.
 
 # Required Parameters
-- `apiCachingBehavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.  
+- `apiCachingBehavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully
+  cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
 - `apiId`: The GraphQL API Id.
 - `ttl`: TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
-- `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+- `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE
+  XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X
+   Historically, instance types were identified by an EC2-style value. As of July 2020, this
+  is deprecated, and the generic identifiers above should be used. The following legacy
+  instance types are available, but their use is discouraged:    T2_SMALL: A t2.small
+  instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance
+  type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.
+   R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
 
 # Optional Parameters
-- `atRestEncryptionEnabled`: At rest encryption flag for cache. This setting cannot be updated after creation.
-- `transitEncryptionEnabled`: Transit encryption flag when connecting to cache. This setting cannot be updated after creation.
+- `atRestEncryptionEnabled`: At rest encryption flag for cache. This setting cannot be
+  updated after creation.
+- `transitEncryptionEnabled`: Transit encryption flag when connecting to cache. This
+  setting cannot be updated after creation.
 """
 create_api_cache(apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches", Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type); aws_config=aws_config)
 create_api_cache(apiCachingBehavior, apiId, ttl, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type), args)); aws_config=aws_config)
@@ -32,7 +42,9 @@ Creates a unique key that you can distribute to clients who are executing your A
 
 # Optional Parameters
 - `description`: A description of the purpose of the API key.
-- `expires`: The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
+- `expires`: The time from creation time after which the API key expires. The date is
+  represented as seconds since the epoch, rounded down to the nearest hour. The default value
+  for this parameter is 7 days from creation time. For more information, see .
 """
 create_api_key(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
 create_api_key(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys", args; aws_config=aws_config)
@@ -54,7 +66,8 @@ Creates a DataSource object.
 - `httpConfig`: HTTP endpoint settings.
 - `lambdaConfig`: AWS Lambda settings.
 - `relationalDatabaseConfig`: Relational database settings.
-- `serviceRoleArn`: The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
+- `serviceRoleArn`: The AWS IAM service role ARN for the data source. The system assumes
+  this role when accessing the data source.
 """
 create_data_source(apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}("name"=>name, "type"=>type); aws_config=aws_config)
 create_data_source(apiId, name, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), args)); aws_config=aws_config)
@@ -62,18 +75,22 @@ create_data_source(apiId, name, type, args::AbstractDict{String, <:Any}; aws_con
 """
     CreateFunction()
 
-Creates a Function object. A function is a reusable entity. Multiple functions can be used to compose the resolver logic.
+Creates a Function object. A function is a reusable entity. Multiple functions can be used
+to compose the resolver logic.
 
 # Required Parameters
 - `apiId`: The GraphQL API ID.
 - `dataSourceName`: The Function DataSource name.
-- `functionVersion`: The version of the request mapping template. Currently the supported value is 2018-05-29. 
+- `functionVersion`: The version of the request mapping template. Currently the supported
+  value is 2018-05-29.
 - `name`: The Function name. The function name does not have to be unique.
 
 # Optional Parameters
 - `description`: The Function description.
-- `requestMappingTemplate`: The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-- `responseMappingTemplate`: The Function response mapping template. 
+- `requestMappingTemplate`: The Function request mapping template. Functions support only
+  the 2018-05-29 version of the request mapping template.
+- `responseMappingTemplate`: The Function response mapping template.
+- `syncConfig`:
 """
 create_function(apiId, dataSourceName, functionVersion, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions", Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name); aws_config=aws_config)
 create_function(apiId, dataSourceName, functionVersion, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name), args)); aws_config=aws_config)
@@ -84,11 +101,13 @@ create_function(apiId, dataSourceName, functionVersion, name, args::AbstractDict
 Creates a GraphqlApi object.
 
 # Required Parameters
-- `authenticationType`: The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito user pools.
+- `authenticationType`: The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito
+  user pools.
 - `name`: A user-supplied name for the GraphqlApi.
 
 # Optional Parameters
-- `additionalAuthenticationProviders`: A list of additional authentication providers for the GraphqlApi API.
+- `additionalAuthenticationProviders`: A list of additional authentication providers for
+  the GraphqlApi API.
 - `logConfig`: The Amazon CloudWatch Logs configuration.
 - `openIDConnectConfig`: The OpenID Connect configuration.
 - `tags`: A TagMap object.
@@ -101,7 +120,8 @@ create_graphql_api(authenticationType, name, args::AbstractDict{String, <:Any}; 
 """
     CreateResolver()
 
-Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand and converts the data source's responses into GraphQL.
+Creates a Resolver object. A resolver converts incoming requests into a format that a data
+source can understand and converts the data source's responses into GraphQL.
 
 # Required Parameters
 - `apiId`: The ID for the GraphQL API for which the resolver is being created.
@@ -111,10 +131,19 @@ Creates a Resolver object. A resolver converts incoming requests into a format t
 # Optional Parameters
 - `cachingConfig`: The caching configuration for the resolver.
 - `dataSourceName`: The name of the data source for which the resolver is being created.
-- `kind`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
+- `kind`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default
+  resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data
+  source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a
+  series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL
+  query against multiple data sources.
 - `pipelineConfig`: The PipelineConfig.
-- `requestMappingTemplate`: The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
-- `responseMappingTemplate`: The mapping template to be used for responses from the data source.
+- `requestMappingTemplate`: The mapping template to be used for requests. A resolver uses a
+  request mapping template to convert a GraphQL expression into a format that a data source
+  can understand. Mapping templates are written in Apache Velocity Template Language (VTL).
+  VTL request mapping templates are optional when using a Lambda data source. For all other
+  data sources, VTL request and response mapping templates are required.
+- `responseMappingTemplate`: The mapping template to be used for responses from the data
+  source.
 - `syncConfig`: The SyncConfig for a resolver attached to a versioned datasource.
 """
 create_resolver(apiId, fieldName, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", Dict{String, Any}("fieldName"=>fieldName); aws_config=aws_config)
@@ -127,7 +156,8 @@ Creates a Type object.
 
 # Required Parameters
 - `apiId`: The API ID.
-- `definition`: The type definition, in GraphQL Schema Definition Language (SDL) format. For more information, see the GraphQL SDL documentation.
+- `definition`: The type definition, in GraphQL Schema Definition Language (SDL) format.
+  For more information, see the GraphQL SDL documentation.
 - `format`: The type format: SDL or JSON.
 
 """
@@ -296,7 +326,8 @@ Retrieves the introspection schema for a GraphQL API.
 - `format`: The schema format: SDL or JSON.
 
 # Optional Parameters
-- `includeDirectives`: A flag that specifies whether the schema introspection should contain directives.
+- `includeDirectives`: A flag that specifies whether the schema introspection should
+  contain directives.
 """
 get_introspection_schema(apiId, format; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schema", Dict{String, Any}("format"=>format); aws_config=aws_config)
 get_introspection_schema(apiId, format, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/schema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), args)); aws_config=aws_config)
@@ -344,14 +375,18 @@ get_type(apiId, format, typeName, args::AbstractDict{String, <:Any}; aws_config:
 """
     ListApiKeys()
 
-Lists the API keys for a given API.  API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. 
+Lists the API keys for a given API.  API keys are deleted automatically 60 days after they
+expire. However, they may still be included in the response until they have actually been
+deleted. You can safely call DeleteApiKey to manually delete a key before it's
+automatically deleted.
 
 # Required Parameters
 - `apiId`: The API ID.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_api_keys(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/apikeys"; aws_config=aws_config)
 list_api_keys(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/apikeys", args; aws_config=aws_config)
@@ -366,7 +401,8 @@ Lists the data sources for a given API.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_data_sources(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources"; aws_config=aws_config)
 list_data_sources(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/datasources", args; aws_config=aws_config)
@@ -381,7 +417,8 @@ List multiple functions.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_functions(apiId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions"; aws_config=aws_config)
 list_functions(apiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions", args; aws_config=aws_config)
@@ -393,7 +430,8 @@ Lists your GraphQL APIs.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis"; aws_config=aws_config)
 list_graphql_apis(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis", args; aws_config=aws_config)
@@ -409,7 +447,8 @@ Lists the resolvers for a given API and type.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_resolvers(apiId, typeName; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers"; aws_config=aws_config)
 list_resolvers(apiId, typeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", args; aws_config=aws_config)
@@ -425,7 +464,8 @@ List the resolvers that are associated with a specific function.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which you can use to return the next set of items in the list.
 """
 list_resolvers_by_function(apiId, functionId; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers"; aws_config=aws_config)
 list_resolvers_by_function(apiId, functionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers", args; aws_config=aws_config)
@@ -453,7 +493,8 @@ Lists the types for a given API.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results you want the request to return.
-- `nextToken`: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. 
+- `nextToken`: An identifier that was returned from the previous call to this operation,
+  which can be used to return the next set of items in the list.
 """
 list_types(apiId, format; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types", Dict{String, Any}("format"=>format); aws_config=aws_config)
 list_types(apiId, format, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis/$(apiId)/types", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("format"=>format), args)); aws_config=aws_config)
@@ -461,7 +502,8 @@ list_types(apiId, format, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     StartSchemaCreation()
 
-Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
+Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine
+when it has completed.
 
 # Required Parameters
 - `apiId`: The API ID.
@@ -503,10 +545,18 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 Updates the cache for the GraphQL API.
 
 # Required Parameters
-- `apiCachingBehavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.  
+- `apiCachingBehavior`: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully
+  cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
 - `apiId`: The GraphQL API Id.
 - `ttl`: TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
-- `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+- `type`: The cache instance type. Valid values are     SMALL     MEDIUM     LARGE
+  XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X
+   Historically, instance types were identified by an EC2-style value. As of July 2020, this
+  is deprecated, and the generic identifiers above should be used. The following legacy
+  instance types are available, but their use is discouraged:    T2_SMALL: A t2.small
+  instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance
+  type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.
+   R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
 
 """
 update_api_cache(apiCachingBehavior, apiId, ttl, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches/update", Dict{String, Any}("apiCachingBehavior"=>apiCachingBehavior, "ttl"=>ttl, "type"=>type); aws_config=aws_config)
@@ -523,7 +573,8 @@ Updates an API key. The key can be updated while it is not deleted.
 
 # Optional Parameters
 - `description`: A description of the purpose of the API key.
-- `expires`: The time from update time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
+- `expires`: The time from update time after which the API key expires. The date is
+  represented as seconds since the epoch. For more information, see .
 """
 update_api_key(apiId, id; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)"; aws_config=aws_config)
 update_api_key(apiId, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)", args; aws_config=aws_config)
@@ -559,13 +610,16 @@ Updates a Function object.
 - `apiId`: The GraphQL API ID.
 - `dataSourceName`: The Function DataSource name.
 - `functionId`: The function ID.
-- `functionVersion`: The version of the request mapping template. Currently the supported value is 2018-05-29. 
+- `functionVersion`: The version of the request mapping template. Currently the supported
+  value is 2018-05-29.
 - `name`: The Function name.
 
 # Optional Parameters
 - `description`: The Function description.
-- `requestMappingTemplate`: The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
-- `responseMappingTemplate`: The Function request mapping template. 
+- `requestMappingTemplate`: The Function request mapping template. Functions support only
+  the 2018-05-29 version of the request mapping template.
+- `responseMappingTemplate`: The Function request mapping template.
+- `syncConfig`:
 """
 update_function(apiId, dataSourceName, functionId, functionVersion, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)", Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name); aws_config=aws_config)
 update_function(apiId, dataSourceName, functionId, functionVersion, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceName"=>dataSourceName, "functionVersion"=>functionVersion, "name"=>name), args)); aws_config=aws_config)
@@ -580,11 +634,13 @@ Updates a GraphqlApi object.
 - `name`: The new name for the GraphqlApi object.
 
 # Optional Parameters
-- `additionalAuthenticationProviders`: A list of additional authentication providers for the GraphqlApi API.
+- `additionalAuthenticationProviders`: A list of additional authentication providers for
+  the GraphqlApi API.
 - `authenticationType`: The new authentication type for the GraphqlApi object.
 - `logConfig`: The Amazon CloudWatch Logs configuration for the GraphqlApi object.
 - `openIDConnectConfig`: The OpenID Connect configuration for the GraphqlApi object.
-- `userPoolConfig`: The new Amazon Cognito user pool configuration for the GraphqlApi object.
+- `userPoolConfig`: The new Amazon Cognito user pool configuration for the GraphqlApi
+  object.
 - `xrayEnabled`: A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
 """
 update_graphql_api(apiId, name; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)", Dict{String, Any}("name"=>name); aws_config=aws_config)
@@ -603,9 +659,17 @@ Updates a Resolver object.
 # Optional Parameters
 - `cachingConfig`: The caching configuration for the resolver.
 - `dataSourceName`: The new data source name.
-- `kind`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.  
+- `kind`: The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default
+  resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data
+  source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a
+  series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL
+  query against multiple data sources.
 - `pipelineConfig`: The PipelineConfig.
-- `requestMappingTemplate`: The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+- `requestMappingTemplate`: The new request mapping template. A resolver uses a request
+  mapping template to convert a GraphQL expression into a format that a data source can
+  understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL
+  request mapping templates are optional when using a Lambda data source. For all other data
+  sources, VTL request and response mapping templates are required.
 - `responseMappingTemplate`: The new response mapping template.
 - `syncConfig`: The SyncConfig for a resolver attached to a versioned datasource.
 """

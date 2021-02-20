@@ -7,7 +7,7 @@ using AWS.UUIDs
 """
     DeletePlaybackConfiguration()
 
-Deletes the playback configuration for the specified name. 
+Deletes the playback configuration for the specified name.
 
 # Required Parameters
 - `Name`: The identifier for the playback configuration.
@@ -19,7 +19,7 @@ delete_playback_configuration(Name, args::AbstractDict{String, <:Any}; aws_confi
 """
     GetPlaybackConfiguration()
 
-Returns the playback configuration for the specified name. 
+Returns the playback configuration for the specified name.
 
 # Required Parameters
 - `Name`: The identifier for the playback configuration.
@@ -31,11 +31,16 @@ get_playback_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::
 """
     ListPlaybackConfigurations()
 
-Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful. 
+Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can
+specify a maximum number of configurations to return at a time. The default maximum is 50.
+Results are returned in pagefuls. If MediaTailor has more configurations than the specified
+maximum, it provides parameters in the response that you can use to retrieve the next
+pageful.
 
 # Optional Parameters
-- `MaxResults`: Maximum number of records to return. 
-- `NextToken`: Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+- `MaxResults`: Maximum number of records to return.
+- `NextToken`: Pagination token returned by the GET list request when results exceed the
+  maximum allowed. Use the token to fetch the next page of results.
 """
 list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
 list_playback_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", args; aws_config=aws_config)
@@ -43,10 +48,11 @@ list_playback_configurations(args::AbstractDict{String, Any}; aws_config::Abstra
 """
     ListTagsForResource()
 
-Returns a list of the tags assigned to the specified playback configuration resource. 
+Returns a list of the tags assigned to the specified playback configuration resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. 
+- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get
+  this from the response to any playback configuration request.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
@@ -55,22 +61,41 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutPlaybackConfiguration()
 
-Adds a new playback configuration to AWS Elemental MediaTailor. 
+Adds a new playback configuration to AWS Elemental MediaTailor.
 
 # Optional Parameters
-- `AdDecisionServerUrl`: The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
-- `AvailSuppression`: The configuration for Avail Suppression. Ad suppression can be used to turn off ad personalization in a long manifest, or if a viewer joins mid-break.
-- `Bumper`: The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. 
-- `CdnConfiguration`: The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. 
-- `DashConfiguration`: The configuration for DASH content. 
+- `AdDecisionServerUrl`: The URL for the ad decision server (ADS). This includes the
+  specification of static parameters and placeholders for dynamic parameters. AWS Elemental
+  MediaTailor substitutes player-specific and session-specific parameters as needed when
+  calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum
+  length is 25,000 characters.
+- `AvailSuppression`: The configuration for Avail Suppression. Ad suppression can be used
+  to turn off ad personalization in a long manifest, or if a viewer joins mid-break.
+- `Bumper`: The configuration for bumpers. Bumpers are short audio or video clips that play
+  at the start or before the end of an ad break.
+- `CdnConfiguration`: The configuration for using a content delivery network (CDN), like
+  Amazon CloudFront, for content and ad segment management.
+- `ConfigurationAliases`: Predefined aliases for dynamic variables.
+- `DashConfiguration`: The configuration for DASH content.
 - `LivePreRollConfiguration`: The configuration for pre-roll ad insertion.
-- `ManifestProcessingRules`: The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
+- `ManifestProcessingRules`: The configuration for manifest processing rules. Manifest
+  processing rules enable customization of the personalized manifests created by MediaTailor.
 - `Name`: The identifier for the playback configuration.
-- `PersonalizationThresholdSeconds`: The maximum duration of underfilled ad time (in seconds) allowed in an ad break.
-- `SlateAdUrl`: The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. 
-- `TranscodeProfileName`: The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
-- `VideoContentSourceUrl`: The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
-- `tags`: The tags to assign to the playback configuration. 
+- `PersonalizationThresholdSeconds`: The maximum duration of underfilled ad time (in
+  seconds) allowed in an ad break.
+- `SlateAdUrl`: The URL for a high-quality video asset to transcode and use to fill in time
+  that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media
+  content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the
+  slate is required because MediaTailor provides it in the slots that are designated for
+  dynamic ad content. The slate must be a high-quality asset that contains both audio and
+  video.
+- `TranscodeProfileName`: The name that is used to associate this playback configuration
+  with a custom transcode profile. This overrides the dynamic transcoding defaults of
+  MediaTailor. Use this only if you have already set up custom profiles with the help of AWS
+  Support.
+- `VideoContentSourceUrl`: The URL prefix for the master playlist for the stream, minus the
+  asset ID. The maximum length is 512 characters.
+- `tags`: The tags to assign to the playback configuration.
 """
 put_playback_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
 put_playback_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", args; aws_config=aws_config)
@@ -78,16 +103,18 @@ put_playback_configuration(args::AbstractDict{String, Any}; aws_config::Abstract
 """
     TagResource()
 
-Adds tags to the specified playback configuration resource. You can specify one or more tags to add. 
+Adds tags to the specified playback configuration resource. You can specify one or more
+tags to add.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. 
+- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get
+  this from the response to any playback configuration request.
 - `tags`: A comma-separated list of tag key:value pairs. For example: 
  {
- \"Key1\": \"Value1\",
+ \"Key1\":
+  \"Value1\",
  \"Key2\": \"Value2\"
  }
- 
 
 """
 tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
@@ -96,11 +123,14 @@ tag_resource(ResourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes tags from the specified playback configuration resource. You can specify one or more tags to remove. 
+Removes tags from the specified playback configuration resource. You can specify one or
+more tags to remove.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. 
-- `tagKeys`: A comma-separated list of the tag keys to remove from the playback configuration. 
+- `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get
+  this from the response to any playback configuration request.
+- `tagKeys`: A comma-separated list of the tag keys to remove from the playback
+  configuration.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)

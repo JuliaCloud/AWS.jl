@@ -38,7 +38,14 @@ Creates a new channel and an associated stream key to start streaming.
 - `latencyMode`: Channel latency mode. Default: LOW.
 - `name`: Channel name.
 - `tags`: See Channeltags.
-- `type`: Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
+- `type`: Channel type, which determines the allowable resolution and bitrate. If you
+  exceed the allowable resolution or bitrate, the stream probably will disconnect
+  immediately. Valid values:    STANDARD: Multiple qualities are generated from the original
+  input, to automatically give viewers the best experience for their devices and network
+  conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.
+  BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality
+  choice is limited to the original input. Vertical resolution can be up to 480 and bitrate
+  can be up to 1.5 Mbps.   Default: STANDARD.
 """
 create_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel"; aws_config=aws_config)
 create_channel(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel", args; aws_config=aws_config)
@@ -46,7 +53,11 @@ create_channel(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=gl
 """
     CreateStreamKey()
 
-Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
+Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that
+CreateChannel creates a stream key. If you subsequently use CreateStreamKey on the same
+channel, it will fail because a stream key already exists and there is a limit of 1 stream
+key per channel. To reset the stream key on a channel, use DeleteStreamKey and then
+CreateStreamKey.
 
 # Required Parameters
 - `channelArn`: ARN of the channel for which to create the stream key.
@@ -72,7 +83,8 @@ delete_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     DeletePlaybackKeyPair()
 
-Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey.
+Deletes a specified authorization key pair. This invalidates future viewer tokens generated
+using the key pair’s privateKey.
 
 # Required Parameters
 - `arn`: ARN of the key pair to be deleted.
@@ -108,7 +120,9 @@ get_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 """
     GetPlaybackKeyPair()
 
-Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to authorized channels.
+Gets a specified playback authorization key pair and returns the arn and fingerprint. The
+privateKey held by the caller can be used to generate viewer authorization tokens, to grant
+viewers access to authorized channels.
 
 # Required Parameters
 - `arn`: ARN of the key pair to be returned.
@@ -144,13 +158,16 @@ get_stream_key(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     ImportPlaybackKeyPair()
 
-Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to authorized channels.
+Imports the public portion of a new key pair and returns its arn and fingerprint. The
+privateKey can then be used to generate viewer authorization tokens, to grant viewers
+access to authorized channels.
 
 # Required Parameters
 - `publicKeyMaterial`: The public portion of a customer-generated key pair.
 
 # Optional Parameters
-- `name`: An arbitrary string (a nickname) assigned to a playback key pair that helps the customer identify that resource. The value does not need to be unique.
+- `name`: An arbitrary string (a nickname) assigned to a playback key pair that helps the
+  customer identify that resource. The value does not need to be unique.
 - `tags`: Any tags provided with the request are added to the playback key pair tags.
 """
 import_playback_key_pair(publicKeyMaterial; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ImportPlaybackKeyPair", Dict{String, Any}("publicKeyMaterial"=>publicKeyMaterial); aws_config=aws_config)
@@ -159,12 +176,14 @@ import_playback_key_pair(publicKeyMaterial, args::AbstractDict{String, <:Any}; a
 """
     ListChannels()
 
-Gets summary information about all channels in your account, in the AWS region where the API request is processed. This list can be filtered to match a specified string.
+Gets summary information about all channels in your account, in the AWS region where the
+API request is processed. This list can be filtered to match a specified string.
 
 # Optional Parameters
 - `filterByName`: Filters the channel list to match the specified name.
 - `maxResults`: Maximum number of channels to return.
-- `nextToken`: The first channel to retrieve. This is used for pagination; see the nextToken response field.
+- `nextToken`: The first channel to retrieve. This is used for pagination; see the
+  nextToken response field.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels"; aws_config=aws_config)
 list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels", args; aws_config=aws_config)
@@ -175,7 +194,8 @@ list_channels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 Gets summary information about playback key pairs.
 
 # Optional Parameters
-- `maxResults`: The first key pair to retrieve. This is used for pagination; see the nextToken response field.
+- `maxResults`: The first key pair to retrieve. This is used for pagination; see the
+  nextToken response field.
 - `nextToken`: Maximum number of key pairs to return.
 """
 list_playback_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs"; aws_config=aws_config)
@@ -191,7 +211,8 @@ Gets summary information about stream keys for the specified channel.
 
 # Optional Parameters
 - `maxResults`: Maximum number of streamKeys to return.
-- `nextToken`: The first stream key to retrieve. This is used for pagination; see the nextToken response field.
+- `nextToken`: The first stream key to retrieve. This is used for pagination; see the
+  nextToken response field.
 """
 list_stream_keys(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}("channelArn"=>channelArn); aws_config=aws_config)
 list_stream_keys(channelArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreamKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelArn"=>channelArn), args)); aws_config=aws_config)
@@ -199,11 +220,13 @@ list_stream_keys(channelArn, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     ListStreams()
 
-Gets summary information about live streams in your account, in the AWS region where the API request is processed.
+Gets summary information about live streams in your account, in the AWS region where the
+API request is processed.
 
 # Optional Parameters
 - `maxResults`: Maximum number of streams to return.
-- `nextToken`: The first stream to retrieve. This is used for pagination; see the nextToken response field.
+- `nextToken`: The first stream to retrieve. This is used for pagination; see the nextToken
+  response field.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams"; aws_config=aws_config)
 list_streams(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams", args; aws_config=aws_config)
@@ -218,7 +241,8 @@ Gets information about AWS tags for the specified ARN.
 
 # Optional Parameters
 - `maxResults`: Maximum number of tags to return.
-- `nextToken`: The first tag to retrieve. This is used for pagination; see the nextToken response field.
+- `nextToken`: The first tag to retrieve. This is used for pagination; see the nextToken
+  response field.
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
@@ -226,10 +250,12 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutMetadata()
 
-Inserts metadata into an RTMPS stream for the specified channel. A maximum of 5 requests per second per channel is allowed, each with a maximum 1KB payload.
+Inserts metadata into an RTMPS stream for the specified channel. A maximum of 5 requests
+per second per channel is allowed, each with a maximum 1KB payload.
 
 # Required Parameters
-- `channelArn`: ARN of the channel into which metadata is inserted. This channel must have an active stream.
+- `channelArn`: ARN of the channel into which metadata is inserted. This channel must have
+  an active stream.
 - `metadata`: Metadata to insert into the stream. Maximum: 1 KB per request.
 
 """
@@ -239,7 +265,10 @@ put_metadata(channelArn, metadata, args::AbstractDict{String, <:Any}; aws_config
 """
     StopStream()
 
-Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with DeleteStreamKey to prevent further streaming to a channel.  Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel. 
+Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction
+with DeleteStreamKey to prevent further streaming to a channel.  Many streaming
+client-software libraries automatically reconnect a dropped RTMPS session, so to stop the
+stream permanently, you may want to first revoke the streamKey attached to the channel.
 
 # Required Parameters
 - `channelArn`: ARN of the channel for which the stream is to be stopped.
@@ -277,7 +306,8 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateChannel()
 
-Updates a channel's configuration. This does not affect an ongoing stream of this channel. You must stop and restart the stream for the changes to take effect.
+Updates a channel's configuration. This does not affect an ongoing stream of this channel.
+You must stop and restart the stream for the changes to take effect.
 
 # Required Parameters
 - `arn`: ARN of the channel to be updated.
@@ -286,7 +316,14 @@ Updates a channel's configuration. This does not affect an ongoing stream of thi
 - `authorized`: Whether the channel is authorized. Default: false.
 - `latencyMode`: Channel latency mode. Default: LOW.
 - `name`: Channel name.
-- `type`: Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
+- `type`: Channel type, which determines the allowable resolution and bitrate. If you
+  exceed the allowable resolution or bitrate, the stream probably will disconnect
+  immediately. Valid values:    STANDARD: Multiple qualities are generated from the original
+  input, to automatically give viewers the best experience for their devices and network
+  conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.
+  BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality
+  choice is limited to the original input. Vertical resolution can be up to 480 and bitrate
+  can be up to 1.5 Mbps.   Default: STANDARD.
 """
 update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
 update_channel(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/UpdateChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)

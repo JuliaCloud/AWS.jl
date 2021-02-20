@@ -10,7 +10,8 @@ using AWS.UUIDs
 Deletes the specified report.
 
 # Optional Parameters
-- `ReportName`: The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
+- `ReportName`: The name of the report that you want to delete. The name must be unique, is
+  case sensitive, and can't include spaces.
 """
 delete_report_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("DeleteReportDefinition"; aws_config=aws_config)
 delete_report_definition(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("DeleteReportDefinition", args; aws_config=aws_config)
@@ -21,8 +22,8 @@ delete_report_definition(args::AbstractDict{String, <:Any}; aws_config::Abstract
 Lists the AWS Cost and Usage reports available to this account.
 
 # Optional Parameters
-- `MaxResults`: 
-- `NextToken`: 
+- `MaxResults`:
+- `NextToken`:
 """
 describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("DescribeReportDefinitions"; aws_config=aws_config)
 describe_report_definitions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("DescribeReportDefinitions", args; aws_config=aws_config)
@@ -33,8 +34,8 @@ describe_report_definitions(args::AbstractDict{String, <:Any}; aws_config::Abstr
 Allows you to programatically update your report preferences.
 
 # Required Parameters
-- `ReportDefinition`: 
-- `ReportName`: 
+- `ReportDefinition`:
+- `ReportName`:
 
 """
 modify_report_definition(ReportDefinition, ReportName; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("ModifyReportDefinition", Dict{String, Any}("ReportDefinition"=>ReportDefinition, "ReportName"=>ReportName); aws_config=aws_config)
@@ -46,7 +47,8 @@ modify_report_definition(ReportDefinition, ReportName, args::AbstractDict{String
 Creates a new report using the description that you provide.
 
 # Required Parameters
-- `ReportDefinition`: Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. 
+- `ReportDefinition`: Represents the output of the PutReportDefinition operation. The
+  content consists of the detailed metadata and data file information.
 
 """
 put_report_definition(ReportDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = cost_and_usage_report_service("PutReportDefinition", Dict{String, Any}("ReportDefinition"=>ReportDefinition); aws_config=aws_config)
