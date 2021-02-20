@@ -619,7 +619,7 @@ function wraplines(str, limit=92)
     lines = String[]
     while !isempty(str)
         line, str = splitline(str, limit)
-        push!(lines, line)
+        push!(lines, rstrip(line))  # strip trailing whitespace
     end
     return join(lines, "\n")
 end
