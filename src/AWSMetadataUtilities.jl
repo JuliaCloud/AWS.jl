@@ -631,11 +631,12 @@ end
 
 Split the string `str` at or before `limit`.
 
+Prefers splitting the string on whitespace rather than mid-word, when possible.
 `limit` is measured in codeunits, which is an upper-bound on the number of characters.
 """
 function splitline(str, limit)
     limit ≥ 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
-    length(str) ≤ limit && return (str, "")
+    ncodeunits(str) ≤ limit && return (str, "")
     limit = validindex(str, limit)
     first_line = str[1:limit]
     # split on whitespace if possible, else just split when we hit the limit.
