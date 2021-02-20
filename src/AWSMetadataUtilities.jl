@@ -579,7 +579,8 @@ function _generate_high_level_definition(
             operation_definition *= "# Required Parameters\n"
 
             for (required_key, required_value) in required_parameters
-                operation_definition *= wraplines("- `$required_key`: $(required_value["documentation"])\n")
+                operation_definition *= wraplines("- `$required_key`: $(required_value["documentation"])"; delim="\n  ")
+                operation_definition *= "\n"
             end
 
             operation_definition *= "\n"
@@ -590,7 +591,8 @@ function _generate_high_level_definition(
             operation_definition *= "# Optional Parameters\n"
 
             for (optional_key, optional_value) in optional_parameters
-                operation_definition *= wraplines("- `$optional_key`: $(optional_value["documentation"])\n")
+                operation_definition *= wraplines("- `$optional_key`: $(optional_value["documentation"])"; delim="\n  ")
+                operation_definition *= "\n"
             end
         end
 
@@ -615,13 +617,13 @@ end
 
 Return a string with line breaks added such that lines are wrapped at or before the limit.
 """
-function wraplines(str, limit=92)
+function wraplines(str, limit=92; delim="\n")
     lines = String[]
     while !isempty(str)
         line, str = splitline(str, limit)
         push!(lines, rstrip(line))  # strip trailing whitespace
     end
-    return join(lines, "\n")
+    return join(lines, delim)
 end
 
 """
