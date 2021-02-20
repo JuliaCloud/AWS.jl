@@ -571,7 +571,7 @@ function _generate_high_level_definition(
             $(repeat('"', 3))
                 $function_name()
 
-            $documentation\n
+            $(wraplines(documentation))\n
             """
 
         # Add in the required parameters if applicable
@@ -579,7 +579,7 @@ function _generate_high_level_definition(
             operation_definition *= "# Required Parameters\n"
 
             for (required_key, required_value) in required_parameters
-                operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
+                operation_definition *= wraplines("- `$required_key`: $(required_value["documentation"])\n")
             end
 
             operation_definition *= "\n"
@@ -590,7 +590,7 @@ function _generate_high_level_definition(
             operation_definition *= "# Optional Parameters\n"
 
             for (optional_key, optional_value) in optional_parameters
-                operation_definition *= "- `$optional_key`: $(optional_value["documentation"])\n"
+                operation_definition *= wraplines("- `$optional_key`: $(optional_value["documentation"])\n")
             end
         end
 
@@ -609,4 +609,53 @@ function _generate_high_level_definition(
 
     return string(doc_string, '\n', function_string)
 end
+
+"""
+    wraplines(str, limit=92) -> String
+
+Return a string with line breaks added such that lines are wrapped at or before the limit.
+"""
+function wraplines(str, limit=92)
+    lines = String[]
+    while !isempty(str)
+        line, str = splitline(str, limit)
+        push!(lines, line)
+    end
+    return join(lines, "\n")
+end
+
+"""
+    splitline(str, limit) -> Tuple{String,String}
+
+Split the string `str` at or before `limit`.
+
+`limit` is measured in codeunits, which is an upper-bound on the number of characters.
+"""
+function splitline(str, limit)
+    limit ≥ 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
+    length(str) ≤ limit && return (str, "")
+    limit = validind(str, limit)
+    first_line = str[1:limit]
+    # split on whitespace if possible, else just split when we hit the limit.
+    split_point = something(findlast(==(' '), first_line), limit)
+    stop = validind(first_line, split_point)
+    restart = nextind(first_line, stop)
+    return (str[1:stop], str[restart:end])
+end
+
+"""
+    validind(str, i)
+
+Return a valid index into the string `str`, rounding towards the first index of `str` if
+`i` is not itself a valid index into `str`.
+
+`i` must be within the bounds of `string`. `validind(str, i)` only protects against a
+`StringIndexError`, not a `BoundsError`.
+"""
+function validind(str, limit)
+    prev = max(firstindex(str), prevind(str, limit))
+    next = nextind(str, prev)
+    return next == limit ? limit : prev
+end
+
 end  # Module
