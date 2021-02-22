@@ -332,7 +332,7 @@ end
 
 
 """
-    _clean_uri(uri::AbstractString)
+    _clean_s3_uri(uri::AbstractString)
 
 Escape special AWS S3 characters properly.
 
@@ -348,17 +348,16 @@ are used in the filepathing for sub-directories.
 # Returns
 - `String`: URI with characters escaped
 """
-function _clean_uri(uri::AbstractString)
-    chars_to_clean = [
+function _clean_s3_uri(uri::AbstractString)
+    chars_to_clean = (
         ' ' => "%20",
         '!' => "%21",
         ''' => "%27",
         '(' => "%28",
         ')' => "%29",
         '*' => "%2A",
-        '=' => "%3D",
-    ]
-
+        '=' => "%3D"
+    )
     return reduce(replace, chars_to_clean, init=uri)
 end
 
@@ -397,7 +396,9 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     request.headers["User-Agent"] = user_agent[]
     request.headers["Host"] = HTTP.URI(request.url).host
-    request.url = _clean_uri(request.url)
+    if request.service == "s3"
+        request.url = _clean_s3_uri(request.url)
+    end
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)
