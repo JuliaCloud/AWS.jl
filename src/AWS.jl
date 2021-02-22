@@ -355,7 +355,8 @@ function _clean_uri(uri::AbstractString)
         ''' => "%27",
         '(' => "%28",
         ')' => "%29",
-        '*' => "%2A"
+        '*' => "%2A",
+        '=' => "%3D",
     ]
 
     return reduce(replace, chars_to_clean, init=uri)
