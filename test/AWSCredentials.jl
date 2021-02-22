@@ -511,7 +511,7 @@ end
             delete!(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
 
             apply([_http_request_patch, Patches._cred_file_patch, Patches._config_file_patch]) do
-                @test_throws ErrorException AWSConfig()
+                @test_throws NoCredentials AWSConfig()
             end
         finally
             if !isempty(old_aws_access_key_id)

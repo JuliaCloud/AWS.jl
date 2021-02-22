@@ -138,7 +138,7 @@ Checks credential locations in the order:
 # Throws
 - `error("Can't find AWS Credentials")`: AWSCredentials could not be found
 """
-function AWSCredentials(; profile=nothing)
+function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
 
@@ -146,8 +146,8 @@ function AWSCredentials(; profile=nothing)
         profile = get(ENV, "AWS_PROFILE", get(ENV, "AWS_DEFAULT_PROFILE", nothing))
     end
 
-    # Define our search options, expected to be callable with no arguments. Should return
-    # `nothing` when credentials are not able to be located
+    # Define our search options, expected to be callable with no arguments.
+    # Throw NoCredentials if none are found
     functions = [
         env_var_credentials,
         () -> dot_aws_credentials(profile),
@@ -162,6 +162,15 @@ function AWSCredentials(; profile=nothing)
         credential_function = f
         creds = credential_function()
         creds === nothing || break
+    end
+
+    # If credentials are nothing, default to throwing an error, otherwise return nothing
+    if creds === nothing
+        if throw_cred_error
+            throw(NoCredentials("Can't find AWS credentials!"))
+        else
+            return nothing
+        end
     end
 
     creds.renew = credential_function
