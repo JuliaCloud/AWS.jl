@@ -743,7 +743,10 @@ end
 
     @testset "low-level s3" begin
         bucket_name = "aws-jl-test---" * _now_formatted()
-        file_name = "*)=('! .txt"  # Special characters which S3 allows
+        # Special characters which S3 explicitly allows or does not explicitly
+        # suggest avoiding "might require special handling"
+        # https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
+        file_name = "!/-_.*'()&\$@=;:+ ,?.txt"
 
         function _bucket_exists(bucket_name)
             try
