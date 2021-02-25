@@ -549,7 +549,8 @@ function (service::RestXMLService)(
             '(' => "%28",
             ')' => "%29",
             '*' => "%2A",
-            '=' => "%3D"
+            '+' => "%2B",
+            '=' => "%3D",
         )
         return reduce(replace, chars_to_clean, init=uri)
     end
