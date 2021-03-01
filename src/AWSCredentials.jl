@@ -478,7 +478,8 @@ function credentials_from_webtoken()
 
     role_arn = ENV[token_role_arn]
     role_session = get(ENV, token_role_session) do
-        default_role_session = replace("default-AWS.jl-role-session-$(now())", ":" => "-")
+        timestamp = Dates.format(now(UTC), dateformat"yyyymmdd\THHMMSS\Z")
+        default_role_session = "default-AWS.jl-role-session-$timestamp" 
         @warn "Consider setting (optional) AWS_ROLE_SESSION_NAME environment variable, defaulting to $default_role_session"
         return default_role_session
     end
