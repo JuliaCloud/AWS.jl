@@ -247,9 +247,11 @@ function _format_function_name(function_name::String)
     function_name = lowercase(function_name)
 
     # Chop off the leading underscore
-    function_name = chop(function_name, head=1, tail=0)
-
-    return function_name
+    return if startswith(function_name, "_")
+        chop(function_name, head=1, tail=0)
+    else
+        function_name
+    end
 end
 
 """
@@ -567,7 +569,7 @@ function _generate_high_level_definition(
     - `String`: Docstring for the function
     """
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
-        args = join((key for (key, val) in required_parameters), ", ")
+        args = join((_format_function_name(key) for (key, val) in required_parameters), ", ")
         maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
             \"\"\"
@@ -582,7 +584,8 @@ function _generate_high_level_definition(
             operation_definition *= "# Arguments\n"
 
             for (required_key, required_value) in required_parameters
-                operation_definition *= _wraplines("- `$required_key`: $(required_value["documentation"])"; delim="\n  ")
+                key = _format_function_name(required_key)
+                operation_definition *= _wraplines("- `$key`: $(required_value["documentation"])"; delim="\n  ")
                 operation_definition *= "\n"
             end
 
