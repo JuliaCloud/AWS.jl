@@ -567,16 +567,19 @@ function _generate_high_level_definition(
     - `String`: Docstring for the function
     """
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
+        args = join((key for (key, val) in required_parameters), ", ")
+        maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
-            $(repeat('"', 3))
-                $function_name
+            \"\"\"
+                $function_name($(args))
+                $function_name($(args)$(maybejoin)optional_params::Dict{String,<:Any})
 
             $(_wraplines(documentation))\n
             """
 
         # Add in the required parameters if applicable
         if !isempty(required_parameters)
-            operation_definition *= "# Required Parameters\n"
+            operation_definition *= "# Arguments\n"
 
             for (required_key, required_value) in required_parameters
                 operation_definition *= _wraplines("- `$required_key`: $(required_value["documentation"])"; delim="\n  ")
@@ -588,15 +591,19 @@ function _generate_high_level_definition(
 
         # Add in the optional parameters if applicable
         if !isempty(optional_parameters)
-            operation_definition *= "# Optional Parameters\n"
+            operation_definition *= """
+                # Optional Parameters
+                Optional parameters can be passed as a `Dict{String,<:Any}`. Valid keys are:
+                """
+
 
             for (optional_key, optional_value) in optional_parameters
-                operation_definition *= _wraplines("- `$optional_key`: $(optional_value["documentation"])"; delim="\n  ")
+                operation_definition *= _wraplines("- `\"$optional_key\"`: $(optional_value["documentation"])"; delim="\n  ")
                 operation_definition *= "\n"
             end
         end
 
-        operation_definition *= repeat('"', 3)
+        operation_definition *= "\"\"\""
     end
 
     doc_string = _generate_docstring(_format_function_name(name), documentation, required_parameters, optional_parameters)
