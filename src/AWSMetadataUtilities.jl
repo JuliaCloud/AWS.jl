@@ -569,6 +569,7 @@ function _generate_high_level_definition(
     - `String`: Docstring for the function
     """
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
+        function_name = _format_name(function_name)
         args = join((_format_name(key) for (key, val) in required_parameters), ", ")
         maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
@@ -609,7 +610,7 @@ function _generate_high_level_definition(
         operation_definition *= "\"\"\""
     end
 
-    doc_string = _generate_docstring(_format_name(name), documentation, required_parameters, optional_parameters)
+    doc_string = _generate_docstring(name, documentation, required_parameters, optional_parameters)
 
     if protocol in ("json", "query", "ec2")
         function_string = _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
