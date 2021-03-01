@@ -227,7 +227,7 @@ function _clean_uri(uri::String)
 end
 
 """
-    _format_function_name(function_name::String)
+    _format_name(function_name::String)
 
 Convert a function name from CamelCase to snake_case
 
@@ -237,7 +237,7 @@ Convert a function name from CamelCase to snake_case
 # Returns:
 - `String`: snake_case version of the function_name
 """
-function _format_function_name(function_name::String)
+function _format_name(function_name::String)
     # Replace a string of uppercase characters with themselves prefaced by an underscore
     # [A-Z](?![A-Z]) => Match a single uppercase character that is not followed by another uppercase character
     # |(A-Z]{1,})    => Match 1-Infinite amounts of uppercase characters
@@ -474,7 +474,7 @@ function _generate_high_level_definition(
         headers_str = headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
 
-        formatted_function_name = _format_function_name(function_name)
+        formatted_function_name = _format_name(function_name)
 
         if required_keys && (idempotent || headers)
             return """
@@ -529,7 +529,7 @@ function _generate_high_level_definition(
         required = !isempty(req_kv)
         idempotent = !isempty(idempotent_kv)
 
-        formatted_function_name = _format_function_name(function_name)
+        formatted_function_name = _format_name(function_name)
 
         if required && idempotent
             return """
@@ -569,7 +569,7 @@ function _generate_high_level_definition(
     - `String`: Docstring for the function
     """
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
-        args = join((_format_function_name(key) for (key, val) in required_parameters), ", ")
+        args = join((_format_name(key) for (key, val) in required_parameters), ", ")
         maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
             \"\"\"
@@ -584,7 +584,7 @@ function _generate_high_level_definition(
             operation_definition *= "# Arguments\n"
 
             for (required_key, required_value) in required_parameters
-                key = _format_function_name(required_key)
+                key = _format_name(required_key)
                 operation_definition *= _wraplines("- `$key`: $(required_value["documentation"])"; delim="\n  ")
                 operation_definition *= "\n"
             end
@@ -609,7 +609,7 @@ function _generate_high_level_definition(
         operation_definition *= "\"\"\""
     end
 
-    doc_string = _generate_docstring(_format_function_name(name), documentation, required_parameters, optional_parameters)
+    doc_string = _generate_docstring(_format_name(name), documentation, required_parameters, optional_parameters)
 
     if protocol in ("json", "query", "ec2")
         function_string = _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)

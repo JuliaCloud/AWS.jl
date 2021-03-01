@@ -203,33 +203,33 @@ end
     end
 end
 
-@testset "_format_function_name" begin
+@testset "_format_name" begin
     @testset "single captial" begin
         function_name = "Testfunctionname"
         expected = "testfunctionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "all capitals" begin
         function_name = "TESTFUNCTIONNAME"
         expected = "testfunctionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "subsequent capitals" begin
         function_name = "TestFUNCTIONName"
         expected = "test_functionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "normal" begin
         function_name = "TestFunctionName"
         expected = "test_function_name"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 end
 
