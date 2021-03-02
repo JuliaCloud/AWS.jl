@@ -600,7 +600,6 @@ function _generate_high_level_definition(
                 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
                 """
 
-
             for (optional_key, optional_value) in optional_parameters
                 operation_definition *= _wraplines("- `\"$optional_key\"`: $(optional_value["documentation"])"; delim="\n  ")
                 operation_definition *= "\n"
