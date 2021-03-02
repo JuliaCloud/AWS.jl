@@ -479,27 +479,27 @@ function _generate_high_level_definition(
         if required_keys && (idempotent || headers)
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config)
                 """
         elseif !required_keys && (idempotent || headers)
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config)
                 """
         elseif required_keys && !isempty(req_kv)
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config)
                 """
         elseif required_keys
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config)
                 """
         else
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config)
                 """
         end
     end
@@ -534,22 +534,22 @@ function _generate_high_level_definition(
         if required && idempotent
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config)
                 """
         elseif required
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config)
                 """
         elseif idempotent
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config)
                 """
         else
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", params; aws_config=aws_config)
                 """
         end
     end
@@ -575,7 +575,7 @@ function _generate_high_level_definition(
         operation_definition = """
             \"\"\"
                 $function_name($(args))
-                $function_name($(args)$(maybejoin)optional_params::Dict{String,<:Any})
+                $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
 
             $(_wraplines(documentation))\n
             """
@@ -597,7 +597,7 @@ function _generate_high_level_definition(
         if !isempty(optional_parameters)
             operation_definition *= """
                 # Optional Parameters
-                Optional parameters can be passed as a `Dict{String,<:Any}`. Valid keys are:
+                Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
                 """
 
 
