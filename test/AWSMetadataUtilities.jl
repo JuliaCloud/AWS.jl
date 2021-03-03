@@ -487,12 +487,15 @@ end
         @test_throws BoundsError _validindex(str, 0)
         @test_throws BoundsError _validindex(str, 10)
     end
+
     @testset "_splitline" begin
         str = "This is a short sentence."
+
         @testset "limit < 1" begin
             @test_throws DomainError _splitline(str, 0)
             @test_throws DomainError _splitline(str, -1)
         end
+
         @testset "limit == 1" begin
             result = _splitline(str, 1)
             @test result isa Tuple{String,String}
@@ -500,6 +503,7 @@ end
             @test line1 == string(first(str)) == "T"
             @test line2 == str[2:end] == "his is a short sentence."
         end
+
         @testset "limit >= ncodeunits" begin
             for limit in (ncodeunits(str), ncodeunits(str) + 1)
                 result = _splitline(str, limit)
@@ -509,6 +513,7 @@ end
                 @test line2 == ""
             end
         end
+
         @testset "split on whitespace when possible" begin
             abc = "Aa Bb Cc"
             @test _splitline(abc, 1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
@@ -517,15 +522,16 @@ end
             @test _splitline(abc, 4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
             @test _splitline(abc, 5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
             @test _splitline(abc, 6) == ("Aa Bb ", "Cc")
-
             @test _splitline(abc, ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
         end
+
         @testset "does not try to split mid-character" begin
             str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
             @test _splitline(str, 2) == ("jμ", "ΛIα")
             @test _splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
             @test _splitline(str, 4) == ("jμΛ", "Iα")
         end
+
         @testset "does not split on punctuation" begin
             str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
             result = _splitline(str, ncodeunits(str) - 1)
@@ -533,17 +539,21 @@ end
             @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
         end
     end
+
     @testset "_wraplines" begin
         str = "This sentence contains exactly `η = 50` codeunits"
+
         @testset "limit < 1" begin
             @test_throws DomainError _wraplines(str, 0)
             @test_throws DomainError _wraplines(str, -1)
         end
+
         @testset "limit == 1" begin
             wrapped = _wraplines(str, 1)
             @test wrapped isa String
             @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
         end
+
         @testset "limit >= ncodeunits" begin
             for limit in (50, 99)
                 wrapped = _wraplines(str, limit)
@@ -551,6 +561,7 @@ end
                 @test wrapped == str
             end
         end
+
         @testset "1 < limit < ncodeunits" begin
             @test _wraplines(str, 20) == """
                 This sentence
@@ -564,12 +575,14 @@ end
                 This sentence contains
                 exactly `η = 50` codeunits"""
         end
+
         @testset "trailing whitespace is stripped" begin
             str = "16charactersthen    fourspaces "
             @test _wraplines(str, 16) == "16charactersthen\n    fourspaces"
             @test _wraplines(str, 17) == "16charactersthen\n   fourspaces"
             @test _wraplines(str, 18) == "16charactersthen\n  fourspaces"
         end
+
         @testset "has default `limit=92` argument" begin
             str = string(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
@@ -577,6 +590,7 @@ end
             )
             @test _wraplines(str) == _wraplines(str, 92)
         end
+
         @testset "optional `delim` keyword" begin
             str = string(
                 "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
