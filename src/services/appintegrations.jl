@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateEventIntegration()
+    create_event_integration(event_bridge_bus, event_filter, name)
+    create_event_integration(event_bridge_bus, event_filter, name, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Creates
 an EventIntegration, given a specified name, description, and a reference to an Amazon
@@ -13,130 +14,142 @@ Eventbridge bus in your account and a partner event source that will push events
 bus. No objects are created in the your account, only metadata that is persisted on the
 EventIntegration control plane.
 
-# Required Parameters
-- `EventBridgeBus`: The Eventbridge bus.
-- `EventFilter`: The event filter.
-- `Name`: The name of the event integration.
+# Arguments
+- `event_bridge_bus`: The Eventbridge bus.
+- `event_filter`: The event filter.
+- `name`: The name of the event integration.
 
 # Optional Parameters
-- `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `Description`: The description of the event integration.
-- `Tags`: One or more tags.
+- `"Description"`: The description of the event integration.
+- `"Tags"`: One or more tags.
 """
 create_event_integration(EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/eventIntegrations", Dict{String, Any}("EventBridgeBus"=>EventBridgeBus, "EventFilter"=>EventFilter, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_event_integration(EventBridgeBus, EventFilter, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/eventIntegrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventBridgeBus"=>EventBridgeBus, "EventFilter"=>EventFilter, "Name"=>Name, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_event_integration(EventBridgeBus, EventFilter, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/eventIntegrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventBridgeBus"=>EventBridgeBus, "EventFilter"=>EventFilter, "Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DeleteEventIntegration()
+    delete_event_integration(name)
+    delete_event_integration(name, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Deletes
 the specified existing event integration. If the event integration is associated with
 clients, the request is rejected.
 
-# Required Parameters
-- `Name`: The name of the event integration.
+# Arguments
+- `name`: The name of the event integration.
 
 """
 delete_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/eventIntegrations/$(Name)"; aws_config=aws_config)
-delete_event_integration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/eventIntegrations/$(Name)", args; aws_config=aws_config)
+delete_event_integration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/eventIntegrations/$(Name)", params; aws_config=aws_config)
 
 """
-    GetEventIntegration()
+    get_event_integration(name)
+    get_event_integration(name, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Return
 information about the event integration.
 
-# Required Parameters
-- `Name`: The name of the event integration.
+# Arguments
+- `name`: The name of the event integration.
 
 """
 get_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)"; aws_config=aws_config)
-get_event_integration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)", args; aws_config=aws_config)
+get_event_integration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)", params; aws_config=aws_config)
 
 """
-    ListEventIntegrationAssociations()
+    list_event_integration_associations(name)
+    list_event_integration_associations(name, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Returns a
 paginated list of event integration associations in the account.
 
-# Required Parameters
-- `Name`: The name of the event integration.
+# Arguments
+- `name`: The name of the event integration.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per page.
-- `nextToken`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 list_event_integration_associations(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)/associations"; aws_config=aws_config)
-list_event_integration_associations(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)/associations", args; aws_config=aws_config)
+list_event_integration_associations(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations/$(Name)/associations", params; aws_config=aws_config)
 
 """
-    ListEventIntegrations()
+    list_event_integrations()
+    list_event_integrations(params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Returns a
 paginated list of event integrations in the account.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per page.
-- `nextToken`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations"; aws_config=aws_config)
-list_event_integrations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations", args; aws_config=aws_config)
+list_event_integrations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Lists the
 tags for the specified resource.
 
-# Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Adds the
 specified tags to the specified resource.
 
-# Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: One or more tags.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Removes
 the specified tags from the specified resource.
 
-# Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the resource.
-- `tagKeys`: The tag keys.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tag_keys`: The tag keys.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateEventIntegration()
+    update_event_integration(name)
+    update_event_integration(name, params::Dict{String,<:Any})
 
 The Amazon AppIntegrations APIs are in preview release and are subject to change. Updates
 the description of an event integration.
 
-# Required Parameters
-- `Name`: The name of the event integration.
+# Arguments
+- `name`: The name of the event integration.
 
 # Optional Parameters
-- `Description`: The description of the event inegration.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the event inegration.
 """
 update_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("PATCH", "/eventIntegrations/$(Name)"; aws_config=aws_config)
-update_event_integration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("PATCH", "/eventIntegrations/$(Name)", args; aws_config=aws_config)
+update_event_integration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("PATCH", "/eventIntegrations/$(Name)", params; aws_config=aws_config)

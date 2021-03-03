@@ -5,34 +5,37 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AddInstanceFleet()
+    add_instance_fleet(cluster_id, instance_fleet)
+    add_instance_fleet(cluster_id, instance_fleet, params::Dict{String,<:Any})
 
 Adds an instance fleet to a running cluster.  The instance fleet configuration is available
 only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x.
 
-# Required Parameters
-- `ClusterId`: The unique identifier of the cluster.
-- `InstanceFleet`: Specifies the configuration of the instance fleet.
+# Arguments
+- `cluster_id`: The unique identifier of the cluster.
+- `instance_fleet`: Specifies the configuration of the instance fleet.
 
 """
 add_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
-add_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+add_instance_fleet(ClusterId, InstanceFleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config)
 
 """
-    AddInstanceGroups()
+    add_instance_groups(instance_groups, job_flow_id)
+    add_instance_groups(instance_groups, job_flow_id, params::Dict{String,<:Any})
 
 Adds one or more instance groups to a running cluster.
 
-# Required Parameters
-- `InstanceGroups`: Instance groups to add.
-- `JobFlowId`: Job flow in which to add the instance groups.
+# Arguments
+- `instance_groups`: Instance groups to add.
+- `job_flow_id`: Job flow in which to add the instance groups.
 
 """
 add_instance_groups(InstanceGroups, JobFlowId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws_config=aws_config)
-add_instance_groups(InstanceGroups, JobFlowId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), args)); aws_config=aws_config)
+add_instance_groups(InstanceGroups, JobFlowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), params)); aws_config=aws_config)
 
 """
-    AddJobFlowSteps()
+    add_job_flow_steps(job_flow_id, steps)
+    add_job_flow_steps(job_flow_id, steps, params::Dict{String,<:Any})
 
 AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are allowed in
 each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex,
@@ -49,35 +52,37 @@ exit with a zero exit code and all Hadoop jobs started while the step was runnin
 completed and run successfully. You can only add steps to a cluster that is in one of the
 following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
 
-# Required Parameters
-- `JobFlowId`: A string that uniquely identifies the job flow. This identifier is returned
-  by RunJobFlow and can also be obtained from ListClusters.
-- `Steps`:  A list of StepConfig to be executed by the job flow.
+# Arguments
+- `job_flow_id`: A string that uniquely identifies the job flow. This identifier is
+  returned by RunJobFlow and can also be obtained from ListClusters.
+- `steps`:  A list of StepConfig to be executed by the job flow.
 
 """
 add_job_flow_steps(JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws_config=aws_config)
-add_job_flow_steps(JobFlowId, Steps, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), args)); aws_config=aws_config)
+add_job_flow_steps(JobFlowId, Steps, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), params)); aws_config=aws_config)
 
 """
-    AddTags()
+    add_tags(resource_id, tags)
+    add_tags(resource_id, tags, params::Dict{String,<:Any})
 
 Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various
 ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For
 more information, see Tag Clusters.
 
-# Required Parameters
-- `ResourceId`: The Amazon EMR resource identifier to which tags will be added. This value
+# Arguments
+- `resource_id`: The Amazon EMR resource identifier to which tags will be added. This value
   must be a cluster identifier.
-- `Tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags
+- `tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags
   are user-defined key-value pairs that consist of a required key string with a maximum of
   128 characters, and an optional value string with a maximum of 256 characters.
 
 """
 add_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
-add_tags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws_config=aws_config)
+add_tags(ResourceId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    CancelSteps()
+    cancel_steps(cluster_id, step_ids)
+    cancel_steps(cluster_id, step_ids, params::Dict{String,<:Any})
 
 Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions
 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each
@@ -85,161 +90,170 @@ CancelSteps request. CancelSteps is idempotent but asynchronous; it does not gua
 a step will be canceled, even if the request is successfully submitted. You can only cancel
 steps that are in a PENDING state.
 
-# Required Parameters
-- `ClusterId`: The ClusterID for the specified steps that will be canceled. Use RunJobFlow
+# Arguments
+- `cluster_id`: The ClusterID for the specified steps that will be canceled. Use RunJobFlow
   and ListClusters to get ClusterIDs.
-- `StepIds`: The list of StepIDs to cancel. Use ListSteps to get steps and their states for
-  the specified cluster.
+- `step_ids`: The list of StepIDs to cancel. Use ListSteps to get steps and their states
+  for the specified cluster.
 
 # Optional Parameters
-- `StepCancellationOption`: The option to choose to cancel RUNNING steps. By default, the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StepCancellationOption"`: The option to choose to cancel RUNNING steps. By default, the
   value is SEND_INTERRUPT.
 """
 cancel_steps(ClusterId, StepIds; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws_config=aws_config)
-cancel_steps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws_config=aws_config)
+cancel_steps(ClusterId, StepIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), params)); aws_config=aws_config)
 
 """
-    CreateSecurityConfiguration()
+    create_security_configuration(name, security_configuration)
+    create_security_configuration(name, security_configuration, params::Dict{String,<:Any})
 
 Creates a security configuration, which is stored in the service and can be specified when
 a cluster is created.
 
-# Required Parameters
-- `Name`: The name of the security configuration.
-- `SecurityConfiguration`: The security configuration details in JSON format. For JSON
+# Arguments
+- `name`: The name of the security configuration.
+- `security_configuration`: The security configuration details in JSON format. For JSON
   parameters and examples, see Use Security Configurations to Set Up Cluster Security in the
   Amazon EMR Management Guide.
 
 """
 create_security_configuration(Name, SecurityConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws_config=aws_config)
-create_security_configuration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws_config=aws_config)
+create_security_configuration(Name, SecurityConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), params)); aws_config=aws_config)
 
 """
-    CreateStudio()
+    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, user_role, vpc_id, workspace_security_group_id)
+    create_studio(auth_mode, default_s3_location, engine_security_group_id, name, service_role, subnet_ids, user_role, vpc_id, workspace_security_group_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Creates a new Amazon EMR Studio.
+Creates a new Amazon EMR Studio.
 
-# Required Parameters
-- `AuthMode`: Specifies whether the Studio authenticates users using single sign-on (SSO)
+# Arguments
+- `auth_mode`: Specifies whether the Studio authenticates users using single sign-on (SSO)
   or IAM. Amazon EMR Studio currently only supports SSO authentication.
-- `EngineSecurityGroupId`: The ID of the Amazon EMR Studio Engine security group. The
+- `default_s3_location`: The default Amazon S3 location to back up Amazon EMR Studio
+  Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location
+  when creating a Workspace.
+- `engine_security_group_id`: The ID of the Amazon EMR Studio Engine security group. The
   Engine security group allows inbound network traffic from the Workspace security group, and
   it must be in the same VPC specified by VpcId.
-- `Name`: A descriptive name for the Amazon EMR Studio.
-- `ServiceRole`: The IAM role that will be assumed by the Amazon EMR Studio. The service
+- `name`: A descriptive name for the Amazon EMR Studio.
+- `service_role`: The IAM role that will be assumed by the Amazon EMR Studio. The service
   role provides a way for Amazon EMR Studio to interoperate with other AWS services.
-- `SubnetIds`: A list of subnet IDs to associate with the Studio. The subnets must belong
-  to the VPC specified by VpcId. Studio users can create a Workspace in any of the specified
-  subnets.
-- `UserRole`: The IAM user role that will be assumed by users and groups logged in to a
-  Studio. The permissions attached to this IAM role can be scoped down for each user or group
-  using session policies.
-- `VpcId`: The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the
+- `subnet_ids`: A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can
+  have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio
+  users can create a Workspace in any of the specified subnets.
+- `user_role`: The IAM user role that will be assumed by users and groups logged in to an
+  Amazon EMR Studio. The permissions attached to this IAM role can be scoped down for each
+  user or group using session policies.
+- `vpc_id`: The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with the
   Studio.
-- `WorkspaceSecurityGroupId`: The ID of the Amazon EMR Studio Workspace security group. The
-  Workspace security group allows outbound network traffic to resources in the Engine
+- `workspace_security_group_id`: The ID of the Amazon EMR Studio Workspace security group.
+  The Workspace security group allows outbound network traffic to resources in the Engine
   security group, and it must be in the same VPC specified by VpcId.
 
 # Optional Parameters
-- `DefaultS3Location`: The default Amazon S3 location to back up EMR Studio Workspaces and
-  notebook files. A Studio user can select an alternative Amazon S3 location when creating a
-  Workspace.
-- `Description`: A detailed description of the Studio.
-- `Tags`: A list of tags to associate with the Studio. Tags are user-defined key-value
-  pairs that consist of a required key string with a maximum of 128 characters, and an
-  optional value string with a maximum of 256 characters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A detailed description of the Amazon EMR Studio.
+- `"Tags"`: A list of tags to associate with the Amazon EMR Studio. Tags are user-defined
+  key-value pairs that consist of a required key string with a maximum of 128 characters, and
+  an optional value string with a maximum of 256 characters.
 """
-create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config)
-create_studio(AuthMode, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), args)); aws_config=aws_config)
+create_studio(AuthMode, DefaultS3Location, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}("AuthMode"=>AuthMode, "DefaultS3Location"=>DefaultS3Location, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId); aws_config=aws_config)
+create_studio(AuthMode, DefaultS3Location, EngineSecurityGroupId, Name, ServiceRole, SubnetIds, UserRole, VpcId, WorkspaceSecurityGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultS3Location"=>DefaultS3Location, "EngineSecurityGroupId"=>EngineSecurityGroupId, "Name"=>Name, "ServiceRole"=>ServiceRole, "SubnetIds"=>SubnetIds, "UserRole"=>UserRole, "VpcId"=>VpcId, "WorkspaceSecurityGroupId"=>WorkspaceSecurityGroupId), params)); aws_config=aws_config)
 
 """
-    CreateStudioSessionMapping()
+    create_studio_session_mapping(identity_type, session_policy_arn, studio_id)
+    create_studio_session_mapping(identity_type, session_policy_arn, studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a
-session policy to refine Studio permissions for that user or group.
+Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session
+policy to refine Studio permissions for that user or group.
 
-# Required Parameters
-- `IdentityType`: Specifies whether the identity to map to the Studio is a user or a group.
-- `SessionPolicyArn`: The Amazon Resource Name (ARN) for the session policy that will be
+# Arguments
+- `identity_type`: Specifies whether the identity to map to the Amazon EMR Studio is a user
+  or a group.
+- `session_policy_arn`: The Amazon Resource Name (ARN) for the session policy that will be
   applied to the user or group. Session policies refine Studio user permissions without the
   need to use multiple IAM user roles.
-- `StudioId`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
+- `studio_id`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
 
 # Optional Parameters
-- `IdentityId`: The globally unique identifier (GUID) of the user or group from the AWS SSO
-  Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity Store
-  API Reference. Either IdentityName or IdentityId must be specified.
-- `IdentityName`: The name of the user or group. For more information, see UserName and
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the AWS
+  SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity
+  Store API Reference. Either IdentityName or IdentityId must be specified.
+- `"IdentityName"`: The name of the user or group. For more information, see UserName and
   DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId
   must be specified.
 """
 create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
-create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
+create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config)
 
 """
-    DeleteSecurityConfiguration()
+    delete_security_configuration(name)
+    delete_security_configuration(name, params::Dict{String,<:Any})
 
 Deletes a security configuration.
 
-# Required Parameters
-- `Name`: The name of the security configuration.
+# Arguments
+- `name`: The name of the security configuration.
 
 """
 delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+delete_security_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
-    DeleteStudio()
+    delete_studio(studio_id)
+    delete_studio(studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Removes an Amazon EMR Studio from the Studio metadata store.
+Removes an Amazon EMR Studio from the Studio metadata store.
 
-# Required Parameters
-- `StudioId`: The ID of the Amazon EMR Studio.
+# Arguments
+- `studio_id`: The ID of the Amazon EMR Studio.
 
 """
 delete_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
-delete_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+delete_studio(StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config)
 
 """
-    DeleteStudioSessionMapping()
+    delete_studio_session_mapping(identity_type, studio_id)
+    delete_studio_session_mapping(identity_type, studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Removes a user or group from an Amazon EMR Studio.
+Removes a user or group from an Amazon EMR Studio.
 
-# Required Parameters
-- `IdentityType`: Specifies whether the identity to delete from the Studio is a user or a
-  group.
-- `StudioId`: The ID of the Amazon EMR Studio.
+# Arguments
+- `identity_type`: Specifies whether the identity to delete from the Amazon EMR Studio is a
+  user or a group.
+- `studio_id`: The ID of the Amazon EMR Studio.
 
 # Optional Parameters
-- `IdentityId`: The globally unique identifier (GUID) of the user or group to remove from
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group to remove from
   the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity
   Store API Reference. Either IdentityName or IdentityId must be specified.
-- `IdentityName`: The name of the user name or group to remove from the Studio. For more
-  information, see UserName and DisplayName in the AWS SSO Identity Store API Reference.
-  Either IdentityName or IdentityId must be specified.
+- `"IdentityName"`: The name of the user name or group to remove from the Amazon EMR
+  Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store
+  API Reference. Either IdentityName or IdentityId must be specified.
 """
 delete_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
-delete_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
+delete_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config)
 
 """
-    DescribeCluster()
+    describe_cluster(cluster_id)
+    describe_cluster(cluster_id, params::Dict{String,<:Any})
 
 Provides cluster-level details including status, hardware and software configuration, VPC
 settings, and so on.
 
-# Required Parameters
-- `ClusterId`: The identifier of the cluster to describe.
+# Arguments
+- `cluster_id`: The identifier of the cluster to describe.
 
 """
 describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-describe_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+describe_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    DescribeJobFlows()
+    describe_job_flows()
+    describe_job_flows(params::Dict{String,<:Any})
 
 This API is no longer supported and will eventually be removed. We recommend you use
 ListClusters, DescribeCluster, ListSteps, ListInstanceGroups and ListBootstrapActions
@@ -253,67 +267,72 @@ are in one of the following states: RUNNING, WAITING, SHUTTING_DOWN, STARTING   
 can return a maximum of 512 job flow descriptions.
 
 # Optional Parameters
-- `CreatedAfter`: Return only job flows created after this date and time.
-- `CreatedBefore`: Return only job flows created before this date and time.
-- `JobFlowIds`: Return only job flows whose job flow ID is contained in this list.
-- `JobFlowStates`: Return only job flows whose state is contained in this list.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatedAfter"`: Return only job flows created after this date and time.
+- `"CreatedBefore"`: Return only job flows created before this date and time.
+- `"JobFlowIds"`: Return only job flows whose job flow ID is contained in this list.
+- `"JobFlowStates"`: Return only job flows whose state is contained in this list.
 """
 describe_job_flows(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeJobFlows"; aws_config=aws_config)
-describe_job_flows(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeJobFlows", args; aws_config=aws_config)
+describe_job_flows(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeJobFlows", params; aws_config=aws_config)
 
 """
-    DescribeNotebookExecution()
+    describe_notebook_execution(notebook_execution_id)
+    describe_notebook_execution(notebook_execution_id, params::Dict{String,<:Any})
 
 Provides details of a notebook execution.
 
-# Required Parameters
-- `NotebookExecutionId`: The unique identifier of the notebook execution.
+# Arguments
+- `notebook_execution_id`: The unique identifier of the notebook execution.
 
 """
 describe_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
-describe_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+describe_notebook_execution(NotebookExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config)
 
 """
-    DescribeSecurityConfiguration()
+    describe_security_configuration(name)
+    describe_security_configuration(name, params::Dict{String,<:Any})
 
 Provides the details of a security configuration by returning the configuration JSON.
 
-# Required Parameters
-- `Name`: The name of the security configuration.
+# Arguments
+- `name`: The name of the security configuration.
 
 """
 describe_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_security_configuration(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+describe_security_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
-    DescribeStep()
+    describe_step(cluster_id, step_id)
+    describe_step(cluster_id, step_id, params::Dict{String,<:Any})
 
 Provides more detail about the cluster step.
 
-# Required Parameters
-- `ClusterId`: The identifier of the cluster with steps to describe.
-- `StepId`: The identifier of the step to describe.
+# Arguments
+- `cluster_id`: The identifier of the cluster with steps to describe.
+- `step_id`: The identifier of the step to describe.
 
 """
 describe_step(ClusterId, StepId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws_config=aws_config)
-describe_step(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws_config=aws_config)
+describe_step(ClusterId, StepId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), params)); aws_config=aws_config)
 
 """
-    DescribeStudio()
+    describe_studio(studio_id)
+    describe_studio(studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Returns details for the specified Amazon EMR Studio including ID, Name, VPC,
-Studio access URL, and so on.
+Returns details for the specified Amazon EMR Studio including ID, Name, VPC, Studio access
+URL, and so on.
 
-# Required Parameters
-- `StudioId`: The Amazon EMR Studio ID.
+# Arguments
+- `studio_id`: The Amazon EMR Studio ID.
 
 """
 describe_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
-describe_studio(StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), args)); aws_config=aws_config)
+describe_studio(StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config)
 
 """
-    GetBlockPublicAccessConfiguration()
+    get_block_public_access_configuration()
+    get_block_public_access_configuration(params::Dict{String,<:Any})
 
 Returns the Amazon EMR block public access configuration for your AWS account in the
 current Region. For more information see Configure Block Public Access for Amazon EMR in
@@ -321,59 +340,63 @@ the Amazon EMR Management Guide.
 
 """
 get_block_public_access_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration"; aws_config=aws_config)
-get_block_public_access_configuration(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration", args; aws_config=aws_config)
+get_block_public_access_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration", params; aws_config=aws_config)
 
 """
-    GetManagedScalingPolicy()
+    get_managed_scaling_policy(cluster_id)
+    get_managed_scaling_policy(cluster_id, params::Dict{String,<:Any})
 
 Fetches the attached managed scaling policy for an Amazon EMR cluster.
 
-# Required Parameters
-- `ClusterId`: Specifies the ID of the cluster for which the managed scaling policy will be
-  fetched.
+# Arguments
+- `cluster_id`: Specifies the ID of the cluster for which the managed scaling policy will
+  be fetched.
 
 """
 get_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-get_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+get_managed_scaling_policy(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    GetStudioSessionMapping()
+    get_studio_session_mapping(identity_type, studio_id)
+    get_studio_session_mapping(identity_type, studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Fetches mapping details for the specified Amazon EMR Studio and identity (user or
-group).
+Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
 
-# Required Parameters
-- `IdentityType`: Specifies whether the identity to fetch is a user or a group.
-- `StudioId`: The ID of the Amazon EMR Studio.
+# Arguments
+- `identity_type`: Specifies whether the identity to fetch is a user or a group.
+- `studio_id`: The ID of the Amazon EMR Studio.
 
 # Optional Parameters
-- `IdentityId`: The globally unique identifier (GUID) of the user or group. For more
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
   information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either
   IdentityName or IdentityId must be specified.
-- `IdentityName`: The name of the user or group to fetch. For more information, see
+- `"IdentityName"`: The name of the user or group to fetch. For more information, see
   UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName
   or IdentityId must be specified.
 """
 get_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
-get_studio_session_mapping(IdentityType, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), args)); aws_config=aws_config)
+get_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config)
 
 """
-    ListBootstrapActions()
+    list_bootstrap_actions(cluster_id)
+    list_bootstrap_actions(cluster_id, params::Dict{String,<:Any})
 
 Provides information about the bootstrap actions associated with a cluster.
 
-# Required Parameters
-- `ClusterId`: The cluster identifier for the bootstrap actions to list.
+# Arguments
+- `cluster_id`: The cluster identifier for the bootstrap actions to list.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_bootstrap_actions(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_bootstrap_actions(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+list_bootstrap_actions(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ListClusters()
+    list_clusters()
+    list_clusters(params::Dict{String,<:Any})
 
 Provides the status of all clusters visible to this AWS account. Allows you to filter the
 list of clusters based on certain criteria; for example, filtering by cluster creation date
@@ -381,69 +404,77 @@ and time or by status. This call returns a maximum of 50 clusters per call, but 
 marker to track the paging of the cluster list across multiple ListClusters calls.
 
 # Optional Parameters
-- `ClusterStates`: The cluster state filters to apply when listing clusters.
-- `CreatedAfter`: The creation date and time beginning value filter for listing clusters.
-- `CreatedBefore`: The creation date and time end value filter for listing clusters.
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterStates"`: The cluster state filters to apply when listing clusters.
+- `"CreatedAfter"`: The creation date and time beginning value filter for listing clusters.
+- `"CreatedBefore"`: The creation date and time end value filter for listing clusters.
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListClusters"; aws_config=aws_config)
-list_clusters(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListClusters", args; aws_config=aws_config)
+list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListClusters", params; aws_config=aws_config)
 
 """
-    ListInstanceFleets()
+    list_instance_fleets(cluster_id)
+    list_instance_fleets(cluster_id, params::Dict{String,<:Any})
 
 Lists all available details about the instance fleets in a cluster.  The instance fleet
 configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x
 versions.
 
-# Required Parameters
-- `ClusterId`: The unique identifier of the cluster.
+# Arguments
+- `cluster_id`: The unique identifier of the cluster.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_instance_fleets(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_instance_fleets(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+list_instance_fleets(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ListInstanceGroups()
+    list_instance_groups(cluster_id)
+    list_instance_groups(cluster_id, params::Dict{String,<:Any})
 
 Provides all available details about the instance groups in a cluster.
 
-# Required Parameters
-- `ClusterId`: The identifier of the cluster for which to list the instance groups.
+# Arguments
+- `cluster_id`: The identifier of the cluster for which to list the instance groups.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_instance_groups(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_instance_groups(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+list_instance_groups(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ListInstances()
+    list_instances(cluster_id)
+    list_instances(cluster_id, params::Dict{String,<:Any})
 
 Provides information for all active EC2 instances and EC2 instances terminated in the last
 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are
 considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
 
-# Required Parameters
-- `ClusterId`: The identifier of the cluster for which to list the instances.
+# Arguments
+- `cluster_id`: The identifier of the cluster for which to list the instances.
 
 # Optional Parameters
-- `InstanceFleetId`: The unique identifier of the instance fleet.
-- `InstanceFleetType`: The node type of the instance fleet. For example MASTER, CORE, or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceFleetId"`: The unique identifier of the instance fleet.
+- `"InstanceFleetType"`: The node type of the instance fleet. For example MASTER, CORE, or
   TASK.
-- `InstanceGroupId`: The identifier of the instance group for which to list the instances.
-- `InstanceGroupTypes`: The type of instance group for which to list the instances.
-- `InstanceStates`: A list of instance states that will filter the instances returned with
-  this request.
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
+- `"InstanceGroupId"`: The identifier of the instance group for which to list the instances.
+- `"InstanceGroupTypes"`: The type of instance group for which to list the instances.
+- `"InstanceStates"`: A list of instance states that will filter the instances returned
+  with this request.
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_instances(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_instances(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+list_instances(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ListNotebookExecutions()
+    list_notebook_executions()
+    list_notebook_executions(params::Dict{String,<:Any})
 
 Provides summaries of all notebook executions. You can filter the list based on multiple
 criteria such as status, time range, and editor id. Returns a maximum of 50 notebook
@@ -451,12 +482,13 @@ executions and a marker to track the paging of a longer notebook execution list 
 multiple ListNotebookExecution calls.
 
 # Optional Parameters
-- `EditorId`: The unique ID of the editor associated with the notebook execution.
-- `From`: The beginning of time range filter for listing notebook executions. The default
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EditorId"`: The unique ID of the editor associated with the notebook execution.
+- `"From"`: The beginning of time range filter for listing notebook executions. The default
   is the timestamp of 30 days ago.
-- `Marker`: The pagination token, returned by a previous ListNotebookExecutions call, that
-  indicates the start of the list for this ListNotebookExecutions call.
-- `Status`: The status filter for listing notebook executions.    START_PENDING indicates
+- `"Marker"`: The pagination token, returned by a previous ListNotebookExecutions call,
+  that indicates the start of the list for this ListNotebookExecutions call.
+- `"Status"`: The status filter for listing notebook executions.    START_PENDING indicates
   that the cluster has received the execution request but execution has not begun.
   STARTING indicates that the execution is starting on the cluster.    RUNNING indicates that
   the execution is being processed by the cluster.    FINISHING indicates that execution
@@ -467,14 +499,15 @@ multiple ListNotebookExecution calls.
   STOPPING indicates that the cluster is in the process of stopping the execution as a result
   of a StopNotebookExecution request.    STOPPED indicates that the execution stopped because
   of a StopNotebookExecution request.
-- `To`: The end of time range filter for listing notebook executions. The default is the
+- `"To"`: The end of time range filter for listing notebook executions. The default is the
   current timestamp.
 """
 list_notebook_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions"; aws_config=aws_config)
-list_notebook_executions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions", args; aws_config=aws_config)
+list_notebook_executions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions", params; aws_config=aws_config)
 
 """
-    ListSecurityConfigurations()
+    list_security_configurations()
+    list_security_configurations(params::Dict{String,<:Any})
 
 Lists all the security configurations visible to this account, providing their creation
 dates and times, and their names. This call returns a maximum of 50 clusters per call, but
@@ -482,213 +515,231 @@ returns a marker to track the paging of the cluster list across multiple
 ListSecurityConfigurations calls.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
 list_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSecurityConfigurations"; aws_config=aws_config)
-list_security_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSecurityConfigurations", args; aws_config=aws_config)
+list_security_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSecurityConfigurations", params; aws_config=aws_config)
 
 """
-    ListSteps()
+    list_steps(cluster_id)
+    list_steps(cluster_id, params::Dict{String,<:Any})
 
 Provides a list of steps for the cluster in reverse order unless you specify stepIds with
-the request of filter by StepStates. You can specify a maximum of ten stepIDs.
+the request of filter by StepStates. You can specify a maximum of 10 stepIDs.
 
-# Required Parameters
-- `ClusterId`: The identifier of the cluster for which to list the steps.
+# Arguments
+- `cluster_id`: The identifier of the cluster for which to list the steps.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the next set of results to retrieve.
-- `StepIds`: The filter to limit the step list based on the identifier of the steps. You
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
+- `"StepIds"`: The filter to limit the step list based on the identifier of the steps. You
   can specify a maximum of ten Step IDs. The character constraint applies to the overall
   length of the array.
-- `StepStates`: The filter to limit the step list based on certain states.
+- `"StepStates"`: The filter to limit the step list based on certain states.
 """
 list_steps(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_steps(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+list_steps(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ListStudioSessionMappings()
+    list_studio_session_mappings()
+    list_studio_session_mappings(params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Returns a list of all user or group session mappings for the EMR Studio specified
-by StudioId.
+Returns a list of all user or group session mappings for the Amazon EMR Studio specified by
+StudioId.
 
 # Optional Parameters
-- `IdentityType`: Specifies whether to return session mappings for users or groups. If not
-  specified, the results include session mapping details for both users and groups.
-- `Marker`: The pagination token that indicates the set of results to retrieve.
-- `StudioId`: The ID of the Amazon EMR Studio.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityType"`: Specifies whether to return session mappings for users or groups. If
+  not specified, the results include session mapping details for both users and groups.
+- `"Marker"`: The pagination token that indicates the set of results to retrieve.
+- `"StudioId"`: The ID of the Amazon EMR Studio.
 """
 list_studio_session_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudioSessionMappings"; aws_config=aws_config)
-list_studio_session_mappings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudioSessionMappings", args; aws_config=aws_config)
+list_studio_session_mappings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudioSessionMappings", params; aws_config=aws_config)
 
 """
-    ListStudios()
+    list_studios()
+    list_studios(params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Returns a list of all Amazon EMR Studios associated with the AWS account. The list
-includes details such as ID, Studio Access URL, and creation time for each Studio.
+Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes
+details such as ID, Studio Access URL, and creation time for each Studio.
 
 # Optional Parameters
-- `Marker`: The pagination token that indicates the set of results to retrieve.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that indicates the set of results to retrieve.
 """
 list_studios(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudios"; aws_config=aws_config)
-list_studios(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudios", args; aws_config=aws_config)
+list_studios(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListStudios", params; aws_config=aws_config)
 
 """
-    ModifyCluster()
+    modify_cluster(cluster_id)
+    modify_cluster(cluster_id, params::Dict{String,<:Any})
 
 Modifies the number of steps that can be executed concurrently for the cluster specified
 using ClusterID.
 
-# Required Parameters
-- `ClusterId`: The unique identifier of the cluster.
+# Arguments
+- `cluster_id`: The unique identifier of the cluster.
 
 # Optional Parameters
-- `StepConcurrencyLevel`: The number of steps that can be executed concurrently. You can
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
   specify a maximum of 256 steps.
 """
 modify_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-modify_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+modify_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    ModifyInstanceFleet()
+    modify_instance_fleet(cluster_id, instance_fleet)
+    modify_instance_fleet(cluster_id, instance_fleet, params::Dict{String,<:Any})
 
 Modifies the target On-Demand and target Spot capacities for the instance fleet with the
 specified InstanceFleetID within the cluster specified using ClusterID. The call either
 succeeds or fails atomically.  The instance fleet configuration is available only in Amazon
 EMR versions 4.8.0 and later, excluding 5.0.x versions.
 
-# Required Parameters
-- `ClusterId`: The unique identifier of the cluster.
-- `InstanceFleet`: The unique identifier of the instance fleet.
+# Arguments
+- `cluster_id`: The unique identifier of the cluster.
+- `instance_fleet`: The unique identifier of the instance fleet.
 
 """
 modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
-modify_instance_fleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws_config=aws_config)
+modify_instance_fleet(ClusterId, InstanceFleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), params)); aws_config=aws_config)
 
 """
-    ModifyInstanceGroups()
+    modify_instance_groups()
+    modify_instance_groups(params::Dict{String,<:Any})
 
 ModifyInstanceGroups modifies the number of nodes and configuration settings of an instance
 group. The input parameters include the new target instance count for the group and the
 instance group ID. The call will either succeed or fail atomically.
 
 # Optional Parameters
-- `ClusterId`: The ID of the cluster to which the instance group belongs.
-- `InstanceGroups`: Instance groups to change.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterId"`: The ID of the cluster to which the instance group belongs.
+- `"InstanceGroups"`: Instance groups to change.
 """
 modify_instance_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceGroups"; aws_config=aws_config)
-modify_instance_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceGroups", args; aws_config=aws_config)
+modify_instance_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceGroups", params; aws_config=aws_config)
 
 """
-    PutAutoScalingPolicy()
+    put_auto_scaling_policy(auto_scaling_policy, cluster_id, instance_group_id)
+    put_auto_scaling_policy(auto_scaling_policy, cluster_id, instance_group_id, params::Dict{String,<:Any})
 
 Creates or updates an automatic scaling policy for a core instance group or task instance
 group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group
 dynamically adds and terminates EC2 instances in response to the value of a CloudWatch
 metric.
 
-# Required Parameters
-- `AutoScalingPolicy`: Specifies the definition of the automatic scaling policy.
-- `ClusterId`: Specifies the ID of a cluster. The instance group to which the automatic
+# Arguments
+- `auto_scaling_policy`: Specifies the definition of the automatic scaling policy.
+- `cluster_id`: Specifies the ID of a cluster. The instance group to which the automatic
   scaling policy is applied is within this cluster.
-- `InstanceGroupId`: Specifies the ID of the instance group to which the automatic scaling
-  policy is applied.
+- `instance_group_id`: Specifies the ID of the instance group to which the automatic
+  scaling policy is applied.
 
 """
 put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
-put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config)
 
 """
-    PutBlockPublicAccessConfiguration()
+    put_block_public_access_configuration(block_public_access_configuration)
+    put_block_public_access_configuration(block_public_access_configuration, params::Dict{String,<:Any})
 
 Creates or updates an Amazon EMR block public access configuration for your AWS account in
 the current Region. For more information see Configure Block Public Access for Amazon EMR
 in the Amazon EMR Management Guide.
 
-# Required Parameters
-- `BlockPublicAccessConfiguration`: A configuration for Amazon EMR block public access. The
-  configuration applies to all clusters created in your account for the current Region. The
-  configuration specifies whether block public access is enabled. If block public access is
-  enabled, security groups associated with the cluster cannot have rules that allow inbound
-  traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception
-  using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By
-  default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can
-  change this by updating BlockPublicSecurityGroupRules to remove the exception.  For
-  accounts that created clusters in a Region before November 25, 2019, block public access is
-  disabled by default in that Region. To use this feature, you must manually enable and
-  configure it. For accounts that did not create an EMR cluster in a Region before this date,
-  block public access is enabled by default in that Region.
+# Arguments
+- `block_public_access_configuration`: A configuration for Amazon EMR block public access.
+  The configuration applies to all clusters created in your account for the current Region.
+  The configuration specifies whether block public access is enabled. If block public access
+  is enabled, security groups associated with the cluster cannot have rules that allow
+  inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an
+  exception using PermittedPublicSecurityGroupRuleRanges in the
+  BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public
+  access is allowed on this port. You can change this by updating
+  BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters
+  in a Region before November 25, 2019, block public access is disabled by default in that
+  Region. To use this feature, you must manually enable and configure it. For accounts that
+  did not create an EMR cluster in a Region before this date, block public access is enabled
+  by default in that Region.
 
 """
 put_block_public_access_configuration(BlockPublicAccessConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws_config=aws_config)
-put_block_public_access_configuration(BlockPublicAccessConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), args)); aws_config=aws_config)
+put_block_public_access_configuration(BlockPublicAccessConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), params)); aws_config=aws_config)
 
 """
-    PutManagedScalingPolicy()
+    put_managed_scaling_policy(cluster_id, managed_scaling_policy)
+    put_managed_scaling_policy(cluster_id, managed_scaling_policy, params::Dict{String,<:Any})
 
 Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling
 policy defines the limits for resources, such as EC2 instances that can be added or
 terminated from a cluster. The policy only applies to the core and task nodes. The master
 node cannot be scaled after initial configuration.
 
-# Required Parameters
-- `ClusterId`: Specifies the ID of an EMR cluster where the managed scaling policy is
+# Arguments
+- `cluster_id`: Specifies the ID of an EMR cluster where the managed scaling policy is
   attached.
-- `ManagedScalingPolicy`: Specifies the constraints for the managed scaling policy.
+- `managed_scaling_policy`: Specifies the constraints for the managed scaling policy.
 
 """
 put_managed_scaling_policy(ClusterId, ManagedScalingPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws_config=aws_config)
-put_managed_scaling_policy(ClusterId, ManagedScalingPolicy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), args)); aws_config=aws_config)
+put_managed_scaling_policy(ClusterId, ManagedScalingPolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), params)); aws_config=aws_config)
 
 """
-    RemoveAutoScalingPolicy()
+    remove_auto_scaling_policy(cluster_id, instance_group_id)
+    remove_auto_scaling_policy(cluster_id, instance_group_id, params::Dict{String,<:Any})
 
 Removes an automatic scaling policy from a specified instance group within an EMR cluster.
 
-# Required Parameters
-- `ClusterId`: Specifies the ID of a cluster. The instance group to which the automatic
+# Arguments
+- `cluster_id`: Specifies the ID of a cluster. The instance group to which the automatic
   scaling policy is applied is within this cluster.
-- `InstanceGroupId`: Specifies the ID of the instance group to which the scaling policy is
-  applied.
+- `instance_group_id`: Specifies the ID of the instance group to which the scaling policy
+  is applied.
 
 """
 remove_auto_scaling_policy(ClusterId, InstanceGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws_config=aws_config)
-remove_auto_scaling_policy(ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws_config=aws_config)
+remove_auto_scaling_policy(ClusterId, InstanceGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), params)); aws_config=aws_config)
 
 """
-    RemoveManagedScalingPolicy()
+    remove_managed_scaling_policy(cluster_id)
+    remove_managed_scaling_policy(cluster_id, params::Dict{String,<:Any})
 
  Removes a managed scaling policy from a specified EMR cluster.
 
-# Required Parameters
-- `ClusterId`:  Specifies the ID of the cluster from which the managed scaling policy will
+# Arguments
+- `cluster_id`:  Specifies the ID of the cluster from which the managed scaling policy will
   be removed.
 
 """
 remove_managed_scaling_policy(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-remove_managed_scaling_policy(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+remove_managed_scaling_policy(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    RemoveTags()
+    remove_tags(resource_id, tag_keys)
+    remove_tags(resource_id, tag_keys, params::Dict{String,<:Any})
 
 Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in
 various ways, such as grouping clusters to track your Amazon EMR resource allocation costs.
 For more information, see Tag Clusters.  The following example removes the stack tag with
 value Prod from a cluster:
 
-# Required Parameters
-- `ResourceId`: The Amazon EMR resource identifier from which tags will be removed. This
+# Arguments
+- `resource_id`: The Amazon EMR resource identifier from which tags will be removed. This
   value must be a cluster identifier.
-- `TagKeys`: A list of tag keys to remove from a resource.
+- `tag_keys`: A list of tag keys to remove from a resource.
 
 """
 remove_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+remove_tags(ResourceId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    RunJobFlow()
+    run_job_flow(instances, name)
+    run_job_flow(instances, name, params::Dict{String,<:Any})
 
 RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps
 specified. After the steps complete, the cluster stops and the HDFS partition is lost. To
@@ -709,26 +760,27 @@ is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versio
 RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but
 not both.
 
-# Required Parameters
-- `Instances`: A specification of the number and type of Amazon EC2 instances.
-- `Name`: The name of the job flow.
+# Arguments
+- `instances`: A specification of the number and type of Amazon EC2 instances.
+- `name`: The name of the job flow.
 
 # Optional Parameters
-- `AdditionalInfo`: A JSON string for selecting additional features.
-- `AmiVersion`: Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdditionalInfo"`: A JSON string for selecting additional features.
+- `"AmiVersion"`: Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR
   releases 4.0 and later, ReleaseLabel is used. To specify a custom AMI, use CustomAmiID.
-- `Applications`: Applies to Amazon EMR releases 4.0 and later. A case-insensitive list of
-  applications for Amazon EMR to install and configure when launching the cluster. For a list
-  of applications available for each Amazon EMR release version, see the Amazon EMR Release
-  Guide.
-- `AutoScalingRole`: An IAM role for automatic scaling policies. The default role is
+- `"Applications"`: Applies to Amazon EMR releases 4.0 and later. A case-insensitive list
+  of applications for Amazon EMR to install and configure when launching the cluster. For a
+  list of applications available for each Amazon EMR release version, see the Amazon EMR
+  Release Guide.
+- `"AutoScalingRole"`: An IAM role for automatic scaling policies. The default role is
   EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling
   feature requires to launch and terminate EC2 instances in an instance group.
-- `BootstrapActions`: A list of bootstrap actions to run before Hadoop starts on the
+- `"BootstrapActions"`: A list of bootstrap actions to run before Hadoop starts on the
   cluster nodes.
-- `Configurations`: For Amazon EMR releases 4.0 and later. The list of configurations
+- `"Configurations"`: For Amazon EMR releases 4.0 and later. The list of configurations
   supplied for the EMR cluster you are creating.
-- `CustomAmiId`: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
+- `"CustomAmiId"`: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
   Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches
   cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a
   Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux
@@ -736,47 +788,49 @@ not both.
   instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed
   Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For
   information about finding an AMI ID, see Finding a Linux AMI.
-- `EbsRootVolumeSize`: The size, in GiB, of the Amazon EBS root device volume of the Linux
-  AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-- `JobFlowRole`: Also called instance profile and EC2 role. An IAM role for an EMR cluster.
-  The EC2 instances of the cluster assume this role. The default role is EMR_EC2_DefaultRole.
-  In order to use the default role, you must have already created it using the CLI or console.
-- `KerberosAttributes`: Attributes for Kerberos configuration when Kerberos authentication
-  is enabled using a security configuration. For more information see Use Kerberos
-  Authentication in the Amazon EMR Management Guide.
-- `LogEncryptionKmsKeyId`: The AWS KMS customer master key (CMK) used for encrypting log
+- `"EbsRootVolumeSize"`: The size, in GiB, of the Amazon EBS root device volume of the
+  Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+- `"JobFlowRole"`: Also called instance profile and EC2 role. An IAM role for an EMR
+  cluster. The EC2 instances of the cluster assume this role. The default role is
+  EMR_EC2_DefaultRole. In order to use the default role, you must have already created it
+  using the CLI or console.
+- `"KerberosAttributes"`: Attributes for Kerberos configuration when Kerberos
+  authentication is enabled using a security configuration. For more information see Use
+  Kerberos Authentication in the Amazon EMR Management Guide.
+- `"LogEncryptionKmsKeyId"`: The AWS KMS customer master key (CMK) used for encrypting log
   files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is
   only available with Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
-- `LogUri`: The location in Amazon S3 to write the log files of the job flow. If a value is
-  not provided, logs are not created.
-- `ManagedScalingPolicy`:  The specified managed scaling policy for an Amazon EMR cluster.
-- `NewSupportedProducts`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x
-  and later, use Applications.  A list of strings that indicates third-party software to use
-  with the job flow that accepts a user argument list. EMR accepts and forwards the argument
-  list to the corresponding installation script as bootstrap action arguments. For more
-  information, see \"Launch a Job Flow on the MapR Distribution for Hadoop\" in the Amazon
-  EMR Developer Guide. Supported values are:   \"mapr-m3\" - launch the cluster using MapR M3
-  Edition.   \"mapr-m5\" - launch the cluster using MapR M5 Edition.   \"mapr\" with the user
-  arguments specifying \"--edition,m3\" or \"--edition,m5\" - launch the job flow using MapR
-  M3 or M5 Edition respectively.   \"mapr-m7\" - launch the cluster using MapR M7 Edition.
-  \"hunk\" - launch the cluster with the Hunk Big Data Analtics Platform.   \"hue\"- launch
-  the cluster with Hue installed.   \"spark\" - launch the cluster with Apache Spark
-  installed.   \"ganglia\" - launch the cluster with the Ganglia Monitoring System installed.
-  
-- `PlacementGroupConfigs`: The specified placement group configuration for an Amazon EMR
+- `"LogUri"`: The location in Amazon S3 to write the log files of the job flow. If a value
+  is not provided, logs are not created.
+- `"ManagedScalingPolicy"`:  The specified managed scaling policy for an Amazon EMR
   cluster.
-- `ReleaseLabel`: The Amazon EMR release label, which determines the version of open-source
-  application packages installed on the cluster. Release labels are in the form emr-x.x.x,
-  where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about
-  Amazon EMR release versions and included application versions and features, see
-  https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to
-  Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
-- `RepoUpgradeOnBoot`: Applies only when CustomAmiID is used. Specifies which updates from
-  the Amazon Linux AMI package repositories to apply automatically when the instance boots
-  using the AMI. If omitted, the default is SECURITY, which indicates that only security
-  updates are applied. If NONE is specified, no updates are applied, and all updates must be
-  applied manually.
-- `ScaleDownBehavior`: Specifies the way that individual Amazon EC2 instances terminate
+- `"NewSupportedProducts"`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases
+  4.x and later, use Applications.  A list of strings that indicates third-party software to
+  use with the job flow that accepts a user argument list. EMR accepts and forwards the
+  argument list to the corresponding installation script as bootstrap action arguments. For
+  more information, see \"Launch a Job Flow on the MapR Distribution for Hadoop\" in the
+  Amazon EMR Developer Guide. Supported values are:   \"mapr-m3\" - launch the cluster using
+  MapR M3 Edition.   \"mapr-m5\" - launch the cluster using MapR M5 Edition.   \"mapr\" with
+  the user arguments specifying \"--edition,m3\" or \"--edition,m5\" - launch the job flow
+  using MapR M3 or M5 Edition respectively.   \"mapr-m7\" - launch the cluster using MapR M7
+  Edition.   \"hunk\" - launch the cluster with the Hunk Big Data Analytics Platform.
+  \"hue\"- launch the cluster with Hue installed.   \"spark\" - launch the cluster with
+  Apache Spark installed.   \"ganglia\" - launch the cluster with the Ganglia Monitoring
+  System installed.
+- `"PlacementGroupConfigs"`: The specified placement group configuration for an Amazon EMR
+  cluster.
+- `"ReleaseLabel"`: The Amazon EMR release label, which determines the version of
+  open-source application packages installed on the cluster. Release labels are in the form
+  emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more
+  information about Amazon EMR release versions and included application versions and
+  features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label
+  applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
+- `"RepoUpgradeOnBoot"`: Applies only when CustomAmiID is used. Specifies which updates
+  from the Amazon Linux AMI package repositories to apply automatically when the instance
+  boots using the AMI. If omitted, the default is SECURITY, which indicates that only
+  security updates are applied. If NONE is specified, no updates are applied, and all updates
+  must be applied manually.
+- `"ScaleDownBehavior"`: Specifies the way that individual Amazon EC2 instances terminate
   when an automatic scale-in activity occurs or an instance group is resized.
   TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour
   boundary, regardless of when the request to terminate the instance was submitted. This
@@ -787,28 +841,30 @@ not both.
   removes the least active nodes first and blocks instance termination if it could lead to
   HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0
   and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
-- `SecurityConfiguration`: The name of a security configuration to apply to the cluster.
-- `ServiceRole`: The IAM role that will be assumed by the Amazon EMR service to access AWS
-  resources on your behalf.
-- `StepConcurrencyLevel`: Specifies the number of steps that can be executed concurrently.
-  The default value is 1. The maximum value is 256.
-- `Steps`: A list of steps to run.
-- `SupportedProducts`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x
+- `"SecurityConfiguration"`: The name of a security configuration to apply to the cluster.
+- `"ServiceRole"`: The IAM role that will be assumed by the Amazon EMR service to access
+  AWS resources on your behalf.
+- `"StepConcurrencyLevel"`: Specifies the number of steps that can be executed
+  concurrently. The default value is 1. The maximum value is 256.
+- `"Steps"`: A list of steps to run.
+- `"SupportedProducts"`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x
   and later, use Applications.  A list of strings that indicates third-party software to use.
   For more information, see the Amazon EMR Developer Guide. Currently supported values are:
   \"mapr-m3\" - launch the job flow using MapR M3 Edition.   \"mapr-m5\" - launch the job
   flow using MapR M5 Edition.
-- `Tags`: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-- `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can
-  perform cluster actions if they have the proper IAM policy permissions. This is the
+- `"Tags"`: A list of tags to associate with a cluster and propagate to Amazon EC2
+  instances.
+- `"VisibleToAllUsers"`: A value of true indicates that all IAM users in the AWS account
+  can perform cluster actions if they have the proper IAM policy permissions. This is the
   default. A value of false indicates that only the IAM user who created the cluster can
   perform actions.
 """
 run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws_config=aws_config)
-run_job_flow(Instances, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), args)); aws_config=aws_config)
+run_job_flow(Instances, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    SetTerminationProtection()
+    set_termination_protection(job_flow_ids, termination_protected)
+    set_termination_protection(job_flow_ids, termination_protected, params::Dict{String,<:Any})
 
 SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the cluster
 cannot be terminated by user intervention, an API call, or in the event of a job-flow
@@ -822,19 +878,20 @@ SetTerminationProtection to true, you must first unlock the job flow by a subseq
 to SetTerminationProtection in which you set the value to false.   For more information,
 seeManaging Cluster Termination in the Amazon EMR Management Guide.
 
-# Required Parameters
-- `JobFlowIds`:  A list of strings that uniquely identify the clusters to protect. This
+# Arguments
+- `job_flow_ids`:  A list of strings that uniquely identify the clusters to protect. This
   identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows .
-- `TerminationProtected`: A Boolean that indicates whether to protect the cluster and
+- `termination_protected`: A Boolean that indicates whether to protect the cluster and
   prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user
   intervention, or job-flow error.
 
 """
 set_termination_protection(JobFlowIds, TerminationProtected; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws_config=aws_config)
-set_termination_protection(JobFlowIds, TerminationProtected, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), args)); aws_config=aws_config)
+set_termination_protection(JobFlowIds, TerminationProtected, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), params)); aws_config=aws_config)
 
 """
-    SetVisibleToAllUsers()
+    set_visible_to_all_users(job_flow_ids, visible_to_all_users)
+    set_visible_to_all_users(job_flow_ids, visible_to_all_users, params::Dict{String,<:Any})
 
 Sets the ClusterVisibleToAllUsers value, which determines whether the cluster is visible to
 all IAM users of the AWS account associated with the cluster. Only the IAM user who created
@@ -845,27 +902,28 @@ cluster can perform actions. This action works on running clusters. You can over
 default true setting when you create a cluster by using the VisibleToAllUsers parameter
 with RunJobFlow.
 
-# Required Parameters
-- `JobFlowIds`: The unique identifier of the job flow (cluster).
-- `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can
-  perform cluster actions if they have the proper IAM policy permissions. This is the
+# Arguments
+- `job_flow_ids`: The unique identifier of the job flow (cluster).
+- `visible_to_all_users`: A value of true indicates that all IAM users in the AWS account
+  can perform cluster actions if they have the proper IAM policy permissions. This is the
   default. A value of false indicates that only the IAM user who created the cluster can
   perform actions.
 
 """
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config)
-set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws_config=aws_config)
+set_visible_to_all_users(JobFlowIds, VisibleToAllUsers, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), params)); aws_config=aws_config)
 
 """
-    StartNotebookExecution()
+    start_notebook_execution(editor_id, execution_engine, relative_path, service_role)
+    start_notebook_execution(editor_id, execution_engine, relative_path, service_role, params::Dict{String,<:Any})
 
 Starts a notebook execution.
 
-# Required Parameters
-- `EditorId`: The unique identifier of the EMR Notebook to use for notebook execution.
-- `ExecutionEngine`: Specifies the execution engine (cluster) that runs the notebook
+# Arguments
+- `editor_id`: The unique identifier of the EMR Notebook to use for notebook execution.
+- `execution_engine`: Specifies the execution engine (cluster) that runs the notebook
   execution.
-- `RelativePath`: The path and file name of the notebook file for this execution, relative
+- `relative_path`: The path and file name of the notebook file for this execution, relative
   to the path specified for the EMR Notebook. For example, if you specify a path of
   s3://MyBucket/MyNotebooks when you create an EMR Notebook for a notebook with an ID of
   e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath
@@ -873,36 +931,39 @@ Starts a notebook execution.
   notebook execution is
   s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execut
   ion.ipynb.
-- `ServiceRole`: The name or ARN of the IAM role that is used as the service role for
+- `service_role`: The name or ARN of the IAM role that is used as the service role for
   Amazon EMR (the EMR role) for the notebook execution.
 
 # Optional Parameters
-- `NotebookExecutionName`: An optional name for the notebook execution.
-- `NotebookInstanceSecurityGroupId`: The unique identifier of the Amazon EC2 security group
-  to associate with the EMR Notebook for this notebook execution.
-- `NotebookParams`: Input parameters in JSON format passed to the EMR Notebook at runtime
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NotebookExecutionName"`: An optional name for the notebook execution.
+- `"NotebookInstanceSecurityGroupId"`: The unique identifier of the Amazon EC2 security
+  group to associate with the EMR Notebook for this notebook execution.
+- `"NotebookParams"`: Input parameters in JSON format passed to the EMR Notebook at runtime
   for execution.
-- `Tags`: A list of tags associated with a notebook execution. Tags are user-defined
+- `"Tags"`: A list of tags associated with a notebook execution. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters and
   an optional value string with a maximum of 256 characters.
 """
 start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole); aws_config=aws_config)
-start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), args)); aws_config=aws_config)
+start_notebook_execution(EditorId, ExecutionEngine, RelativePath, ServiceRole, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StartNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EditorId"=>EditorId, "ExecutionEngine"=>ExecutionEngine, "RelativePath"=>RelativePath, "ServiceRole"=>ServiceRole), params)); aws_config=aws_config)
 
 """
-    StopNotebookExecution()
+    stop_notebook_execution(notebook_execution_id)
+    stop_notebook_execution(notebook_execution_id, params::Dict{String,<:Any})
 
 Stops a notebook execution.
 
-# Required Parameters
-- `NotebookExecutionId`: The unique identifier of the notebook execution.
+# Arguments
+- `notebook_execution_id`: The unique identifier of the notebook execution.
 
 """
 stop_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId); aws_config=aws_config)
-stop_notebook_execution(NotebookExecutionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), args)); aws_config=aws_config)
+stop_notebook_execution(NotebookExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("StopNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config)
 
 """
-    TerminateJobFlows()
+    terminate_job_flows(job_flow_ids)
+    terminate_job_flows(job_flow_ids, params::Dict{String,<:Any})
 
 TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down,
 any step not yet completed is canceled and the EC2 instances on which the cluster is
@@ -912,33 +973,59 @@ The call to TerminateJobFlows is asynchronous. Depending on the configuration of
 cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release
 allocated resources, such as Amazon EC2 instances.
 
-# Required Parameters
-- `JobFlowIds`: A list of job flows to be shut down.
+# Arguments
+- `job_flow_ids`: A list of job flows to be shut down.
 
 """
 terminate_job_flows(JobFlowIds; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws_config=aws_config)
-terminate_job_flows(JobFlowIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws_config=aws_config)
+terminate_job_flows(JobFlowIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), params)); aws_config=aws_config)
 
 """
-    UpdateStudioSessionMapping()
+    update_studio(studio_id)
+    update_studio(studio_id, params::Dict{String,<:Any})
 
- The Amazon EMR Studio APIs are in preview release for Amazon EMR and are subject to
-change.  Updates the session policy attached to the user or group for the specified Amazon
-EMR Studio.
+Updates an Amazon EMR Studio configuration, including attributes such as name, description,
+and subnets.
 
-# Required Parameters
-- `IdentityType`: Specifies whether the identity to update is a user or a group.
-- `SessionPolicyArn`: The Amazon Resource Name (ARN) of the session policy to associate
-  with the specified user or group.
-- `StudioId`: The ID of the EMR Studio.
+# Arguments
+- `studio_id`: The ID of the Amazon EMR Studio to update.
 
 # Optional Parameters
-- `IdentityId`: The globally unique identifier (GUID) of the user or group. For more
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultS3Location"`: A default Amazon S3 location to back up Workspaces and notebook
+  files for the Amazon EMR Studio. A Studio user can select an alternative Amazon S3 location
+  when creating a Workspace.
+- `"Description"`: A detailed description to assign to the Amazon EMR Studio.
+- `"Name"`: A descriptive name for the Amazon EMR Studio.
+- `"SubnetIds"`: A list of subnet IDs to associate with the Amazon EMR Studio. The list can
+  include new subnet IDs, but must also include all of the subnet IDs previously associated
+  with the Studio. The list order does not matter. A Studio can have a maximum of 5 subnets.
+  The subnets must belong to the same VPC as the Studio.
+"""
+update_studio(StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudio", Dict{String, Any}("StudioId"=>StudioId); aws_config=aws_config)
+update_studio(StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudio", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StudioId"=>StudioId), params)); aws_config=aws_config)
+
+"""
+    update_studio_session_mapping(identity_type, session_policy_arn, studio_id)
+    update_studio_session_mapping(identity_type, session_policy_arn, studio_id, params::Dict{String,<:Any})
+
+Updates the session policy attached to the user or group for the specified Amazon EMR
+Studio.
+
+# Arguments
+- `identity_type`: Specifies whether the identity to update is a user or a group.
+- `session_policy_arn`: The Amazon Resource Name (ARN) of the session policy to associate
+  with the specified user or group.
+- `studio_id`: The ID of the Amazon EMR Studio.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
   information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either
   IdentityName or IdentityId must be specified.
-- `IdentityName`: The name of the user or group to update. For more information, see
+- `"IdentityName"`: The name of the user or group to update. For more information, see
   UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName
   or IdentityId must be specified.
 """
 update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
-update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), args)); aws_config=aws_config)
+update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config)

@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    GetIceServerConfig()
+    get_ice_server_config(channel_arn)
+    get_ice_server_config(channel_arn, params::Dict{String,<:Any})
 
 Gets the Interactive Connectivity Establishment (ICE) server configuration information,
 including URIs, username, and password which can be used to configure the WebRTC
@@ -19,20 +20,23 @@ invoke this API to establish a fallback mechanism in case either of the peers is
 establish a direct peer-to-peer connection over a signaling channel. You must specify
 either a signaling channel ARN or the client ID in order to invoke this API.
 
-# Required Parameters
-- `ChannelARN`: The ARN of the signaling channel to be used for the peer-to-peer connection
-  between configured peers.
+# Arguments
+- `channel_arn`: The ARN of the signaling channel to be used for the peer-to-peer
+  connection between configured peers.
 
 # Optional Parameters
-- `ClientId`: Unique identifier for the viewer. Must be unique within the signaling channel.
-- `Service`: Specifies the desired service. Currently, TURN is the only valid value.
-- `Username`: An optional user ID to be associated with the credentials.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientId"`: Unique identifier for the viewer. Must be unique within the signaling
+  channel.
+- `"Service"`: Specifies the desired service. Currently, TURN is the only valid value.
+- `"Username"`: An optional user ID to be associated with the credentials.
 """
 get_ice_server_config(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
-get_ice_server_config(ChannelARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), args)); aws_config=aws_config)
+get_ice_server_config(ChannelARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
 
 """
-    SendAlexaOfferToMaster()
+    send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id)
+    send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id, params::Dict{String,<:Any})
 
 This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
 invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
@@ -40,12 +44,12 @@ The offer is delivered as soon as the master is connected to the specified signa
 channel. This API returns the SDP answer from the connected master. If the master is not
 connected to the signaling channel, redelivery requests are made until the message expires.
 
-# Required Parameters
-- `ChannelARN`: The ARN of the signaling channel by which Alexa and the master peer
+# Arguments
+- `channel_arn`: The ARN of the signaling channel by which Alexa and the master peer
   communicate.
-- `MessagePayload`: The base64-encoded SDP offer content.
-- `SenderClientId`: The unique identifier for the sender client.
+- `message_payload`: The base64-encoded SDP offer content.
+- `sender_client_id`: The unique identifier for the sender client.
 
 """
 send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId); aws_config=aws_config)
-send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), args)); aws_config=aws_config)
+send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), params)); aws_config=aws_config)

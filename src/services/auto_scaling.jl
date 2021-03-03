@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AttachInstances()
+    attach_instances(auto_scaling_group_name)
+    attach_instances(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach
 instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the
@@ -17,17 +18,19 @@ Scaling group, the instances are also registered with the target groups. For mor
 information, see Attach EC2 instances to your Auto Scaling group in the Amazon EC2 Auto
 Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `InstanceIds`: The IDs of the instances. You can specify up to 20 instances.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 attach_instances(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachInstances", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-attach_instances(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+attach_instances(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    AttachLoadBalancerTargetGroups()
+    attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns)
+    attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
 Attaches one or more target groups to the specified Auto Scaling group. This operation is
 used with the following load balancer types:     Application Load Balancer - Operates at
@@ -39,18 +42,19 @@ group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. 
 information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto
 Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `TargetGroupARNs`: The Amazon Resource Names (ARN) of the target groups. You can specify
-  up to 10 target groups. To get the ARN of a target group, use the Elastic Load Balancing
-  DescribeTargetGroups API operation.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `target_group_arns`: The Amazon Resource Names (ARN) of the target groups. You can
+  specify up to 10 target groups. To get the ARN of a target group, use the Elastic Load
+  Balancing DescribeTargetGroups API operation.
 
 """
 attach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancerTargetGroups", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs); aws_config=aws_config)
-attach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs), args)); aws_config=aws_config)
+attach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs), params)); aws_config=aws_config)
 
 """
-    AttachLoadBalancers()
+    attach_load_balancers(auto_scaling_group_name, load_balancer_names)
+    attach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
  To attach an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer,
 use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or more Classic
@@ -60,62 +64,66 @@ Auto Scaling group, call the DescribeLoadBalancers API. To detach the load balan
 the Auto Scaling group, call the DetachLoadBalancers API. For more information, see Elastic
 Load Balancing and Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LoadBalancerNames`: The names of the load balancers. You can specify up to 10 load
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `load_balancer_names`: The names of the load balancers. You can specify up to 10 load
   balancers.
 
 """
 attach_load_balancers(AutoScalingGroupName, LoadBalancerNames; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancers", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames); aws_config=aws_config)
-attach_load_balancers(AutoScalingGroupName, LoadBalancerNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames), args)); aws_config=aws_config)
+attach_load_balancers(AutoScalingGroupName, LoadBalancerNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("AttachLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames), params)); aws_config=aws_config)
 
 """
-    BatchDeleteScheduledAction()
+    batch_delete_scheduled_action(auto_scaling_group_name, scheduled_action_names)
+    batch_delete_scheduled_action(auto_scaling_group_name, scheduled_action_names, params::Dict{String,<:Any})
 
 Deletes one or more scheduled actions for the specified Auto Scaling group.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ScheduledActionNames`: The names of the scheduled actions to delete. The maximum number
-  allowed is 50.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `scheduled_action_names`: The names of the scheduled actions to delete. The maximum
+  number allowed is 50.
 
 """
 batch_delete_scheduled_action(AutoScalingGroupName, ScheduledActionNames; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchDeleteScheduledAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionNames"=>ScheduledActionNames); aws_config=aws_config)
-batch_delete_scheduled_action(AutoScalingGroupName, ScheduledActionNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchDeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionNames"=>ScheduledActionNames), args)); aws_config=aws_config)
+batch_delete_scheduled_action(AutoScalingGroupName, ScheduledActionNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchDeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionNames"=>ScheduledActionNames), params)); aws_config=aws_config)
 
 """
-    BatchPutScheduledUpdateGroupAction()
+    batch_put_scheduled_update_group_action(auto_scaling_group_name, scheduled_update_group_actions)
+    batch_put_scheduled_update_group_action(auto_scaling_group_name, scheduled_update_group_actions, params::Dict{String,<:Any})
 
 Creates or updates one or more scheduled scaling actions for an Auto Scaling group. If you
 leave a parameter unspecified when updating a scheduled scaling action, the corresponding
 value remains unchanged.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ScheduledUpdateGroupActions`: One or more scheduled actions. The maximum number allowed
-  is 50.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `scheduled_update_group_actions`: One or more scheduled actions. The maximum number
+  allowed is 50.
 
 """
 batch_put_scheduled_update_group_action(AutoScalingGroupName, ScheduledUpdateGroupActions; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchPutScheduledUpdateGroupAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledUpdateGroupActions"=>ScheduledUpdateGroupActions); aws_config=aws_config)
-batch_put_scheduled_update_group_action(AutoScalingGroupName, ScheduledUpdateGroupActions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchPutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledUpdateGroupActions"=>ScheduledUpdateGroupActions), args)); aws_config=aws_config)
+batch_put_scheduled_update_group_action(AutoScalingGroupName, ScheduledUpdateGroupActions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("BatchPutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledUpdateGroupActions"=>ScheduledUpdateGroupActions), params)); aws_config=aws_config)
 
 """
-    CancelInstanceRefresh()
+    cancel_instance_refresh(auto_scaling_group_name)
+    cancel_instance_refresh(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Cancels an instance refresh operation in progress. Cancellation does not roll back any
 replacements that have already been completed, but it prevents new replacements from being
 started.  For more information, see Replacing Auto Scaling Instances Based on an Instance
 Refresh.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 """
 cancel_instance_refresh(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CancelInstanceRefresh", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-cancel_instance_refresh(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CancelInstanceRefresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+cancel_instance_refresh(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CancelInstanceRefresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    CompleteLifecycleAction()
+    complete_lifecycle_action(auto_scaling_group_name, lifecycle_action_result, lifecycle_hook_name)
+    complete_lifecycle_action(auto_scaling_group_name, lifecycle_action_result, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Completes the lifecycle action for the specified token or instance with the specified
 result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling
@@ -129,23 +137,25 @@ lifecycle action heartbeat to keep the instance in a pending state.    If you fi
 the timeout period ends, complete the lifecycle action.    For more information, see Amazon
 EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LifecycleActionResult`: The action for the group to take. This parameter can be either
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `lifecycle_action_result`: The action for the group to take. This parameter can be either
   CONTINUE or ABANDON.
-- `LifecycleHookName`: The name of the lifecycle hook.
+- `lifecycle_hook_name`: The name of the lifecycle hook.
 
 # Optional Parameters
-- `InstanceId`: The ID of the instance.
-- `LifecycleActionToken`: A universally unique identifier (UUID) that identifies a specific
-  lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this token to
-  the notification target you specified when you created the lifecycle hook.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The ID of the instance.
+- `"LifecycleActionToken"`: A universally unique identifier (UUID) that identifies a
+  specific lifecycle action associated with an instance. Amazon EC2 Auto Scaling sends this
+  token to the notification target you specified when you created the lifecycle hook.
 """
 complete_lifecycle_action(AutoScalingGroupName, LifecycleActionResult, LifecycleHookName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CompleteLifecycleAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleActionResult"=>LifecycleActionResult, "LifecycleHookName"=>LifecycleHookName); aws_config=aws_config)
-complete_lifecycle_action(AutoScalingGroupName, LifecycleActionResult, LifecycleHookName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CompleteLifecycleAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleActionResult"=>LifecycleActionResult, "LifecycleHookName"=>LifecycleHookName), args)); aws_config=aws_config)
+complete_lifecycle_action(AutoScalingGroupName, LifecycleActionResult, LifecycleHookName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CompleteLifecycleAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleActionResult"=>LifecycleActionResult, "LifecycleHookName"=>LifecycleHookName), params)); aws_config=aws_config)
 
 """
-    CreateAutoScalingGroup()
+    create_auto_scaling_group(auto_scaling_group_name, max_size, min_size)
+    create_auto_scaling_group(auto_scaling_group_name, max_size, min_size, params::Dict{String,<:Any})
 
  We strongly recommend using a launch template when calling this operation to ensure full
 functionality for Amazon EC2 Auto Scaling and Amazon EC2.  Creates an Auto Scaling group
@@ -161,71 +171,73 @@ sizes based on a specific number of instances. However, if you configure a mixed
 policy that defines weights for the instance types, you must specify these sizes with the
 same units that you use for weighting instances.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group. This name must be unique per
-  Region per account.
-- `MaxSize`: The maximum size of the group.  With a mixed instances policy that uses
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group. This name must be unique
+  per Region per account.
+- `max_size`: The maximum size of the group.  With a mixed instances policy that uses
   instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your
   capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize
   by more than your largest instance weight (weights that define how many units each instance
   contributes to the desired capacity of the group).
-- `MinSize`: The minimum size of the group.
+- `min_size`: The minimum size of the group.
 
 # Optional Parameters
-- `AvailabilityZones`: A list of Availability Zones where instances in the Auto Scaling
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZones"`: A list of Availability Zones where instances in the Auto Scaling
   group can be created. This parameter is optional if you specify one or more subnets for
   VPCZoneIdentifier. Conditional: If your account supports EC2-Classic and VPC, this
   parameter is required to launch instances into EC2-Classic.
-- `CapacityRebalance`: Indicates whether Capacity Rebalancing is enabled. Otherwise,
+- `"CapacityRebalance"`: Indicates whether Capacity Rebalancing is enabled. Otherwise,
   Capacity Rebalancing is disabled. When you turn on Capacity Rebalancing, Amazon EC2 Auto
   Scaling attempts to launch a Spot Instance whenever Amazon EC2 notifies that a Spot
   Instance is at an elevated risk of interruption. After launching a new instance, it then
   terminates an old instance. For more information, see Amazon EC2 Auto Scaling Capacity
   Rebalancing in the Amazon EC2 Auto Scaling User Guide.
-- `DefaultCooldown`: The amount of time, in seconds, after a scaling activity completes
+- `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
   before another scaling activity can start. The default value is 300. This setting applies
   when using simple scaling policies, but not when using other scaling policies or scheduled
   scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the
   Amazon EC2 Auto Scaling User Guide.
-- `DesiredCapacity`: The desired capacity is the initial capacity of the Auto Scaling group
-  at the time of its creation and the capacity it attempts to maintain. It can scale beyond
-  this capacity if you configure auto scaling. This number must be greater than or equal to
-  the minimum size of the group and less than or equal to the maximum size of the group. If
-  you do not specify a desired capacity, the default is the minimum size of the group.
-- `HealthCheckGracePeriod`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
+- `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
+  group at the time of its creation and the capacity it attempts to maintain. It can scale
+  beyond this capacity if you configure auto scaling. This number must be greater than or
+  equal to the minimum size of the group and less than or equal to the maximum size of the
+  group. If you do not specify a desired capacity, the default is the minimum size of the
+  group.
+- `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service.
   During this time, any health check failures for the instance are ignored. The default value
   is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling
   User Guide. Conditional: Required if you are adding an ELB health check.
-- `HealthCheckType`: The service to use for the health checks. The valid values are EC2
+- `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
   (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health
   checks, it considers the instance unhealthy if it fails either the EC2 status checks or the
   load balancer health checks. For more information, see Health checks for Auto Scaling
   instances in the Amazon EC2 Auto Scaling User Guide.
-- `InstanceId`: The ID of the instance used to base the launch configuration on. If
+- `"InstanceId"`: The ID of the instance used to base the launch configuration on. If
   specified, Amazon EC2 Auto Scaling uses the configuration values from the specified
   instance to create a new launch configuration. To get the instance ID, use the Amazon EC2
   DescribeInstances API operation. For more information, see Creating an Auto Scaling group
   using an EC2 instance in the Amazon EC2 Auto Scaling User Guide.
-- `LaunchConfigurationName`: The name of the launch configuration to use to launch
+- `"LaunchConfigurationName"`: The name of the launch configuration to use to launch
   instances.  Conditional: You must specify either a launch template (LaunchTemplate or
   MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
-- `LaunchTemplate`: Parameters used to specify the launch template and version to use to
+- `"LaunchTemplate"`: Parameters used to specify the launch template and version to use to
   launch instances.  Conditional: You must specify either a launch template (LaunchTemplate
   or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
    The launch template that is specified must be configured for use with an Auto Scaling
   group. For more information, see Creating a launch template for an Auto Scaling group in
   the Amazon EC2 Auto Scaling User Guide.
-- `LifecycleHookSpecificationList`: One or more lifecycle hooks for the group, which
+- `"LifecycleHookSpecificationList"`: One or more lifecycle hooks for the group, which
   specify actions to perform when Amazon EC2 Auto Scaling launches or terminates instances.
-- `LoadBalancerNames`: A list of Classic Load Balancers associated with this Auto Scaling
+- `"LoadBalancerNames"`: A list of Classic Load Balancers associated with this Auto Scaling
   group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers,
   specify the TargetGroupARNs property instead.
-- `MaxInstanceLifetime`: The maximum amount of time, in seconds, that an instance can be in
-  service. The default is null. If specified, the value must be either 0 or a number equal to
-  or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling
+- `"MaxInstanceLifetime"`: The maximum amount of time, in seconds, that an instance can be
+  in service. The default is null. If specified, the value must be either 0 or a number equal
+  to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling
   instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
-- `MixedInstancesPolicy`: An embedded object that specifies a mixed instances policy. The
+- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy. The
   required parameters must be specified. If optional parameters are unspecified, their
   default values are used. The policy includes parameters that not only define the
   distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot
@@ -235,45 +247,46 @@ same units that you use for weighting instances.
   for each instance type and different launch templates for individual instance types. For
   more information, see Auto Scaling groups with multiple instance types and purchase options
   in the Amazon EC2 Auto Scaling User Guide.
-- `NewInstancesProtectedFromScaleIn`: Indicates whether newly launched instances are
+- `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
   about preventing instances from terminating on scale in, see Instance scale-in protection
   in the Amazon EC2 Auto Scaling User Guide.
-- `PlacementGroup`: The name of an existing placement group into which to launch your
+- `"PlacementGroup"`: The name of an existing placement group into which to launch your
   instances, if any. A placement group is a logical grouping of instances within a single
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.
   For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
-- `ServiceLinkedRoleARN`: The Amazon Resource Name (ARN) of the service-linked role that
+- `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
   the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon
   EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it
   creates if it does not exist. For more information, see Service-linked roles in the Amazon
   EC2 Auto Scaling User Guide.
-- `Tags`: One or more tags. You can tag your Auto Scaling group and propagate the tags to
+- `"Tags"`: One or more tags. You can tag your Auto Scaling group and propagate the tags to
   the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add
   tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the
   launch template specifies an instance tag with a key that is also specified for the Auto
   Scaling group, Amazon EC2 Auto Scaling overrides the value of that instance tag with the
   value specified by the Auto Scaling group. For more information, see Tagging Auto Scaling
   groups and instances in the Amazon EC2 Auto Scaling User Guide.
-- `TargetGroupARNs`: The Amazon Resource Names (ARN) of the target groups to associate with
-  the Auto Scaling group. Instances are registered as targets in a target group, and traffic
-  is routed to the target group. For more information, see Elastic Load Balancing and Amazon
-  EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
-- `TerminationPolicies`: A policy or a list of policies that are used to select the
+- `"TargetGroupARNs"`: The Amazon Resource Names (ARN) of the target groups to associate
+  with the Auto Scaling group. Instances are registered as targets in a target group, and
+  traffic is routed to the target group. For more information, see Elastic Load Balancing and
+  Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+- `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instance to terminate. These policies are executed in the order that you list them. For
   more information, see Controlling which Auto Scaling instances terminate during scale in in
   the Amazon EC2 Auto Scaling User Guide.
-- `VPCZoneIdentifier`: A comma-separated list of subnet IDs for a virtual private cloud
+- `"VPCZoneIdentifier"`: A comma-separated list of subnet IDs for a virtual private cloud
   (VPC) where instances in the Auto Scaling group can be created. If you specify
   VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter
   must reside in those Availability Zones. Conditional: If your account supports EC2-Classic
   and VPC, this parameter is required to launch instances into a VPC.
 """
 create_auto_scaling_group(AutoScalingGroupName, MaxSize, MinSize; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateAutoScalingGroup", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "MaxSize"=>MaxSize, "MinSize"=>MinSize); aws_config=aws_config)
-create_auto_scaling_group(AutoScalingGroupName, MaxSize, MinSize, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "MaxSize"=>MaxSize, "MinSize"=>MinSize), args)); aws_config=aws_config)
+create_auto_scaling_group(AutoScalingGroupName, MaxSize, MinSize, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "MaxSize"=>MaxSize, "MinSize"=>MinSize), params)); aws_config=aws_config)
 
 """
-    CreateLaunchConfiguration()
+    create_launch_configuration(launch_configuration_name)
+    create_launch_configuration(launch_configuration_name, params::Dict{String,<:Any})
 
 Creates a launch configuration. If you exceed your maximum limit of launch configurations,
 the call fails. To query this limit, call the DescribeAccountLimits API. For information
@@ -281,113 +294,117 @@ about updating this limit, see Amazon EC2 Auto Scaling service quotas in the Ama
 Auto Scaling User Guide. For more information, see Launch configurations in the Amazon EC2
 Auto Scaling User Guide.
 
-# Required Parameters
-- `LaunchConfigurationName`: The name of the launch configuration. This name must be unique
-  per Region per account.
+# Arguments
+- `launch_configuration_name`: The name of the launch configuration. This name must be
+  unique per Region per account.
 
 # Optional Parameters
-- `AssociatePublicIpAddress`: For Auto Scaling groups that are running in a virtual private
-  cloud (VPC), specifies whether to assign a public IP address to the group's instances. If
-  you specify true, each instance in the Auto Scaling group receives a unique public IP
-  address. For more information, see Launching Auto Scaling instances in a VPC in the Amazon
-  EC2 Auto Scaling User Guide. If you specify this parameter, you must specify at least one
-  subnet for VPCZoneIdentifier when you create your group.  If the instance is launched into
-  a default subnet, the default is to assign a public IP address, unless you disabled the
-  option to assign a public IP address on the subnet. If the instance is launched into a
-  nondefault subnet, the default is not to assign a public IP address, unless you enabled the
-  option to assign a public IP address on the subnet.
-- `BlockDeviceMappings`: A block device mapping, which specifies the block devices for the
-  instance. You can specify virtual devices and EBS volumes. For more information, see Block
-  Device Mapping in the Amazon EC2 User Guide for Linux Instances.
-- `ClassicLinkVPCId`: The ID of a ClassicLink-enabled VPC to link your EC2-Classic
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssociatePublicIpAddress"`: For Auto Scaling groups that are running in a virtual
+  private cloud (VPC), specifies whether to assign a public IP address to the group's
+  instances. If you specify true, each instance in the Auto Scaling group receives a unique
+  public IP address. For more information, see Launching Auto Scaling instances in a VPC in
+  the Amazon EC2 Auto Scaling User Guide. If you specify this parameter, you must specify at
+  least one subnet for VPCZoneIdentifier when you create your group.  If the instance is
+  launched into a default subnet, the default is to assign a public IP address, unless you
+  disabled the option to assign a public IP address on the subnet. If the instance is
+  launched into a nondefault subnet, the default is not to assign a public IP address, unless
+  you enabled the option to assign a public IP address on the subnet.
+- `"BlockDeviceMappings"`: A block device mapping, which specifies the block devices for
+  the instance. You can specify virtual devices and EBS volumes. For more information, see
+  Block Device Mapping in the Amazon EC2 User Guide for Linux Instances.
+- `"ClassicLinkVPCId"`: The ID of a ClassicLink-enabled VPC to link your EC2-Classic
   instances to. For more information, see ClassicLink in the Amazon EC2 User Guide for Linux
   Instances and Linking EC2-Classic instances to a VPC in the Amazon EC2 Auto Scaling User
   Guide. This parameter can only be used if you are launching EC2-Classic instances.
-- `ClassicLinkVPCSecurityGroups`: The IDs of one or more security groups for the specified
-  ClassicLink-enabled VPC. For more information, see ClassicLink in the Amazon EC2 User Guide
-  for Linux Instances and Linking EC2-Classic instances to a VPC in the Amazon EC2 Auto
-  Scaling User Guide. If you specify the ClassicLinkVPCId parameter, you must specify this
-  parameter.
-- `EbsOptimized`: Specifies whether the launch configuration is optimized for EBS I/O
+- `"ClassicLinkVPCSecurityGroups"`: The IDs of one or more security groups for the
+  specified ClassicLink-enabled VPC. For more information, see ClassicLink in the Amazon EC2
+  User Guide for Linux Instances and Linking EC2-Classic instances to a VPC in the Amazon EC2
+  Auto Scaling User Guide. If you specify the ClassicLinkVPCId parameter, you must specify
+  this parameter.
+- `"EbsOptimized"`: Specifies whether the launch configuration is optimized for EBS I/O
   (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an
   optimized configuration stack to provide optimal I/O performance. This optimization is not
   available with all instance types. Additional fees are incurred when you enable EBS
   optimization for an instance type that is not EBS-optimized by default. For more
   information, see Amazon EBS-Optimized Instances in the Amazon EC2 User Guide for Linux
   Instances. The default value is false.
-- `IamInstanceProfile`: The name or the Amazon Resource Name (ARN) of the instance profile
-  associated with the IAM role for the instance. The instance profile contains the IAM role.
-  For more information, see IAM role for applications that run on Amazon EC2 instances in the
-  Amazon EC2 Auto Scaling User Guide.
-- `ImageId`: The ID of the Amazon Machine Image (AMI) that was assigned during
+- `"IamInstanceProfile"`: The name or the Amazon Resource Name (ARN) of the instance
+  profile associated with the IAM role for the instance. The instance profile contains the
+  IAM role. For more information, see IAM role for applications that run on Amazon EC2
+  instances in the Amazon EC2 Auto Scaling User Guide.
+- `"ImageId"`: The ID of the Amazon Machine Image (AMI) that was assigned during
   registration. For more information, see Finding an AMI in the Amazon EC2 User Guide for
   Linux Instances. If you do not specify InstanceId, you must specify ImageId.
-- `InstanceId`: The ID of the instance to use to create the launch configuration. The new
+- `"InstanceId"`: The ID of the instance to use to create the launch configuration. The new
   launch configuration derives attributes from the instance, except for the block device
   mapping. To create a launch configuration with a block device mapping or override any other
   instance attributes, specify them as part of the same request. For more information, see
   Creating a launch configuration using an EC2 instance in the Amazon EC2 Auto Scaling User
   Guide. If you do not specify InstanceId, you must specify both ImageId and InstanceType.
-- `InstanceMonitoring`: Controls whether instances in this group are launched with detailed
-  (true) or basic (false) monitoring. The default value is true (enabled).  When detailed
-  monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is
-  charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5
-  minutes. For more information, see Configure Monitoring for Auto Scaling Instances in the
-  Amazon EC2 Auto Scaling User Guide.
-- `InstanceType`: Specifies the instance type of the EC2 instance. For information about
+- `"InstanceMonitoring"`: Controls whether instances in this group are launched with
+  detailed (true) or basic (false) monitoring. The default value is true (enabled).  When
+  detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your
+  account is charged a fee. When you disable detailed monitoring, CloudWatch generates
+  metrics every 5 minutes. For more information, see Configure Monitoring for Auto Scaling
+  Instances in the Amazon EC2 Auto Scaling User Guide.
+- `"InstanceType"`: Specifies the instance type of the EC2 instance. For information about
   available instance types, see Available Instance Types in the Amazon EC2 User Guide for
   Linux Instances. If you do not specify InstanceId, you must specify InstanceType.
-- `KernelId`: The ID of the kernel associated with the AMI.
-- `KeyName`: The name of the key pair. For more information, see Amazon EC2 Key Pairs in
+- `"KernelId"`: The ID of the kernel associated with the AMI.
+- `"KeyName"`: The name of the key pair. For more information, see Amazon EC2 Key Pairs in
   the Amazon EC2 User Guide for Linux Instances.
-- `MetadataOptions`: The metadata options for the instances. For more information, see
+- `"MetadataOptions"`: The metadata options for the instances. For more information, see
   Configuring the Instance Metadata Options in the Amazon EC2 Auto Scaling User Guide.
-- `PlacementTenancy`: The tenancy of the instance. An instance with dedicated tenancy runs
-  on isolated, single-tenant hardware and can only be launched into a VPC. To launch
+- `"PlacementTenancy"`: The tenancy of the instance. An instance with dedicated tenancy
+  runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch
   dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy
   attribute set to default), you must set the value of this parameter to dedicated. If you
   specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when
   you create your group. For more information, see Configuring instance tenancy with Amazon
   EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Valid Values: default |
   dedicated
-- `RamdiskId`: The ID of the RAM disk to select.
-- `SecurityGroups`: A list that contains the security groups to assign to the instances in
-  the Auto Scaling group. [EC2-VPC] Specify the security group IDs. For more information, see
-  Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide. [EC2-Classic]
-  Specify either the security group names or the security group IDs. For more information,
-  see Amazon EC2 Security Groups in the Amazon EC2 User Guide for Linux Instances.
-- `SpotPrice`: The maximum hourly price to be paid for any Spot Instance launched to
+- `"RamdiskId"`: The ID of the RAM disk to select.
+- `"SecurityGroups"`: A list that contains the security groups to assign to the instances
+  in the Auto Scaling group. [EC2-VPC] Specify the security group IDs. For more information,
+  see Security Groups for Your VPC in the Amazon Virtual Private Cloud User Guide.
+  [EC2-Classic] Specify either the security group names or the security group IDs. For more
+  information, see Amazon EC2 Security Groups in the Amazon EC2 User Guide for Linux
+  Instances.
+- `"SpotPrice"`: The maximum hourly price to be paid for any Spot Instance launched to
   fulfill the request. Spot Instances are launched when the price you specify exceeds the
   current Spot price. For more information, see Requesting Spot Instances in the Amazon EC2
   Auto Scaling User Guide.  When you change your maximum price by creating a new launch
   configuration, running instances will continue to run as long as the maximum price for
   those running instances is higher than the current Spot price.
-- `UserData`: The user data to make available to the launched EC2 instances. For more
+- `"UserData"`: The user data to make available to the launched EC2 instances. For more
   information, see Instance metadata and user data (Linux) and Instance metadata and user
   data (Windows). If you are using a command line tool, base64-encoding is performed for you,
   and you can load the text from a file. Otherwise, you must provide base64-encoded text.
   User data is limited to 16 KB.
 """
 create_launch_configuration(LaunchConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateLaunchConfiguration", Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName); aws_config=aws_config)
-create_launch_configuration(LaunchConfigurationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName), args)); aws_config=aws_config)
+create_launch_configuration(LaunchConfigurationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName), params)); aws_config=aws_config)
 
 """
-    CreateOrUpdateTags()
+    create_or_update_tags(tags)
+    create_or_update_tags(tags, params::Dict{String,<:Any})
 
 Creates or updates tags for the specified Auto Scaling group. When you specify a tag with a
 key that already exists, the operation overwrites the previous tag definition, and you do
 not get an error message. For more information, see Tagging Auto Scaling groups and
 instances in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `Tags`: One or more tags.
+# Arguments
+- `tags`: One or more tags.
 
 """
 create_or_update_tags(Tags; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateOrUpdateTags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-create_or_update_tags(Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateOrUpdateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+create_or_update_tags(Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("CreateOrUpdateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    DeleteAutoScalingGroup()
+    delete_auto_scaling_group(auto_scaling_group_name)
+    delete_auto_scaling_group(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Deletes the specified Auto Scaling group. If the group has instances or scaling activities
 in progress, you must specify the option to force the deletion in order for it to succeed.
@@ -399,103 +416,112 @@ Auto Scaling does not launch replacement instances. To terminate all instances b
 deleting the Auto Scaling group, call the UpdateAutoScalingGroup API and set the minimum
 size and desired capacity of the Auto Scaling group to zero.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `ForceDelete`: Specifies that the group is to be deleted along with all instances
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ForceDelete"`: Specifies that the group is to be deleted along with all instances
   associated with the group, without waiting for all instances to be terminated. This
   parameter also deletes any lifecycle actions associated with the group.
 """
 delete_auto_scaling_group(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteAutoScalingGroup", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-delete_auto_scaling_group(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+delete_auto_scaling_group(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    DeleteLaunchConfiguration()
+    delete_launch_configuration(launch_configuration_name)
+    delete_launch_configuration(launch_configuration_name, params::Dict{String,<:Any})
 
 Deletes the specified launch configuration. The launch configuration must not be attached
 to an Auto Scaling group. When this call completes, the launch configuration is no longer
 available for use.
 
-# Required Parameters
-- `LaunchConfigurationName`: The name of the launch configuration.
+# Arguments
+- `launch_configuration_name`: The name of the launch configuration.
 
 """
 delete_launch_configuration(LaunchConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLaunchConfiguration", Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName); aws_config=aws_config)
-delete_launch_configuration(LaunchConfigurationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName), args)); aws_config=aws_config)
+delete_launch_configuration(LaunchConfigurationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LaunchConfigurationName"=>LaunchConfigurationName), params)); aws_config=aws_config)
 
 """
-    DeleteLifecycleHook()
+    delete_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name)
+    delete_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Deletes the specified lifecycle hook. If there are any outstanding lifecycle actions, they
 are completed first (ABANDON for launching instances, CONTINUE for terminating instances).
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LifecycleHookName`: The name of the lifecycle hook.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `lifecycle_hook_name`: The name of the lifecycle hook.
 
 """
 delete_lifecycle_hook(AutoScalingGroupName, LifecycleHookName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLifecycleHook", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName); aws_config=aws_config)
-delete_lifecycle_hook(AutoScalingGroupName, LifecycleHookName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLifecycleHook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), args)); aws_config=aws_config)
+delete_lifecycle_hook(AutoScalingGroupName, LifecycleHookName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteLifecycleHook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), params)); aws_config=aws_config)
 
 """
-    DeleteNotificationConfiguration()
+    delete_notification_configuration(auto_scaling_group_name, topic_arn)
+    delete_notification_configuration(auto_scaling_group_name, topic_arn, params::Dict{String,<:Any})
 
 Deletes the specified notification.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `TopicARN`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   (Amazon SNS) topic.
 
 """
 delete_notification_configuration(AutoScalingGroupName, TopicARN; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteNotificationConfiguration", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TopicARN"=>TopicARN); aws_config=aws_config)
-delete_notification_configuration(AutoScalingGroupName, TopicARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteNotificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TopicARN"=>TopicARN), args)); aws_config=aws_config)
+delete_notification_configuration(AutoScalingGroupName, TopicARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteNotificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TopicARN"=>TopicARN), params)); aws_config=aws_config)
 
 """
-    DeletePolicy()
+    delete_policy(policy_name)
+    delete_policy(policy_name, params::Dict{String,<:Any})
 
 Deletes the specified scaling policy. Deleting either a step scaling policy or a simple
 scaling policy deletes the underlying alarm action, but does not delete the alarm, even if
 it no longer has an associated action. For more information, see Deleting a scaling policy
 in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `PolicyName`: The name or Amazon Resource Name (ARN) of the policy.
+# Arguments
+- `policy_name`: The name or Amazon Resource Name (ARN) of the policy.
 
 # Optional Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupName"`: The name of the Auto Scaling group.
 """
 delete_policy(PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeletePolicy", Dict{String, Any}("PolicyName"=>PolicyName); aws_config=aws_config)
-delete_policy(PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName), args)); aws_config=aws_config)
+delete_policy(PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    DeleteScheduledAction()
+    delete_scheduled_action(auto_scaling_group_name, scheduled_action_name)
+    delete_scheduled_action(auto_scaling_group_name, scheduled_action_name, params::Dict{String,<:Any})
 
 Deletes the specified scheduled action.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ScheduledActionName`: The name of the action to delete.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `scheduled_action_name`: The name of the action to delete.
 
 """
 delete_scheduled_action(AutoScalingGroupName, ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteScheduledAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName); aws_config=aws_config)
-delete_scheduled_action(AutoScalingGroupName, ScheduledActionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), args)); aws_config=aws_config)
+delete_scheduled_action(AutoScalingGroupName, ScheduledActionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
 
 """
-    DeleteTags()
+    delete_tags(tags)
+    delete_tags(tags, params::Dict{String,<:Any})
 
 Deletes the specified tags.
 
-# Required Parameters
-- `Tags`: One or more tags.
+# Arguments
+- `tags`: One or more tags.
 
 """
 delete_tags(Tags; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteTags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-delete_tags(Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+delete_tags(Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    DescribeAccountLimits()
+    describe_account_limits()
+    describe_account_limits(params::Dict{String,<:Any})
 
 Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account. For
 information about requesting an increase, see Amazon EC2 Auto Scaling service quotas in the
@@ -503,10 +529,11 @@ Amazon EC2 Auto Scaling User Guide.
 
 """
 describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAccountLimits"; aws_config=aws_config)
-describe_account_limits(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAccountLimits", args; aws_config=aws_config)
+describe_account_limits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAccountLimits", params; aws_config=aws_config)
 
 """
-    DescribeAdjustmentTypes()
+    describe_adjustment_types()
+    describe_adjustment_types(params::Dict{String,<:Any})
 
 Describes the available adjustment types for Amazon EC2 Auto Scaling scaling policies.
 These settings apply to step scaling policies and simple scaling policies; they do not
@@ -515,53 +542,59 @@ ChangeInCapacity   ExactCapacity   PercentChangeInCapacity
 
 """
 describe_adjustment_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAdjustmentTypes"; aws_config=aws_config)
-describe_adjustment_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAdjustmentTypes", args; aws_config=aws_config)
+describe_adjustment_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAdjustmentTypes", params; aws_config=aws_config)
 
 """
-    DescribeAutoScalingGroups()
+    describe_auto_scaling_groups()
+    describe_auto_scaling_groups(params::Dict{String,<:Any})
 
 Describes one or more Auto Scaling groups.
 
 # Optional Parameters
-- `AutoScalingGroupNames`: The names of the Auto Scaling groups. By default, you can only
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupNames"`: The names of the Auto Scaling groups. By default, you can only
   specify up to 50 names. You can optionally increase this limit using the MaxRecords
   parameter. If you omit this parameter, all Auto Scaling groups are described.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_auto_scaling_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingGroups"; aws_config=aws_config)
-describe_auto_scaling_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingGroups", args; aws_config=aws_config)
+describe_auto_scaling_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingGroups", params; aws_config=aws_config)
 
 """
-    DescribeAutoScalingInstances()
+    describe_auto_scaling_instances()
+    describe_auto_scaling_instances(params::Dict{String,<:Any})
 
 Describes one or more Auto Scaling instances.
 
 # Optional Parameters
-- `InstanceIds`: The IDs of the instances. You can specify up to MaxRecords IDs. If you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: The IDs of the instances. You can specify up to MaxRecords IDs. If you
   omit this parameter, all Auto Scaling instances are described. If you specify an ID that
   does not exist, it is ignored with no error.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 50.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 50.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_auto_scaling_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingInstances"; aws_config=aws_config)
-describe_auto_scaling_instances(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingInstances", args; aws_config=aws_config)
+describe_auto_scaling_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingInstances", params; aws_config=aws_config)
 
 """
-    DescribeAutoScalingNotificationTypes()
+    describe_auto_scaling_notification_types()
+    describe_auto_scaling_notification_types(params::Dict{String,<:Any})
 
 Describes the notification types that are supported by Amazon EC2 Auto Scaling.
 
 """
 describe_auto_scaling_notification_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingNotificationTypes"; aws_config=aws_config)
-describe_auto_scaling_notification_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingNotificationTypes", args; aws_config=aws_config)
+describe_auto_scaling_notification_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAutoScalingNotificationTypes", params; aws_config=aws_config)
 
 """
-    DescribeInstanceRefreshes()
+    describe_instance_refreshes(auto_scaling_group_name)
+    describe_instance_refreshes(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Describes one or more instance refreshes. You can determine the status of a request by
 looking at the Status parameter. The following are the possible statuses:     Pending - The
@@ -573,98 +606,109 @@ roll back any replacements that have already been completed, but it prevents new
 replacements from being started.     Cancelled - The operation is cancelled.    For more
 information, see Replacing Auto Scaling Instances Based on an Instance Refresh.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `InstanceRefreshIds`: One or more instance refresh IDs.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceRefreshIds"`: One or more instance refresh IDs.
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_instance_refreshes(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeInstanceRefreshes", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-describe_instance_refreshes(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeInstanceRefreshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+describe_instance_refreshes(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeInstanceRefreshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    DescribeLaunchConfigurations()
+    describe_launch_configurations()
+    describe_launch_configurations(params::Dict{String,<:Any})
 
 Describes one or more launch configurations.
 
 # Optional Parameters
-- `LaunchConfigurationNames`: The launch configuration names. If you omit this parameter,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LaunchConfigurationNames"`: The launch configuration names. If you omit this parameter,
   all launch configurations are described.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_launch_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLaunchConfigurations"; aws_config=aws_config)
-describe_launch_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLaunchConfigurations", args; aws_config=aws_config)
+describe_launch_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLaunchConfigurations", params; aws_config=aws_config)
 
 """
-    DescribeLifecycleHookTypes()
+    describe_lifecycle_hook_types()
+    describe_lifecycle_hook_types(params::Dict{String,<:Any})
 
 Describes the available types of lifecycle hooks. The following hook types are supported:
 autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING
 
 """
 describe_lifecycle_hook_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHookTypes"; aws_config=aws_config)
-describe_lifecycle_hook_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHookTypes", args; aws_config=aws_config)
+describe_lifecycle_hook_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHookTypes", params; aws_config=aws_config)
 
 """
-    DescribeLifecycleHooks()
+    describe_lifecycle_hooks(auto_scaling_group_name)
+    describe_lifecycle_hooks(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Describes the lifecycle hooks for the specified Auto Scaling group.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `LifecycleHookNames`: The names of one or more lifecycle hooks. If you omit this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LifecycleHookNames"`: The names of one or more lifecycle hooks. If you omit this
   parameter, all lifecycle hooks are described.
 """
 describe_lifecycle_hooks(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHooks", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-describe_lifecycle_hooks(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+describe_lifecycle_hooks(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    DescribeLoadBalancerTargetGroups()
+    describe_load_balancer_target_groups(auto_scaling_group_name)
+    describe_load_balancer_target_groups(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Describes the target groups for the specified Auto Scaling group.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  100 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 100 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_load_balancer_target_groups(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancerTargetGroups", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-describe_load_balancer_target_groups(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+describe_load_balancer_target_groups(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    DescribeLoadBalancers()
+    describe_load_balancers(auto_scaling_group_name)
+    describe_load_balancers(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Describes the load balancers for the specified Auto Scaling group. This operation describes
 only Classic Load Balancers. If you have Application Load Balancers, Network Load
 Balancers, or Gateway Load Balancers, use the DescribeLoadBalancerTargetGroups API instead.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  100 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 100 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_load_balancers(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancers", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-describe_load_balancers(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+describe_load_balancers(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    DescribeMetricCollectionTypes()
+    describe_metric_collection_types()
+    describe_metric_collection_types(params::Dict{String,<:Any})
 
 Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling. The
 GroupStandbyInstances metric is not returned by default. You must explicitly request this
@@ -672,99 +716,115 @@ metric when calling the EnableMetricsCollection API.
 
 """
 describe_metric_collection_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeMetricCollectionTypes"; aws_config=aws_config)
-describe_metric_collection_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeMetricCollectionTypes", args; aws_config=aws_config)
+describe_metric_collection_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeMetricCollectionTypes", params; aws_config=aws_config)
 
 """
-    DescribeNotificationConfigurations()
+    describe_notification_configurations()
+    describe_notification_configurations(params::Dict{String,<:Any})
 
 Describes the notification actions associated with the specified Auto Scaling group.
 
 # Optional Parameters
-- `AutoScalingGroupNames`: The name of the Auto Scaling group.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupNames"`: The name of the Auto Scaling group.
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_notification_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeNotificationConfigurations"; aws_config=aws_config)
-describe_notification_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeNotificationConfigurations", args; aws_config=aws_config)
+describe_notification_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeNotificationConfigurations", params; aws_config=aws_config)
 
 """
-    DescribePolicies()
+    describe_policies()
+    describe_policies(params::Dict{String,<:Any})
 
 Describes the policies for the specified Auto Scaling group.
 
 # Optional Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `MaxRecords`: The maximum number of items to be returned with each call. The default
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupName"`: The name of the Auto Scaling group.
+- `"MaxRecords"`: The maximum number of items to be returned with each call. The default
   value is 50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
-- `PolicyNames`: The names of one or more policies. If you omit this parameter, all
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+- `"PolicyNames"`: The names of one or more policies. If you omit this parameter, all
   policies are described. If a group name is provided, the results are limited to that group.
   This list is limited to 50 items. If you specify an unknown policy name, it is ignored with
   no error.
-- `PolicyTypes`: One or more policy types. The valid values are SimpleScaling, StepScaling,
-  and TargetTrackingScaling.
+- `"PolicyTypes"`: One or more policy types. The valid values are SimpleScaling,
+  StepScaling, and TargetTrackingScaling.
 """
 describe_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribePolicies"; aws_config=aws_config)
-describe_policies(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribePolicies", args; aws_config=aws_config)
+describe_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribePolicies", params; aws_config=aws_config)
 
 """
-    DescribeScalingActivities()
+    describe_scaling_activities()
+    describe_scaling_activities(params::Dict{String,<:Any})
 
-Describes one or more scaling activities for the specified Auto Scaling group.
+Describes one or more scaling activities for the specified Auto Scaling group. To view the
+scaling activities from the Amazon EC2 Auto Scaling console, choose the Activity tab of the
+Auto Scaling group. When scaling events occur, you see scaling activity messages in the
+Activity history. For more information, see Verifying a scaling activity for an Auto
+Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 # Optional Parameters
-- `ActivityIds`: The activity IDs of the desired scaling activities. You can specify up to
-  50 IDs. If you omit this parameter, all activities for the past six weeks are described. If
-  unknown activities are requested, they are ignored with no error. If you specify an Auto
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActivityIds"`: The activity IDs of the desired scaling activities. You can specify up
+  to 50 IDs. If you omit this parameter, all activities for the past six weeks are described.
+  If unknown activities are requested, they are ignored with no error. If you specify an Auto
   Scaling group, the results are limited to that group.
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  100 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+- `"AutoScalingGroupName"`: The name of the Auto Scaling group.
+- `"IncludeDeletedGroups"`: Indicates whether to include scaling activity from deleted Auto
+  Scaling groups.
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 100 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_scaling_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingActivities"; aws_config=aws_config)
-describe_scaling_activities(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingActivities", args; aws_config=aws_config)
+describe_scaling_activities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingActivities", params; aws_config=aws_config)
 
 """
-    DescribeScalingProcessTypes()
+    describe_scaling_process_types()
+    describe_scaling_process_types(params::Dict{String,<:Any})
 
 Describes the scaling process types for use with the ResumeProcesses and SuspendProcesses
 APIs.
 
 """
 describe_scaling_process_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingProcessTypes"; aws_config=aws_config)
-describe_scaling_process_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingProcessTypes", args; aws_config=aws_config)
+describe_scaling_process_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScalingProcessTypes", params; aws_config=aws_config)
 
 """
-    DescribeScheduledActions()
+    describe_scheduled_actions()
+    describe_scheduled_actions(params::Dict{String,<:Any})
 
 Describes the actions scheduled for your Auto Scaling group that haven't run or that have
 not reached their end time. To describe the actions that have already run, call the
 DescribeScalingActivities API.
 
 # Optional Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `EndTime`: The latest scheduled start time to return. If scheduled action names are
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupName"`: The name of the Auto Scaling group.
+- `"EndTime"`: The latest scheduled start time to return. If scheduled action names are
   provided, this parameter is ignored.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
-- `ScheduledActionNames`: The names of one or more scheduled actions. You can specify up to
-  50 actions. If you omit this parameter, all scheduled actions are described. If you specify
-  an unknown scheduled action, it is ignored with no error.
-- `StartTime`: The earliest scheduled start time to return. If scheduled action names are
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+- `"ScheduledActionNames"`: The names of one or more scheduled actions. You can specify up
+  to 50 actions. If you omit this parameter, all scheduled actions are described. If you
+  specify an unknown scheduled action, it is ignored with no error.
+- `"StartTime"`: The earliest scheduled start time to return. If scheduled action names are
   provided, this parameter is ignored.
 """
 describe_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScheduledActions"; aws_config=aws_config)
-describe_scheduled_actions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScheduledActions", args; aws_config=aws_config)
+describe_scheduled_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeScheduledActions", params; aws_config=aws_config)
 
 """
-    DescribeTags()
+    describe_tags()
+    describe_tags(params::Dict{String,<:Any})
 
 Describes the specified tags. You can use filters to limit the results. For example, you
 can query for the tags for a specific Auto Scaling group. You can specify multiple values
@@ -775,18 +835,20 @@ message is returned. For more information, see Tagging Auto Scaling groups and i
 the Amazon EC2 Auto Scaling User Guide.
 
 # Optional Parameters
-- `Filters`: One or more filters to scope the tags to return. The maximum number of filters
-  per filter type (for example, auto-scaling-group) is 1000.
-- `MaxRecords`: The maximum number of items to return with this call. The default value is
-  50 and the maximum value is 100.
-- `NextToken`: The token for the next set of items to return. (You received this token from
-  a previous call.)
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: One or more filters to scope the tags to return. The maximum number of
+  filters per filter type (for example, auto-scaling-group) is 1000.
+- `"MaxRecords"`: The maximum number of items to return with this call. The default value
+  is 50 and the maximum value is 100.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
 """
 describe_tags(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTags"; aws_config=aws_config)
-describe_tags(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTags", args; aws_config=aws_config)
+describe_tags(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTags", params; aws_config=aws_config)
 
 """
-    DescribeTerminationPolicyTypes()
+    describe_termination_policy_types()
+    describe_termination_policy_types(params::Dict{String,<:Any})
 
 Describes the termination policies supported by Amazon EC2 Auto Scaling. For more
 information, see Controlling which Auto Scaling instances terminate during scale in in the
@@ -794,10 +856,11 @@ Amazon EC2 Auto Scaling User Guide.
 
 """
 describe_termination_policy_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTerminationPolicyTypes"; aws_config=aws_config)
-describe_termination_policy_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTerminationPolicyTypes", args; aws_config=aws_config)
+describe_termination_policy_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTerminationPolicyTypes", params; aws_config=aws_config)
 
 """
-    DetachInstances()
+    detach_instances(auto_scaling_group_name, should_decrement_desired_capacity)
+    detach_instances(auto_scaling_group_name, should_decrement_desired_capacity, params::Dict{String,<:Any})
 
 Removes one or more instances from the specified Auto Scaling group. After the instances
 are detached, you can manage them independent of the Auto Scaling group. If you do not
@@ -808,33 +871,36 @@ If there are target groups attached to the Auto Scaling group, the instances are
 deregistered from the target groups. For more information, see Detach EC2 instances from
 your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ShouldDecrementDesiredCapacity`: Indicates whether the Auto Scaling group decrements the
-  desired capacity value by the number of instances detached.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `should_decrement_desired_capacity`: Indicates whether the Auto Scaling group decrements
+  the desired capacity value by the number of instances detached.
 
 # Optional Parameters
-- `InstanceIds`: The IDs of the instances. You can specify up to 20 instances.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 detach_instances(AutoScalingGroupName, ShouldDecrementDesiredCapacity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachInstances", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity); aws_config=aws_config)
-detach_instances(AutoScalingGroupName, ShouldDecrementDesiredCapacity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), args)); aws_config=aws_config)
+detach_instances(AutoScalingGroupName, ShouldDecrementDesiredCapacity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), params)); aws_config=aws_config)
 
 """
-    DetachLoadBalancerTargetGroups()
+    detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns)
+    detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
 Detaches one or more target groups from the specified Auto Scaling group.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `TargetGroupARNs`: The Amazon Resource Names (ARN) of the target groups. You can specify
-  up to 10 target groups.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `target_group_arns`: The Amazon Resource Names (ARN) of the target groups. You can
+  specify up to 10 target groups.
 
 """
 detach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancerTargetGroups", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs); aws_config=aws_config)
-detach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs), args)); aws_config=aws_config)
+detach_load_balancer_target_groups(AutoScalingGroupName, TargetGroupARNs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancerTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "TargetGroupARNs"=>TargetGroupARNs), params)); aws_config=aws_config)
 
 """
-    DetachLoadBalancers()
+    detach_load_balancers(auto_scaling_group_name, load_balancer_names)
+    detach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
 Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This
 operation detaches only Classic Load Balancers. If you have Application Load Balancers,
@@ -844,25 +910,27 @@ deregistering the instances in the group. When all instances are deregistered, t
 no longer describe the load balancer using the DescribeLoadBalancers API call. The
 instances remain running.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LoadBalancerNames`: The names of the load balancers. You can specify up to 10 load
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `load_balancer_names`: The names of the load balancers. You can specify up to 10 load
   balancers.
 
 """
 detach_load_balancers(AutoScalingGroupName, LoadBalancerNames; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancers", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames); aws_config=aws_config)
-detach_load_balancers(AutoScalingGroupName, LoadBalancerNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames), args)); aws_config=aws_config)
+detach_load_balancers(AutoScalingGroupName, LoadBalancerNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DetachLoadBalancers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LoadBalancerNames"=>LoadBalancerNames), params)); aws_config=aws_config)
 
 """
-    DisableMetricsCollection()
+    disable_metrics_collection(auto_scaling_group_name)
+    disable_metrics_collection(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Disables group metrics for the specified Auto Scaling group.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `Metrics`: Specifies one or more of the following metrics:    GroupMinSize
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Metrics"`: Specifies one or more of the following metrics:    GroupMinSize
   GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances
       GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances
   GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity
@@ -870,22 +938,24 @@ Disables group metrics for the specified Auto Scaling group.
   are disabled.
 """
 disable_metrics_collection(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DisableMetricsCollection", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-disable_metrics_collection(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DisableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+disable_metrics_collection(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DisableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    EnableMetricsCollection()
+    enable_metrics_collection(auto_scaling_group_name, granularity)
+    enable_metrics_collection(auto_scaling_group_name, granularity, params::Dict{String,<:Any})
 
 Enables group metrics for the specified Auto Scaling group. For more information, see
 Monitoring CloudWatch metrics for your Auto Scaling groups and instances in the Amazon EC2
 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `Granularity`: The granularity to associate with the metrics to collect. The only valid
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `granularity`: The granularity to associate with the metrics to collect. The only valid
   value is 1Minute.
 
 # Optional Parameters
-- `Metrics`: Specifies which group-level metrics to start collecting. You can specify one
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Metrics"`: Specifies which group-level metrics to start collecting. You can specify one
   or more of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity
       GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances
   GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature
@@ -894,10 +964,11 @@ Auto Scaling User Guide.
   GroupTotalCapacity    If you omit this parameter, all metrics are enabled.
 """
 enable_metrics_collection(AutoScalingGroupName, Granularity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnableMetricsCollection", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "Granularity"=>Granularity); aws_config=aws_config)
-enable_metrics_collection(AutoScalingGroupName, Granularity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "Granularity"=>Granularity), args)); aws_config=aws_config)
+enable_metrics_collection(AutoScalingGroupName, Granularity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "Granularity"=>Granularity), params)); aws_config=aws_config)
 
 """
-    EnterStandby()
+    enter_standby(auto_scaling_group_name, should_decrement_desired_capacity)
+    enter_standby(auto_scaling_group_name, should_decrement_desired_capacity, params::Dict{String,<:Any})
 
 Moves the specified instances into the standby state. If you choose to decrement the
 desired capacity of the Auto Scaling group, the instances can enter standby as long as the
@@ -907,35 +978,38 @@ the desired capacity of the Auto Scaling group, the Auto Scaling group launches 
 instances to replace the instances on standby. For more information, see Temporarily
 removing instances from your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ShouldDecrementDesiredCapacity`: Indicates whether to decrement the desired capacity of
-  the Auto Scaling group by the number of instances moved to Standby mode.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `should_decrement_desired_capacity`: Indicates whether to decrement the desired capacity
+  of the Auto Scaling group by the number of instances moved to Standby mode.
 
 # Optional Parameters
-- `InstanceIds`: The IDs of the instances. You can specify up to 20 instances.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 enter_standby(AutoScalingGroupName, ShouldDecrementDesiredCapacity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnterStandby", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity); aws_config=aws_config)
-enter_standby(AutoScalingGroupName, ShouldDecrementDesiredCapacity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnterStandby", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), args)); aws_config=aws_config)
+enter_standby(AutoScalingGroupName, ShouldDecrementDesiredCapacity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnterStandby", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), params)); aws_config=aws_config)
 
 """
-    ExecutePolicy()
+    execute_policy(policy_name)
+    execute_policy(policy_name, params::Dict{String,<:Any})
 
 Executes the specified policy. This can be useful for testing the design of your scaling
 policy.
 
-# Required Parameters
-- `PolicyName`: The name or ARN of the policy.
+# Arguments
+- `policy_name`: The name or ARN of the policy.
 
 # Optional Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `BreachThreshold`: The breach threshold for the alarm. Required if the policy type is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingGroupName"`: The name of the Auto Scaling group.
+- `"BreachThreshold"`: The breach threshold for the alarm. Required if the policy type is
   StepScaling and not supported otherwise.
-- `HonorCooldown`: Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period
-  to complete before executing the policy. Valid only if the policy type is SimpleScaling.
-  For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2
-  Auto Scaling User Guide.
-- `MetricValue`: The metric value to compare to BreachThreshold. This enables you to
+- `"HonorCooldown"`: Indicates whether Amazon EC2 Auto Scaling waits for the cooldown
+  period to complete before executing the policy. Valid only if the policy type is
+  SimpleScaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in
+  the Amazon EC2 Auto Scaling User Guide.
+- `"MetricValue"`: The metric value to compare to BreachThreshold. This enables you to
   execute a policy of type StepScaling and determine which step adjustment to use. For
   example, if the breach threshold is 50 and you want to use a step adjustment with a lower
   bound of 0 and an upper bound of 10, you can set the metric value to 59. If you specify a
@@ -943,26 +1017,29 @@ policy.
   an error. Required if the policy type is StepScaling and not supported otherwise.
 """
 execute_policy(PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExecutePolicy", Dict{String, Any}("PolicyName"=>PolicyName); aws_config=aws_config)
-execute_policy(PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExecutePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName), args)); aws_config=aws_config)
+execute_policy(PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExecutePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    ExitStandby()
+    exit_standby(auto_scaling_group_name)
+    exit_standby(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Moves the specified instances out of the standby state. After you put the instances back in
 service, the desired capacity is incremented. For more information, see Temporarily
 removing instances from your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `InstanceIds`: The IDs of the instances. You can specify up to 20 instances.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: The IDs of the instances. You can specify up to 20 instances.
 """
 exit_standby(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExitStandby", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-exit_standby(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExitStandby", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+exit_standby(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExitStandby", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    PutLifecycleHook()
+    put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name)
+    put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Creates or updates a lifecycle hook for the specified Auto Scaling group. A lifecycle hook
 tells Amazon EC2 Auto Scaling to perform an action on an instance when the instance
@@ -983,42 +1060,44 @@ Auto Scaling group, the call fails. You can view the lifecycle hooks for an Auto
 group using the DescribeLifecycleHooks API call. If you are no longer using a lifecycle
 hook, you can delete it by calling the DeleteLifecycleHook API.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LifecycleHookName`: The name of the lifecycle hook.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `lifecycle_hook_name`: The name of the lifecycle hook.
 
 # Optional Parameters
-- `DefaultResult`: Defines the action the Auto Scaling group should take when the lifecycle
-  hook timeout elapses or if an unexpected failure occurs. This parameter can be either
-  CONTINUE or ABANDON. The default value is ABANDON.
-- `HeartbeatTimeout`: The maximum time, in seconds, that can elapse before the lifecycle
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultResult"`: Defines the action the Auto Scaling group should take when the
+  lifecycle hook timeout elapses or if an unexpected failure occurs. This parameter can be
+  either CONTINUE or ABANDON. The default value is ABANDON.
+- `"HeartbeatTimeout"`: The maximum time, in seconds, that can elapse before the lifecycle
   hook times out. The range is from 30 to 7200 seconds. The default value is 3600 seconds (1
   hour). If the lifecycle hook times out, Amazon EC2 Auto Scaling performs the action that
   you specified in the DefaultResult parameter. You can prevent the lifecycle hook from
   timing out by calling the RecordLifecycleActionHeartbeat API.
-- `LifecycleTransition`: The instance state to which you want to attach the lifecycle hook.
-  The valid values are:   autoscaling:EC2_INSTANCE_LAUNCHING
+- `"LifecycleTransition"`: The instance state to which you want to attach the lifecycle
+  hook. The valid values are:   autoscaling:EC2_INSTANCE_LAUNCHING
   autoscaling:EC2_INSTANCE_TERMINATING   Required for new lifecycle hooks, but optional when
   updating existing hooks.
-- `NotificationMetadata`: Additional information that you want to include any time Amazon
+- `"NotificationMetadata"`: Additional information that you want to include any time Amazon
   EC2 Auto Scaling sends a message to the notification target.
-- `NotificationTargetARN`: The ARN of the notification target that Amazon EC2 Auto Scaling
-  uses to notify you when an instance is in the transition state for the lifecycle hook. This
-  target can be either an SQS queue or an SNS topic. If you specify an empty string, this
-  overrides the current ARN. This operation uses the JSON format when sending notifications
-  to an Amazon SQS queue, and an email key-value pair format when sending notifications to an
-  Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it
-  a test message. Test messages contain the following additional key-value pair: \"Event\":
-  \"autoscaling:TEST_NOTIFICATION\".
-- `RoleARN`: The ARN of the IAM role that allows the Auto Scaling group to publish to the
+- `"NotificationTargetARN"`: The ARN of the notification target that Amazon EC2 Auto
+  Scaling uses to notify you when an instance is in the transition state for the lifecycle
+  hook. This target can be either an SQS queue or an SNS topic. If you specify an empty
+  string, this overrides the current ARN. This operation uses the JSON format when sending
+  notifications to an Amazon SQS queue, and an email key-value pair format when sending
+  notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2
+  Auto Scaling sends it a test message. Test messages contain the following additional
+  key-value pair: \"Event\": \"autoscaling:TEST_NOTIFICATION\".
+- `"RoleARN"`: The ARN of the IAM role that allows the Auto Scaling group to publish to the
   specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue.
   Required for new lifecycle hooks, but optional when updating existing hooks.
 """
 put_lifecycle_hook(AutoScalingGroupName, LifecycleHookName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutLifecycleHook", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName); aws_config=aws_config)
-put_lifecycle_hook(AutoScalingGroupName, LifecycleHookName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutLifecycleHook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), args)); aws_config=aws_config)
+put_lifecycle_hook(AutoScalingGroupName, LifecycleHookName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutLifecycleHook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), params)); aws_config=aws_config)
 
 """
-    PutNotificationConfiguration()
+    put_notification_configuration(auto_scaling_group_name, notification_types, topic_arn)
+    put_notification_configuration(auto_scaling_group_name, notification_types, topic_arn, params::Dict{String,<:Any})
 
 Configures an Auto Scaling group to send notifications when specified events take place.
 Subscribers to the specified topic can have messages delivered to an endpoint such as a web
@@ -1027,49 +1106,51 @@ more information, see Getting Amazon SNS notifications when your Auto Scaling gr
 in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of SNS topics,
 which is 10 per Auto Scaling group, the call fails.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `NotificationTypes`: The type of event that causes the notification to be sent. To query
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `notification_types`: The type of event that causes the notification to be sent. To query
   the notification types supported by Amazon EC2 Auto Scaling, call the
   DescribeAutoScalingNotificationTypes API.
-- `TopicARN`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
+- `topic_arn`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   (Amazon SNS) topic.
 
 """
 put_notification_configuration(AutoScalingGroupName, NotificationTypes, TopicARN; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutNotificationConfiguration", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "NotificationTypes"=>NotificationTypes, "TopicARN"=>TopicARN); aws_config=aws_config)
-put_notification_configuration(AutoScalingGroupName, NotificationTypes, TopicARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutNotificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "NotificationTypes"=>NotificationTypes, "TopicARN"=>TopicARN), args)); aws_config=aws_config)
+put_notification_configuration(AutoScalingGroupName, NotificationTypes, TopicARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutNotificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "NotificationTypes"=>NotificationTypes, "TopicARN"=>TopicARN), params)); aws_config=aws_config)
 
 """
-    PutScalingPolicy()
+    put_scaling_policy(auto_scaling_group_name, policy_name)
+    put_scaling_policy(auto_scaling_group_name, policy_name, params::Dict{String,<:Any})
 
 Creates or updates a scaling policy for an Auto Scaling group. For more information about
 using scaling policies to scale your Auto Scaling group, see Target tracking scaling
 policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `PolicyName`: The name of the policy.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `policy_name`: The name of the policy.
 
 # Optional Parameters
-- `AdjustmentType`: Specifies how the scaling adjustment is interpreted (for example, an
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdjustmentType"`: Specifies how the scaling adjustment is interpreted (for example, an
   absolute number or a percentage). The valid values are ChangeInCapacity, ExactCapacity, and
   PercentChangeInCapacity. Required if the policy type is StepScaling or SimpleScaling. For
   more information, see Scaling adjustment types in the Amazon EC2 Auto Scaling User Guide.
-- `Cooldown`: The duration of the policy's cooldown period, in seconds. When a cooldown
+- `"Cooldown"`: The duration of the policy's cooldown period, in seconds. When a cooldown
   period is specified here, it overrides the default cooldown period defined for the Auto
   Scaling group. Valid only if the policy type is SimpleScaling. For more information, see
   Scaling cooldowns for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
-- `Enabled`: Indicates whether the scaling policy is enabled or disabled. The default is
+- `"Enabled"`: Indicates whether the scaling policy is enabled or disabled. The default is
   enabled. For more information, see Disabling a scaling policy for an Auto Scaling group in
   the Amazon EC2 Auto Scaling User Guide.
-- `EstimatedInstanceWarmup`: The estimated time, in seconds, until a newly launched
+- `"EstimatedInstanceWarmup"`: The estimated time, in seconds, until a newly launched
   instance can contribute to the CloudWatch metrics. If not provided, the default is to use
   the value from the default cooldown period for the Auto Scaling group. Valid only if the
   policy type is TargetTrackingScaling or StepScaling.
-- `MetricAggregationType`: The aggregation type for the CloudWatch metrics. The valid
+- `"MetricAggregationType"`: The aggregation type for the CloudWatch metrics. The valid
   values are Minimum, Maximum, and Average. If the aggregation type is null, the value is
   treated as Average. Valid only if the policy type is StepScaling.
-- `MinAdjustmentMagnitude`: The minimum value to scale by when the adjustment type is
+- `"MinAdjustmentMagnitude"`: The minimum value to scale by when the adjustment type is
   PercentChangeInCapacity. For example, suppose that you create a step scaling policy to
   scale out an Auto Scaling group by 25 percent and you specify a MinAdjustmentMagnitude of
   2. If the group has 4 instances and the scaling policy is performed, 25 percent of 4 is 1.
@@ -1079,18 +1160,18 @@ policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling Use
   Scaling User Guide.  Some Auto Scaling groups use instance weights. In this case, set the
   MinAdjustmentMagnitude to a value that is at least as large as your largest instance
   weight.
-- `MinAdjustmentStep`: Available for backward compatibility. Use MinAdjustmentMagnitude
+- `"MinAdjustmentStep"`: Available for backward compatibility. Use MinAdjustmentMagnitude
   instead.
-- `PolicyType`: One of the following policy types:     TargetTrackingScaling
+- `"PolicyType"`: One of the following policy types:     TargetTrackingScaling
   StepScaling     SimpleScaling (default)
-- `ScalingAdjustment`: The amount by which to scale, based on the specified adjustment
+- `"ScalingAdjustment"`: The amount by which to scale, based on the specified adjustment
   type. A positive value adds to the current capacity while a negative number removes from
   the current capacity. For exact capacity, you must specify a positive value. Required if
   the policy type is SimpleScaling. (Not used with any other policy type.)
-- `StepAdjustments`: A set of adjustments that enable you to scale based on the size of the
-  alarm breach. Required if the policy type is StepScaling. (Not used with any other policy
-  type.)
-- `TargetTrackingConfiguration`: A target tracking scaling policy. Includes support for
+- `"StepAdjustments"`: A set of adjustments that enable you to scale based on the size of
+  the alarm breach. Required if the policy type is StepScaling. (Not used with any other
+  policy type.)
+- `"TargetTrackingConfiguration"`: A target tracking scaling policy. Includes support for
   predefined or customized metrics. The following predefined metrics are available:
   ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut
   ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you
@@ -1099,46 +1180,49 @@ policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling Use
   Required if the policy type is TargetTrackingScaling.
 """
 put_scaling_policy(AutoScalingGroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScalingPolicy", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_scaling_policy(AutoScalingGroupName, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+put_scaling_policy(AutoScalingGroupName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    PutScheduledUpdateGroupAction()
+    put_scheduled_update_group_action(auto_scaling_group_name, scheduled_action_name)
+    put_scheduled_update_group_action(auto_scaling_group_name, scheduled_action_name, params::Dict{String,<:Any})
 
 Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave a
 parameter unspecified when updating a scheduled scaling action, the corresponding value
 remains unchanged. For more information, see Scheduled scaling in the Amazon EC2 Auto
 Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `ScheduledActionName`: The name of this scaling action.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `scheduled_action_name`: The name of this scaling action.
 
 # Optional Parameters
-- `DesiredCapacity`: The desired capacity is the initial capacity of the Auto Scaling group
-  after the scheduled action runs and the capacity it attempts to maintain. It can scale
-  beyond this capacity if you add more scaling conditions.
-- `EndTime`: The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
+  group after the scheduled action runs and the capacity it attempts to maintain. It can
+  scale beyond this capacity if you add more scaling conditions.
+- `"EndTime"`: The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
   does not perform the action after this time.
-- `MaxSize`: The maximum size of the Auto Scaling group.
-- `MinSize`: The minimum size of the Auto Scaling group.
-- `Recurrence`: The recurring schedule for this action, in Unix cron syntax format. This
+- `"MaxSize"`: The maximum size of the Auto Scaling group.
+- `"MinSize"`: The minimum size of the Auto Scaling group.
+- `"Recurrence"`: The recurring schedule for this action, in Unix cron syntax format. This
   format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month]
   [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, \"30 0 1 1,6,12
   *\"). For more information about this format, see Crontab. When StartTime and EndTime are
   specified with Recurrence, they form the boundaries of when the recurring action starts and
   stops.
-- `StartTime`: The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format
+- `"StartTime"`: The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format
   in UTC/GMT only and in quotes (for example, \"2019-06-01T00:00:00Z\"). If you specify
   Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and
   then performs the action based on the specified recurrence. If you try to schedule your
   action in the past, Amazon EC2 Auto Scaling returns an error message.
-- `Time`: This parameter is no longer used.
+- `"Time"`: This parameter is no longer used.
 """
 put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName); aws_config=aws_config)
-put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), args)); aws_config=aws_config)
+put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
 
 """
-    RecordLifecycleActionHeartbeat()
+    record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name)
+    record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
 Records a heartbeat for the lifecycle action associated with the specified token or
 instance. This extends the timeout by the length of time defined using the PutLifecycleHook
@@ -1153,84 +1237,92 @@ record the lifecycle action heartbeat to keep the instance in a pending state.  
 finish before the timeout period ends, complete the lifecycle action.   For more
 information, see Auto Scaling lifecycle in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `LifecycleHookName`: The name of the lifecycle hook.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `lifecycle_hook_name`: The name of the lifecycle hook.
 
 # Optional Parameters
-- `InstanceId`: The ID of the instance.
-- `LifecycleActionToken`: A token that uniquely identifies a specific lifecycle action
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The ID of the instance.
+- `"LifecycleActionToken"`: A token that uniquely identifies a specific lifecycle action
   associated with an instance. Amazon EC2 Auto Scaling sends this token to the notification
   target that you specified when you created the lifecycle hook.
 """
 record_lifecycle_action_heartbeat(AutoScalingGroupName, LifecycleHookName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("RecordLifecycleActionHeartbeat", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName); aws_config=aws_config)
-record_lifecycle_action_heartbeat(AutoScalingGroupName, LifecycleHookName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("RecordLifecycleActionHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), args)); aws_config=aws_config)
+record_lifecycle_action_heartbeat(AutoScalingGroupName, LifecycleHookName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("RecordLifecycleActionHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "LifecycleHookName"=>LifecycleHookName), params)); aws_config=aws_config)
 
 """
-    ResumeProcesses()
+    resume_processes(auto_scaling_group_name)
+    resume_processes(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Resumes the specified suspended auto scaling processes, or all suspended process, for the
 specified Auto Scaling group. For more information, see Suspending and resuming scaling
 processes in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `ScalingProcesses`: One or more of the following processes:    Launch     Terminate
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ScalingProcesses"`: One or more of the following processes:    Launch     Terminate
   AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh
       ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are
   specified.
 """
 resume_processes(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ResumeProcesses", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-resume_processes(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ResumeProcesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+resume_processes(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ResumeProcesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    SetDesiredCapacity()
+    set_desired_capacity(auto_scaling_group_name, desired_capacity)
+    set_desired_capacity(auto_scaling_group_name, desired_capacity, params::Dict{String,<:Any})
 
 Sets the size of the specified Auto Scaling group. If a scale-in activity occurs as a
 result of a new DesiredCapacity value that is lower than the current size of the group, the
 Auto Scaling group uses its termination policy to determine which instances to terminate.
 For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `DesiredCapacity`: The desired capacity is the initial capacity of the Auto Scaling group
-  after this operation completes and the capacity it attempts to maintain.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `desired_capacity`: The desired capacity is the initial capacity of the Auto Scaling
+  group after this operation completes and the capacity it attempts to maintain.
 
 # Optional Parameters
-- `HonorCooldown`: Indicates whether Amazon EC2 Auto Scaling waits for the cooldown period
-  to complete before initiating a scaling activity to set your Auto Scaling group to its new
-  capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period during
-  manual scaling activities.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HonorCooldown"`: Indicates whether Amazon EC2 Auto Scaling waits for the cooldown
+  period to complete before initiating a scaling activity to set your Auto Scaling group to
+  its new capacity. By default, Amazon EC2 Auto Scaling does not honor the cooldown period
+  during manual scaling activities.
 """
 set_desired_capacity(AutoScalingGroupName, DesiredCapacity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetDesiredCapacity", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "DesiredCapacity"=>DesiredCapacity); aws_config=aws_config)
-set_desired_capacity(AutoScalingGroupName, DesiredCapacity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetDesiredCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "DesiredCapacity"=>DesiredCapacity), args)); aws_config=aws_config)
+set_desired_capacity(AutoScalingGroupName, DesiredCapacity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetDesiredCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "DesiredCapacity"=>DesiredCapacity), params)); aws_config=aws_config)
 
 """
-    SetInstanceHealth()
+    set_instance_health(health_status, instance_id)
+    set_instance_health(health_status, instance_id, params::Dict{String,<:Any})
 
 Sets the health status of the specified instance. For more information, see Health checks
 for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `HealthStatus`: The health status of the instance. Set to Healthy to have the instance
+# Arguments
+- `health_status`: The health status of the instance. Set to Healthy to have the instance
   remain in service. Set to Unhealthy to have the instance be out of service. Amazon EC2 Auto
   Scaling terminates and replaces the unhealthy instance.
-- `InstanceId`: The ID of the instance.
+- `instance_id`: The ID of the instance.
 
 # Optional Parameters
-- `ShouldRespectGracePeriod`: If the Auto Scaling group of the specified instance has a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ShouldRespectGracePeriod"`: If the Auto Scaling group of the specified instance has a
   HealthCheckGracePeriod specified for the group, by default, this call respects the grace
   period. Set this to False, to have the call not respect the grace period associated with
   the group. For more information about the health check grace period, see
   CreateAutoScalingGroup in the Amazon EC2 Auto Scaling API Reference.
 """
 set_instance_health(HealthStatus, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceHealth", Dict{String, Any}("HealthStatus"=>HealthStatus, "InstanceId"=>InstanceId); aws_config=aws_config)
-set_instance_health(HealthStatus, InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthStatus"=>HealthStatus, "InstanceId"=>InstanceId), args)); aws_config=aws_config)
+set_instance_health(HealthStatus, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthStatus"=>HealthStatus, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    SetInstanceProtection()
+    set_instance_protection(auto_scaling_group_name, instance_ids, protected_from_scale_in)
+    set_instance_protection(auto_scaling_group_name, instance_ids, protected_from_scale_in, params::Dict{String,<:Any})
 
 Updates the instance protection settings of the specified instances. For more information
 about preventing instances that are part of an Auto Scaling group from terminating on scale
@@ -1238,18 +1330,19 @@ in, see Instance scale-in protection in the Amazon EC2 Auto Scaling User Guide. 
 exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
 fails.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
-- `InstanceIds`: One or more instance IDs. You can specify up to 50 instances.
-- `ProtectedFromScaleIn`: Indicates whether the instance is protected from termination by
-  Amazon EC2 Auto Scaling when scaling in.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `instance_ids`: One or more instance IDs. You can specify up to 50 instances.
+- `protected_from_scale_in`: Indicates whether the instance is protected from termination
+  by Amazon EC2 Auto Scaling when scaling in.
 
 """
 set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceProtection", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "InstanceIds"=>InstanceIds, "ProtectedFromScaleIn"=>ProtectedFromScaleIn); aws_config=aws_config)
-set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "InstanceIds"=>InstanceIds, "ProtectedFromScaleIn"=>ProtectedFromScaleIn), args)); aws_config=aws_config)
+set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SetInstanceProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "InstanceIds"=>InstanceIds, "ProtectedFromScaleIn"=>ProtectedFromScaleIn), params)); aws_config=aws_config)
 
 """
-    StartInstanceRefresh()
+    start_instance_refresh(auto_scaling_group_name)
+    start_instance_refresh(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Starts a new instance refresh operation, which triggers a rolling replacement of all
 previously launched instances in the Auto Scaling group with a new group of instances. If
@@ -1260,16 +1353,17 @@ API. To cancel an instance refresh operation in progress, use the CancelInstance
 API.  For more information, see Replacing Auto Scaling Instances Based on an Instance
 Refresh.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `Preferences`: Set of preferences associated with the instance refresh request. If not
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Preferences"`: Set of preferences associated with the instance refresh request. If not
   provided, the default values are used. For MinHealthyPercentage, the default value is 90.
   For InstanceWarmup, the default is to use the value specified for the health check grace
   period for the Auto Scaling group. For more information, see RefreshPreferences in the
   Amazon EC2 Auto Scaling API Reference.
-- `Strategy`: The strategy to use for the instance refresh. The only valid value is
+- `"Strategy"`: The strategy to use for the instance refresh. The only valid value is
   Rolling. A rolling update is an update that is applied to all instances in an Auto Scaling
   group until all instances have been updated. A rolling update can fail due to failed health
   checks or if instances are on standby or are protected from scale in. If the rolling update
@@ -1277,10 +1371,11 @@ Refresh.
   previous configuration.
 """
 start_instance_refresh(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("StartInstanceRefresh", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-start_instance_refresh(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("StartInstanceRefresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+start_instance_refresh(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("StartInstanceRefresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    SuspendProcesses()
+    suspend_processes(auto_scaling_group_name)
+    suspend_processes(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Suspends the specified auto scaling processes, or all processes, for the specified Auto
 Scaling group. If you suspend either the Launch or Terminate process types, it can prevent
@@ -1288,20 +1383,22 @@ other process types from functioning properly. For more information, see Suspend
 resuming scaling processes in the Amazon EC2 Auto Scaling User Guide. To resume processes
 that have been suspended, call the ResumeProcesses API.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `ScalingProcesses`: One or more of the following processes:    Launch     Terminate
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ScalingProcesses"`: One or more of the following processes:    Launch     Terminate
   AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh
       ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are
   specified.
 """
 suspend_processes(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SuspendProcesses", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-suspend_processes(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SuspendProcesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+suspend_processes(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("SuspendProcesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
-    TerminateInstanceInAutoScalingGroup()
+    terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity)
+    terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity, params::Dict{String,<:Any})
 
 Terminates the specified instance and optionally adjusts the desired group size.  This call
 simply makes a termination request. The instance is not terminated immediately. When an
@@ -1314,17 +1411,18 @@ become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to r
 the group, and rebalancing might terminate instances in other zones. For more information,
 see Rebalancing activities in the Amazon EC2 Auto Scaling User Guide.
 
-# Required Parameters
-- `InstanceId`: The ID of the instance.
-- `ShouldDecrementDesiredCapacity`: Indicates whether terminating the instance also
+# Arguments
+- `instance_id`: The ID of the instance.
+- `should_decrement_desired_capacity`: Indicates whether terminating the instance also
   decrements the size of the Auto Scaling group.
 
 """
 terminate_instance_in_auto_scaling_group(InstanceId, ShouldDecrementDesiredCapacity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("TerminateInstanceInAutoScalingGroup", Dict{String, Any}("InstanceId"=>InstanceId, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity); aws_config=aws_config)
-terminate_instance_in_auto_scaling_group(InstanceId, ShouldDecrementDesiredCapacity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("TerminateInstanceInAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), args)); aws_config=aws_config)
+terminate_instance_in_auto_scaling_group(InstanceId, ShouldDecrementDesiredCapacity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("TerminateInstanceInAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ShouldDecrementDesiredCapacity"=>ShouldDecrementDesiredCapacity), params)); aws_config=aws_config)
 
 """
-    UpdateAutoScalingGroup()
+    update_auto_scaling_group(auto_scaling_group_name)
+    update_auto_scaling_group(auto_scaling_group_name, params::Dict{String,<:Any})
 
  We strongly recommend that all Auto Scaling groups use launch templates to ensure full
 functionality for Amazon EC2 Auto Scaling and Amazon EC2.  Updates the configuration for
@@ -1354,69 +1452,70 @@ DescribeAutoScalingGroups API. To view the scaling policies for an Auto Scaling 
 the DescribePolicies API. If the group has scaling policies, you can update them by calling
 the PutScalingPolicy API.
 
-# Required Parameters
-- `AutoScalingGroupName`: The name of the Auto Scaling group.
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
-- `AvailabilityZones`: One or more Availability Zones for the group.
-- `CapacityRebalance`: Enables or disables Capacity Rebalancing. For more information, see
-  Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
-- `DefaultCooldown`: The amount of time, in seconds, after a scaling activity completes
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZones"`: One or more Availability Zones for the group.
+- `"CapacityRebalance"`: Enables or disables Capacity Rebalancing. For more information,
+  see Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
+- `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
   before another scaling activity can start. The default value is 300. This setting applies
   when using simple scaling policies, but not when using other scaling policies or scheduled
   scaling. For more information, see Scaling cooldowns for Amazon EC2 Auto Scaling in the
   Amazon EC2 Auto Scaling User Guide.
-- `DesiredCapacity`: The desired capacity is the initial capacity of the Auto Scaling group
-  after this operation completes and the capacity it attempts to maintain. This number must
-  be greater than or equal to the minimum size of the group and less than or equal to the
-  maximum size of the group.
-- `HealthCheckGracePeriod`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
+- `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
+  group after this operation completes and the capacity it attempts to maintain. This number
+  must be greater than or equal to the minimum size of the group and less than or equal to
+  the maximum size of the group.
+- `"HealthCheckGracePeriod"`: The amount of time, in seconds, that Amazon EC2 Auto Scaling
   waits before checking the health status of an EC2 instance that has come into service. The
   default value is 0. For more information, see Health check grace period in the Amazon EC2
   Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
-- `HealthCheckType`: The service to use for the health checks. The valid values are EC2 and
-  ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the
+- `"HealthCheckType"`: The service to use for the health checks. The valid values are EC2
+  and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the
   instance unhealthy if it fails either the EC2 status checks or the load balancer health
   checks.
-- `LaunchConfigurationName`: The name of the launch configuration. If you specify
+- `"LaunchConfigurationName"`: The name of the launch configuration. If you specify
   LaunchConfigurationName in your update request, you can't specify LaunchTemplate or
   MixedInstancesPolicy.
-- `LaunchTemplate`: The launch template and version to use to specify the updates. If you
+- `"LaunchTemplate"`: The launch template and version to use to specify the updates. If you
   specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or
   MixedInstancesPolicy.
-- `MaxInstanceLifetime`: The maximum amount of time, in seconds, that an instance can be in
-  service. The default is null. If specified, the value must be either 0 or a number equal to
-  or greater than 86,400 seconds (1 day). To clear a previously set value, specify a new
+- `"MaxInstanceLifetime"`: The maximum amount of time, in seconds, that an instance can be
+  in service. The default is null. If specified, the value must be either 0 or a number equal
+  to or greater than 86,400 seconds (1 day). To clear a previously set value, specify a new
   value of 0. For more information, see Replacing Auto Scaling instances based on maximum
   instance lifetime in the Amazon EC2 Auto Scaling User Guide.
-- `MaxSize`: The maximum size of the Auto Scaling group.  With a mixed instances policy
+- `"MaxSize"`: The maximum size of the Auto Scaling group.  With a mixed instances policy
   that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet
   your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above
   MaxSize by more than your largest instance weight (weights that define how many units each
   instance contributes to the desired capacity of the group).
-- `MinSize`: The minimum size of the Auto Scaling group.
-- `MixedInstancesPolicy`: An embedded object that specifies a mixed instances policy. When
-  you make changes to an existing policy, all optional parameters are left unchanged if not
-  specified. For more information, see Auto Scaling groups with multiple instance types and
-  purchase options in the Amazon EC2 Auto Scaling User Guide.
-- `NewInstancesProtectedFromScaleIn`: Indicates whether newly launched instances are
+- `"MinSize"`: The minimum size of the Auto Scaling group.
+- `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy.
+  When you make changes to an existing policy, all optional parameters are left unchanged if
+  not specified. For more information, see Auto Scaling groups with multiple instance types
+  and purchase options in the Amazon EC2 Auto Scaling User Guide.
+- `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are
   protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information
   about preventing instances from terminating on scale in, see Instance scale-in protection
   in the Amazon EC2 Auto Scaling User Guide.
-- `PlacementGroup`: The name of an existing placement group into which to launch your
+- `"PlacementGroup"`: The name of an existing placement group into which to launch your
   instances, if any. A placement group is a logical grouping of instances within a single
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.
   For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
-- `ServiceLinkedRoleARN`: The Amazon Resource Name (ARN) of the service-linked role that
+- `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
   the Auto Scaling group uses to call other AWS services on your behalf. For more
   information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
-- `TerminationPolicies`: A policy or a list of policies that are used to select the
+- `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instances to terminate. The policies are executed in the order that you list them. For more
   information, see Controlling which Auto Scaling instances terminate during scale in in the
   Amazon EC2 Auto Scaling User Guide.
-- `VPCZoneIdentifier`: A comma-separated list of subnet IDs for a virtual private cloud
+- `"VPCZoneIdentifier"`: A comma-separated list of subnet IDs for a virtual private cloud
   (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you
   specify for this parameter must reside in those Availability Zones.
 """
 update_auto_scaling_group(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("UpdateAutoScalingGroup", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
-update_auto_scaling_group(AutoScalingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("UpdateAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), args)); aws_config=aws_config)
+update_auto_scaling_group(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("UpdateAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)

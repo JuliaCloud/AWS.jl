@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    Search()
+    search(q)
+    search(q, params::Dict{String,<:Any})
 
 Retrieves a list of documents that match the specified search criteria. How you specify the
 search criteria depends on which query parser you use. Amazon CloudSearch supports four
@@ -21,7 +22,7 @@ domain's search endpoint. To get the search endpoint for your domain, use the Am
 CloudSearch configuration service DescribeDomains action. A domain's endpoints are also
 displayed on the domain dashboard in the Amazon CloudSearch console.
 
-# Required Parameters
+# Arguments
 - `q`: Specifies the search criteria for the request. How you specify the search criteria
   depends on the query parser used for the request and the parser options specified in the
   queryOptions parameter. By default, the simple query parser is used to process requests. To
@@ -30,20 +31,21 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   in the Amazon CloudSearch Developer Guide.
 
 # Optional Parameters
-- `cursor`: Retrieves a cursor value you can use to page through large result sets. Use the
-  size parameter to control the number of hits to include in each response. You can specify
-  either the cursor or start parameter in a request; they are mutually exclusive. To get the
-  first cursor, set the cursor value to initial. In subsequent requests, specify the cursor
-  value returned in the hits section of the response.  For more information, see Paginating
-  Results in the Amazon CloudSearch Developer Guide.
-- `expr`: Defines one or more numeric expressions that can be used to sort results or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cursor"`: Retrieves a cursor value you can use to page through large result sets. Use
+  the size parameter to control the number of hits to include in each response. You can
+  specify either the cursor or start parameter in a request; they are mutually exclusive. To
+  get the first cursor, set the cursor value to initial. In subsequent requests, specify the
+  cursor value returned in the hits section of the response.  For more information, see
+  Paginating Results in the Amazon CloudSearch Developer Guide.
+- `"expr"`: Defines one or more numeric expressions that can be used to sort results or
   specify search or filter criteria. You can also specify expressions as return fields.  You
   specify the expressions in JSON using the form {\"EXPRESSIONNAME\":\"EXPRESSION\"}. You can
   define and use multiple expressions in a search request. For example:
   {\"expression1\":\"_score*rating\", \"expression2\":\"(1/rank)*year\"}   For information
   about the variables, operators, and functions you can use in expressions, see Writing
   Expressions in the Amazon CloudSearch Developer Guide.
-- `facet`: Specifies one or more fields for which to get facet information, and options
+- `"facet"`: Specifies one or more fields for which to get facet information, and options
   that control how the facet information is returned. Each specified field must be
   facet-enabled in the domain configuration. The fields and options are specified in JSON
   using the form
@@ -73,16 +75,16 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   the sort option to bucket to sort the facet values numerically by year, with earliest year
   listed first.   {\"year\":{\"sort\":\"bucket\"}}  For more information, see Getting and
   Using Facet Information in the Amazon CloudSearch Developer Guide.
-- `fq`: Specifies a structured query that filters the results of a search without affecting
-  how the results are scored and sorted. You use filterQuery in conjunction with the query
-  parameter to filter the documents that match the constraints specified in the query
-  parameter. Specifying a filter controls only which matching documents are included in the
-  results, it has no effect on how they are scored and sorted. The filterQuery parameter
+- `"fq"`: Specifies a structured query that filters the results of a search without
+  affecting how the results are scored and sorted. You use filterQuery in conjunction with
+  the query parameter to filter the documents that match the constraints specified in the
+  query parameter. Specifying a filter controls only which matching documents are included in
+  the results, it has no effect on how they are scored and sorted. The filterQuery parameter
   supports the full structured query syntax.  For more information about using filters, see
   Filtering Matching Documents in the Amazon CloudSearch Developer Guide.
-- `highlight`: Retrieves highlights for matches in the specified text or text-array fields.
-  Each specified field must be highlight enabled in the domain configuration. The fields and
-  options are specified in JSON using the form
+- `"highlight"`: Retrieves highlights for matches in the specified text or text-array
+  fields. Each specified field must be highlight enabled in the domain configuration. The
+  fields and options are specified in JSON using the form
   {\"FIELD\":{\"OPTION\":VALUE,\"OPTION:\"STRING\"},\"FIELD\":{\"OPTION\":VALUE,\"OPTION\":\"S
   TRING\"}}. You can specify the following highlight options:   format: specifies the format
   of the data in the text field: text or html. When data is returned as HTML, all
@@ -97,7 +99,7 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   tags: &amp;lt;em&gt;search-term&amp;lt;/em&amp;gt;. For example, the following request
   retrieves highlights for the actors and title fields.  { \"actors\": {}, \"title\":
   {\"format\": \"text\",\"max_phrases\": 2,\"pre_tag\": \"\",\"post_tag\": \"\"} }
-- `partial`: Enables partial results to be returned if one or more index partitions are
+- `"partial"`: Enables partial results to be returned if one or more index partitions are
   unavailable. When your search index is partitioned across multiple search instances, by
   default Amazon CloudSearch only returns results if every partition can be queried. This
   means that the failure of a single search instance can result in 5xx (internal server)
@@ -107,7 +109,7 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   experience. For example, rather than displaying no results, you could display the partial
   results and a message indicating that the results might be incomplete due to a temporary
   system outage.
-- `q.options`: Configures options for the query parser specified in the queryParser
+- `"q.options"`: Configures options for the query parser specified in the queryParser
   parameter. You specify the options in JSON using the following form
   {\"OPTION1\":\"VALUE1\",\"OPTION2\":VALUE2\"...\"OPTIONN\":\"VALUEN\"}. The options you can
   configure vary according to which parser you use:  defaultOperator: The default operator
@@ -172,8 +174,8 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   tieBreaker to 0 to disregard all but the highest scoring field (pure max):
   \"tieBreaker\":0. Set to 1 to sum the scores from all fields (pure sum): \"tieBreaker\":1.
   Valid values: 0.0 to 1.0. Default: 0.0. Valid for: dismax.
-- `q.parser`: Specifies which query parser to use to process the request. If queryParser is
-  not specified, Amazon CloudSearch uses the simple query parser.  Amazon CloudSearch
+- `"q.parser"`: Specifies which query parser to use to process the request. If queryParser
+  is not specified, Amazon CloudSearch uses the simple query parser.  Amazon CloudSearch
   supports four query parsers:   simple: perform simple searches of text and text-array
   fields. By default, the simple query parser searches all text and text-array fields. You
   can specify which fields to search by with the queryOptions parameter. If you prefix a
@@ -191,13 +193,13 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   see Apache Lucene Query Parser Syntax.   dismax: search using the simplified subset of the
   Apache Lucene query parser syntax defined by the DisMax query parser. For more information,
   see DisMax Query Parser Syntax.
-- `return`: Specifies the field and expression values to include in the response. Multiple
-  fields or expressions are specified as a comma-separated list. By default, a search
-  response includes all return enabled fields (_all_fields). To return only the document IDs
-  for the matching documents, specify _no_fields. To retrieve the relevance score calculated
-  for each document, specify _score.
-- `size`: Specifies the maximum number of search hits to include in the response.
-- `sort`: Specifies the fields or custom expressions to use to sort the search results.
+- `"return"`: Specifies the field and expression values to include in the response.
+  Multiple fields or expressions are specified as a comma-separated list. By default, a
+  search response includes all return enabled fields (_all_fields). To return only the
+  document IDs for the matching documents, specify _no_fields. To retrieve the relevance
+  score calculated for each document, specify _score.
+- `"size"`: Specifies the maximum number of search hits to include in the response.
+- `"sort"`: Specifies the fields or custom expressions to use to sort the search results.
   Multiple fields or expressions are specified as a comma-separated list. You must specify
   the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a
   field to sort results, the field must be sort-enabled in the domain configuration. Array
@@ -205,20 +207,21 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   sorted by their default relevance scores in descending order: _score desc. You can also
   sort by document ID (_id asc) and version (_version desc). For more information, see
   Sorting Results in the Amazon CloudSearch Developer Guide.
-- `start`: Specifies the offset of the first search hit you want to return. Note that the
+- `"start"`: Specifies the offset of the first search hit you want to return. Note that the
   result set is zero-based; the first result is at index 0. You can specify either the start
   or cursor parameter in a request, they are mutually exclusive.  For more information, see
   Paginating Results in the Amazon CloudSearch Developer Guide.
-- `stats`: Specifies one or more fields for which to get statistics information. Each
+- `"stats"`: Specifies one or more fields for which to get statistics information. Each
   specified field must be facet-enabled in the domain configuration. The fields are specified
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
 search(q; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}("q"=>q); aws_config=aws_config)
-search(q, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), args)); aws_config=aws_config)
+search(q, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), params)); aws_config=aws_config)
 
 """
-    Suggest()
+    suggest(q, suggester)
+    suggest(q, suggester, params::Dict{String,<:Any})
 
 Retrieves autocomplete suggestions for a partial query string. You can use suggestions
 enable you to display likely matches before users finish typing. In Amazon CloudSearch,
@@ -232,18 +235,20 @@ requests to a domain's search endpoint. To get the search endpoint for your doma
 Amazon CloudSearch configuration service DescribeDomains action. A domain's endpoints are
 also displayed on the domain dashboard in the Amazon CloudSearch console.
 
-# Required Parameters
+# Arguments
 - `q`: Specifies the string for which you want to get suggestions.
 - `suggester`: Specifies the name of the suggester to use to find suggested matches.
 
 # Optional Parameters
-- `size`: Specifies the maximum number of suggestions to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"size"`: Specifies the maximum number of suggestions to return.
 """
 suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}("q"=>q, "suggester"=>suggester); aws_config=aws_config)
-suggest(q, suggester, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), args)); aws_config=aws_config)
+suggest(q, suggester, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), params)); aws_config=aws_config)
 
 """
-    UploadDocuments()
+    upload_documents(content-_type, documents)
+    upload_documents(content-_type, documents, params::Dict{String,<:Any})
 
 Posts a batch of documents to a search domain for indexing. A document batch is a
 collection of add and delete operations that represent the documents you want to add,
@@ -262,11 +267,11 @@ data for Amazon CloudSearch, see Preparing Your Data in the Amazon CloudSearch D
 Guide. For more information about uploading data for indexing, see Uploading Data in the
 Amazon CloudSearch Developer Guide.
 
-# Required Parameters
-- `Content-Type`: The format of the batch you are uploading. Amazon CloudSearch supports
+# Arguments
+- `content-_type`: The format of the batch you are uploading. Amazon CloudSearch supports
   two document batch formats:  application/json application/xml
 - `documents`: A batch of documents formatted in JSON or HTML.
 
 """
 upload_documents(Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-upload_documents(Content_Type, documents, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
+upload_documents(Content_Type, documents, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)

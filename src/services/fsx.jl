@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssociateFileSystemAliases()
+    associate_file_system_aliases(aliases, file_system_id)
+    associate_file_system_aliases(aliases, file_system_id, params::Dict{String,<:Any})
 
 Use this action to associate one or more Domain Name Server (DNS) aliases with an existing
 Amazon FSx for Windows File Server file system. A file systen can have a maximum of 50 DNS
@@ -17,8 +18,8 @@ file system using a DNS alias. The system response shows the DNS aliases that Am
 attempting to associate with the file system. Use the API operation to monitor the status
 of the aliases Amazon FSx is associating with the file system.
 
-# Required Parameters
-- `Aliases`: An array of one or more DNS alias names to associate with the file system. The
+# Arguments
+- `aliases`: An array of one or more DNS alias names to associate with the file system. The
   alias name has to comply with the following formatting requirements:   Formatted as a
   fully-qualified domain name (FQDN),  hostname.domain , for example,
   accounting.corp.example.com.   Can contain alphanumeric characters and the hyphen (-).
@@ -26,17 +27,19 @@ of the aliases Amazon FSx is associating with the file system.
   Amazon FSx stores alphabetic characters as lowercase letters (a-z), regardless of how you
   specify them: as uppercase letters, lowercase letters, or the corresponding letters in
   escape codes.
-- `FileSystemId`: Specifies the file system with which you want to associate one or more
+- `file_system_id`: Specifies the file system with which you want to associate one or more
   DNS aliases.
 
 # Optional Parameters
-- `ClientRequestToken`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
 """
 associate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-associate_file_system_aliases(Aliases, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+associate_file_system_aliases(Aliases, FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("AssociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CancelDataRepositoryTask()
+    cancel_data_repository_task(task_id)
+    cancel_data_repository_task(task_id, params::Dict{String,<:Any})
 
 Cancels an existing Amazon FSx for Lustre data repository task if that task is in either
 the PENDING or EXECUTING state. When you cancel a task, Amazon FSx does the following.
@@ -44,15 +47,16 @@ Any files that FSx has already exported are not reverted.   FSx continues to exp
 files that are \"in-flight\" when the cancel operation is received.   FSx does not export
 any files that have not yet been exported.
 
-# Required Parameters
-- `TaskId`: Specifies the data repository task to cancel.
+# Arguments
+- `task_id`: Specifies the data repository task to cancel.
 
 """
 cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config)
-cancel_data_repository_task(TaskId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), args)); aws_config=aws_config)
+cancel_data_repository_task(TaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config)
 
 """
-    CreateBackup()
+    create_backup(file_system_id)
+    create_backup(file_system_id, params::Dict{String,<:Any})
 
 Creates a backup of an existing Amazon FSx file system. Creating regular backups for your
 file system is a best practice, enabling you to restore a file system from a backup if an
@@ -76,23 +80,25 @@ returns while the backup's lifecycle state is still CREATING. You can check the 
 creation status by calling the DescribeBackups operation, which returns the backup state
 along with other information.
 
-# Required Parameters
-- `FileSystemId`: The ID of the file system to back up.
+# Arguments
+- `file_system_id`: The ID of the file system to back up.
 
 # Optional Parameters
-- `ClientRequestToken`: (Optional) A string of up to 64 ASCII characters that Amazon FSx
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: (Optional) A string of up to 64 ASCII characters that Amazon FSx
   uses to ensure idempotent creation. This string is automatically filled on your behalf when
   you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-- `Tags`: (Optional) The tags to apply to the backup at backup creation. The key value of
+- `"Tags"`: (Optional) The tags to apply to the backup at backup creation. The key value of
   the Name tag appears in the console as the backup name. If you have set CopyTagsToBackups
   to true, and you specify one or more tags using the CreateBackup action, no existing file
   system tags are copied from the file system to the backup.
 """
 create_backup(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateBackup", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_backup(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_backup(FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreateDataRepositoryTask()
+    create_data_repository_task(file_system_id, report, type)
+    create_data_repository_task(file_system_id, report, type, params::Dict{String,<:Any})
 
 Creates an Amazon FSx for Lustre data repository task. You use data repository tasks to
 perform bulk operations between your Amazon FSx file system and its linked data repository.
@@ -103,29 +109,31 @@ data repository is not linked to the FSx file system. To learn more about data r
 tasks, see Data Repository Tasks. To learn more about linking a data repository to your
 file system, see Linking your file system to an S3 bucket.
 
-# Required Parameters
-- `FileSystemId`:
-- `Report`: Defines whether or not Amazon FSx provides a CompletionReport once the task has
+# Arguments
+- `file_system_id`:
+- `report`: Defines whether or not Amazon FSx provides a CompletionReport once the task has
   completed. A CompletionReport provides a detailed report on the files that Amazon FSx
   processed that meet the criteria specified by the Scope parameter. For more information,
   see Working with Task Completion Reports.
-- `Type`: Specifies the type of data repository task to create.
+- `type`: Specifies the type of data repository task to create.
 
 # Optional Parameters
-- `ClientRequestToken`:
-- `Paths`: (Optional) The path or paths on the Amazon FSx file system to use when the data
-  repository task is processed. The default path is the file system root directory. The paths
-  you provide need to be relative to the mount point of the file system. If the mount point
-  is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"Paths"`: (Optional) The path or paths on the Amazon FSx file system to use when the
+  data repository task is processed. The default path is the file system root directory. The
+  paths you provide need to be relative to the mount point of the file system. If the mount
+  point is /mnt/fsx and /mnt/fsx/path1 is a directory or file on the file system you want to
   export, then the path to provide is path1. If a path that you provide isn't valid, the task
   fails.
-- `Tags`:
+- `"Tags"`:
 """
 create_data_repository_task(FileSystemId, Report, Type; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_data_repository_task(FileSystemId, Report, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_data_repository_task(FileSystemId, Report, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreateFileSystem()
+    create_file_system(file_system_type, storage_capacity, subnet_ids)
+    create_file_system(file_system_type, storage_capacity, subnet_ids, params::Dict{String,<:Any})
 
 Creates a new, empty Amazon FSx file system. If a file system with the specified client
 request token exists and the parameters match, CreateFileSystem returns the description of
@@ -146,17 +154,18 @@ while the file system's lifecycle state is still CREATING. You can check the fil
 creation status by calling the DescribeFileSystems operation, which returns the file system
 state along with other information.
 
-# Required Parameters
-- `FileSystemType`: The type of Amazon FSx file system to create, either WINDOWS or LUSTRE.
-- `StorageCapacity`: Sets the storage capacity of the file system that you're creating. For
-  Lustre file systems:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid values
-  are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT HDD file systems,
-  valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and increments of 1800
-  GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid values are 1200
-  GiB, 2400 GiB, and increments of 3600 GiB.   For Windows file systems:   If
+# Arguments
+- `file_system_type`: The type of Amazon FSx file system to create, either WINDOWS or
+  LUSTRE.
+- `storage_capacity`: Sets the storage capacity of the file system that you're creating.
+  For Lustre file systems:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid
+  values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT HDD file
+  systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and
+  increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid
+  values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.   For Windows file systems:   If
   StorageType=SSD, valid values are 32 GiB - 65,536 GiB (64 TiB).   If StorageType=HDD, valid
   values are 2000 GiB - 65,536 GiB (64 TiB).
-- `SubnetIds`: Specifies the IDs of the subnets that the file system will be accessible
+- `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
   from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs,
   one for the preferred file server and one for the standby file server. You specify one of
   these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID
@@ -165,31 +174,33 @@ state along with other information.
   Availability Zone.
 
 # Optional Parameters
-- `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-- `KmsKeyId`:
-- `LustreConfiguration`:
-- `SecurityGroupIds`: A list of IDs specifying the security groups to apply to all network
-  interfaces created for file system access. This list isn't returned in later requests to
-  describe the file system.
-- `StorageType`: Sets the storage type for the file system you're creating. Valid values
+- `"KmsKeyId"`:
+- `"LustreConfiguration"`:
+- `"SecurityGroupIds"`: A list of IDs specifying the security groups to apply to all
+  network interfaces created for file system access. This list isn't returned in later
+  requests to describe the file system.
+- `"StorageType"`: Sets the storage type for the file system you're creating. Valid values
   are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all
   Windows and Lustre deployment types.   Set to HDD to use hard disk drive storage. HDD is
   supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on
   PERSISTENT Lustre file system deployment types.     Default value is SSD. For more
   information, see  Storage Type Options in the Amazon FSx for Windows User Guide and
   Multiple Storage Options in the Amazon FSx for Lustre User Guide.
-- `Tags`: The tags to apply to the file system being created. The key value of the Name tag
-  appears in the console as the file system name.
-- `WindowsConfiguration`: The Microsoft Windows configuration for the file system being
+- `"Tags"`: The tags to apply to the file system being created. The key value of the Name
+  tag appears in the console as the file system name.
+- `"WindowsConfiguration"`: The Microsoft Windows configuration for the file system being
   created.
 """
 create_file_system(FileSystemType, StorageCapacity, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_file_system(FileSystemType, StorageCapacity, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_file_system(FileSystemType, StorageCapacity, SubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreateFileSystemFromBackup()
+    create_file_system_from_backup(backup_id, subnet_ids)
+    create_file_system_from_backup(backup_id, subnet_ids, params::Dict{String,<:Any})
 
 Creates a new Amazon FSx file system from an existing Amazon FSx backup. If a file system
 with the specified client request token exists and the parameters match, this operation
@@ -210,9 +221,9 @@ CreateFileSystemFromBackup call returns while the file system's lifecycle state 
 CREATING. You can check the file-system creation status by calling the DescribeFileSystems
 operation, which returns the file system state along with other information.
 
-# Required Parameters
-- `BackupId`:
-- `SubnetIds`: Specifies the IDs of the subnets that the file system will be accessible
+# Arguments
+- `backup_id`:
+- `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
   from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs,
   one for the preferred file server and one for the standby file server. You specify one of
   these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID
@@ -221,14 +232,15 @@ operation, which returns the file system state along with other information.
   Zone.
 
 # Optional Parameters
-- `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-- `LustreConfiguration`:
-- `SecurityGroupIds`: A list of IDs for the security groups that apply to the specified
+- `"LustreConfiguration"`:
+- `"SecurityGroupIds"`: A list of IDs for the security groups that apply to the specified
   network interfaces created for file system access. These security groups apply to all
   network interfaces. This value isn't returned in later DescribeFileSystem requests.
-- `StorageType`: Sets the storage type for the Windows file system you're creating from a
+- `"StorageType"`: Sets the storage type for the Windows file system you're creating from a
   backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage.
   Supported on all Windows deployment types.   Set to HDD to use hard disk drive storage.
   Supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types.     Default
@@ -237,34 +249,37 @@ operation, which returns the file system state along with other information.
   backed up. You can create a file system that uses HDD storage from a backup of a file
   system that used SSD storage only if the original SSD file system had a storage capacity of
   at least 2000 GiB.
-- `Tags`: The tags to be applied to the file system at file system creation. The key value
-  of the Name tag appears in the console as the file system name.
-- `WindowsConfiguration`: The configuration for this Microsoft Windows file system.
+- `"Tags"`: The tags to be applied to the file system at file system creation. The key
+  value of the Name tag appears in the console as the file system name.
+- `"WindowsConfiguration"`: The configuration for this Microsoft Windows file system.
 """
 create_file_system_from_backup(BackupId, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_file_system_from_backup(BackupId, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+create_file_system_from_backup(BackupId, SubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DeleteBackup()
+    delete_backup(backup_id)
+    delete_backup(backup_id, params::Dict{String,<:Any})
 
 Deletes an Amazon FSx backup, deleting its contents. After deletion, the backup no longer
 exists, and its data is gone. The DeleteBackup call returns instantly. The backup will not
 show up in later DescribeBackups calls.  The data in a deleted backup is also deleted and
 can't be recovered by any means.
 
-# Required Parameters
-- `BackupId`: The ID of the backup you want to delete.
+# Arguments
+- `backup_id`: The ID of the backup you want to delete.
 
 # Optional Parameters
-- `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This is automatically filled on your behalf when using the AWS
   CLI or SDK.
 """
 delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+delete_backup(BackupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DeleteFileSystem()
+    delete_file_system(file_system_id)
+    delete_file_system(file_system_id, params::Dict{String,<:Any})
 
 Deletes a file system, deleting its contents. After deletion, the file system no longer
 exists, and its data is gone. Any existing automatic backups will also be deleted. By
@@ -278,21 +293,23 @@ FileSystemNotFound error.  Deleting an Amazon FSx for Lustre file system will fa
 400 BadRequest if a data repository task is in a PENDING or EXECUTING state.   The data in
 a deleted file system is also deleted and can't be recovered by any means.
 
-# Required Parameters
-- `FileSystemId`: The ID of the file system you want to delete.
+# Arguments
+- `file_system_id`: The ID of the file system you want to delete.
 
 # Optional Parameters
-- `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This is automatically filled on your behalf when using the AWS
   CLI or SDK.
-- `LustreConfiguration`:
-- `WindowsConfiguration`:
+- `"LustreConfiguration"`:
+- `"WindowsConfiguration"`:
 """
 delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-delete_file_system(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+delete_file_system(FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DescribeBackups()
+    describe_backups()
+    describe_backups(params::Dict{String,<:Any})
 
 Returns the description of specific Amazon FSx backups, if a BackupIds value is provided
 for that backup. Otherwise, it returns all backups owned by your AWS account in the AWS
@@ -310,22 +327,24 @@ one DescribeBackups call and the order of backups returned across the responses 
 multi-call iteration is unspecified.
 
 # Optional Parameters
-- `BackupIds`: IDs of the backups you want to retrieve (String). This overrides any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupIds"`: IDs of the backups you want to retrieve (String). This overrides any
   filters. If any IDs are not found, BackupNotFound will be thrown.
-- `Filters`: Filters structure. Supported names are file-system-id and backup-type.
-- `MaxResults`: Maximum number of backups to return in the response (integer). This
+- `"Filters"`: Filters structure. Supported names are file-system-id and backup-type.
+- `"MaxResults"`: Maximum number of backups to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `NextToken`: Opaque pagination token returned from a previous DescribeBackups operation
+- `"NextToken"`: Opaque pagination token returned from a previous DescribeBackups operation
   (String). If a token present, the action continues the list from where the returning call
   left off.
 """
 describe_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeBackups"; aws_config=aws_config)
-describe_backups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeBackups", args; aws_config=aws_config)
+describe_backups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeBackups", params; aws_config=aws_config)
 
 """
-    DescribeDataRepositoryTasks()
+    describe_data_repository_tasks()
+    describe_data_repository_tasks(params::Dict{String,<:Any})
 
 Returns the description of specific Amazon FSx for Lustre data repository tasks, if one or
 more TaskIds values are provided in the request, or if filters are used in the request. You
@@ -338,43 +357,47 @@ a NextToken value in the response. In this case, send a later request with the N
 request parameter set to the value of NextToken from the last response.
 
 # Optional Parameters
-- `Filters`: (Optional) You can use filters to narrow the DescribeDataRepositoryTasks
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: (Optional) You can use filters to narrow the DescribeDataRepositoryTasks
   response to include just tasks for specific file systems, or tasks in a specific lifecycle
   state.
-- `MaxResults`:
-- `NextToken`:
-- `TaskIds`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"TaskIds"`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
 describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks"; aws_config=aws_config)
-describe_data_repository_tasks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks", args; aws_config=aws_config)
+describe_data_repository_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks", params; aws_config=aws_config)
 
 """
-    DescribeFileSystemAliases()
+    describe_file_system_aliases(file_system_id)
+    describe_file_system_aliases(file_system_id, params::Dict{String,<:Any})
 
 Returns the DNS aliases that are associated with the specified Amazon FSx for Windows File
 Server file system. A history of all DNS aliases that have been associated with and
 disassociated from the file system is available in the list of AdministrativeAction
 provided in the DescribeFileSystems operation response.
 
-# Required Parameters
-- `FileSystemId`: The ID of the file system to return the associated DNS aliases for
+# Arguments
+- `file_system_id`: The ID of the file system to return the associated DNS aliases for
   (String).
 
 # Optional Parameters
-- `ClientRequestToken`:
-- `MaxResults`: Maximum number of DNS aliases to return in the response (integer). This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"MaxResults"`: Maximum number of DNS aliases to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `NextToken`: Opaque pagination token returned from a previous DescribeFileSystemAliases
+- `"NextToken"`: Opaque pagination token returned from a previous DescribeFileSystemAliases
   operation (String). If a token is included in the request, the action continues the list
   from where the previous returning call left off.
 """
 describe_file_system_aliases(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-describe_file_system_aliases(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+describe_file_system_aliases(FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DescribeFileSystems()
+    describe_file_systems()
+    describe_file_systems(params::Dict{String,<:Any})
 
 Returns the description of specific Amazon FSx file systems, if a FileSystemIds value is
 provided for that file system. Otherwise, it returns descriptions of all file systems owned
@@ -393,20 +416,23 @@ DescribeFileSystems call and the order of file systems returned across the respo
 multicall iteration is unspecified.
 
 # Optional Parameters
-- `FileSystemIds`: IDs of the file systems whose descriptions you want to retrieve (String).
-- `MaxResults`: Maximum number of file systems to return in the response (integer). This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FileSystemIds"`: IDs of the file systems whose descriptions you want to retrieve
+  (String).
+- `"MaxResults"`: Maximum number of file systems to return in the response (integer). This
   parameter value must be greater than 0. The number of items that Amazon FSx returns is the
   minimum of the MaxResults parameter specified in the request and the service's internal
   maximum number of items per page.
-- `NextToken`: Opaque pagination token returned from a previous DescribeFileSystems
+- `"NextToken"`: Opaque pagination token returned from a previous DescribeFileSystems
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
 describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystems"; aws_config=aws_config)
-describe_file_systems(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystems", args; aws_config=aws_config)
+describe_file_systems(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DescribeFileSystems", params; aws_config=aws_config)
 
 """
-    DisassociateFileSystemAliases()
+    disassociate_file_system_aliases(aliases, file_system_id)
+    disassociate_file_system_aliases(aliases, file_system_id, params::Dict{String,<:Any})
 
 Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
 from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a
@@ -416,19 +442,21 @@ showing the DNS aliases that Amazon FSx is attempting to disassociate from the f
 Use the API operation to monitor the status of the aliases Amazon FSx is disassociating
 with the file system.
 
-# Required Parameters
-- `Aliases`: An array of one or more DNS alias names to disassociate, or remove, from the
+# Arguments
+- `aliases`: An array of one or more DNS alias names to disassociate, or remove, from the
   file system.
-- `FileSystemId`: Specifies the file system from which to disassociate the DNS aliases.
+- `file_system_id`: Specifies the file system from which to disassociate the DNS aliases.
 
 # Optional Parameters
-- `ClientRequestToken`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
 """
 disassociate_file_system_aliases(Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-disassociate_file_system_aliases(Aliases, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+disassociate_file_system_aliases(Aliases, FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("DisassociateFileSystemAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aliases"=>Aliases, "FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists tags for an Amazon FSx file systems and backups in the case of Amazon FSx for Windows
 File Server. When retrieving all tags, you can optionally specify the MaxResults parameter
@@ -443,52 +471,56 @@ than MaxResults file system descriptions while still including a NextToken value
 order of tags returned in the response of one ListTagsForResource call and the order of
 tags returned across the responses of a multi-call iteration is unspecified.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the Amazon FSx resource that will have its tags listed.
+# Arguments
+- `resource_arn`: The ARN of the Amazon FSx resource that will have its tags listed.
 
 # Optional Parameters
-- `MaxResults`: Maximum number of tags to return in the response (integer). This parameter
-  value must be greater than 0. The number of items that Amazon FSx returns is the minimum of
-  the MaxResults parameter specified in the request and the service's internal maximum number
-  of items per page.
-- `NextToken`: Opaque pagination token returned from a previous ListTagsForResource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Maximum number of tags to return in the response (integer). This
+  parameter value must be greater than 0. The number of items that Amazon FSx returns is the
+  minimum of the MaxResults parameter specified in the request and the service's internal
+  maximum number of items per page.
+- `"NextToken"`: Opaque pagination token returned from a previous ListTagsForResource
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Tags an Amazon FSx resource.
 
-# Required Parameters
-- `ResourceARN`: The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to
-  tag.
-- `Tags`: A list of tags for the resource. If a tag with a given key already exists, the
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon FSx resource that you want
+  to tag.
+- `tags`: A list of tags for the resource. If a tag with a given key already exists, the
   value is replaced by the one specified in this parameter.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 This action removes a tag from an Amazon FSx resource.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the Amazon FSx resource to untag.
-- `TagKeys`: A list of keys of tags on the resource to untag. In case the tag key doesn't
+# Arguments
+- `resource_arn`: The ARN of the Amazon FSx resource to untag.
+- `tag_keys`: A list of keys of tags on the resource to untag. In case the tag key doesn't
   exist, the call will still succeed to be idempotent.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateFileSystem()
+    update_file_system(file_system_id)
+    update_file_system(file_system_id, params::Dict{String,<:Any})
 
 Use this operation to update the configuration of an existing Amazon FSx file system. You
 can update multiple properties in a single request. For Amazon FSx for Windows File Server
@@ -498,15 +530,16 @@ ThroughputCapacity   WeeklyMaintenanceStartTime   For Amazon FSx for Lustre file
 you can update the following properties:   AutoImportPolicy   AutomaticBackupRetentionDays
  DailyAutomaticBackupStartTime   StorageCapacity   WeeklyMaintenanceStartTime
 
-# Required Parameters
-- `FileSystemId`: Identifies the file system that you are updating.
+# Arguments
+- `file_system_id`: Identifies the file system that you are updating.
 
 # Optional Parameters
-- `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent updates. This string is automatically filled on your behalf when you use
   the AWS Command Line Interface (AWS CLI) or an AWS SDK.
-- `LustreConfiguration`:
-- `StorageCapacity`: Use this parameter to increase the storage capacity of an Amazon FSx
+- `"LustreConfiguration"`:
+- `"StorageCapacity"`: Use this parameter to increase the storage capacity of an Amazon FSx
   file system. Specifies the storage capacity target value, GiB, to increase the storage
   capacity for the file system that you're updating. You cannot make a storage capacity
   increase request if there is an existing storage capacity increase request in progress. For
@@ -521,8 +554,8 @@ you can update the following properties:   AutoImportPolicy   AutomaticBackupRet
   systems, you cannot increase the storage capacity.   For more information, see Managing
   storage capacity in the Amazon FSx for Windows File Server User Guide and Managing storage
   and throughput capacity in the Amazon FSx for Lustre User Guide.
-- `WindowsConfiguration`: The configuration updates for an Amazon FSx for Windows File
+- `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
 update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_file_system(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+update_file_system(FileSystemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)

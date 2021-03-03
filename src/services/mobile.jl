@@ -5,132 +5,147 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateProject()
+    create_project()
+    create_project(params::Dict{String,<:Any})
 
  Creates an AWS Mobile Hub project.
 
 # Optional Parameters
-- `contents`:  ZIP or YAML file which contains configuration settings to be used when
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contents"`:  ZIP or YAML file which contains configuration settings to be used when
   creating the project. This may be the contents of the file downloaded from the URL provided
   in an export project operation.
-- `name`:  Name of the project.
-- `region`:  Default region where project resources should be created.
-- `snapshotId`:  Unique identifier for an exported snapshot of project configuration. This
-  snapshot identifier is included in the share URL when a project is exported.
+- `"name"`:  Name of the project.
+- `"region"`:  Default region where project resources should be created.
+- `"snapshotId"`:  Unique identifier for an exported snapshot of project configuration.
+  This snapshot identifier is included in the share URL when a project is exported.
 """
 create_project(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects"; aws_config=aws_config)
-create_project(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects", args; aws_config=aws_config)
+create_project(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects", params; aws_config=aws_config)
 
 """
-    DeleteProject()
+    delete_project(project_id)
+    delete_project(project_id, params::Dict{String,<:Any})
 
  Delets a project in AWS Mobile Hub.
 
-# Required Parameters
-- `projectId`:  Unique project identifier.
+# Arguments
+- `project_id`:  Unique project identifier.
 
 """
 delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("DELETE", "/projects/$(projectId)"; aws_config=aws_config)
-delete_project(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("DELETE", "/projects/$(projectId)", args; aws_config=aws_config)
+delete_project(projectId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("DELETE", "/projects/$(projectId)", params; aws_config=aws_config)
 
 """
-    DescribeBundle()
+    describe_bundle(bundle_id)
+    describe_bundle(bundle_id, params::Dict{String,<:Any})
 
  Get the bundle details for the requested bundle id.
 
-# Required Parameters
-- `bundleId`:  Unique bundle identifier.
+# Arguments
+- `bundle_id`:  Unique bundle identifier.
 
 """
 describe_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles/$(bundleId)"; aws_config=aws_config)
-describe_bundle(bundleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles/$(bundleId)", args; aws_config=aws_config)
+describe_bundle(bundleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles/$(bundleId)", params; aws_config=aws_config)
 
 """
-    DescribeProject()
+    describe_project(project_id)
+    describe_project(project_id, params::Dict{String,<:Any})
 
  Gets details about a project in AWS Mobile Hub.
 
-# Required Parameters
-- `projectId`:  Unique project identifier.
+# Arguments
+- `project_id`:  Unique project identifier.
 
 # Optional Parameters
-- `syncFromResources`:  If set to true, causes AWS Mobile Hub to synchronize information
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"syncFromResources"`:  If set to true, causes AWS Mobile Hub to synchronize information
   from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub
   project.
 """
 describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/project", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
-describe_project(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/project", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+describe_project(projectId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/project", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config)
 
 """
-    ExportBundle()
+    export_bundle(bundle_id)
+    export_bundle(bundle_id, params::Dict{String,<:Any})
 
  Generates customized software development kit (SDK) and or tool packages used to integrate
 mobile web or mobile app clients with backend AWS resources.
 
-# Required Parameters
-- `bundleId`:  Unique bundle identifier.
+# Arguments
+- `bundle_id`:  Unique bundle identifier.
 
 # Optional Parameters
-- `platform`:  Developer desktop or target application platform.
-- `projectId`:  Unique project identifier.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"platform"`:  Developer desktop or target application platform.
+- `"projectId"`:  Unique project identifier.
 """
 export_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/bundles/$(bundleId)"; aws_config=aws_config)
-export_bundle(bundleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/bundles/$(bundleId)", args; aws_config=aws_config)
+export_bundle(bundleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/bundles/$(bundleId)", params; aws_config=aws_config)
 
 """
-    ExportProject()
+    export_project(project_id)
+    export_project(project_id, params::Dict{String,<:Any})
 
  Exports project configuration to a snapshot which can be downloaded and shared. Note that
 mobile app push credentials are encrypted in exported projects, so they can only be shared
 successfully within the same AWS account.
 
-# Required Parameters
-- `projectId`:  Unique project identifier.
+# Arguments
+- `project_id`:  Unique project identifier.
 
 """
 export_project(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/exports/$(projectId)"; aws_config=aws_config)
-export_project(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/exports/$(projectId)", args; aws_config=aws_config)
+export_project(projectId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/exports/$(projectId)", params; aws_config=aws_config)
 
 """
-    ListBundles()
+    list_bundles()
+    list_bundles(params::Dict{String,<:Any})
 
  List all available bundles.
 
 # Optional Parameters
-- `maxResults`:  Maximum number of records to list in a single response.
-- `nextToken`:  Pagination token. Set to null to start listing bundles from start. If
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  Maximum number of records to list in a single response.
+- `"nextToken"`:  Pagination token. Set to null to start listing bundles from start. If
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more bundles.
 """
 list_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles"; aws_config=aws_config)
-list_bundles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles", args; aws_config=aws_config)
+list_bundles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles", params; aws_config=aws_config)
 
 """
-    ListProjects()
+    list_projects()
+    list_projects(params::Dict{String,<:Any})
 
  Lists projects in AWS Mobile Hub.
 
 # Optional Parameters
-- `maxResults`:  Maximum number of records to list in a single response.
-- `nextToken`:  Pagination token. Set to null to start listing projects from start. If
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  Maximum number of records to list in a single response.
+- `"nextToken"`:  Pagination token. Set to null to start listing projects from start. If
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more projects.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects"; aws_config=aws_config)
-list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects", args; aws_config=aws_config)
+list_projects(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects", params; aws_config=aws_config)
 
 """
-    UpdateProject()
+    update_project(project_id)
+    update_project(project_id, params::Dict{String,<:Any})
 
  Update an existing project.
 
-# Required Parameters
-- `projectId`:  Unique project identifier.
+# Arguments
+- `project_id`:  Unique project identifier.
 
 # Optional Parameters
-- `contents`:  ZIP or YAML file which contains project configuration to be updated. This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contents"`:  ZIP or YAML file which contains project configuration to be updated. This
   should be the contents of the file downloaded from the URL provided in an export project
   operation.
 """
 update_project(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/update", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
-update_project(projectId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+update_project(projectId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config)

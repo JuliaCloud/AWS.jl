@@ -5,470 +5,519 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AbortDocumentVersionUpload()
+    abort_document_version_upload(document_id, version_id)
+    abort_document_version_upload(document_id, version_id, params::Dict{String,<:Any})
 
 Aborts the upload of the specified document version that was previously initiated by
 InitiateDocumentVersionUpload. The client should make this call only when it no longer
 intends to upload the document version, or fails to do so.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
-- `VersionId`: The ID of the version.
+# Arguments
+- `document_id`: The ID of the document.
+- `version_id`: The ID of the version.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 abort_document_version_upload(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-abort_document_version_upload(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+abort_document_version_upload(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
-    ActivateUser()
+    activate_user(user_id)
+    activate_user(user_id, params::Dict{String,<:Any})
 
 Activates the specified user. Only active users can access Amazon WorkDocs.
 
-# Required Parameters
-- `UserId`: The ID of the user.
+# Arguments
+- `user_id`: The ID of the user.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
-activate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+activate_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
 
 """
-    AddResourcePermissions()
+    add_resource_permissions(principals, resource_id)
+    add_resource_permissions(principals, resource_id, params::Dict{String,<:Any})
 
 Creates a set of permissions for the specified folder or document. The resource permissions
 are overwritten if the principals already have different permissions.
 
-# Required Parameters
-- `Principals`: The users, groups, or organization being granted permission.
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `principals`: The users, groups, or organization being granted permission.
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `NotificationOptions`: The notification options.
+- `"NotificationOptions"`: The notification options.
 """
 add_resource_permissions(Principals, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}("Principals"=>Principals); aws_config=aws_config)
-add_resource_permissions(Principals, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), args)); aws_config=aws_config)
+add_resource_permissions(Principals, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), params)); aws_config=aws_config)
 
 """
-    CreateComment()
+    create_comment(document_id, text, version_id)
+    create_comment(document_id, text, version_id, params::Dict{String,<:Any})
 
 Adds a new comment to the specified document version.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
-- `Text`: The text of the comment.
-- `VersionId`: The ID of the document version.
+# Arguments
+- `document_id`: The ID of the document.
+- `text`: The text of the comment.
+- `version_id`: The ID of the document version.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `NotifyCollaborators`: Set this parameter to TRUE to send an email out to the document
+- `"NotifyCollaborators"`: Set this parameter to TRUE to send an email out to the document
   collaborators after the comment is created.
-- `ParentId`: The ID of the parent comment.
-- `ThreadId`: The ID of the root comment in the thread.
-- `Visibility`: The visibility of the comment. Options are either PRIVATE, where the
+- `"ParentId"`: The ID of the parent comment.
+- `"ThreadId"`: The ID of the root comment in the thread.
+- `"Visibility"`: The visibility of the comment. Options are either PRIVATE, where the
   comment is visible only to the comment author and document owner and co-owners, or PUBLIC,
   where the comment is visible to document owners, co-owners, and contributors.
 """
 create_comment(DocumentId, Text, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
-create_comment(DocumentId, Text, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), args)); aws_config=aws_config)
+create_comment(DocumentId, Text, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
 
 """
-    CreateCustomMetadata()
+    create_custom_metadata(custom_metadata, resource_id)
+    create_custom_metadata(custom_metadata, resource_id, params::Dict{String,<:Any})
 
 Adds one or more custom properties to the specified resource (a folder, document, or
 version).
 
-# Required Parameters
-- `CustomMetadata`: Custom metadata in the form of name-value pairs.
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `custom_metadata`: Custom metadata in the form of name-value pairs.
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `versionid`: The ID of the version, if the custom metadata is being added to a document
+- `"versionid"`: The ID of the version, if the custom metadata is being added to a document
   version.
 """
 create_custom_metadata(CustomMetadata, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}("CustomMetadata"=>CustomMetadata); aws_config=aws_config)
-create_custom_metadata(CustomMetadata, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), args)); aws_config=aws_config)
+create_custom_metadata(CustomMetadata, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), params)); aws_config=aws_config)
 
 """
-    CreateFolder()
+    create_folder(parent_folder_id)
+    create_folder(parent_folder_id, params::Dict{String,<:Any})
 
 Creates a folder with the specified name and parent folder.
 
-# Required Parameters
-- `ParentFolderId`: The ID of the parent folder.
+# Arguments
+- `parent_folder_id`: The ID of the parent folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `Name`: The name of the new folder.
+- `"Name"`: The name of the new folder.
 """
 create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
-create_folder(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+create_folder(ParentFolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
 
 """
-    CreateLabels()
+    create_labels(labels, resource_id)
+    create_labels(labels, resource_id, params::Dict{String,<:Any})
 
 Adds the specified list of labels to the given resource (a document or folder)
 
-# Required Parameters
-- `Labels`: List of labels to add to the resource.
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `labels`: List of labels to add to the resource.
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 create_labels(Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}("Labels"=>Labels); aws_config=aws_config)
-create_labels(Labels, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), args)); aws_config=aws_config)
+create_labels(Labels, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), params)); aws_config=aws_config)
 
 """
-    CreateNotificationSubscription()
+    create_notification_subscription(endpoint, organization_id, protocol, subscription_type)
+    create_notification_subscription(endpoint, organization_id, protocol, subscription_type, params::Dict{String,<:Any})
 
 Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a
 confirmation message, and must confirm the subscription. For more information, see
 Subscribe to Notifications in the Amazon WorkDocs Developer Guide.
 
-# Required Parameters
-- `Endpoint`: The endpoint to receive the notifications. If the protocol is HTTPS, the
+# Arguments
+- `endpoint`: The endpoint to receive the notifications. If the protocol is HTTPS, the
   endpoint is a URL that begins with https.
-- `OrganizationId`: The ID of the organization.
-- `Protocol`: The protocol to use. The supported value is https, which delivers
+- `organization_id`: The ID of the organization.
+- `protocol`: The protocol to use. The supported value is https, which delivers
   JSON-encoded messages using HTTPS POST.
-- `SubscriptionType`: The notification type.
+- `subscription_type`: The notification type.
 
 """
 create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
-create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), args)); aws_config=aws_config)
+create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), params)); aws_config=aws_config)
 
 """
-    CreateUser()
+    create_user(given_name, password, surname, username)
+    create_user(given_name, password, surname, username, params::Dict{String,<:Any})
 
 Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user
 is \"ACTIVE\". New users can access Amazon WorkDocs.
 
-# Required Parameters
-- `GivenName`: The given name of the user.
-- `Password`: The password of the user.
-- `Surname`: The surname of the user.
-- `Username`: The login name of the user.
+# Arguments
+- `given_name`: The given name of the user.
+- `password`: The password of the user.
+- `surname`: The surname of the user.
+- `username`: The login name of the user.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `EmailAddress`: The email address of the user.
-- `OrganizationId`: The ID of the organization.
-- `StorageRule`: The amount of storage for the user.
-- `TimeZoneId`: The time zone ID of the user.
+- `"EmailAddress"`: The email address of the user.
+- `"OrganizationId"`: The ID of the organization.
+- `"StorageRule"`: The amount of storage for the user.
+- `"TimeZoneId"`: The time zone ID of the user.
 """
 create_user(GivenName, Password, Surname, Username; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username); aws_config=aws_config)
-create_user(GivenName, Password, Surname, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), args)); aws_config=aws_config)
+create_user(GivenName, Password, Surname, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    DeactivateUser()
+    deactivate_user(user_id)
+    deactivate_user(user_id, params::Dict{String,<:Any})
 
 Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
 
-# Required Parameters
-- `UserId`: The ID of the user.
+# Arguments
+- `user_id`: The ID of the user.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
-deactivate_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", args; aws_config=aws_config)
+deactivate_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
 
 """
-    DeleteComment()
+    delete_comment(comment_id, document_id, version_id)
+    delete_comment(comment_id, document_id, version_id, params::Dict{String,<:Any})
 
 Deletes the specified comment from the document version.
 
-# Required Parameters
-- `CommentId`: The ID of the comment.
-- `DocumentId`: The ID of the document.
-- `VersionId`: The ID of the document version.
+# Arguments
+- `comment_id`: The ID of the comment.
+- `document_id`: The ID of the document.
+- `version_id`: The ID of the document version.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 delete_comment(CommentId, DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)"; aws_config=aws_config)
-delete_comment(CommentId, DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", args; aws_config=aws_config)
+delete_comment(CommentId, DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", params; aws_config=aws_config)
 
 """
-    DeleteCustomMetadata()
+    delete_custom_metadata(resource_id)
+    delete_custom_metadata(resource_id, params::Dict{String,<:Any})
 
 Deletes custom metadata from the specified resource.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource, either a document or folder.
+# Arguments
+- `resource_id`: The ID of the resource, either a document or folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `deleteAll`: Flag to indicate removal of all custom metadata properties from the
+- `"deleteAll"`: Flag to indicate removal of all custom metadata properties from the
   specified resource.
-- `keys`: List of properties to remove.
-- `versionId`: The ID of the version, if the custom metadata is being deleted from a
+- `"keys"`: List of properties to remove.
+- `"versionId"`: The ID of the version, if the custom metadata is being deleted from a
   document version.
 """
 delete_custom_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata"; aws_config=aws_config)
-delete_custom_metadata(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", args; aws_config=aws_config)
+delete_custom_metadata(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", params; aws_config=aws_config)
 
 """
-    DeleteDocument()
+    delete_document(document_id)
+    delete_document(document_id, params::Dict{String,<:Any})
 
 Permanently deletes the specified document and its associated metadata.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-delete_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+delete_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
-    DeleteFolder()
+    delete_folder(folder_id)
+    delete_folder(folder_id, params::Dict{String,<:Any})
 
 Permanently deletes the specified folder and its contents.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-delete_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+delete_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
-    DeleteFolderContents()
+    delete_folder_contents(folder_id)
+    delete_folder_contents(folder_id, params::Dict{String,<:Any})
 
 Deletes the contents of the specified folder.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
-delete_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+delete_folder_contents(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
 
 """
-    DeleteLabels()
+    delete_labels(resource_id)
+    delete_labels(resource_id, params::Dict{String,<:Any})
 
 Deletes the specified list of labels from a resource.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `deleteAll`: Flag to request removal of all labels from the specified resource.
-- `labels`: List of labels to delete from the resource.
+- `"deleteAll"`: Flag to request removal of all labels from the specified resource.
+- `"labels"`: List of labels to delete from the resource.
 """
 delete_labels(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels"; aws_config=aws_config)
-delete_labels(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", args; aws_config=aws_config)
+delete_labels(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", params; aws_config=aws_config)
 
 """
-    DeleteNotificationSubscription()
+    delete_notification_subscription(organization_id, subscription_id)
+    delete_notification_subscription(organization_id, subscription_id, params::Dict{String,<:Any})
 
 Deletes the specified subscription from the specified organization.
 
-# Required Parameters
-- `OrganizationId`: The ID of the organization.
-- `SubscriptionId`: The ID of the subscription.
+# Arguments
+- `organization_id`: The ID of the organization.
+- `subscription_id`: The ID of the subscription.
 
 """
 delete_notification_subscription(OrganizationId, SubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)"; aws_config=aws_config)
-delete_notification_subscription(OrganizationId, SubscriptionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", args; aws_config=aws_config)
+delete_notification_subscription(OrganizationId, SubscriptionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", params; aws_config=aws_config)
 
 """
-    DeleteUser()
+    delete_user(user_id)
+    delete_user(user_id, params::Dict{String,<:Any})
 
 Deletes the specified user from a Simple AD or Microsoft AD directory.
 
-# Required Parameters
-- `UserId`: The ID of the user.
+# Arguments
+- `user_id`: The ID of the user.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Do not set this field when using
-  administrative API actions, as in accessing the API using AWS credentials.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Do not set this field when
+  using administrative API actions, as in accessing the API using AWS credentials.
 """
 delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)"; aws_config=aws_config)
-delete_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+delete_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", params; aws_config=aws_config)
 
 """
-    DescribeActivities()
+    describe_activities()
+    describe_activities(params::Dict{String,<:Any})
 
 Describes the user activities in a specified time period.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `activityTypes`: Specifies which activity types to include in the response. If this field
-  is left empty, all activity types are returned.
-- `endTime`: The timestamp that determines the end time of the activities. The response
+- `"activityTypes"`: Specifies which activity types to include in the response. If this
+  field is left empty, all activity types are returned.
+- `"endTime"`: The timestamp that determines the end time of the activities. The response
   includes the activities performed before the specified timestamp.
-- `includeIndirectActivities`: Includes indirect activities. An indirect activity results
+- `"includeIndirectActivities"`: Includes indirect activities. An indirect activity results
   from a direct activity performed on a parent resource. For example, sharing a parent folder
   (the direct activity) shares all of the subfolders and documents within the parent folder
   (the indirect activity).
-- `limit`: The maximum number of items to return.
-- `marker`: The marker for the next set of results.
-- `organizationId`: The ID of the organization. This is a mandatory parameter when using
+- `"limit"`: The maximum number of items to return.
+- `"marker"`: The marker for the next set of results.
+- `"organizationId"`: The ID of the organization. This is a mandatory parameter when using
   administrative API (SigV4) requests.
-- `resourceId`: The document or folder ID for which to describe activity types.
-- `startTime`: The timestamp that determines the starting time of the activities. The
+- `"resourceId"`: The document or folder ID for which to describe activity types.
+- `"startTime"`: The timestamp that determines the starting time of the activities. The
   response includes the activities performed after the specified timestamp.
-- `userId`: The ID of the user who performed the action. The response includes activities
+- `"userId"`: The ID of the user who performed the action. The response includes activities
   pertaining to this user. This is an optional parameter and is only applicable for
   administrative API (SigV4) requests.
 """
 describe_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities"; aws_config=aws_config)
-describe_activities(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", args; aws_config=aws_config)
+describe_activities(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", params; aws_config=aws_config)
 
 """
-    DescribeComments()
+    describe_comments(document_id, version_id)
+    describe_comments(document_id, version_id, params::Dict{String,<:Any})
 
 List all the comments for the specified document version.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
-- `VersionId`: The ID of the document version.
+# Arguments
+- `document_id`: The ID of the document.
+- `version_id`: The ID of the document version.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `limit`: The maximum number of items to return.
-- `marker`: The marker for the next set of results. This marker was received from a
+- `"limit"`: The maximum number of items to return.
+- `"marker"`: The marker for the next set of results. This marker was received from a
   previous call.
 """
 describe_comments(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments"; aws_config=aws_config)
-describe_comments(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", args; aws_config=aws_config)
+describe_comments(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", params; aws_config=aws_config)
 
 """
-    DescribeDocumentVersions()
+    describe_document_versions(document_id)
+    describe_document_versions(document_id, params::Dict{String,<:Any})
 
 Retrieves the document versions for the specified document. By default, only active
 versions are returned.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `fields`: Specify \"SOURCE\" to include initialized versions and a URL for the source
+- `"fields"`: Specify \"SOURCE\" to include initialized versions and a URL for the source
   document.
-- `include`: A comma-separated list of values. Specify \"INITIALIZED\" to include
+- `"include"`: A comma-separated list of values. Specify \"INITIALIZED\" to include
   incomplete versions.
-- `limit`: The maximum number of versions to return with this call.
-- `marker`: The marker for the next set of results. (You received this marker from a
+- `"limit"`: The maximum number of versions to return with this call.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
 describe_document_versions(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions"; aws_config=aws_config)
-describe_document_versions(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", args; aws_config=aws_config)
+describe_document_versions(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", params; aws_config=aws_config)
 
 """
-    DescribeFolderContents()
+    describe_folder_contents(folder_id)
+    describe_folder_contents(folder_id, params::Dict{String,<:Any})
 
 Describes the contents of the specified folder, including its documents and subfolders. By
 default, Amazon WorkDocs returns the first 100 active document and folder metadata items.
 If there are more results, the response includes a marker that you can use to request the
 next set of results. You can also request initialized documents.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `include`: The contents to include. Specify \"INITIALIZED\" to include initialized
+- `"include"`: The contents to include. Specify \"INITIALIZED\" to include initialized
   documents.
-- `limit`: The maximum number of items to return with this call.
-- `marker`: The marker for the next set of results. This marker was received from a
+- `"limit"`: The maximum number of items to return with this call.
+- `"marker"`: The marker for the next set of results. This marker was received from a
   previous call.
-- `order`: The order for the contents of the folder.
-- `sort`: The sorting criteria.
-- `type`: The type of items.
+- `"order"`: The order for the contents of the folder.
+- `"sort"`: The sorting criteria.
+- `"type"`: The type of items.
 """
 describe_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
-describe_folder_contents(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", args; aws_config=aws_config)
+describe_folder_contents(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
 
 """
-    DescribeGroups()
+    describe_groups(search_query)
+    describe_groups(search_query, params::Dict{String,<:Any})
 
 Describes the groups specified by the query. Groups are defined by the underlying Active
 Directory.
 
-# Required Parameters
-- `searchQuery`: A query to describe groups by group name.
+# Arguments
+- `search_query`: A query to describe groups by group name.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `limit`: The maximum number of items to return with this call.
-- `marker`: The marker for the next set of results. (You received this marker from a
+- `"limit"`: The maximum number of items to return with this call.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `organizationId`: The ID of the organization.
+- `"organizationId"`: The ID of the organization.
 """
 describe_groups(searchQuery; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}("searchQuery"=>searchQuery); aws_config=aws_config)
-describe_groups(searchQuery, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), args)); aws_config=aws_config)
+describe_groups(searchQuery, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), params)); aws_config=aws_config)
 
 """
-    DescribeNotificationSubscriptions()
+    describe_notification_subscriptions(organization_id)
+    describe_notification_subscriptions(organization_id, params::Dict{String,<:Any})
 
 Lists the specified notification subscriptions.
 
-# Required Parameters
-- `OrganizationId`: The ID of the organization.
+# Arguments
+- `organization_id`: The ID of the organization.
 
 # Optional Parameters
-- `limit`: The maximum number of items to return with this call.
-- `marker`: The marker for the next set of results. (You received this marker from a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of items to return with this call.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
 describe_notification_subscriptions(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions"; aws_config=aws_config)
-describe_notification_subscriptions(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", args; aws_config=aws_config)
+describe_notification_subscriptions(OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", params; aws_config=aws_config)
 
 """
-    DescribeResourcePermissions()
+    describe_resource_permissions(resource_id)
+    describe_resource_permissions(resource_id, params::Dict{String,<:Any})
 
 Describes the permissions of a specified resource.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `limit`: The maximum number of items to return with this call.
-- `marker`: The marker for the next set of results. (You received this marker from a
+- `"limit"`: The maximum number of items to return with this call.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call)
-- `principalId`: The ID of the principal to filter permissions by.
+- `"principalId"`: The ID of the principal to filter permissions by.
 """
 describe_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
-describe_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+describe_resource_permissions(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
 
 """
-    DescribeRootFolders()
+    describe_root_folders(authentication)
+    describe_root_folders(authentication, params::Dict{String,<:Any})
 
 Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder
 is the root of user's files and folders and RecycleBin is the root of recycled items. This
@@ -477,19 +526,21 @@ authentication token. To get an authentication token, register an application wi
 WorkDocs. For more information, see Authentication and Access Control for User Applications
 in the Amazon WorkDocs Developer Guide.
 
-# Required Parameters
-- `Authentication`: Amazon WorkDocs authentication token.
+# Arguments
+- `authentication`: Amazon WorkDocs authentication token.
 
 # Optional Parameters
-- `limit`: The maximum number of items to return.
-- `marker`: The marker for the next set of results. (You received this marker from a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of items to return.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
 """
 describe_root_folders(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
-describe_root_folders(Authentication, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+describe_root_folders(Authentication, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
 
 """
-    DescribeUsers()
+    describe_users()
+    describe_users(params::Dict{String,<:Any})
 
 Describes the specified users. You can describe all users or filter the results (for
 example, by status or organization). By default, Amazon WorkDocs returns the first 24
@@ -497,25 +548,27 @@ active or pending users. If there are more results, the response includes a mark
 can use to request the next set of results.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `fields`: A comma-separated list of values. Specify \"STORAGE_METADATA\" to include the
+- `"fields"`: A comma-separated list of values. Specify \"STORAGE_METADATA\" to include the
   user storage quota and utilization information.
-- `include`: The state of the users. Specify \"ALL\" to include inactive users.
-- `limit`: The maximum number of items to return.
-- `marker`: The marker for the next set of results. (You received this marker from a
+- `"include"`: The state of the users. Specify \"ALL\" to include inactive users.
+- `"limit"`: The maximum number of items to return.
+- `"marker"`: The marker for the next set of results. (You received this marker from a
   previous call.)
-- `order`: The order for the results.
-- `organizationId`: The ID of the organization.
-- `query`: A query to filter users by user name.
-- `sort`: The sorting criteria.
-- `userIds`: The IDs of the users.
+- `"order"`: The order for the results.
+- `"organizationId"`: The ID of the organization.
+- `"query"`: A query to filter users by user name.
+- `"sort"`: The sorting criteria.
+- `"userIds"`: The IDs of the users.
 """
 describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users"; aws_config=aws_config)
-describe_users(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", args; aws_config=aws_config)
+describe_users(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", params; aws_config=aws_config)
 
 """
-    GetCurrentUser()
+    get_current_user(authentication)
+    get_current_user(authentication, params::Dict{String,<:Any})
 
 Retrieves details of the current user for whom the authentication token was generated. This
 is not a valid action for SigV4 (administrative API) clients. This action requires an
@@ -523,129 +576,142 @@ authentication token. To get an authentication token, register an application wi
 WorkDocs. For more information, see Authentication and Access Control for User Applications
 in the Amazon WorkDocs Developer Guide.
 
-# Required Parameters
-- `Authentication`: Amazon WorkDocs authentication token.
+# Arguments
+- `authentication`: Amazon WorkDocs authentication token.
 
 """
 get_current_user(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
-get_current_user(Authentication, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), args)); aws_config=aws_config)
+get_current_user(Authentication, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
 
 """
-    GetDocument()
+    get_document(document_id)
+    get_document(document_id, params::Dict{String,<:Any})
 
 Retrieves details of a document.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `includeCustomMetadata`: Set this to TRUE to include custom metadata in the response.
+- `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
 get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-get_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+get_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
-    GetDocumentPath()
+    get_document_path(document_id)
+    get_document_path(document_id, params::Dict{String,<:Any})
 
 Retrieves the path information (the hierarchy from the root folder) for the requested
 document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
 requested document and only includes the IDs of the parent folders in the path. You can
 limit the maximum number of levels. You can also request the names of the parent folders.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `fields`: A comma-separated list of values. Specify NAME to include the names of the
+- `"fields"`: A comma-separated list of values. Specify NAME to include the names of the
   parent folders.
-- `limit`: The maximum number of levels in the hierarchy to return.
-- `marker`: This value is not supported.
+- `"limit"`: The maximum number of levels in the hierarchy to return.
+- `"marker"`: This value is not supported.
 """
 get_document_path(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path"; aws_config=aws_config)
-get_document_path(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", args; aws_config=aws_config)
+get_document_path(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", params; aws_config=aws_config)
 
 """
-    GetDocumentVersion()
+    get_document_version(document_id, version_id)
+    get_document_version(document_id, version_id, params::Dict{String,<:Any})
 
 Retrieves version metadata for the specified document.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
-- `VersionId`: The version ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
+- `version_id`: The version ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `fields`: A comma-separated list of values. Specify \"SOURCE\" to include a URL for the
+- `"fields"`: A comma-separated list of values. Specify \"SOURCE\" to include a URL for the
   source document.
-- `includeCustomMetadata`: Set this to TRUE to include custom metadata in the response.
+- `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
 get_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-get_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+get_document_version(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
-    GetFolder()
+    get_folder(folder_id)
+    get_folder(folder_id, params::Dict{String,<:Any})
 
 Retrieves the metadata of the specified folder.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `includeCustomMetadata`: Set to TRUE to include custom metadata in the response.
+- `"includeCustomMetadata"`: Set to TRUE to include custom metadata in the response.
 """
 get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-get_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+get_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
-    GetFolderPath()
+    get_folder_path(folder_id)
+    get_folder_path(folder_id, params::Dict{String,<:Any})
 
 Retrieves the path information (the hierarchy from the root folder) for the specified
 folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the
 requested folder and only includes the IDs of the parent folders in the path. You can limit
 the maximum number of levels. You can also request the parent folder names.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `fields`: A comma-separated list of values. Specify \"NAME\" to include the names of the
-  parent folders.
-- `limit`: The maximum number of levels in the hierarchy to return.
-- `marker`: This value is not supported.
+- `"fields"`: A comma-separated list of values. Specify \"NAME\" to include the names of
+  the parent folders.
+- `"limit"`: The maximum number of levels in the hierarchy to return.
+- `"marker"`: This value is not supported.
 """
 get_folder_path(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path"; aws_config=aws_config)
-get_folder_path(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", args; aws_config=aws_config)
+get_folder_path(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", params; aws_config=aws_config)
 
 """
-    GetResources()
+    get_resources()
+    get_resources(params::Dict{String,<:Any})
 
 Retrieves a collection of resources, including folders and documents. The only
 CollectionType supported is SHARED_WITH_ME.
 
 # Optional Parameters
-- `Authentication`: The Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: The Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `collectionType`: The collection type.
-- `limit`: The maximum number of resources to return.
-- `marker`: The marker for the next set of results. This marker was received from a
+- `"collectionType"`: The collection type.
+- `"limit"`: The maximum number of resources to return.
+- `"marker"`: The marker for the next set of results. This marker was received from a
   previous call.
-- `userId`: The user ID for the resource collection. This is a required field for accessing
-  the API operation using IAM credentials.
+- `"userId"`: The user ID for the resource collection. This is a required field for
+  accessing the API operation using IAM credentials.
 """
 get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources"; aws_config=aws_config)
-get_resources(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", args; aws_config=aws_config)
+get_resources(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", params; aws_config=aws_config)
 
 """
-    InitiateDocumentVersionUpload()
+    initiate_document_version_upload(parent_folder_id)
+    initiate_document_version_upload(parent_folder_id, params::Dict{String,<:Any})
 
 Creates a new document object and version object. The client specifies the parent folder ID
 and name of the document to upload. The ID is optionally specified when creating a new
@@ -653,134 +719,147 @@ version of an existing document. This is the first step to upload a document. Ne
 the document to the URL returned from the call, and then call UpdateDocumentVersion. To
 cancel the document upload, call AbortDocumentVersionUpload.
 
-# Required Parameters
-- `ParentFolderId`: The ID of the parent folder.
+# Arguments
+- `parent_folder_id`: The ID of the parent folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `ContentCreatedTimestamp`: The timestamp when the content of the document was originally
-  created.
-- `ContentModifiedTimestamp`: The timestamp when the content of the document was modified.
-- `ContentType`: The content type of the document.
-- `DocumentSizeInBytes`: The size of the document, in bytes.
-- `Id`: The ID of the document.
-- `Name`: The name of the document.
+- `"ContentCreatedTimestamp"`: The timestamp when the content of the document was
+  originally created.
+- `"ContentModifiedTimestamp"`: The timestamp when the content of the document was modified.
+- `"ContentType"`: The content type of the document.
+- `"DocumentSizeInBytes"`: The size of the document, in bytes.
+- `"Id"`: The ID of the document.
+- `"Name"`: The name of the document.
 """
 initiate_document_version_upload(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
-initiate_document_version_upload(ParentFolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), args)); aws_config=aws_config)
+initiate_document_version_upload(ParentFolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
 
 """
-    RemoveAllResourcePermissions()
+    remove_all_resource_permissions(resource_id)
+    remove_all_resource_permissions(resource_id, params::Dict{String,<:Any})
 
 Removes all the permissions from the specified resource.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
 """
 remove_all_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
-remove_all_resource_permissions(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", args; aws_config=aws_config)
+remove_all_resource_permissions(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
 
 """
-    RemoveResourcePermission()
+    remove_resource_permission(principal_id, resource_id)
+    remove_resource_permission(principal_id, resource_id, params::Dict{String,<:Any})
 
 Removes the permission for the specified principal from the specified resource.
 
-# Required Parameters
-- `PrincipalId`: The principal ID of the resource.
-- `ResourceId`: The ID of the resource.
+# Arguments
+- `principal_id`: The principal ID of the resource.
+- `resource_id`: The ID of the resource.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `type`: The principal type of the resource.
+- `"type"`: The principal type of the resource.
 """
 remove_resource_permission(PrincipalId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)"; aws_config=aws_config)
-remove_resource_permission(PrincipalId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", args; aws_config=aws_config)
+remove_resource_permission(PrincipalId, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", params; aws_config=aws_config)
 
 """
-    UpdateDocument()
+    update_document(document_id)
+    update_document(document_id, params::Dict{String,<:Any})
 
 Updates the specified attributes of a document. The user must have access to both the
 document and its parent folder, if applicable.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `Name`: The name of the document.
-- `ParentFolderId`: The ID of the parent folder.
-- `ResourceState`: The resource state of the document. Only ACTIVE and RECYCLED are
+- `"Name"`: The name of the document.
+- `"ParentFolderId"`: The ID of the parent folder.
+- `"ResourceState"`: The resource state of the document. Only ACTIVE and RECYCLED are
   supported.
 """
 update_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-update_document(DocumentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", args; aws_config=aws_config)
+update_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
-    UpdateDocumentVersion()
+    update_document_version(document_id, version_id)
+    update_document_version(document_id, version_id, params::Dict{String,<:Any})
 
 Changes the status of the document version to ACTIVE.  Amazon WorkDocs also sets its
 document container to ACTIVE. This is the last step in a document upload, after the client
 uploads the document to an S3-presigned URL returned by InitiateDocumentVersionUpload.
 
-# Required Parameters
-- `DocumentId`: The ID of the document.
-- `VersionId`: The version ID of the document.
+# Arguments
+- `document_id`: The ID of the document.
+- `version_id`: The version ID of the document.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `VersionStatus`: The status of the version.
+- `"VersionStatus"`: The status of the version.
 """
 update_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-update_document_version(DocumentId, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args; aws_config=aws_config)
+update_document_version(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
-    UpdateFolder()
+    update_folder(folder_id)
+    update_folder(folder_id, params::Dict{String,<:Any})
 
 Updates the specified attributes of the specified folder. The user must have access to both
 the folder and its parent folder, if applicable.
 
-# Required Parameters
-- `FolderId`: The ID of the folder.
+# Arguments
+- `folder_id`: The ID of the folder.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `Name`: The name of the folder.
-- `ParentFolderId`: The ID of the parent folder.
-- `ResourceState`: The resource state of the folder. Only ACTIVE and RECYCLED are accepted
-  values from the API.
+- `"Name"`: The name of the folder.
+- `"ParentFolderId"`: The ID of the parent folder.
+- `"ResourceState"`: The resource state of the folder. Only ACTIVE and RECYCLED are
+  accepted values from the API.
 """
 update_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-update_folder(FolderId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", args; aws_config=aws_config)
+update_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
-    UpdateUser()
+    update_user(user_id)
+    update_user(user_id, params::Dict{String,<:Any})
 
 Updates the specified attributes of the specified user, and grants or revokes
 administrative privileges to the Amazon WorkDocs site.
 
-# Required Parameters
-- `UserId`: The ID of the user.
+# Arguments
+- `user_id`: The ID of the user.
 
 # Optional Parameters
-- `Authentication`: Amazon WorkDocs authentication token. Not required when using AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using AWS
   administrator credentials to access the API.
-- `GivenName`: The given name of the user.
-- `GrantPoweruserPrivileges`: Boolean value to determine whether the user is granted
+- `"GivenName"`: The given name of the user.
+- `"GrantPoweruserPrivileges"`: Boolean value to determine whether the user is granted
   Poweruser privileges.
-- `Locale`: The locale of the user.
-- `StorageRule`: The amount of storage for the user.
-- `Surname`: The surname of the user.
-- `TimeZoneId`: The time zone ID of the user.
-- `Type`: The type of the user.
+- `"Locale"`: The locale of the user.
+- `"StorageRule"`: The amount of storage for the user.
+- `"Surname"`: The surname of the user.
+- `"TimeZoneId"`: The time zone ID of the user.
+- `"Type"`: The type of the user.
 """
 update_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)"; aws_config=aws_config)
-update_user(UserId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", args; aws_config=aws_config)
+update_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", params; aws_config=aws_config)

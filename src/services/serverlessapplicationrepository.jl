@@ -5,12 +5,13 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateApplication()
+    create_application(author, description, name)
+    create_application(author, description, name, params::Dict{String,<:Any})
 
 Creates an application, optionally including an AWS SAM file to create the first
 application version in the same call.
 
-# Required Parameters
+# Arguments
 - `author`: The name of the author publishing the app.Minimum length=1. Maximum
   length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
 - `description`: The description of the application.Minimum length=1. Maximum length=256
@@ -18,77 +19,82 @@ application version in the same call.
   length=140Pattern: \"[a-zA-Z0-9-]+\";
 
 # Optional Parameters
-- `homePageUrl`: A URL with more information about the application, for example the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
-  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `licenseBody`: A local text file that contains the license of the app that matches the
+- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
+  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `"licenseBody"`: A local text file that contains the license of the app that matches the
   spdxLicenseID value of your application.
  The file has the format
   file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and
   licenseUrl; otherwise, an error results.
-- `licenseUrl`: A link to the S3 object that contains the license of the app that matches
+- `"licenseUrl"`: A link to the S3 object that contains the license of the app that matches
   the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of
   licenseBody and licenseUrl; otherwise, an error results.
-- `readmeBody`: A local text readme file in Markdown language that contains a more detailed
-  description of the application and how it works.
+- `"readmeBody"`: A local text readme file in Markdown language that contains a more
+  detailed description of the application and how it works.
  The file has the format
   file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and
   readmeUrl; otherwise, an error results.
-- `readmeUrl`: A link to the S3 object in Markdown language that contains a more detailed
+- `"readmeUrl"`: A link to the S3 object in Markdown language that contains a more detailed
   description of the application and how it works.Maximum size 5 MBYou can specify only one
   of readmeBody and readmeUrl; otherwise, an error results.
-- `semanticVersion`: The semantic version of the application:
+- `"semanticVersion"`: The semantic version of the application:
  https://semver.org/
-- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the
+- `"sourceCodeArchiveUrl"`: A link to the S3 object that contains the ZIP archive of the
   source code for this version of your application.Maximum size 50 MB
-- `sourceCodeUrl`: A link to a public repository for the source code of your application,
+- `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
-- `spdxLicenseId`: A valid identifier from https://spdx.org/licenses/.
-- `templateBody`: The local raw packaged AWS SAM template file of your application.
+- `"spdxLicenseId"`: A valid identifier from https://spdx.org/licenses/.
+- `"templateBody"`: The local raw packaged AWS SAM template file of your application.
  The
   file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody
   and templateUrl; otherwise an error results.
-- `templateUrl`: A link to the S3 object containing the packaged AWS SAM template of your
+- `"templateUrl"`: A link to the S3 object containing the packaged AWS SAM template of your
   application.You can specify only one of templateBody and templateUrl; otherwise an error
   results.
 """
 create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}("author"=>author, "description"=>description, "name"=>name); aws_config=aws_config)
-create_application(author, description, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), args)); aws_config=aws_config)
+create_application(author, description, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), params)); aws_config=aws_config)
 
 """
-    CreateApplicationVersion()
+    create_application_version(application_id, semantic_version)
+    create_application_version(application_id, semantic_version, params::Dict{String,<:Any})
 
 Creates an application version.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `semanticVersion`: The semantic version of the new version.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
+- `semantic_version`: The semantic version of the new version.
 
 # Optional Parameters
-- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sourceCodeArchiveUrl"`: A link to the S3 object that contains the ZIP archive of the
   source code for this version of your application.Maximum size 50 MB
-- `sourceCodeUrl`: A link to a public repository for the source code of your application,
+- `"sourceCodeUrl"`: A link to a public repository for the source code of your application,
   for example the URL of a specific GitHub commit.
-- `templateBody`: The raw packaged AWS SAM template of your application.
-- `templateUrl`: A link to the packaged AWS SAM template of your application.
+- `"templateBody"`: The raw packaged AWS SAM template of your application.
+- `"templateUrl"`: A link to the packaged AWS SAM template of your application.
 """
 create_application_version(applicationId, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)"; aws_config=aws_config)
-create_application_version(applicationId, semanticVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", args; aws_config=aws_config)
+create_application_version(applicationId, semanticVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", params; aws_config=aws_config)
 
 """
-    CreateCloudFormationChangeSet()
+    create_cloud_formation_change_set(application_id, stack_name)
+    create_cloud_formation_change_set(application_id, stack_name, params::Dict{String,<:Any})
 
 Creates an AWS CloudFormation change set for the given application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `stackName`: This property corresponds to the parameter of the same name for the AWS
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
+- `stack_name`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
 
 # Optional Parameters
-- `capabilities`: A list of values that you must specify before you can deploy certain
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"capabilities"`: A list of values that you must specify before you can deploy certain
   applications.
  Some applications might include resources that can affect permissions in
   your AWS
@@ -124,148 +130,162 @@ Creates an AWS CloudFormation change set for the given application.
   application before deploying. If you don't specify
  this parameter for an application that
   requires capabilities, the call will fail.
-- `changeSetName`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
-- `clientToken`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
-- `description`: This property corresponds to the parameter of the same name for the AWS
-  CloudFormation CreateChangeSet
-  API.
-- `notificationArns`: This property corresponds to the parameter of the same name for the
+- `"changeSetName"`: This property corresponds to the parameter of the same name for the
   AWS CloudFormation CreateChangeSet
   API.
-- `parameterOverrides`: A list of parameter values for the parameters of the application.
-- `resourceTypes`: This property corresponds to the parameter of the same name for the AWS
+- `"clientToken"`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
-- `rollbackConfiguration`: This property corresponds to the parameter of the same name for
-  the AWS CloudFormation CreateChangeSet
+- `"description"`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `semanticVersion`: The semantic version of the application:
+- `"notificationArns"`: This property corresponds to the parameter of the same name for the
+  AWS CloudFormation CreateChangeSet
+  API.
+- `"parameterOverrides"`: A list of parameter values for the parameters of the application.
+- `"resourceTypes"`: This property corresponds to the parameter of the same name for the
+  AWS CloudFormation CreateChangeSet
+  API.
+- `"rollbackConfiguration"`: This property corresponds to the parameter of the same name
+  for the AWS CloudFormation CreateChangeSet
+  API.
+- `"semanticVersion"`: The semantic version of the application:
  https://semver.org/
-- `tags`: This property corresponds to the parameter of the same name for the AWS
+- `"tags"`: This property corresponds to the parameter of the same name for the AWS
   CloudFormation CreateChangeSet
   API.
-- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern:
+- `"templateId"`: The UUID returned by CreateCloudFormationTemplate.Pattern:
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
 create_cloud_formation_change_set(applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}("stackName"=>stackName); aws_config=aws_config)
-create_cloud_formation_change_set(applicationId, stackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), args)); aws_config=aws_config)
+create_cloud_formation_change_set(applicationId, stackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), params)); aws_config=aws_config)
 
 """
-    CreateCloudFormationTemplate()
+    create_cloud_formation_template(application_id)
+    create_cloud_formation_template(application_id, params::Dict{String,<:Any})
 
 Creates an AWS CloudFormation template.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `semanticVersion`: The semantic version of the application:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"semanticVersion"`: The semantic version of the application:
  https://semver.org/
 """
 create_cloud_formation_template(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates"; aws_config=aws_config)
-create_cloud_formation_template(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", args; aws_config=aws_config)
+create_cloud_formation_template(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", params; aws_config=aws_config)
 
 """
-    DeleteApplication()
+    delete_application(application_id)
+    delete_application(application_id, params::Dict{String,<:Any})
 
 Deletes the specified application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
 delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)"; aws_config=aws_config)
-delete_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", args; aws_config=aws_config)
+delete_application(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", params; aws_config=aws_config)
 
 """
-    GetApplication()
+    get_application(application_id)
+    get_application(application_id, params::Dict{String,<:Any})
 
 Gets the specified application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `semanticVersion`: The semantic version of the application to get.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"semanticVersion"`: The semantic version of the application to get.
 """
 get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)"; aws_config=aws_config)
-get_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)", args; aws_config=aws_config)
+get_application(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)", params; aws_config=aws_config)
 
 """
-    GetApplicationPolicy()
+    get_application_policy(application_id)
+    get_application_policy(application_id, params::Dict{String,<:Any})
 
 Retrieves the policy for the application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 """
 get_application_policy(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy"; aws_config=aws_config)
-get_application_policy(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", args; aws_config=aws_config)
+get_application_policy(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", params; aws_config=aws_config)
 
 """
-    GetCloudFormationTemplate()
+    get_cloud_formation_template(application_id, template_id)
+    get_cloud_formation_template(application_id, template_id, params::Dict{String,<:Any})
 
 Gets the specified AWS CloudFormation template.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern:
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
+- `template_id`: The UUID returned by CreateCloudFormationTemplate.Pattern:
   [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 """
 get_cloud_formation_template(applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)"; aws_config=aws_config)
-get_cloud_formation_template(applicationId, templateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", args; aws_config=aws_config)
+get_cloud_formation_template(applicationId, templateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", params; aws_config=aws_config)
 
 """
-    ListApplicationDependencies()
+    list_application_dependencies(application_id)
+    list_application_dependencies(application_id, params::Dict{String,<:Any})
 
 Retrieves the list of applications nested in the containing application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `maxItems`: The total number of items to return.
-- `nextToken`: A token to specify where to start paginating.
-- `semanticVersion`: The semantic version of the application to get.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxItems"`: The total number of items to return.
+- `"nextToken"`: A token to specify where to start paginating.
+- `"semanticVersion"`: The semantic version of the application to get.
 """
 list_application_dependencies(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies"; aws_config=aws_config)
-list_application_dependencies(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", args; aws_config=aws_config)
+list_application_dependencies(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", params; aws_config=aws_config)
 
 """
-    ListApplicationVersions()
+    list_application_versions(application_id)
+    list_application_versions(application_id, params::Dict{String,<:Any})
 
 Lists versions for the specified application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `maxItems`: The total number of items to return.
-- `nextToken`: A token to specify where to start paginating.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxItems"`: The total number of items to return.
+- `"nextToken"`: A token to specify where to start paginating.
 """
 list_application_versions(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions"; aws_config=aws_config)
-list_application_versions(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", args; aws_config=aws_config)
+list_application_versions(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", params; aws_config=aws_config)
 
 """
-    ListApplications()
+    list_applications()
+    list_applications(params::Dict{String,<:Any})
 
 Lists applications owned by the requester.
 
 # Optional Parameters
-- `maxItems`: The total number of items to return.
-- `nextToken`: A token to specify where to start paginating.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxItems"`: The total number of items to return.
+- `"nextToken"`: A token to specify where to start paginating.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications"; aws_config=aws_config)
-list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", args; aws_config=aws_config)
+list_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", params; aws_config=aws_config)
 
 """
-    PutApplicationPolicy()
+    put_application_policy(application_id, statements)
+    put_application_policy(application_id, statements, params::Dict{String,<:Any})
 
 Sets the permission policy for an application. For the list of actions supported for this
 operation, see
@@ -273,48 +293,51 @@ operation, see
  Permissions
  .
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 - `statements`: An array of policy statements applied to the application.
 
 """
 put_application_policy(applicationId, statements; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}("statements"=>statements); aws_config=aws_config)
-put_application_policy(applicationId, statements, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), args)); aws_config=aws_config)
+put_application_policy(applicationId, statements, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("statements"=>statements), params)); aws_config=aws_config)
 
 """
-    UnshareApplication()
+    unshare_application(application_id, organization_id)
+    unshare_application(application_id, organization_id, params::Dict{String,<:Any})
 
 Unshares an application from an AWS Organization.This operation can be called only from the
 organization's master account.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `organizationId`: The AWS Organization ID to unshare the application from.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
+- `organization_id`: The AWS Organization ID to unshare the application from.
 
 """
 unshare_application(applicationId, organizationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}("organizationId"=>organizationId); aws_config=aws_config)
-unshare_application(applicationId, organizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), args)); aws_config=aws_config)
+unshare_application(applicationId, organizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationId"=>organizationId), params)); aws_config=aws_config)
 
 """
-    UpdateApplication()
+    update_application(application_id)
+    update_application(application_id, params::Dict{String,<:Any})
 
 Updates the specified application.
 
-# Required Parameters
-- `applicationId`: The Amazon Resource Name (ARN) of the application.
+# Arguments
+- `application_id`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `author`: The name of the author publishing the app.Minimum length=1. Maximum
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"author"`: The name of the author publishing the app.Minimum length=1. Maximum
   length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
-- `description`: The description of the application.Minimum length=1. Maximum length=256
-- `homePageUrl`: A URL with more information about the application, for example the
+- `"description"`: The description of the application.Minimum length=1. Maximum length=256
+- `"homePageUrl"`: A URL with more information about the application, for example the
   location of your GitHub repository for the application.
-- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
-  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `readmeBody`: A text readme file in Markdown language that contains a more detailed
+- `"labels"`: Labels to improve discovery of apps in search results.Minimum length=1.
+  Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `"readmeBody"`: A text readme file in Markdown language that contains a more detailed
   description of the application and how it works.Maximum size 5 MB
-- `readmeUrl`: A link to the readme file in Markdown language that contains a more detailed
-  description of the application and how it works.Maximum size 5 MB
+- `"readmeUrl"`: A link to the readme file in Markdown language that contains a more
+  detailed description of the application and how it works.Maximum size 5 MB
 """
 update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)"; aws_config=aws_config)
-update_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", args; aws_config=aws_config)
+update_application(applicationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", params; aws_config=aws_config)

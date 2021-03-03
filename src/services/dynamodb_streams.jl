@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DescribeStream()
+    describe_stream(stream_arn)
+    describe_stream(stream_arn, params::Dict{String,<:Any})
 
 Returns information about a stream, including the current status of the stream, its Amazon
 Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
@@ -15,20 +16,22 @@ StartingSequenceNumber but no EndingSequenceNumber, then the shard is still open
 receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are
 present, then that shard is closed and can no longer receive more data.
 
-# Required Parameters
-- `StreamArn`: The Amazon Resource Name (ARN) for the stream.
+# Arguments
+- `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
 # Optional Parameters
-- `ExclusiveStartShardId`: The shard ID of the first item that this operation will
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExclusiveStartShardId"`: The shard ID of the first item that this operation will
   evaluate. Use the value that was returned for LastEvaluatedShardId in the previous
   operation.
-- `Limit`: The maximum number of shard objects to return. The upper limit is 100.
+- `"Limit"`: The maximum number of shard objects to return. The upper limit is 100.
 """
 describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("DescribeStream", Dict{String, Any}("StreamArn"=>StreamArn); aws_config=aws_config)
-describe_stream(StreamArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn), args)); aws_config=aws_config)
+describe_stream(StreamArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn), params)); aws_config=aws_config)
 
 """
-    GetRecords()
+    get_records(shard_iterator)
+    get_records(shard_iterator, params::Dict{String,<:Any})
 
 Retrieves the stream records from a given shard. Specify a shard iterator using the
 ShardIterator parameter. The shard iterator specifies the position in the shard from which
@@ -38,27 +41,30 @@ empty list. Note that it might take multiple calls to get to a portion of the sh
 contains stream records.   GetRecords can retrieve a maximum of 1 MB of data or 1000 stream
 records, whichever comes first.
 
-# Required Parameters
-- `ShardIterator`: A shard iterator that was retrieved from a previous GetShardIterator
+# Arguments
+- `shard_iterator`: A shard iterator that was retrieved from a previous GetShardIterator
   operation. This iterator can be used to access the stream records in this shard.
 
 # Optional Parameters
-- `Limit`: The maximum number of records to return from the shard. The upper limit is 1000.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of records to return from the shard. The upper limit is
+  1000.
 """
 get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetRecords", Dict{String, Any}("ShardIterator"=>ShardIterator); aws_config=aws_config)
-get_records(ShardIterator, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), args)); aws_config=aws_config)
+get_records(ShardIterator, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), params)); aws_config=aws_config)
 
 """
-    GetShardIterator()
+    get_shard_iterator(shard_id, shard_iterator_type, stream_arn)
+    get_shard_iterator(shard_id, shard_iterator_type, stream_arn, params::Dict{String,<:Any})
 
 Returns a shard iterator. A shard iterator provides information about how to retrieve the
 stream records from within a shard. Use the shard iterator in a subsequent GetRecords
 request to read the stream records from the shard.  A shard iterator expires 15 minutes
 after it is returned to the requester.
 
-# Required Parameters
-- `ShardId`: The identifier of the shard. The iterator will be returned for this shard ID.
-- `ShardIteratorType`: Determines how the shard iterator is used to start reading stream
+# Arguments
+- `shard_id`: The identifier of the shard. The iterator will be returned for this shard ID.
+- `shard_iterator_type`: Determines how the shard iterator is used to start reading stream
   records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position
   denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after
   the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the
@@ -67,29 +73,32 @@ after it is returned to the requester.
   limit are subject to removal (trimming) from the stream.    LATEST - Start reading just
   after the most recent stream record in the shard, so that you always read the most recent
   data in the shard.
-- `StreamArn`: The Amazon Resource Name (ARN) for the stream.
+- `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
 # Optional Parameters
-- `SequenceNumber`: The sequence number of a stream record in the shard from which to start
-  reading.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SequenceNumber"`: The sequence number of a stream record in the shard from which to
+  start reading.
 """
 get_shard_iterator(ShardId, ShardIteratorType, StreamArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetShardIterator", Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamArn"=>StreamArn); aws_config=aws_config)
-get_shard_iterator(ShardId, ShardIteratorType, StreamArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamArn"=>StreamArn), args)); aws_config=aws_config)
+get_shard_iterator(ShardId, ShardIteratorType, StreamArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamArn"=>StreamArn), params)); aws_config=aws_config)
 
 """
-    ListStreams()
+    list_streams()
+    list_streams(params::Dict{String,<:Any})
 
 Returns an array of stream ARNs associated with the current account and endpoint. If the
 TableName parameter is present, then ListStreams will return only the streams ARNs for that
 table.  You can call ListStreams at a maximum rate of 5 times per second.
 
 # Optional Parameters
-- `ExclusiveStartStreamArn`: The ARN (Amazon Resource Name) of the first item that this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExclusiveStartStreamArn"`: The ARN (Amazon Resource Name) of the first item that this
   operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the
   previous operation.
-- `Limit`: The maximum number of streams to return. The upper limit is 100.
-- `TableName`: If this parameter is provided, then only the streams associated with this
+- `"Limit"`: The maximum number of streams to return. The upper limit is 100.
+- `"TableName"`: If this parameter is provided, then only the streams associated with this
   table name are returned.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("ListStreams"; aws_config=aws_config)
-list_streams(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("ListStreams", args; aws_config=aws_config)
+list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb_streams("ListStreams", params; aws_config=aws_config)

@@ -5,116 +5,128 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CopyBackupToRegion()
+    copy_backup_to_region(backup_id, destination_region)
+    copy_backup_to_region(backup_id, destination_region, params::Dict{String,<:Any})
 
 Copy an AWS CloudHSM cluster backup to a different region.
 
-# Required Parameters
-- `BackupId`: The ID of the backup that will be copied to the destination region.
-- `DestinationRegion`: The AWS region that will contain your copied CloudHSM cluster backup.
+# Arguments
+- `backup_id`: The ID of the backup that will be copied to the destination region.
+- `destination_region`: The AWS region that will contain your copied CloudHSM cluster
+  backup.
 
 # Optional Parameters
-- `TagList`: Tags to apply to the destination backup during creation. If you specify tags,
-  only these tags will be applied to the destination backup. If you do not specify tags, the
-  service copies tags from the source backup to the destination backup.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagList"`: Tags to apply to the destination backup during creation. If you specify
+  tags, only these tags will be applied to the destination backup. If you do not specify
+  tags, the service copies tags from the source backup to the destination backup.
 """
 copy_backup_to_region(BackupId, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion); aws_config=aws_config)
-copy_backup_to_region(BackupId, DestinationRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), args)); aws_config=aws_config)
+copy_backup_to_region(BackupId, DestinationRegion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config)
 
 """
-    CreateCluster()
+    create_cluster(hsm_type, subnet_ids)
+    create_cluster(hsm_type, subnet_ids, params::Dict{String,<:Any})
 
 Creates a new AWS CloudHSM cluster.
 
-# Required Parameters
-- `HsmType`: The type of HSM to use in the cluster. Currently the only allowed value is
+# Arguments
+- `hsm_type`: The type of HSM to use in the cluster. Currently the only allowed value is
   hsm1.medium.
-- `SubnetIds`: The identifiers (IDs) of the subnets where you are creating the cluster. You
-  must specify at least one subnet. If you specify multiple subnets, they must meet the
+- `subnet_ids`: The identifiers (IDs) of the subnets where you are creating the cluster.
+  You must specify at least one subnet. If you specify multiple subnets, they must meet the
   following criteria:   All subnets must be in the same virtual private cloud (VPC).   You
   can specify only one subnet per Availability Zone.
 
 # Optional Parameters
-- `BackupRetentionPolicy`: A policy that defines how the service retains backups.
-- `SourceBackupId`: The identifier (ID) of the cluster backup to restore. Use this value to
-  restore the cluster from a backup instead of creating a new cluster. To find the backup ID,
-  use DescribeBackups.
-- `TagList`: Tags to apply to the CloudHSM cluster during creation.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupRetentionPolicy"`: A policy that defines how the service retains backups.
+- `"SourceBackupId"`: The identifier (ID) of the cluster backup to restore. Use this value
+  to restore the cluster from a backup instead of creating a new cluster. To find the backup
+  ID, use DescribeBackups.
+- `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
 create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds); aws_config=aws_config)
-create_cluster(HsmType, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
+create_cluster(HsmType, SubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config)
 
 """
-    CreateHsm()
+    create_hsm(availability_zone, cluster_id)
+    create_hsm(availability_zone, cluster_id, params::Dict{String,<:Any})
 
 Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
 
-# Required Parameters
-- `AvailabilityZone`: The Availability Zone where you are creating the HSM. To find the
+# Arguments
+- `availability_zone`: The Availability Zone where you are creating the HSM. To find the
   cluster's Availability Zones, use DescribeClusters.
-- `ClusterId`: The identifier (ID) of the HSM's cluster. To find the cluster ID, use
+- `cluster_id`: The identifier (ID) of the HSM's cluster. To find the cluster ID, use
   DescribeClusters.
 
 # Optional Parameters
-- `IpAddress`: The HSM's IP address. If you specify an IP address, use an available address
-  from the subnet that maps to the Availability Zone where you are creating the HSM. If you
-  don't specify an IP address, one is chosen for you from that subnet.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IpAddress"`: The HSM's IP address. If you specify an IP address, use an available
+  address from the subnet that maps to the Availability Zone where you are creating the HSM.
+  If you don't specify an IP address, one is chosen for you from that subnet.
 """
 create_hsm(AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId); aws_config=aws_config)
-create_hsm(AvailabilityZone, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
+create_hsm(AvailabilityZone, ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    DeleteBackup()
+    delete_backup(backup_id)
+    delete_backup(backup_id, params::Dict{String,<:Any})
 
 Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the
 DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup.
 
-# Required Parameters
-- `BackupId`: The ID of the backup to be deleted. To find the ID of a backup, use the
+# Arguments
+- `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the
   DescribeBackups operation.
 
 """
 delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
-delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+delete_backup(BackupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config)
 
 """
-    DeleteCluster()
+    delete_cluster(cluster_id)
+    delete_cluster(cluster_id, params::Dict{String,<:Any})
 
 Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must
 delete all HSMs in the cluster. To see if the cluster contains any HSMs, use
 DescribeClusters. To delete an HSM, use DeleteHsm.
 
-# Required Parameters
-- `ClusterId`: The identifier (ID) of the cluster that you are deleting. To find the
+# Arguments
+- `cluster_id`: The identifier (ID) of the cluster that you are deleting. To find the
   cluster ID, use DescribeClusters.
 
 """
 delete_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-delete_cluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+delete_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    DeleteHsm()
+    delete_hsm(cluster_id)
+    delete_hsm(cluster_id, params::Dict{String,<:Any})
 
 Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
 address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need
 to specify only one of these values. To find these values, use DescribeClusters.
 
-# Required Parameters
-- `ClusterId`: The identifier (ID) of the cluster that contains the HSM that you are
+# Arguments
+- `cluster_id`: The identifier (ID) of the cluster that contains the HSM that you are
   deleting.
 
 # Optional Parameters
-- `EniId`: The identifier (ID) of the elastic network interface (ENI) of the HSM that you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EniId"`: The identifier (ID) of the elastic network interface (ENI) of the HSM that you
   are deleting.
-- `EniIp`: The IP address of the elastic network interface (ENI) of the HSM that you are
+- `"EniIp"`: The IP address of the elastic network interface (ENI) of the HSM that you are
   deleting.
-- `HsmId`: The identifier (ID) of the HSM that you are deleting.
+- `"HsmId"`: The identifier (ID) of the HSM that you are deleting.
 """
 delete_hsm(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-delete_hsm(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+delete_hsm(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    DescribeBackups()
+    describe_backups()
+    describe_backups(params::Dict{String,<:Any})
 
 Gets information about backups of AWS CloudHSM clusters. This is a paginated operation,
 which means that each response might contain only a subset of all the backups. When the
@@ -123,7 +135,8 @@ in a subsequent DescribeBackups request to get more backups. When you receive a 
 with no NextToken (or an empty or null value), that means there are no more backups to get.
 
 # Optional Parameters
-- `Filters`: One or more filters to limit the items returned in the response. Use the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: One or more filters to limit the items returned in the response. Use the
   backupIds filter to return only the specified backups. Specify backups by their backup
   identifier (ID). Use the sourceBackupIds filter to return only the backups created from a
   source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion
@@ -133,18 +146,19 @@ with no NextToken (or an empty or null value), that means there are no more back
   filtered by the value in the neverExpires parameter. True returns all backups exempt from
   the backup retention policy. False returns all backups with a backup retention policy
   defined at the cluster.
-- `MaxResults`: The maximum number of backups to return in the response. When there are
+- `"MaxResults"`: The maximum number of backups to return in the response. When there are
   more backups than the number you specify, the response contains a NextToken value.
-- `NextToken`: The NextToken value that you received in the previous response. Use this
+- `"NextToken"`: The NextToken value that you received in the previous response. Use this
   value to get more backups.
-- `SortAscending`: Designates whether or not to sort the return backups by ascending
+- `"SortAscending"`: Designates whether or not to sort the return backups by ascending
   chronological order of generation.
 """
 describe_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups"; aws_config=aws_config)
-describe_backups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups", args; aws_config=aws_config)
+describe_backups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeBackups", params; aws_config=aws_config)
 
 """
-    DescribeClusters()
+    describe_clusters()
+    describe_clusters(params::Dict{String,<:Any})
 
 Gets information about AWS CloudHSM clusters. This is a paginated operation, which means
 that each response might contain only a subset of all the clusters. When the response
@@ -153,34 +167,36 @@ subsequent DescribeClusters request to get more clusters. When you receive a res
 no NextToken (or an empty or null value), that means there are no more clusters to get.
 
 # Optional Parameters
-- `Filters`: One or more filters to limit the items returned in the response. Use the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: One or more filters to limit the items returned in the response. Use the
   clusterIds filter to return only the specified clusters. Specify clusters by their cluster
   identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual
   private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to
   return only clusters that match the specified state.
-- `MaxResults`: The maximum number of clusters to return in the response. When there are
+- `"MaxResults"`: The maximum number of clusters to return in the response. When there are
   more clusters than the number you specify, the response contains a NextToken value.
-- `NextToken`: The NextToken value that you received in the previous response. Use this
+- `"NextToken"`: The NextToken value that you received in the previous response. Use this
   value to get more clusters.
 """
 describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters"; aws_config=aws_config)
-describe_clusters(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters", args; aws_config=aws_config)
+describe_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("DescribeClusters", params; aws_config=aws_config)
 
 """
-    InitializeCluster()
+    initialize_cluster(cluster_id, signed_cert, trust_anchor)
+    initialize_cluster(cluster_id, signed_cert, trust_anchor, params::Dict{String,<:Any})
 
 Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing
 certificate authority (CA) and the CA's root certificate. Before you can claim a cluster,
 you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get
 the cluster's CSR, use DescribeClusters.
 
-# Required Parameters
-- `ClusterId`: The identifier (ID) of the cluster that you are claiming. To find the
+# Arguments
+- `cluster_id`: The identifier (ID) of the cluster that you are claiming. To find the
   cluster ID, use DescribeClusters.
-- `SignedCert`: The cluster certificate issued (signed) by your issuing certificate
+- `signed_cert`: The cluster certificate issued (signed) by your issuing certificate
   authority (CA). The certificate must be in PEM format and can contain a maximum of 5000
   characters.
-- `TrustAnchor`: The issuing certificate of the issuing certificate authority (CA) that
+- `trust_anchor`: The issuing certificate of the issuing certificate authority (CA) that
   issued (signed) the cluster certificate. You must use a self-signed certificate. The
   certificate used to sign the HSM CSR must be directly available, and thus must be the root
   certificate. The certificate must be in PEM format and can contain a maximum of 5000
@@ -188,10 +204,11 @@ the cluster's CSR, use DescribeClusters.
 
 """
 initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor); aws_config=aws_config)
-initialize_cluster(ClusterId, SignedCert, TrustAnchor, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), args)); aws_config=aws_config)
+initialize_cluster(ClusterId, SignedCert, TrustAnchor, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), params)); aws_config=aws_config)
 
 """
-    ListTags()
+    list_tags(resource_id)
+    list_tags(resource_id, params::Dict{String,<:Any})
 
 Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation,
 which means that each response might contain only a subset of all the tags. When the
@@ -199,88 +216,94 @@ response contains only a subset of tags, it includes a NextToken value. Use this
 subsequent ListTags request to get more tags. When you receive a response with no NextToken
 (or an empty or null value), that means there are no more tags to get.
 
-# Required Parameters
-- `ResourceId`: The cluster identifier (ID) for the cluster whose tags you are getting. To
+# Arguments
+- `resource_id`: The cluster identifier (ID) for the cluster whose tags you are getting. To
   find the cluster ID, use DescribeClusters.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of tags to return in the response. When there are more
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of tags to return in the response. When there are more
   tags than the number you specify, the response contains a NextToken value.
-- `NextToken`: The NextToken value that you received in the previous response. Use this
+- `"NextToken"`: The NextToken value that you received in the previous response. Use this
   value to get more tags.
 """
 list_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-list_tags(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+list_tags(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
-    ModifyBackupAttributes()
+    modify_backup_attributes(backup_id, never_expires)
+    modify_backup_attributes(backup_id, never_expires, params::Dict{String,<:Any})
 
 Modifies attributes for AWS CloudHSM backup.
 
-# Required Parameters
-- `BackupId`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
+# Arguments
+- `backup_id`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
   the DescribeBackups operation.
-- `NeverExpires`: Specifies whether the service should exempt a backup from the retention
+- `never_expires`: Specifies whether the service should exempt a backup from the retention
   policy for the cluster. True exempts a backup from the retention policy. False means the
   service applies the backup retention policy defined at the cluster.
 
 """
 modify_backup_attributes(BackupId, NeverExpires; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config)
-modify_backup_attributes(BackupId, NeverExpires, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), args)); aws_config=aws_config)
+modify_backup_attributes(BackupId, NeverExpires, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), params)); aws_config=aws_config)
 
 """
-    ModifyCluster()
+    modify_cluster(backup_retention_policy, cluster_id)
+    modify_cluster(backup_retention_policy, cluster_id, params::Dict{String,<:Any})
 
 Modifies AWS CloudHSM cluster.
 
-# Required Parameters
-- `BackupRetentionPolicy`: A policy that defines how the service retains backups.
-- `ClusterId`: The identifier (ID) of the cluster that you want to modify. To find the
+# Arguments
+- `backup_retention_policy`: A policy that defines how the service retains backups.
+- `cluster_id`: The identifier (ID) of the cluster that you want to modify. To find the
   cluster ID, use DescribeClusters.
 
 """
 modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config)
-modify_cluster(BackupRetentionPolicy, ClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), args)); aws_config=aws_config)
+modify_cluster(BackupRetentionPolicy, ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
-    RestoreBackup()
+    restore_backup(backup_id)
+    restore_backup(backup_id, params::Dict{String,<:Any})
 
 Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor
 information on deleting a backup, see DeleteBackup.
 
-# Required Parameters
-- `BackupId`: The ID of the backup to be restored. To find the ID of a backup, use the
+# Arguments
+- `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the
   DescribeBackups operation.
 
 """
 restore_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
-restore_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+restore_backup(BackupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_id, tag_list)
+    tag_resource(resource_id, tag_list, params::Dict{String,<:Any})
 
 Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
 
-# Required Parameters
-- `ResourceId`: The cluster identifier (ID) for the cluster that you are tagging. To find
+# Arguments
+- `resource_id`: The cluster identifier (ID) for the cluster that you are tagging. To find
   the cluster ID, use DescribeClusters.
-- `TagList`: A list of one or more tags.
+- `tag_list`: A list of one or more tags.
 
 """
 tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList); aws_config=aws_config)
-tag_resource(ResourceId, TagList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), args)); aws_config=aws_config)
+tag_resource(ResourceId, TagList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_id, tag_key_list)
+    untag_resource(resource_id, tag_key_list, params::Dict{String,<:Any})
 
 Removes the specified tag or tags from the specified AWS CloudHSM cluster.
 
-# Required Parameters
-- `ResourceId`: The cluster identifier (ID) for the cluster whose tags you are removing. To
-  find the cluster ID, use DescribeClusters.
-- `TagKeyList`: A list of one or more tag keys for the tags that you are removing. Specify
-  only the tag keys, not the tag values.
+# Arguments
+- `resource_id`: The cluster identifier (ID) for the cluster whose tags you are removing.
+  To find the cluster ID, use DescribeClusters.
+- `tag_key_list`: A list of one or more tag keys for the tags that you are removing.
+  Specify only the tag keys, not the tag values.
 
 """
 untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList); aws_config=aws_config)
-untag_resource(ResourceId, TagKeyList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), args)); aws_config=aws_config)
+untag_resource(ResourceId, TagKeyList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config)

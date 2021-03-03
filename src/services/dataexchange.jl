@@ -5,320 +5,350 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CancelJob()
+    cancel_job(job_id)
+    cancel_job(job_id, params::Dict{String,<:Any})
 
 This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
 
-# Required Parameters
-- `JobId`: The unique identifier for a job.
+# Arguments
+- `job_id`: The unique identifier for a job.
 
 """
 cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)"; aws_config=aws_config)
-cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+cancel_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
 
 """
-    CreateDataSet()
+    create_data_set(asset_type, description, name)
+    create_data_set(asset_type, description, name, params::Dict{String,<:Any})
 
 This operation creates a data set.
 
-# Required Parameters
-- `AssetType`: The type of file your data is stored in. Currently, the supported asset type
-  is S3_SNAPSHOT.
-- `Description`: A description for the data set. This value can be up to 16,348 characters
+# Arguments
+- `asset_type`: The type of file your data is stored in. Currently, the supported asset
+  type is S3_SNAPSHOT.
+- `description`: A description for the data set. This value can be up to 16,348 characters
   long.
-- `Name`: The name of the data set.
+- `name`: The name of the data set.
 
 # Optional Parameters
-- `Tags`: A data set tag is an optional label that you can assign to a data set when you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A data set tag is an optional label that you can assign to a data set when you
   create it. Each tag consists of a key and an optional value, both of which you define. When
   you use tagging, you can also use tag-based access control in IAM policies to control
   access to these data sets and revisions.
 """
 create_data_set(AssetType, Description, Name; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name); aws_config=aws_config)
-create_data_set(AssetType, Description, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), args)); aws_config=aws_config)
+create_data_set(AssetType, Description, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssetType"=>AssetType, "Description"=>Description, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateJob()
+    create_job(details, type)
+    create_job(details, type, params::Dict{String,<:Any})
 
 This operation creates a job.
 
-# Required Parameters
-- `Details`: The details for the CreateJob request.
-- `Type`: The type of job to be created.
+# Arguments
+- `details`: The details for the CreateJob request.
+- `type`: The type of job to be created.
 
 """
 create_job(Details, Type; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}("Details"=>Details, "Type"=>Type); aws_config=aws_config)
-create_job(Details, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Details"=>Details, "Type"=>Type), args)); aws_config=aws_config)
+create_job(Details, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Details"=>Details, "Type"=>Type), params)); aws_config=aws_config)
 
 """
-    CreateRevision()
+    create_revision(data_set_id)
+    create_revision(data_set_id, params::Dict{String,<:Any})
 
 This operation creates a revision for a data set.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
-- `Comment`: An optional comment about the revision.
-- `Tags`: A revision tag is an optional label that you can assign to a revision when you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Comment"`: An optional comment about the revision.
+- `"Tags"`: A revision tag is an optional label that you can assign to a revision when you
   create it. Each tag consists of a key and an optional value, both of which you define. When
   you use tagging, you can also use tag-based access control in IAM policies to control
   access to these data sets and revisions.
 """
 create_revision(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
-create_revision(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+create_revision(DataSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config)
 
 """
-    DeleteAsset()
+    delete_asset(asset_id, data_set_id, revision_id)
+    delete_asset(asset_id, data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation deletes an asset.
 
-# Required Parameters
-- `AssetId`: The unique identifier for an asset.
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `asset_id`: The unique identifier for an asset.
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 """
 delete_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
-delete_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+delete_asset(AssetId, DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", params; aws_config=aws_config)
 
 """
-    DeleteDataSet()
+    delete_data_set(data_set_id)
+    delete_data_set(data_set_id, params::Dict{String,<:Any})
 
 This operation deletes a data set.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
 
 """
 delete_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
-delete_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+delete_data_set(DataSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config)
 
 """
-    DeleteRevision()
+    delete_revision(data_set_id, revision_id)
+    delete_revision(data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation deletes a revision.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 """
 delete_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
-delete_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+delete_revision(DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config)
 
 """
-    GetAsset()
+    get_asset(asset_id, data_set_id, revision_id)
+    get_asset(asset_id, data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation returns information about an asset.
 
-# Required Parameters
-- `AssetId`: The unique identifier for an asset.
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `asset_id`: The unique identifier for an asset.
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 """
 get_asset(AssetId, DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)"; aws_config=aws_config)
-get_asset(AssetId, DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args; aws_config=aws_config)
+get_asset(AssetId, DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", params; aws_config=aws_config)
 
 """
-    GetDataSet()
+    get_data_set(data_set_id)
+    get_data_set(data_set_id, params::Dict{String,<:Any})
 
 This operation returns information about a data set.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
 
 """
 get_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
-get_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+get_data_set(DataSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config)
 
 """
-    GetJob()
+    get_job(job_id)
+    get_job(job_id, params::Dict{String,<:Any})
 
 This operation returns information about a job.
 
-# Required Parameters
-- `JobId`: The unique identifier for a job.
+# Arguments
+- `job_id`: The unique identifier for a job.
 
 """
 get_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)"; aws_config=aws_config)
-get_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+get_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
 
 """
-    GetRevision()
+    get_revision(data_set_id, revision_id)
+    get_revision(data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation returns information about a revision.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 """
 get_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
-get_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+get_revision(DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config)
 
 """
-    ListDataSetRevisions()
+    list_data_set_revisions(data_set_id)
+    list_data_set_revisions(data_set_id, params::Dict{String,<:Any})
 
 This operation lists a data set's revisions sorted by CreatedAt in descending order.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results returned by a single call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
 list_data_set_revisions(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions"; aws_config=aws_config)
-list_data_set_revisions(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", args; aws_config=aws_config)
+list_data_set_revisions(DataSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", params; aws_config=aws_config)
 
 """
-    ListDataSets()
+    list_data_sets()
+    list_data_sets(params::Dict{String,<:Any})
 
 This operation lists your data sets. When listing by origin OWNED, results are sorted by
 CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the
 maxResults parameter is ignored.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results returned by a single call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
-- `origin`: A property that defines the data set as OWNED by the account (for providers) or
-  ENTITLED to the account (for subscribers).
+- `"origin"`: A property that defines the data set as OWNED by the account (for providers)
+  or ENTITLED to the account (for subscribers).
 """
 list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
-list_data_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", args; aws_config=aws_config)
+list_data_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", params; aws_config=aws_config)
 
 """
-    ListJobs()
+    list_jobs()
+    list_jobs(params::Dict{String,<:Any})
 
 This operation lists your jobs sorted by CreatedAt in descending order.
 
 # Optional Parameters
-- `dataSetId`: The unique identifier for a data set.
-- `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dataSetId"`: The unique identifier for a data set.
+- `"maxResults"`: The maximum number of results returned by a single call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
-- `revisionId`: The unique identifier for a revision.
+- `"revisionId"`: The unique identifier for a revision.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", args; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", params; aws_config=aws_config)
 
 """
-    ListRevisionAssets()
+    list_revision_assets(data_set_id, revision_id)
+    list_revision_assets(data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation lists a revision's assets sorted alphabetically in descending order.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results returned by a single call.
-- `nextToken`: The token value retrieved from a previous call to access the next page of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results returned by a single call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
 """
 list_revision_assets(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets"; aws_config=aws_config)
-list_revision_assets(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", args; aws_config=aws_config)
+list_revision_assets(DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource-arn)
+    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
 
 This operation lists the tags on the resource.
 
-# Required Parameters
+# Arguments
 - `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 
 """
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
-list_tags_for_resource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+list_tags_for_resource(resource_arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
 
 """
-    StartJob()
+    start_job(job_id)
+    start_job(job_id, params::Dict{String,<:Any})
 
 This operation starts a job.
 
-# Required Parameters
-- `JobId`: The unique identifier for a job.
+# Arguments
+- `job_id`: The unique identifier for a job.
 
 """
 start_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)"; aws_config=aws_config)
-start_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)", args; aws_config=aws_config)
+start_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/jobs/$(JobId)", params; aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource-arn, tags)
+    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
 
 This operation tags a resource.
 
-# Required Parameters
+# Arguments
 - `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 - `tags`: A label that consists of a customer-defined key and an optional value.
 
 """
 tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resource_arn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource-arn, tag_keys)
+    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
 
 This operation removes one or more tags from a resource.
 
-# Required Parameters
+# Arguments
 - `resource-arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
-- `tagKeys`: The key tags.
+- `tag_keys`: The key tags.
 
 """
 untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateAsset()
+    update_asset(asset_id, data_set_id, name, revision_id)
+    update_asset(asset_id, data_set_id, name, revision_id, params::Dict{String,<:Any})
 
 This operation updates an asset.
 
-# Required Parameters
-- `AssetId`: The unique identifier for an asset.
-- `DataSetId`: The unique identifier for a data set.
-- `Name`: The name of the asset. When importing from Amazon S3, the S3 object key is used
+# Arguments
+- `asset_id`: The unique identifier for an asset.
+- `data_set_id`: The unique identifier for a data set.
+- `name`: The name of the asset. When importing from Amazon S3, the S3 object key is used
   as the asset name. When exporting to Amazon S3, the asset name is used as default target S3
   object key.
-- `RevisionId`: The unique identifier for a revision.
+- `revision_id`: The unique identifier for a revision.
 
 """
 update_asset(AssetId, DataSetId, Name, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_asset(AssetId, DataSetId, Name, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+update_asset(AssetId, DataSetId, Name, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
-    UpdateDataSet()
+    update_data_set(data_set_id)
+    update_data_set(data_set_id, params::Dict{String,<:Any})
 
 This operation updates a data set.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
-- `Description`: The description for the data set.
-- `Name`: The name of the data set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description for the data set.
+- `"Name"`: The name of the data set.
 """
 update_data_set(DataSetId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)"; aws_config=aws_config)
-update_data_set(DataSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", args; aws_config=aws_config)
+update_data_set(DataSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", params; aws_config=aws_config)
 
 """
-    UpdateRevision()
+    update_revision(data_set_id, revision_id)
+    update_revision(data_set_id, revision_id, params::Dict{String,<:Any})
 
 This operation updates a revision.
 
-# Required Parameters
-- `DataSetId`: The unique identifier for a data set.
-- `RevisionId`: The unique identifier for a revision.
+# Arguments
+- `data_set_id`: The unique identifier for a data set.
+- `revision_id`: The unique identifier for a revision.
 
 # Optional Parameters
-- `Comment`: An optional comment about the revision.
-- `Finalized`: Finalizing a revision tells AWS Data Exchange that your changes to the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Comment"`: An optional comment about the revision.
+- `"Finalized"`: Finalizing a revision tells AWS Data Exchange that your changes to the
   assets in the revision are complete. After it's in this read-only state, you can publish
   the revision to your products.
 """
 update_revision(DataSetId, RevisionId; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)"; aws_config=aws_config)
-update_revision(DataSetId, RevisionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args; aws_config=aws_config)
+update_revision(DataSetId, RevisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", params; aws_config=aws_config)

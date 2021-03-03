@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateAccessPoint()
+    create_access_point(bucket, name, x-amz-account-id)
+    create_access_point(bucket, name, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates an access point and associates it with the specified bucket. For more information,
 see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service
@@ -22,8 +23,8 @@ the x-amz-outpost-id derived using the access point ARN, see the Examples sectio
 following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint
     ListAccessPoints
 
-# Required Parameters
-- `Bucket`: The name of the bucket that you want to associate this access point with. For
+# Arguments
+- `bucket`: The name of the bucket that you want to associate this access point with. For
   using this parameter with Amazon S3 on Outposts with the REST API, you must specify the
   name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with
   the AWS SDK and CLI, you must specify the ARN of the bucket accessed in the format
@@ -37,16 +38,18 @@ following actions are related to CreateAccessPoint:    GetAccessPoint     Delete
   create an access point.
 
 # Optional Parameters
-- `PublicAccessBlockConfiguration`:
-- `VpcConfiguration`: If you include this field, Amazon S3 restricts access to this access
-  point to requests from the specified virtual private cloud (VPC).  This is required for
-  creating an access point for Amazon S3 on Outposts buckets.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PublicAccessBlockConfiguration"`:
+- `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this
+  access point to requests from the specified virtual private cloud (VPC).  This is required
+  for creating an access point for Amazon S3 on Outposts buckets.
 """
 create_access_point(Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-create_access_point(Bucket, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+create_access_point(Bucket, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    CreateBucket()
+    create_bucket(name)
+    create_bucket(name, params::Dict{String,<:Any})
 
  This API operation creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see
 Create Bucket in the Amazon Simple Storage Service API.   Creates a new Outposts bucket. By
@@ -61,34 +64,36 @@ endpoint hostname prefix and x-amz-outpost-id in your API request, see the Examp
 section. The following actions are related to CreateBucket for Amazon S3 on Outposts:
 PutObject     GetBucket     DeleteBucket     CreateAccessPoint     PutAccessPointPolicy
 
-# Required Parameters
+# Arguments
 - `name`: The name of the bucket.
 
 # Optional Parameters
-- `CreateBucketConfiguration`: The configuration information for the bucket.  This is not
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreateBucketConfiguration"`: The configuration information for the bucket.  This is not
   supported by Amazon S3 on Outposts buckets.
-- `x-amz-acl`: The canned ACL to apply to the bucket.  This is not supported by Amazon S3
+- `"x-amz-acl"`: The canned ACL to apply to the bucket.  This is not supported by Amazon S3
   on Outposts buckets.
-- `x-amz-bucket-object-lock-enabled`: Specifies whether you want S3 Object Lock to be
+- `"x-amz-bucket-object-lock-enabled"`: Specifies whether you want S3 Object Lock to be
   enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `x-amz-grant-full-control`: Allows grantee the read, write, read ACP, and write ACP
+- `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `x-amz-grant-read`: Allows grantee to list the objects in the bucket.  This is not
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.  This is not
   supported by Amazon S3 on Outposts buckets.
-- `x-amz-grant-read-acp`: Allows grantee to read the bucket ACL.  This is not supported by
-  Amazon S3 on Outposts buckets.
-- `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.  This is not supported
+  by Amazon S3 on Outposts buckets.
+- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
   bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.  This
-  is not supported by Amazon S3 on Outposts buckets.
-- `x-amz-outpost-id`: The ID of the Outposts where the bucket is being created.  This is
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
+  This is not supported by Amazon S3 on Outposts buckets.
+- `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This is
   required by Amazon S3 on Outposts buckets.
 """
 create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)"; aws_config=aws_config)
-create_bucket(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)", args; aws_config=aws_config)
+create_bucket(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)", params; aws_config=aws_config)
 
 """
-    CreateJob()
+    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id)
+    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id, params::Dict{String,<:Any})
 
 You can use S3 Batch Operations to perform large-scale batch operations on Amazon S3
 objects. Batch Operations can run a single operation on lists of Amazon S3 objects that you
@@ -97,33 +102,35 @@ Developer Guide. This operation creates a S3 Batch Operations job.  Related acti
 include:    DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus
 JobOperation
 
-# Required Parameters
-- `ClientRequestToken`: An idempotency token to ensure that you don't accidentally submit
+# Arguments
+- `client_request_token`: An idempotency token to ensure that you don't accidentally submit
   the same request twice. You can use any string up to the maximum length.
-- `Manifest`: Configuration parameters for the manifest.
-- `Operation`: The operation that you want this job to perform on every object listed in
+- `manifest`: Configuration parameters for the manifest.
+- `operation`: The operation that you want this job to perform on every object listed in
   the manifest. For more information about the available operations, see Operations in the
   Amazon Simple Storage Service Developer Guide.
-- `Priority`: The numerical priority for this job. Higher numbers indicate higher priority.
-- `Report`: Configuration parameters for the optional job-completion report.
-- `RoleArn`: The Amazon Resource Name (ARN) for the AWS Identity and Access Management
+- `priority`: The numerical priority for this job. Higher numbers indicate higher priority.
+- `report`: Configuration parameters for the optional job-completion report.
+- `role_arn`: The Amazon Resource Name (ARN) for the AWS Identity and Access Management
   (IAM) role that Batch Operations will use to run this job's operation on every object in
   the manifest.
 - `x-amz-account-id`: The AWS account ID that creates the job.
 
 # Optional Parameters
-- `ConfirmationRequired`: Indicates whether confirmation is required before Amazon S3 runs
-  the job. Confirmation is only required for jobs created through the Amazon S3 console.
-- `Description`: A description for this job. You can use any string within the permitted
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfirmationRequired"`: Indicates whether confirmation is required before Amazon S3
+  runs the job. Confirmation is only required for jobs created through the Amazon S3 console.
+- `"Description"`: A description for this job. You can use any string within the permitted
   length. Descriptions don't need to be unique and can be used for multiple jobs.
-- `Tags`: A set of tags to associate with the S3 Batch Operations job. This is an optional
-  parameter.
+- `"Tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
+  optional parameter.
 """
 create_job(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-create_job(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+create_job(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteAccessPoint()
+    delete_access_point(name, x-amz-account-id)
+    delete_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this
 action require an additional parameter of x-amz-outpost-id to be passed with the request
@@ -133,7 +140,7 @@ prefix and the x-amz-outpost-id derived using the access point ARN, see the Exam
 section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint
 GetAccessPoint     ListAccessPoints
 
-# Required Parameters
+# Arguments
 - `name`: The name of the access point you want to delete. For using this parameter with
   Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id
   as well. For using this parameter with S3 on Outposts with the AWS SDK and CLI, you must
@@ -147,10 +154,11 @@ GetAccessPoint     ListAccessPoints
 
 """
 delete_access_point(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_access_point(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_access_point(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteAccessPointPolicy()
+    delete_access_point_policy(name, x-amz-account-id)
+    delete_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts
 REST API requests for this action require an additional parameter of x-amz-outpost-id to be
@@ -160,7 +168,7 @@ on Outposts endpoint hostname prefix and the x-amz-outpost-id derived using the 
 point ARN, see the Examples section. The following actions are related to
 DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
 
-# Required Parameters
+# Arguments
 - `name`: The name of the access point whose policy you want to delete. For using this
   parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the
   x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the AWS SDK and
@@ -174,10 +182,11 @@ DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
 
 """
 delete_access_point_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_access_point_policy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_access_point_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteBucket()
+    delete_bucket(name, x-amz-account-id)
+    delete_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This API operation deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see
 DeleteBucket in the Amazon Simple Storage Service API.   Deletes the Amazon S3 on Outposts
@@ -191,7 +200,7 @@ on Outposts endpoint hostname prefix and the x-amz-outpost-id derived using the 
 point ARN, see the Examples section.  Related Resources     CreateBucket     GetBucket
 DeleteObject
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket being deleted. For using this parameter with Amazon S3 on
   Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For
   using this parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN
@@ -205,10 +214,11 @@ DeleteObject
 
 """
 delete_bucket(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_bucket(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_bucket(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteBucketLifecycleConfiguration()
+    delete_bucket_lifecycle_configuration(name, x-amz-account-id)
+    delete_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This API action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To
 delete an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon
@@ -228,7 +238,7 @@ derived using the access point ARN, see the Examples section. For more informati
 object expiration, see Elements to Describe Lifecycle Actions. Related actions include:
 PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -242,10 +252,11 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
 """
 delete_bucket_lifecycle_configuration(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_bucket_lifecycle_configuration(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteBucketPolicy()
+    delete_bucket_policy(name, x-amz-account-id)
+    delete_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This API operation deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket
 policy, see DeleteBucketPolicy in the Amazon Simple Storage Service API.   This
@@ -269,7 +280,7 @@ the x-amz-outpost-id derived using the access point ARN, see the Examples sectio
 following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
 
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -283,10 +294,11 @@ following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutB
 
 """
 delete_bucket_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_bucket_policy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_bucket_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteBucketTagging()
+    delete_bucket_tagging(name, x-amz-account-id)
+    delete_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This operation deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket
 tags, see DeleteBucketTagging in the Amazon Simple Storage Service API.   Deletes the tags
@@ -301,7 +313,7 @@ prefix and the x-amz-outpost-id derived using the access point ARN, see the Exam
 section. The following actions are related to DeleteBucketTagging:    GetBucketTagging
 PutBucketTagging
 
-# Required Parameters
+# Arguments
 - `name`: The bucket ARN that has the tag set to be removed. For using this parameter with
   Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id
   as well. For using this parameter with S3 on Outposts with the AWS SDK and CLI, you must
@@ -315,10 +327,11 @@ PutBucketTagging
 
 """
 delete_bucket_tagging(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_bucket_tagging(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_bucket_tagging(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteJobTagging()
+    delete_job_tagging(id, x-amz-account-id)
+    delete_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
 
 Removes the entire tag set from the specified S3 Batch Operations job. To use this
 operation, you must have permission to perform the s3:DeleteJobTagging action. For more
@@ -326,31 +339,33 @@ information, see Controlling access and labeling jobs using tags in the Amazon S
 Storage Service Developer Guide.  Related actions include:    CreateJob     GetJobTagging
   PutJobTagging
 
-# Required Parameters
+# Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to delete.
 - `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 """
 delete_job_tagging(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_job_tagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_job_tagging(id, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeletePublicAccessBlock()
+    delete_public_access_block(x-amz-account-id)
+    delete_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
 Removes the PublicAccessBlock configuration for an AWS account. For more information, see
 Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock
 PutPublicAccessBlock
 
-# Required Parameters
+# Arguments
 - `x-amz-account-id`: The account ID for the AWS account whose PublicAccessBlock
   configuration you want to remove.
 
 """
 delete_public_access_block(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_public_access_block(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_public_access_block(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteStorageLensConfiguration()
+    delete_storage_lens_configuration(storagelensid, x-amz-account-id)
+    delete_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
@@ -359,16 +374,17 @@ permission to perform the s3:DeleteStorageLensConfiguration action. For more inf
 see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service
 Developer Guide.
 
-# Required Parameters
+# Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
 delete_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_storage_lens_configuration(storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DeleteStorageLensConfigurationTagging()
+    delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
+    delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
@@ -377,32 +393,34 @@ permission to perform the s3:DeleteStorageLensConfigurationTagging action. For m
 information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple
 Storage Service Developer Guide.
 
-# Required Parameters
+# Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
 delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    DescribeJob()
+    describe_job(id, x-amz-account-id)
+    describe_job(id, x-amz-account-id, params::Dict{String,<:Any})
 
 Retrieves the configuration parameters and status for a Batch Operations job. For more
 information, see S3 Batch Operations in the Amazon Simple Storage Service Developer Guide.
 Related actions include:    CreateJob     ListJobs     UpdateJobPriority
 UpdateJobStatus
 
-# Required Parameters
+# Arguments
 - `id`: The ID for the job whose information you want to retrieve.
-- `x-amz-account-id`:
+- `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 """
 describe_job(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-describe_job(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+describe_job(id, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetAccessPoint()
+    get_access_point(name, x-amz-account-id)
+    get_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Returns configuration information about the specified access point.  All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
@@ -413,7 +431,7 @@ derived using the access point ARN, see the Examples section. The following acti
 related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 
-# Required Parameters
+# Arguments
 - `name`: The name of the access point whose configuration information you want to
   retrieve. For using this parameter with Amazon S3 on Outposts with the REST API, you must
   specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on
@@ -428,16 +446,17 @@ related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAc
 
 """
 get_access_point(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_access_point(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_access_point(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetAccessPointPolicy()
+    get_access_point_policy(name, x-amz-account-id)
+    get_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Returns the access point policy associated with the specified access point. The following
 actions are related to GetAccessPointPolicy:    PutAccessPointPolicy
 DeleteAccessPointPolicy
 
-# Required Parameters
+# Arguments
 - `name`: The name of the access point whose policy you want to retrieve. For using this
   parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the
   x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the AWS SDK and
@@ -451,25 +470,27 @@ DeleteAccessPointPolicy
 
 """
 get_access_point_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_access_point_policy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_access_point_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetAccessPointPolicyStatus()
+    get_access_point_policy_status(name, x-amz-account-id)
+    get_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Indicates whether the specified access point currently has a policy that allows public
 access. For more information about public access through access points, see Managing Data
 Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
 
-# Required Parameters
+# Arguments
 - `name`: The name of the access point whose policy status you want to retrieve.
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
 get_access_point_policy_status(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_access_point_policy_status(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_access_point_policy_status(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetBucket()
+    get_bucket(name, x-amz-account-id)
+    get_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
 Outposts in the Amazon Simple Storage Service Developer Guide. If you are using an identity
@@ -486,7 +507,7 @@ s3-control. For an example of the request syntax for Amazon S3 on Outposts that 
 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived using the access
 point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -500,10 +521,11 @@ point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBuc
 
 """
 get_bucket(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_bucket(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_bucket(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetBucketLifecycleConfiguration()
+    get_bucket_lifecycle_configuration(name, x-amz-account-id)
+    get_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This operation gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an
 S3 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon
@@ -525,7 +547,7 @@ not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client   
 following actions are related to GetBucketLifecycleConfiguration:
 PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
-# Required Parameters
+# Arguments
 - `name`: The Amazon Resource Name (ARN) of the bucket. For using this parameter with
   Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id
   as well. For using this parameter with S3 on Outposts with the AWS SDK and CLI, you must
@@ -539,10 +561,11 @@ PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
 """
 get_bucket_lifecycle_configuration(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_bucket_lifecycle_configuration(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetBucketPolicy()
+    get_bucket_policy(name, x-amz-account-id)
+    get_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for
 an S3 bucket, see GetBucketPolicy in the Amazon Simple Storage Service API.   Returns the
@@ -564,7 +587,7 @@ on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-
 derived using the access point ARN, see the Examples section. The following actions are
 related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPolicy
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -578,10 +601,11 @@ related to GetBucketPolicy:    GetObject     PutBucketPolicy     DeleteBucketPol
 
 """
 get_bucket_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_bucket_policy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_bucket_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetBucketTagging()
+    get_bucket_tagging(name, x-amz-account-id)
+    get_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This operation gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see
 GetBucketTagging in the Amazon Simple Storage Service API.   Returns the tag set associated
@@ -598,7 +622,7 @@ the x-amz-outpost-id derived using the access point ARN, see the Examples sectio
 following actions are related to GetBucketTagging:    PutBucketTagging
 DeleteBucketTagging
 
-# Required Parameters
+# Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -612,41 +636,44 @@ DeleteBucketTagging
 
 """
 get_bucket_tagging(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_bucket_tagging(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_bucket_tagging(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetJobTagging()
+    get_job_tagging(id, x-amz-account-id)
+    get_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
 
 Returns the tags on an S3 Batch Operations job. To use this operation, you must have
 permission to perform the s3:GetJobTagging action. For more information, see Controlling
 access and labeling jobs using tags in the Amazon Simple Storage Service Developer Guide.
 Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging
 
-# Required Parameters
+# Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to retrieve.
 - `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 """
 get_job_tagging(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_job_tagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_job_tagging(id, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetPublicAccessBlock()
+    get_public_access_block(x-amz-account-id)
+    get_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
 Retrieves the PublicAccessBlock configuration for an AWS account. For more information, see
  Using Amazon S3 block public access. Related actions include:    DeletePublicAccessBlock
   PutPublicAccessBlock
 
-# Required Parameters
+# Arguments
 - `x-amz-account-id`: The account ID for the AWS account whose PublicAccessBlock
   configuration you want to retrieve.
 
 """
 get_public_access_block(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_public_access_block(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_public_access_block(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetStorageLensConfiguration()
+    get_storage_lens_configuration(storagelensid, x-amz-account-id)
+    get_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your
 storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage
@@ -654,16 +681,17 @@ Service Developer Guide.  To use this action, you must have permission to perfor
 s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use
 Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
 
-# Required Parameters
+# Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
 get_storage_lens_configuration(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_storage_lens_configuration(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_storage_lens_configuration(storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    GetStorageLensConfigurationTagging()
+    get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
+    get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
@@ -672,16 +700,17 @@ permission to perform the s3:GetStorageLensConfigurationTagging action. For more
 information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple
 Storage Service Developer Guide.
 
-# Required Parameters
+# Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
 get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+get_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    ListAccessPoints()
+    list_access_points(x-amz-account-id)
+    list_access_points(x-amz-account-id, params::Dict{String,<:Any})
 
 Returns a list of the access points currently associated with the specified bucket. You can
 retrieve up to 1000 access points per call. If the specified bucket has more than 1,000
@@ -695,12 +724,13 @@ derived using the access point ARN, see the Examples section. The following acti
 related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
 
 
-# Required Parameters
+# Arguments
 - `x-amz-account-id`: The AWS account ID for owner of the bucket whose access points you
   want to list.
 
 # Optional Parameters
-- `bucket`: The name of the bucket whose associated access points you want to list. For
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucket"`: The name of the bucket whose associated access points you want to list. For
   using this parameter with Amazon S3 on Outposts with the REST API, you must specify the
   name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with
   the AWS SDK and CLI, you must specify the ARN of the bucket accessed in the format
@@ -709,43 +739,46 @@ related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetA
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `maxResults`: The maximum number of access points that you want to include in the list.
+- `"maxResults"`: The maximum number of access points that you want to include in the list.
   If the specified bucket has more than this number of access points, then the response will
   include a continuation token in the NextToken field that you can use to retrieve the next
   page of access points.
-- `nextToken`: A continuation token. If a previous call to ListAccessPoints returned a
+- `"nextToken"`: A continuation token. If a previous call to ListAccessPoints returned a
   continuation token in the NextToken field, then providing that value here causes Amazon S3
   to retrieve the next page of results.
 """
 list_access_points(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-list_access_points(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+list_access_points(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    ListJobs()
+    list_jobs(x-amz-account-id)
+    list_jobs(x-amz-account-id, params::Dict{String,<:Any})
 
 Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for
 the AWS account making the request. For more information, see S3 Batch Operations in the
 Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob
 DescribeJob     UpdateJobPriority     UpdateJobStatus
 
-# Required Parameters
-- `x-amz-account-id`:
+# Arguments
+- `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 # Optional Parameters
-- `jobStatuses`: The List Jobs request returns jobs that match the statuses listed in this
-  element.
-- `maxResults`: The maximum number of jobs that Amazon S3 will include in the List Jobs
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobStatuses"`: The List Jobs request returns jobs that match the statuses listed in
+  this element.
+- `"maxResults"`: The maximum number of jobs that Amazon S3 will include in the List Jobs
   response. If there are more jobs than this number, the response will include a pagination
   token in the NextToken field to enable you to retrieve the next page of results.
-- `nextToken`: A pagination token to request the next page of results. Use the token that
+- `"nextToken"`: A pagination token to request the next page of results. Use the token that
   Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List
   Jobs request.
 """
 list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-list_jobs(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+list_jobs(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    ListRegionalBuckets()
+    list_regional_buckets(x-amz-account-id)
+    list_regional_buckets(x-amz-account-id, params::Dict{String,<:Any})
 
 Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated
 sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon
@@ -753,20 +786,22 @@ Simple Storage Service Developer Guide. For an example of the request syntax for
 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in
 your request, see the Examples section.
 
-# Required Parameters
+# Arguments
 - `x-amz-account-id`: The AWS account ID of the Outposts bucket.
 
 # Optional Parameters
-- `maxResults`:
-- `nextToken`:
-- `x-amz-outpost-id`: The ID of the AWS Outposts.  This is required by Amazon S3 on
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`:
+- `"x-amz-outpost-id"`: The ID of the AWS Outposts.  This is required by Amazon S3 on
   Outposts buckets.
 """
 list_regional_buckets(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-list_regional_buckets(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+list_regional_buckets(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/bucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    ListStorageLensConfigurations()
+    list_storage_lens_configurations(x-amz-account-id)
+    list_storage_lens_configurations(x-amz-account-id, params::Dict{String,<:Any})
 
 Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
@@ -775,17 +810,19 @@ permission to perform the s3:ListStorageLensConfigurations action. For more info
 see Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service
 Developer Guide.
 
-# Required Parameters
+# Arguments
 - `x-amz-account-id`: The account ID of the requester.
 
 # Optional Parameters
-- `nextToken`: A pagination token to request the next page of results.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: A pagination token to request the next page of results.
 """
 list_storage_lens_configurations(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-list_storage_lens_configurations(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+list_storage_lens_configurations(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutAccessPointPolicy()
+    put_access_point_policy(policy, name, x-amz-account-id)
+    put_access_point_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
 Associates an access policy with the specified access point. Each access point can have
 only one policy, so a request made to this API replaces any existing policy associated with
@@ -797,8 +834,8 @@ the x-amz-outpost-id derived using the access point ARN, see the Examples sectio
 following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy
 DeleteAccessPointPolicy
 
-# Required Parameters
-- `Policy`: The policy that you want to apply to the specified access point. For more
+# Arguments
+- `policy`: The policy that you want to apply to the specified access point. For more
   information about access point policies, see Managing data access with Amazon S3 Access
   Points in the Amazon Simple Storage Service Developer Guide.
 - `name`: The name of the access point that you want to associate with the specified
@@ -816,10 +853,11 @@ DeleteAccessPointPolicy
 
 """
 put_access_point_policy(Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_access_point_policy(Policy, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_access_point_policy(Policy, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutBucketLifecycleConfiguration()
+    put_bucket_lifecycle_configuration(name, x-amz-account-id)
+    put_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a
 lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon
@@ -835,19 +873,21 @@ the x-amz-outpost-id derived using the access point ARN, see the Examples sectio
 following actions are related to PutBucketLifecycleConfiguration:
 GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
-# Required Parameters
+# Arguments
 - `name`: The name of the bucket for which to set the configuration.
 - `x-amz-account-id`: The AWS account ID of the Outposts bucket.
 
 # Optional Parameters
-- `LifecycleConfiguration`: Container for lifecycle rules. You can add as many as 1,000
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 """
 put_bucket_lifecycle_configuration(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_bucket_lifecycle_configuration(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/lifecycleconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutBucketPolicy()
+    put_bucket_policy(policy, name, x-amz-account-id)
+    put_bucket_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an
 S3 bucket, see PutBucketPolicy in the Amazon Simple Storage Service API.   Applies an
@@ -869,8 +909,8 @@ Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-out
 derived using the access point ARN, see the Examples section. The following actions are
 related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
 
-# Required Parameters
-- `Policy`: The bucket policy as a JSON document.
+# Arguments
+- `policy`: The bucket policy as a JSON document.
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
   the REST API, you must specify the name and the x-amz-outpost-id as well. For using this
   parameter with S3 on Outposts with the AWS SDK and CLI, you must specify the ARN of the
@@ -883,15 +923,17 @@ related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
 - `x-amz-account-id`: The AWS account ID of the Outposts bucket.
 
 # Optional Parameters
-- `x-amz-confirm-remove-self-bucket-access`: Set this parameter to true to confirm that you
-  want to remove your permissions to change this bucket policy in the future.  This is not
-  supported by Amazon S3 on Outposts buckets.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-confirm-remove-self-bucket-access"`: Set this parameter to true to confirm that
+  you want to remove your permissions to change this bucket policy in the future.  This is
+  not supported by Amazon S3 on Outposts buckets.
 """
 put_bucket_policy(Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/policy", Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_bucket_policy(Policy, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_bucket_policy(Policy, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutBucketTagging()
+    put_bucket_tagging(tagging, name, x-amz-account-id)
+    put_bucket_tagging(tagging, name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see
 PutBucketTagging in the Amazon Simple Storage Service API.   Sets the tags for an Outposts
@@ -923,8 +965,8 @@ Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-out
 derived using the access point ARN, see the Examples section. The following actions are
 related to PutBucketTagging:    GetBucketTagging     DeleteBucketTagging
 
-# Required Parameters
-- `Tagging`:
+# Arguments
+- `tagging`:
 - `name`: The Amazon Resource Name (ARN) of the bucket. For using this parameter with
   Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id
   as well. For using this parameter with S3 on Outposts with the AWS SDK and CLI, you must
@@ -938,10 +980,11 @@ related to PutBucketTagging:    GetBucketTagging     DeleteBucketTagging
 
 """
 put_bucket_tagging(Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}("Tagging"=>Tagging, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_bucket_tagging(Tagging, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_bucket_tagging(Tagging, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/bucket/$(name)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutJobTagging()
+    put_job_tagging(tags, id, x-amz-account-id)
+    put_job_tagging(tags, id, x-amz-account-id, params::Dict{String,<:Any})
 
 Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can
 associate S3 Batch Operations tags with any job by sending a PUT request against the
@@ -964,34 +1007,36 @@ Management User Guide.       To use this operation, you must have permission to 
 s3:PutJobTagging action. Related actions include:    CreatJob     GetJobTagging
 DeleteJobTagging
 
-# Required Parameters
-- `Tags`: The set of tags to associate with the S3 Batch Operations job.
+# Arguments
+- `tags`: The set of tags to associate with the S3 Batch Operations job.
 - `id`: The ID for the S3 Batch Operations job whose tags you want to replace.
 - `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 """
 put_job_tagging(Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_job_tagging(Tags, id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_job_tagging(Tags, id, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutPublicAccessBlock()
+    put_public_access_block(public_access_block_configuration, x-amz-account-id)
+    put_public_access_block(public_access_block_configuration, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates or modifies the PublicAccessBlock configuration for an AWS account. For more
 information, see  Using Amazon S3 block public access. Related actions include:
 GetPublicAccessBlock     DeletePublicAccessBlock
 
-# Required Parameters
-- `PublicAccessBlockConfiguration`: The PublicAccessBlock configuration that you want to
+# Arguments
+- `public_access_block_configuration`: The PublicAccessBlock configuration that you want to
   apply to the specified AWS account.
 - `x-amz-account-id`: The account ID for the AWS account whose PublicAccessBlock
   configuration you want to set.
 
 """
 put_public_access_block(PublicAccessBlockConfiguration, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_public_access_block(PublicAccessBlockConfiguration, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_public_access_block(PublicAccessBlockConfiguration, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutStorageLensConfiguration()
+    put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id)
+    put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens,
 see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer
@@ -999,20 +1044,22 @@ Guide.  To use this action, you must have permission to perform the
 s3:PutStorageLensConfiguration action. For more information, see Setting permissions to use
 Amazon S3 Storage Lens in the Amazon Simple Storage Service Developer Guide.
 
-# Required Parameters
-- `StorageLensConfiguration`: The S3 Storage Lens configuration.
+# Arguments
+- `storage_lens_configuration`: The S3 Storage Lens configuration.
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 # Optional Parameters
-- `Tags`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
-  50 tags.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
+  of 50 tags.
 """
 put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StorageLensConfiguration"=>StorageLensConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    PutStorageLensConfigurationTagging()
+    put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id)
+    put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more
 information about S3 Storage Lens, see Assessing your storage activity and usage with
@@ -1021,51 +1068,55 @@ action, you must have permission to perform the s3:PutStorageLensConfigurationTa
 action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
 Amazon Simple Storage Service Developer Guide.
 
-# Required Parameters
-- `Tag`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
+# Arguments
+- `tag`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
   50 tags.
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 # Optional Parameters
-- `Tags`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
-  50 tags.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
+  of 50 tags.
 """
 put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/storagelens/$(storagelensid)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tag"=>Tag, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    UpdateJobPriority()
+    update_job_priority(id, priority, x-amz-account-id)
+    update_job_priority(id, priority, x-amz-account-id, params::Dict{String,<:Any})
 
 Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch
 Operations in the Amazon Simple Storage Service Developer Guide.  Related actions include:
   CreateJob     ListJobs     DescribeJob     UpdateJobStatus
 
-# Required Parameters
+# Arguments
 - `id`: The ID for the job whose priority you want to update.
 - `priority`: The priority you want to assign to this job.
-- `x-amz-account-id`:
+- `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 """
 update_job_priority(id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-update_job_priority(id, priority, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+update_job_priority(id, priority, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
-    UpdateJobStatus()
+    update_job_status(id, requested_job_status, x-amz-account-id)
+    update_job_status(id, requested_job_status, x-amz-account-id, params::Dict{String,<:Any})
 
 Updates the status for the specified job. Use this operation to confirm that you want to
 run a job or to cancel an existing job. For more information, see S3 Batch Operations in
 the Amazon Simple Storage Service Developer Guide.  Related actions include:    CreateJob
   ListJobs     DescribeJob     UpdateJobStatus
 
-# Required Parameters
+# Arguments
 - `id`: The ID of the job whose status you want to update.
-- `requestedJobStatus`: The status that you want to move the specified job to.
-- `x-amz-account-id`:
+- `requested_job_status`: The status that you want to move the specified job to.
+- `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
 
 # Optional Parameters
-- `statusUpdateReason`: A description of the reason why you want to change the specified
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"statusUpdateReason"`: A description of the reason why you want to change the specified
   job's status. This field can be any string up to the maximum length.
 """
 update_job_status(id, requestedJobStatus, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-update_job_status(id, requestedJobStatus, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+update_job_status(id, requestedJobStatus, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)

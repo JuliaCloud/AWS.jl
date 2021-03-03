@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssumeRole()
+    assume_role(role_arn, role_session_name)
+    assume_role(role_arn, role_session_name, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials that you can use to access AWS resources
 that you might not normally have access to. These temporary credentials consist of an
@@ -74,20 +75,22 @@ values for the SerialNumber and TokenCode parameters. The SerialNumber value ide
 user's hardware or virtual MFA device. The TokenCode is the time-based one-time password
 (TOTP) that the MFA device produces.
 
-# Required Parameters
-- `RoleArn`: The Amazon Resource Name (ARN) of the role to assume.
-- `RoleSessionName`: An identifier for the assumed role session. Use the role session name
-  to uniquely identify a session when the same role is assumed by different principals or for
-  different reasons. In cross-account scenarios, the role session name is visible to, and can
-  be logged by the account that owns the role. The role session name is also used in the ARN
-  of the assumed role principal. This means that subsequent cross-account API requests that
-  use the temporary security credentials will expose the role session name to the external
-  account in their AWS CloudTrail logs. The regex used to validate this parameter is a string
-  of characters consisting of upper- and lower-case alphanumeric characters with no spaces.
-  You can also include underscores or any of the following characters: =,.@-
+# Arguments
+- `role_arn`: The Amazon Resource Name (ARN) of the role to assume.
+- `role_session_name`: An identifier for the assumed role session. Use the role session
+  name to uniquely identify a session when the same role is assumed by different principals
+  or for different reasons. In cross-account scenarios, the role session name is visible to,
+  and can be logged by the account that owns the role. The role session name is also used in
+  the ARN of the assumed role principal. This means that subsequent cross-account API
+  requests that use the temporary security credentials will expose the role session name to
+  the external account in their AWS CloudTrail logs. The regex used to validate this
+  parameter is a string of characters consisting of upper- and lower-case alphanumeric
+  characters with no spaces. You can also include underscores or any of the following
+  characters: =,.@-
 
 # Optional Parameters
-- `DurationSeconds`: The duration, in seconds, of the role session. The value can range
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DurationSeconds"`: The duration, in seconds, of the role session. The value can range
   from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This
   setting can have a value from 1 hour to 12 hours. If you specify a value higher than this
   setting, the operation fails. For example, if you specify a session duration of 12 hours,
@@ -99,7 +102,7 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   console sign-in token takes a SessionDuration parameter that specifies the maximum length
   of the console session. For more information, see Creating a URL that Enables Federated
   Users to Access the AWS Management Console in the IAM User Guide.
-- `ExternalId`: A unique identifier that might be required when you assume a role in
+- `"ExternalId"`: A unique identifier that might be required when you assume a role in
   another account. If the administrator of the account to which the role belongs provided you
   with an external ID, then provide that value in the ExternalId parameter. This value can be
   any string, such as a passphrase or account number. A cross-account role is usually set up
@@ -110,10 +113,10 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter
   is a string of characters consisting of upper- and lower-case alphanumeric characters with
   no spaces. You can also include underscores or any of the following characters: =,.@:/-
-- `Policy`: An IAM policy in JSON format that you want to use as an inline session policy.
-  This parameter is optional. Passing policies to this operation returns new temporary
-  credentials. The resulting session's permissions are the intersection of the role's
-  identity-based policy and the session policies. You can use the role's temporary
+- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+  policy. This parameter is optional. Passing policies to this operation returns new
+  temporary credentials. The resulting session's permissions are the intersection of the
+  role's identity-based policy and the session policies. You can use the role's temporary
   credentials in subsequent AWS API calls to access resources in the account that owns the
   role. You cannot use session policies to grant more permissions than those allowed by the
   identity-based policy of the role that is being assumed. For more information, see Session
@@ -126,8 +129,8 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   if your plain text meets the other requirements. The PackedPolicySize response element
   indicates by percentage how close the policies and tags for your request are to the upper
   size limit.
-- `PolicyArns`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want
-  to use as managed session policies. The policies must exist in the same account as the
+- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+  want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plain text that you use for both inline and managed session policies can't exceed 2,048
   characters. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
@@ -142,7 +145,7 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   owns the role. You cannot use session policies to grant more permissions than those allowed
   by the identity-based policy of the role that is being assumed. For more information, see
   Session Policies in the IAM User Guide.
-- `SerialNumber`: The identification number of the MFA device that is associated with the
+- `"SerialNumber"`: The identification number of the MFA device that is associated with the
   user who is making the AssumeRole call. Specify this value if the trust policy of the role
   being assumed includes a condition that requires MFA authentication. The value is either
   the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name
@@ -150,44 +153,45 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   validate this parameter is a string of characters consisting of upper- and lower-case
   alphanumeric characters with no spaces. You can also include underscores or any of the
   following characters: =,.@-
-- `Tags`: A list of session tags that you want to pass. Each session tag consists of a key
-  name and an associated value. For more information about session tags, see Tagging AWS STS
-  Sessions in the IAM User Guide. This parameter is optional. You can pass up to 50 session
-  tags. The plain text session tag keys can’t exceed 128 characters, and the values can’t
-  exceed 256 characters. For these and additional limits, see IAM and STS Character Limits in
-  the IAM User Guide.  An AWS conversion compresses the passed session policies and session
-  tags into a packed binary format that has a separate limit. Your request can fail for this
-  limit even if your plain text meets the other requirements. The PackedPolicySize response
-  element indicates by percentage how close the policies and tags for your request are to the
-  upper size limit.   You can pass a session tag with the same key as a tag that is already
-  attached to the role. When you do, session tags override a role tag with the same key.  Tag
-  key–value pairs are not case sensitive, but case is preserved. This means that you cannot
-  have separate Department and department tag keys. Assume that the role has the
-  Department=Marketing tag and you pass the department=engineering session tag. Department
-  and department are not saved as separate tags, and the session tag passed in the request
-  takes precedence over the role tag. Additionally, if you used temporary credentials to
-  perform this operation, the new session inherits any transitive session tags from the
+- `"Tags"`: A list of session tags that you want to pass. Each session tag consists of a
+  key name and an associated value. For more information about session tags, see Tagging AWS
+  STS Sessions in the IAM User Guide. This parameter is optional. You can pass up to 50
+  session tags. The plain text session tag keys can’t exceed 128 characters, and the values
+  can’t exceed 256 characters. For these and additional limits, see IAM and STS Character
+  Limits in the IAM User Guide.  An AWS conversion compresses the passed session policies and
+  session tags into a packed binary format that has a separate limit. Your request can fail
+  for this limit even if your plain text meets the other requirements. The PackedPolicySize
+  response element indicates by percentage how close the policies and tags for your request
+  are to the upper size limit.   You can pass a session tag with the same key as a tag that
+  is already attached to the role. When you do, session tags override a role tag with the
+  same key.  Tag key–value pairs are not case sensitive, but case is preserved. This means
+  that you cannot have separate Department and department tag keys. Assume that the role has
+  the Department=Marketing tag and you pass the department=engineering session tag.
+  Department and department are not saved as separate tags, and the session tag passed in the
+  request takes precedence over the role tag. Additionally, if you used temporary credentials
+  to perform this operation, the new session inherits any transitive session tags from the
   calling session. If you pass a session tag with the same key as an inherited tag, the
   operation fails. To view the inherited tags for a session, see the AWS CloudTrail logs. For
   more information, see Viewing Session Tags in CloudTrail in the IAM User Guide.
-- `TokenCode`: The value provided by the MFA device, if the trust policy of the role being
-  assumed requires MFA (that is, if the policy includes a condition that tests for MFA). If
-  the role being assumed requires MFA and if the TokenCode value is missing or expired, the
-  AssumeRole call returns an \"access denied\" error. The format for this parameter, as
-  described by its regex pattern, is a sequence of six numeric digits.
-- `TransitiveTagKeys`: A list of keys for session tags that you want to set as transitive.
-  If you set a tag key as transitive, the corresponding key and value passes to subsequent
-  sessions in a role chain. For more information, see Chaining Roles with Session Tags in the
-  IAM User Guide. This parameter is optional. When you set session tags as transitive, the
-  session policy and session tags packed binary limit is not affected. If you choose not to
-  specify a transitive tag key, then no tags are passed from this session to any subsequent
-  sessions.
+- `"TokenCode"`: The value provided by the MFA device, if the trust policy of the role
+  being assumed requires MFA (that is, if the policy includes a condition that tests for
+  MFA). If the role being assumed requires MFA and if the TokenCode value is missing or
+  expired, the AssumeRole call returns an \"access denied\" error. The format for this
+  parameter, as described by its regex pattern, is a sequence of six numeric digits.
+- `"TransitiveTagKeys"`: A list of keys for session tags that you want to set as
+  transitive. If you set a tag key as transitive, the corresponding key and value passes to
+  subsequent sessions in a role chain. For more information, see Chaining Roles with Session
+  Tags in the IAM User Guide. This parameter is optional. When you set session tags as
+  transitive, the session policy and session tags packed binary limit is not affected. If you
+  choose not to specify a transitive tag key, then no tags are passed from this session to
+  any subsequent sessions.
 """
 assume_role(RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRole", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName); aws_config=aws_config)
-assume_role(RoleArn, RoleSessionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName), args)); aws_config=aws_config)
+assume_role(RoleArn, RoleSessionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName), params)); aws_config=aws_config)
 
 """
-    AssumeRoleWithSAML()
+    assume_role_with_saml(principal_arn, role_arn, samlassertion)
+    assume_role_with_saml(principal_arn, role_arn, samlassertion, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials for users who have been authenticated via a
 SAML authentication response. This operation provides a mechanism for tying an enterprise
@@ -254,19 +258,20 @@ Federation in the IAM User Guide.     Creating SAML Identity Providers in the IA
 Guide.     Configuring a Relying Party and Claims in the IAM User Guide.     Creating a
 Role for SAML 2.0 Federation in the IAM User Guide.
 
-# Required Parameters
-- `PrincipalArn`: The Amazon Resource Name (ARN) of the SAML provider in IAM that describes
-  the IdP.
-- `RoleArn`: The Amazon Resource Name (ARN) of the role that the caller is assuming.
-- `SAMLAssertion`: The base-64 encoded SAML authentication response provided by the IdP.
+# Arguments
+- `principal_arn`: The Amazon Resource Name (ARN) of the SAML provider in IAM that
+  describes the IdP.
+- `role_arn`: The Amazon Resource Name (ARN) of the role that the caller is assuming.
+- `samlassertion`: The base-64 encoded SAML authentication response provided by the IdP.
   For more information, see Configuring a Relying Party and Adding Claims in the IAM User
   Guide.
 
 # Optional Parameters
-- `DurationSeconds`: The duration, in seconds, of the role session. Your role session lasts
-  for the duration that you specify for the DurationSeconds parameter, or until the time
-  specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is
-  shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DurationSeconds"`: The duration, in seconds, of the role session. Your role session
+  lasts for the duration that you specify for the DurationSeconds parameter, or until the
+  time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever
+  is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the
   maximum session duration setting for the role. This setting can have a value from 1 hour to
   12 hours. If you specify a value higher than this setting, the operation fails. For
   example, if you specify a session duration of 12 hours, but your administrator set the
@@ -278,10 +283,10 @@ Role for SAML 2.0 Federation in the IAM User Guide.
   takes a SessionDuration parameter that specifies the maximum length of the console session.
   For more information, see Creating a URL that Enables Federated Users to Access the AWS
   Management Console in the IAM User Guide.
-- `Policy`: An IAM policy in JSON format that you want to use as an inline session policy.
-  This parameter is optional. Passing policies to this operation returns new temporary
-  credentials. The resulting session's permissions are the intersection of the role's
-  identity-based policy and the session policies. You can use the role's temporary
+- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+  policy. This parameter is optional. Passing policies to this operation returns new
+  temporary credentials. The resulting session's permissions are the intersection of the
+  role's identity-based policy and the session policies. You can use the role's temporary
   credentials in subsequent AWS API calls to access resources in the account that owns the
   role. You cannot use session policies to grant more permissions than those allowed by the
   identity-based policy of the role that is being assumed. For more information, see Session
@@ -294,8 +299,8 @@ Role for SAML 2.0 Federation in the IAM User Guide.
   if your plain text meets the other requirements. The PackedPolicySize response element
   indicates by percentage how close the policies and tags for your request are to the upper
   size limit.
-- `PolicyArns`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want
-  to use as managed session policies. The policies must exist in the same account as the
+- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+  want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plain text that you use for both inline and managed session policies can't exceed 2,048
   characters. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
@@ -312,10 +317,11 @@ Role for SAML 2.0 Federation in the IAM User Guide.
   Session Policies in the IAM User Guide.
 """
 assume_role_with_saml(PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion); aws_config=aws_config)
-assume_role_with_saml(PrincipalArn, RoleArn, SAMLAssertion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion), args)); aws_config=aws_config)
+assume_role_with_saml(PrincipalArn, RoleArn, SAMLAssertion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion), params)); aws_config=aws_config)
 
 """
-    AssumeRoleWithWebIdentity()
+    assume_role_with_web_identity(role_arn, role_session_name, web_identity_token)
+    assume_role_with_web_identity(role_arn, role_session_name, web_identity_token, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials for users who have been authenticated in a
 mobile or web application with a web identity provider. Example providers include Amazon
@@ -396,22 +402,23 @@ Identity Federation with Mobile Applications. This article discusses web identit
 federation and shows an example of how to use web identity federation to get access to
 content in Amazon S3.
 
-# Required Parameters
-- `RoleArn`: The Amazon Resource Name (ARN) of the role that the caller is assuming.
-- `RoleSessionName`: An identifier for the assumed role session. Typically, you pass the
+# Arguments
+- `role_arn`: The Amazon Resource Name (ARN) of the role that the caller is assuming.
+- `role_session_name`: An identifier for the assumed role session. Typically, you pass the
   name or identifier that is associated with the user who is using your application. That
   way, the temporary security credentials that your application will use are associated with
   that user. This session name is included as part of the ARN and assumed role ID in the
   AssumedRoleUser response element. The regex used to validate this parameter is a string of
   characters consisting of upper- and lower-case alphanumeric characters with no spaces. You
   can also include underscores or any of the following characters: =,.@-
-- `WebIdentityToken`: The OAuth 2.0 access token or OpenID Connect ID token that is
+- `web_identity_token`: The OAuth 2.0 access token or OpenID Connect ID token that is
   provided by the identity provider. Your application must get this token by authenticating
   the user who is using your application with a web identity provider before the application
   makes an AssumeRoleWithWebIdentity call.
 
 # Optional Parameters
-- `DurationSeconds`: The duration, in seconds, of the role session. The value can range
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DurationSeconds"`: The duration, in seconds, of the role session. The value can range
   from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This
   setting can have a value from 1 hour to 12 hours. If you specify a value higher than this
   setting, the operation fails. For example, if you specify a session duration of 12 hours,
@@ -423,10 +430,10 @@ content in Amazon S3.
   console sign-in token takes a SessionDuration parameter that specifies the maximum length
   of the console session. For more information, see Creating a URL that Enables Federated
   Users to Access the AWS Management Console in the IAM User Guide.
-- `Policy`: An IAM policy in JSON format that you want to use as an inline session policy.
-  This parameter is optional. Passing policies to this operation returns new temporary
-  credentials. The resulting session's permissions are the intersection of the role's
-  identity-based policy and the session policies. You can use the role's temporary
+- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+  policy. This parameter is optional. Passing policies to this operation returns new
+  temporary credentials. The resulting session's permissions are the intersection of the
+  role's identity-based policy and the session policies. You can use the role's temporary
   credentials in subsequent AWS API calls to access resources in the account that owns the
   role. You cannot use session policies to grant more permissions than those allowed by the
   identity-based policy of the role that is being assumed. For more information, see Session
@@ -439,8 +446,8 @@ content in Amazon S3.
   if your plain text meets the other requirements. The PackedPolicySize response element
   indicates by percentage how close the policies and tags for your request are to the upper
   size limit.
-- `PolicyArns`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want
-  to use as managed session policies. The policies must exist in the same account as the
+- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+  want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plain text that you use for both inline and managed session policies can't exceed 2,048
   characters. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
@@ -455,17 +462,18 @@ content in Amazon S3.
   owns the role. You cannot use session policies to grant more permissions than those allowed
   by the identity-based policy of the role that is being assumed. For more information, see
   Session Policies in the IAM User Guide.
-- `ProviderId`: The fully qualified host component of the domain name of the identity
+- `"ProviderId"`: The fully qualified host component of the domain name of the identity
   provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and
   graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens.
   Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect
   ID tokens.
 """
 assume_role_with_web_identity(RoleArn, RoleSessionName, WebIdentityToken; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken); aws_config=aws_config)
-assume_role_with_web_identity(RoleArn, RoleSessionName, WebIdentityToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken), args)); aws_config=aws_config)
+assume_role_with_web_identity(RoleArn, RoleSessionName, WebIdentityToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken), params)); aws_config=aws_config)
 
 """
-    DecodeAuthorizationMessage()
+    decode_authorization_message(encoded_message)
+    decode_authorization_message(encoded_message, params::Dict{String,<:Any})
 
 Decodes additional information about the authorization status of a request from an encoded
 message returned in response to an AWS request. For example, if a user is not authorized to
@@ -485,15 +493,16 @@ Allowed or Denied in the IAM User Guide.    The principal who made the request. 
 requested action.   The requested resource.   The values of condition keys in the context
 of the user's request.
 
-# Required Parameters
-- `EncodedMessage`: The encoded message that was returned with the response.
+# Arguments
+- `encoded_message`: The encoded message that was returned with the response.
 
 """
 decode_authorization_message(EncodedMessage; aws_config::AbstractAWSConfig=global_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}("EncodedMessage"=>EncodedMessage); aws_config=aws_config)
-decode_authorization_message(EncodedMessage, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncodedMessage"=>EncodedMessage), args)); aws_config=aws_config)
+decode_authorization_message(EncodedMessage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncodedMessage"=>EncodedMessage), params)); aws_config=aws_config)
 
 """
-    GetAccessKeyInfo()
+    get_access_key_info(access_key_id)
+    get_access_key_info(access_key_id, params::Dict{String,<:Any})
 
 Returns the account identifier for the specified access key ID. Access keys consist of two
 parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE) and a secret access key (for
@@ -510,16 +519,18 @@ operation does not indicate the state of the access key. The key might be active
 or deleted. Active keys might not have permissions to perform an operation. Providing a
 deleted access key might return an error that the key doesn't exist.
 
-# Required Parameters
-- `AccessKeyId`: The identifier of an access key. This parameter allows (through its regex
-  pattern) a string of characters that can consist of any upper- or lowercase letter or digit.
+# Arguments
+- `access_key_id`: The identifier of an access key. This parameter allows (through its
+  regex pattern) a string of characters that can consist of any upper- or lowercase letter or
+  digit.
 
 """
 get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-get_access_key_info(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
+get_access_key_info(AccessKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
 
 """
-    GetCallerIdentity()
+    get_caller_identity()
+    get_caller_identity(params::Dict{String,<:Any})
 
 Returns details about the IAM user or role whose credentials are used to call the
 operation.  No permissions are required to perform this operation. If an administrator adds
@@ -531,10 +542,11 @@ iam:DeleteVirtualMFADevice in the IAM User Guide.
 
 """
 get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetCallerIdentity"; aws_config=aws_config)
-get_caller_identity(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetCallerIdentity", args; aws_config=aws_config)
+get_caller_identity(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetCallerIdentity", params; aws_config=aws_config)
 
 """
-    GetFederationToken()
+    get_federation_token(name)
+    get_federation_token(name, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials (consisting of an access key ID, a secret
 access key, and a security token) for a federated user. A typical use is in a proxy
@@ -588,8 +600,8 @@ are federating has the Department=Marketing tag and you pass the department=engi
 session tag. Department and department are not saved as separate tags, and the session tag
 passed in the request takes precedence over the user tag.
 
-# Required Parameters
-- `Name`: The name of the federated user. The name is used as an identifier for the
+# Arguments
+- `name`: The name of the federated user. The name is used as an identifier for the
   temporary security credentials (such as Bob). For example, you can reference the federated
   user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used
   to validate this parameter is a string of characters consisting of upper- and lower-case
@@ -597,25 +609,26 @@ passed in the request takes precedence over the user tag.
   following characters: =,.@-
 
 # Optional Parameters
-- `DurationSeconds`: The duration, in seconds, that the session should last. Acceptable
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DurationSeconds"`: The duration, in seconds, that the session should last. Acceptable
   durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds
   (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using AWS
   account root user credentials are restricted to a maximum of 3,600 seconds (one hour). If
   the specified duration is longer than one hour, the session obtained by using root user
   credentials defaults to one hour.
-- `Policy`: An IAM policy in JSON format that you want to use as an inline session policy.
-  You must pass an inline or managed session policy to this operation. You can pass a single
-  JSON policy document to use as an inline session policy. You can also specify up to 10
-  managed policies to use as managed session policies. This parameter is optional. However,
-  if you do not pass any session policies, then the resulting federated user session has no
-  permissions. When you pass session policies, the session permissions are the intersection
-  of the IAM user policies and the session policies that you pass. This gives you a way to
-  further restrict the permissions for a federated user. You cannot use session policies to
-  grant more permissions than those that are defined in the permissions policy of the IAM
-  user. For more information, see Session Policies in the IAM User Guide. The resulting
-  credentials can be used to access a resource that has a resource-based policy. If that
-  policy specifically references the federated user session in the Principal element of the
-  policy, the session has the permissions allowed by the policy. These permissions are
+- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+  policy. You must pass an inline or managed session policy to this operation. You can pass a
+  single JSON policy document to use as an inline session policy. You can also specify up to
+  10 managed policies to use as managed session policies. This parameter is optional.
+  However, if you do not pass any session policies, then the resulting federated user session
+  has no permissions. When you pass session policies, the session permissions are the
+  intersection of the IAM user policies and the session policies that you pass. This gives
+  you a way to further restrict the permissions for a federated user. You cannot use session
+  policies to grant more permissions than those that are defined in the permissions policy of
+  the IAM user. For more information, see Session Policies in the IAM User Guide. The
+  resulting credentials can be used to access a resource that has a resource-based policy. If
+  that policy specifically references the federated user session in the Principal element of
+  the policy, the session has the permissions allowed by the policy. These permissions are
   granted in addition to the permissions that are granted by the session policies. The plain
   text that you use for both inline and managed session policies can't exceed 2,048
   characters. The JSON policy characters can be any ASCII character from the space character
@@ -625,33 +638,33 @@ passed in the request takes precedence over the user tag.
   has a separate limit. Your request can fail for this limit even if your plain text meets
   the other requirements. The PackedPolicySize response element indicates by percentage how
   close the policies and tags for your request are to the upper size limit.
-- `PolicyArns`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want
-  to use as a managed session policy. The policies must exist in the same account as the IAM
-  user that is requesting federated access. You must pass an inline or managed session policy
-  to this operation. You can pass a single JSON policy document to use as an inline session
-  policy. You can also specify up to 10 managed policies to use as managed session policies.
-  The plain text that you use for both inline and managed session policies can't exceed 2,048
-  characters. You can provide up to 10 managed policy ARNs. For more information about ARNs,
-  see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-  This parameter is optional. However, if you do not pass any session policies, then the
-  resulting federated user session has no permissions. When you pass session policies, the
-  session permissions are the intersection of the IAM user policies and the session policies
-  that you pass. This gives you a way to further restrict the permissions for a federated
-  user. You cannot use session policies to grant more permissions than those that are defined
-  in the permissions policy of the IAM user. For more information, see Session Policies in
-  the IAM User Guide. The resulting credentials can be used to access a resource that has a
-  resource-based policy. If that policy specifically references the federated user session in
-  the Principal element of the policy, the session has the permissions allowed by the policy.
-  These permissions are granted in addition to the permissions that are granted by the
-  session policies.  An AWS conversion compresses the passed session policies and session
-  tags into a packed binary format that has a separate limit. Your request can fail for this
-  limit even if your plain text meets the other requirements. The PackedPolicySize response
-  element indicates by percentage how close the policies and tags for your request are to the
-  upper size limit.
-- `Tags`: A list of session tags. Each session tag consists of a key name and an associated
-  value. For more information about session tags, see Passing Session Tags in STS in the IAM
-  User Guide. This parameter is optional. You can pass up to 50 session tags. The plain text
-  session tag keys can’t exceed 128 characters and the values can’t exceed 256
+- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+  want to use as a managed session policy. The policies must exist in the same account as the
+  IAM user that is requesting federated access. You must pass an inline or managed session
+  policy to this operation. You can pass a single JSON policy document to use as an inline
+  session policy. You can also specify up to 10 managed policies to use as managed session
+  policies. The plain text that you use for both inline and managed session policies can't
+  exceed 2,048 characters. You can provide up to 10 managed policy ARNs. For more information
+  about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General
+  Reference. This parameter is optional. However, if you do not pass any session policies,
+  then the resulting federated user session has no permissions. When you pass session
+  policies, the session permissions are the intersection of the IAM user policies and the
+  session policies that you pass. This gives you a way to further restrict the permissions
+  for a federated user. You cannot use session policies to grant more permissions than those
+  that are defined in the permissions policy of the IAM user. For more information, see
+  Session Policies in the IAM User Guide. The resulting credentials can be used to access a
+  resource that has a resource-based policy. If that policy specifically references the
+  federated user session in the Principal element of the policy, the session has the
+  permissions allowed by the policy. These permissions are granted in addition to the
+  permissions that are granted by the session policies.  An AWS conversion compresses the
+  passed session policies and session tags into a packed binary format that has a separate
+  limit. Your request can fail for this limit even if your plain text meets the other
+  requirements. The PackedPolicySize response element indicates by percentage how close the
+  policies and tags for your request are to the upper size limit.
+- `"Tags"`: A list of session tags. Each session tag consists of a key name and an
+  associated value. For more information about session tags, see Passing Session Tags in STS
+  in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The
+  plain text session tag keys can’t exceed 128 characters and the values can’t exceed 256
   characters. For these and additional limits, see IAM and STS Character Limits in the IAM
   User Guide.  An AWS conversion compresses the passed session policies and session tags into
   a packed binary format that has a separate limit. Your request can fail for this limit even
@@ -666,10 +679,11 @@ passed in the request takes precedence over the user tag.
   request takes precedence over the role tag.
 """
 get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetFederationToken", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_federation_token(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetFederationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+get_federation_token(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetFederationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
-    GetSessionToken()
+    get_session_token()
+    get_session_token(params::Dict{String,<:Any})
 
 Returns a set of temporary credentials for an AWS account or IAM user. The credentials
 consist of an access key ID, a secret access key, and a security token. Typically, you use
@@ -703,12 +717,13 @@ user.  For more information about using GetSessionToken to create temporary cred
 to Temporary Credentials for Users in Untrusted Environments in the IAM User Guide.
 
 # Optional Parameters
-- `DurationSeconds`: The duration, in seconds, that the credentials should remain valid.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DurationSeconds"`: The duration, in seconds, that the credentials should remain valid.
   Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600
   seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for AWS account
   owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer
   than one hour, the session for AWS account owners defaults to one hour.
-- `SerialNumber`: The identification number of the MFA device that is associated with the
+- `"SerialNumber"`: The identification number of the MFA device that is associated with the
   IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a
   policy that requires MFA authentication. The value is either the serial number for a
   hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual
@@ -717,7 +732,7 @@ to Temporary Credentials for Users in Untrusted Environments in the IAM User Gui
   The regex used to validate this parameter is a string of characters consisting of upper-
   and lower-case alphanumeric characters with no spaces. You can also include underscores or
   any of the following characters: =,.@:/-
-- `TokenCode`: The value provided by the MFA device, if MFA is required. If any policy
+- `"TokenCode"`: The value provided by the MFA device, if MFA is required. If any policy
   requires the IAM user to submit an MFA code, specify this value. If MFA authentication is
   required, the user must provide a code when requesting a set of temporary security
   credentials. A user who fails to provide the code receives an \"access denied\" response
@@ -725,4 +740,4 @@ to Temporary Credentials for Users in Untrusted Environments in the IAM User Gui
   as described by its regex pattern, is a sequence of six numeric digits.
 """
 get_session_token(; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetSessionToken"; aws_config=aws_config)
-get_session_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetSessionToken", args; aws_config=aws_config)
+get_session_token(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sts("GetSessionToken", params; aws_config=aws_config)

@@ -5,50 +5,54 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CancelChangeSet()
+    cancel_change_set(catalog, change_set_id)
+    cancel_change_set(catalog, change_set_id, params::Dict{String,<:Any})
 
 Used to cancel an open change request. Must be sent before the status of the request
 changes to APPLYING, the final stage of completing your change request. You can describe a
 change during the 60-day request history retention period for API calls.
 
-# Required Parameters
+# Arguments
 - `catalog`: Required. The catalog related to the request. Fixed value: AWSMarketplace.
-- `changeSetId`: Required. The unique identifier of the StartChangeSet request that you
+- `change_set_id`: Required. The unique identifier of the StartChangeSet request that you
   want to cancel.
 
 """
 cancel_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
-cancel_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+cancel_change_set(catalog, changeSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("PATCH", "/CancelChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config)
 
 """
-    DescribeChangeSet()
+    describe_change_set(catalog, change_set_id)
+    describe_change_set(catalog, change_set_id, params::Dict{String,<:Any})
 
 Provides information about a given change set.
 
-# Required Parameters
+# Arguments
 - `catalog`: Required. The catalog related to the request. Fixed value: AWSMarketplace
-- `changeSetId`: Required. The unique identifier for the StartChangeSet request that you
+- `change_set_id`: Required. The unique identifier for the StartChangeSet request that you
   want to describe the details for.
 
 """
 describe_change_set(catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId); aws_config=aws_config)
-describe_change_set(catalog, changeSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), args)); aws_config=aws_config)
+describe_change_set(catalog, changeSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "changeSetId"=>changeSetId), params)); aws_config=aws_config)
 
 """
-    DescribeEntity()
+    describe_entity(catalog, entity_id)
+    describe_entity(catalog, entity_id, params::Dict{String,<:Any})
 
 Returns the metadata and content of the entity.
 
-# Required Parameters
+# Arguments
 - `catalog`: Required. The catalog related to the request. Fixed value: AWSMarketplace
-- `entityId`: Required. The unique ID of the entity to describe.
+- `entity_id`: Required. The unique ID of the entity to describe.
 
 """
 describe_entity(catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId); aws_config=aws_config)
-describe_entity(catalog, entityId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), args)); aws_config=aws_config)
+describe_entity(catalog, entityId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("GET", "/DescribeEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalog"=>catalog, "entityId"=>entityId), params)); aws_config=aws_config)
 
 """
-    ListChangeSets()
+    list_change_sets(catalog)
+    list_change_sets(catalog, params::Dict{String,<:Any})
 
 Returns the list of change sets owned by the account being used to make the call. You can
 filter this list by providing any combination of entityId, ChangeSetName, and status. If
@@ -56,42 +60,48 @@ you provide more than one filter, the API operation applies a logical AND betwee
 filters. You can describe a change during the 60-day request history retention period for
 API calls.
 
-# Required Parameters
-- `Catalog`: The catalog related to the request. Fixed value: AWSMarketplace
+# Arguments
+- `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
 
 # Optional Parameters
-- `FilterList`: An array of filter objects.
-- `MaxResults`: The maximum number of results returned by a single call. This value must be
-  provided in the next call to retrieve the next set of results. By default, this value is 20.
-- `NextToken`: The token value retrieved from a previous call to access the next page of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FilterList"`: An array of filter objects.
+- `"MaxResults"`: The maximum number of results returned by a single call. This value must
+  be provided in the next call to retrieve the next set of results. By default, this value is
+  20.
+- `"NextToken"`: The token value retrieved from a previous call to access the next page of
   results.
-- `Sort`: An object that contains two attributes, SortBy and SortOrder.
+- `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}("Catalog"=>Catalog); aws_config=aws_config)
-list_change_sets(Catalog, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), args)); aws_config=aws_config)
+list_change_sets(Catalog, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog), params)); aws_config=aws_config)
 
 """
-    ListEntities()
+    list_entities(catalog, entity_type)
+    list_entities(catalog, entity_type, params::Dict{String,<:Any})
 
 Provides the list of entities of a given type.
 
-# Required Parameters
-- `Catalog`: The catalog related to the request. Fixed value: AWSMarketplace
-- `EntityType`: The type of entities to retrieve.
+# Arguments
+- `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
+- `entity_type`: The type of entities to retrieve.
 
 # Optional Parameters
-- `FilterList`: An array of filter objects. Each filter object contains two attributes,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FilterList"`: An array of filter objects. Each filter object contains two attributes,
   filterName and filterValues.
-- `MaxResults`: Specifies the upper limit of the elements on a single page. If a value
+- `"MaxResults"`: Specifies the upper limit of the elements on a single page. If a value
   isn't provided, the default value is 20.
-- `NextToken`: The value of the next token, if it exists. Null if there are no more results.
-- `Sort`: An object that contains two attributes, SortBy and SortOrder.
+- `"NextToken"`: The value of the next token, if it exists. Null if there are no more
+  results.
+- `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 list_entities(Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType); aws_config=aws_config)
-list_entities(Catalog, EntityType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), args)); aws_config=aws_config)
+list_entities(Catalog, EntityType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/ListEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "EntityType"=>EntityType), params)); aws_config=aws_config)
 
 """
-    StartChangeSet()
+    start_change_set(catalog, change_set)
+    start_change_set(catalog, change_set, params::Dict{String,<:Any})
 
 This operation allows you to request changes for your entities. Within a single ChangeSet,
 you cannot start the same change type against the same entity multiple times. Additionally,
@@ -102,14 +112,15 @@ receive a ResourceInUseException. For example, you cannot start the ChangeSet de
 the example below because it contains two changes to execute the same change type
 (AddRevisions) against the same entity (entity-id@1).
 
-# Required Parameters
-- `Catalog`: The catalog related to the request. Fixed value: AWSMarketplace
-- `ChangeSet`: Array of change object.
+# Arguments
+- `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
+- `change_set`: Array of change object.
 
 # Optional Parameters
-- `ChangeSetName`: Optional case sensitive string of up to 100 ASCII characters. The change
-  set name can be used to filter the list of change sets.
-- `ClientRequestToken`: A unique token to identify the request to ensure idempotency.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChangeSetName"`: Optional case sensitive string of up to 100 ASCII characters. The
+  change set name can be used to filter the list of change sets.
+- `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
 """
 start_change_set(Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet); aws_config=aws_config)
-start_change_set(Catalog, ChangeSet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet), args)); aws_config=aws_config)
+start_change_set(Catalog, ChangeSet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_catalog("POST", "/StartChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Catalog"=>Catalog, "ChangeSet"=>ChangeSet), params)); aws_config=aws_config)

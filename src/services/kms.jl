@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CancelKeyDeletion()
+    cancel_key_deletion(key_id)
+    cancel_key_deletion(key_id, params::Dict{String,<:Any})
 
 Cancels the deletion of a customer master key (CMK). When this operation succeeds, the key
 state of the CMK is Disabled. To enable the CMK, use EnableKey.  For more information about
@@ -16,8 +17,8 @@ in the AWS Key Management Service Developer Guide.  Cross-account use: No. You c
 perform this operation on a CMK in a different AWS account.  Required permissions:
 kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
 
-# Required Parameters
-- `KeyId`: The unique identifier for the customer master key (CMK) for which to cancel
+# Arguments
+- `key_id`: The unique identifier for the customer master key (CMK) for which to cancel
   deletion. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:
   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
@@ -25,10 +26,11 @@ kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
 
 """
 cancel_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-cancel_key_deletion(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+cancel_key_deletion(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ConnectCustomKeyStore()
+    connect_custom_key_store(custom_key_store_id)
+    connect_custom_key_store(custom_key_store_id, params::Dict{String,<:Any})
 
 Connects or reconnects a custom key store to its associated AWS CloudHSM cluster. The
 custom key store must be connected before you can create customer master keys (CMKs) in the
@@ -58,16 +60,17 @@ kms:ConnectCustomKeyStore (IAM policy)  Related operations     CreateCustomKeySt
 DeleteCustomKeyStore     DescribeCustomKeyStores     DisconnectCustomKeyStore
 UpdateCustomKeyStore
 
-# Required Parameters
-- `CustomKeyStoreId`: Enter the key store ID of the custom key store that you want to
+# Arguments
+- `custom_key_store_id`: Enter the key store ID of the custom key store that you want to
   connect. To find the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
 connect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-connect_custom_key_store(CustomKeyStoreId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), args)); aws_config=aws_config)
+connect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
-    CreateAlias()
+    create_alias(alias_name, target_key_id)
+    create_alias(alias_name, target_key_id, params::Dict{String,<:Any})
 
 Creates a friendly name for a customer master key (CMK). You can use an alias to identify a
 CMK in the AWS KMS console, in the DescribeKey operation and in cryptographic operations,
@@ -88,14 +91,14 @@ kms:CreateAlias on the CMK (key policy).   For details, see Controlling access t
 in the AWS Key Management Service Developer Guide.  Related operations:     DeleteAlias
 ListAliases     UpdateAlias
 
-# Required Parameters
-- `AliasName`: Specifies the alias name. This value must begin with alias/ followed by a
+# Arguments
+- `alias_name`: Specifies the alias name. This value must begin with alias/ followed by a
   name, such as alias/ExampleAlias.  The AliasName value must be string of 1-256 characters.
   It can contain only alphanumeric characters, forward slashes (/), underscores (_), and
   dashes (-). The alias name cannot begin with alias/aws/. The alias/aws/ prefix is reserved
   for AWS managed CMKs.
-- `TargetKeyId`: Associates the alias with the specified customer managed CMK. The CMK must
-  be in the same AWS Region.  A valid CMK ID is required. If you supply a null or empty
+- `target_key_id`: Associates the alias with the specified customer managed CMK. The CMK
+  must be in the same AWS Region.  A valid CMK ID is required. If you supply a null or empty
   string value, this operation returns an error. For help finding the key ID and ARN, see
   Finding the Key ID and ARN in the AWS Key Management Service Developer Guide. Specify the
   key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
@@ -105,10 +108,11 @@ ListAliases     UpdateAlias
 
 """
 create_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId); aws_config=aws_config)
-create_alias(AliasName, TargetKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), args)); aws_config=aws_config)
+create_alias(AliasName, TargetKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
 
 """
-    CreateCustomKeyStore()
+    create_custom_key_store(cloud_hsm_cluster_id, custom_key_store_name, key_store_password, trust_anchor_certificate)
+    create_custom_key_store(cloud_hsm_cluster_id, custom_key_store_name, key_store_password, trust_anchor_certificate, params::Dict{String,<:Any})
 
 Creates a custom key store that is associated with an AWS CloudHSM cluster that you own and
 manage. This operation is part of the Custom Key Store feature feature in AWS KMS, which
@@ -128,27 +132,28 @@ different AWS account.  Required permissions: kms:CreateCustomKeyStore (IAM poli
 Related operations:     ConnectCustomKeyStore     DeleteCustomKeyStore
 DescribeCustomKeyStores     DisconnectCustomKeyStore     UpdateCustomKeyStore
 
-# Required Parameters
-- `CloudHsmClusterId`: Identifies the AWS CloudHSM cluster for the custom key store. Enter
-  the cluster ID of any active AWS CloudHSM cluster that is not already associated with a
-  custom key store. To find the cluster ID, use the DescribeClusters operation.
-- `CustomKeyStoreName`: Specifies a friendly name for the custom key store. The name must
-  be unique in your AWS account.
-- `KeyStorePassword`: Enter the password of the  kmsuser crypto user (CU) account in the
+# Arguments
+- `cloud_hsm_cluster_id`: Identifies the AWS CloudHSM cluster for the custom key store.
+  Enter the cluster ID of any active AWS CloudHSM cluster that is not already associated with
+  a custom key store. To find the cluster ID, use the DescribeClusters operation.
+- `custom_key_store_name`: Specifies a friendly name for the custom key store. The name
+  must be unique in your AWS account.
+- `key_store_password`: Enter the password of the  kmsuser crypto user (CU) account in the
   specified AWS CloudHSM cluster. AWS KMS logs into the cluster as this user to manage key
   material on your behalf. The password must be a string of 7 to 32 characters. Its value is
   case sensitive. This parameter tells AWS KMS the kmsuser account password; it does not
   change the password in the AWS CloudHSM cluster.
-- `TrustAnchorCertificate`: Enter the content of the trust anchor certificate for the
+- `trust_anchor_certificate`: Enter the content of the trust anchor certificate for the
   cluster. This is the content of the customerCA.crt file that you created when you
   initialized the cluster.
 
 """
 create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate); aws_config=aws_config)
-create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), args)); aws_config=aws_config)
+create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), params)); aws_config=aws_config)
 
 """
-    CreateGrant()
+    create_grant(grantee_principal, key_id, operations)
+    create_grant(grantee_principal, key_id, operations, params::Dict{String,<:Any})
 
 Adds a grant to a customer master key (CMK). The grant allows the grantee principal to use
 the CMK when the conditions specified in the grant are met. When setting permissions,
@@ -177,51 +182,53 @@ ARN in the value of the KeyId parameter.   Required permissions: kms:CreateGrant
 policy)  Related operations:     ListGrants     ListRetirableGrants     RetireGrant
 RevokeGrant
 
-# Required Parameters
-- `GranteePrincipal`: The principal that is given permission to perform the operations that
-  the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an AWS
-  principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles,
+# Arguments
+- `grantee_principal`: The principal that is given permission to perform the operations
+  that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an
+  AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles,
   federated users, and assumed role users. For examples of the ARN syntax to use for
   specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs
   section of the AWS General Reference.
-- `KeyId`: The unique identifier for the customer master key (CMK) that the grant applies
+- `key_id`: The unique identifier for the customer master key (CMK) that the grant applies
   to. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a
   different AWS account, you must use the key ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `Operations`: A list of operations that the grant permits.
+- `operations`: A list of operations that the grant permits.
 
 # Optional Parameters
-- `Constraints`: Allows a cryptographic operation only when the encryption context matches
-  or includes the encryption context specified in this structure. For more information about
-  encryption context, see Encryption Context in the  AWS Key Management Service Developer
-  Guide . Grant constraints are not applied to operations that do not support an encryption
-  context, such as cryptographic operations with asymmetric CMKs and management operations,
-  such as DescribeKey or RetireGrant.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `Name`: A friendly name for the grant. Use this value to prevent the unintended creation
-  of duplicate grants when retrying this request. When this value is absent, all CreateGrant
-  requests result in a new grant with a unique GrantId even if all the supplied parameters
-  are identical. This can result in unintended duplicates when you retry the CreateGrant
-  request. When this value is present, you can retry a CreateGrant request with identical
-  parameters; if the grant already exists, the original GrantId is returned without creating
-  a new grant. Note that the returned grant token is unique with every CreateGrant request,
-  even when a duplicate GrantId is returned. All grant tokens for the same grant ID can be
-  used interchangeably.
-- `RetiringPrincipal`: The principal that is given permission to retire the grant by using
-  RetireGrant operation. To specify the principal, use the Amazon Resource Name (ARN) of an
-  AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Constraints"`: Allows a cryptographic operation only when the encryption context
+  matches or includes the encryption context specified in this structure. For more
+  information about encryption context, see Encryption Context in the  AWS Key Management
+  Service Developer Guide . Grant constraints are not applied to operations that do not
+  support an encryption context, such as cryptographic operations with asymmetric CMKs and
+  management operations, such as DescribeKey or RetireGrant.
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"Name"`: A friendly name for the grant. Use this value to prevent the unintended
+  creation of duplicate grants when retrying this request. When this value is absent, all
+  CreateGrant requests result in a new grant with a unique GrantId even if all the supplied
+  parameters are identical. This can result in unintended duplicates when you retry the
+  CreateGrant request. When this value is present, you can retry a CreateGrant request with
+  identical parameters; if the grant already exists, the original GrantId is returned without
+  creating a new grant. Note that the returned grant token is unique with every CreateGrant
+  request, even when a duplicate GrantId is returned. All grant tokens for the same grant ID
+  can be used interchangeably.
+- `"RetiringPrincipal"`: The principal that is given permission to retire the grant by
+  using RetireGrant operation. To specify the principal, use the Amazon Resource Name (ARN)
+  of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated
   users, and assumed role users. For examples of the ARN syntax to use for specifying a
   principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the
   AWS General Reference.
 """
 create_grant(GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations); aws_config=aws_config)
-create_grant(GranteePrincipal, KeyId, Operations, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), args)); aws_config=aws_config)
+create_grant(GranteePrincipal, KeyId, Operations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), params)); aws_config=aws_config)
 
 """
-    CreateKey()
+    create_key()
+    create_key(params::Dict{String,<:Any})
 
 Creates a unique customer managed customer master key (CMK) in your AWS account and Region.
 You can use the CreateKey operation to create symmetric or asymmetric CMKs.    Symmetric
@@ -263,14 +270,15 @@ Management Service Developer Guide.  Related operations:     DescribeKey     Lis
 ScheduleKeyDeletion
 
 # Optional Parameters
-- `BypassPolicyLockoutSafetyCheck`: A flag to indicate whether to bypass the key policy
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
   lockout safety check.  Setting this value to true increases the risk that the CMK becomes
   unmanageable. Do not set this value to true indiscriminately. For more information, refer
   to the scenario in the Default Key Policy section in the  AWS Key Management Service
   Developer Guide .  Use this parameter only when you include a policy in the request and you
   intend to prevent the principal that is making the request from making a subsequent
   PutKeyPolicy request on the CMK. The default value is false.
-- `CustomKeyStoreId`: Creates the CMK in the specified custom key store and the key
+- `"CustomKeyStoreId"`: Creates the CMK in the specified custom key store and the key
   material in its associated AWS CloudHSM cluster. To create a CMK in a custom key store, you
   must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM
   cluster that is associated with the custom key store must have at least two active HSMs,
@@ -280,7 +288,7 @@ ScheduleKeyDeletion
   custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the
   Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive
   integration of AWS KMS with the isolation and control of a single-tenant key store.
-- `CustomerMasterKeySpec`: Specifies the type of CMK to create. The default value,
+- `"CustomerMasterKeySpec"`: Specifies the type of CMK to create. The default value,
   SYMMETRIC_DEFAULT, creates a CMK with a 256-bit symmetric key for encryption and
   decryption. For help choosing a key spec for your CMK, see How to Choose Your CMK
   Configuration in the AWS Key Management Service Developer Guide. The CustomerMasterKeySpec
@@ -298,41 +306,41 @@ ScheduleKeyDeletion
   NIST-recommended elliptic curve key pairs    ECC_NIST_P256 (secp256r1)    ECC_NIST_P384
   (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs
   ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.
-- `Description`: A description of the CMK. Use a description that helps you decide whether
-  the CMK is appropriate for a task.
-- `KeyUsage`: Determines the cryptographic operations for which you can use the CMK. The
+- `"Description"`: A description of the CMK. Use a description that helps you decide
+  whether the CMK is appropriate for a task.
+- `"KeyUsage"`: Determines the cryptographic operations for which you can use the CMK. The
   default value is ENCRYPT_DECRYPT. This parameter is required only for asymmetric CMKs. You
   can't change the KeyUsage value after the CMK is created. Select only one valid value.
   For symmetric CMKs, omit the parameter or specify ENCRYPT_DECRYPT.   For asymmetric CMKs
   with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric CMKs with
   ECC key material, specify SIGN_VERIFY.
-- `Origin`: The source of the key material for the CMK. You cannot change the origin after
-  you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key material.
-  When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material so that
-  you can import key material from your existing key management infrastructure. For more
-  information about importing key material into AWS KMS, see Importing Key Material in the
-  AWS Key Management Service Developer Guide. This value is valid only for symmetric CMKs.
-  When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS custom key
-  store and creates its key material in the associated AWS CloudHSM cluster. You must also
-  use the CustomKeyStoreId parameter to identify the custom key store. This value is valid
-  only for symmetric CMKs.
-- `Policy`: The key policy to attach to the CMK. If you provide a key policy, it must meet
-  the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key
-  policy must allow the principal that is making the CreateKey request to make a subsequent
-  PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable.
-  For more information, refer to the scenario in the Default Key Policy section of the  AWS
-  Key Management Service Developer Guide .   Each statement in the key policy must contain
-  one or more principals. The principals in the key policy must exist and be visible to AWS
-  KMS. When you create a new AWS principal (for example, an IAM user or role), you might need
-  to enforce a delay before including the new principal in a key policy because the new
-  principal might not be immediately visible to AWS KMS. For more information, see Changes
-  that I make are not always immediately visible in the AWS Identity and Access Management
-  User Guide.   If you do not provide a key policy, AWS KMS attaches a default key policy to
-  the CMK. For more information, see Default Key Policy in the AWS Key Management Service
-  Developer Guide.  The key policy size quota is 32 kilobytes (32768 bytes). For help writing
-  and formatting a JSON policy document, see the IAM JSON Policy Reference in the  IAM User
-  Guide .
-- `Tags`: One or more tags. Each tag consists of a tag key and a tag value. Both the tag
+- `"Origin"`: The source of the key material for the CMK. You cannot change the origin
+  after you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key
+  material. When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material
+  so that you can import key material from your existing key management infrastructure. For
+  more information about importing key material into AWS KMS, see Importing Key Material in
+  the AWS Key Management Service Developer Guide. This value is valid only for symmetric
+  CMKs. When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS
+  custom key store and creates its key material in the associated AWS CloudHSM cluster. You
+  must also use the CustomKeyStoreId parameter to identify the custom key store. This value
+  is valid only for symmetric CMKs.
+- `"Policy"`: The key policy to attach to the CMK. If you provide a key policy, it must
+  meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the
+  key policy must allow the principal that is making the CreateKey request to make a
+  subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes
+  unmanageable. For more information, refer to the scenario in the Default Key Policy section
+  of the  AWS Key Management Service Developer Guide .   Each statement in the key policy
+  must contain one or more principals. The principals in the key policy must exist and be
+  visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role),
+  you might need to enforce a delay before including the new principal in a key policy
+  because the new principal might not be immediately visible to AWS KMS. For more
+  information, see Changes that I make are not always immediately visible in the AWS Identity
+  and Access Management User Guide.   If you do not provide a key policy, AWS KMS attaches a
+  default key policy to the CMK. For more information, see Default Key Policy in the AWS Key
+  Management Service Developer Guide.  The key policy size quota is 32 kilobytes (32768
+  bytes). For help writing and formatting a JSON policy document, see the IAM JSON Policy
+  Reference in the  IAM User Guide .
+- `"Tags"`: One or more tags. Each tag consists of a tag key and a tag value. Both the tag
   key and the tag value are required, but the tag value can be an empty (null) string.  When
   you add tags to an AWS resource, AWS generates a cost allocation report with usage and
   costs aggregated by tags. For information about adding, changing, deleting and listing tags
@@ -341,10 +349,11 @@ ScheduleKeyDeletion
   have kms:TagResource permission in an IAM policy.
 """
 create_key(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey"; aws_config=aws_config)
-create_key(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey", args; aws_config=aws_config)
+create_key(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey", params; aws_config=aws_config)
 
 """
-    Decrypt()
+    decrypt(ciphertext_blob)
+    decrypt(ciphertext_blob, params::Dict{String,<:Any})
 
 Decrypts ciphertext that was encrypted by a AWS KMS customer master key (CMK) using any of
 the following operations:    Encrypt     GenerateDataKey     GenerateDataKeyPair
@@ -378,17 +387,18 @@ ciphertext using a CMK in a different AWS account.  Required permissions: kms:De
 policy)  Related operations:     Encrypt     GenerateDataKey     GenerateDataKeyPair
 ReEncrypt
 
-# Required Parameters
-- `CiphertextBlob`: Ciphertext to be decrypted. The blob includes metadata.
+# Arguments
+- `ciphertext_blob`: Ciphertext to be decrypted. The blob includes metadata.
 
 # Optional Parameters
-- `EncryptionAlgorithm`: Specifies the encryption algorithm that will be used to decrypt
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionAlgorithm"`: Specifies the encryption algorithm that will be used to decrypt
   the ciphertext. Specify the same algorithm that was used to encrypt the data. If you
   specify a different algorithm, the Decrypt operation fails. This parameter is required only
   when the ciphertext was encrypted under an asymmetric CMK. The default value,
   SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric CMKs.
-- `EncryptionContext`: Specifies the encryption context to use when decrypting the data. An
-  encryption context is valid only for cryptographic operations with a symmetric CMK. The
+- `"EncryptionContext"`: Specifies the encryption context to use when decrypting the data.
+  An encryption context is valid only for cryptographic operations with a symmetric CMK. The
   standard asymmetric encryption algorithms that AWS KMS uses do not support an encryption
   context. An encryption context is a collection of non-secret key-value pairs that
   represents additional authenticated data. When you use an encryption context to encrypt
@@ -396,9 +406,9 @@ ReEncrypt
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `KeyId`: Specifies the customer master key (CMK) that AWS KMS uses to decrypt the
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"KeyId"`: Specifies the customer master key (CMK) that AWS KMS uses to decrypt the
   ciphertext. Enter a key ID of the CMK that was used to encrypt the ciphertext. This
   parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If
   you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the
@@ -413,10 +423,11 @@ ReEncrypt
   and alias ARN, use ListAliases.
 """
 decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}("CiphertextBlob"=>CiphertextBlob); aws_config=aws_config)
-decrypt(CiphertextBlob, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), args)); aws_config=aws_config)
+decrypt(CiphertextBlob, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), params)); aws_config=aws_config)
 
 """
-    DeleteAlias()
+    delete_alias(alias_name)
+    delete_alias(alias_name, params::Dict{String,<:Any})
 
 Deletes the specified alias.  Because an alias is not a property of a CMK, you can delete
 and change the aliases of a CMK without affecting the CMK. Also, aliases do not appear in
@@ -430,16 +441,17 @@ kms:DeleteAlias on the CMK (key policy).   For details, see Controlling access t
 in the AWS Key Management Service Developer Guide.  Related operations:     CreateAlias
 ListAliases     UpdateAlias
 
-# Required Parameters
-- `AliasName`: The alias to be deleted. The alias name must begin with alias/ followed by
+# Arguments
+- `alias_name`: The alias to be deleted. The alias name must begin with alias/ followed by
   the alias name, such as alias/ExampleAlias.
 
 """
 delete_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}("AliasName"=>AliasName); aws_config=aws_config)
-delete_alias(AliasName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), args)); aws_config=aws_config)
+delete_alias(AliasName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), params)); aws_config=aws_config)
 
 """
-    DeleteCustomKeyStore()
+    delete_custom_key_store(custom_key_store_id)
+    delete_custom_key_store(custom_key_store_id, params::Dict{String,<:Any})
 
 Deletes a custom key store. This operation does not delete the AWS CloudHSM cluster that is
 associated with the custom key store, or affect any users or keys in the cluster. The
@@ -463,16 +475,17 @@ different AWS account.  Required permissions: kms:DeleteCustomKeyStore (IAM poli
 Related operations:     ConnectCustomKeyStore     CreateCustomKeyStore
 DescribeCustomKeyStores     DisconnectCustomKeyStore     UpdateCustomKeyStore
 
-# Required Parameters
-- `CustomKeyStoreId`: Enter the ID of the custom key store you want to delete. To find the
-  ID of a custom key store, use the DescribeCustomKeyStores operation.
+# Arguments
+- `custom_key_store_id`: Enter the ID of the custom key store you want to delete. To find
+  the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
 delete_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-delete_custom_key_store(CustomKeyStoreId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), args)); aws_config=aws_config)
+delete_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
-    DeleteImportedKeyMaterial()
+    delete_imported_key_material(key_id)
+    delete_imported_key_material(key_id, params::Dict{String,<:Any})
 
 Deletes key material that you previously imported. This operation makes the specified
 customer master key (CMK) unusable. For more information about importing key material into
@@ -486,19 +499,20 @@ Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a d
 AWS account.  Required permissions: kms:DeleteImportedKeyMaterial (key policy)  Related
 operations:     GetParametersForImport     ImportKeyMaterial
 
-# Required Parameters
-- `KeyId`: Identifies the CMK from which you are deleting imported key material. The Origin
-  of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of the
-  CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+# Arguments
+- `key_id`: Identifies the CMK from which you are deleting imported key material. The
+  Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of
+  the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 delete_imported_key_material(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-delete_imported_key_material(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+delete_imported_key_material(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    DescribeCustomKeyStores()
+    describe_custom_key_stores()
+    describe_custom_key_stores(params::Dict{String,<:Any})
 
 Gets information about custom key stores in the account and region. This operation is part
 of the Custom Key Store feature feature in AWS KMS, which combines the convenience and
@@ -522,27 +536,29 @@ policy)  Related operations:     ConnectCustomKeyStore     CreateCustomKeyStore
 DeleteCustomKeyStore     DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 # Optional Parameters
-- `CustomKeyStoreId`: Gets only information about the specified custom key store. Enter the
-  key store ID. By default, this operation gets information about all custom key stores in
-  the account and region. To limit the output to a particular custom key store, you can use
-  either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
-- `CustomKeyStoreName`: Gets only information about the specified custom key store. Enter
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomKeyStoreId"`: Gets only information about the specified custom key store. Enter
+  the key store ID. By default, this operation gets information about all custom key stores
+  in the account and region. To limit the output to a particular custom key store, you can
+  use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
+- `"CustomKeyStoreName"`: Gets only information about the specified custom key store. Enter
   the friendly name of the custom key store. By default, this operation gets information
   about all custom key stores in the account and region. To limit the output to a particular
   custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter,
   but not both.
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 describe_custom_key_stores(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores"; aws_config=aws_config)
-describe_custom_key_stores(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores", args; aws_config=aws_config)
+describe_custom_key_stores(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores", params; aws_config=aws_config)
 
 """
-    DescribeKey()
+    describe_key(key_id)
+    describe_key(key_id, params::Dict{String,<:Any})
 
 Provides detailed information about a customer master key (CMK). You can run DescribeKey on
 a customer managed CMK or an AWS managed CMK. This detailed information includes the key
@@ -567,8 +583,8 @@ ARN in the value of the KeyId parameter.  Required permissions: kms:DescribeKey 
 policy)  Related operations:     GetKeyPolicy     GetKeyRotationStatus     ListAliases
 ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
 
-# Required Parameters
-- `KeyId`: Describes the specified customer master key (CMK).  If you specify a predefined
+# Arguments
+- `key_id`: Describes the specified customer master key (CMK).  If you specify a predefined
   AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK
   and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, Amazon
   Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
@@ -580,14 +596,16 @@ ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
   and alias ARN, use ListAliases.
 
 # Optional Parameters
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
 """
 describe_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-describe_key(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+describe_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    DisableKey()
+    disable_key(key_id)
+    disable_key(key_id, params::Dict{String,<:Any})
 
 Sets the state of a customer master key (CMK) to disabled. This change temporarily prevents
 use of the CMK for cryptographic operations.  For more information about how key state
@@ -598,19 +616,20 @@ Master Key in the AWS Key Management Service Developer Guide.  Cross-account use
 cannot perform this operation on a CMK in a different AWS account.  Required permissions:
 kms:DisableKey (key policy)  Related operations: EnableKey
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 disable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-disable_key(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+disable_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    DisableKeyRotation()
+    disable_key_rotation(key_id)
+    disable_key_rotation(key_id, params::Dict{String,<:Any})
 
 Disables automatic rotation of the key material for the specified symmetric customer master
 key (CMK).  You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key
@@ -621,8 +640,8 @@ perform this operation on a CMK in a different AWS account.  Required permission
 kms:DisableKeyRotation (key policy)  Related operations:     EnableKeyRotation
 GetKeyRotationStatus
 
-# Required Parameters
-- `KeyId`: Identifies a symmetric customer master key (CMK). You cannot enable or disable
+# Arguments
+- `key_id`: Identifies a symmetric customer master key (CMK). You cannot enable or disable
   automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom
   key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:
   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
@@ -631,10 +650,11 @@ GetKeyRotationStatus
 
 """
 disable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-disable_key_rotation(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+disable_key_rotation(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    DisconnectCustomKeyStore()
+    disconnect_custom_key_store(custom_key_store_id)
+    disconnect_custom_key_store(custom_key_store_id, params::Dict{String,<:Any})
 
 Disconnects the custom key store from its associated AWS CloudHSM cluster. While a custom
 key store is disconnected, you can manage the custom key store and its customer master keys
@@ -653,16 +673,17 @@ kms:DisconnectCustomKeyStore (IAM policy)  Related operations:     ConnectCustom
  CreateCustomKeyStore     DeleteCustomKeyStore     DescribeCustomKeyStores
 UpdateCustomKeyStore
 
-# Required Parameters
-- `CustomKeyStoreId`: Enter the ID of the custom key store you want to disconnect. To find
-  the ID of a custom key store, use the DescribeCustomKeyStores operation.
+# Arguments
+- `custom_key_store_id`: Enter the ID of the custom key store you want to disconnect. To
+  find the ID of a custom key store, use the DescribeCustomKeyStores operation.
 
 """
 disconnect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-disconnect_custom_key_store(CustomKeyStoreId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), args)); aws_config=aws_config)
+disconnect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
-    EnableKey()
+    enable_key(key_id)
+    enable_key(key_id, params::Dict{String,<:Any})
 
 Sets the key state of a customer master key (CMK) to enabled. This allows you to use the
 CMK for cryptographic operations.  The CMK that you use for this operation must be in a
@@ -671,19 +692,20 @@ in the AWS Key Management Service Developer Guide.  Cross-account use: No. You c
 perform this operation on a CMK in a different AWS account.  Required permissions:
 kms:EnableKey (key policy)  Related operations: DisableKey
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 enable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-enable_key(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+enable_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    EnableKeyRotation()
+    enable_key_rotation(key_id)
+    enable_key_rotation(key_id, params::Dict{String,<:Any})
 
 Enables automatic rotation of the key material for the specified symmetric customer master
 key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key
@@ -694,8 +716,8 @@ perform this operation on a CMK in a different AWS account.  Required permission
 kms:EnableKeyRotation (key policy)  Related operations:     DisableKeyRotation
 GetKeyRotationStatus
 
-# Required Parameters
-- `KeyId`: Identifies a symmetric customer master key (CMK). You cannot enable automatic
+# Arguments
+- `key_id`: Identifies a symmetric customer master key (CMK). You cannot enable automatic
   rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key
   store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key
   ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
@@ -704,10 +726,11 @@ GetKeyRotationStatus
 
 """
 enable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-enable_key_rotation(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+enable_key_rotation(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    Encrypt()
+    encrypt(key_id, plaintext)
+    encrypt(key_id, plaintext, params::Dict{String,<:Any})
 
 Encrypts plaintext into ciphertext by using a customer master key (CMK). The Encrypt
 operation has two primary use cases:   You can encrypt small amounts of arbitrary data,
@@ -748,24 +771,25 @@ specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
 permissions: kms:Encrypt (key policy)  Related operations:     Decrypt     GenerateDataKey
    GenerateDataKeyPair
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). To specify a CMK, use its
-  key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). To specify a CMK, use
+  its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
   prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use the
   key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
   name: alias/ExampleAlias    Alias ARN:
   arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
-- `Plaintext`: Data to be encrypted.
+- `plaintext`: Data to be encrypted.
 
 # Optional Parameters
-- `EncryptionAlgorithm`: Specifies the encryption algorithm that AWS KMS will use to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionAlgorithm"`: Specifies the encryption algorithm that AWS KMS will use to
   encrypt the plaintext message. The algorithm must be compatible with the CMK that you
   specify. This parameter is required only for asymmetric CMKs. The default value,
   SYMMETRIC_DEFAULT, is the algorithm used for symmetric CMKs. If you are using an asymmetric
   CMK, we recommend RSAES_OAEP_SHA_256.
-- `EncryptionContext`: Specifies the encryption context that will be used to encrypt the
+- `"EncryptionContext"`: Specifies the encryption context that will be used to encrypt the
   data. An encryption context is valid only for cryptographic operations with a symmetric
   CMK. The standard asymmetric encryption algorithms that AWS KMS uses do not support an
   encryption context.  An encryption context is a collection of non-secret key-value pairs
@@ -774,14 +798,15 @@ permissions: kms:Encrypt (key policy)  Related operations:     Decrypt     Gener
   to decrypt the data. An encryption context is optional when encrypting with a symmetric
   CMK, but it is highly recommended. For more information, see Encryption Context in the AWS
   Key Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
 """
 encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext); aws_config=aws_config)
-encrypt(KeyId, Plaintext, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), args)); aws_config=aws_config)
+encrypt(KeyId, Plaintext, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config)
 
 """
-    GenerateDataKey()
+    generate_data_key(key_id)
+    generate_data_key(key_id, params::Dict{String,<:Any})
 
 Generates a unique symmetric data key for client-side encryption. This operation returns a
 plaintext copy of the data key and a copy that is encrypted under a customer master key
@@ -819,8 +844,8 @@ parameter.  Required permissions: kms:GenerateDataKey (key policy)  Related oper
 Decrypt     Encrypt     GenerateDataKeyPair     GenerateDataKeyPairWithoutPlaintext
 GenerateDataKeyWithoutPlaintext
 
-# Required Parameters
-- `KeyId`: Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use
+# Arguments
+- `key_id`: Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use
   its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
   prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use the
   key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
@@ -830,28 +855,30 @@ GenerateDataKeyWithoutPlaintext
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 # Optional Parameters
-- `EncryptionContext`: Specifies the encryption context that will be used when encrypting
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
   the data key. An encryption context is a collection of non-secret key-value pairs that
   represents additional authenticated data. When you use an encryption context to encrypt
   data, you must specify the same (an exact case-sensitive match) encryption context to
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `KeySpec`: Specifies the length of the data key. Use AES_128 to generate a 128-bit
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"KeySpec"`: Specifies the length of the data key. Use AES_128 to generate a 128-bit
   symmetric key, or AES_256 to generate a 256-bit symmetric key. You must specify either the
   KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
-- `NumberOfBytes`: Specifies the length of the data key in bytes. For example, use the
+- `"NumberOfBytes"`: Specifies the length of the data key in bytes. For example, use the
   value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and
   256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec
   or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
 """
 generate_data_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-generate_data_key(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+generate_data_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    GenerateDataKeyPair()
+    generate_data_key_pair(key_id, key_pair_spec)
+    generate_data_key_pair(key_id, key_pair_spec, params::Dict{String,<:Any})
 
 Generates a unique asymmetric data key pair. The GenerateDataKeyPair operation returns a
 plaintext public key, a plaintext private key, and a copy of the private key that is
@@ -884,8 +911,8 @@ kms:GenerateDataKeyPair (key policy)  Related operations:     Decrypt     Encryp
 GenerateDataKey     GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
 
 
-# Required Parameters
-- `KeyId`: Specifies the symmetric CMK that encrypts the private key in the data key pair.
+# Arguments
+- `key_id`: Specifies the symmetric CMK that encrypts the private key in the data key pair.
   You cannot specify an asymmetric CMK or a CMK in a custom key store. To get the type and
   origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon
   Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
@@ -895,27 +922,29 @@ GenerateDataKey     GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWitho
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
   and alias ARN, use ListAliases.
-- `KeyPairSpec`: Determines the type of data key pair that is generated.  The AWS KMS rule
-  that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify
-  (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are
-  not effective outside of AWS KMS.
+- `key_pair_spec`: Determines the type of data key pair that is generated.  The AWS KMS
+  rule that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and
+  verify (but not both), and the rule that permits you to use ECC CMKs only to sign and
+  verify, are not effective outside of AWS KMS.
 
 # Optional Parameters
-- `EncryptionContext`: Specifies the encryption context that will be used when encrypting
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
   the private key in the data key pair. An encryption context is a collection of non-secret
   key-value pairs that represents additional authenticated data. When you use an encryption
   context to encrypt data, you must specify the same (an exact case-sensitive match)
   encryption context to decrypt the data. An encryption context is optional when encrypting
   with a symmetric CMK, but it is highly recommended. For more information, see Encryption
   Context in the AWS Key Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
-generate_data_key_pair(KeyId, KeyPairSpec, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), args)); aws_config=aws_config)
+generate_data_key_pair(KeyId, KeyPairSpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
 
 """
-    GenerateDataKeyPairWithoutPlaintext()
+    generate_data_key_pair_without_plaintext(key_id, key_pair_spec)
+    generate_data_key_pair_without_plaintext(key_id, key_pair_spec, params::Dict{String,<:Any})
 
 Generates a unique asymmetric data key pair. The GenerateDataKeyPairWithoutPlaintext
 operation returns a plaintext public key and a copy of the private key that is encrypted
@@ -942,8 +971,8 @@ permissions: kms:GenerateDataKeyPairWithoutPlaintext (key policy)  Related opera
 Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
 GenerateDataKeyWithoutPlaintext
 
-# Required Parameters
-- `KeyId`: Specifies the CMK that encrypts the private key in the data key pair. You must
+# Arguments
+- `key_id`: Specifies the CMK that encrypts the private key in the data key pair. You must
   specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in a custom key store.
   To get the type and origin of your CMK, use the DescribeKey operation.  To specify a CMK,
   use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias
@@ -953,27 +982,29 @@ GenerateDataKeyWithoutPlaintext
   Alias name: alias/ExampleAlias    Alias ARN:
   arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
-- `KeyPairSpec`: Determines the type of data key pair that is generated. The AWS KMS rule
+- `key_pair_spec`: Determines the type of data key pair that is generated. The AWS KMS rule
   that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify
   (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are
   not effective outside of AWS KMS.
 
 # Optional Parameters
-- `EncryptionContext`: Specifies the encryption context that will be used when encrypting
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
   the private key in the data key pair. An encryption context is a collection of non-secret
   key-value pairs that represents additional authenticated data. When you use an encryption
   context to encrypt data, you must specify the same (an exact case-sensitive match)
   encryption context to decrypt the data. An encryption context is optional when encrypting
   with a symmetric CMK, but it is highly recommended. For more information, see Encryption
   Context in the AWS Key Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
-generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), args)); aws_config=aws_config)
+generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
 
 """
-    GenerateDataKeyWithoutPlaintext()
+    generate_data_key_without_plaintext(key_id)
+    generate_data_key_without_plaintext(key_id, params::Dict{String,<:Any})
 
 Generates a unique symmetric data key. This operation returns a data key that is encrypted
 under a customer master key (CMK) that you specify. To request an asymmetric data key pair,
@@ -1007,11 +1038,11 @@ permissions: kms:GenerateDataKeyWithoutPlaintext (key policy)  Related operation
 Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
 GenerateDataKeyPairWithoutPlaintext
 
-# Required Parameters
-- `KeyId`: The identifier of the symmetric customer master key (CMK) that encrypts the data
-  key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias
-  ARN. When using an alias name, prefix it with \"alias/\". To specify a CMK in a different
-  AWS account, you must use the key ARN or alias ARN. For example:   Key ID:
+# Arguments
+- `key_id`: The identifier of the symmetric customer master key (CMK) that encrypts the
+  data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
+  alias ARN. When using an alias name, prefix it with \"alias/\". To specify a CMK in a
+  different AWS account, you must use the key ARN or alias ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -1019,26 +1050,28 @@ GenerateDataKeyPairWithoutPlaintext
   and alias ARN, use ListAliases.
 
 # Optional Parameters
-- `EncryptionContext`: Specifies the encryption context that will be used when encrypting
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
   the data key. An encryption context is a collection of non-secret key-value pairs that
   represents additional authenticated data. When you use an encryption context to encrypt
   data, you must specify the same (an exact case-sensitive match) encryption context to
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `KeySpec`: The length of the data key. Use AES_128 to generate a 128-bit symmetric key,
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"KeySpec"`: The length of the data key. Use AES_128 to generate a 128-bit symmetric key,
   or AES_256 to generate a 256-bit symmetric key.
-- `NumberOfBytes`: The length of the data key in bytes. For example, use the value 64 to
+- `"NumberOfBytes"`: The length of the data key in bytes. For example, use the value 64 to
   generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and
   256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
 """
 generate_data_key_without_plaintext(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-generate_data_key_without_plaintext(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+generate_data_key_without_plaintext(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    GenerateRandom()
+    generate_random()
+    generate_random(params::Dict{String,<:Any})
 
 Returns a random byte string that is cryptographically secure. By default, the random byte
 string is generated in AWS KMS. To generate the byte string in the AWS CloudHSM cluster
@@ -1047,36 +1080,39 @@ information about entropy and random number generation, see the AWS Key Manageme
 Cryptographic Details whitepaper.  Required permissions: kms:GenerateRandom (IAM policy)
 
 # Optional Parameters
-- `CustomKeyStoreId`: Generates the random byte string in the AWS CloudHSM cluster that is
-  associated with the specified custom key store. To find the ID of a custom key store, use
-  the DescribeCustomKeyStores operation.
-- `NumberOfBytes`: The length of the byte string.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomKeyStoreId"`: Generates the random byte string in the AWS CloudHSM cluster that
+  is associated with the specified custom key store. To find the ID of a custom key store,
+  use the DescribeCustomKeyStores operation.
+- `"NumberOfBytes"`: The length of the byte string.
 """
 generate_random(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom"; aws_config=aws_config)
-generate_random(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom", args; aws_config=aws_config)
+generate_random(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom", params; aws_config=aws_config)
 
 """
-    GetKeyPolicy()
+    get_key_policy(key_id, policy_name)
+    get_key_policy(key_id, policy_name, params::Dict{String,<:Any})
 
 Gets a key policy attached to the specified customer master key (CMK).  Cross-account use:
 No. You cannot perform this operation on a CMK in a different AWS account.  Required
 permissions: kms:GetKeyPolicy (key policy)  Related operations: PutKeyPolicy
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `PolicyName`: Specifies the name of the key policy. The only valid name is default. To
+- `policy_name`: Specifies the name of the key policy. The only valid name is default. To
   get the names of key policies, use ListKeyPolicies.
 
 """
 get_key_policy(KeyId, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName); aws_config=aws_config)
-get_key_policy(KeyId, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+get_key_policy(KeyId, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    GetKeyRotationStatus()
+    get_key_rotation_status(key_id)
+    get_key_rotation_status(key_id, params::Dict{String,<:Any})
 
 Gets a Boolean value that indicates whether automatic rotation of the key material is
 enabled for the specified customer master key (CMK). You cannot enable automatic rotation
@@ -1092,19 +1128,20 @@ perform this operation on a CMK in a different AWS account, specify the key ARN 
 value of the KeyId parameter.  Required permissions: kms:GetKeyRotationStatus (key policy)
 Related operations:     DisableKeyRotation     EnableKeyRotation
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you
   must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get
   the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-get_key_rotation_status(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+get_key_rotation_status(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    GetParametersForImport()
+    get_parameters_for_import(key_id, wrapping_algorithm, wrapping_key_spec)
+    get_parameters_for_import(key_id, wrapping_algorithm, wrapping_key_spec, params::Dict{String,<:Any})
 
 Returns the items you need to import key material into a symmetric, customer managed
 customer master key (CMK). For more information about importing key material into AWS KMS,
@@ -1125,24 +1162,25 @@ Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a d
 AWS account.  Required permissions: kms:GetParametersForImport (key policy)  Related
 operations:     ImportKeyMaterial     DeleteImportedKeyMaterial
 
-# Required Parameters
-- `KeyId`: The identifier of the symmetric CMK into which you will import key material. The
-  Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of
-  the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+# Arguments
+- `key_id`: The identifier of the symmetric CMK into which you will import key material.
+  The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name
+  (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `WrappingAlgorithm`: The algorithm you will use to encrypt the key material before
+- `wrapping_algorithm`: The algorithm you will use to encrypt the key material before
   importing it with ImportKeyMaterial. For more information, see Encrypt the Key Material in
   the AWS Key Management Service Developer Guide.
-- `WrappingKeySpec`: The type of wrapping key (public key) to return in the response. Only
-  2048-bit RSA public keys are supported.
+- `wrapping_key_spec`: The type of wrapping key (public key) to return in the response.
+  Only 2048-bit RSA public keys are supported.
 
 """
 get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec); aws_config=aws_config)
-get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), args)); aws_config=aws_config)
+get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), params)); aws_config=aws_config)
 
 """
-    GetPublicKey()
+    get_public_key(key_id)
+    get_public_key(key_id, params::Dict{String,<:Any})
 
 Returns the public key of an asymmetric CMK. Unlike the private key of a asymmetric CMK,
 which never leaves AWS KMS unencrypted, callers with kms:GetPublicKey permission can
@@ -1172,8 +1210,8 @@ use: Yes. To perform this operation with a CMK in a different AWS account, speci
 ARN or alias ARN in the value of the KeyId parameter.  Required permissions:
 kms:GetPublicKey (key policy)  Related operations: CreateKey
 
-# Required Parameters
-- `KeyId`: Identifies the asymmetric CMK that includes the public key. To specify a CMK,
+# Arguments
+- `key_id`: Identifies the asymmetric CMK that includes the public key. To specify a CMK,
   use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias
   name, prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use
   the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -1183,14 +1221,16 @@ kms:GetPublicKey (key policy)  Related operations: CreateKey
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
 
 # Optional Parameters
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
 """
 get_public_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-get_public_key(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+get_public_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ImportKeyMaterial()
+    import_key_material(encrypted_key_material, import_token, key_id)
+    import_key_material(encrypted_key_material, import_token, key_id, params::Dict{String,<:Any})
 
 Imports key material into an existing symmetric AWS KMS customer master key (CMK) that was
 created without key material. After you successfully import key material into a CMK, you
@@ -1223,34 +1263,37 @@ Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a d
 AWS account.  Required permissions: kms:ImportKeyMaterial (key policy)  Related operations:
     DeleteImportedKeyMaterial     GetParametersForImport
 
-# Required Parameters
-- `EncryptedKeyMaterial`: The encrypted key material to import. The key material must be
+# Arguments
+- `encrypted_key_material`: The encrypted key material to import. The key material must be
   encrypted with the public wrapping key that GetParametersForImport returned, using the
   wrapping algorithm that you specified in the same GetParametersForImport request.
-- `ImportToken`: The import token that you received in the response to a previous
+- `import_token`: The import token that you received in the response to a previous
   GetParametersForImport request. It must be from the same response that contained the public
   key that you used to encrypt the key material.
-- `KeyId`: The identifier of the symmetric CMK that receives the imported key material. The
-  CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID parameter
-  of the corresponding GetParametersForImport request. Specify the key ID or the Amazon
-  Resource Name (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-     Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-  To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `key_id`: The identifier of the symmetric CMK that receives the imported key material.
+  The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID
+  parameter of the corresponding GetParametersForImport request. Specify the key ID or the
+  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
+  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
-- `ExpirationModel`: Specifies whether the key material expires. The default is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationModel"`: Specifies whether the key material expires. The default is
   KEY_MATERIAL_EXPIRES, in which case you must include the ValidTo parameter. When this
   parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE, you must omit the ValidTo parameter.
-- `ValidTo`: The time at which the imported key material expires. When the key material
+- `"ValidTo"`: The time at which the imported key material expires. When the key material
   expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this
   parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE.
   Otherwise it is required.
 """
 import_key_material(EncryptedKeyMaterial, ImportToken, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId); aws_config=aws_config)
-import_key_material(EncryptedKeyMaterial, ImportToken, KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), args)); aws_config=aws_config)
+import_key_material(EncryptedKeyMaterial, ImportToken, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ListAliases()
+    list_aliases()
+    list_aliases(params::Dict{String,<:Any})
 
 Gets a list of aliases in the caller's AWS account and region. For more information about
 aliases, see CreateAlias. By default, the ListAliases operation returns all aliases in the
@@ -1268,25 +1311,27 @@ aliases in the AWS Key Management Service Developer Guide.  Related operations:
 CreateAlias     DeleteAlias     UpdateAlias
 
 # Optional Parameters
-- `KeyId`: Lists only aliases that are associated with the specified CMK. Enter a CMK in
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"KeyId"`: Lists only aliases that are associated with the specified CMK. Enter a CMK in
   your AWS account.  This parameter is optional. If you omit it, ListAliases returns all
   aliases in the account and Region. Specify the key ID or the Amazon Resource Name (ARN) of
   the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 100, inclusive. If you do not include a value, it defaults to 50.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 list_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases"; aws_config=aws_config)
-list_aliases(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases", args; aws_config=aws_config)
+list_aliases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases", params; aws_config=aws_config)
 
 """
-    ListGrants()
+    list_grants(key_id)
+    list_grants(key_id, params::Dict{String,<:Any})
 
 Gets a list of all grants for the specified customer master key (CMK).  You must specify
 the CMK in all requests. You can filter the grant list by grant ID or grantee principal.
@@ -1298,8 +1343,8 @@ perform this operation on a CMK in a different AWS account, specify the key ARN 
 value of the KeyId parameter.  Required permissions: kms:ListGrants (key policy)  Related
 operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGrant
 
-# Required Parameters
-- `KeyId`: Returns only grants for the specified customer master key (CMK). This parameter
+# Arguments
+- `key_id`: Returns only grants for the specified customer master key (CMK). This parameter
   is required. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a
   CMK in a different AWS account, you must use the key ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
@@ -1307,23 +1352,25 @@ operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGr
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
-- `GrantId`: Returns only the grant with the specified grant ID. The grant ID uniquely
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantId"`: Returns only the grant with the specified grant ID. The grant ID uniquely
   identifies the grant.
-- `GranteePrincipal`: Returns only grants where the specified principal is the grantee
+- `"GranteePrincipal"`: Returns only grants where the specified principal is the grantee
   principal for the grant.
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 100, inclusive. If you do not include a value, it defaults to 50.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 list_grants(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_grants(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+list_grants(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ListKeyPolicies()
+    list_key_policies(key_id)
+    list_key_policies(key_id, params::Dict{String,<:Any})
 
 Gets the names of the key policies that are attached to a customer master key (CMK). This
 operation is designed to get policy names that you can use in a GetKeyPolicy operation.
@@ -1331,28 +1378,30 @@ However, the only valid policy name is default.   Cross-account use: No. You can
 this operation on a CMK in a different AWS account.  Required permissions:
 kms:ListKeyPolicies (key policy)  Related operations:     GetKeyPolicy     PutKeyPolicy
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can
   be attached to a key.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 list_key_policies(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_key_policies(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+list_key_policies(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ListKeys()
+    list_keys()
+    list_keys(params::Dict{String,<:Any})
 
 Gets a list of all customer master keys (CMKs) in the caller's AWS account and Region.
 Cross-account use: No. You cannot perform this operation on a CMK in a different AWS
@@ -1360,19 +1409,21 @@ account.  Required permissions: kms:ListKeys (IAM policy)  Related operations:
 CreateKey     DescribeKey     ListAliases     ListResourceTags
 
 # Optional Parameters
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 1000, inclusive. If you do not include a value, it defaults to 100.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 list_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys"; aws_config=aws_config)
-list_keys(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys", args; aws_config=aws_config)
+list_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys", params; aws_config=aws_config)
 
 """
-    ListResourceTags()
+    list_resource_tags(key_id)
+    list_resource_tags(key_id, params::Dict{String,<:Any})
 
 Returns all tags on the specified customer master key (CMK). For general information about
 tags, including the format and syntax, see Tagging AWS resources in the Amazon Web Services
@@ -1381,28 +1432,30 @@ Cross-account use: No. You cannot perform this operation on a CMK in a different
 account.  Required permissions: kms:ListResourceTags (key policy)  Related operations:
 TagResource     UntagResource
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 50, inclusive. If you do not include a value, it defaults to 50.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received. Do not attempt to construct this value. Use only the value of NextMarker from the
   truncated response you just received.
 """
 list_resource_tags(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_resource_tags(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+list_resource_tags(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ListRetirableGrants()
+    list_retirable_grants(retiring_principal)
+    list_retirable_grants(retiring_principal, params::Dict{String,<:Any})
 
 Returns all grants in which the specified principal is the RetiringPrincipal in the grant.
 You can specify any principal in your AWS account. The grants that are returned include
@@ -1414,8 +1467,8 @@ permission (or any other additional permission) in any AWS account other than yo
 Required permissions: kms:ListRetirableGrants (IAM policy) in your AWS account.  Related
 operations:     CreateGrant     ListGrants     RetireGrant     RevokeGrant
 
-# Required Parameters
-- `RetiringPrincipal`: The retiring principal for which to list grants. Enter a principal
+# Arguments
+- `retiring_principal`: The retiring principal for which to list grants. Enter a principal
   in your AWS account. To specify the retiring principal, use the Amazon Resource Name (ARN)
   of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated
   users, and assumed role users. For examples of the ARN syntax for specifying a principal,
@@ -1423,19 +1476,21 @@ operations:     CreateGrant     ListGrants     RetireGrant     RevokeGrant
   Services General Reference.
 
 # Optional Parameters
-- `Limit`: Use this parameter to specify the maximum number of items to return. When this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
   value is present, AWS KMS does not return more than the specified number of items, but it
   might return fewer. This value is optional. If you include a value, it must be between 1
   and 100, inclusive. If you do not include a value, it defaults to 50.
-- `Marker`: Use this parameter in a subsequent request after you receive a response with
+- `"Marker"`: Use this parameter in a subsequent request after you receive a response with
   truncated results. Set it to the value of NextMarker from the truncated response you just
   received.
 """
 list_retirable_grants(RetiringPrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal); aws_config=aws_config)
-list_retirable_grants(RetiringPrincipal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), args)); aws_config=aws_config)
+list_retirable_grants(RetiringPrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), params)); aws_config=aws_config)
 
 """
-    PutKeyPolicy()
+    put_key_policy(key_id, policy, policy_name)
+    put_key_policy(key_id, policy, policy_name, params::Dict{String,<:Any})
 
 Attaches a key policy to the specified customer master key (CMK).  For more information
 about key policies, see Key Policies in the AWS Key Management Service Developer Guide. For
@@ -1446,13 +1501,13 @@ Cross-account use: No. You cannot perform this operation on a CMK in a different
 account.  Required permissions: kms:PutKeyPolicy (key policy)  Related operations:
 GetKeyPolicy
 
-# Required Parameters
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `Policy`: The key policy to attach to the CMK. The key policy must meet the following
+- `policy`: The key policy to attach to the CMK. The key policy must meet the following
   criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must
   allow the principal that is making the PutKeyPolicy request to make a subsequent
   PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable.
@@ -1465,10 +1520,11 @@ GetKeyPolicy
   that I make are not always immediately visible in the AWS Identity and Access Management
   User Guide.   The key policy cannot exceed 32 kilobytes (32768 bytes). For more
   information, see Resource Quotas in the AWS Key Management Service Developer Guide.
-- `PolicyName`: The name of the key policy. The only valid value is default.
+- `policy_name`: The name of the key policy. The only valid value is default.
 
 # Optional Parameters
-- `BypassPolicyLockoutSafetyCheck`: A flag to indicate whether to bypass the key policy
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
   lockout safety check.  Setting this value to true increases the risk that the CMK becomes
   unmanageable. Do not set this value to true indiscriminately. For more information, refer
   to the scenario in the Default Key Policy section in the AWS Key Management Service
@@ -1477,10 +1533,11 @@ GetKeyPolicy
   value is false.
 """
 put_key_policy(KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_key_policy(KeyId, Policy, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+put_key_policy(KeyId, Policy, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    ReEncrypt()
+    re_encrypt(ciphertext_blob, destination_key_id)
+    re_encrypt(ciphertext_blob, destination_key_id, params::Dict{String,<:Any})
 
 Decrypts ciphertext and then reencrypts it entirely within AWS KMS. You can use this
 operation to change the customer master key (CMK) under which data is encrypted, such as
@@ -1527,9 +1584,9 @@ console to create a CMK. But you must include it manually when you create a CMK
 programmatically or when you use the PutKeyPolicy operation to set a key policy.  Related
 operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
 
-# Required Parameters
-- `CiphertextBlob`: Ciphertext of the data to reencrypt.
-- `DestinationKeyId`: A unique identifier for the CMK that is used to reencrypt the data.
+# Arguments
+- `ciphertext_blob`: Ciphertext of the data to reencrypt.
+- `destination_key_id`: A unique identifier for the CMK that is used to reencrypt the data.
   Specify a symmetric or asymmetric CMK with a KeyUsage value of ENCRYPT_DECRYPT. To find the
   KeyUsage value of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID,
   Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it
@@ -1541,11 +1598,12 @@ operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   and alias ARN, use ListAliases.
 
 # Optional Parameters
-- `DestinationEncryptionAlgorithm`: Specifies the encryption algorithm that AWS KMS will
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationEncryptionAlgorithm"`: Specifies the encryption algorithm that AWS KMS will
   use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT,
   represents the encryption algorithm used for symmetric CMKs. This parameter is required
   only when the destination CMK is an asymmetric CMK.
-- `DestinationEncryptionContext`: Specifies that encryption context to use when the
+- `"DestinationEncryptionContext"`: Specifies that encryption context to use when the
   reencrypting the data. A destination encryption context is valid only when the destination
   CMK is a symmetric CMK. The standard ciphertext format for asymmetric CMKs does not include
   fields for metadata. An encryption context is a collection of non-secret key-value pairs
@@ -1554,14 +1612,14 @@ operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   to decrypt the data. An encryption context is optional when encrypting with a symmetric
   CMK, but it is highly recommended. For more information, see Encryption Context in the AWS
   Key Management Service Developer Guide.
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `SourceEncryptionAlgorithm`: Specifies the encryption algorithm that AWS KMS will use to
-  decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT,
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"SourceEncryptionAlgorithm"`: Specifies the encryption algorithm that AWS KMS will use
+  to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT,
   represents the algorithm used for symmetric CMKs. Specify the same algorithm that was used
   to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails.
   This parameter is required only when the ciphertext was encrypted under an asymmetric CMK.
-- `SourceEncryptionContext`: Specifies the encryption context to use to decrypt the
+- `"SourceEncryptionContext"`: Specifies the encryption context to use to decrypt the
   ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An
   encryption context is a collection of non-secret key-value pairs that represents additional
   authenticated data. When you use an encryption context to encrypt data, you must specify
@@ -1569,7 +1627,7 @@ operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   encryption context is optional when encrypting with a symmetric CMK, but it is highly
   recommended. For more information, see Encryption Context in the AWS Key Management Service
   Developer Guide.
-- `SourceKeyId`: Specifies the customer master key (CMK) that AWS KMS will use to decrypt
+- `"SourceKeyId"`: Specifies the customer master key (CMK) that AWS KMS will use to decrypt
   the ciphertext before it is re-encrypted. Enter a key ID of the CMK that was used to
   encrypt the ciphertext. This parameter is required only when the ciphertext was encrypted
   under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata
@@ -1584,10 +1642,11 @@ operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
 """
 re_encrypt(CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId); aws_config=aws_config)
-re_encrypt(CiphertextBlob, DestinationKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), args)); aws_config=aws_config)
+re_encrypt(CiphertextBlob, DestinationKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config)
 
 """
-    RetireGrant()
+    retire_grant()
+    retire_grant(params::Dict{String,<:Any})
 
 Retires a grant. To clean up, you can retire a grant when you're done using it. You should
 revoke a grant when you intend to actively deny operations that depend on it. The following
@@ -1604,18 +1663,20 @@ see Using grants in the AWS Key Management Service Developer Guide.  Related ope
  CreateGrant     ListGrants     ListRetirableGrants     RevokeGrant
 
 # Optional Parameters
-- `GrantId`: Unique identifier of the grant to retire. The grant ID is returned in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantId"`: Unique identifier of the grant to retire. The grant ID is returned in the
   response to a CreateGrant operation.   Grant ID Example -
   0123456789012345678901234567890123456789012345678901234567890123
-- `GrantToken`: Token that identifies the grant to be retired.
-- `KeyId`: The Amazon Resource Name (ARN) of the CMK associated with the grant.  For
+- `"GrantToken"`: Token that identifies the grant to be retired.
+- `"KeyId"`: The Amazon Resource Name (ARN) of the CMK associated with the grant.  For
   example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 retire_grant(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant"; aws_config=aws_config)
-retire_grant(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant", args; aws_config=aws_config)
+retire_grant(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant", params; aws_config=aws_config)
 
 """
-    RevokeGrant()
+    revoke_grant(grant_id, key_id)
+    revoke_grant(grant_id, key_id, params::Dict{String,<:Any})
 
 Revokes the specified grant for the specified customer master key (CMK). You can revoke a
 grant to actively deny operations that depend on it.  Cross-account use: Yes. To perform
@@ -1623,9 +1684,9 @@ this operation on a CMK in a different AWS account, specify the key ARN in the v
 KeyId parameter.  Required permissions: kms:RevokeGrant (key policy)  Related operations:
   CreateGrant     ListGrants     ListRetirableGrants     RetireGrant
 
-# Required Parameters
-- `GrantId`: Identifier of the grant to be revoked.
-- `KeyId`: A unique identifier for the customer master key associated with the grant.
+# Arguments
+- `grant_id`: Identifier of the grant to be revoked.
+- `key_id`: A unique identifier for the customer master key associated with the grant.
   Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a
   different AWS account, you must use the key ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
@@ -1634,10 +1695,11 @@ KeyId parameter.  Required permissions: kms:RevokeGrant (key policy)  Related op
 
 """
 revoke_grant(GrantId, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId); aws_config=aws_config)
-revoke_grant(GrantId, KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), args)); aws_config=aws_config)
+revoke_grant(GrantId, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    ScheduleKeyDeletion()
+    schedule_key_deletion(key_id)
+    schedule_key_deletion(key_id, params::Dict{String,<:Any})
 
 Schedules the deletion of a customer master key (CMK). You may provide a waiting period,
 specified in days, before deletion occurs. If you do not provide a waiting period, the
@@ -1659,24 +1721,26 @@ Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a d
 AWS account.  Required permissions: kms:ScheduleKeyDeletion (key policy)  Related
 operations     CancelKeyDeletion     DisableKey
 
-# Required Parameters
-- `KeyId`: The unique identifier of the customer master key (CMK) to delete. Specify the
+# Arguments
+- `key_id`: The unique identifier of the customer master key (CMK) to delete. Specify the
   key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
-- `PendingWindowInDays`: The waiting period, specified in number of days. After the waiting
-  period ends, AWS KMS deletes the customer master key (CMK). This value is optional. If you
-  include a value, it must be between 7 and 30, inclusive. If you do not include a value, it
-  defaults to 30.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PendingWindowInDays"`: The waiting period, specified in number of days. After the
+  waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional.
+  If you include a value, it must be between 7 and 30, inclusive. If you do not include a
+  value, it defaults to 30.
 """
 schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-schedule_key_deletion(KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), args)); aws_config=aws_config)
+schedule_key_deletion(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    Sign()
+    sign(key_id, message, signing_algorithm)
+    sign(key_id, message, signing_algorithm, params::Dict{String,<:Any})
 
 Creates a digital signature for a message or message digest by using the private key in an
 asymmetric CMK. To verify the signature, use the Verify operation, or use the public key in
@@ -1704,36 +1768,38 @@ Service Developer Guide.  Cross-account use: Yes. To perform this operation with
 different AWS account, specify the key ARN or alias ARN in the value of the KeyId
 parameter.  Required permissions: kms:Sign (key policy)  Related operations: Verify
 
-# Required Parameters
-- `KeyId`: Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric CMK
-  to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the KeyUsage
-  of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon Resource
-  Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with \"alias/\".
-  To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
-  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+# Arguments
+- `key_id`: Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric
+  CMK to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the
+  KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon
+  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
+  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
   and alias ARN, use ListAliases.
-- `Message`: Specifies the message or message digest to sign. Messages can be 0-4096 bytes.
+- `message`: Specifies the message or message digest to sign. Messages can be 0-4096 bytes.
   To sign a larger message, provide the message digest. If you provide a message, AWS KMS
   generates a hash digest of the message and then signs it.
-- `SigningAlgorithm`: Specifies the signing algorithm to use when signing the message.
+- `signing_algorithm`: Specifies the signing algorithm to use when signing the message.
   Choose an algorithm that is compatible with the type and size of the specified asymmetric
   CMK.
 
 # Optional Parameters
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `MessageType`: Tells AWS KMS whether the value of the Message parameter is a message or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"MessageType"`: Tells AWS KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.
 """
 sign(KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm); aws_config=aws_config)
-sign(KeyId, Message, SigningAlgorithm, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), args)); aws_config=aws_config)
+sign(KeyId, Message, SigningAlgorithm, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(key_id, tags)
+    tag_resource(key_id, tags, params::Dict{String,<:Any})
 
 Adds or edits tags on a customer managed CMK. Each tag consists of a tag key and a tag
 value, both of which are case-sensitive strings. The tag value can be an empty (null)
@@ -1748,23 +1814,24 @@ Management Service Developer Guide.  Cross-account use: No. You cannot perform t
 operation on a CMK in a different AWS account.   Required permissions: kms:TagResource (key
 policy)  Related operations     UntagResource     ListResourceTags
 
-# Required Parameters
-- `KeyId`: Identifies a customer managed CMK in the account and Region. Specify the key ID
+# Arguments
+- `key_id`: Identifies a customer managed CMK in the account and Region. Specify the key ID
   or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `Tags`: One or more tags.  Each tag consists of a tag key and a tag value. The tag value
+- `tags`: One or more tags.  Each tag consists of a tag key and a tag value. The tag value
   can be an empty (null) string.  You cannot have more than one tag on a CMK with the same
   tag key. If you specify an existing tag key with a different tag value, AWS KMS replaces
   the current tag value with the specified one.
 
 """
 tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(KeyId, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(KeyId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(key_id, tag_keys)
+    untag_resource(key_id, tag_keys, params::Dict{String,<:Any})
 
 Deletes tags from a customer managed CMK. To delete a tag, specify the tag key and the CMK.
 When it succeeds, the UntagResource operation doesn't return any output. Also, if the
@@ -1778,20 +1845,21 @@ Management Service Developer Guide.  Cross-account use: No. You cannot perform t
 operation on a CMK in a different AWS account.  Required permissions: kms:UntagResource
 (key policy)  Related operations     TagResource     ListResourceTags
 
-# Required Parameters
-- `KeyId`: Identifies the CMK from which you are removing tags. Specify the key ID or the
+# Arguments
+- `key_id`: Identifies the CMK from which you are removing tags. Specify the key ID or the
   Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `TagKeys`: One or more tag keys. Specify only the tag keys, not the tag values.
+- `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
 untag_resource(KeyId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(KeyId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(KeyId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateAlias()
+    update_alias(alias_name, target_key_id)
+    update_alias(alias_name, target_key_id, params::Dict{String,<:Any})
 
 Associates an existing AWS KMS alias with a different customer master key (CMK). Each alias
 is associated with only one CMK at a time, although a CMK can have multiple aliases. The
@@ -1813,14 +1881,14 @@ policy).    kms:UpdateAlias on the new CMK (key policy).   For details, see Cont
 access to aliases in the AWS Key Management Service Developer Guide.  Related operations:
   CreateAlias     DeleteAlias     ListAliases
 
-# Required Parameters
-- `AliasName`: Identifies the alias that is changing its CMK. This value must begin with
+# Arguments
+- `alias_name`: Identifies the alias that is changing its CMK. This value must begin with
   alias/ followed by the alias name, such as alias/ExampleAlias. You cannot use UpdateAlias
   to change the alias name.
-- `TargetKeyId`: Identifies the customer managed CMK to associate with the alias. You don't
-  have permission to associate an alias with an AWS managed CMK. The CMK must be in the same
-  AWS account and Region as the alias. Also, the new target CMK must be the same type as the
-  current target CMK (both symmetric or both asymmetric) and they must have the same key
+- `target_key_id`: Identifies the customer managed CMK to associate with the alias. You
+  don't have permission to associate an alias with an AWS managed CMK. The CMK must be in the
+  same AWS account and Region as the alias. Also, the new target CMK must be the same type as
+  the current target CMK (both symmetric or both asymmetric) and they must have the same key
   usage.  Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key
   ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
@@ -1829,10 +1897,11 @@ access to aliases in the AWS Key Management Service Developer Guide.  Related op
 
 """
 update_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId); aws_config=aws_config)
-update_alias(AliasName, TargetKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), args)); aws_config=aws_config)
+update_alias(AliasName, TargetKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
 
 """
-    UpdateCustomKeyStore()
+    update_custom_key_store(custom_key_store_id)
+    update_custom_key_store(custom_key_store_id, params::Dict{String,<:Any})
 
 Changes the properties of a custom key store. Use the CustomKeyStoreId parameter to
 identify the custom key store you want to edit. Use the remaining parameters to change the
@@ -1858,31 +1927,33 @@ different AWS account.   Required permissions: kms:UpdateCustomKeyStore (IAM pol
 Related operations:     ConnectCustomKeyStore     CreateCustomKeyStore
 DeleteCustomKeyStore     DescribeCustomKeyStores     DisconnectCustomKeyStore
 
-# Required Parameters
-- `CustomKeyStoreId`: Identifies the custom key store that you want to update. Enter the ID
-  of the custom key store. To find the ID of a custom key store, use the
+# Arguments
+- `custom_key_store_id`: Identifies the custom key store that you want to update. Enter the
+  ID of the custom key store. To find the ID of a custom key store, use the
   DescribeCustomKeyStores operation.
 
 # Optional Parameters
-- `CloudHsmClusterId`: Associates the custom key store with a related AWS CloudHSM cluster.
-   Enter the cluster ID of the cluster that you used to create the custom key store or a
-  cluster that shares a backup history and has the same cluster certificate as the original
-  cluster. You cannot use this parameter to associate a custom key store with an unrelated
-  cluster. In addition, the replacement cluster must fulfill the requirements for a cluster
-  associated with a custom key store. To view the cluster certificate of a cluster, use the
-  DescribeClusters operation.
-- `KeyStorePassword`: Enter the current password of the kmsuser crypto user (CU) in the AWS
-  CloudHSM cluster that is associated with the custom key store. This parameter tells AWS KMS
-  the current password of the kmsuser crypto user (CU). It does not set or change the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CloudHsmClusterId"`: Associates the custom key store with a related AWS CloudHSM
+  cluster.  Enter the cluster ID of the cluster that you used to create the custom key store
+  or a cluster that shares a backup history and has the same cluster certificate as the
+  original cluster. You cannot use this parameter to associate a custom key store with an
+  unrelated cluster. In addition, the replacement cluster must fulfill the requirements for a
+  cluster associated with a custom key store. To view the cluster certificate of a cluster,
+  use the DescribeClusters operation.
+- `"KeyStorePassword"`: Enter the current password of the kmsuser crypto user (CU) in the
+  AWS CloudHSM cluster that is associated with the custom key store. This parameter tells AWS
+  KMS the current password of the kmsuser crypto user (CU). It does not set or change the
   password of any users in the AWS CloudHSM cluster.
-- `NewCustomKeyStoreName`: Changes the friendly name of the custom key store to the value
+- `"NewCustomKeyStoreName"`: Changes the friendly name of the custom key store to the value
   that you specify. The custom key store name must be unique in the AWS account.
 """
 update_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-update_custom_key_store(CustomKeyStoreId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), args)); aws_config=aws_config)
+update_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
-    UpdateKeyDescription()
+    update_key_description(description, key_id)
+    update_key_description(description, key_id, params::Dict{String,<:Any})
 
 Updates the description of a customer master key (CMK). To see the description of a CMK,
 use DescribeKey.  The CMK that you use for this operation must be in a compatible key
@@ -1891,20 +1962,21 @@ Management Service Developer Guide.  Cross-account use: No. You cannot perform t
 operation on a CMK in a different AWS account.   Required permissions:
 kms:UpdateKeyDescription (key policy)  Related operations     CreateKey     DescribeKey
 
-# Required Parameters
-- `Description`: New description for the CMK.
-- `KeyId`: A unique identifier for the customer master key (CMK). Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+# Arguments
+- `description`: New description for the CMK.
+- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
+  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 update_key_description(Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId); aws_config=aws_config)
-update_key_description(Description, KeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), args)); aws_config=aws_config)
+update_key_description(Description, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
-    Verify()
+    verify(key_id, message, signature, signing_algorithm)
+    verify(key_id, message, signature, signing_algorithm, params::Dict{String,<:Any})
 
 Verifies a digital signature that was generated by the Sign operation.   Verification
 confirms that an authorized user signed the message with the specified CMK and signing
@@ -1929,8 +2001,8 @@ Cross-account use: Yes. To perform this operation with a CMK in a different AWS 
 specify the key ARN or alias ARN in the value of the KeyId parameter.   Required
 permissions: kms:Verify (key policy)  Related operations: Sign
 
-# Required Parameters
-- `KeyId`: Identifies the asymmetric CMK that will be used to verify the signature. This
+# Arguments
+- `key_id`: Identifies the asymmetric CMK that will be used to verify the signature. This
   must be the same CMK that was used to generate the signature. If you specify a different
   CMK, the signature verification fails. To specify a CMK, use its key ID, Amazon Resource
   Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with \"alias/\".
@@ -1940,23 +2012,24 @@ permissions: kms:Verify (key policy)  Related operations: Sign
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
   and alias ARN, use ListAliases.
-- `Message`: Specifies the message that was signed. You can submit a raw message of up to
+- `message`: Specifies the message that was signed. You can submit a raw message of up to
   4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType
   parameter with a value of DIGEST. If the message specified here is different from the
   message that was signed, the signature verification fails. A message and its hash digest
   are considered to be the same message.
-- `Signature`: The signature that the Sign operation generated.
-- `SigningAlgorithm`: The signing algorithm that was used to sign the message. If you
+- `signature`: The signature that the Sign operation generated.
+- `signing_algorithm`: The signing algorithm that was used to sign the message. If you
   submit a different algorithm, the signature verification fails.
 
 # Optional Parameters
-- `GrantTokens`: A list of grant tokens. For more information, see Grant Tokens in the AWS
-  Key Management Service Developer Guide.
-- `MessageType`: Tells AWS KMS whether the value of the Message parameter is a message or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
+  AWS Key Management Service Developer Guide.
+- `"MessageType"`: Tells AWS KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.  Use the DIGEST value only when the value of the Message parameter is a
   message digest. If you use the DIGEST value with a raw message, the security of the
   verification operation can be compromised.
 """
 verify(KeyId, Message, Signature, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm); aws_config=aws_config)
-verify(KeyId, Message, Signature, SigningAlgorithm, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), args)); aws_config=aws_config)
+verify(KeyId, Message, Signature, SigningAlgorithm, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)

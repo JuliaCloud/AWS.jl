@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    GetMedia()
+    get_media(start_selector)
+    get_media(start_selector, params::Dict{String,<:Any})
 
  Use this API to retrieve media content from a Kinesis video stream. In the request, you
 identify the stream name or stream Amazon Resource Name (ARN), and the starting chunk.
@@ -29,14 +30,15 @@ information on what actions the client programmer might need to take in order to
 successfully try again. For more information, see the Errors section at the bottom of this
 topic, as well as Common Errors.
 
-# Required Parameters
-- `StartSelector`: Identifies the starting chunk to get from the specified stream.
+# Arguments
+- `start_selector`: Identifies the starting chunk to get from the specified stream.
 
 # Optional Parameters
-- `StreamARN`: The ARN of the stream from where you want to get the media content. If you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The ARN of the stream from where you want to get the media content. If you
   don't specify the streamARN, you must specify the streamName.
-- `StreamName`: The Kinesis video stream name from where you want to get the media content.
-  If you don't specify the streamName, you must specify the streamARN.
+- `"StreamName"`: The Kinesis video stream name from where you want to get the media
+  content. If you don't specify the streamName, you must specify the streamARN.
 """
 get_media(StartSelector; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}("StartSelector"=>StartSelector); aws_config=aws_config)
-get_media(StartSelector, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), args)); aws_config=aws_config)
+get_media(StartSelector, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), params)); aws_config=aws_config)

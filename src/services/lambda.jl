@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AddLayerVersionPermission()
+    add_layer_version_permission(action, layer_name, principal, statement_id, version_number)
+    add_layer_version_permission(action, layer_name, principal, statement_id, version_number, params::Dict{String,<:Any})
 
 Adds permissions to the resource-based policy of a version of an AWS Lambda layer. Use this
 action to grant layer usage permission to other accounts. You can grant permission to a
@@ -13,26 +14,28 @@ single account, all AWS accounts, or all accounts in an organization. To revoke 
 call RemoveLayerVersionPermission with the statement ID that you specified when you added
 it.
 
-# Required Parameters
-- `Action`: The API action that grants access to the layer. For example,
+# Arguments
+- `action`: The API action that grants access to the layer. For example,
   lambda:GetLayerVersion.
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
-- `Principal`: An account ID, or * to grant permission to all AWS accounts.
-- `StatementId`: An identifier that distinguishes the policy from others on the same layer
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
+- `principal`: An account ID, or * to grant permission to all AWS accounts.
+- `statement_id`: An identifier that distinguishes the policy from others on the same layer
   version.
-- `VersionNumber`: The version number.
+- `version_number`: The version number.
 
 # Optional Parameters
-- `OrganizationId`: With the principal set to *, grant permission to all accounts in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OrganizationId"`: With the principal set to *, grant permission to all accounts in the
   specified organization.
-- `RevisionId`: Only update the policy if the revision ID matches the ID specified. Use
+- `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
 add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
+add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
 
 """
-    AddPermission()
+    add_permission(action, function_name, principal, statement_id)
+    add_permission(action, function_name, principal, statement_id, params::Dict{String,<:Any})
 
 Grants an AWS service or another account permission to use a function. You can apply the
 policy at the function level, or specify a qualifier to restrict access to a single version
@@ -46,81 +49,88 @@ potentially configure resources in their account to invoke your Lambda function.
 action adds a statement to a resource-based permissions policy for the function. For more
 information about function policies, see Lambda Function Policies.
 
-# Required Parameters
-- `Action`: The action that the principal can use on the function. For example,
+# Arguments
+- `action`: The action that the principal can use on the function. For example,
   lambda:InvokeFunction or lambda:GetFunction.
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
   formats. The length constraint applies only to the full ARN. If you specify only the
   function name, it is limited to 64 characters in length.
-- `Principal`: The AWS service or account that invokes the function. If you specify a
+- `principal`: The AWS service or account that invokes the function. If you specify a
   service, use SourceArn or SourceAccount to limit who can invoke the function through that
   service.
-- `StatementId`: A statement identifier that differentiates the statement from others in
+- `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
 
 # Optional Parameters
-- `EventSourceToken`: For Alexa Smart Home functions, a token that must be supplied by the
-  invoker.
-- `Qualifier`: Specify a version or alias to add permissions to a published version of the
-  function.
-- `RevisionId`: Only update the policy if the revision ID matches the ID that's specified.
-  Use this option to avoid modifying a policy that has changed since you last read it.
-- `SourceAccount`: For Amazon S3, the ID of the account that owns the resource. Use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventSourceToken"`: For Alexa Smart Home functions, a token that must be supplied by
+  the invoker.
+- `"Qualifier"`: Specify a version or alias to add permissions to a published version of
+  the function.
+- `"RevisionId"`: Only update the policy if the revision ID matches the ID that's
+  specified. Use this option to avoid modifying a policy that has changed since you last read
+  it.
+- `"SourceAccount"`: For Amazon S3, the ID of the account that owns the resource. Use this
   together with SourceArn to ensure that the resource is owned by the specified account. It
   is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another
   account.
-- `SourceArn`: For AWS services, the ARN of the AWS resource that invokes the function. For
-  example, an Amazon S3 bucket or Amazon SNS topic.
+- `"SourceArn"`: For AWS services, the ARN of the AWS resource that invokes the function.
+  For example, an Amazon S3 bucket or Amazon SNS topic.
 """
 add_permission(Action, FunctionName, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-add_permission(Action, FunctionName, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
+add_permission(Action, FunctionName, Principal, StatementId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
 
 """
-    CreateAlias()
+    create_alias(function_name, function_version, name)
+    create_alias(function_name, function_version, name, params::Dict{String,<:Any})
 
 Creates an alias for a Lambda function version. Use aliases to provide clients with a
 function identifier that you can update to invoke a different version. You can also map an
 alias to split invocation requests between two versions. Use the RoutingConfig parameter to
 specify a second version and the percentage of invocation requests that it receives.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
-- `FunctionVersion`: The function version that the alias invokes.
-- `Name`: The name of the alias.
+- `function_version`: The function version that the alias invokes.
+- `name`: The name of the alias.
 
 # Optional Parameters
-- `Description`: A description of the alias.
-- `RoutingConfig`: The routing configuration of the alias.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the alias.
+- `"RoutingConfig"`: The routing configuration of the alias.
 """
 create_alias(FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name); aws_config=aws_config)
-create_alias(FunctionName, FunctionVersion, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), args)); aws_config=aws_config)
+create_alias(FunctionName, FunctionVersion, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateCodeSigningConfig()
+    create_code_signing_config(allowed_publishers)
+    create_code_signing_config(allowed_publishers, params::Dict{String,<:Any})
 
 Creates a code signing configuration. A code signing configuration defines a list of
 allowed signing profiles and defines the code-signing validation policy (action to be taken
 if deployment validation checks fail).
 
-# Required Parameters
-- `AllowedPublishers`: Signing profiles for this code signing configuration.
+# Arguments
+- `allowed_publishers`: Signing profiles for this code signing configuration.
 
 # Optional Parameters
-- `CodeSigningPolicies`: The code signing policies define the actions to take if the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CodeSigningPolicies"`: The code signing policies define the actions to take if the
   validation checks fail.
-- `Description`: Descriptive name for this code signing configuration.
+- `"Description"`: Descriptive name for this code signing configuration.
 """
 create_code_signing_config(AllowedPublishers; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}("AllowedPublishers"=>AllowedPublishers); aws_config=aws_config)
-create_code_signing_config(AllowedPublishers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), args)); aws_config=aws_config)
+create_code_signing_config(AllowedPublishers, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), params)); aws_config=aws_config)
 
 """
-    CreateEventSourceMapping()
+    create_event_source_mapping(function_name)
+    create_event_source_mapping(function_name, params::Dict{String,<:Any})
 
 Creates a mapping between an event source and an AWS Lambda function. Lambda reads items
 from the event source and triggers the function. For details about each event source type,
@@ -137,58 +147,60 @@ specified number of retries. The default value is infinite (-1). When set to inf
 failed records are retried until the record expires.    ParallelizationFactor - Process
 multiple batches from each shard concurrently.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
 
 # Optional Parameters
-- `BatchSize`: The maximum number of items to retrieve in a single batch.    Amazon Kinesis
-  - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon
-  Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues
-  the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
-  Self-Managed Apache Kafka - Default 100. Max 10,000.
-- `BisectBatchOnFunctionError`: (Streams) If the function returns an error, split the batch
-  in two and retry.
-- `DestinationConfig`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BatchSize"`: The maximum number of items to retrieve in a single batch.    Amazon
+  Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.
+  Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
+  queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
+  10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+- `"BisectBatchOnFunctionError"`: (Streams) If the function returns an error, split the
+  batch in two and retry.
+- `"DestinationConfig"`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
   discarded records.
-- `Enabled`: If true, the event source mapping is active. Set to false to pause polling and
-  invocation.
-- `EventSourceArn`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis -
-  The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
+- `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
+  and invocation.
+- `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
+  - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
-- `FunctionResponseTypes`: (Streams) A list of current response type enums applied to the
+- `"FunctionResponseTypes"`: (Streams) A list of current response type enums applied to the
   event source mapping.
-- `MaximumBatchingWindowInSeconds`: (Streams and SQS standard queues) The maximum amount of
-  time to gather records before invoking the function, in seconds.
-- `MaximumRecordAgeInSeconds`: (Streams) Discard records older than the specified age. The
-  default value is infinite (-1).
-- `MaximumRetryAttempts`: (Streams) Discard records after the specified number of retries.
-  The default value is infinite (-1). When set to infinite (-1), failed records will be
-  retried until the record expires.
-- `ParallelizationFactor`: (Streams) The number of batches to process from each shard
+- `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
+  of time to gather records before invoking the function, in seconds.
+- `"MaximumRecordAgeInSeconds"`: (Streams) Discard records older than the specified age.
+  The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Streams) Discard records after the specified number of
+  retries. The default value is infinite (-1). When set to infinite (-1), failed records will
+  be retried until the record expires.
+- `"ParallelizationFactor"`: (Streams) The number of batches to process from each shard
   concurrently.
-- `Queues`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
-- `SelfManagedEventSource`: The Self-Managed Apache Kafka cluster to send records.
-- `SourceAccessConfigurations`: An array of the authentication protocol, or the VPC
+- `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
+- `"SelfManagedEventSource"`: The Self-Managed Apache Kafka cluster to send records.
+- `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
   components to secure your event source.
-- `StartingPosition`: The position in a stream from which to start reading. Required for
+- `"StartingPosition"`: The position in a stream from which to start reading. Required for
   Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only
   supported for Amazon Kinesis streams.
-- `StartingPositionTimestamp`: With StartingPosition set to AT_TIMESTAMP, the time from
+- `"StartingPositionTimestamp"`: With StartingPosition set to AT_TIMESTAMP, the time from
   which to start reading.
-- `Topics`: The name of the Kafka topic.
-- `TumblingWindowInSeconds`: (Streams) The duration in seconds of a processing window. The
-  range is between 1 second up to 900 seconds.
+- `"Topics"`: The name of the Kafka topic.
+- `"TumblingWindowInSeconds"`: (Streams) The duration in seconds of a processing window.
+  The range is between 1 second up to 900 seconds.
 """
 create_event_source_mapping(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("FunctionName"=>FunctionName); aws_config=aws_config)
-create_event_source_mapping(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), args)); aws_config=aws_config)
+create_event_source_mapping(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config)
 
 """
-    CreateFunction()
+    create_function(code, function_name, role)
+    create_function(code, function_name, role, params::Dict{String,<:Any})
 
 Creates a Lambda function. To create a function, you need a deployment package and an
 execution role. The deployment package is a .zip file archive or container image that
@@ -220,101 +232,106 @@ function in response to events in other AWS services, create an event source map
 (CreateEventSourceMapping), or configure a function trigger in the other service. For more
 information, see Invoking Functions.
 
-# Required Parameters
-- `Code`: The code for the function.
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `code`: The code for the function.
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `Role`: The Amazon Resource Name (ARN) of the function's execution role.
+- `role`: The Amazon Resource Name (ARN) of the function's execution role.
 
 # Optional Parameters
-- `CodeSigningConfigArn`: To enable code signing for this function, specify the ARN of a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CodeSigningConfigArn"`: To enable code signing for this function, specify the ARN of a
   code-signing configuration. A code-signing configuration includes a set of signing
   profiles, which define the trusted publishers for this function.
-- `DeadLetterConfig`: A dead letter queue configuration that specifies the queue or topic
+- `"DeadLetterConfig"`: A dead letter queue configuration that specifies the queue or topic
   where Lambda sends asynchronous events when they fail processing. For more information, see
   Dead Letter Queues.
-- `Description`: A description of the function.
-- `Environment`: Environment variables that are accessible from function code during
+- `"Description"`: A description of the function.
+- `"Environment"`: Environment variables that are accessible from function code during
   execution.
-- `FileSystemConfigs`: Connection settings for an Amazon EFS file system.
-- `Handler`: The name of the method within your code that Lambda calls to execute your
+- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
+- `"Handler"`: The name of the method within your code that Lambda calls to execute your
   function. The format includes the file name. It can also include namespaces and other
   qualifiers, depending on the runtime. For more information, see Programming Model.
-- `ImageConfig`:  Container image configuration values that override the values in the
+- `"ImageConfig"`:  Container image configuration values that override the values in the
   container image Dockerfile.
-- `KMSKeyArn`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
+- `"KMSKeyArn"`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
   encrypt your function's environment variables. If it's not provided, AWS Lambda uses a
   default service key.
-- `Layers`: A list of function layers to add to the function's execution environment.
+- `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
-- `MemorySize`: The amount of memory available to the function at runtime. Increasing the
+- `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
   function's memory also increases its CPU allocation. The default value is 128 MB. The value
   can be any multiple of 1 MB.
-- `PackageType`: The type of deployment package. Set to Image for container image and set
+- `"PackageType"`: The type of deployment package. Set to Image for container image and set
   Zip for ZIP archive.
-- `Publish`: Set to true to publish the first version of the function during creation.
-- `Runtime`: The identifier of the function's runtime.
-- `Tags`: A list of tags to apply to the function.
-- `Timeout`: The amount of time that Lambda allows a function to run before stopping it.
+- `"Publish"`: Set to true to publish the first version of the function during creation.
+- `"Runtime"`: The identifier of the function's runtime.
+- `"Tags"`: A list of tags to apply to the function.
+- `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
   The default is 3 seconds. The maximum allowed value is 900 seconds.
-- `TracingConfig`: Set Mode to Active to sample and trace a subset of incoming requests
+- `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
   with AWS X-Ray.
-- `VpcConfig`: For network connectivity to AWS resources in a VPC, specify a list of
+- `"VpcConfig"`: For network connectivity to AWS resources in a VPC, specify a list of
   security groups and subnets in the VPC. When you connect a function to a VPC, it can only
   access resources and the internet through that VPC. For more information, see VPC Settings.
 """
 create_function(Code, FunctionName, Role; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role); aws_config=aws_config)
-create_function(Code, FunctionName, Role, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), args)); aws_config=aws_config)
+create_function(Code, FunctionName, Role, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config)
 
 """
-    DeleteAlias()
+    delete_alias(function_name, name)
+    delete_alias(function_name, name, params::Dict{String,<:Any})
 
 Deletes a Lambda function alias.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
-- `Name`: The name of the alias.
+- `name`: The name of the alias.
 
 """
 delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-delete_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
+delete_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
-    DeleteCodeSigningConfig()
+    delete_code_signing_config(code_signing_config_arn)
+    delete_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
 Deletes the code signing configuration. You can delete the code signing configuration only
 if no function is using it.
 
-# Required Parameters
-- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing
+# Arguments
+- `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 
 """
 delete_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-delete_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
+delete_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
-    DeleteEventSourceMapping()
+    delete_event_source_mapping(uuid)
+    delete_event_source_mapping(uuid, params::Dict{String,<:Any})
 
 Deletes an event source mapping. You can get the identifier of a mapping from the output of
 ListEventSourceMappings. When you delete an event source mapping, it enters a Deleting
 state and might not be completely deleted for several seconds.
 
-# Required Parameters
-- `UUID`: The identifier of the event source mapping.
+# Arguments
+- `uuid`: The identifier of the event source mapping.
 
 """
 delete_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-delete_event_source_mapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
+delete_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
-    DeleteFunction()
+    delete_function(function_name)
+    delete_function(function_name, params::Dict{String,<:Any})
 
 Deletes a Lambda function. To delete a specific function version, use the Qualifier
 parameter. Otherwise, all versions and aliases are deleted. To delete Lambda event source
@@ -322,8 +339,8 @@ mappings that invoke a function, use DeleteEventSourceMapping. For AWS services 
 resources that invoke your function directly, delete the trigger in the service where you
 originally configured it.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function or version.  Name formats     Function
+# Arguments
+- `function_name`: The name of the Lambda function or version.  Name formats     Function
   name - my-function (name-only), my-function:1 (with version).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -331,34 +348,37 @@ originally configured it.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: Specify a version to delete. You can't delete a version that's referenced by
-  an alias.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version to delete. You can't delete a version that's referenced
+  by an alias.
 """
 delete_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
-delete_function(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
+delete_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
 
 """
-    DeleteFunctionCodeSigningConfig()
+    delete_function_code_signing_config(function_name)
+    delete_function_code_signing_config(function_name, params::Dict{String,<:Any})
 
 Removes the code signing configuration from the function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 """
 delete_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
-delete_function_code_signing_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", args; aws_config=aws_config)
+delete_function_code_signing_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
 
 """
-    DeleteFunctionConcurrency()
+    delete_function_concurrency(function_name)
+    delete_function_concurrency(function_name, params::Dict{String,<:Any})
 
 Removes a concurrent execution limit from a function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
@@ -366,16 +386,17 @@ Removes a concurrent execution limit from a function.
 
 """
 delete_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
-delete_function_concurrency(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", args; aws_config=aws_config)
+delete_function_concurrency(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
 
 """
-    DeleteFunctionEventInvokeConfig()
+    delete_function_event_invoke_config(function_name)
+    delete_function_event_invoke_config(function_name, params::Dict{String,<:Any})
 
 Deletes the configuration for asynchronous invocation for a function, version, or alias. To
 configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -383,103 +404,111 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: A version number or alias name.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: A version number or alias name.
 """
 delete_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-delete_function_event_invoke_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
+delete_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
-    DeleteLayerVersion()
+    delete_layer_version(layer_name, version_number)
+    delete_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
 Deletes a version of an AWS Lambda layer. Deleted versions can no longer be viewed or added
 to functions. To avoid breaking functions, a copy of the version remains in Lambda until no
 functions refer to it.
 
-# Required Parameters
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
-- `VersionNumber`: The version number.
+# Arguments
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
+- `version_number`: The version number.
 
 """
 delete_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
-delete_layer_version(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws_config=aws_config)
+delete_layer_version(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
 
 """
-    DeleteProvisionedConcurrencyConfig()
+    delete_provisioned_concurrency_config(function_name, qualifier)
+    delete_provisioned_concurrency_config(function_name, qualifier, params::Dict{String,<:Any})
 
 Deletes the provisioned concurrency configuration for a function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `Qualifier`: The version number or alias name.
+- `qualifier`: The version number or alias name.
 
 """
 delete_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
-delete_provisioned_concurrency_config(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws_config=aws_config)
+delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
-    GetAccountSettings()
+    get_account_settings()
+    get_account_settings(params::Dict{String,<:Any})
 
 Retrieves details about your account's limits and usage in an AWS Region.
 
 """
 get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config)
-get_account_settings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", args; aws_config=aws_config)
+get_account_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config)
 
 """
-    GetAlias()
+    get_alias(function_name, name)
+    get_alias(function_name, name, params::Dict{String,<:Any})
 
 Returns details about a Lambda function alias.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
-- `Name`: The name of the alias.
+- `name`: The name of the alias.
 
 """
 get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-get_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
+get_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
-    GetCodeSigningConfig()
+    get_code_signing_config(code_signing_config_arn)
+    get_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
 Returns information about the specified code signing configuration.
 
-# Required Parameters
-- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing
+# Arguments
+- `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 
 """
 get_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-get_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
+get_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
-    GetEventSourceMapping()
+    get_event_source_mapping(uuid)
+    get_event_source_mapping(uuid, params::Dict{String,<:Any})
 
 Returns details about an event source mapping. You can get the identifier of a mapping from
 the output of ListEventSourceMappings.
 
-# Required Parameters
-- `UUID`: The identifier of the event source mapping.
+# Arguments
+- `uuid`: The identifier of the event source mapping.
 
 """
 get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-get_event_source_mapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
+get_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
-    GetFunction()
+    get_function(function_name)
+    get_function(function_name, params::Dict{String,<:Any})
 
 Returns information about the function or function version, with a link to download the
 deployment package that's valid for 10 minutes. If you specify a function version, only
 details that are specific to that version are returned.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -487,35 +516,38 @@ details that are specific to that version are returned.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: Specify a version or alias to get details about a published version of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
 get_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
-get_function(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
+get_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
 
 """
-    GetFunctionCodeSigningConfig()
+    get_function_code_signing_config(function_name)
+    get_function_code_signing_config(function_name, params::Dict{String,<:Any})
 
 Returns the code signing configuration for the specified function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 """
 get_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
-get_function_code_signing_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", args; aws_config=aws_config)
+get_function_code_signing_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
 
 """
-    GetFunctionConcurrency()
+    get_function_concurrency(function_name)
+    get_function_concurrency(function_name, params::Dict{String,<:Any})
 
 Returns details about the reserved concurrency configuration for a function. To set a
 concurrency limit for a function, use PutFunctionConcurrency.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
@@ -523,18 +555,19 @@ concurrency limit for a function, use PutFunctionConcurrency.
 
 """
 get_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
-get_function_concurrency(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", args; aws_config=aws_config)
+get_function_concurrency(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
 
 """
-    GetFunctionConfiguration()
+    get_function_configuration(function_name)
+    get_function_configuration(function_name, params::Dict{String,<:Any})
 
 Returns the version-specific settings of a Lambda function or version. The output includes
 only options that can vary between versions of a function. To modify these settings, use
 UpdateFunctionConfiguration. To get all of a function's details, including function-level
 settings, use GetFunction.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -542,20 +575,22 @@ settings, use GetFunction.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: Specify a version or alias to get details about a published version of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version or alias to get details about a published version of the
   function.
 """
 get_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
-get_function_configuration(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws_config=aws_config)
+get_function_configuration(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
 
 """
-    GetFunctionEventInvokeConfig()
+    get_function_event_invoke_config(function_name)
+    get_function_event_invoke_config(function_name, params::Dict{String,<:Any})
 
 Retrieves the configuration for asynchronous invocation for a function, version, or alias.
 To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -563,59 +598,64 @@ To configure options for asynchronous invocation, use PutFunctionEventInvokeConf
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: A version number or alias name.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: A version number or alias name.
 """
 get_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-get_function_event_invoke_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
+get_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
-    GetLayerVersion()
+    get_layer_version(layer_name, version_number)
+    get_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
 Returns information about a version of an AWS Lambda layer, with a link to download the
 layer archive that's valid for 10 minutes.
 
-# Required Parameters
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
-- `VersionNumber`: The version number.
+# Arguments
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
+- `version_number`: The version number.
 
 """
 get_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
-get_layer_version(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws_config=aws_config)
+get_layer_version(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
 
 """
-    GetLayerVersionByArn()
+    get_layer_version_by_arn(arn)
+    get_layer_version_by_arn(arn, params::Dict{String,<:Any})
 
 Returns information about a version of an AWS Lambda layer, with a link to download the
 layer archive that's valid for 10 minutes.
 
-# Required Parameters
-- `Arn`: The ARN of the layer version.
+# Arguments
+- `arn`: The ARN of the layer version.
 
 """
 get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-get_layer_version_by_arn(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+get_layer_version_by_arn(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
-    GetLayerVersionPolicy()
+    get_layer_version_policy(layer_name, version_number)
+    get_layer_version_policy(layer_name, version_number, params::Dict{String,<:Any})
 
 Returns the permission policy for a version of an AWS Lambda layer. For more information,
 see AddLayerVersionPermission.
 
-# Required Parameters
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
-- `VersionNumber`: The version number.
+# Arguments
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
+- `version_number`: The version number.
 
 """
 get_layer_version_policy(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy"; aws_config=aws_config)
-get_layer_version_policy(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", args; aws_config=aws_config)
+get_layer_version_policy(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", params; aws_config=aws_config)
 
 """
-    GetPolicy()
+    get_policy(function_name)
+    get_policy(function_name, params::Dict{String,<:Any})
 
 Returns the resource-based IAM policy for a function, version, or alias.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -623,30 +663,33 @@ Returns the resource-based IAM policy for a function, version, or alias.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Qualifier`: Specify a version or alias to get the policy for that resource.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version or alias to get the policy for that resource.
 """
 get_policy(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy"; aws_config=aws_config)
-get_policy(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", args; aws_config=aws_config)
+get_policy(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", params; aws_config=aws_config)
 
 """
-    GetProvisionedConcurrencyConfig()
+    get_provisioned_concurrency_config(function_name, qualifier)
+    get_provisioned_concurrency_config(function_name, qualifier, params::Dict{String,<:Any})
 
 Retrieves the provisioned concurrency configuration for a function's alias or version.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `Qualifier`: The version number or alias name.
+- `qualifier`: The version number or alias name.
 
 """
 get_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
-get_provisioned_concurrency_config(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws_config=aws_config)
+get_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
-    Invoke()
+    invoke(function_name)
+    invoke(function_name, params::Dict{String,<:Any})
 
 Invokes a Lambda function. You can invoke a function synchronously (and wait for the
 response), or asynchronously. To invoke a function asynchronously, set InvocationType to
@@ -672,8 +715,8 @@ response. Configure your HTTP client, SDK, firewall, proxy, or operating system 
 for long connections with timeout or keep-alive settings. This operation requires
 permission for the lambda:InvokeFunction action.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -681,120 +724,131 @@ permission for the lambda:InvokeFunction action.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Payload`: The JSON that you want to provide to your Lambda function as input.
-- `Qualifier`: Specify a version or alias to invoke a published version of the function.
-- `X-Amz-Client-Context`: Up to 3583 bytes of base64-encoded data about the invoking client
-  to pass to the function in the context object.
-- `X-Amz-Invocation-Type`: Choose from the following options.    RequestResponse (default)
-  - Invoke the function synchronously. Keep the connection open until the function returns a
-  response or times out. The API response includes the function response and additional data.
-     Event - Invoke the function asynchronously. Send events that fail multiple times to the
-  function's dead-letter queue (if it's configured). The API response only includes a status
-  code.    DryRun - Validate parameter values and verify that the user or role has permission
-  to invoke the function.
-- `X-Amz-Log-Type`: Set to Tail to include the execution log in the response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Payload"`: The JSON that you want to provide to your Lambda function as input.
+- `"Qualifier"`: Specify a version or alias to invoke a published version of the function.
+- `"X-Amz-Client-Context"`: Up to 3583 bytes of base64-encoded data about the invoking
+  client to pass to the function in the context object.
+- `"X-Amz-Invocation-Type"`: Choose from the following options.    RequestResponse
+  (default) - Invoke the function synchronously. Keep the connection open until the function
+  returns a response or times out. The API response includes the function response and
+  additional data.    Event - Invoke the function asynchronously. Send events that fail
+  multiple times to the function's dead-letter queue (if it's configured). The API response
+  only includes a status code.    DryRun - Validate parameter values and verify that the user
+  or role has permission to invoke the function.
+- `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response.
 """
 invoke(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations"; aws_config=aws_config)
-invoke(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", args; aws_config=aws_config)
+invoke(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", params; aws_config=aws_config)
 
 """
-    InvokeAsync()
+    invoke_async(function_name, invoke_args)
+    invoke_async(function_name, invoke_args, params::Dict{String,<:Any})
 
  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `InvokeArgs`: The JSON that you want to provide to your Lambda function as input.
+- `invoke_args`: The JSON that you want to provide to your Lambda function as input.
 
 """
 invoke_async(FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}("InvokeArgs"=>InvokeArgs); aws_config=aws_config)
-invoke_async(FunctionName, InvokeArgs, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), args)); aws_config=aws_config)
+invoke_async(FunctionName, InvokeArgs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), params)); aws_config=aws_config)
 
 """
-    ListAliases()
+    list_aliases(function_name)
+    list_aliases(function_name, params::Dict{String,<:Any})
 
 Returns a list of aliases for a Lambda function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `FunctionVersion`: Specify a function version to only list aliases that invoke that
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FunctionVersion"`: Specify a function version to only list aliases that invoke that
   version.
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: Limit the number of aliases returned.
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: Limit the number of aliases returned.
 """
 list_aliases(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases"; aws_config=aws_config)
-list_aliases(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", args; aws_config=aws_config)
+list_aliases(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", params; aws_config=aws_config)
 
 """
-    ListCodeSigningConfigs()
+    list_code_signing_configs()
+    list_code_signing_configs(params::Dict{String,<:Any})
 
 Returns a list of code signing configurations. A request returns up to 10,000
 configurations per call. You can use the MaxItems parameter to return fewer configurations
 per call.
 
 # Optional Parameters
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: Maximum number of items to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: Maximum number of items to return.
 """
 list_code_signing_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/"; aws_config=aws_config)
-list_code_signing_configs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", args; aws_config=aws_config)
+list_code_signing_configs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config)
 
 """
-    ListEventSourceMappings()
+    list_event_source_mappings()
+    list_event_source_mappings(params::Dict{String,<:Any})
 
 Lists event source mappings. Specify an EventSourceArn to only show event source mappings
 for a single event source.
 
 # Optional Parameters
-- `EventSourceArn`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis -
-  The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
+  - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
-- `Marker`: A pagination token returned by a previous call.
-- `MaxItems`: The maximum number of event source mappings to return.
+- `"Marker"`: A pagination token returned by a previous call.
+- `"MaxItems"`: The maximum number of event source mappings to return.
 """
 list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config)
-list_event_source_mappings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", args; aws_config=aws_config)
+list_event_source_mappings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
 
 """
-    ListFunctionEventInvokeConfigs()
+    list_function_event_invoke_configs(function_name)
+    list_function_event_invoke_configs(function_name, params::Dict{String,<:Any})
 
 Retrieves a list of configurations for asynchronous invocation for a function. To configure
 options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
 
 # Optional Parameters
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: The maximum number of configurations to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: The maximum number of configurations to return.
 """
 list_function_event_invoke_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list"; aws_config=aws_config)
-list_function_event_invoke_configs(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", args; aws_config=aws_config)
+list_function_event_invoke_configs(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", params; aws_config=aws_config)
 
 """
-    ListFunctions()
+    list_functions()
+    list_functions(params::Dict{String,<:Any})
 
 Returns a list of Lambda functions, with the version-specific configuration of each. Lambda
 returns up to 50 functions per call. Set FunctionVersion to ALL to include all published
@@ -802,147 +856,162 @@ versions of each function in addition to the unpublished version. To get more in
 about a function or version, use GetFunction.
 
 # Optional Parameters
-- `FunctionVersion`: Set to ALL to include entries for all published versions of each
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FunctionVersion"`: Set to ALL to include entries for all published versions of each
   function.
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MasterRegion`: For Lambda@Edge functions, the AWS Region of the master function. For
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MasterRegion"`: For Lambda@Edge functions, the AWS Region of the master function. For
   example, us-east-1 filters the list of functions to only include Lambda@Edge functions
   replicated from a master function in US East (N. Virginia). If specified, you must set
   FunctionVersion to ALL.
-- `MaxItems`: The maximum number of functions to return.
+- `"MaxItems"`: The maximum number of functions to return.
 """
 list_functions(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
-list_functions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", args; aws_config=aws_config)
+list_functions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)
 
 """
-    ListFunctionsByCodeSigningConfig()
+    list_functions_by_code_signing_config(code_signing_config_arn)
+    list_functions_by_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
 List the functions that use the specified code signing configuration. You can use this
 method prior to deleting a code signing configuration, to verify that no functions are
 using it.
 
-# Required Parameters
-- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing
+# Arguments
+- `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 
 # Optional Parameters
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: Maximum number of items to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: Maximum number of items to return.
 """
 list_functions_by_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions"; aws_config=aws_config)
-list_functions_by_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", args; aws_config=aws_config)
+list_functions_by_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", params; aws_config=aws_config)
 
 """
-    ListLayerVersions()
+    list_layer_versions(layer_name)
+    list_layer_versions(layer_name, params::Dict{String,<:Any})
 
 Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed.
 Specify a runtime identifier to list only versions that indicate that they're compatible
 with that runtime.
 
-# Required Parameters
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
+# Arguments
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 
 # Optional Parameters
-- `CompatibleRuntime`: A runtime identifier. For example, go1.x.
-- `Marker`: A pagination token returned by a previous call.
-- `MaxItems`: The maximum number of versions to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
+- `"Marker"`: A pagination token returned by a previous call.
+- `"MaxItems"`: The maximum number of versions to return.
 """
 list_layer_versions(LayerName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions"; aws_config=aws_config)
-list_layer_versions(LayerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", args; aws_config=aws_config)
+list_layer_versions(LayerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", params; aws_config=aws_config)
 
 """
-    ListLayers()
+    list_layers()
+    list_layers(params::Dict{String,<:Any})
 
 Lists AWS Lambda layers and shows information about the latest version of each. Specify a
 runtime identifier to list only layers that indicate that they're compatible with that
 runtime.
 
 # Optional Parameters
-- `CompatibleRuntime`: A runtime identifier. For example, go1.x.
-- `Marker`: A pagination token returned by a previous call.
-- `MaxItems`: The maximum number of layers to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
+- `"Marker"`: A pagination token returned by a previous call.
+- `"MaxItems"`: The maximum number of layers to return.
 """
 list_layers(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers"; aws_config=aws_config)
-list_layers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", args; aws_config=aws_config)
+list_layers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config)
 
 """
-    ListProvisionedConcurrencyConfigs()
+    list_provisioned_concurrency_configs(function_name)
+    list_provisioned_concurrency_configs(function_name, params::Dict{String,<:Any})
 
 Retrieves a list of provisioned concurrency configurations for a function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
 
 # Optional Parameters
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: Specify a number to limit the number of configurations returned.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: Specify a number to limit the number of configurations returned.
 """
 list_provisioned_concurrency_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL"; aws_config=aws_config)
-list_provisioned_concurrency_configs(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", args; aws_config=aws_config)
+list_provisioned_concurrency_configs(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", params; aws_config=aws_config)
 
 """
-    ListTags()
+    list_tags(arn)
+    list_tags(arn, params::Dict{String,<:Any})
 
 Returns a function's tags. You can also view tags with GetFunction.
 
-# Required Parameters
-- `ARN`: The function's Amazon Resource Name (ARN).
+# Arguments
+- `arn`: The function's Amazon Resource Name (ARN).
 
 """
 list_tags(ARN; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)"; aws_config=aws_config)
-list_tags(ARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)", args; aws_config=aws_config)
+list_tags(ARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)", params; aws_config=aws_config)
 
 """
-    ListVersionsByFunction()
+    list_versions_by_function(function_name)
+    list_versions_by_function(function_name, params::Dict{String,<:Any})
 
 Returns a list of versions, with the version-specific configuration of each. Lambda returns
 up to 50 versions per call.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `Marker`: Specify the pagination token that's returned by a previous request to retrieve
-  the next page of results.
-- `MaxItems`: The maximum number of versions to return.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Specify the pagination token that's returned by a previous request to
+  retrieve the next page of results.
+- `"MaxItems"`: The maximum number of versions to return.
 """
 list_versions_by_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
-list_versions_by_function(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", args; aws_config=aws_config)
+list_versions_by_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
 
 """
-    PublishLayerVersion()
+    publish_layer_version(content, layer_name)
+    publish_layer_version(content, layer_name, params::Dict{String,<:Any})
 
 Creates an AWS Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with
 the same layer name, a new version is created. Add layers to your function with
 CreateFunction or UpdateFunctionConfiguration.
 
-# Required Parameters
-- `Content`: The function layer archive.
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
+# Arguments
+- `content`: The function layer archive.
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
 
 # Optional Parameters
-- `CompatibleRuntimes`: A list of compatible function runtimes. Used for filtering with
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompatibleRuntimes"`: A list of compatible function runtimes. Used for filtering with
   ListLayers and ListLayerVersions.
-- `Description`: The description of the version.
-- `LicenseInfo`: The layer's software license. It can be any of the following:   An SPDX
+- `"Description"`: The description of the version.
+- `"LicenseInfo"`: The layer's software license. It can be any of the following:   An SPDX
   license identifier. For example, MIT.   The URL of a license hosted on the internet. For
   example, https://opensource.org/licenses/MIT.   The full text of the license.
 """
 publish_layer_version(Content, LayerName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
-publish_layer_version(Content, LayerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
+publish_layer_version(Content, LayerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config)
 
 """
-    PublishVersion()
+    publish_version(function_name)
+    publish_version(function_name, params::Dict{String,<:Any})
 
 Creates a version from the current code and configuration of a function. Use versions to
 create a snapshot of your function code and configuration that doesn't change. AWS Lambda
@@ -951,47 +1020,50 @@ the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to updat
 function before publishing a version. Clients can invoke versions directly or with an
 alias. To create an alias, use CreateAlias.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `CodeSha256`: Only publish a version if the hash value matches the value that's
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CodeSha256"`: Only publish a version if the hash value matches the value that's
   specified. Use this option to avoid publishing a version if the function code has changed
   since you last updated it. You can get the hash for the version that you uploaded from the
   output of UpdateFunctionCode.
-- `Description`: A description for the version to override the description in the function
-  configuration.
-- `RevisionId`: Only update the function if the revision ID matches the ID that's
+- `"Description"`: A description for the version to override the description in the
+  function configuration.
+- `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid publishing a version if the function configuration has
   changed since you last updated it.
 """
 publish_version(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
-publish_version(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", args; aws_config=aws_config)
+publish_version(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
 
 """
-    PutFunctionCodeSigningConfig()
+    put_function_code_signing_config(code_signing_config_arn, function_name)
+    put_function_code_signing_config(code_signing_config_arn, function_name, params::Dict{String,<:Any})
 
 Update the code signing configuration for the function. Changes to the code signing
 configuration take effect the next time a user tries to deploy a code package to the
 function.
 
-# Required Parameters
-- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing
+# Arguments
+- `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 """
 put_function_code_signing_config(CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn); aws_config=aws_config)
-put_function_code_signing_config(CodeSigningConfigArn, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), args)); aws_config=aws_config)
+put_function_code_signing_config(CodeSigningConfigArn, FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), params)); aws_config=aws_config)
 
 """
-    PutFunctionConcurrency()
+    put_function_concurrency(function_name, reserved_concurrent_executions)
+    put_function_concurrency(function_name, reserved_concurrent_executions, params::Dict{String,<:Any})
 
 Sets the maximum number of simultaneous executions for a function, and reserves capacity
 for that concurrency level. Concurrency settings apply to the function as a whole,
@@ -1003,21 +1075,22 @@ limit. You can reserve concurrency for as many functions as you like, as long as
 at least 100 simultaneous executions unreserved for functions that aren't configured with a
 per-function limit. For more information, see Managing Concurrency.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `ReservedConcurrentExecutions`: The number of simultaneous executions to reserve for the
-  function.
+- `reserved_concurrent_executions`: The number of simultaneous executions to reserve for
+  the function.
 
 """
 put_function_concurrency(FunctionName, ReservedConcurrentExecutions; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions); aws_config=aws_config)
-put_function_concurrency(FunctionName, ReservedConcurrentExecutions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), args)); aws_config=aws_config)
+put_function_concurrency(FunctionName, ReservedConcurrentExecutions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), params)); aws_config=aws_config)
 
 """
-    PutFunctionEventInvokeConfig()
+    put_function_event_invoke_config(function_name)
+    put_function_event_invoke_config(function_name, params::Dict{String,<:Any})
 
 Configures options for asynchronous invocation on a function, version, or alias. If a
 configuration already exists for a function, version, or alias, this operation overwrites
@@ -1032,8 +1105,8 @@ can configure separate destinations for successful invocations (on-success) and 
 fail all processing attempts (on-failure). You can configure destinations in addition to or
 instead of a dead-letter queue.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -1041,148 +1114,162 @@ instead of a dead-letter queue.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `DestinationConfig`: A destination for events after they have been sent to a function for
-  processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationConfig"`: A destination for events after they have been sent to a function
+  for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
   function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event
   Bus - The ARN of an Amazon EventBridge event bus.
-- `MaximumEventAgeInSeconds`: The maximum age of a request that Lambda sends to a function
-  for processing.
-- `MaximumRetryAttempts`: The maximum number of times to retry when the function returns an
-  error.
-- `Qualifier`: A version number or alias name.
+- `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a
+  function for processing.
+- `"MaximumRetryAttempts"`: The maximum number of times to retry when the function returns
+  an error.
+- `"Qualifier"`: A version number or alias name.
 """
 put_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-put_function_event_invoke_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
+put_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
-    PutProvisionedConcurrencyConfig()
+    put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier)
+    put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier, params::Dict{String,<:Any})
 
 Adds a provisioned concurrency configuration to a function's alias or version.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
-- `ProvisionedConcurrentExecutions`: The amount of provisioned concurrency to allocate for
-  the version or alias.
-- `Qualifier`: The version number or alias name.
+- `provisioned_concurrent_executions`: The amount of provisioned concurrency to allocate
+  for the version or alias.
+- `qualifier`: The version number or alias name.
 
 """
 put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier); aws_config=aws_config)
-put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), args)); aws_config=aws_config)
+put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
-    RemoveLayerVersionPermission()
+    remove_layer_version_permission(layer_name, statement_id, version_number)
+    remove_layer_version_permission(layer_name, statement_id, version_number, params::Dict{String,<:Any})
 
 Removes a statement from the permissions policy for a version of an AWS Lambda layer. For
 more information, see AddLayerVersionPermission.
 
-# Required Parameters
-- `LayerName`: The name or Amazon Resource Name (ARN) of the layer.
-- `StatementId`: The identifier that was specified when the statement was added.
-- `VersionNumber`: The version number.
+# Arguments
+- `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
+- `statement_id`: The identifier that was specified when the statement was added.
+- `version_number`: The version number.
 
 # Optional Parameters
-- `RevisionId`: Only update the policy if the revision ID matches the ID specified. Use
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RevisionId"`: Only update the policy if the revision ID matches the ID specified. Use
   this option to avoid modifying a policy that has changed since you last read it.
 """
 remove_layer_version_permission(LayerName, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)"; aws_config=aws_config)
-remove_layer_version_permission(LayerName, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", args; aws_config=aws_config)
+remove_layer_version_permission(LayerName, StatementId, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", params; aws_config=aws_config)
 
 """
-    RemovePermission()
+    remove_permission(function_name, statement_id)
+    remove_permission(function_name, statement_id, params::Dict{String,<:Any})
 
 Revokes function-use permission from an AWS service or another account. You can get the ID
 of the statement from the output of GetPolicy.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
   formats. The length constraint applies only to the full ARN. If you specify only the
   function name, it is limited to 64 characters in length.
-- `StatementId`: Statement ID of the permission to remove.
+- `statement_id`: Statement ID of the permission to remove.
 
 # Optional Parameters
-- `Qualifier`: Specify a version or alias to remove permissions from a published version of
-  the function.
-- `RevisionId`: Only update the policy if the revision ID matches the ID that's specified.
-  Use this option to avoid modifying a policy that has changed since you last read it.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qualifier"`: Specify a version or alias to remove permissions from a published version
+  of the function.
+- `"RevisionId"`: Only update the policy if the revision ID matches the ID that's
+  specified. Use this option to avoid modifying a policy that has changed since you last read
+  it.
 """
 remove_permission(FunctionName, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)"; aws_config=aws_config)
-remove_permission(FunctionName, StatementId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", args; aws_config=aws_config)
+remove_permission(FunctionName, StatementId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", params; aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(arn, tags)
+    tag_resource(arn, tags, params::Dict{String,<:Any})
 
 Adds tags to a function.
 
-# Required Parameters
-- `ARN`: The function's Amazon Resource Name (ARN).
-- `Tags`: A list of tags to apply to the function.
+# Arguments
+- `arn`: The function's Amazon Resource Name (ARN).
+- `tags`: A list of tags to apply to the function.
 
 """
 tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(arn, tag_keys)
+    untag_resource(arn, tag_keys, params::Dict{String,<:Any})
 
 Removes tags from a function.
 
-# Required Parameters
-- `ARN`: The function's Amazon Resource Name (ARN).
-- `tagKeys`: A list of tag keys to remove from the function.
+# Arguments
+- `arn`: The function's Amazon Resource Name (ARN).
+- `tag_keys`: A list of tag keys to remove from the function.
 
 """
 untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ARN, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(ARN, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateAlias()
+    update_alias(function_name, name)
+    update_alias(function_name, name, params::Dict{String,<:Any})
 
 Updates the configuration of a Lambda function alias.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it is limited to 64 characters in length.
-- `Name`: The name of the alias.
+- `name`: The name of the alias.
 
 # Optional Parameters
-- `Description`: A description of the alias.
-- `FunctionVersion`: The function version that the alias invokes.
-- `RevisionId`: Only update the alias if the revision ID matches the ID that's specified.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the alias.
+- `"FunctionVersion"`: The function version that the alias invokes.
+- `"RevisionId"`: Only update the alias if the revision ID matches the ID that's specified.
   Use this option to avoid modifying an alias that has changed since you last read it.
-- `RoutingConfig`: The routing configuration of the alias.
+- `"RoutingConfig"`: The routing configuration of the alias.
 """
 update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-update_alias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
+update_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
-    UpdateCodeSigningConfig()
+    update_code_signing_config(code_signing_config_arn)
+    update_code_signing_config(code_signing_config_arn, params::Dict{String,<:Any})
 
 Update the code signing configuration. Changes to the code signing configuration take
 effect the next time a user tries to deploy a code package to the function.
 
-# Required Parameters
-- `CodeSigningConfigArn`: The The Amazon Resource Name (ARN) of the code signing
+# Arguments
+- `code_signing_config_arn`: The The Amazon Resource Name (ARN) of the code signing
   configuration.
 
 # Optional Parameters
-- `AllowedPublishers`: Signing profiles for this code signing configuration.
-- `CodeSigningPolicies`: The code signing policy.
-- `Description`: Descriptive name for this code signing configuration.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedPublishers"`: Signing profiles for this code signing configuration.
+- `"CodeSigningPolicies"`: The code signing policy.
+- `"Description"`: Descriptive name for this code signing configuration.
 """
 update_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-update_code_signing_config(CodeSigningConfigArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", args; aws_config=aws_config)
+update_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
-    UpdateEventSourceMapping()
+    update_event_source_mapping(uuid)
+    update_event_source_mapping(uuid, params::Dict{String,<:Any})
 
 Updates an event source mapping. You can change the function that AWS Lambda invokes, or
 pause invocation and resume later from the same location. The following error handling
@@ -1196,47 +1283,49 @@ retries. The default value is infinite (-1). When set to infinite (-1), failed r
 retried until the record expires.    ParallelizationFactor - Process multiple batches from
 each shard concurrently.
 
-# Required Parameters
-- `UUID`: The identifier of the event source mapping.
+# Arguments
+- `uuid`: The identifier of the event source mapping.
 
 # Optional Parameters
-- `BatchSize`: The maximum number of items to retrieve in a single batch.    Amazon Kinesis
-  - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon
-  Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues
-  the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
-  Self-Managed Apache Kafka - Default 100. Max 10,000.
-- `BisectBatchOnFunctionError`: (Streams) If the function returns an error, split the batch
-  in two and retry.
-- `DestinationConfig`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BatchSize"`: The maximum number of items to retrieve in a single batch.    Amazon
+  Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.
+  Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
+  queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
+  10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+- `"BisectBatchOnFunctionError"`: (Streams) If the function returns an error, split the
+  batch in two and retry.
+- `"DestinationConfig"`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
   discarded records.
-- `Enabled`: If true, the event source mapping is active. Set to false to pause polling and
-  invocation.
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+- `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
+  and invocation.
+- `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
   MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
-- `FunctionResponseTypes`: (Streams) A list of current response type enums applied to the
+- `"FunctionResponseTypes"`: (Streams) A list of current response type enums applied to the
   event source mapping.
-- `MaximumBatchingWindowInSeconds`: (Streams and SQS standard queues) The maximum amount of
-  time to gather records before invoking the function, in seconds.
-- `MaximumRecordAgeInSeconds`: (Streams) Discard records older than the specified age. The
-  default value is infinite (-1).
-- `MaximumRetryAttempts`: (Streams) Discard records after the specified number of retries.
-  The default value is infinite (-1). When set to infinite (-1), failed records will be
-  retried until the record expires.
-- `ParallelizationFactor`: (Streams) The number of batches to process from each shard
+- `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
+  of time to gather records before invoking the function, in seconds.
+- `"MaximumRecordAgeInSeconds"`: (Streams) Discard records older than the specified age.
+  The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Streams) Discard records after the specified number of
+  retries. The default value is infinite (-1). When set to infinite (-1), failed records will
+  be retried until the record expires.
+- `"ParallelizationFactor"`: (Streams) The number of batches to process from each shard
   concurrently.
-- `SourceAccessConfigurations`: An array of the authentication protocol, or the VPC
+- `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
   components to secure your event source.
-- `TumblingWindowInSeconds`: (Streams) The duration in seconds of a processing window. The
-  range is between 1 second up to 900 seconds.
+- `"TumblingWindowInSeconds"`: (Streams) The duration in seconds of a processing window.
+  The range is between 1 second up to 900 seconds.
 """
 update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-update_event_source_mapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
+update_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
-    UpdateFunctionCode()
+    update_function_code(function_name)
+    update_function_code(function_name, params::Dict{String,<:Any})
 
 Updates a Lambda function's code. If code signing is enabled for the function, the code
 package must be signed by a trusted publisher. For more information, see Configuring code
@@ -1245,35 +1334,37 @@ code of a published version, only the unpublished version.  For a function defin
 container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you
 update the image tag to a new image, Lambda does not automatically update the function.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
 
 # Optional Parameters
-- `DryRun`: Set to true to validate the request parameters and access permissions without
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Set to true to validate the request parameters and access permissions without
   modifying the function code.
-- `ImageUri`: URI of a container image in the Amazon ECR registry.
-- `Publish`: Set to true to publish a new version of the function after updating the code.
-  This has the same effect as calling PublishVersion separately.
-- `RevisionId`: Only update the function if the revision ID matches the ID that's
+- `"ImageUri"`: URI of a container image in the Amazon ECR registry.
+- `"Publish"`: Set to true to publish a new version of the function after updating the
+  code. This has the same effect as calling PublishVersion separately.
+- `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
-- `S3Bucket`: An Amazon S3 bucket in the same AWS Region as your function. The bucket can
+- `"S3Bucket"`: An Amazon S3 bucket in the same AWS Region as your function. The bucket can
   be in a different AWS account.
-- `S3Key`: The Amazon S3 key of the deployment package.
-- `S3ObjectVersion`: For versioned objects, the version of the deployment package object to
-  use.
-- `ZipFile`: The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
+- `"S3Key"`: The Amazon S3 key of the deployment package.
+- `"S3ObjectVersion"`: For versioned objects, the version of the deployment package object
+  to use.
+- `"ZipFile"`: The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
   clients handle the encoding for you.
 """
 update_function_code(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws_config=aws_config)
-update_function_code(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", args; aws_config=aws_config)
+update_function_code(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config)
 
 """
-    UpdateFunctionConfiguration()
+    update_function_configuration(function_name)
+    update_function_configuration(function_name, params::Dict{String,<:Any})
 
 Modify the version-specific settings of a Lambda function. When you update a function,
 Lambda provisions an instance of the function and its supporting resources. If your
@@ -1287,58 +1378,60 @@ version. You can't modify the configuration of a published version, only the unp
 version. To configure function concurrency, use PutFunctionConcurrency. To grant invoke
 permissions to an account or AWS service, use AddPermission.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function.  Name formats     Function name -
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name -
   my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.
     Partial ARN - 123456789012:function:my-function.   The length constraint applies only to
   the full ARN. If you specify only the function name, it is limited to 64 characters in
   length.
 
 # Optional Parameters
-- `DeadLetterConfig`: A dead letter queue configuration that specifies the queue or topic
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeadLetterConfig"`: A dead letter queue configuration that specifies the queue or topic
   where Lambda sends asynchronous events when they fail processing. For more information, see
   Dead Letter Queues.
-- `Description`: A description of the function.
-- `Environment`: Environment variables that are accessible from function code during
+- `"Description"`: A description of the function.
+- `"Environment"`: Environment variables that are accessible from function code during
   execution.
-- `FileSystemConfigs`: Connection settings for an Amazon EFS file system.
-- `Handler`: The name of the method within your code that Lambda calls to execute your
+- `"FileSystemConfigs"`: Connection settings for an Amazon EFS file system.
+- `"Handler"`: The name of the method within your code that Lambda calls to execute your
   function. The format includes the file name. It can also include namespaces and other
   qualifiers, depending on the runtime. For more information, see Programming Model.
-- `ImageConfig`:  Container image configuration values that override the values in the
+- `"ImageConfig"`:  Container image configuration values that override the values in the
   container image Dockerfile.
-- `KMSKeyArn`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
+- `"KMSKeyArn"`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
   encrypt your function's environment variables. If it's not provided, AWS Lambda uses a
   default service key.
-- `Layers`: A list of function layers to add to the function's execution environment.
+- `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
-- `MemorySize`: The amount of memory available to the function at runtime. Increasing the
+- `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
   function's memory also increases its CPU allocation. The default value is 128 MB. The value
   can be any multiple of 1 MB.
-- `RevisionId`: Only update the function if the revision ID matches the ID that's
+- `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
-- `Role`: The Amazon Resource Name (ARN) of the function's execution role.
-- `Runtime`: The identifier of the function's runtime.
-- `Timeout`: The amount of time that Lambda allows a function to run before stopping it.
+- `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
+- `"Runtime"`: The identifier of the function's runtime.
+- `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
   The default is 3 seconds. The maximum allowed value is 900 seconds.
-- `TracingConfig`: Set Mode to Active to sample and trace a subset of incoming requests
+- `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
   with AWS X-Ray.
-- `VpcConfig`: For network connectivity to AWS resources in a VPC, specify a list of
+- `"VpcConfig"`: For network connectivity to AWS resources in a VPC, specify a list of
   security groups and subnets in the VPC. When you connect a function to a VPC, it can only
   access resources and the internet through that VPC. For more information, see VPC Settings.
 """
 update_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
-update_function_configuration(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws_config=aws_config)
+update_function_configuration(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
 
 """
-    UpdateFunctionEventInvokeConfig()
+    update_function_event_invoke_config(function_name)
+    update_function_event_invoke_config(function_name, params::Dict{String,<:Any})
 
 Updates the configuration for asynchronous invocation for a function, version, or alias. To
 configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 
-# Required Parameters
-- `FunctionName`: The name of the Lambda function, version, or alias.  Name formats
+# Arguments
+- `function_name`: The name of the Lambda function, version, or alias.  Name formats
   Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN -
   arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN -
   123456789012:function:my-function.   You can append a version number or alias to any of the
@@ -1346,15 +1439,16 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
   function name, it is limited to 64 characters in length.
 
 # Optional Parameters
-- `DestinationConfig`: A destination for events after they have been sent to a function for
-  processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationConfig"`: A destination for events after they have been sent to a function
+  for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
   function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event
   Bus - The ARN of an Amazon EventBridge event bus.
-- `MaximumEventAgeInSeconds`: The maximum age of a request that Lambda sends to a function
-  for processing.
-- `MaximumRetryAttempts`: The maximum number of times to retry when the function returns an
-  error.
-- `Qualifier`: A version number or alias name.
+- `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a
+  function for processing.
+- `"MaximumRetryAttempts"`: The maximum number of times to retry when the function returns
+  an error.
+- `"Qualifier"`: A version number or alias name.
 """
 update_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-update_function_event_invoke_config(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
+update_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)

@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssociateWebACL()
+    associate_web_acl(resource_arn, web_aclid)
+    associate_web_acl(resource_arn, web_aclid, params::Dict{String,<:Any})
 
  This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic
 in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see
@@ -13,21 +14,22 @@ the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set o
 for regional and global use.   Associates a web ACL with a resource, either an application
 load balancer or Amazon API Gateway stage.
 
-# Required Parameters
-- `ResourceArn`: The ARN (Amazon Resource Name) of the resource to be protected, either an
+# Arguments
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource to be protected, either an
   application load balancer or Amazon API Gateway stage.  The ARN should be in one of the
   following formats:   For an Application Load Balancer:
   arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-bala
   ncer-id     For an Amazon API Gateway stage:
   arn:aws:apigateway:region::/restapis/api-id/stages/stage-name
-- `WebACLId`: A unique identifier (ID) for the web ACL.
+- `web_aclid`: A unique identifier (ID) for the web ACL.
 
 """
 associate_web_acl(ResourceArn, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("AssociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLId"=>WebACLId); aws_config=aws_config)
-associate_web_acl(ResourceArn, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
+associate_web_acl(ResourceArn, WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("AssociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    CreateByteMatchSet()
+    create_byte_match_set(change_token, name)
+    create_byte_match_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -45,17 +47,18 @@ specify the part of the request that you want AWS WAF to inspect (for example, t
 or the URI) and the value that you want AWS WAF to watch for.   For more information about
 how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the ByteMatchSet. You can't change Name after
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the ByteMatchSet. You can't change Name after
   you create a ByteMatchSet.
 
 """
 create_byte_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateByteMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_byte_match_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_byte_match_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateGeoMatchSet()
+    create_geo_match_set(change_token, name)
+    create_geo_match_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -72,17 +75,18 @@ of an UpdateGeoMatchSet request.   Submit an UpdateGeoMatchSetSet request to spe
 countries that you want AWS WAF to watch for.   For more information about how to use the
 AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the GeoMatchSet. You can't change Name after
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the GeoMatchSet. You can't change Name after
   you create the GeoMatchSet.
 
 """
 create_geo_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_geo_match_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_geo_match_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateIPSet()
+    create_ipset(change_token, name)
+    create_ipset(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -99,17 +103,18 @@ in the ChangeToken parameter of an UpdateIPSet request.   Submit an UpdateIPSet 
 specify the IP addresses that you want AWS WAF to watch for.   For more information about
 how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the IPSet. You can't change Name after you
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the IPSet. You can't change Name after you
   create the IPSet.
 
 """
 create_ipset(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_ipset(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_ipset(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateRateBasedRule()
+    create_rate_based_rule(change_token, metric_name, name, rate_key, rate_limit)
+    create_rate_based_rule(change_token, metric_name, name, rate_key, rate_limit, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -145,34 +150,36 @@ the rule.   Create and update a WebACL that contains the RateBasedRule. For more
 information, see CreateWebACL.   For more information about how to use the AWS WAF API to
 allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The ChangeToken that you used to submit the CreateRateBasedRule request.
+# Arguments
+- `change_token`: The ChangeToken that you used to submit the CreateRateBasedRule request.
   You can also use this value to query the status of the request. For more information, see
   GetChangeTokenStatus.
-- `MetricName`: A friendly name or description for the metrics for this RateBasedRule. The
+- `metric_name`: A friendly name or description for the metrics for this RateBasedRule. The
   name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
   minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
   including \"All\" and \"Default_Action.\" You can't change the name of the metric after you
   create the RateBasedRule.
-- `Name`: A friendly name or description of the RateBasedRule. You can't change the name of
+- `name`: A friendly name or description of the RateBasedRule. You can't change the name of
   a RateBasedRule after you create it.
-- `RateKey`: The field that AWS WAF uses to determine if requests are likely arriving from
+- `rate_key`: The field that AWS WAF uses to determine if requests are likely arriving from
   a single source and thus subject to rate monitoring. The only valid value for RateKey is
   IP. IP indicates that requests that arrive from the same IP address are subject to the
   RateLimit that is specified in the RateBasedRule.
-- `RateLimit`: The maximum number of requests, which have an identical value in the field
+- `rate_limit`: The maximum number of requests, which have an identical value in the field
   that is specified by RateKey, allowed in a five-minute period. If the number of requests
   exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF
   triggers the action that is specified for this rule.
 
 # Optional Parameters
-- `Tags`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
 """
 create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit); aws_config=aws_config)
-create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), args)); aws_config=aws_config)
+create_rate_based_rule(ChangeToken, MetricName, Name, RateKey, RateLimit, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), params)); aws_config=aws_config)
 
 """
-    CreateRegexMatchSet()
+    create_regex_match_set(change_token, name)
+    create_regex_match_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -192,17 +199,18 @@ value, using a RegexPatternSet, that you want AWS WAF to watch for.   For more i
 about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer
 Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the RegexMatchSet. You can't change Name after
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the RegexMatchSet. You can't change Name after
   you create a RegexMatchSet.
 
 """
 create_regex_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_regex_match_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_regex_match_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateRegexPatternSet()
+    create_regex_pattern_set(change_token, name)
+    create_regex_pattern_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -218,17 +226,18 @@ Submit an UpdateRegexPatternSet request to specify the string that you want AWS 
 watch for.   For more information about how to use the AWS WAF API to allow or block HTTP
 requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the RegexPatternSet. You can't change Name
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the RegexPatternSet. You can't change Name
   after you create a RegexPatternSet.
 
 """
 create_regex_pattern_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_regex_pattern_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_regex_pattern_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateRule()
+    create_rule(change_token, metric_name, name)
+    create_rule(change_token, metric_name, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -252,24 +261,26 @@ a WebACL that contains the Rule. For more information, see CreateWebACL.   For m
 information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS
 WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `MetricName`: A friendly name or description for the metrics for this Rule. The name can
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `metric_name`: A friendly name or description for the metrics for this Rule. The name can
   contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum
   length one. It can't contain whitespace or metric names reserved for AWS WAF, including
   \"All\" and \"Default_Action.\" You can't change the name of the metric after you create
   the Rule.
-- `Name`: A friendly name or description of the Rule. You can't change the name of a Rule
+- `name`: A friendly name or description of the Rule. You can't change the name of a Rule
   after you create it.
 
 # Optional Parameters
-- `Tags`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
 """
 create_rule(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
-create_rule(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
+create_rule(ChangeToken, MetricName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateRuleGroup()
+    create_rule_group(change_token, metric_name, name)
+    create_rule_group(change_token, metric_name, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -281,24 +292,26 @@ request an increase to this limit by contacting customer support.   One rule gro
 ACL.   Ten rules per rule group.   For more information about how to use the AWS WAF API to
 allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `MetricName`: A friendly name or description for the metrics for this RuleGroup. The name
-  can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `metric_name`: A friendly name or description for the metrics for this RuleGroup. The
+  name can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
   minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
   including \"All\" and \"Default_Action.\" You can't change the name of the metric after you
   create the RuleGroup.
-- `Name`: A friendly name or description of the RuleGroup. You can't change Name after you
+- `name`: A friendly name or description of the RuleGroup. You can't change Name after you
   create a RuleGroup.
 
 # Optional Parameters
-- `Tags`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
 """
 create_rule_group(ChangeToken, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
-create_rule_group(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
+create_rule_group(ChangeToken, MetricName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateSizeConstraintSet()
+    create_size_constraint_set(change_token, name)
+    create_size_constraint_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -317,17 +330,18 @@ part of the request that you want AWS WAF to inspect (for example, the header or
 and the value that you want AWS WAF to watch for.   For more information about how to use
 the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description of the SizeConstraintSet. You can't change Name
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description of the SizeConstraintSet. You can't change Name
   after you create a SizeConstraintSet.
 
 """
 create_size_constraint_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_size_constraint_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_size_constraint_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateSqlInjectionMatchSet()
+    create_sql_injection_match_set(change_token, name)
+    create_sql_injection_match_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -344,17 +358,18 @@ specify the parts of web requests in which you want to allow, block, or count ma
 code.   For more information about how to use the AWS WAF API to allow or block HTTP
 requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description for the SqlInjectionMatchSet that you're creating.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description for the SqlInjectionMatchSet that you're creating.
   You can't change Name after you create the SqlInjectionMatchSet.
 
 """
 create_sql_injection_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_sql_injection_match_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_sql_injection_match_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateWebACL()
+    create_web_acl(change_token, default_action, metric_name, name)
+    create_web_acl(change_token, default_action, metric_name, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -376,25 +391,28 @@ request to specify the Rules that you want to include in the WebACL, to specify 
 action, and to associate the WebACL with a CloudFront distribution.   For more information
 about how to use the AWS WAF API, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `DefaultAction`: The action that you want AWS WAF to take when a request doesn't match
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `default_action`: The action that you want AWS WAF to take when a request doesn't match
   the criteria specified in any of the Rule objects that are associated with the WebACL.
-- `MetricName`: A friendly name or description for the metrics for this WebACL.The name can
-  contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and minimum
-  length one. It can't contain whitespace or metric names reserved for AWS WAF, including
-  \"All\" and \"Default_Action.\" You can't change MetricName after you create the WebACL.
-- `Name`: A friendly name or description of the WebACL. You can't change Name after you
+- `metric_name`: A friendly name or description for the metrics for this WebACL.The name
+  can contain only alphanumeric characters (A-Z, a-z, 0-9), with maximum length 128 and
+  minimum length one. It can't contain whitespace or metric names reserved for AWS WAF,
+  including \"All\" and \"Default_Action.\" You can't change MetricName after you create the
+  WebACL.
+- `name`: A friendly name or description of the WebACL. You can't change Name after you
   create the WebACL.
 
 # Optional Parameters
-- `Tags`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
 """
 create_web_acl(ChangeToken, DefaultAction, MetricName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
-create_web_acl(ChangeToken, DefaultAction, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
+create_web_acl(ChangeToken, DefaultAction, MetricName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    CreateWebACLMigrationStack()
+    create_web_aclmigration_stack(ignore_unsupported_type, s3_bucket_name, web_aclid)
+    create_web_aclmigration_stack(ignore_unsupported_type, s3_bucket_name, web_aclid, params::Dict{String,<:Any})
 
 Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the specified
 Amazon S3 bucket. Then, in CloudFormation, you create a stack from the template, to create
@@ -405,26 +423,27 @@ including caveats and manual steps to complete the migration and switch over to 
 ACL, see Migrating your AWS WAF Classic resources to AWS WAF in the AWS WAF Developer
 Guide.
 
-# Required Parameters
-- `IgnoreUnsupportedType`: Indicates whether to exclude entities that can't be migrated or
-  to stop the migration. Set this to true to ignore unsupported entities in the web ACL
+# Arguments
+- `ignore_unsupported_type`: Indicates whether to exclude entities that can't be migrated
+  or to stop the migration. Set this to true to ignore unsupported entities in the web ACL
   during the migration. Otherwise, if AWS WAF encounters unsupported entities, it stops the
   process and throws an exception.
-- `S3BucketName`: The name of the Amazon S3 bucket to store the CloudFormation template in.
-  The S3 bucket must be configured as follows for the migration:    The bucket name must
+- `s3_bucket_name`: The name of the Amazon S3 bucket to store the CloudFormation template
+  in. The S3 bucket must be configured as follows for the migration:    The bucket name must
   start with aws-waf-migration-. For example, aws-waf-migration-my-web-acl.   The bucket must
   be in the Region where you are deploying the template. For example, for a web ACL in
   us-west-2, you must use an Amazon S3 bucket in us-west-2 and you must deploy the template
   stack to us-west-2.    The bucket policies must permit the migration process to write data.
   For listings of the bucket policies, see the Examples section.
-- `WebACLId`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
+- `web_aclid`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
 
 """
 create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACLMigrationStack", Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId); aws_config=aws_config)
-create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
+create_web_aclmigration_stack(IgnoreUnsupportedType, S3BucketName, WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    CreateXssMatchSet()
+    create_xss_match_set(change_token, name)
+    create_xss_match_set(change_token, name, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -440,17 +459,18 @@ UpdateXssMatchSet request to specify the parts of web requests in which you want
 block, or count cross-site scripting attacks.   For more information about how to use the
 AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Name`: A friendly name or description for the XssMatchSet that you're creating. You
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `name`: A friendly name or description for the XssMatchSet that you're creating. You
   can't change Name after you create the XssMatchSet.
 
 """
 create_xss_match_set(ChangeToken, Name; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
-create_xss_match_set(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
+create_xss_match_set(ChangeToken, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), params)); aws_config=aws_config)
 
 """
-    DeleteByteMatchSet()
+    delete_byte_match_set(byte_match_set_id, change_token)
+    delete_byte_match_set(byte_match_set_id, change_token, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -463,17 +483,18 @@ ByteMatchSet to remove filters, if any. For more information, see UpdateByteMatc
 GetChangeToken to get the change token that you provide in the ChangeToken parameter of a
 DeleteByteMatchSet request.   Submit a DeleteByteMatchSet request.
 
-# Required Parameters
-- `ByteMatchSetId`: The ByteMatchSetId of the ByteMatchSet that you want to delete.
+# Arguments
+- `byte_match_set_id`: The ByteMatchSetId of the ByteMatchSet that you want to delete.
   ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
+- `change_token`: The value returned by the most recent call to GetChangeToken.
 
 """
 delete_byte_match_set(ByteMatchSetId, ChangeToken; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken); aws_config=aws_config)
-delete_byte_match_set(ByteMatchSetId, ChangeToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), args)); aws_config=aws_config)
+delete_byte_match_set(ByteMatchSetId, ChangeToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), params)); aws_config=aws_config)
 
 """
-    DeleteGeoMatchSet()
+    delete_geo_match_set(change_token, geo_match_set_id)
+    delete_geo_match_set(change_token, geo_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -486,17 +507,18 @@ any countries. For more information, see UpdateGeoMatchSet.   Use GetChangeToken
 change token that you provide in the ChangeToken parameter of a DeleteGeoMatchSet request.
  Submit a DeleteGeoMatchSet request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `GeoMatchSetId`: The GeoMatchSetID of the GeoMatchSet that you want to delete.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `geo_match_set_id`: The GeoMatchSetID of the GeoMatchSet that you want to delete.
   GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
 delete_geo_match_set(ChangeToken, GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config)
-delete_geo_match_set(ChangeToken, GeoMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), args)); aws_config=aws_config)
+delete_geo_match_set(ChangeToken, GeoMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config)
 
 """
-    DeleteIPSet()
+    delete_ipset(change_token, ipset_id)
+    delete_ipset(change_token, ipset_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -509,17 +531,18 @@ more information, see UpdateIPSet.   Use GetChangeToken to get the change token 
 provide in the ChangeToken parameter of a DeleteIPSet request.   Submit a DeleteIPSet
 request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `IPSetId`: The IPSetId of the IPSet that you want to delete. IPSetId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `ipset_id`: The IPSetId of the IPSet that you want to delete. IPSetId is returned by
   CreateIPSet and by ListIPSets.
 
 """
 delete_ipset(ChangeToken, IPSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId); aws_config=aws_config)
-delete_ipset(ChangeToken, IPSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), args)); aws_config=aws_config)
+delete_ipset(ChangeToken, IPSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), params)); aws_config=aws_config)
 
 """
-    DeleteLoggingConfiguration()
+    delete_logging_configuration(resource_arn)
+    delete_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -527,16 +550,17 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Permanently deletes the LoggingConfiguration from the specified
 web ACL.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
   delete the LoggingConfiguration.
 
 """
 delete_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_logging_configuration(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    DeletePermissionPolicy()
+    delete_permission_policy(resource_arn)
+    delete_permission_policy(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -544,16 +568,17 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Permanently deletes an IAM policy from the specified RuleGroup.
 The user making the request must be the owner of the RuleGroup.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup from which you want to
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the RuleGroup from which you want to
   delete the policy. The user making the request must be the owner of the RuleGroup.
 
 """
 delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_permission_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    DeleteRateBasedRule()
+    delete_rate_based_rule(change_token, rule_id)
+    delete_rate_based_rule(change_token, rule_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -566,17 +591,18 @@ RateBasedRule to remove predicates, if any. For more information, see UpdateRate
  Use GetChangeToken to get the change token that you provide in the ChangeToken parameter
 of a DeleteRateBasedRule request.   Submit a DeleteRateBasedRule request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RuleId`: The RuleId of the RateBasedRule that you want to delete. RuleId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rule_id`: The RuleId of the RateBasedRule that you want to delete. RuleId is returned by
   CreateRateBasedRule and by ListRateBasedRules.
 
 """
 delete_rate_based_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config)
-delete_rate_based_rule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws_config=aws_config)
+delete_rate_based_rule(ChangeToken, RuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config)
 
 """
-    DeleteRegexMatchSet()
+    delete_regex_match_set(change_token, regex_match_set_id)
+    delete_regex_match_set(change_token, regex_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -589,17 +615,18 @@ the RegexMatchSet to remove filters, if any. For more information, see UpdateReg
   Use GetChangeToken to get the change token that you provide in the ChangeToken parameter
 of a DeleteRegexMatchSet request.   Submit a DeleteRegexMatchSet request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RegexMatchSetId`: The RegexMatchSetId of the RegexMatchSet that you want to delete.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `regex_match_set_id`: The RegexMatchSetId of the RegexMatchSet that you want to delete.
   RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
 delete_regex_match_set(ChangeToken, RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config)
-delete_regex_match_set(ChangeToken, RegexMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), args)); aws_config=aws_config)
+delete_regex_match_set(ChangeToken, RegexMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config)
 
 """
-    DeleteRegexPatternSet()
+    delete_regex_pattern_set(change_token, regex_pattern_set_id)
+    delete_regex_pattern_set(change_token, regex_pattern_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -608,17 +635,18 @@ regional and global use.   Permanently deletes a RegexPatternSet. You can't dele
 RegexPatternSet if it's still used in any RegexMatchSet or if the RegexPatternSet is not
 empty.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RegexPatternSetId`: The RegexPatternSetId of the RegexPatternSet that you want to
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `regex_pattern_set_id`: The RegexPatternSetId of the RegexPatternSet that you want to
   delete. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
 delete_regex_pattern_set(ChangeToken, RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config)
-delete_regex_pattern_set(ChangeToken, RegexPatternSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), args)); aws_config=aws_config)
+delete_regex_pattern_set(ChangeToken, RegexPatternSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config)
 
 """
-    DeleteRule()
+    delete_rule(change_token, rule_id)
+    delete_rule(change_token, rule_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -631,17 +659,18 @@ remove predicates, if any. For more information, see UpdateRule.   Use GetChange
 get the change token that you provide in the ChangeToken parameter of a DeleteRule request.
   Submit a DeleteRule request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RuleId`: The RuleId of the Rule that you want to delete. RuleId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rule_id`: The RuleId of the Rule that you want to delete. RuleId is returned by
   CreateRule and by ListRules.
 
 """
 delete_rule(ChangeToken, RuleId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config)
-delete_rule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws_config=aws_config)
+delete_rule(ChangeToken, RuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), params)); aws_config=aws_config)
 
 """
-    DeleteRuleGroup()
+    delete_rule_group(change_token, rule_group_id)
+    delete_rule_group(change_token, rule_group_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -654,17 +683,18 @@ For more information, see UpdateRuleGroup.   Use GetChangeToken to get the chang
 that you provide in the ChangeToken parameter of a DeleteRuleGroup request.   Submit a
 DeleteRuleGroup request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RuleGroupId`: The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rule_group_id`: The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is
   returned by CreateRuleGroup and by ListRuleGroups.
 
 """
 delete_rule_group(ChangeToken, RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId); aws_config=aws_config)
-delete_rule_group(ChangeToken, RuleGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), args)); aws_config=aws_config)
+delete_rule_group(ChangeToken, RuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config)
 
 """
-    DeleteSizeConstraintSet()
+    delete_size_constraint_set(change_token, size_constraint_set_id)
+    delete_size_constraint_set(change_token, size_constraint_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -678,18 +708,19 @@ UpdateSizeConstraintSet.   Use GetChangeToken to get the change token that you p
 the ChangeToken parameter of a DeleteSizeConstraintSet request.   Submit a
 DeleteSizeConstraintSet request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `SizeConstraintSetId`: The SizeConstraintSetId of the SizeConstraintSet that you want to
-  delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `size_constraint_set_id`: The SizeConstraintSetId of the SizeConstraintSet that you want
+  to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
   ListSizeConstraintSets.
 
 """
 delete_size_constraint_set(ChangeToken, SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config)
-delete_size_constraint_set(ChangeToken, SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), args)); aws_config=aws_config)
+delete_size_constraint_set(ChangeToken, SizeConstraintSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config)
 
 """
-    DeleteSqlInjectionMatchSet()
+    delete_sql_injection_match_set(change_token, sql_injection_match_set_id)
+    delete_sql_injection_match_set(change_token, sql_injection_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -703,18 +734,19 @@ information, see UpdateSqlInjectionMatchSet.   Use GetChangeToken to get the cha
 that you provide in the ChangeToken parameter of a DeleteSqlInjectionMatchSet request.
 Submit a DeleteSqlInjectionMatchSet request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `SqlInjectionMatchSetId`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you
-  want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `sql_injection_match_set_id`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that
+  you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
   ListSqlInjectionMatchSets.
 
 """
 delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config)
-delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws_config=aws_config)
+delete_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config)
 
 """
-    DeleteWebACL()
+    delete_web_acl(change_token, web_aclid)
+    delete_web_acl(change_token, web_aclid, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -725,17 +757,18 @@ WebACL to remove Rules, if any. For more information, see UpdateWebACL.   Use
 GetChangeToken to get the change token that you provide in the ChangeToken parameter of a
 DeleteWebACL request.   Submit a DeleteWebACL request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `WebACLId`: The WebACLId of the WebACL that you want to delete. WebACLId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `web_aclid`: The WebACLId of the WebACL that you want to delete. WebACLId is returned by
   CreateWebACL and by ListWebACLs.
 
 """
 delete_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config)
-delete_web_acl(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
+delete_web_acl(ChangeToken, WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    DeleteXssMatchSet()
+    delete_xss_match_set(change_token, xss_match_set_id)
+    delete_xss_match_set(change_token, xss_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -748,17 +781,18 @@ XssMatchSet to remove filters, if any. For more information, see UpdateXssMatchS
 GetChangeToken to get the change token that you provide in the ChangeToken parameter of a
 DeleteXssMatchSet request.   Submit a DeleteXssMatchSet request.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to delete.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `xss_match_set_id`: The XssMatchSetId of the XssMatchSet that you want to delete.
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
 delete_xss_match_set(ChangeToken, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
-delete_xss_match_set(ChangeToken, XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)
+delete_xss_match_set(ChangeToken, XssMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config)
 
 """
-    DisassociateWebACL()
+    disassociate_web_acl(resource_arn)
+    disassociate_web_acl(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic
 in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see
@@ -766,8 +800,8 @@ the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set o
 for regional and global use.   Removes a web ACL from the specified resource, either an
 application load balancer or Amazon API Gateway stage.
 
-# Required Parameters
-- `ResourceArn`: The ARN (Amazon Resource Name) of the resource from which the web ACL is
+# Arguments
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource from which the web ACL is
   being removed, either an application load balancer or Amazon API Gateway stage. The ARN
   should be in one of the following formats:   For an Application Load Balancer:
   arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-bala
@@ -776,26 +810,28 @@ application load balancer or Amazon API Gateway stage.
 
 """
 disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DisassociateWebACL", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-disassociate_web_acl(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+disassociate_web_acl(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("DisassociateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    GetByteMatchSet()
+    get_byte_match_set(byte_match_set_id)
+    get_byte_match_set(byte_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the ByteMatchSet specified by ByteMatchSetId.
 
-# Required Parameters
-- `ByteMatchSetId`: The ByteMatchSetId of the ByteMatchSet that you want to get.
+# Arguments
+- `byte_match_set_id`: The ByteMatchSetId of the ByteMatchSet that you want to get.
   ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
 
 """
 get_byte_match_set(ByteMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId); aws_config=aws_config)
-get_byte_match_set(ByteMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), args)); aws_config=aws_config)
+get_byte_match_set(ByteMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), params)); aws_config=aws_config)
 
 """
-    GetChangeToken()
+    get_change_token()
+    get_change_token(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -813,10 +849,11 @@ GetChangeTokenStatus to determine the status of your change token.
 
 """
 get_change_token(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeToken"; aws_config=aws_config)
-get_change_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeToken", args; aws_config=aws_config)
+get_change_token(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeToken", params; aws_config=aws_config)
 
 """
-    GetChangeTokenStatus()
+    get_change_token_status(change_token)
+    get_change_token_status(change_token, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -828,80 +865,85 @@ to create, update, or delete an AWS WAF object.    PENDING: AWS WAF is propagati
 create, update, or delete request to all AWS WAF servers.    INSYNC: Propagation is
 complete.
 
-# Required Parameters
-- `ChangeToken`: The change token for which you want to get the status. This change token
+# Arguments
+- `change_token`: The change token for which you want to get the status. This change token
   was previously returned in the GetChangeToken response.
 
 """
 get_change_token_status(ChangeToken; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeTokenStatus", Dict{String, Any}("ChangeToken"=>ChangeToken); aws_config=aws_config)
-get_change_token_status(ChangeToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), args)); aws_config=aws_config)
+get_change_token_status(ChangeToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), params)); aws_config=aws_config)
 
 """
-    GetGeoMatchSet()
+    get_geo_match_set(geo_match_set_id)
+    get_geo_match_set(geo_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the GeoMatchSet that is specified by GeoMatchSetId.
 
-# Required Parameters
-- `GeoMatchSetId`: The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId
-  is returned by CreateGeoMatchSet and by ListGeoMatchSets.
+# Arguments
+- `geo_match_set_id`: The GeoMatchSetId of the GeoMatchSet that you want to get.
+  GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
 get_geo_match_set(GeoMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetGeoMatchSet", Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config)
-get_geo_match_set(GeoMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), args)); aws_config=aws_config)
+get_geo_match_set(GeoMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), params)); aws_config=aws_config)
 
 """
-    GetIPSet()
+    get_ipset(ipset_id)
+    get_ipset(ipset_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the IPSet that is specified by IPSetId.
 
-# Required Parameters
-- `IPSetId`: The IPSetId of the IPSet that you want to get. IPSetId is returned by
+# Arguments
+- `ipset_id`: The IPSetId of the IPSet that you want to get. IPSetId is returned by
   CreateIPSet and by ListIPSets.
 
 """
 get_ipset(IPSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetIPSet", Dict{String, Any}("IPSetId"=>IPSetId); aws_config=aws_config)
-get_ipset(IPSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), args)); aws_config=aws_config)
+get_ipset(IPSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), params)); aws_config=aws_config)
 
 """
-    GetLoggingConfiguration()
+    get_logging_configuration(resource_arn)
+    get_logging_configuration(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the LoggingConfiguration for the specified web ACL.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
   the LoggingConfiguration.
 
 """
 get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_logging_configuration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_logging_configuration(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    GetPermissionPolicy()
+    get_permission_policy(resource_arn)
+    get_permission_policy(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the IAM policy attached to the RuleGroup.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup for which you want to get
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the RuleGroup for which you want to get
   the policy.
 
 """
 get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_permission_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_permission_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    GetRateBasedRule()
+    get_rate_based_rule(rule_id)
+    get_rate_based_rule(rule_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -909,16 +951,17 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns the RateBasedRule that is specified by the RuleId that
 you included in the GetRateBasedRule request.
 
-# Required Parameters
-- `RuleId`: The RuleId of the RateBasedRule that you want to get. RuleId is returned by
+# Arguments
+- `rule_id`: The RuleId of the RateBasedRule that you want to get. RuleId is returned by
   CreateRateBasedRule and by ListRateBasedRules.
 
 """
 get_rate_based_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
-get_rate_based_rule(RuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
+get_rate_based_rule(RuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config)
 
 """
-    GetRateBasedRuleManagedKeys()
+    get_rate_based_rule_managed_keys(rule_id)
+    get_rate_based_rule_managed_keys(rule_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -928,50 +971,54 @@ RateBasedRule that is specified by the RuleId. The maximum number of managed key
 be blocked is 10,000. If more than 10,000 addresses exceed the rate limit, the 10,000
 addresses with the highest rates will be blocked.
 
-# Required Parameters
-- `RuleId`: The RuleId of the RateBasedRule for which you want to get a list of
+# Arguments
+- `rule_id`: The RuleId of the RateBasedRule for which you want to get a list of
   ManagedKeys. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
 
 # Optional Parameters
-- `NextMarker`: A null value and not currently used. Do not include this in your request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextMarker"`: A null value and not currently used. Do not include this in your request.
 """
 get_rate_based_rule_managed_keys(RuleId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRuleManagedKeys", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
-get_rate_based_rule_managed_keys(RuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
+get_rate_based_rule_managed_keys(RuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config)
 
 """
-    GetRegexMatchSet()
+    get_regex_match_set(regex_match_set_id)
+    get_regex_match_set(regex_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the RegexMatchSet specified by RegexMatchSetId.
 
-# Required Parameters
-- `RegexMatchSetId`: The RegexMatchSetId of the RegexMatchSet that you want to get.
+# Arguments
+- `regex_match_set_id`: The RegexMatchSetId of the RegexMatchSet that you want to get.
   RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
 get_regex_match_set(RegexMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexMatchSet", Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config)
-get_regex_match_set(RegexMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), args)); aws_config=aws_config)
+get_regex_match_set(RegexMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), params)); aws_config=aws_config)
 
 """
-    GetRegexPatternSet()
+    get_regex_pattern_set(regex_pattern_set_id)
+    get_regex_pattern_set(regex_pattern_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the RegexPatternSet specified by RegexPatternSetId.
 
-# Required Parameters
-- `RegexPatternSetId`: The RegexPatternSetId of the RegexPatternSet that you want to get.
-  RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
+# Arguments
+- `regex_pattern_set_id`: The RegexPatternSetId of the RegexPatternSet that you want to
+  get. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
 get_regex_pattern_set(RegexPatternSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexPatternSet", Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config)
-get_regex_pattern_set(RegexPatternSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), args)); aws_config=aws_config)
+get_regex_pattern_set(RegexPatternSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), params)); aws_config=aws_config)
 
 """
-    GetRule()
+    get_rule(rule_id)
+    get_rule(rule_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -979,16 +1026,17 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns the Rule that is specified by the RuleId that you
 included in the GetRule request.
 
-# Required Parameters
-- `RuleId`: The RuleId of the Rule that you want to get. RuleId is returned by CreateRule
+# Arguments
+- `rule_id`: The RuleId of the Rule that you want to get. RuleId is returned by CreateRule
   and by ListRules.
 
 """
 get_rule(RuleId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
-get_rule(RuleId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
+get_rule(RuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), params)); aws_config=aws_config)
 
 """
-    GetRuleGroup()
+    get_rule_group(rule_group_id)
+    get_rule_group(rule_group_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -997,16 +1045,17 @@ regional and global use.   Returns the RuleGroup that is specified by the RuleGr
 you included in the GetRuleGroup request. To view the rules in a rule group, use
 ListActivatedRulesInRuleGroup.
 
-# Required Parameters
-- `RuleGroupId`: The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is
+# Arguments
+- `rule_group_id`: The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is
   returned by CreateRuleGroup and by ListRuleGroups.
 
 """
 get_rule_group(RuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRuleGroup", Dict{String, Any}("RuleGroupId"=>RuleGroupId); aws_config=aws_config)
-get_rule_group(RuleGroupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), args)); aws_config=aws_config)
+get_rule_group(RuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), params)); aws_config=aws_config)
 
 """
-    GetSampledRequests()
+    get_sampled_requests(max_items, rule_id, time_window, web_acl_id)
+    get_sampled_requests(max_items, rule_id, time_window, web_acl_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1021,45 +1070,47 @@ requests before the specified time range elapsed, GetSampledRequests returns an 
 time range. This new time range indicates the actual period during which AWS WAF selected
 the requests in the sample.
 
-# Required Parameters
-- `MaxItems`: The number of requests that you want AWS WAF to return from among the first
+# Arguments
+- `max_items`: The number of requests that you want AWS WAF to return from among the first
   5,000 requests that your AWS resource received during the time range. If your resource
   received fewer requests than the value of MaxItems, GetSampledRequests returns information
   about all of them.
-- `RuleId`:  RuleId is one of three values:   The RuleId of the Rule or the RuleGroupId of
+- `rule_id`:  RuleId is one of three values:   The RuleId of the Rule or the RuleGroupId of
   the RuleGroup for which you want GetSampledRequests to return a sample of requests.
   Default_Action, which causes GetSampledRequests to return a sample of the requests that
   didn't match any of the rules in the specified WebACL.
-- `TimeWindow`: The start date and time and the end date and time of the range for which
+- `time_window`: The start date and time and the end date and time of the range for which
   you want GetSampledRequests to return a sample of requests. You must specify the times in
   Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For
   example, \"2016-09-27T14:50Z\". You can specify any time range in the previous three hours.
-- `WebAclId`: The WebACLId of the WebACL for which you want GetSampledRequests to return a
-  sample of requests.
+- `web_acl_id`: The WebACLId of the WebACL for which you want GetSampledRequests to return
+  a sample of requests.
 
 """
 get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId); aws_config=aws_config)
-get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), args)); aws_config=aws_config)
+get_sampled_requests(MaxItems, RuleId, TimeWindow, WebAclId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), params)); aws_config=aws_config)
 
 """
-    GetSizeConstraintSet()
+    get_size_constraint_set(size_constraint_set_id)
+    get_size_constraint_set(size_constraint_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the SizeConstraintSet specified by SizeConstraintSetId.
 
-# Required Parameters
-- `SizeConstraintSetId`: The SizeConstraintSetId of the SizeConstraintSet that you want to
-  get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
+# Arguments
+- `size_constraint_set_id`: The SizeConstraintSetId of the SizeConstraintSet that you want
+  to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
   ListSizeConstraintSets.
 
 """
 get_size_constraint_set(SizeConstraintSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSizeConstraintSet", Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config)
-get_size_constraint_set(SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), args)); aws_config=aws_config)
+get_size_constraint_set(SizeConstraintSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), params)); aws_config=aws_config)
 
 """
-    GetSqlInjectionMatchSet()
+    get_sql_injection_match_set(sql_injection_match_set_id)
+    get_sql_injection_match_set(sql_injection_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1067,33 +1118,35 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns the SqlInjectionMatchSet that is specified by
 SqlInjectionMatchSetId.
 
-# Required Parameters
-- `SqlInjectionMatchSetId`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you
-  want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
+# Arguments
+- `sql_injection_match_set_id`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that
+  you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
   ListSqlInjectionMatchSets.
 
 """
 get_sql_injection_match_set(SqlInjectionMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSqlInjectionMatchSet", Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config)
-get_sql_injection_match_set(SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws_config=aws_config)
+get_sql_injection_match_set(SqlInjectionMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), params)); aws_config=aws_config)
 
 """
-    GetWebACL()
+    get_web_acl(web_aclid)
+    get_web_acl(web_aclid, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the WebACL that is specified by WebACLId.
 
-# Required Parameters
-- `WebACLId`: The WebACLId of the WebACL that you want to get. WebACLId is returned by
+# Arguments
+- `web_aclid`: The WebACLId of the WebACL that you want to get. WebACLId is returned by
   CreateWebACL and by ListWebACLs.
 
 """
 get_web_acl(WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws_config=aws_config)
-get_web_acl(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), args)); aws_config=aws_config)
+get_web_acl(WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    GetWebACLForResource()
+    get_web_aclfor_resource(resource_arn)
+    get_web_aclfor_resource(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic
 in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see
@@ -1101,8 +1154,8 @@ the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set o
 for regional and global use.   Returns the web ACL for the specified resource, either an
 application load balancer or Amazon API Gateway stage.
 
-# Required Parameters
-- `ResourceArn`: The ARN (Amazon Resource Name) of the resource for which to get the web
+# Arguments
+- `resource_arn`: The ARN (Amazon Resource Name) of the resource for which to get the web
   ACL, either an application load balancer or Amazon API Gateway stage. The ARN should be in
   one of the following formats:   For an Application Load Balancer:
   arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-bala
@@ -1111,26 +1164,28 @@ application load balancer or Amazon API Gateway stage.
 
 """
 get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACLForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_web_aclfor_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+get_web_aclfor_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    GetXssMatchSet()
+    get_xss_match_set(xss_match_set_id)
+    get_xss_match_set(xss_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.   Returns the XssMatchSet that is specified by XssMatchSetId.
 
-# Required Parameters
-- `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId
-  is returned by CreateXssMatchSet and by ListXssMatchSets.
+# Arguments
+- `xss_match_set_id`: The XssMatchSetId of the XssMatchSet that you want to get.
+  XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
 get_xss_match_set(XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetXssMatchSet", Dict{String, Any}("XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
-get_xss_match_set(XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)
+get_xss_match_set(XssMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config)
 
 """
-    ListActivatedRulesInRuleGroup()
+    list_activated_rules_in_rule_group()
+    list_activated_rules_in_rule_group(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1138,23 +1193,25 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of ActivatedRule objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of ActivatedRules that you want AWS WAF to return for this
-  request. If you have more ActivatedRules than the number that you specify for Limit, the
-  response includes a NextMarker value that you can use to get another batch of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of ActivatedRules that you want AWS WAF to return for
+  this request. If you have more ActivatedRules than the number that you specify for Limit,
+  the response includes a NextMarker value that you can use to get another batch of
   ActivatedRules.
-- `NextMarker`: If you specify a value for Limit and you have more ActivatedRules than the
-  value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
-  another group of ActivatedRules. For the second and subsequent
+- `"NextMarker"`: If you specify a value for Limit and you have more ActivatedRules than
+  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
+  list another group of ActivatedRules. For the second and subsequent
   ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous
   response to get information about another batch of ActivatedRules.
-- `RuleGroupId`: The RuleGroupId of the RuleGroup for which you want to get a list of
+- `"RuleGroupId"`: The RuleGroupId of the RuleGroup for which you want to get a list of
   ActivatedRule objects.
 """
 list_activated_rules_in_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListActivatedRulesInRuleGroup"; aws_config=aws_config)
-list_activated_rules_in_rule_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListActivatedRulesInRuleGroup", args; aws_config=aws_config)
+list_activated_rules_in_rule_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListActivatedRulesInRuleGroup", params; aws_config=aws_config)
 
 """
-    ListByteMatchSets()
+    list_byte_match_sets()
+    list_byte_match_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1162,21 +1219,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of ByteMatchSetSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of ByteMatchSet objects that you want AWS WAF to return for
-  this request. If you have more ByteMatchSets objects than the number you specify for Limit,
-  the response includes a NextMarker value that you can use to get another batch of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of ByteMatchSet objects that you want AWS WAF to return
+  for this request. If you have more ByteMatchSets objects than the number you specify for
+  Limit, the response includes a NextMarker value that you can use to get another batch of
   ByteMatchSet objects.
-- `NextMarker`: If you specify a value for Limit and you have more ByteMatchSets than the
+- `"NextMarker"`: If you specify a value for Limit and you have more ByteMatchSets than the
   value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
   another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests,
   specify the value of NextMarker from the previous response to get information about another
   batch of ByteMatchSets.
 """
 list_byte_match_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListByteMatchSets"; aws_config=aws_config)
-list_byte_match_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListByteMatchSets", args; aws_config=aws_config)
+list_byte_match_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListByteMatchSets", params; aws_config=aws_config)
 
 """
-    ListGeoMatchSets()
+    list_geo_match_sets()
+    list_geo_match_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1184,21 +1243,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of GeoMatchSetSummary objects in the response.
 
 # Optional Parameters
-- `Limit`: Specifies the number of GeoMatchSet objects that you want AWS WAF to return for
-  this request. If you have more GeoMatchSet objects than the number you specify for Limit,
-  the response includes a NextMarker value that you can use to get another batch of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of GeoMatchSet objects that you want AWS WAF to return
+  for this request. If you have more GeoMatchSet objects than the number you specify for
+  Limit, the response includes a NextMarker value that you can use to get another batch of
   GeoMatchSet objects.
-- `NextMarker`: If you specify a value for Limit and you have more GeoMatchSets than the
+- `"NextMarker"`: If you specify a value for Limit and you have more GeoMatchSets than the
   value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
   another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of GeoMatchSet objects.
 """
 list_geo_match_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListGeoMatchSets"; aws_config=aws_config)
-list_geo_match_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListGeoMatchSets", args; aws_config=aws_config)
+list_geo_match_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListGeoMatchSets", params; aws_config=aws_config)
 
 """
-    ListIPSets()
+    list_ipsets()
+    list_ipsets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1206,19 +1267,21 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of IPSetSummary objects in the response.
 
 # Optional Parameters
-- `Limit`: Specifies the number of IPSet objects that you want AWS WAF to return for this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of IPSet objects that you want AWS WAF to return for this
   request. If you have more IPSet objects than the number you specify for Limit, the response
   includes a NextMarker value that you can use to get another batch of IPSet objects.
-- `NextMarker`: AWS WAF returns a NextMarker value in the response that allows you to list
-  another group of IPSets. For the second and subsequent ListIPSets requests, specify the
-  value of NextMarker from the previous response to get information about another batch of
-  IPSets.
+- `"NextMarker"`: AWS WAF returns a NextMarker value in the response that allows you to
+  list another group of IPSets. For the second and subsequent ListIPSets requests, specify
+  the value of NextMarker from the previous response to get information about another batch
+  of IPSets.
 """
 list_ipsets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListIPSets"; aws_config=aws_config)
-list_ipsets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListIPSets", args; aws_config=aws_config)
+list_ipsets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListIPSets", params; aws_config=aws_config)
 
 """
-    ListLoggingConfigurations()
+    list_logging_configurations()
+    list_logging_configurations(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1226,21 +1289,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of LoggingConfiguration objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of LoggingConfigurations that you want AWS WAF to return
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of LoggingConfigurations that you want AWS WAF to return
   for this request. If you have more LoggingConfigurations than the number that you specify
   for Limit, the response includes a NextMarker value that you can use to get another batch
   of LoggingConfigurations.
-- `NextMarker`: If you specify a value for Limit and you have more LoggingConfigurations
+- `"NextMarker"`: If you specify a value for Limit and you have more LoggingConfigurations
   than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
   to list another group of LoggingConfigurations. For the second and subsequent
   ListLoggingConfigurations requests, specify the value of NextMarker from the previous
   response to get information about another batch of ListLoggingConfigurations.
 """
 list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListLoggingConfigurations"; aws_config=aws_config)
-list_logging_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListLoggingConfigurations", args; aws_config=aws_config)
+list_logging_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListLoggingConfigurations", params; aws_config=aws_config)
 
 """
-    ListRateBasedRules()
+    list_rate_based_rules()
+    list_rate_based_rules(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1248,20 +1313,22 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RuleSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of Rules that you want AWS WAF to return for this request.
-  If you have more Rules than the number that you specify for Limit, the response includes a
-  NextMarker value that you can use to get another batch of Rules.
-- `NextMarker`: If you specify a value for Limit and you have more Rules than the value of
-  Limit, AWS WAF returns a NextMarker value in the response that allows you to list another
-  group of Rules. For the second and subsequent ListRateBasedRules requests, specify the
-  value of NextMarker from the previous response to get information about another batch of
-  Rules.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of Rules that you want AWS WAF to return for this
+  request. If you have more Rules than the number that you specify for Limit, the response
+  includes a NextMarker value that you can use to get another batch of Rules.
+- `"NextMarker"`: If you specify a value for Limit and you have more Rules than the value
+  of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
+  another group of Rules. For the second and subsequent ListRateBasedRules requests, specify
+  the value of NextMarker from the previous response to get information about another batch
+  of Rules.
 """
 list_rate_based_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRateBasedRules"; aws_config=aws_config)
-list_rate_based_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRateBasedRules", args; aws_config=aws_config)
+list_rate_based_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRateBasedRules", params; aws_config=aws_config)
 
 """
-    ListRegexMatchSets()
+    list_regex_match_sets()
+    list_regex_match_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1269,21 +1336,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RegexMatchSetSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of RegexMatchSet objects that you want AWS WAF to return
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of RegexMatchSet objects that you want AWS WAF to return
   for this request. If you have more RegexMatchSet objects than the number you specify for
   Limit, the response includes a NextMarker value that you can use to get another batch of
   RegexMatchSet objects.
-- `NextMarker`: If you specify a value for Limit and you have more RegexMatchSet objects
+- `"NextMarker"`: If you specify a value for Limit and you have more RegexMatchSet objects
   than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
   to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of RegexMatchSet objects.
 """
 list_regex_match_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexMatchSets"; aws_config=aws_config)
-list_regex_match_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexMatchSets", args; aws_config=aws_config)
+list_regex_match_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexMatchSets", params; aws_config=aws_config)
 
 """
-    ListRegexPatternSets()
+    list_regex_pattern_sets()
+    list_regex_pattern_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1291,21 +1360,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RegexPatternSetSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of RegexPatternSet objects that you want AWS WAF to return
-  for this request. If you have more RegexPatternSet objects than the number you specify for
-  Limit, the response includes a NextMarker value that you can use to get another batch of
-  RegexPatternSet objects.
-- `NextMarker`: If you specify a value for Limit and you have more RegexPatternSet objects
-  than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
-  to list another group of RegexPatternSet objects. For the second and subsequent
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of RegexPatternSet objects that you want AWS WAF to
+  return for this request. If you have more RegexPatternSet objects than the number you
+  specify for Limit, the response includes a NextMarker value that you can use to get another
+  batch of RegexPatternSet objects.
+- `"NextMarker"`: If you specify a value for Limit and you have more RegexPatternSet
+  objects than the value of Limit, AWS WAF returns a NextMarker value in the response that
+  allows you to list another group of RegexPatternSet objects. For the second and subsequent
   ListRegexPatternSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of RegexPatternSet objects.
 """
 list_regex_pattern_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexPatternSets"; aws_config=aws_config)
-list_regex_pattern_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexPatternSets", args; aws_config=aws_config)
+list_regex_pattern_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRegexPatternSets", params; aws_config=aws_config)
 
 """
-    ListResourcesForWebACL()
+    list_resources_for_web_acl(web_aclid)
+    list_resources_for_web_acl(web_aclid, params::Dict{String,<:Any})
 
  This is AWS WAF Classic Regional documentation. For more information, see AWS WAF Classic
 in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see
@@ -1313,19 +1384,21 @@ the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set o
 for regional and global use.   Returns an array of resources associated with the specified
 web ACL.
 
-# Required Parameters
-- `WebACLId`: The unique identifier (ID) of the web ACL for which to list the associated
+# Arguments
+- `web_aclid`: The unique identifier (ID) of the web ACL for which to list the associated
   resources.
 
 # Optional Parameters
-- `ResourceType`: The type of resource to list, either an application load balancer or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceType"`: The type of resource to list, either an application load balancer or
   Amazon API Gateway.
 """
 list_resources_for_web_acl(WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListResourcesForWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws_config=aws_config)
-list_resources_for_web_acl(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), args)); aws_config=aws_config)
+list_resources_for_web_acl(WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListResourcesForWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    ListRuleGroups()
+    list_rule_groups()
+    list_rule_groups(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1333,20 +1406,22 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RuleGroup objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of RuleGroups that you want AWS WAF to return for this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of RuleGroups that you want AWS WAF to return for this
   request. If you have more RuleGroups than the number that you specify for Limit, the
   response includes a NextMarker value that you can use to get another batch of RuleGroups.
-- `NextMarker`: If you specify a value for Limit and you have more RuleGroups than the
+- `"NextMarker"`: If you specify a value for Limit and you have more RuleGroups than the
   value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
   another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify
   the value of NextMarker from the previous response to get information about another batch
   of RuleGroups.
 """
 list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRuleGroups"; aws_config=aws_config)
-list_rule_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRuleGroups", args; aws_config=aws_config)
+list_rule_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRuleGroups", params; aws_config=aws_config)
 
 """
-    ListRules()
+    list_rules()
+    list_rules(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1354,19 +1429,21 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RuleSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of Rules that you want AWS WAF to return for this request.
-  If you have more Rules than the number that you specify for Limit, the response includes a
-  NextMarker value that you can use to get another batch of Rules.
-- `NextMarker`: If you specify a value for Limit and you have more Rules than the value of
-  Limit, AWS WAF returns a NextMarker value in the response that allows you to list another
-  group of Rules. For the second and subsequent ListRules requests, specify the value of
-  NextMarker from the previous response to get information about another batch of Rules.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of Rules that you want AWS WAF to return for this
+  request. If you have more Rules than the number that you specify for Limit, the response
+  includes a NextMarker value that you can use to get another batch of Rules.
+- `"NextMarker"`: If you specify a value for Limit and you have more Rules than the value
+  of Limit, AWS WAF returns a NextMarker value in the response that allows you to list
+  another group of Rules. For the second and subsequent ListRules requests, specify the value
+  of NextMarker from the previous response to get information about another batch of Rules.
 """
 list_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRules"; aws_config=aws_config)
-list_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRules", args; aws_config=aws_config)
+list_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListRules", params; aws_config=aws_config)
 
 """
-    ListSizeConstraintSets()
+    list_size_constraint_sets()
+    list_size_constraint_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1374,21 +1451,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of SizeConstraintSetSummary objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of SizeConstraintSet objects that you want AWS WAF to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of SizeConstraintSet objects that you want AWS WAF to
   return for this request. If you have more SizeConstraintSets objects than the number you
   specify for Limit, the response includes a NextMarker value that you can use to get another
   batch of SizeConstraintSet objects.
-- `NextMarker`: If you specify a value for Limit and you have more SizeConstraintSets than
-  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
-  list another group of SizeConstraintSets. For the second and subsequent
+- `"NextMarker"`: If you specify a value for Limit and you have more SizeConstraintSets
+  than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
+  to list another group of SizeConstraintSets. For the second and subsequent
   ListSizeConstraintSets requests, specify the value of NextMarker from the previous response
   to get information about another batch of SizeConstraintSets.
 """
 list_size_constraint_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSizeConstraintSets"; aws_config=aws_config)
-list_size_constraint_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSizeConstraintSets", args; aws_config=aws_config)
+list_size_constraint_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSizeConstraintSets", params; aws_config=aws_config)
 
 """
-    ListSqlInjectionMatchSets()
+    list_sql_injection_match_sets()
+    list_sql_injection_match_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1396,21 +1475,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of SqlInjectionMatchSet objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to
   return for this request. If you have more SqlInjectionMatchSet objects than the number you
   specify for Limit, the response includes a NextMarker value that you can use to get another
   batch of Rules.
-- `NextMarker`: If you specify a value for Limit and you have more SqlInjectionMatchSet
+- `"NextMarker"`: If you specify a value for Limit and you have more SqlInjectionMatchSet
   objects than the value of Limit, AWS WAF returns a NextMarker value in the response that
   allows you to list another group of SqlInjectionMatchSets. For the second and subsequent
   ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous
   response to get information about another batch of SqlInjectionMatchSets.
 """
 list_sql_injection_match_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSqlInjectionMatchSets"; aws_config=aws_config)
-list_sql_injection_match_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSqlInjectionMatchSets", args; aws_config=aws_config)
+list_sql_injection_match_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSqlInjectionMatchSets", params; aws_config=aws_config)
 
 """
-    ListSubscribedRuleGroups()
+    list_subscribed_rule_groups()
+    list_subscribed_rule_groups(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1418,20 +1499,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of RuleGroup objects that you are subscribed to.
 
 # Optional Parameters
-- `Limit`: Specifies the number of subscribed rule groups that you want AWS WAF to return
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of subscribed rule groups that you want AWS WAF to return
   for this request. If you have more objects than the number you specify for Limit, the
   response includes a NextMarker value that you can use to get another batch of objects.
-- `NextMarker`: If you specify a value for Limit and you have more ByteMatchSetssubscribed
-  rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response
-  that allows you to list another group of subscribed rule groups. For the second and
-  subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from
-  the previous response to get information about another batch of subscribed rule groups.
+- `"NextMarker"`: If you specify a value for Limit and you have more
+  ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker
+  value in the response that allows you to list another group of subscribed rule groups. For
+  the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of
+  NextMarker from the previous response to get information about another batch of subscribed
+  rule groups.
 """
 list_subscribed_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSubscribedRuleGroups"; aws_config=aws_config)
-list_subscribed_rule_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSubscribedRuleGroups", args; aws_config=aws_config)
+list_subscribed_rule_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListSubscribedRuleGroups", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1444,18 +1528,20 @@ up to 50 tags for a resource. Tagging is only available through the API, SDKs, a
 can't manage or view tags through the AWS WAF Classic console. You can tag the AWS
 resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
 
-# Required Parameters
-- `ResourceARN`:
+# Arguments
+- `resource_arn`:
 
 # Optional Parameters
-- `Limit`:
-- `NextMarker`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`:
+- `"NextMarker"`:
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
-    ListWebACLs()
+    list_web_acls()
+    list_web_acls(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1463,21 +1549,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of WebACLSummary objects in the response.
 
 # Optional Parameters
-- `Limit`: Specifies the number of WebACL objects that you want AWS WAF to return for this
-  request. If you have more WebACL objects than the number that you specify for Limit, the
-  response includes a NextMarker value that you can use to get another batch of WebACL
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of WebACL objects that you want AWS WAF to return for
+  this request. If you have more WebACL objects than the number that you specify for Limit,
+  the response includes a NextMarker value that you can use to get another batch of WebACL
   objects.
-- `NextMarker`: If you specify a value for Limit and you have more WebACL objects than the
-  number that you specify for Limit, AWS WAF returns a NextMarker value in the response that
-  allows you to list another group of WebACL objects. For the second and subsequent
+- `"NextMarker"`: If you specify a value for Limit and you have more WebACL objects than
+  the number that you specify for Limit, AWS WAF returns a NextMarker value in the response
+  that allows you to list another group of WebACL objects. For the second and subsequent
   ListWebACLs requests, specify the value of NextMarker from the previous response to get
   information about another batch of WebACL objects.
 """
 list_web_acls(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListWebACLs"; aws_config=aws_config)
-list_web_acls(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListWebACLs", args; aws_config=aws_config)
+list_web_acls(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListWebACLs", params; aws_config=aws_config)
 
 """
-    ListXssMatchSets()
+    list_xss_match_sets()
+    list_xss_match_sets(params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1485,20 +1573,23 @@ WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoi
 regional and global use.   Returns an array of XssMatchSet objects.
 
 # Optional Parameters
-- `Limit`: Specifies the number of XssMatchSet objects that you want AWS WAF to return for
-  this request. If you have more XssMatchSet objects than the number you specify for Limit,
-  the response includes a NextMarker value that you can use to get another batch of Rules.
-- `NextMarker`: If you specify a value for Limit and you have more XssMatchSet objects than
-  the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to
-  list another group of XssMatchSets. For the second and subsequent ListXssMatchSets
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: Specifies the number of XssMatchSet objects that you want AWS WAF to return
+  for this request. If you have more XssMatchSet objects than the number you specify for
+  Limit, the response includes a NextMarker value that you can use to get another batch of
+  Rules.
+- `"NextMarker"`: If you specify a value for Limit and you have more XssMatchSet objects
+  than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you
+  to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets
   requests, specify the value of NextMarker from the previous response to get information
   about another batch of XssMatchSets.
 """
 list_xss_match_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListXssMatchSets"; aws_config=aws_config)
-list_xss_match_sets(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListXssMatchSets", args; aws_config=aws_config)
+list_xss_match_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("ListXssMatchSets", params; aws_config=aws_config)
 
 """
-    PutLoggingConfiguration()
+    put_logging_configuration(logging_configuration)
+    put_logging_configuration(logging_configuration, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1514,18 +1605,19 @@ PutLoggingConfiguration request, AWS WAF will create a service linked role with 
 necessary permissions to write logs to the Amazon Kinesis Data Firehose. For more
 information, see Logging Web ACL Traffic Information in the AWS WAF Developer Guide.
 
-# Required Parameters
-- `LoggingConfiguration`: The Amazon Kinesis Data Firehose that contains the inspected
+# Arguments
+- `logging_configuration`: The Amazon Kinesis Data Firehose that contains the inspected
   traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the
   web ACL to monitor.  When specifying Type in RedactedFields, you must use one of the
   following values: URI, QUERY_STRING, HEADER, or METHOD.
 
 """
 put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config)
-put_logging_configuration(LoggingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws_config=aws_config)
+put_logging_configuration(LoggingConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config)
 
 """
-    PutPermissionPolicy()
+    put_permission_policy(policy, resource_arn)
+    put_permission_policy(policy, resource_arn, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1543,17 +1635,18 @@ the RuleGroup.   Your policy must be composed using IAM Policy version 2012-10-1
 more information, see IAM Policies.  An example of a valid policy parameter is shown in the
 Examples section below.
 
-# Required Parameters
-- `Policy`: The policy to attach to the specified RuleGroup.
-- `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup to which you want to
+# Arguments
+- `policy`: The policy to attach to the specified RuleGroup.
+- `resource_arn`: The Amazon Resource Name (ARN) of the RuleGroup to which you want to
   attach the policy.
 
 """
 put_permission_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_permission_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+put_permission_policy(Policy, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1566,32 +1659,34 @@ tags for a resource. Tagging is only available through the API, SDKs, and CLI. Y
 manage or view tags through the AWS WAF Classic console. You can use this action to tag the
 AWS resources that you manage through AWS WAF Classic: web ACLs, rule groups, and rules.
 
-# Required Parameters
-- `ResourceARN`:
-- `Tags`:
+# Arguments
+- `resource_arn`:
+- `tags`:
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
 WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for
 regional and global use.
 
-# Required Parameters
-- `ResourceARN`:
-- `TagKeys`:
+# Arguments
+- `resource_arn`:
+- `tag_keys`:
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateByteMatchSet()
+    update_byte_match_set(byte_match_set_id, change_token, updates)
+    update_byte_match_set(byte_match_set_id, change_token, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1616,11 +1711,11 @@ of the request that you want AWS WAF to inspect (for example, the header or the 
 the value that you want AWS WAF to watch for.   For more information about how to use the
 AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ByteMatchSetId`: The ByteMatchSetId of the ByteMatchSet that you want to update.
+# Arguments
+- `byte_match_set_id`: The ByteMatchSetId of the ByteMatchSet that you want to update.
   ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Updates`: An array of ByteMatchSetUpdate objects that you want to insert into or delete
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `updates`: An array of ByteMatchSetUpdate objects that you want to insert into or delete
   from a ByteMatchSet. For more information, see the applicable data types:
   ByteMatchSetUpdate: Contains Action and ByteMatchTuple     ByteMatchTuple: Contains
   FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch:
@@ -1628,10 +1723,11 @@ AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
 """
 update_byte_match_set(ByteMatchSetId, ChangeToken, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates); aws_config=aws_config)
-update_byte_match_set(ByteMatchSetId, ChangeToken, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), args)); aws_config=aws_config)
+update_byte_match_set(ByteMatchSetId, ChangeToken, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateGeoMatchSet()
+    update_geo_match_set(change_token, geo_match_set_id, updates)
+    update_geo_match_set(change_token, geo_match_set_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1651,11 +1747,11 @@ want to change a country, you delete the existing country and add the new one. F
 information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS
 WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `GeoMatchSetId`: The GeoMatchSetId of the GeoMatchSet that you want to update.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `geo_match_set_id`: The GeoMatchSetId of the GeoMatchSet that you want to update.
   GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
-- `Updates`: An array of GeoMatchSetUpdate objects that you want to insert into or delete
+- `updates`: An array of GeoMatchSetUpdate objects that you want to insert into or delete
   from an GeoMatchSet. For more information, see the applicable data types:
   GeoMatchSetUpdate: Contains Action and GeoMatchConstraint     GeoMatchConstraint: Contains
   Type and Value  You can have only one Type and Value per GeoMatchConstraint. To add
@@ -1663,10 +1759,11 @@ WAF Developer Guide.
 
 """
 update_geo_match_set(ChangeToken, GeoMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates); aws_config=aws_config)
-update_geo_match_set(ChangeToken, GeoMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_geo_match_set(ChangeToken, GeoMatchSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateIPSet()
+    update_ipset(change_token, ipset_id, updates)
+    update_ipset(change_token, ipset_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1696,21 +1793,22 @@ existing IP address and add the new one. You can insert a maximum of 1000 addres
 single request. For more information about how to use the AWS WAF API to allow or block
 HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `IPSetId`: The IPSetId of the IPSet that you want to update. IPSetId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `ipset_id`: The IPSetId of the IPSet that you want to update. IPSetId is returned by
   CreateIPSet and by ListIPSets.
-- `Updates`: An array of IPSetUpdate objects that you want to insert into or delete from an
+- `updates`: An array of IPSetUpdate objects that you want to insert into or delete from an
   IPSet. For more information, see the applicable data types:    IPSetUpdate: Contains Action
   and IPSetDescriptor     IPSetDescriptor: Contains Type and Value    You can insert a
   maximum of 1000 addresses in a single request.
 
 """
 update_ipset(ChangeToken, IPSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates); aws_config=aws_config)
-update_ipset(ChangeToken, IPSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_ipset(ChangeToken, IPSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateRateBasedRule()
+    update_rate_based_rule(change_token, rate_limit, rule_id, updates)
+    update_rate_based_rule(change_token, rate_limit, rule_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1734,23 +1832,24 @@ with FieldToMatch of URI    A PositionalConstraint of STARTS_WITH    A TargetStr
 login    Further, you specify a RateLimit of 1,000. By adding this RateBasedRule to a
 WebACL, you could limit requests to your login page without affecting the rest of your site.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RateLimit`: The maximum number of requests, which have an identical value in the field
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rate_limit`: The maximum number of requests, which have an identical value in the field
   specified by the RateKey, allowed in a five-minute period. If the number of requests
   exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF
   triggers the action that is specified for this rule.
-- `RuleId`: The RuleId of the RateBasedRule that you want to update. RuleId is returned by
+- `rule_id`: The RuleId of the RateBasedRule that you want to update. RuleId is returned by
   CreateRateBasedRule and by ListRateBasedRules.
-- `Updates`: An array of RuleUpdate objects that you want to insert into or delete from a
+- `updates`: An array of RuleUpdate objects that you want to insert into or delete from a
   RateBasedRule.
 
 """
 update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config)
-update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_rate_based_rule(ChangeToken, RateLimit, RuleId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateRegexMatchSet()
+    update_regex_match_set(change_token, regex_match_set_id, updates)
+    update_regex_match_set(change_token, regex_match_set_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1774,19 +1873,20 @@ the header or the URI) and the identifier of the RegexPatternSet that contain th
 expression patters you want AWS WAF to watch for.   For more information about how to use
 the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RegexMatchSetId`: The RegexMatchSetId of the RegexMatchSet that you want to update.
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `regex_match_set_id`: The RegexMatchSetId of the RegexMatchSet that you want to update.
   RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
-- `Updates`: An array of RegexMatchSetUpdate objects that you want to insert into or delete
+- `updates`: An array of RegexMatchSetUpdate objects that you want to insert into or delete
   from a RegexMatchSet. For more information, see RegexMatchTuple.
 
 """
 update_regex_match_set(ChangeToken, RegexMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates); aws_config=aws_config)
-update_regex_match_set(ChangeToken, RegexMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_regex_match_set(ChangeToken, RegexMatchSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateRegexPatternSet()
+    update_regex_pattern_set(change_token, regex_pattern_set_id, updates)
+    update_regex_pattern_set(change_token, regex_pattern_set_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1804,19 +1904,20 @@ UpdateRegexPatternSet request to specify the regular expression pattern that you
 WAF to watch for.   For more information about how to use the AWS WAF API to allow or block
 HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RegexPatternSetId`: The RegexPatternSetId of the RegexPatternSet that you want to
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `regex_pattern_set_id`: The RegexPatternSetId of the RegexPatternSet that you want to
   update. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
-- `Updates`: An array of RegexPatternSetUpdate objects that you want to insert into or
+- `updates`: An array of RegexPatternSetUpdate objects that you want to insert into or
   delete from a RegexPatternSet.
 
 """
 update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates); aws_config=aws_config)
-update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_regex_pattern_set(ChangeToken, RegexPatternSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateRule()
+    update_rule(change_token, rule_id, updates)
+    update_rule(change_token, rule_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1839,21 +1940,22 @@ ByteMatchSet or IPSet with another, you delete the existing one and add the new 
 more information about how to use the AWS WAF API to allow or block HTTP requests, see the
 AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RuleId`: The RuleId of the Rule that you want to update. RuleId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rule_id`: The RuleId of the Rule that you want to update. RuleId is returned by
   CreateRule and by ListRules.
-- `Updates`: An array of RuleUpdate objects that you want to insert into or delete from a
+- `updates`: An array of RuleUpdate objects that you want to insert into or delete from a
   Rule. For more information, see the applicable data types:    RuleUpdate: Contains Action
   and Predicate     Predicate: Contains DataId, Negated, and Type     FieldToMatch: Contains
   Data and Type
 
 """
 update_rule(ChangeToken, RuleId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config)
-update_rule(ChangeToken, RuleId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_rule(ChangeToken, RuleId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateRuleGroup()
+    update_rule_group(change_token, rule_group_id, updates)
+    update_rule_group(change_token, rule_group_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1869,11 +1971,11 @@ to replace one Rule with another, you delete the existing one and add the new on
 information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS
 WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `RuleGroupId`: The RuleGroupId of the RuleGroup that you want to update. RuleGroupId is
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `rule_group_id`: The RuleGroupId of the RuleGroup that you want to update. RuleGroupId is
   returned by CreateRuleGroup and by ListRuleGroups.
-- `Updates`: An array of RuleGroupUpdate objects that you want to insert into or delete
+- `updates`: An array of RuleGroupUpdate objects that you want to insert into or delete
   from a RuleGroup. You can only insert REGULAR rules into a rule group.
   ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL.
   In this case you do not use ActivatedRule|Action. For all other update requests,
@@ -1881,10 +1983,11 @@ WAF Developer Guide.
 
 """
 update_rule_group(ChangeToken, RuleGroupId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates); aws_config=aws_config)
-update_rule_group(ChangeToken, RuleGroupId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_rule_group(ChangeToken, RuleGroupId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateSizeConstraintSet()
+    update_size_constraint_set(change_token, size_constraint_set_id, updates)
+    update_size_constraint_set(change_token, size_constraint_set_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1912,12 +2015,12 @@ part of the request that you want AWS WAF to inspect (for example, the header or
 and the value that you want AWS WAF to watch for.   For more information about how to use
 the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `SizeConstraintSetId`: The SizeConstraintSetId of the SizeConstraintSet that you want to
-  update. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `size_constraint_set_id`: The SizeConstraintSetId of the SizeConstraintSet that you want
+  to update. SizeConstraintSetId is returned by CreateSizeConstraintSet and by
   ListSizeConstraintSets.
-- `Updates`: An array of SizeConstraintSetUpdate objects that you want to insert into or
+- `updates`: An array of SizeConstraintSetUpdate objects that you want to insert into or
   delete from a SizeConstraintSet. For more information, see the applicable data types:
   SizeConstraintSetUpdate: Contains Action and SizeConstraint     SizeConstraint: Contains
   FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains
@@ -1925,10 +2028,11 @@ the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide
 
 """
 update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates); aws_config=aws_config)
-update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_size_constraint_set(ChangeToken, SizeConstraintSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateSqlInjectionMatchSet()
+    update_sql_injection_match_set(change_token, sql_injection_match_set_id, updates)
+    update_sql_injection_match_set(change_token, sql_injection_match_set_id, updates, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -1953,12 +2057,12 @@ specify the parts of web requests that you want AWS WAF to inspect for snippets 
 code.   For more information about how to use the AWS WAF API to allow or block HTTP
 requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `SqlInjectionMatchSetId`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you
-  want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `sql_injection_match_set_id`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that
+  you want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by
   ListSqlInjectionMatchSets.
-- `Updates`: An array of SqlInjectionMatchSetUpdate objects that you want to insert into or
+- `updates`: An array of SqlInjectionMatchSetUpdate objects that you want to insert into or
   delete from a SqlInjectionMatchSet. For more information, see the applicable data types:
   SqlInjectionMatchSetUpdate: Contains Action and SqlInjectionMatchTuple
   SqlInjectionMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch:
@@ -1966,10 +2070,11 @@ requests, see the AWS WAF Developer Guide.
 
 """
 update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates); aws_config=aws_config)
-update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
+update_sql_injection_match_set(ChangeToken, SqlInjectionMatchSetId, Updates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), params)); aws_config=aws_config)
 
 """
-    UpdateWebACL()
+    update_web_acl(change_token, web_aclid)
+    update_web_acl(change_token, web_aclid, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -2007,16 +2112,17 @@ will fail because the request tries to add a REGULAR rule (the default rule type
 specified ID, which does not exist.  For more information about how to use the AWS WAF API
 to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `WebACLId`: The WebACLId of the WebACL that you want to update. WebACLId is returned by
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `web_aclid`: The WebACLId of the WebACL that you want to update. WebACLId is returned by
   CreateWebACL and by ListWebACLs.
 
 # Optional Parameters
-- `DefaultAction`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultAction"`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF
   performs the default action if a request doesn't match the criteria in any of the rules in
   a web ACL.
-- `Updates`: An array of updates to make to the WebACL. An array of WebACLUpdate objects
+- `"Updates"`: An array of updates to make to the WebACL. An array of WebACLUpdate objects
   that you want to insert into or delete from a WebACL. For more information, see the
   applicable data types:    WebACLUpdate: Contains Action and ActivatedRule
   ActivatedRule: Contains Action, OverrideAction, Priority, RuleId, and Type.
@@ -2026,10 +2132,11 @@ to allow or block HTTP requests, see the AWS WAF Developer Guide.
   Contains Type
 """
 update_web_acl(ChangeToken, WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config)
-update_web_acl(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
+update_web_acl(ChangeToken, WebACLId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), params)); aws_config=aws_config)
 
 """
-    UpdateXssMatchSet()
+    update_xss_match_set(change_token, updates, xss_match_set_id)
+    update_xss_match_set(change_token, updates, xss_match_set_id, params::Dict{String,<:Any})
 
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the
 developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS
@@ -2053,15 +2160,15 @@ Submit an UpdateXssMatchSet request to specify the parts of web requests that yo
 WAF to inspect for cross-site scripting attacks.   For more information about how to use
 the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide.
 
-# Required Parameters
-- `ChangeToken`: The value returned by the most recent call to GetChangeToken.
-- `Updates`: An array of XssMatchSetUpdate objects that you want to insert into or delete
+# Arguments
+- `change_token`: The value returned by the most recent call to GetChangeToken.
+- `updates`: An array of XssMatchSetUpdate objects that you want to insert into or delete
   from an XssMatchSet. For more information, see the applicable data types:
   XssMatchSetUpdate: Contains Action and XssMatchTuple     XssMatchTuple: Contains
   FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type
-- `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to update.
+- `xss_match_set_id`: The XssMatchSetId of the XssMatchSet that you want to update.
   XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
 update_xss_match_set(ChangeToken, Updates, XssMatchSetId; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
-update_xss_match_set(ChangeToken, Updates, XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)
+update_xss_match_set(ChangeToken, Updates, XssMatchSetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = waf_regional("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), params)); aws_config=aws_config)

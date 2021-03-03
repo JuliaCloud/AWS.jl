@@ -5,22 +5,25 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CancelJob()
+    cancel_job(job_id)
+    cancel_job(job_id, params::Dict{String,<:Any})
 
 This operation cancels a specified job. Only the job owner can cancel it. The operation
 fails if the job has already started or is complete.
 
-# Required Parameters
-- `JobId`:
+# Arguments
+- `job_id`:
 
 # Optional Parameters
-- `APIVersion`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
 """
 cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-cancel_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+cancel_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
-    CreateJob()
+    create_job(job_type, manifest, validate_only)
+    create_job(job_type, manifest, validate_only, params::Dict{String,<:Any})
 
 This operation initiates the process of scheduling an upload or download of your data. You
 include in the request a manifest that describes the data transfer specifics. The response
@@ -28,61 +31,67 @@ to the request includes a job ID, which you can use in other operations, a signa
 you use to identify your storage device, and the address where you should ship your storage
 device.
 
-# Required Parameters
-- `JobType`:
-- `Manifest`:
-- `ValidateOnly`:
+# Arguments
+- `job_type`:
+- `manifest`:
+- `validate_only`:
 
 # Optional Parameters
-- `APIVersion`:
-- `ManifestAddendum`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
+- `"ManifestAddendum"`:
 """
 create_job(JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
-create_job(JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)
+create_job(JobType, Manifest, ValidateOnly, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), params)); aws_config=aws_config)
 
 """
-    GetShippingLabel()
+    get_shipping_label(job_ids)
+    get_shipping_label(job_ids, params::Dict{String,<:Any})
 
 This operation generates a pre-paid UPS shipping label that you will use to ship your
 device to AWS for processing.
 
-# Required Parameters
-- `jobIds`:
+# Arguments
+- `job_ids`:
 
 # Optional Parameters
-- `APIVersion`:
-- `city`:
-- `company`:
-- `country`:
-- `name`:
-- `phoneNumber`:
-- `postalCode`:
-- `stateOrProvince`:
-- `street1`:
-- `street2`:
-- `street3`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
+- `"city"`:
+- `"company"`:
+- `"country"`:
+- `"name"`:
+- `"phoneNumber"`:
+- `"postalCode"`:
+- `"stateOrProvince"`:
+- `"street1"`:
+- `"street2"`:
+- `"street3"`:
 """
 get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}("jobIds"=>jobIds); aws_config=aws_config)
-get_shipping_label(jobIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobIds"=>jobIds), args)); aws_config=aws_config)
+get_shipping_label(jobIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobIds"=>jobIds), params)); aws_config=aws_config)
 
 """
-    GetStatus()
+    get_status(job_id)
+    get_status(job_id, params::Dict{String,<:Any})
 
 This operation returns information about a job, including where the job is in the
 processing pipeline, the status of the results, and the signature value associated with the
 job. You can only return information about jobs you own.
 
-# Required Parameters
-- `JobId`:
+# Arguments
+- `job_id`:
 
 # Optional Parameters
-- `APIVersion`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
 """
 get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_status(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_status(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("GetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
-    ListJobs()
+    list_jobs()
+    list_jobs(params::Dict{String,<:Any})
 
 This operation returns the jobs associated with the requester. AWS Import/Export lists the
 jobs in reverse chronological order based on the date of creation. For example if Job Test1
@@ -90,29 +99,32 @@ was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation wo
 Test2 followed by Test1.
 
 # Optional Parameters
-- `APIVersion`:
-- `Marker`:
-- `MaxJobs`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
+- `"Marker"`:
+- `"MaxJobs"`:
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("ListJobs"; aws_config=aws_config)
-list_jobs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("ListJobs", args; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("ListJobs", params; aws_config=aws_config)
 
 """
-    UpdateJob()
+    update_job(job_id, job_type, manifest, validate_only)
+    update_job(job_id, job_type, manifest, validate_only, params::Dict{String,<:Any})
 
 You use this operation to change the parameters specified in the original manifest file by
 supplying a new manifest file. The manifest file attached to this request replaces the
 original manifest file. You can only use the operation after a CreateJob request but before
 the data transfer starts and you can only use it on jobs you own.
 
-# Required Parameters
-- `JobId`:
-- `JobType`:
-- `Manifest`:
-- `ValidateOnly`:
+# Arguments
+- `job_id`:
+- `job_type`:
+- `manifest`:
+- `validate_only`:
 
 # Optional Parameters
-- `APIVersion`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"APIVersion"`:
 """
 update_job(JobId, JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly); aws_config=aws_config)
-update_job(JobId, JobType, Manifest, ValidateOnly, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), args)); aws_config=aws_config)
+update_job(JobId, JobType, Manifest, ValidateOnly, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = importexport("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "JobType"=>JobType, "Manifest"=>Manifest, "ValidateOnly"=>ValidateOnly), params)); aws_config=aws_config)

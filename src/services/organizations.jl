@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AcceptHandshake()
+    accept_handshake(handshake_id)
+    accept_handshake(handshake_id, params::Dict{String,<:Any})
 
 Sends a response to the originator of a handshake agreeing to the action proposed by the
 handshake request. This operation can be called only by the following principals when they
@@ -23,17 +24,18 @@ features in the organization, see Enabling All Features in Your Organization in 
 Organizations User Guide.    After you accept a handshake, it continues to appear in the
 results of relevant APIs for only 30 days. After that, it's deleted.
 
-# Required Parameters
-- `HandshakeId`: The unique identifier (ID) of the handshake that you want to accept. The
+# Arguments
+- `handshake_id`: The unique identifier (ID) of the handshake that you want to accept. The
   regex pattern for handshake ID string requires \"h-\" followed by from 8 to 32 lowercase
   letters or digits.
 
 """
 accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AcceptHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-accept_handshake(HandshakeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AcceptHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), args)); aws_config=aws_config)
+accept_handshake(HandshakeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AcceptHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
 
 """
-    AttachPolicy()
+    attach_policy(policy_id, target_id)
+    attach_policy(policy_id, target_id, params::Dict{String,<:Any})
 
 Attaches a policy to a root, an organizational unit (OU), or an individual account. How the
 policy affects accounts depends on the type of policy. Refer to the AWS Organizations User
@@ -41,12 +43,12 @@ Guide for information about each policy type:    AISERVICES_OPT_OUT_POLICY
 BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY    This operation can be called
 only from the organization's management account.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy that you want to attach to the
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy that you want to attach to the
   target. You can get the ID for the policy by calling the ListPolicies operation. The regex
   pattern for a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or
   uppercase letters, digits, or the underscore character (_).
-- `TargetId`: The unique identifier (ID) of the root, OU, or account that you want to
+- `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
   attach the policy to. You can get the ID by calling the ListRoots,
   ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a
   target ID string requires one of the following:    Root - A string that begins with \"r-\"
@@ -58,10 +60,11 @@ only from the organization's management account.
 
 """
 attach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AttachPolicy", Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId); aws_config=aws_config)
-attach_policy(PolicyId, TargetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AttachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), args)); aws_config=aws_config)
+attach_policy(PolicyId, TargetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("AttachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config)
 
 """
-    CancelHandshake()
+    cancel_handshake(handshake_id)
+    cancel_handshake(handshake_id, params::Dict{String,<:Any})
 
 Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED. This
 operation can be called only from the account that originated the handshake. The recipient
@@ -70,17 +73,18 @@ is canceled, the recipient can no longer respond to that handshake. After you ca
 handshake, it continues to appear in the results of relevant APIs for only 30 days. After
 that, it's deleted.
 
-# Required Parameters
-- `HandshakeId`: The unique identifier (ID) of the handshake that you want to cancel. You
+# Arguments
+- `handshake_id`: The unique identifier (ID) of the handshake that you want to cancel. You
   can get the ID from the ListHandshakesForOrganization operation. The regex pattern for
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
 cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CancelHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-cancel_handshake(HandshakeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CancelHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), args)); aws_config=aws_config)
+cancel_handshake(HandshakeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CancelHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
 
 """
-    CreateAccount()
+    create_account(account_name, email)
+    create_account(account_name, email, params::Dict{String,<:Any})
 
 Creates an AWS account that is automatically a member of the organization whose credentials
 made the request. This is an asynchronous request that AWS performs in the background.
@@ -124,22 +128,23 @@ permissions can view billing information for the account. If you disable it, onl
 account root user can access billing information. For information about how to disable this
 switch for an account, see Granting Access to Your Billing Information and Tools.
 
-# Required Parameters
-- `AccountName`: The friendly name of the member account.
-- `Email`: The email address of the owner to assign to the new member account. This email
+# Arguments
+- `account_name`: The friendly name of the member account.
+- `email`: The email address of the owner to assign to the new member account. This email
   address must not already be associated with another AWS account. You must use a valid email
   address to complete account creation. You can't access the root user of the account or
   remove an account that was created with an invalid email address.
 
 # Optional Parameters
-- `IamUserAccessToBilling`: If set to ALLOW, the new account enables IAM users to access
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IamUserAccessToBilling"`: If set to ALLOW, the new account enables IAM users to access
   account billing information if they have the required permissions. If set to DENY, only the
   root user of the new account can access account billing information. For more information,
   see Activating Access to the Billing and Cost Management Console in the AWS Billing and
   Cost Management User Guide. If you don't specify this parameter, the value defaults to
   ALLOW, and IAM users and roles with the required permissions can access billing information
   for the new account.
-- `RoleName`: (Optional) The name of an IAM role that AWS Organizations automatically
+- `"RoleName"`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member account. This role trusts the management account, allowing
   users in the management account to assume the role, as permitted by the management account
   administrator. The role has administrator permissions in the new member account. If you
@@ -150,18 +155,19 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this
   parameter. The pattern can include uppercase letters, lowercase letters, digits with no
   spaces, and any of the following characters: =,.@-
-- `Tags`: A list of tags that you want to attach to the newly created account. For each tag
-  in the list, you must specify both a tag key and a value. You can set the value to an empty
-  string, but you can't set it to null. For more information about tagging, see Tagging AWS
-  Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
+- `"Tags"`: A list of tags that you want to attach to the newly created account. For each
+  tag in the list, you must specify both a tag key and a value. You can set the value to an
+  empty string, but you can't set it to null. For more information about tagging, see Tagging
+  AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
   invalid or if you exceed the allowed number of tags for an account, then the entire request
   fails and the account is not created.
 """
 create_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateAccount", Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email); aws_config=aws_config)
-create_account(AccountName, Email, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), args)); aws_config=aws_config)
+create_account(AccountName, Email, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config)
 
 """
-    CreateGovCloudAccount()
+    create_gov_cloud_account(account_name, email)
+    create_gov_cloud_account(account_name, email, params::Dict{String,<:Any})
 
 This action is available if all of the following are true:   You're authorized to create
 accounts in the AWS GovCloud (US) Region. For more information on the AWS GovCloud (US)
@@ -226,9 +232,9 @@ permissions can view billing information for the account. If you disable it, onl
 account root user can access billing information. For information about how to disable this
 switch for an account, see Granting Access to Your Billing Information and Tools.
 
-# Required Parameters
-- `AccountName`: The friendly name of the member account.
-- `Email`: The email address of the owner to assign to the new member account in the
+# Arguments
+- `account_name`: The friendly name of the member account.
+- `email`: The email address of the owner to assign to the new member account in the
   commercial Region. This email address must not already be associated with another AWS
   account. You must use a valid email address to complete account creation. You can't access
   the root user of the account or remove an account that was created with an invalid email
@@ -237,14 +243,15 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   the AWS GovCloud (US) Region.
 
 # Optional Parameters
-- `IamUserAccessToBilling`: If set to ALLOW, the new linked account in the commercial
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IamUserAccessToBilling"`: If set to ALLOW, the new linked account in the commercial
   Region enables IAM users to access account billing information if they have the required
   permissions. If set to DENY, only the root user of the new account can access account
   billing information. For more information, see Activating Access to the Billing and Cost
   Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify
   this parameter, the value defaults to ALLOW, and IAM users and roles with the required
   permissions can access billing information for the new account.
-- `RoleName`: (Optional) The name of an IAM role that AWS Organizations automatically
+- `"RoleName"`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the
   commercial Region. This role trusts the management account, allowing users in the
   management account to assume the role, as permitted by the management account
@@ -256,7 +263,7 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can
   include uppercase letters, lowercase letters, digits with no spaces, and any of the
   following characters: =,.@-
-- `Tags`: A list of tags that you want to attach to the newly created account. These tags
+- `"Tags"`: A list of tags that you want to attach to the newly created account. These tags
   are attached to the commercial account associated with the GovCloud account, and not to the
   GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource
   operation in the GovCloud region after the new GovCloud account exists. For each tag in the
@@ -267,10 +274,11 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   fails and the account is not created.
 """
 create_gov_cloud_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateGovCloudAccount", Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email); aws_config=aws_config)
-create_gov_cloud_account(AccountName, Email, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateGovCloudAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), args)); aws_config=aws_config)
+create_gov_cloud_account(AccountName, Email, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateGovCloudAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountName"=>AccountName, "Email"=>Email), params)); aws_config=aws_config)
 
 """
-    CreateOrganization()
+    create_organization()
+    create_organization(params::Dict{String,<:Any})
 
 Creates an AWS organization. The account whose user is calling the CreateOrganization
 operation automatically becomes the management account of the new organization. This
@@ -284,7 +292,8 @@ CONSOLIDATED_BILLING\", no policy types are enabled by default, and you can't us
 organization policies
 
 # Optional Parameters
-- `FeatureSet`: Specifies the feature set supported by the new organization. Each feature
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FeatureSet"`: Specifies the feature set supported by the new organization. Each feature
   set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
   accounts have their bills consolidated to and paid by the management account. For more
   information, see Consolidated billing in the AWS Organizations User Guide.   The
@@ -295,10 +304,11 @@ organization policies
   Guide.
 """
 create_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganization"; aws_config=aws_config)
-create_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganization", args; aws_config=aws_config)
+create_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganization", params; aws_config=aws_config)
 
 """
-    CreateOrganizationalUnit()
+    create_organizational_unit(name, parent_id)
+    create_organizational_unit(name, parent_id, params::Dict{String,<:Any})
 
 Creates an organizational unit (OU) within a root or parent OU. An OU is a container for
 accounts that enables you to organize your accounts to apply policies according to your
@@ -309,9 +319,9 @@ User Guide.  If the request includes tags, then the requester must have the
 organizations:TagResource permission. This operation can be called only from the
 organization's management account.
 
-# Required Parameters
-- `Name`: The friendly name to assign to the new OU.
-- `ParentId`: The unique identifier (ID) of the parent root or OU that you want to create
+# Arguments
+- `name`: The friendly name to assign to the new OU.
+- `parent_id`: The unique identifier (ID) of the parent root or OU that you want to create
   the new OU in. The regex pattern for a parent ID string requires one of the following:
   Root - A string that begins with \"r-\" followed by from 4 to 32 lowercase letters or
   digits.    Organizational unit (OU) - A string that begins with \"ou-\" followed by from 4
@@ -319,7 +329,8 @@ organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `Tags`: A list of tags that you want to attach to the newly created OU. For each tag in
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags that you want to attach to the newly created OU. For each tag in
   the list, you must specify both a tag key and a value. You can set the value to an empty
   string, but you can't set it to null. For more information about tagging, see Tagging AWS
   Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
@@ -327,10 +338,11 @@ organization's management account.
   fails and the OU is not created.
 """
 create_organizational_unit(Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganizationalUnit", Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId); aws_config=aws_config)
-create_organizational_unit(Name, ParentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId), args)); aws_config=aws_config)
+create_organizational_unit(Name, ParentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ParentId"=>ParentId), params)); aws_config=aws_config)
 
 """
-    CreatePolicy()
+    create_policy(content, description, name, type)
+    create_policy(content, description, name, type, params::Dict{String,<:Any})
 
 Creates a policy of a specified type that you can attach to a root, an organizational unit
 (OU), or an individual AWS account. For more information about policies and their use, see
@@ -338,28 +350,30 @@ Managing Organization Policies. If the request includes tags, then the requester
 the organizations:TagResource permission. This operation can be called only from the
 organization's management account.
 
-# Required Parameters
-- `Content`: The policy text content to add to the new policy. The text that you supply
+# Arguments
+- `content`: The policy text content to add to the new policy. The text that you supply
   must adhere to the rules of the policy type you specify in the Type parameter.
-- `Description`: An optional description to assign to the policy.
-- `Name`: The friendly name to assign to the policy. The regex pattern that is used to
+- `description`: An optional description to assign to the policy.
+- `name`: The friendly name to assign to the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
-- `Type`: The type of policy to create. You can specify one of the following values:
+- `type`: The type of policy to create. You can specify one of the following values:
   AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
 
 # Optional Parameters
-- `Tags`: A list of tags that you want to attach to the newly created policy. For each tag
-  in the list, you must specify both a tag key and a value. You can set the value to an empty
-  string, but you can't set it to null. For more information about tagging, see Tagging AWS
-  Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags that you want to attach to the newly created policy. For each
+  tag in the list, you must specify both a tag key and a value. You can set the value to an
+  empty string, but you can't set it to null. For more information about tagging, see Tagging
+  AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
   invalid or if you exceed the allowed number of tags for a policy, then the entire request
   fails and the policy is not created.
 """
 create_policy(Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreatePolicy", Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
-create_policy(Content, Description, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
+create_policy(Content, Description, Name, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Description"=>Description, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
 
 """
-    DeclineHandshake()
+    decline_handshake(handshake_id)
+    decline_handshake(handshake_id, params::Dict{String,<:Any})
 
 Declines a handshake request. This sets the handshake state to DECLINED and effectively
 deactivates the request. This operation can be called only from the account that received
@@ -368,34 +382,36 @@ originator can't reactivate a declined request, but can reinitiate the process w
 handshake request. After you decline a handshake, it continues to appear in the results of
 relevant APIs for only 30 days. After that, it's deleted.
 
-# Required Parameters
-- `HandshakeId`: The unique identifier (ID) of the handshake that you want to decline. You
+# Arguments
+- `handshake_id`: The unique identifier (ID) of the handshake that you want to decline. You
   can get the ID from the ListHandshakesForAccount operation. The regex pattern for handshake
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
 decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeclineHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-decline_handshake(HandshakeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeclineHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), args)); aws_config=aws_config)
+decline_handshake(HandshakeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeclineHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
 
 """
-    DeleteOrganization()
+    delete_organization()
+    delete_organization(params::Dict{String,<:Any})
 
 Deletes the organization. You can delete an organization only by using credentials from the
 management account. The organization must be empty of member accounts.
 
 """
 delete_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganization"; aws_config=aws_config)
-delete_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganization", args; aws_config=aws_config)
+delete_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganization", params; aws_config=aws_config)
 
 """
-    DeleteOrganizationalUnit()
+    delete_organizational_unit(organizational_unit_id)
+    delete_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
 
 Deletes an organizational unit (OU) from a root or another OU. You must first remove all
 accounts and child OUs from the OU that you want to delete. This operation can be called
 only from the organization's management account.
 
-# Required Parameters
-- `OrganizationalUnitId`: The unique identifier (ID) of the organizational unit that you
+# Arguments
+- `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
   want to delete. You can get the ID from the ListOrganizationalUnitsForParent operation. The
   regex pattern for an organizational unit ID string requires \"ou-\" followed by from 4 to
   32 lowercase letters or digits (the ID of the root that contains the OU). This string is
@@ -403,27 +419,29 @@ only from the organization's management account.
 
 """
 delete_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-delete_organizational_unit(OrganizationalUnitId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), args)); aws_config=aws_config)
+delete_organizational_unit(OrganizationalUnitId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeleteOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
 
 """
-    DeletePolicy()
+    delete_policy(policy_id)
+    delete_policy(policy_id, params::Dict{String,<:Any})
 
 Deletes the specified policy from your organization. Before you perform this operation, you
 must first detach the policy from all organizational units (OUs), roots, and accounts. This
 operation can be called only from the organization's management account.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy that you want to delete. You can get
-  the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a
-  policy ID string requires \"p-\" followed by from 8 to 128 lowercase or uppercase letters,
-  digits, or the underscore character (_).
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy that you want to delete. You can
+  get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for
+  a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or uppercase
+  letters, digits, or the underscore character (_).
 
 """
 delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeletePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-delete_policy(PolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws_config=aws_config)
+delete_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
-    DeregisterDelegatedAdministrator()
+    deregister_delegated_administrator(account_id, service_principal)
+    deregister_delegated_administrator(account_id, service_principal, params::Dict{String,<:Any})
 
 Removes the specified member AWS account as a delegated administrator for the specified AWS
 service.  Deregistering a delegated administrator can have unintended impacts on the
@@ -435,44 +453,46 @@ in the table at AWS Services that you can use with AWS Organizations in the AWS
 Organizations User Guide.  This operation can be called only from the organization's
 management account.
 
-# Required Parameters
-- `AccountId`: The account ID number of the member account in the organization that you
+# Arguments
+- `account_id`: The account ID number of the member account in the organization that you
   want to deregister as a delegated administrator.
-- `ServicePrincipal`: The service principal name of an AWS service for which the account is
-  a delegated administrator. Delegated administrator privileges are revoked for only the
+- `service_principal`: The service principal name of an AWS service for which the account
+  is a delegated administrator. Delegated administrator privileges are revoked for only the
   specified AWS service from the member account. If the specified service is the only service
   for which the member account is a delegated administrator, the operation also revokes
   Organizations read action permissions.
 
 """
 deregister_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeregisterDelegatedAdministrator", Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-deregister_delegated_administrator(AccountId, ServicePrincipal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeregisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), args)); aws_config=aws_config)
+deregister_delegated_administrator(AccountId, ServicePrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DeregisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
 
 """
-    DescribeAccount()
+    describe_account(account_id)
+    describe_account(account_id, params::Dict{String,<:Any})
 
 Retrieves AWS Organizations-related information about the specified account. This operation
 can be called only from the organization's management account or by a member account that
 is a delegated administrator for an AWS service.
 
-# Required Parameters
-- `AccountId`: The unique identifier (ID) of the AWS account that you want information
+# Arguments
+- `account_id`: The unique identifier (ID) of the AWS account that you want information
   about. You can get the ID from the ListAccounts or ListAccountsForParent operations. The
   regex pattern for an account ID string requires exactly 12 digits.
 
 """
 describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-describe_account(AccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+describe_account(AccountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
 
 """
-    DescribeCreateAccountStatus()
+    describe_create_account_status(create_account_request_id)
+    describe_create_account_status(create_account_request_id, params::Dict{String,<:Any})
 
 Retrieves the current status of an asynchronous request to create an account. This
 operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an AWS service.
 
-# Required Parameters
-- `CreateAccountRequestId`: Specifies the Id value that uniquely identifies the
+# Arguments
+- `create_account_request_id`: Specifies the Id value that uniquely identifies the
   CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an
   earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex
   pattern for a create account request ID string requires \"car-\" followed by from 8 to 32
@@ -480,10 +500,11 @@ account that is a delegated administrator for an AWS service.
 
 """
 describe_create_account_status(CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeCreateAccountStatus", Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId); aws_config=aws_config)
-describe_create_account_status(CreateAccountRequestId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeCreateAccountStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId), args)); aws_config=aws_config)
+describe_create_account_status(CreateAccountRequestId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeCreateAccountStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateAccountRequestId"=>CreateAccountRequestId), params)); aws_config=aws_config)
 
 """
-    DescribeEffectivePolicy()
+    describe_effective_policy(policy_type)
+    describe_effective_policy(policy_type, params::Dict{String,<:Any})
 
 Returns the contents of the effective policy for specified policy type and account. The
 effective policy is the aggregation of any policies of the specified type that the account
@@ -494,20 +515,22 @@ Organizations User Guide. This operation can be called only from the organizatio
 management account or by a member account that is a delegated administrator for an AWS
 service.
 
-# Required Parameters
-- `PolicyType`: The type of policy that you want information about. You can specify one of
+# Arguments
+- `policy_type`: The type of policy that you want information about. You can specify one of
   the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     TAG_POLICY
 
 # Optional Parameters
-- `TargetId`: When you're signed in as the management account, specify the ID of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TargetId"`: When you're signed in as the management account, specify the ID of the
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
 describe_effective_policy(PolicyType; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeEffectivePolicy", Dict{String, Any}("PolicyType"=>PolicyType); aws_config=aws_config)
-describe_effective_policy(PolicyType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeEffectivePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType), args)); aws_config=aws_config)
+describe_effective_policy(PolicyType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeEffectivePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType), params)); aws_config=aws_config)
 
 """
-    DescribeHandshake()
+    describe_handshake(handshake_id)
+    describe_handshake(handshake_id, params::Dict{String,<:Any})
 
 Retrieves information about a previously requested handshake. The handshake ID comes from
 the response to the original InviteAccountToOrganization operation that generated the
@@ -515,18 +538,19 @@ handshake. You can access handshakes that are ACCEPTED, DECLINED, or CANCELED fo
 days after they change to that state. They're then deleted and no longer accessible. This
 operation can be called from any account in the organization.
 
-# Required Parameters
-- `HandshakeId`: The unique identifier (ID) of the handshake that you want information
+# Arguments
+- `handshake_id`: The unique identifier (ID) of the handshake that you want information
   about. You can get the ID from the original call to InviteAccountToOrganization, or from a
   call to ListHandshakesForAccount or ListHandshakesForOrganization. The regex pattern for
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
 describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeHandshake", Dict{String, Any}("HandshakeId"=>HandshakeId); aws_config=aws_config)
-describe_handshake(HandshakeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), args)); aws_config=aws_config)
+describe_handshake(HandshakeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeHandshake", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HandshakeId"=>HandshakeId), params)); aws_config=aws_config)
 
 """
-    DescribeOrganization()
+    describe_organization()
+    describe_organization(params::Dict{String,<:Any})
 
 Retrieves information about the organization that the user's account belongs to. This
 operation can be called from any account in the organization.  Even if a policy type is
@@ -536,17 +560,18 @@ root.
 
 """
 describe_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganization"; aws_config=aws_config)
-describe_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganization", args; aws_config=aws_config)
+describe_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganization", params; aws_config=aws_config)
 
 """
-    DescribeOrganizationalUnit()
+    describe_organizational_unit(organizational_unit_id)
+    describe_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
 
 Retrieves information about an organizational unit (OU). This operation can be called only
 from the organization's management account or by a member account that is a delegated
 administrator for an AWS service.
 
-# Required Parameters
-- `OrganizationalUnitId`: The unique identifier (ID) of the organizational unit that you
+# Arguments
+- `organizational_unit_id`: The unique identifier (ID) of the organizational unit that you
   want details about. You can get the ID from the ListOrganizationalUnitsForParent operation.
   The regex pattern for an organizational unit ID string requires \"ou-\" followed by from 4
   to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is
@@ -554,27 +579,29 @@ administrator for an AWS service.
 
 """
 describe_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-describe_organizational_unit(OrganizationalUnitId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), args)); aws_config=aws_config)
+describe_organizational_unit(OrganizationalUnitId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribeOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
 
 """
-    DescribePolicy()
+    describe_policy(policy_id)
+    describe_policy(policy_id, params::Dict{String,<:Any})
 
 Retrieves information about a policy. This operation can be called only from the
 organization's management account or by a member account that is a delegated administrator
 for an AWS service.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy that you want details about. You can
-  get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for
-  a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or uppercase
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy that you want details about. You
+  can get the ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern
+  for a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or uppercase
   letters, digits, or the underscore character (_).
 
 """
 describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-describe_policy(PolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws_config=aws_config)
+describe_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DescribePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
-    DetachPolicy()
+    detach_policy(policy_id, target_id)
+    detach_policy(policy_id, target_id, params::Dict{String,<:Any})
 
 Detaches a policy from a target root, organizational unit (OU), or account.  If the policy
 being detached is a service control policy (SCP), the changes to permissions for AWS
@@ -588,12 +615,12 @@ override the \"Effect\": \"Allow\" in the FullAWSAccess policy (or any other att
 you're using the authorization strategy of a \"deny list\". This operation can be called
 only from the organization's management account.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy you want to detach. You can get the
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy you want to detach. You can get the
   ID from the ListPolicies or ListPoliciesForTarget operations. The regex pattern for a
   policy ID string requires \"p-\" followed by from 8 to 128 lowercase or uppercase letters,
   digits, or the underscore character (_).
-- `TargetId`: The unique identifier (ID) of the root, OU, or account that you want to
+- `target_id`: The unique identifier (ID) of the root, OU, or account that you want to
   detach the policy from. You can get the ID from the ListRoots,
   ListOrganizationalUnitsForParent, or ListAccounts operations. The regex pattern for a
   target ID string requires one of the following:    Root - A string that begins with \"r-\"
@@ -605,10 +632,11 @@ only from the organization's management account.
 
 """
 detach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DetachPolicy", Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId); aws_config=aws_config)
-detach_policy(PolicyId, TargetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DetachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), args)); aws_config=aws_config)
+detach_policy(PolicyId, TargetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DetachPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId, "TargetId"=>TargetId), params)); aws_config=aws_config)
 
 """
-    DisableAWSServiceAccess()
+    disable_awsservice_access(service_principal)
+    disable_awsservice_access(service_principal, params::Dict{String,<:Any})
 
 Disables the integration of an AWS service (the service that is specified by
 ServicePrincipal) with AWS Organizations. When you disable integration, the specified
@@ -645,17 +673,18 @@ AWS Organizations, including the list of services that work with Organizations, 
 Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide.
 This operation can be called only from the organization's management account.
 
-# Required Parameters
-- `ServicePrincipal`: The service principal name of the AWS service for which you want to
+# Arguments
+- `service_principal`: The service principal name of the AWS service for which you want to
   disable integration with your organization. This is typically in the form of a URL, such as
    service-abbreviation.amazonaws.com.
 
 """
 disable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisableAWSServiceAccess", Dict{String, Any}("ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-disable_awsservice_access(ServicePrincipal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), args)); aws_config=aws_config)
+disable_awsservice_access(ServicePrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
 
 """
-    DisablePolicyType()
+    disable_policy_type(policy_type, root_id)
+    disable_policy_type(policy_type, root_id, params::Dict{String,<:Any})
 
 Disables an organizational policy type in a root. A policy of a certain type can be
 attached to entities in a root only if that type is enabled in the root. After you perform
@@ -669,46 +698,21 @@ this operation. This operation can be called only from the organization's manage
 account.  To view the status of available policy types in the organization, use
 DescribeOrganization.
 
-# Required Parameters
-- `PolicyType`: The policy type that you want to disable in this root. You can specify one
+# Arguments
+- `policy_type`: The policy type that you want to disable in this root. You can specify one
   of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY
   SERVICE_CONTROL_POLICY     TAG_POLICY
-- `RootId`: The unique identifier (ID) of the root in which you want to disable a policy
+- `root_id`: The unique identifier (ID) of the root in which you want to disable a policy
   type. You can get the ID from the ListRoots operation. The regex pattern for a root ID
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
 disable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisablePolicyType", Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId); aws_config=aws_config)
-disable_policy_type(PolicyType, RootId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), args)); aws_config=aws_config)
+disable_policy_type(PolicyType, RootId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("DisablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config)
 
 """
-    EnableAWSServiceAccess()
-
-Enables the integration of an AWS service (the service that is specified by
-ServicePrincipal) with AWS Organizations. When you enable integration, you allow the
-specified service to create a service-linked role in all the accounts in your organization.
-This allows the service to perform operations on your behalf in your organization and its
-accounts.  We recommend that you enable integration between AWS Organizations and the
-specified AWS service by using the console or commands that are provided by the specified
-service. Doing so ensures that the service is aware that it can create the resources that
-are required for the integration. How the service creates those resources in the
-organization's accounts depends on that service. For more information, see the
-documentation for the other AWS service.  For more information about enabling services to
-integrate with AWS Organizations, see Integrating AWS Organizations with Other AWS Services
-in the AWS Organizations User Guide.  This operation can be called only from the
-organization's management account and only if the organization has enabled all features.
-
-# Required Parameters
-- `ServicePrincipal`: The service principal name of the AWS service for which you want to
-  enable integration with your organization. This is typically in the form of a URL, such as
-  service-abbreviation.amazonaws.com.
-
-"""
-enable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}("ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-enable_awsservice_access(ServicePrincipal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), args)); aws_config=aws_config)
-
-"""
-    EnableAllFeatures()
+    enable_all_features()
+    enable_all_features(params::Dict{String,<:Any})
 
 Enables all features in an organization. This enables the use of organization policies that
 can restrict the services and actions that can be called in each account. Until you enable
@@ -733,10 +737,38 @@ organization's management account.
 
 """
 enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAllFeatures"; aws_config=aws_config)
-enable_all_features(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAllFeatures", args; aws_config=aws_config)
+enable_all_features(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAllFeatures", params; aws_config=aws_config)
 
 """
-    EnablePolicyType()
+    enable_awsservice_access(service_principal)
+    enable_awsservice_access(service_principal, params::Dict{String,<:Any})
+
+Enables the integration of an AWS service (the service that is specified by
+ServicePrincipal) with AWS Organizations. When you enable integration, you allow the
+specified service to create a service-linked role in all the accounts in your organization.
+This allows the service to perform operations on your behalf in your organization and its
+accounts.  We recommend that you enable integration between AWS Organizations and the
+specified AWS service by using the console or commands that are provided by the specified
+service. Doing so ensures that the service is aware that it can create the resources that
+are required for the integration. How the service creates those resources in the
+organization's accounts depends on that service. For more information, see the
+documentation for the other AWS service.  For more information about enabling services to
+integrate with AWS Organizations, see Integrating AWS Organizations with Other AWS Services
+in the AWS Organizations User Guide.  This operation can be called only from the
+organization's management account and only if the organization has enabled all features.
+
+# Arguments
+- `service_principal`: The service principal name of the AWS service for which you want to
+  enable integration with your organization. This is typically in the form of a URL, such as
+  service-abbreviation.amazonaws.com.
+
+"""
+enable_awsservice_access(ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}("ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
+enable_awsservice_access(ServicePrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnableAWSServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
+
+"""
+    enable_policy_type(policy_type, root_id)
+    enable_policy_type(policy_type, root_id, params::Dict{String,<:Any})
 
 Enables a policy type in a root. After you enable a policy type in a root, you can attach
 policies of that type to the root, any organizational unit (OU), or account in that root.
@@ -747,20 +779,21 @@ can be called only from the organization's management account. You can enable a 
 in a root only if that policy type is available in the organization. To view the status of
 available policy types in the organization, use DescribeOrganization.
 
-# Required Parameters
-- `PolicyType`: The policy type that you want to enable. You can specify one of the
+# Arguments
+- `policy_type`: The policy type that you want to enable. You can specify one of the
   following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY
       TAG_POLICY
-- `RootId`: The unique identifier (ID) of the root in which you want to enable a policy
+- `root_id`: The unique identifier (ID) of the root in which you want to enable a policy
   type. You can get the ID from the ListRoots operation. The regex pattern for a root ID
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
 enable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnablePolicyType", Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId); aws_config=aws_config)
-enable_policy_type(PolicyType, RootId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), args)); aws_config=aws_config)
+enable_policy_type(PolicyType, RootId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("EnablePolicyType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyType"=>PolicyType, "RootId"=>RootId), params)); aws_config=aws_config)
 
 """
-    InviteAccountToOrganization()
+    invite_account_to_organization(target)
+    invite_account_to_organization(target, params::Dict{String,<:Any})
 
 Sends an invitation to another account to join your organization as a member account. AWS
 Organizations sends email on your behalf to the email address that is associated with the
@@ -776,8 +809,8 @@ and then try again. If the error persists after an hour, contact AWS Support.   
 request includes tags, then the requester must have the organizations:TagResource
 permission. This operation can be called only from the organization's management account.
 
-# Required Parameters
-- `Target`: The identifier (ID) of the AWS account that you want to invite to join your
+# Arguments
+- `target`: The identifier (ID) of the AWS account that you want to invite to join your
   organization. This is a JSON object that contains the following elements:  { \"Type\":
   \"ACCOUNT\", \"Id\": \"&lt; account id number &gt;\" }  If you use the AWS CLI, you can
   submit this as a single string, similar to the following example:  --target
@@ -787,10 +820,11 @@ permission. This operation can be called only from the organization's management
   Id=diego@example.com,Type=EMAIL
 
 # Optional Parameters
-- `Notes`: Additional information that you want to include in the generated email to the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Notes"`: Additional information that you want to include in the generated email to the
   recipient account owner.
-- `Tags`: A list of tags that you want to attach to the account when it becomes a member of
-  the organization. For each tag in the list, you must specify both a tag key and a value.
+- `"Tags"`: A list of tags that you want to attach to the account when it becomes a member
+  of the organization. For each tag in the list, you must specify both a tag key and a value.
   You can set the value to an empty string, but you can't set it to null. For more
   information about tagging, see Tagging AWS Organizations resources in the AWS Organizations
   User Guide.  Any tags in the request are checked for compliance with any applicable tag
@@ -803,10 +837,11 @@ permission. This operation can be called only from the organization's management
   invitations are not sent.
 """
 invite_account_to_organization(Target; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("InviteAccountToOrganization", Dict{String, Any}("Target"=>Target); aws_config=aws_config)
-invite_account_to_organization(Target, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("InviteAccountToOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), args)); aws_config=aws_config)
+invite_account_to_organization(Target, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("InviteAccountToOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
 
 """
-    LeaveOrganization()
+    leave_organization()
+    leave_organization(params::Dict{String,<:Any})
 
 Removes a member account from its parent organization. This version of the operation is
 performed by the account that wants to leave. To remove a member account as a user in the
@@ -837,39 +872,11 @@ do not support tags.
 
 """
 leave_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization"; aws_config=aws_config)
-leave_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization", args; aws_config=aws_config)
+leave_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization", params; aws_config=aws_config)
 
 """
-    ListAWSServiceAccessForOrganization()
-
-Returns a list of the AWS services that you enabled to integrate with your organization.
-After a service on this list creates the resources that it requires for the integration, it
-can perform operations on your organization and its accounts. For more information about
-integrating other services with AWS Organizations, including the list of services that
-currently work with Organizations, see Integrating AWS Organizations with Other AWS
-Services in the AWS Organizations User Guide.  This operation can be called only from the
-organization's management account or by a member account that is a delegated administrator
-for an AWS service.
-
-# Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the NextToken
-  response element is present and has a value (is not null). Include that value as the
-  NextToken request parameter in the next call to the operation to get the next part of the
-  results. Note that Organizations might return fewer results than the maximum even when
-  there are more results available. You should check NextToken after every operation to
-  ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
-"""
-list_awsservice_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization"; aws_config=aws_config)
-list_awsservice_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization", args; aws_config=aws_config)
-
-"""
-    ListAccounts()
+    list_accounts()
+    list_accounts(params::Dict{String,<:Any})
 
 Lists all the accounts in the organization. To request only the accounts in a specified
 root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always
@@ -881,7 +888,8 @@ management account or by a member account that is a delegated administrator for 
 service.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -889,16 +897,17 @@ service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccounts"; aws_config=aws_config)
-list_accounts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccounts", args; aws_config=aws_config)
+list_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccounts", params; aws_config=aws_config)
 
 """
-    ListAccountsForParent()
+    list_accounts_for_parent(parent_id)
+    list_accounts_for_parent(parent_id, params::Dict{String,<:Any})
 
 Lists the accounts in an organization that are contained by the specified target root or
 organizational unit (OU). If you specify the root, you get a list of all the accounts that
@@ -911,12 +920,13 @@ is null only when there are no more results to display.  This operation can be c
 from the organization's management account or by a member account that is a delegated
 administrator for an AWS service.
 
-# Required Parameters
-- `ParentId`: The unique identifier (ID) for the parent root or organization unit (OU)
+# Arguments
+- `parent_id`: The unique identifier (ID) for the parent root or organization unit (OU)
   whose accounts you want to list.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -924,16 +934,48 @@ administrator for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_accounts_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccountsForParent", Dict{String, Any}("ParentId"=>ParentId); aws_config=aws_config)
-list_accounts_for_parent(ParentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccountsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), args)); aws_config=aws_config)
+list_accounts_for_parent(ParentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAccountsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config)
 
 """
-    ListChildren()
+    list_awsservice_access_for_organization()
+    list_awsservice_access_for_organization(params::Dict{String,<:Any})
+
+Returns a list of the AWS services that you enabled to integrate with your organization.
+After a service on this list creates the resources that it requires for the integration, it
+can perform operations on your organization and its accounts. For more information about
+integrating other services with AWS Organizations, including the list of services that
+currently work with Organizations, see Integrating AWS Organizations with Other AWS
+Services in the AWS Organizations User Guide.  This operation can be called only from the
+organization's management account or by a member account that is a delegated administrator
+for an AWS service.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
+  response. If you do not include this parameter, it defaults to a value that is specific to
+  the operation. If additional items exist beyond the maximum you specify, the NextToken
+  response element is present and has a value (is not null). Include that value as the
+  NextToken request parameter in the next call to the operation to get the next part of the
+  results. Note that Organizations might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+  response in a previous request. A NextToken response indicates that more output is
+  available. Set this parameter to the value of the previous call's NextToken response to
+  indicate where the output should continue from.
+"""
+list_awsservice_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization"; aws_config=aws_config)
+list_awsservice_access_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListAWSServiceAccessForOrganization", params; aws_config=aws_config)
+
+"""
+    list_children(child_type, parent_id)
+    list_children(child_type, parent_id, params::Dict{String,<:Any})
 
 Lists all of the organizational units (OUs) or accounts that are contained in the specified
 parent OU or root. This operation, along with ListParents enables you to traverse the tree
@@ -944,9 +986,9 @@ parameter value is null only when there are no more results to display.  This op
 be called only from the organization's management account or by a member account that is a
 delegated administrator for an AWS service.
 
-# Required Parameters
-- `ChildType`: Filters the output to include only the specified child type.
-- `ParentId`: The unique identifier (ID) for the parent root or OU whose children you want
+# Arguments
+- `child_type`: Filters the output to include only the specified child type.
+- `parent_id`: The unique identifier (ID) for the parent root or OU whose children you want
   to list. The regex pattern for a parent ID string requires one of the following:    Root -
   A string that begins with \"r-\" followed by from 4 to 32 lowercase letters or digits.
   Organizational unit (OU) - A string that begins with \"ou-\" followed by from 4 to 32
@@ -954,7 +996,8 @@ delegated administrator for an AWS service.
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -962,16 +1005,17 @@ delegated administrator for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_children(ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListChildren", Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId); aws_config=aws_config)
-list_children(ChildType, ParentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListChildren", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId), args)); aws_config=aws_config)
+list_children(ChildType, ParentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListChildren", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildType"=>ChildType, "ParentId"=>ParentId), params)); aws_config=aws_config)
 
 """
-    ListCreateAccountStatus()
+    list_create_account_status()
+    list_create_account_status(params::Dict{String,<:Any})
 
 Lists the account creation requests that match the specified status that is currently being
 tracked for the organization.  Always check the NextToken response parameter for a null
@@ -982,7 +1026,8 @@ only from the organization's management account or by a member account that is a
 administrator for an AWS service.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -990,25 +1035,27 @@ administrator for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `States`: A list of one or more states that you want included in the response. If this
+- `"States"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
 list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListCreateAccountStatus"; aws_config=aws_config)
-list_create_account_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListCreateAccountStatus", args; aws_config=aws_config)
+list_create_account_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListCreateAccountStatus", params; aws_config=aws_config)
 
 """
-    ListDelegatedAdministrators()
+    list_delegated_administrators()
+    list_delegated_administrators(params::Dict{String,<:Any})
 
 Lists the AWS accounts that are designated as delegated administrators in this
 organization. This operation can be called only from the organization's management account
 or by a member account that is a delegated administrator for an AWS service.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1016,31 +1063,33 @@ or by a member account that is a delegated administrator for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `ServicePrincipal`: Specifies a service principal name. If specified, then the operation
-  lists the delegated administrators only for the specified service. If you don't specify a
-  service principal, the operation lists all delegated administrators for all services in
-  your organization.
+- `"ServicePrincipal"`: Specifies a service principal name. If specified, then the
+  operation lists the delegated administrators only for the specified service. If you don't
+  specify a service principal, the operation lists all delegated administrators for all
+  services in your organization.
 """
 list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedAdministrators"; aws_config=aws_config)
-list_delegated_administrators(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedAdministrators", args; aws_config=aws_config)
+list_delegated_administrators(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedAdministrators", params; aws_config=aws_config)
 
 """
-    ListDelegatedServicesForAccount()
+    list_delegated_services_for_account(account_id)
+    list_delegated_services_for_account(account_id, params::Dict{String,<:Any})
 
 List the AWS services for which the specified account is a delegated administrator. This
 operation can be called only from the organization's management account or by a member
 account that is a delegated administrator for an AWS service.
 
-# Required Parameters
-- `AccountId`: The account ID number of a delegated administrator account in the
+# Arguments
+- `account_id`: The account ID number of a delegated administrator account in the
   organization.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1048,16 +1097,17 @@ account that is a delegated administrator for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_delegated_services_for_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedServicesForAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-list_delegated_services_for_account(AccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedServicesForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+list_delegated_services_for_account(AccountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListDelegatedServicesForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
 
 """
-    ListHandshakesForAccount()
+    list_handshakes_for_account()
+    list_handshakes_for_account(params::Dict{String,<:Any})
 
 Lists the current handshakes that are associated with the account of the requesting user.
 Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for
@@ -1069,13 +1119,14 @@ there are no more results to display.  This operation can be called from any acc
 organization.
 
 # Optional Parameters
-- `Filter`: Filters the handshakes that you want included in the response. The default is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters the handshakes that you want included in the response. The default is
   all types. Use the ActionType element to limit the output to only a specified type, such as
   INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the
   ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member
   account, you can specify ParentHandshakeId to see only the handshakes that were generated
   by that parent request.
-- `MaxResults`: The total number of results that you want included on each page of the
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1083,16 +1134,17 @@ organization.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForAccount"; aws_config=aws_config)
-list_handshakes_for_account(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForAccount", args; aws_config=aws_config)
+list_handshakes_for_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForAccount", params; aws_config=aws_config)
 
 """
-    ListHandshakesForOrganization()
+    list_handshakes_for_organization()
+    list_handshakes_for_organization(params::Dict{String,<:Any})
 
 Lists the handshakes that are associated with the organization that the requesting user is
 part of. The ListHandshakesForOrganization operation returns a list of handshake
@@ -1107,13 +1159,14 @@ management account or by a member account that is a delegated administrator for 
 service.
 
 # Optional Parameters
-- `Filter`: A filter of the handshakes that you want included in the response. The default
-  is all types. Use the ActionType element to limit the output to only a specified type, such
-  as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: A filter of the handshakes that you want included in the response. The
+  default is all types. Use the ActionType element to limit the output to only a specified
+  type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the
   ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member
   account, you can specify the ParentHandshakeId to see only the handshakes that were
   generated by that parent request.
-- `MaxResults`: The total number of results that you want included on each page of the
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1121,16 +1174,17 @@ service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForOrganization"; aws_config=aws_config)
-list_handshakes_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForOrganization", args; aws_config=aws_config)
+list_handshakes_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListHandshakesForOrganization", params; aws_config=aws_config)
 
 """
-    ListOrganizationalUnitsForParent()
+    list_organizational_units_for_parent(parent_id)
+    list_organizational_units_for_parent(parent_id, params::Dict{String,<:Any})
 
 Lists the organizational units (OUs) in a parent organizational unit or root.  Always check
 the NextToken response parameter for a null value when calling a List* operation. These
@@ -1139,8 +1193,8 @@ available. The NextToken response parameter value is null only when there are no
 results to display.  This operation can be called only from the organization's management
 account or by a member account that is a delegated administrator for an AWS service.
 
-# Required Parameters
-- `ParentId`: The unique identifier (ID) of the root or OU whose child OUs you want to
+# Arguments
+- `parent_id`: The unique identifier (ID) of the root or OU whose child OUs you want to
   list. The regex pattern for a parent ID string requires one of the following:    Root - A
   string that begins with \"r-\" followed by from 4 to 32 lowercase letters or digits.
   Organizational unit (OU) - A string that begins with \"ou-\" followed by from 4 to 32
@@ -1148,7 +1202,8 @@ account or by a member account that is a delegated administrator for an AWS serv
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1156,16 +1211,17 @@ account or by a member account that is a delegated administrator for an AWS serv
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_organizational_units_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListOrganizationalUnitsForParent", Dict{String, Any}("ParentId"=>ParentId); aws_config=aws_config)
-list_organizational_units_for_parent(ParentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListOrganizationalUnitsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), args)); aws_config=aws_config)
+list_organizational_units_for_parent(ParentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListOrganizationalUnitsForParent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentId"=>ParentId), params)); aws_config=aws_config)
 
 """
-    ListParents()
+    list_parents(child_id)
+    list_parents(child_id, params::Dict{String,<:Any})
 
 Lists the root or organizational units (OUs) that serve as the immediate parent of the
 specified child OU or account. This operation, along with ListChildren enables you to
@@ -1177,8 +1233,8 @@ This operation can be called only from the organization's management account or 
 account that is a delegated administrator for an AWS service.  In the current release, a
 child can have only a single parent.
 
-# Required Parameters
-- `ChildId`: The unique identifier (ID) of the OU or account whose parent containers you
+# Arguments
+- `child_id`: The unique identifier (ID) of the OU or account whose parent containers you
   want to list. Don't specify a root. The regex pattern for a child ID string requires one of
   the following:    Account - A string that consists of exactly 12 digits.    Organizational
   unit (OU) - A string that begins with \"ou-\" followed by from 4 to 32 lowercase letters or
@@ -1186,7 +1242,8 @@ child can have only a single parent.
   dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1194,16 +1251,17 @@ child can have only a single parent.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListParents", Dict{String, Any}("ChildId"=>ChildId); aws_config=aws_config)
-list_parents(ChildId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListParents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildId"=>ChildId), args)); aws_config=aws_config)
+list_parents(ChildId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListParents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildId"=>ChildId), params)); aws_config=aws_config)
 
 """
-    ListPolicies()
+    list_policies(filter)
+    list_policies(filter, params::Dict{String,<:Any})
 
 Retrieves the list of all policies in an organization of a specified type.  Always check
 the NextToken response parameter for a null value when calling a List* operation. These
@@ -1212,13 +1270,14 @@ available. The NextToken response parameter value is null only when there are no
 results to display.  This operation can be called only from the organization's management
 account or by a member account that is a delegated administrator for an AWS service.
 
-# Required Parameters
-- `Filter`: Specifies the type of policy that you want to include in the response. You must
+# Arguments
+- `filter`: Specifies the type of policy that you want to include in the response. You must
   specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY
   SERVICE_CONTROL_POLICY     TAG_POLICY
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1226,16 +1285,17 @@ account or by a member account that is a delegated administrator for an AWS serv
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPolicies", Dict{String, Any}("Filter"=>Filter); aws_config=aws_config)
-list_policies(Filter, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), args)); aws_config=aws_config)
+list_policies(Filter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config)
 
 """
-    ListPoliciesForTarget()
+    list_policies_for_target(filter, target_id)
+    list_policies_for_target(filter, target_id, params::Dict{String,<:Any})
 
 Lists the policies that are directly attached to the specified target root, organizational
 unit (OU), or account. You must specify the policy type that you want included in the
@@ -1246,20 +1306,21 @@ when there are no more results to display.  This operation can be called only fr
 organization's management account or by a member account that is a delegated administrator
 for an AWS service.
 
-# Required Parameters
-- `Filter`: The type of policy that you want to include in the returned list. You must
+# Arguments
+- `filter`: The type of policy that you want to include in the returned list. You must
   specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY
   SERVICE_CONTROL_POLICY     TAG_POLICY
-- `TargetId`: The unique identifier (ID) of the root, organizational unit, or account whose
-  policies you want to list. The regex pattern for a target ID string requires one of the
-  following:    Root - A string that begins with \"r-\" followed by from 4 to 32 lowercase
-  letters or digits.    Account - A string that consists of exactly 12 digits.
+- `target_id`: The unique identifier (ID) of the root, organizational unit, or account
+  whose policies you want to list. The regex pattern for a target ID string requires one of
+  the following:    Root - A string that begins with \"r-\" followed by from 4 to 32
+  lowercase letters or digits.    Account - A string that consists of exactly 12 digits.
   Organizational unit (OU) - A string that begins with \"ou-\" followed by from 4 to 32
   lowercase letters or digits (the ID of the root that the OU is in). This string is followed
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1267,16 +1328,17 @@ for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_policies_for_target(Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPoliciesForTarget", Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId); aws_config=aws_config)
-list_policies_for_target(Filter, TargetId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPoliciesForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId), args)); aws_config=aws_config)
+list_policies_for_target(Filter, TargetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListPoliciesForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TargetId"=>TargetId), params)); aws_config=aws_config)
 
 """
-    ListRoots()
+    list_roots()
+    list_roots(params::Dict{String,<:Any})
 
 Lists the roots that are defined in the current organization.  Always check the NextToken
 response parameter for a null value when calling a List* operation. These operations can
@@ -1290,7 +1352,8 @@ Individual policy types can then be enabled and disabled in a root. To see the a
 of a policy type in an organization, use DescribeOrganization.
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1298,16 +1361,17 @@ of a policy type in an organization, use DescribeOrganization.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_roots(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListRoots"; aws_config=aws_config)
-list_roots(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListRoots", args; aws_config=aws_config)
+list_roots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListRoots", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_id)
+    list_tags_for_resource(resource_id, params::Dict{String,<:Any})
 
 Lists tags that are attached to the specified resource. You can attach tags to the
 following resources in AWS Organizations.   AWS account   Organization root
@@ -1315,8 +1379,8 @@ Organizational unit (OU)   Policy (any type)   This operation can be called only
 organization's management account or by a member account that is a delegated administrator
 for an AWS service.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource with the tags to list. You can specify any of the
+# Arguments
+- `resource_id`: The ID of the resource with the tags to list. You can specify any of the
   following taggable resources.   AWS account – specify the account ID number.
   Organizational unit – specify the OU ID that begins with ou- and looks similar to:
   ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to:
@@ -1324,16 +1388,18 @@ for an AWS service.
   p-12abcdefg3
 
 # Optional Parameters
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTagsForResource", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-list_tags_for_resource(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
-    ListTargetsForPolicy()
+    list_targets_for_policy(policy_id)
+    list_targets_for_policy(policy_id, params::Dict{String,<:Any})
 
 Lists all the roots, organizational units (OUs), and accounts that the specified policy is
 attached to.  Always check the NextToken response parameter for a null value when calling a
@@ -1343,13 +1409,14 @@ there are no more results to display.  This operation can be called only from th
 organization's management account or by a member account that is a delegated administrator
 for an AWS service.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy whose attachments you want to know.
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy whose attachments you want to know.
   The regex pattern for a policy ID string requires \"p-\" followed by from 8 to 128
   lowercase or uppercase letters, digits, or the underscore character (_).
 
 # Optional Parameters
-- `MaxResults`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1357,45 +1424,47 @@ for an AWS service.
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `NextToken`: The parameter for receiving additional results if you receive a NextToken
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 list_targets_for_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTargetsForPolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-list_targets_for_policy(PolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTargetsForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws_config=aws_config)
+list_targets_for_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("ListTargetsForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
-    MoveAccount()
+    move_account(account_id, destination_parent_id, source_parent_id)
+    move_account(account_id, destination_parent_id, source_parent_id, params::Dict{String,<:Any})
 
 Moves an account from its current source parent root or organizational unit (OU) to the
 specified destination parent root or OU. This operation can be called only from the
 organization's management account.
 
-# Required Parameters
-- `AccountId`: The unique identifier (ID) of the account that you want to move. The regex
+# Arguments
+- `account_id`: The unique identifier (ID) of the account that you want to move. The regex
   pattern for an account ID string requires exactly 12 digits.
-- `DestinationParentId`: The unique identifier (ID) of the root or organizational unit that
-  you want to move the account to. The regex pattern for a parent ID string requires one of
+- `destination_parent_id`: The unique identifier (ID) of the root or organizational unit
+  that you want to move the account to. The regex pattern for a parent ID string requires one
+  of the following:    Root - A string that begins with \"r-\" followed by from 4 to 32
+  lowercase letters or digits.    Organizational unit (OU) - A string that begins with
+  \"ou-\" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the
+  OU is in). This string is followed by a second \"-\" dash and from 8 to 32 additional
+  lowercase letters or digits.
+- `source_parent_id`: The unique identifier (ID) of the root or organizational unit that
+  you want to move the account from. The regex pattern for a parent ID string requires one of
   the following:    Root - A string that begins with \"r-\" followed by from 4 to 32
   lowercase letters or digits.    Organizational unit (OU) - A string that begins with
   \"ou-\" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the
   OU is in). This string is followed by a second \"-\" dash and from 8 to 32 additional
   lowercase letters or digits.
-- `SourceParentId`: The unique identifier (ID) of the root or organizational unit that you
-  want to move the account from. The regex pattern for a parent ID string requires one of the
-  following:    Root - A string that begins with \"r-\" followed by from 4 to 32 lowercase
-  letters or digits.    Organizational unit (OU) - A string that begins with \"ou-\" followed
-  by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This
-  string is followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or
-  digits.
 
 """
 move_account(AccountId, DestinationParentId, SourceParentId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("MoveAccount", Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId); aws_config=aws_config)
-move_account(AccountId, DestinationParentId, SourceParentId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("MoveAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId), args)); aws_config=aws_config)
+move_account(AccountId, DestinationParentId, SourceParentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("MoveAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "DestinationParentId"=>DestinationParentId, "SourceParentId"=>SourceParentId), params)); aws_config=aws_config)
 
 """
-    RegisterDelegatedAdministrator()
+    register_delegated_administrator(account_id, service_principal)
+    register_delegated_administrator(account_id, service_principal, params::Dict{String,<:Any})
 
 Enables the specified member account to administer the Organizations features of the
 specified AWS service. It grants read-only access to AWS Organizations service data. The
@@ -1405,18 +1474,19 @@ services that support it, see the column Supports Delegated Administrator in the
 AWS Services that you can use with AWS Organizations in the AWS Organizations User Guide.
 This operation can be called only from the organization's management account.
 
-# Required Parameters
-- `AccountId`: The account ID number of the member account in the organization to register
+# Arguments
+- `account_id`: The account ID number of the member account in the organization to register
   as a delegated administrator.
-- `ServicePrincipal`: The service principal of the AWS service for which you want to make
+- `service_principal`: The service principal of the AWS service for which you want to make
   the member account a delegated administrator.
 
 """
 register_delegated_administrator(AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RegisterDelegatedAdministrator", Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal); aws_config=aws_config)
-register_delegated_administrator(AccountId, ServicePrincipal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RegisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), args)); aws_config=aws_config)
+register_delegated_administrator(AccountId, ServicePrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RegisterDelegatedAdministrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ServicePrincipal"=>ServicePrincipal), params)); aws_config=aws_config)
 
 """
-    RemoveAccountFromOrganization()
+    remove_account_from_organization(account_id)
+    remove_account_from_organization(account_id, params::Dict{String,<:Any})
 
 Removes the specified account from the organization. The removed account becomes a
 standalone account that isn't a member of any organization. It's no longer subject to any
@@ -1441,26 +1511,27 @@ that is remaining in the organization.   After the account leaves the organizati
 tags that were attached to the account object in the organization are deleted. AWS accounts
 outside of an organization do not support tags.
 
-# Required Parameters
-- `AccountId`: The unique identifier (ID) of the member account that you want to remove
+# Arguments
+- `account_id`: The unique identifier (ID) of the member account that you want to remove
   from the organization. The regex pattern for an account ID string requires exactly 12
   digits.
 
 """
 remove_account_from_organization(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RemoveAccountFromOrganization", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-remove_account_from_organization(AccountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RemoveAccountFromOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws_config=aws_config)
+remove_account_from_organization(AccountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("RemoveAccountFromOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_id, tags)
+    tag_resource(resource_id, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to the specified resource. Currently, you can attach tags to the
 following resources in AWS Organizations.   AWS account   Organization root
 Organizational unit (OU)   Policy (any type)   This operation can be called only from the
 organization's management account.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource to add a tag to.
-- `Tags`: A list of tags to add to the specified resource. You can specify any of the
+# Arguments
+- `resource_id`: The ID of the resource to add a tag to.
+- `tags`: A list of tags to add to the specified resource. You can specify any of the
   following taggable resources.   AWS account – specify the account ID number.
   Organizational unit – specify the OU ID that begins with ou- and looks similar to:
   ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to:
@@ -1472,69 +1543,75 @@ organization's management account.
 
 """
 tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_id, tag_keys)
+    untag_resource(resource_id, tag_keys, params::Dict{String,<:Any})
 
 Removes any tags with the specified keys from the specified resource. You can attach tags
 to the following resources in AWS Organizations.   AWS account   Organization root
 Organizational unit (OU)   Policy (any type)   This operation can be called only from the
 organization's management account.
 
-# Required Parameters
-- `ResourceId`: The ID of the resource to remove a tag from. You can specify any of the
+# Arguments
+- `resource_id`: The ID of the resource to remove a tag from. You can specify any of the
   following taggable resources.   AWS account – specify the account ID number.
   Organizational unit – specify the OU ID that begins with ou- and looks similar to:
   ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to:
   r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to:
   p-12abcdefg3
-- `TagKeys`: The list of keys for tags to remove from the specified resource.
+- `tag_keys`: The list of keys for tags to remove from the specified resource.
 
 """
 untag_resource(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateOrganizationalUnit()
+    update_organizational_unit(organizational_unit_id)
+    update_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
 
 Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs
 and accounts remain in place, and any attached policies of the OU remain attached. This
 operation can be called only from the organization's management account.
 
-# Required Parameters
-- `OrganizationalUnitId`: The unique identifier (ID) of the OU that you want to rename. You
-  can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern for
-  an organizational unit ID string requires \"ou-\" followed by from 4 to 32 lowercase
+# Arguments
+- `organizational_unit_id`: The unique identifier (ID) of the OU that you want to rename.
+  You can get the ID from the ListOrganizationalUnitsForParent operation. The regex pattern
+  for an organizational unit ID string requires \"ou-\" followed by from 4 to 32 lowercase
   letters or digits (the ID of the root that contains the OU). This string is followed by a
   second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-- `Name`: The new name that you want to assign to the OU. The regex pattern that is used to
-  validate this parameter is a string of any of the characters in the ASCII character range.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Name"`: The new name that you want to assign to the OU. The regex pattern that is used
+  to validate this parameter is a string of any of the characters in the ASCII character
+  range.
 """
 update_organizational_unit(OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdateOrganizationalUnit", Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId); aws_config=aws_config)
-update_organizational_unit(OrganizationalUnitId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), args)); aws_config=aws_config)
+update_organizational_unit(OrganizationalUnitId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdateOrganizationalUnit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationalUnitId"=>OrganizationalUnitId), params)); aws_config=aws_config)
 
 """
-    UpdatePolicy()
+    update_policy(policy_id)
+    update_policy(policy_id, params::Dict{String,<:Any})
 
 Updates an existing policy with a new name, description, or content. If you don't supply
 any parameter, that value remains unchanged. You can't change a policy's type. This
 operation can be called only from the organization's management account.
 
-# Required Parameters
-- `PolicyId`: The unique identifier (ID) of the policy that you want to update. The regex
+# Arguments
+- `policy_id`: The unique identifier (ID) of the policy that you want to update. The regex
   pattern for a policy ID string requires \"p-\" followed by from 8 to 128 lowercase or
   uppercase letters, digits, or the underscore character (_).
 
 # Optional Parameters
-- `Content`: If provided, the new content for the policy. The text must be correctly
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content"`: If provided, the new content for the policy. The text must be correctly
   formatted JSON that complies with the syntax for the policy's type. For more information,
   see Service Control Policy Syntax in the AWS Organizations User Guide.
-- `Description`: If provided, the new description for the policy.
-- `Name`: If provided, the new name for the policy. The regex pattern that is used to
+- `"Description"`: If provided, the new description for the policy.
+- `"Name"`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
 update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdatePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-update_policy(PolicyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws_config=aws_config)
+update_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("UpdatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)

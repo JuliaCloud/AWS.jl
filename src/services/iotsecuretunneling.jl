@@ -5,96 +5,107 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CloseTunnel()
+    close_tunnel(tunnel_id)
+    close_tunnel(tunnel_id, params::Dict{String,<:Any})
 
 Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received,
 we close the WebSocket connections between the client and proxy server so no data can be
 transmitted.
 
-# Required Parameters
-- `tunnelId`: The ID of the tunnel to close.
+# Arguments
+- `tunnel_id`: The ID of the tunnel to close.
 
 # Optional Parameters
-- `delete`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"delete"`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data
+  immediately.
 """
 close_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-close_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
+close_tunnel(tunnelId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config)
 
 """
-    DescribeTunnel()
+    describe_tunnel(tunnel_id)
+    describe_tunnel(tunnel_id, params::Dict{String,<:Any})
 
 Gets information about a tunnel identified by the unique tunnel id.
 
-# Required Parameters
-- `tunnelId`: The tunnel to describe.
+# Arguments
+- `tunnel_id`: The tunnel to describe.
 
 """
 describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws_config=aws_config)
-describe_tunnel(tunnelId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws_config=aws_config)
+describe_tunnel(tunnelId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), params)); aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags for the specified resource.
 
-# Required Parameters
-- `resourceArn`: The resource ARN.
+# Arguments
+- `resource_arn`: The resource ARN.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
-    ListTunnels()
+    list_tunnels()
+    list_tunnels(params::Dict{String,<:Any})
 
 List all tunnels for an AWS account. Tunnels are listed by creation time in descending
 order, newer tunnels will be listed before older tunnels.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return at once.
-- `nextToken`: A token to retrieve the next set of results.
-- `thingName`: The name of the IoT thing associated with the destination device.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return at once.
+- `"nextToken"`: A token to retrieve the next set of results.
+- `"thingName"`: The name of the IoT thing associated with the destination device.
 """
 list_tunnels(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels"; aws_config=aws_config)
-list_tunnels(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels", args; aws_config=aws_config)
+list_tunnels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("ListTunnels", params; aws_config=aws_config)
 
 """
-    OpenTunnel()
+    open_tunnel()
+    open_tunnel(params::Dict{String,<:Any})
 
 Creates a new tunnel, and returns two client access tokens for clients to use to connect to
 the AWS IoT Secure Tunneling proxy server.
 
 # Optional Parameters
-- `description`: A short text description of the tunnel.
-- `destinationConfig`: The destination configuration for the OpenTunnel request.
-- `tags`: A collection of tag metadata.
-- `timeoutConfig`: Timeout configuration for a tunnel.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A short text description of the tunnel.
+- `"destinationConfig"`: The destination configuration for the OpenTunnel request.
+- `"tags"`: A collection of tag metadata.
+- `"timeoutConfig"`: Timeout configuration for a tunnel.
 """
 open_tunnel(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel"; aws_config=aws_config)
-open_tunnel(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel", args; aws_config=aws_config)
+open_tunnel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("OpenTunnel", params; aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 A resource tag.
 
-# Required Parameters
-- `resourceArn`: The ARN of the resource.
+# Arguments
+- `resource_arn`: The ARN of the resource.
 - `tags`: The tags for the resource.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a resource.
 
-# Required Parameters
-- `resourceArn`: The resource ARN.
-- `tagKeys`: The keys of the tags to remove.
+# Arguments
+- `resource_arn`: The resource ARN.
+- `tag_keys`: The keys of the tags to remove.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)

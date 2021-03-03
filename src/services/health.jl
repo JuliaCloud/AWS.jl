@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DescribeAffectedAccountsForOrganization()
+    describe_affected_accounts_for_organization(event_arn)
+    describe_affected_accounts_for_organization(event_arn, params::Dict{String,<:Any})
 
 Returns a list of accounts in the organization from AWS Organizations that are affected by
 the provided event. For more information about the different types of AWS Health events,
@@ -14,26 +15,28 @@ with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganiz
 operation from your organization's management account.  This API operation uses pagination.
 Specify the nextToken parameter in the next request to return more results.
 
-# Required Parameters
-- `eventArn`: The unique identifier for the event. Format:
+# Arguments
+- `event_arn`: The unique identifier for the event. Format:
   arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example:
   Example:
   arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMEN
   T_SCHEDULED_ABC123-DEF456
 
 # Optional Parameters
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_affected_accounts_for_organization(eventArn; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
-describe_affected_accounts_for_organization(eventArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), args)); aws_config=aws_config)
+describe_affected_accounts_for_organization(eventArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), params)); aws_config=aws_config)
 
 """
-    DescribeAffectedEntities()
+    describe_affected_entities(filter)
+    describe_affected_entities(filter, params::Dict{String,<:Any})
 
 Returns a list of entities that have been affected by the specified events, based on the
 specified filter criteria. Entities can refer to individual customer resources, groups of
@@ -46,24 +49,26 @@ more results.   This operation supports resource-level permissions. You can use 
 operation to allow or deny access to specific AWS Health events. For more information, see
 Resource- and action-based conditions in the AWS Health User Guide.
 
-# Required Parameters
+# Arguments
 - `filter`: Values to narrow the results returned. At least one event ARN is required.
 
 # Optional Parameters
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_affected_entities(filter; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
-describe_affected_entities(filter, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), args)); aws_config=aws_config)
+describe_affected_entities(filter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), params)); aws_config=aws_config)
 
 """
-    DescribeAffectedEntitiesForOrganization()
+    describe_affected_entities_for_organization(organization_entity_filters)
+    describe_affected_entities_for_organization(organization_entity_filters, params::Dict{String,<:Any})
 
 Returns a list of entities that have been affected by one or more events for one or more
 accounts in your organization in AWS Organizations, based on the filter criteria. Entities
@@ -79,64 +84,70 @@ permissions. You can't use this operation to allow or deny access to specific AW
 events. For more information, see Resource- and action-based conditions in the AWS Health
 User Guide.
 
-# Required Parameters
-- `organizationEntityFilters`: A JSON set of elements including the awsAccountId and the
+# Arguments
+- `organization_entity_filters`: A JSON set of elements including the awsAccountId and the
   eventArn.
 
 # Optional Parameters
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_affected_entities_for_organization(organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
-describe_affected_entities_for_organization(organizationEntityFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), args)); aws_config=aws_config)
+describe_affected_entities_for_organization(organizationEntityFilters, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), params)); aws_config=aws_config)
 
 """
-    DescribeEntityAggregates()
+    describe_entity_aggregates()
+    describe_entity_aggregates(params::Dict{String,<:Any})
 
 Returns the number of entities that are affected by each of the specified events. If no
 events are specified, the counts of all affected entities are returned.
 
 # Optional Parameters
-- `eventArns`: A list of event ARNs (unique identifiers). For example:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"eventArns"`: A list of event ARNs (unique identifiers). For example:
   \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREM
   ENT_SCHEDULED_ABC123-CDE456\",
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 """
 describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates"; aws_config=aws_config)
-describe_entity_aggregates(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates", args; aws_config=aws_config)
+describe_entity_aggregates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates", params; aws_config=aws_config)
 
 """
-    DescribeEventAggregates()
+    describe_event_aggregates(aggregate_field)
+    describe_event_aggregates(aggregate_field, params::Dict{String,<:Any})
 
 Returns the number of events of each event type (issue, scheduled change, and account
 notification). If no filter is specified, the counts of all events in each category are
 returned.  This API operation uses pagination. Specify the nextToken parameter in the next
 request to return more results.
 
-# Required Parameters
-- `aggregateField`: The only currently supported value is eventTypeCategory.
+# Arguments
+- `aggregate_field`: The only currently supported value is eventTypeCategory.
 
 # Optional Parameters
-- `filter`: Values to narrow the results returned.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Values to narrow the results returned.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_event_aggregates(aggregateField; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
-describe_event_aggregates(aggregateField, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), args)); aws_config=aws_config)
+describe_event_aggregates(aggregateField, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), params)); aws_config=aws_config)
 
 """
-    DescribeEventDetails()
+    describe_event_details(event_arns)
+    describe_event_details(event_arns, params::Dict{String,<:Any})
 
 Returns detailed information about one or more specified events. Information includes
 standard event data (AWS Region, service, and so on, as returned by DescribeEvents), a
@@ -147,22 +158,24 @@ message is returned for that event.  This operation supports resource-level perm
 You can use this operation to allow or deny access to specific AWS Health events. For more
 information, see Resource- and action-based conditions in the AWS Health User Guide.
 
-# Required Parameters
-- `eventArns`: A list of event ARNs (unique identifiers). For example:
+# Arguments
+- `event_arns`: A list of event ARNs (unique identifiers). For example:
   \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREM
   ENT_SCHEDULED_ABC123-CDE456\",
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 
 # Optional Parameters
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
 """
 describe_event_details(eventArns; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
-describe_event_details(eventArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), args)); aws_config=aws_config)
+describe_event_details(eventArns, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), params)); aws_config=aws_config)
 
 """
-    DescribeEventDetailsForOrganization()
+    describe_event_details_for_organization(organization_event_detail_filters)
+    describe_event_details_for_organization(organization_event_detail_filters, params::Dict{String,<:Any})
 
 Returns detailed information about one or more specified events for one or more accounts in
 your organization. Information includes standard event data (AWS Region, service, and so
@@ -185,19 +198,21 @@ permissions. You can't use this operation to allow or deny access to specific AW
 events. For more information, see Resource- and action-based conditions in the AWS Health
 User Guide.
 
-# Required Parameters
-- `organizationEventDetailFilters`: A set of JSON elements that includes the awsAccountId
-  and the eventArn.
+# Arguments
+- `organization_event_detail_filters`: A set of JSON elements that includes the
+  awsAccountId and the eventArn.
 
 # Optional Parameters
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
 """
 describe_event_details_for_organization(organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
-describe_event_details_for_organization(organizationEventDetailFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), args)); aws_config=aws_config)
+describe_event_details_for_organization(organizationEventDetailFilters, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), params)); aws_config=aws_config)
 
 """
-    DescribeEventTypes()
+    describe_event_types()
+    describe_event_types(params::Dict{String,<:Any})
 
 Returns the event types that meet the specified filter criteria. You can use this API
 operation to find information about the AWS Health event, such as the category, AWS
@@ -207,21 +222,23 @@ particular order.   This API operation uses pagination. Specify the nextToken pa
 the next request to return more results.
 
 # Optional Parameters
-- `filter`: Values to narrow the results returned.
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Values to narrow the results returned.
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes"; aws_config=aws_config)
-describe_event_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes", args; aws_config=aws_config)
+describe_event_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes", params; aws_config=aws_config)
 
 """
-    DescribeEvents()
+    describe_events()
+    describe_events(params::Dict{String,<:Any})
 
  Returns information about events that meet the specified filter criteria. Events are
 returned in a summary form and do not include the detailed description, any additional
@@ -238,21 +255,23 @@ more information, see Event.   This API operation uses pagination. Specify the n
 parameter in the next request to return more results.
 
 # Optional Parameters
-- `filter`: Values to narrow the results returned.
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Values to narrow the results returned.
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents"; aws_config=aws_config)
-describe_events(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents", args; aws_config=aws_config)
+describe_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents", params; aws_config=aws_config)
 
 """
-    DescribeEventsForOrganization()
+    describe_events_for_organization()
+    describe_events_for_organization(params::Dict{String,<:Any})
 
 Returns information about events across your organization in AWS Organizations. You can use
 thefilters parameter to specify the events that you want to return. Events are returned in
@@ -269,21 +288,23 @@ your organization's management account.  This API operation uses pagination. Spe
 nextToken parameter in the next request to return more results.
 
 # Optional Parameters
-- `filter`: Values to narrow the results returned.
-- `locale`: The locale (language) to return information in. English (en) is the default and
-  the only supported value at this time.
-- `maxResults`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Values to narrow the results returned.
+- `"locale"`: The locale (language) to return information in. English (en) is the default
+  and the only supported value at this time.
+- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `nextToken`: If the results of a search are large, only a portion of the results are
+- `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 describe_events_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization"; aws_config=aws_config)
-describe_events_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", args; aws_config=aws_config)
+describe_events_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", params; aws_config=aws_config)
 
 """
-    DescribeHealthServiceStatusForOrganization()
+    describe_health_service_status_for_organization()
+    describe_health_service_status_for_organization(params::Dict{String,<:Any})
 
 This operation provides status information on enabling or disabling AWS Health to work with
 your organization. To call this operation, you must sign in as an IAM user, assume an IAM
@@ -292,10 +313,11 @@ account.
 
 """
 describe_health_service_status_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
-describe_health_service_status_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", args; aws_config=aws_config)
+describe_health_service_status_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", params; aws_config=aws_config)
 
 """
-    DisableHealthServiceAccessForOrganization()
+    disable_health_service_access_for_organization()
+    disable_health_service_access_for_organization(params::Dict{String,<:Any})
 
 Disables AWS Health from working with AWS Organizations. To call this operation, you must
 sign in as an AWS Identity and Access Management (IAM) user, assume an IAM role, or sign in
@@ -312,10 +334,11 @@ continues to aggregate health events for your AWS account.
 
 """
 disable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
-disable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+disable_health_service_access_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", params; aws_config=aws_config)
 
 """
-    EnableHealthServiceAccessForOrganization()
+    enable_health_service_access_for_organization()
+    enable_health_service_access_for_organization(params::Dict{String,<:Any})
 
 Enables AWS Health to work with AWS Organizations. You can use the organizational view
 feature to aggregate events from all AWS accounts in your organization in a centralized
@@ -332,4 +355,4 @@ AWS Health User Guide.
 
 """
 enable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
-enable_health_service_access_for_organization(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+enable_health_service_access_for_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", params; aws_config=aws_config)

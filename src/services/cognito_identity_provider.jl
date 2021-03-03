@@ -5,45 +5,50 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AddCustomAttributes()
+    add_custom_attributes(custom_attributes, user_pool_id)
+    add_custom_attributes(custom_attributes, user_pool_id, params::Dict{String,<:Any})
 
 Adds additional user attributes to the user pool schema.
 
-# Required Parameters
-- `CustomAttributes`: An array of custom attributes, such as Mutable and Name.
-- `UserPoolId`: The user pool ID for the user pool where you want to add custom attributes.
+# Arguments
+- `custom_attributes`: An array of custom attributes, such as Mutable and Name.
+- `user_pool_id`: The user pool ID for the user pool where you want to add custom
+  attributes.
 
 """
 add_custom_attributes(CustomAttributes, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AddCustomAttributes", Dict{String, Any}("CustomAttributes"=>CustomAttributes, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-add_custom_attributes(CustomAttributes, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AddCustomAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAttributes"=>CustomAttributes, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+add_custom_attributes(CustomAttributes, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AddCustomAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAttributes"=>CustomAttributes, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    AdminAddUserToGroup()
+    admin_add_user_to_group(group_name, user_pool_id, username)
+    admin_add_user_to_group(group_name, user_pool_id, username, params::Dict{String,<:Any})
 
 Adds the specified user to the specified group. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `GroupName`: The group name.
-- `UserPoolId`: The user pool ID for the user pool.
-- `Username`: The username for the user.
+# Arguments
+- `group_name`: The group name.
+- `user_pool_id`: The user pool ID for the user pool.
+- `username`: The username for the user.
 
 """
 admin_add_user_to_group(GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminAddUserToGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_add_user_to_group(GroupName, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminAddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_add_user_to_group(GroupName, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminAddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminConfirmSignUp()
+    admin_confirm_sign_up(user_pool_id, username)
+    admin_confirm_sign_up(user_pool_id, username, params::Dict{String,<:Any})
 
 Confirms user registration as an admin without using a confirmation code. Works on any
 user. Calling this action requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for which you want to confirm user registration.
-- `Username`: The user name for which you want to confirm user registration.
+# Arguments
+- `user_pool_id`: The user pool ID for which you want to confirm user registration.
+- `username`: The user name for which you want to confirm user registration.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  If your user pool configuration includes
   triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is
   specified for the post confirmation trigger. When Amazon Cognito invokes this function, it
@@ -61,10 +66,11 @@ user. Calling this action requires developer credentials.
   don't use it to provide sensitive information.
 """
 admin_confirm_sign_up(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminConfirmSignUp", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_confirm_sign_up(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_confirm_sign_up(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminCreateUser()
+    admin_create_user(user_pool_id, username)
+    admin_create_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Creates a new user in the specified user pool. If MessageAction is not set, the default is
 to send a welcome message via email or phone (SMS). This message is based on a template
@@ -75,14 +81,15 @@ parameter, and Amazon Cognito will not send any email.  In either case, the user
 the FORCE_CHANGE_PASSWORD state until they sign in and change their password.
 AdminCreateUser requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where the user will be created.
-- `Username`: The username for the user. Must be unique within the user pool. Must be a
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where the user will be created.
+- `username`: The username for the user. Must be unique within the user pool. Must be a
   UTF-8 string between 1 and 128 characters. After the user is created, the username cannot
   be changed.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon
   Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon
@@ -98,20 +105,20 @@ AdminCreateUser requires developer credentials.
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
   ClientMetadata value, so don't use it to provide sensitive information.
-- `DesiredDeliveryMediums`: Specify \"EMAIL\" if email will be used to send the welcome
+- `"DesiredDeliveryMediums"`: Specify \"EMAIL\" if email will be used to send the welcome
   message. Specify \"SMS\" if the phone number will be used. The default value is \"SMS\".
   More than one value can be specified.
-- `ForceAliasCreation`: This parameter is only used if the phone_number_verified or
+- `"ForceAliasCreation"`: This parameter is only used if the phone_number_verified or
   email_verified attribute is set to True. Otherwise, it is ignored. If this parameter is set
   to True and the phone number or email address specified in the UserAttributes parameter
   already exists as an alias with a different user, the API call will migrate the alias from
   the previous user to the newly created user. The previous user will no longer be able to
   log in using that alias. If this parameter is set to False, the API throws an
   AliasExistsException error if the alias already exists. The default value is False.
-- `MessageAction`: Set to \"RESEND\" to resend the invitation message to a user that
+- `"MessageAction"`: Set to \"RESEND\" to resend the invitation message to a user that
   already exists and reset the expiration limit on the user's account. Set to \"SUPPRESS\" to
   suppress sending the message. Only one value can be specified.
-- `TemporaryPassword`: The user's temporary password. This password must conform to the
+- `"TemporaryPassword"`: The user's temporary password. This password must conform to the
   password policy that you specified when you created the user pool. The temporary password
   is valid only once. To complete the Admin Create User flow, the user must enter the
   temporary password in the sign-in page along with a new password to be used in all future
@@ -120,24 +127,24 @@ AdminCreateUser requires developer credentials.
   expiration limit that you specified when you created the user pool. To reset the account
   after that time limit, you must call AdminCreateUser again, specifying \"RESEND\" for the
   MessageAction parameter.
-- `UserAttributes`: An array of name-value pairs that contain user attributes and attribute
-  values to be set for the user to be created. You can create a user without specifying any
-  attributes other than Username. However, any attributes that you specify as required (when
-  creating a user pool or in the Attributes tab of the console) must be supplied either by
-  you (in your call to AdminCreateUser) or by the user (when he or she signs up in response
-  to your welcome message). For custom attributes, you must prepend the custom: prefix to the
-  attribute name. To send a message inviting the user to sign up, you must specify the user's
-  email address or phone number. This can be done in your call to AdminCreateUser or in the
-  Users tab of the Amazon Cognito console for managing your user pools. In your call to
-  AdminCreateUser, you can set the email_verified attribute to True, and you can set the
-  phone_number_verified attribute to True. (You can also do this by calling
-  AdminUpdateUserAttributes.)    email: The email address of the user to whom the message
-  that contains the code and username will be sent. Required if the email_verified attribute
-  is set to True, or if \"EMAIL\" is specified in the DesiredDeliveryMediums parameter.
-  phone_number: The phone number of the user to whom the message that contains the code and
-  username will be sent. Required if the phone_number_verified attribute is set to True, or
-  if \"SMS\" is specified in the DesiredDeliveryMediums parameter.
-- `ValidationData`: The user's validation data. This is an array of name-value pairs that
+- `"UserAttributes"`: An array of name-value pairs that contain user attributes and
+  attribute values to be set for the user to be created. You can create a user without
+  specifying any attributes other than Username. However, any attributes that you specify as
+  required (when creating a user pool or in the Attributes tab of the console) must be
+  supplied either by you (in your call to AdminCreateUser) or by the user (when he or she
+  signs up in response to your welcome message). For custom attributes, you must prepend the
+  custom: prefix to the attribute name. To send a message inviting the user to sign up, you
+  must specify the user's email address or phone number. This can be done in your call to
+  AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user
+  pools. In your call to AdminCreateUser, you can set the email_verified attribute to True,
+  and you can set the phone_number_verified attribute to True. (You can also do this by
+  calling AdminUpdateUserAttributes.)    email: The email address of the user to whom the
+  message that contains the code and username will be sent. Required if the email_verified
+  attribute is set to True, or if \"EMAIL\" is specified in the DesiredDeliveryMediums
+  parameter.    phone_number: The phone number of the user to whom the message that contains
+  the code and username will be sent. Required if the phone_number_verified attribute is set
+  to True, or if \"SMS\" is specified in the DesiredDeliveryMediums parameter.
+- `"ValidationData"`: The user's validation data. This is an array of name-value pairs that
   contain user attributes and attribute values that you can use for custom validation, such
   as restricting the types of user accounts that can be registered. For example, you might
   choose to allow or disallow user sign-up based on the user's domain. To configure custom
@@ -146,40 +153,45 @@ AdminCreateUser requires developer credentials.
   uses it in the validation process. The user's validation data is not persisted.
 """
 admin_create_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminCreateUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_create_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminCreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_create_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminCreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminDeleteUser()
+    admin_delete_user(user_pool_id, username)
+    admin_delete_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Deletes a user as an administrator. Works on any user. Calling this action requires
 developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to delete the user.
-- `Username`: The user name of the user you wish to delete.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to delete the user.
+- `username`: The user name of the user you wish to delete.
 
 """
 admin_delete_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_delete_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_delete_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminDeleteUserAttributes()
+    admin_delete_user_attributes(user_attribute_names, user_pool_id, username)
+    admin_delete_user_attributes(user_attribute_names, user_pool_id, username, params::Dict{String,<:Any})
 
 Deletes the user attributes in a user pool as an administrator. Works on any user. Calling
 this action requires developer credentials.
 
-# Required Parameters
-- `UserAttributeNames`: An array of strings representing the user attribute names you wish
-  to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
-- `UserPoolId`: The user pool ID for the user pool where you want to delete user attributes.
-- `Username`: The user name of the user from which you would like to delete attributes.
+# Arguments
+- `user_attribute_names`: An array of strings representing the user attribute names you
+  wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute
+  name.
+- `user_pool_id`: The user pool ID for the user pool where you want to delete user
+  attributes.
+- `username`: The user name of the user from which you would like to delete attributes.
 
 """
 admin_delete_user_attributes(UserAttributeNames, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUserAttributes", Dict{String, Any}("UserAttributeNames"=>UserAttributeNames, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_delete_user_attributes(UserAttributeNames, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserAttributeNames"=>UserAttributeNames, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_delete_user_attributes(UserAttributeNames, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDeleteUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserAttributeNames"=>UserAttributeNames, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminDisableProviderForUser()
+    admin_disable_provider_for_user(user, user_pool_id)
+    admin_disable_provider_for_user(user, user_pool_id, params::Dict{String,<:Any})
 
 Disables the user from signing in with the specified external (SAML or social) identity
 provider. If the user to disable is a Cognito User Pools native username + password user,
@@ -201,92 +213,98 @@ call. (If the linking was done with ProviderAttributeName set to Cognito_Subject
 applies here). However, if the user has already signed in, the ProviderAttributeName must
 be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
 
-# Required Parameters
-- `User`: The user to be disabled.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `user`: The user to be disabled.
+- `user_pool_id`: The user pool ID for the user pool.
 
 """
 admin_disable_provider_for_user(User, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableProviderForUser", Dict{String, Any}("User"=>User, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-admin_disable_provider_for_user(User, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableProviderForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("User"=>User, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+admin_disable_provider_for_user(User, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableProviderForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("User"=>User, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    AdminDisableUser()
+    admin_disable_user(user_pool_id, username)
+    admin_disable_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Disables the specified user. Calling this action requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to disable the user.
-- `Username`: The user name of the user you wish to disable.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to disable the user.
+- `username`: The user name of the user you wish to disable.
 
 """
 admin_disable_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_disable_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_disable_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminDisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminEnableUser()
+    admin_enable_user(user_pool_id, username)
+    admin_enable_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Enables the specified user as an administrator. Works on any user. Calling this action
 requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to enable the user.
-- `Username`: The user name of the user you wish to enable.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to enable the user.
+- `username`: The user name of the user you wish to enable.
 
 """
 admin_enable_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminEnableUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_enable_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminEnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_enable_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminEnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminForgetDevice()
+    admin_forget_device(device_key, user_pool_id, username)
+    admin_forget_device(device_key, user_pool_id, username, params::Dict{String,<:Any})
 
 Forgets the device, as an administrator. Calling this action requires developer credentials.
 
-# Required Parameters
-- `DeviceKey`: The device key.
-- `UserPoolId`: The user pool ID.
-- `Username`: The user name.
+# Arguments
+- `device_key`: The device key.
+- `user_pool_id`: The user pool ID.
+- `username`: The user name.
 
 """
 admin_forget_device(DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminForgetDevice", Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_forget_device(DeviceKey, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminForgetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_forget_device(DeviceKey, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminForgetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminGetDevice()
+    admin_get_device(device_key, user_pool_id, username)
+    admin_get_device(device_key, user_pool_id, username, params::Dict{String,<:Any})
 
 Gets the device, as an administrator. Calling this action requires developer credentials.
 
-# Required Parameters
-- `DeviceKey`: The device key.
-- `UserPoolId`: The user pool ID.
-- `Username`: The user name.
+# Arguments
+- `device_key`: The device key.
+- `user_pool_id`: The user pool ID.
+- `username`: The user name.
 
 """
 admin_get_device(DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetDevice", Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_get_device(DeviceKey, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_get_device(DeviceKey, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminGetUser()
+    admin_get_user(user_pool_id, username)
+    admin_get_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Gets the specified user by user name in a user pool as an administrator. Works on any user.
 Calling this action requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to get information about
-  the user.
-- `Username`: The user name of the user you wish to retrieve.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to get information
+  about the user.
+- `username`: The user name of the user you wish to retrieve.
 
 """
 admin_get_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_get_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_get_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminGetUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminInitiateAuth()
+    admin_initiate_auth(auth_flow, client_id, user_pool_id)
+    admin_initiate_auth(auth_flow, client_id, user_pool_id, params::Dict{String,<:Any})
 
 Initiates the authentication flow, as an administrator. Calling this action requires
 developer credentials.
 
-# Required Parameters
-- `AuthFlow`: The authentication flow for this call to execute. The API action will depend
+# Arguments
+- `auth_flow`: The authentication flow for this call to execute. The API action will depend
   on this value. For example:    REFRESH_TOKEN_AUTH will take in a valid refresh token and
   return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP
   variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in
@@ -302,13 +320,14 @@ developer credentials.
   authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In this flow,
   Cognito receives the password in the request instead of using the SRP process to verify
   passwords.
-- `ClientId`: The app client ID.
-- `UserPoolId`: The ID of the Amazon Cognito user pool.
+- `client_id`: The app client ID.
+- `user_pool_id`: The ID of the Amazon Cognito user pool.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The analytics metadata for collecting Amazon Pinpoint metrics for
   AdminInitiateAuth calls.
-- `AuthParameters`: The authentication parameters. These are inputs corresponding to the
+- `"AuthParameters"`: The authentication parameters. These are inputs corresponding to the
   AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For
   USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app
   client is configured with a client secret), DEVICE_KEY.   For
@@ -318,7 +337,7 @@ developer credentials.
   (required), DEVICE_KEY.   For CUSTOM_AUTH: USERNAME (required), SECRET_HASH (if app client
   is configured with client secret), DEVICE_KEY. To start the authentication flow with
   password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for
   certain custom workflows that this action triggers. You create custom workflows by
   assigning AWS Lambda functions to user pool triggers. When you use the AdminInitiateAuth
   API action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
@@ -340,15 +359,16 @@ developer credentials.
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
   ClientMetadata value, so don't use it to provide sensitive information.
-- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or
+- `"ContextData"`: Contextual data such as the user's device fingerprint, IP address, or
   location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 admin_initiate_auth(AuthFlow, ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminInitiateAuth", Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-admin_initiate_auth(AuthFlow, ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminInitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+admin_initiate_auth(AuthFlow, ClientId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminInitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    AdminLinkProviderForUser()
+    admin_link_provider_for_user(destination_user, source_user, user_pool_id)
+    admin_link_provider_for_user(destination_user, source_user, user_pool_id, params::Dict{String,<:Any})
 
 Links an existing user account in a user pool (DestinationUser) to an identity from an
 external identity provider (SourceUser) based on a specified attribute name and value from
@@ -364,8 +384,8 @@ external identity providers and provider attributes that have been trusted by th
 application owner.  This action is enabled only for admin access and requires developer
 credentials.
 
-# Required Parameters
-- `DestinationUser`: The existing user in the user pool to be linked to the external
+# Arguments
+- `destination_user`: The existing user in the user pool to be linked to the external
   identity provider user account. Can be a native (Username + Password) Cognito User Pools
   user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist,
   an exception is thrown. This is the user that is returned when the new user (with the
@@ -374,7 +394,7 @@ credentials.
   a federated user, it should be the provider-specific user_id. The ProviderAttributeName of
   the DestinationUser is ignored. The ProviderName should be set to Cognito for users in
   Cognito user pools.
-- `SourceUser`: An external identity provider account for a user who does not currently
+- `source_user`: An external identity provider account for a user who does not currently
   exist yet in the user pool. This user must be a federated user (for example, a SAML or
   Facebook user), not another native user. If the SourceUser is a federated social identity
   provider user (Facebook, Google, or Login with Amazon), you must set the
@@ -388,80 +408,88 @@ credentials.
   SAML identity provider and submit that claim name as the ProviderAttributeName. If you set
   ProviderAttributeName to Cognito_Subject, Cognito will automatically parse the default
   unique identifier found in the subject from the SAML token.
-- `UserPoolId`: The user pool ID for the user pool.
+- `user_pool_id`: The user pool ID for the user pool.
 
 """
 admin_link_provider_for_user(DestinationUser, SourceUser, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminLinkProviderForUser", Dict{String, Any}("DestinationUser"=>DestinationUser, "SourceUser"=>SourceUser, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-admin_link_provider_for_user(DestinationUser, SourceUser, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminLinkProviderForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationUser"=>DestinationUser, "SourceUser"=>SourceUser, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+admin_link_provider_for_user(DestinationUser, SourceUser, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminLinkProviderForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationUser"=>DestinationUser, "SourceUser"=>SourceUser, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    AdminListDevices()
+    admin_list_devices(user_pool_id, username)
+    admin_list_devices(user_pool_id, username, params::Dict{String,<:Any})
 
 Lists devices, as an administrator. Calling this action requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
-- `Username`: The user name.
+# Arguments
+- `user_pool_id`: The user pool ID.
+- `username`: The user name.
 
 # Optional Parameters
-- `Limit`: The limit of the devices request.
-- `PaginationToken`: The pagination token.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The limit of the devices request.
+- `"PaginationToken"`: The pagination token.
 """
 admin_list_devices(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListDevices", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_list_devices(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_list_devices(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminListGroupsForUser()
+    admin_list_groups_for_user(user_pool_id, username)
+    admin_list_groups_for_user(user_pool_id, username, params::Dict{String,<:Any})
 
 Lists the groups that the user belongs to. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool.
-- `Username`: The username for the user.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool.
+- `username`: The username for the user.
 
 # Optional Parameters
-- `Limit`: The limit of the request to list groups.
-- `NextToken`: An identifier that was returned from the previous call to this operation,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The limit of the request to list groups.
+- `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
 admin_list_groups_for_user(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListGroupsForUser", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_list_groups_for_user(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_list_groups_for_user(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminListUserAuthEvents()
+    admin_list_user_auth_events(user_pool_id, username)
+    admin_list_user_auth_events(user_pool_id, username, params::Dict{String,<:Any})
 
 Lists a history of user activity and any risks detected as part of Amazon Cognito advanced
 security.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
-- `Username`: The user pool username or an alias.
+# Arguments
+- `user_pool_id`: The user pool ID.
+- `username`: The user pool username or an alias.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of authentication events to return.
-- `NextToken`: A pagination token.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of authentication events to return.
+- `"NextToken"`: A pagination token.
 """
 admin_list_user_auth_events(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListUserAuthEvents", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_list_user_auth_events(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListUserAuthEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_list_user_auth_events(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminListUserAuthEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminRemoveUserFromGroup()
+    admin_remove_user_from_group(group_name, user_pool_id, username)
+    admin_remove_user_from_group(group_name, user_pool_id, username, params::Dict{String,<:Any})
 
 Removes the specified user from the specified group. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `GroupName`: The group name.
-- `UserPoolId`: The user pool ID for the user pool.
-- `Username`: The username for the user.
+# Arguments
+- `group_name`: The group name.
+- `user_pool_id`: The user pool ID for the user pool.
+- `username`: The username for the user.
 
 """
 admin_remove_user_from_group(GroupName, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRemoveUserFromGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_remove_user_from_group(GroupName, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_remove_user_from_group(GroupName, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminResetUserPassword()
+    admin_reset_user_password(user_pool_id, username)
+    admin_reset_user_password(user_pool_id, username, params::Dict{String,<:Any})
 
 Resets the specified user's password in a user pool as an administrator. Works on any user.
 When a developer calls this API, the current password is invalidated, so it must be
@@ -473,13 +501,14 @@ email verification is selected and a verified email exists for the user, calling
 will also result in sending a message to the end user with the code to change their
 password. Calling this action requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to reset the user's
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to reset the user's
   password.
-- `Username`: The user name of the user whose password you wish to reset.
+- `username`: The user name of the user whose password you wish to reset.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
@@ -497,23 +526,25 @@ password. Calling this action requires developer credentials.
   ClientMetadata value, so don't use it to provide sensitive information.
 """
 admin_reset_user_password(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminResetUserPassword", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_reset_user_password(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminResetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_reset_user_password(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminResetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminRespondToAuthChallenge()
+    admin_respond_to_auth_challenge(challenge_name, client_id, user_pool_id)
+    admin_respond_to_auth_challenge(challenge_name, client_id, user_pool_id, params::Dict{String,<:Any})
 
 Responds to an authentication challenge, as an administrator. Calling this action requires
 developer credentials.
 
-# Required Parameters
-- `ChallengeName`: The challenge name. For more information, see AdminInitiateAuth.
-- `ClientId`: The app client ID.
-- `UserPoolId`: The ID of the Amazon Cognito user pool.
+# Arguments
+- `challenge_name`: The challenge name. For more information, see AdminInitiateAuth.
+- `client_id`: The app client ID.
+- `user_pool_id`: The ID of the Amazon Cognito user pool.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The analytics metadata for collecting Amazon Pinpoint metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The analytics metadata for collecting Amazon Pinpoint metrics for
   AdminRespondToAuthChallenge calls.
-- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the
+- `"ChallengeResponses"`: The challenge responses. These are inputs corresponding to the
   value of ChallengeName, for example:    SMS_MFA: SMS_MFA_CODE, USERNAME, SECRET_HASH (if
   app client is configured with client secret).    PASSWORD_VERIFIER:
   PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, TIMESTAMP, USERNAME, SECRET_HASH (if
@@ -525,7 +556,7 @@ developer credentials.
   the AdminInitiateAuth response includes the actual username value in the
   USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to
   AdminInitiateAuth.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API
   action, Amazon Cognito invokes any functions that are assigned to the following triggers:
@@ -544,20 +575,21 @@ developer credentials.
   purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does
   not encrypt the the ClientMetadata value, so don't use it to provide sensitive information.
   
-- `ContextData`: Contextual data such as the user's device fingerprint, IP address, or
+- `"ContextData"`: Contextual data such as the user's device fingerprint, IP address, or
   location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
-- `Session`: The session which should be passed both ways in challenge-response calls to
+- `"Session"`: The session which should be passed both ways in challenge-response calls to
   the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller
   needs to go through another challenge, they return a session with other challenge
   parameters. This session should be passed as it is to the next RespondToAuthChallenge API
   call.
 """
 admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRespondToAuthChallenge", Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+admin_respond_to_auth_challenge(ChallengeName, ClientId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminRespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    AdminSetUserMFAPreference()
+    admin_set_user_mfapreference(user_pool_id, username)
+    admin_set_user_mfapreference(user_pool_id, username, params::Dict{String,<:Any})
 
 Sets the user's multi-factor authentication (MFA) preference, including which MFA options
 are enabled and if any are preferred. Only one factor can be set as preferred. The
@@ -565,19 +597,22 @@ preferred MFA factor will be used to authenticate a user if multiple factors are
 If multiple options are enabled and no preference is set, a challenge to choose an MFA
 option will be returned during sign in.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
-- `Username`: The user pool username or alias.
+# Arguments
+- `user_pool_id`: The user pool ID.
+- `username`: The user pool username or alias.
 
 # Optional Parameters
-- `SMSMfaSettings`: The SMS text message MFA settings.
-- `SoftwareTokenMfaSettings`: The time-based one-time password software token MFA settings.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SMSMfaSettings"`: The SMS text message MFA settings.
+- `"SoftwareTokenMfaSettings"`: The time-based one-time password software token MFA
+  settings.
 """
 admin_set_user_mfapreference(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserMFAPreference", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_set_user_mfapreference(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserMFAPreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_set_user_mfapreference(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserMFAPreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminSetUserPassword()
+    admin_set_user_password(password, user_pool_id, username)
+    admin_set_user_password(password, user_pool_id, username, params::Dict{String,<:Any})
 
 Sets the specified user's password in a user pool as an administrator. Works on any user.
 The password can be temporary or permanent. If it is temporary, the user status will be
@@ -587,73 +622,79 @@ If the user does not sign in before it expires, the user will not be able to sig
 their password will need to be reset by an administrator.  Once the user has set a new
 password, or the password is permanent, the user status will be set to Confirmed.
 
-# Required Parameters
-- `Password`: The password for the user.
-- `UserPoolId`: The user pool ID for the user pool where you want to set the user's
+# Arguments
+- `password`: The password for the user.
+- `user_pool_id`: The user pool ID for the user pool where you want to set the user's
   password.
-- `Username`: The user name of the user whose password you wish to set.
+- `username`: The user name of the user whose password you wish to set.
 
 # Optional Parameters
-- `Permanent`:  True if the password is permanent, False if it is temporary.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Permanent"`:  True if the password is permanent, False if it is temporary.
 """
 admin_set_user_password(Password, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserPassword", Dict{String, Any}("Password"=>Password, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_set_user_password(Password, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_set_user_password(Password, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminSetUserSettings()
+    admin_set_user_settings(mfaoptions, user_pool_id, username)
+    admin_set_user_settings(mfaoptions, user_pool_id, username, params::Dict{String,<:Any})
 
  This action is no longer supported. You can use it to configure only SMS MFA. You can't
 use it to configure TOTP software token MFA. To configure either type of MFA, use
 AdminSetUserMFAPreference instead.
 
-# Required Parameters
-- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS
+# Arguments
+- `mfaoptions`: You can use this parameter only to set an SMS configuration that uses SMS
   for delivery.
-- `UserPoolId`: The ID of the user pool that contains the user that you are setting options
-  for.
-- `Username`: The user name of the user that you are setting options for.
+- `user_pool_id`: The ID of the user pool that contains the user that you are setting
+  options for.
+- `username`: The user name of the user that you are setting options for.
 
 """
 admin_set_user_settings(MFAOptions, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserSettings", Dict{String, Any}("MFAOptions"=>MFAOptions, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_set_user_settings(MFAOptions, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MFAOptions"=>MFAOptions, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_set_user_settings(MFAOptions, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminSetUserSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MFAOptions"=>MFAOptions, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminUpdateAuthEventFeedback()
+    admin_update_auth_event_feedback(event_id, feedback_value, user_pool_id, username)
+    admin_update_auth_event_feedback(event_id, feedback_value, user_pool_id, username, params::Dict{String,<:Any})
 
 Provides feedback for an authentication event as to whether it was from a valid user. This
 feedback is used for improving the risk evaluation decision for the user pool as part of
 Amazon Cognito advanced security.
 
-# Required Parameters
-- `EventId`: The authentication event ID.
-- `FeedbackValue`: The authentication event feedback value.
-- `UserPoolId`: The user pool ID.
-- `Username`: The user pool username.
+# Arguments
+- `event_id`: The authentication event ID.
+- `feedback_value`: The authentication event feedback value.
+- `user_pool_id`: The user pool ID.
+- `username`: The user pool username.
 
 """
 admin_update_auth_event_feedback(EventId, FeedbackValue, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateAuthEventFeedback", Dict{String, Any}("EventId"=>EventId, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_update_auth_event_feedback(EventId, FeedbackValue, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateAuthEventFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventId"=>EventId, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_update_auth_event_feedback(EventId, FeedbackValue, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateAuthEventFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventId"=>EventId, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminUpdateDeviceStatus()
+    admin_update_device_status(device_key, user_pool_id, username)
+    admin_update_device_status(device_key, user_pool_id, username, params::Dict{String,<:Any})
 
 Updates the device status as an administrator. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `DeviceKey`: The device key.
-- `UserPoolId`: The user pool ID.
-- `Username`: The user name.
+# Arguments
+- `device_key`: The device key.
+- `user_pool_id`: The user pool ID.
+- `username`: The user name.
 
 # Optional Parameters
-- `DeviceRememberedStatus`: The status indicating whether a device has been remembered or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceRememberedStatus"`: The status indicating whether a device has been remembered or
   not.
 """
 admin_update_device_status(DeviceKey, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateDeviceStatus", Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_update_device_status(DeviceKey, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateDeviceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_update_device_status(DeviceKey, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateDeviceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminUpdateUserAttributes()
+    admin_update_user_attributes(user_attributes, user_pool_id, username)
+    admin_update_user_attributes(user_attributes, user_pool_id, username, params::Dict{String,<:Any})
 
 Updates the specified user's attributes, including developer attributes, as an
 administrator. Works on any user. For custom attributes, you must prepend the custom:
@@ -661,14 +702,16 @@ prefix to the attribute name. In addition to updating user attributes, this API 
 used to mark phone and email as verified. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+# Arguments
+- `user_attributes`: An array of name-value pairs representing user attributes. For custom
   attributes, you must prepend the custom: prefix to the attribute name.
-- `UserPoolId`: The user pool ID for the user pool where you want to update user attributes.
-- `Username`: The user name of the user for whom you want to update user attributes.
+- `user_pool_id`: The user pool ID for the user pool where you want to update user
+  attributes.
+- `username`: The user name of the user for whom you want to update user attributes.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API
   action, Amazon Cognito invokes the function that is assigned to the custom message trigger.
@@ -687,85 +730,93 @@ credentials.
   
 """
 admin_update_user_attributes(UserAttributes, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateUserAttributes", Dict{String, Any}("UserAttributes"=>UserAttributes, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_update_user_attributes(UserAttributes, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserAttributes"=>UserAttributes, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_update_user_attributes(UserAttributes, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserAttributes"=>UserAttributes, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AdminUserGlobalSignOut()
+    admin_user_global_sign_out(user_pool_id, username)
+    admin_user_global_sign_out(user_pool_id, username, params::Dict{String,<:Any})
 
 Signs out users from all devices, as an administrator. It also invalidates all refresh
 tokens issued to a user. The user's current access and Id tokens remain valid until their
 expiry. Access and Id tokens expire one hour after they are issued. Calling this action
 requires developer credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
-- `Username`: The user name.
+# Arguments
+- `user_pool_id`: The user pool ID.
+- `username`: The user name.
 
 """
 admin_user_global_sign_out(UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUserGlobalSignOut", Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-admin_user_global_sign_out(UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUserGlobalSignOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+admin_user_global_sign_out(UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AdminUserGlobalSignOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    AssociateSoftwareToken()
+    associate_software_token()
+    associate_software_token(params::Dict{String,<:Any})
 
 Returns a unique generated shared secret key code for the user account. The request takes
 an access token or a session string, but not both.
 
 # Optional Parameters
-- `AccessToken`: The access token.
-- `Session`: The session which should be passed both ways in challenge-response calls to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessToken"`: The access token.
+- `"Session"`: The session which should be passed both ways in challenge-response calls to
   the service. This allows authentication of the user as part of the MFA setup process.
 """
 associate_software_token(; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AssociateSoftwareToken"; aws_config=aws_config)
-associate_software_token(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AssociateSoftwareToken", args; aws_config=aws_config)
+associate_software_token(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("AssociateSoftwareToken", params; aws_config=aws_config)
 
 """
-    ChangePassword()
+    change_password(access_token, previous_password, proposed_password)
+    change_password(access_token, previous_password, proposed_password, params::Dict{String,<:Any})
 
 Changes the password for a specified user in a user pool.
 
-# Required Parameters
-- `AccessToken`: The access token.
-- `PreviousPassword`: The old password.
-- `ProposedPassword`: The new password.
+# Arguments
+- `access_token`: The access token.
+- `previous_password`: The old password.
+- `proposed_password`: The new password.
 
 """
 change_password(AccessToken, PreviousPassword, ProposedPassword; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ChangePassword", Dict{String, Any}("AccessToken"=>AccessToken, "PreviousPassword"=>PreviousPassword, "ProposedPassword"=>ProposedPassword); aws_config=aws_config)
-change_password(AccessToken, PreviousPassword, ProposedPassword, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "PreviousPassword"=>PreviousPassword, "ProposedPassword"=>ProposedPassword), args)); aws_config=aws_config)
+change_password(AccessToken, PreviousPassword, ProposedPassword, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "PreviousPassword"=>PreviousPassword, "ProposedPassword"=>ProposedPassword), params)); aws_config=aws_config)
 
 """
-    ConfirmDevice()
+    confirm_device(access_token, device_key)
+    confirm_device(access_token, device_key, params::Dict{String,<:Any})
 
 Confirms tracking of the device. This API call is the call that begins device tracking.
 
-# Required Parameters
-- `AccessToken`: The access token.
-- `DeviceKey`: The device key.
+# Arguments
+- `access_token`: The access token.
+- `device_key`: The device key.
 
 # Optional Parameters
-- `DeviceName`: The device name.
-- `DeviceSecretVerifierConfig`: The configuration of the device secret verifier.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceName"`: The device name.
+- `"DeviceSecretVerifierConfig"`: The configuration of the device secret verifier.
 """
 confirm_device(AccessToken, DeviceKey; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmDevice", Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey); aws_config=aws_config)
-confirm_device(AccessToken, DeviceKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey), args)); aws_config=aws_config)
+confirm_device(AccessToken, DeviceKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey), params)); aws_config=aws_config)
 
 """
-    ConfirmForgotPassword()
+    confirm_forgot_password(client_id, confirmation_code, password, username)
+    confirm_forgot_password(client_id, confirmation_code, password, username, params::Dict{String,<:Any})
 
 Allows a user to enter a confirmation code to reset a forgotten password.
 
-# Required Parameters
-- `ClientId`: The app client ID of the app associated with the user pool.
-- `ConfirmationCode`: The confirmation code sent by a user's request to retrieve a
+# Arguments
+- `client_id`: The app client ID of the app associated with the user pool.
+- `confirmation_code`: The confirmation code sent by a user's request to retrieve a
   forgotten password. For more information, see ForgotPassword.
-- `Password`: The password sent by a user's request to retrieve a forgotten password.
-- `Username`: The user name of the user for whom you want to enter a code to retrieve a
+- `password`: The password sent by a user's request to retrieve a forgotten password.
+- `username`: The user name of the user for whom you want to enter a code to retrieve a
   forgotten password.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ConfirmForgotPassword calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action,
   Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When
@@ -781,30 +832,32 @@ Allows a user to enter a confirmation code to reset a forgotten password.
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
   ClientMetadata value, so don't use it to provide sensitive information.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
-  key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
+  secret key of a user pool client and username plus the client ID in the message.
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 confirm_forgot_password(ClientId, ConfirmationCode, Password, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmForgotPassword", Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Password"=>Password, "Username"=>Username); aws_config=aws_config)
-confirm_forgot_password(ClientId, ConfirmationCode, Password, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Password"=>Password, "Username"=>Username), args)); aws_config=aws_config)
+confirm_forgot_password(ClientId, ConfirmationCode, Password, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Password"=>Password, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    ConfirmSignUp()
+    confirm_sign_up(client_id, confirmation_code, username)
+    confirm_sign_up(client_id, confirmation_code, username, params::Dict{String,<:Any})
 
 Confirms registration of a user and handles the existing alias from a previous user.
 
-# Required Parameters
-- `ClientId`: The ID of the app client associated with the user pool.
-- `ConfirmationCode`: The confirmation code sent by a user's request to confirm
+# Arguments
+- `client_id`: The ID of the app client associated with the user pool.
+- `confirmation_code`: The confirmation code sent by a user's request to confirm
   registration.
-- `Username`: The user name of the user whose registration you wish to confirm.
+- `username`: The user name of the user whose registration you wish to confirm.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ConfirmSignUp calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon
   Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon
@@ -820,33 +873,35 @@ Confirms registration of a user and handles the existing alias from a previous u
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
   ClientMetadata value, so don't use it to provide sensitive information.
-- `ForceAliasCreation`: Boolean to be specified to force user confirmation irrespective of
-  existing alias. By default set to False. If this parameter is set to True and the phone
+- `"ForceAliasCreation"`: Boolean to be specified to force user confirmation irrespective
+  of existing alias. By default set to False. If this parameter is set to True and the phone
   number/email used for sign up confirmation already exists as an alias with a different
   user, the API call will migrate the alias from the previous user to the newly created user
   being confirmed. If set to False, the API will throw an AliasExistsException error.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
-  key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
+  secret key of a user pool client and username plus the client ID in the message.
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 confirm_sign_up(ClientId, ConfirmationCode, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmSignUp", Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Username"=>Username); aws_config=aws_config)
-confirm_sign_up(ClientId, ConfirmationCode, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Username"=>Username), args)); aws_config=aws_config)
+confirm_sign_up(ClientId, ConfirmationCode, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ConfirmSignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "ConfirmationCode"=>ConfirmationCode, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    CreateGroup()
+    create_group(group_name, user_pool_id)
+    create_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Creates a new group in the specified user pool. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `GroupName`: The name of the group. Must be unique.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `group_name`: The name of the group. Must be unique.
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Description`: A string containing the description of the group.
-- `Precedence`: A nonnegative integer value that specifies the precedence of this group
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A string containing the description of the group.
+- `"Precedence"`: A nonnegative integer value that specifies the precedence of this group
   relative to the other groups that a user can belong to in the user pool. Zero is the
   highest precedence value. Groups with lower Precedence values take precedence over groups
   with higher or null Precedence values. If a user belongs to two or more groups, it is the
@@ -857,18 +912,19 @@ credentials.
   claim in tokens for users in each group. If the two groups have different role ARNs, the
   cognito:preferred_role claim is not set in users' tokens. The default Precedence value is
   null.
-- `RoleArn`: The role ARN for the group.
+- `"RoleArn"`: The role ARN for the group.
 """
 create_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_group(GroupName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    CreateIdentityProvider()
+    create_identity_provider(provider_details, provider_name, provider_type, user_pool_id)
+    create_identity_provider(provider_details, provider_name, provider_type, user_pool_id, params::Dict{String,<:Any})
 
 Creates an identity provider for a user pool.
 
-# Required Parameters
-- `ProviderDetails`: The identity provider details. The following list describes the
+# Arguments
+- `provider_details`: The identity provider details. The following list describes the
   provider detail keys for each identity provider type.   For Google and Login with Amazon:
   client_id   client_secret   authorize_scopes     For Facebook:   client_id   client_secret
    authorize_scopes   api_version     For Sign in with Apple:   client_id   team_id   key_id
@@ -879,149 +935,157 @@ Creates an identity provider for a user pool.
   discovery URL specified by oidc_issuer key    jwks_uri if not available from discovery URL
   specified by oidc_issuer key      For SAML providers:   MetadataFile OR MetadataURL
   IDPSignout optional
-- `ProviderName`: The identity provider name.
-- `ProviderType`: The identity provider type.
-- `UserPoolId`: The user pool ID.
+- `provider_name`: The identity provider name.
+- `provider_type`: The identity provider type.
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `AttributeMapping`: A mapping of identity provider attributes to standard and custom user
-  pool attributes.
-- `IdpIdentifiers`: A list of identity provider identifiers.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeMapping"`: A mapping of identity provider attributes to standard and custom
+  user pool attributes.
+- `"IdpIdentifiers"`: A list of identity provider identifiers.
 """
 create_identity_provider(ProviderDetails, ProviderName, ProviderType, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateIdentityProvider", Dict{String, Any}("ProviderDetails"=>ProviderDetails, "ProviderName"=>ProviderName, "ProviderType"=>ProviderType, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_identity_provider(ProviderDetails, ProviderName, ProviderType, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderDetails"=>ProviderDetails, "ProviderName"=>ProviderName, "ProviderType"=>ProviderType, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_identity_provider(ProviderDetails, ProviderName, ProviderType, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderDetails"=>ProviderDetails, "ProviderName"=>ProviderName, "ProviderType"=>ProviderType, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    CreateResourceServer()
+    create_resource_server(identifier, name, user_pool_id)
+    create_resource_server(identifier, name, user_pool_id, params::Dict{String,<:Any})
 
 Creates a new OAuth2.0 resource server and defines custom scopes in it.
 
-# Required Parameters
-- `Identifier`: A unique resource server identifier for the resource server. This could be
+# Arguments
+- `identifier`: A unique resource server identifier for the resource server. This could be
   an HTTPS endpoint where the resource server is located. For example,
   https://my-weather-api.example.com.
-- `Name`: A friendly name for the resource server.
-- `UserPoolId`: The user pool ID for the user pool.
+- `name`: A friendly name for the resource server.
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Scopes`: A list of scopes. Each scope is map, where the keys are name and description.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Scopes"`: A list of scopes. Each scope is map, where the keys are name and description.
 """
 create_resource_server(Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateResourceServer", Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_resource_server(Identifier, Name, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_resource_server(Identifier, Name, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    CreateUserImportJob()
+    create_user_import_job(cloud_watch_logs_role_arn, job_name, user_pool_id)
+    create_user_import_job(cloud_watch_logs_role_arn, job_name, user_pool_id, params::Dict{String,<:Any})
 
 Creates the user import job.
 
-# Required Parameters
-- `CloudWatchLogsRoleArn`: The role ARN for the Amazon CloudWatch Logging role for the user
-  import job.
-- `JobName`: The job name for the user import job.
-- `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
+# Arguments
+- `cloud_watch_logs_role_arn`: The role ARN for the Amazon CloudWatch Logging role for the
+  user import job.
+- `job_name`: The job name for the user import job.
+- `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
 create_user_import_job(CloudWatchLogsRoleArn, JobName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserImportJob", Dict{String, Any}("CloudWatchLogsRoleArn"=>CloudWatchLogsRoleArn, "JobName"=>JobName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_user_import_job(CloudWatchLogsRoleArn, JobName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsRoleArn"=>CloudWatchLogsRoleArn, "JobName"=>JobName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_user_import_job(CloudWatchLogsRoleArn, JobName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudWatchLogsRoleArn"=>CloudWatchLogsRoleArn, "JobName"=>JobName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    CreateUserPool()
+    create_user_pool(pool_name)
+    create_user_pool(pool_name, params::Dict{String,<:Any})
 
 Creates a new Amazon Cognito user pool and sets the password policy for the pool.
 
-# Required Parameters
-- `PoolName`: A string used to name the user pool.
+# Arguments
+- `pool_name`: A string used to name the user pool.
 
 # Optional Parameters
-- `AccountRecoverySetting`: Use this setting to define which verified available method a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountRecoverySetting"`: Use this setting to define which verified available method a
   user can use to recover their password when they call ForgotPassword. It allows you to
   define a preferred method when a user has more than one method available. With this
   setting, SMS does not qualify for a valid password recovery mechanism if the user also has
   SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to
   determine the recovery method where SMS is preferred over email.
-- `AdminCreateUserConfig`: The configuration for AdminCreateUser requests.
-- `AliasAttributes`: Attributes supported as an alias for this user pool. Possible values:
-  phone_number, email, or preferred_username.
-- `AutoVerifiedAttributes`: The attributes to be auto-verified. Possible values: email,
+- `"AdminCreateUserConfig"`: The configuration for AdminCreateUser requests.
+- `"AliasAttributes"`: Attributes supported as an alias for this user pool. Possible
+  values: phone_number, email, or preferred_username.
+- `"AutoVerifiedAttributes"`: The attributes to be auto-verified. Possible values: email,
   phone_number.
-- `DeviceConfiguration`: The device configuration.
-- `EmailConfiguration`: The email configuration.
-- `EmailVerificationMessage`: A string representing the email verification message.
+- `"DeviceConfiguration"`: The device configuration.
+- `"EmailConfiguration"`: The email configuration.
+- `"EmailVerificationMessage"`: A string representing the email verification message.
   EmailVerificationMessage is allowed only if EmailSendingAccount is DEVELOPER.
-- `EmailVerificationSubject`: A string representing the email verification subject.
+- `"EmailVerificationSubject"`: A string representing the email verification subject.
   EmailVerificationSubject is allowed only if EmailSendingAccount is DEVELOPER.
-- `LambdaConfig`: The Lambda trigger configuration information for the new user pool.  In a
-  push model, event sources (such as Amazon S3 and custom applications) need permission to
+- `"LambdaConfig"`: The Lambda trigger configuration information for the new user pool.  In
+  a push model, event sources (such as Amazon S3 and custom applications) need permission to
   invoke a function. So you will need to make an extra call to add permission for these event
   sources to invoke your Lambda function.  For more information on using the Lambda API to
   add permission, see  AddPermission .  For adding permission using the AWS CLI, see
   add-permission .
-- `MfaConfiguration`: Specifies MFA configuration details.
-- `Policies`: The policies associated with the new user pool.
-- `Schema`: An array of schema attributes for the new user pool. These attributes can be
+- `"MfaConfiguration"`: Specifies MFA configuration details.
+- `"Policies"`: The policies associated with the new user pool.
+- `"Schema"`: An array of schema attributes for the new user pool. These attributes can be
   standard or custom attributes.
-- `SmsAuthenticationMessage`: A string representing the SMS authentication message.
-- `SmsConfiguration`: The SMS configuration.
-- `SmsVerificationMessage`: A string representing the SMS verification message.
-- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key
+- `"SmsAuthenticationMessage"`: A string representing the SMS authentication message.
+- `"SmsConfiguration"`: The SMS configuration.
+- `"SmsVerificationMessage"`: A string representing the SMS verification message.
+- `"UserPoolAddOns"`: Used to enable advanced security risk detection. Set the key
   AdvancedSecurityMode to the value \"AUDIT\".
-- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that
-  you can use to categorize and manage user pools in different ways, such as by purpose,
+- `"UserPoolTags"`: The tag keys and values to assign to the user pool. A tag is a label
+  that you can use to categorize and manage user pools in different ways, such as by purpose,
   owner, environment, or other criteria.
-- `UsernameAttributes`: Specifies whether email addresses or phone numbers can be specified
-  as usernames when a user signs up.
-- `UsernameConfiguration`: You can choose to set case sensitivity on the username input for
-  the selected sign-in option. For example, when this is set to False, users will be able to
-  sign in using either \"username\" or \"Username\". This configuration is immutable once it
-  has been set. For more information, see UsernameConfigurationType.
-- `VerificationMessageTemplate`: The template for the verification message that the user
+- `"UsernameAttributes"`: Specifies whether email addresses or phone numbers can be
+  specified as usernames when a user signs up.
+- `"UsernameConfiguration"`: You can choose to set case sensitivity on the username input
+  for the selected sign-in option. For example, when this is set to False, users will be able
+  to sign in using either \"username\" or \"Username\". This configuration is immutable once
+  it has been set. For more information, see UsernameConfigurationType.
+- `"VerificationMessageTemplate"`: The template for the verification message that the user
   sees when the app requests permission to access the user's information.
 """
 create_user_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPool", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
-create_user_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), args)); aws_config=aws_config)
+create_user_pool(PoolName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), params)); aws_config=aws_config)
 
 """
-    CreateUserPoolClient()
+    create_user_pool_client(client_name, user_pool_id)
+    create_user_pool_client(client_name, user_pool_id, params::Dict{String,<:Any})
 
 Creates the user pool client.
 
-# Required Parameters
-- `ClientName`: The client name for the user pool client you would like to create.
-- `UserPoolId`: The user pool ID for the user pool where you want to create a user pool
+# Arguments
+- `client_name`: The client name for the user pool client you would like to create.
+- `user_pool_id`: The user pool ID for the user pool where you want to create a user pool
   client.
 
 # Optional Parameters
-- `AccessTokenValidity`: The time limit, between 5 minutes and 1 day, after which the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessTokenValidity"`: The time limit, between 5 minutes and 1 day, after which the
   access token is no longer valid and cannot be used. This value will be overridden if you
   have entered a value in TokenValidityUnits.
-- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow,
-  which provides an authorization code as the response. This code can be exchanged for access
-  tokens with the token endpoint. Set to implicit to specify that the client should get the
-  access token (and, optionally, ID token, based on scopes) directly. Set to
+- `"AllowedOAuthFlows"`: The allowed OAuth flows. Set to code to initiate a code grant
+  flow, which provides an authorization code as the response. This code can be exchanged for
+  access tokens with the token endpoint. Set to implicit to specify that the client should
+  get the access token (and, optionally, ID token, based on scopes) directly. Set to
   client_credentials to specify that the client should get the access token (and, optionally,
   ID token, based on scopes) from the token endpoint using a combination of client and
   client_secret.
-- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the
+- `"AllowedOAuthFlowsUserPoolClient"`: Set to true if the client is allowed to follow the
   OAuth protocol when interacting with Cognito user pools.
-- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are:
+- `"AllowedOAuthScopes"`: The allowed OAuth scopes. Possible values provided by OAuth are:
   phone, email, openid, and profile. Possible values provided by AWS are:
   aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
-- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting
+- `"AnalyticsConfiguration"`: The Amazon Pinpoint analytics configuration for collecting
   metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
   only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where
   Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint
   projects within that same region.
-- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A
+- `"CallbackURLs"`: A list of allowed redirect (callback) URLs for the identity providers.
+  A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
+- `"DefaultRedirectURI"`: The default redirect URI. Must be in the CallbackURLs list. A
   redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
   requires HTTPS over HTTP except for http://localhost for testing purposes only. App
   callback URLs such as myapp://example are also supported.
-- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A
-  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
-  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
-  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
-  callback URLs such as myapp://example are also supported.
-- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool
+- `"ExplicitAuthFlows"`: The authentication flows that are supported by the user pool
   clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the
   ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without
   ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based
@@ -1033,13 +1097,13 @@ Creates the user pool client.
   receives the password in the request instead of using the SRP protocol to verify passwords.
      ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH:
   Enable authflow to refresh tokens.
-- `GenerateSecret`: Boolean to specify whether you want to generate a secret for the user
+- `"GenerateSecret"`: Boolean to specify whether you want to generate a secret for the user
   pool client being created.
-- `IdTokenValidity`: The time limit, between 5 minutes and 1 day, after which the ID token
-  is no longer valid and cannot be used. This value will be overridden if you have entered a
-  value in TokenValidityUnits.
-- `LogoutURLs`: A list of allowed logout URLs for the identity providers.
-- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are
+- `"IdTokenValidity"`: The time limit, between 5 minutes and 1 day, after which the ID
+  token is no longer valid and cannot be used. This value will be overridden if you have
+  entered a value in TokenValidityUnits.
+- `"LogoutURLs"`: A list of allowed logout URLs for the identity providers.
+- `"PreventUserExistenceErrors"`: Use this setting to choose which errors and responses are
   returned by Cognito APIs during authentication, account confirmation, and password recovery
   when the user does not exist in the user pool. When set to ENABLED and the user does not
   exist, authentication returns an error indicating either the username or password was
@@ -1050,255 +1114,277 @@ Creates the user pool client.
   represents the old behavior of Cognito where user existence related errors are not
   prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will
   default to ENABLED for newly created user pool clients if no value is provided.
-- `ReadAttributes`: The read attributes.
-- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no
+- `"ReadAttributes"`: The read attributes.
+- `"RefreshTokenValidity"`: The time limit, in days, after which the refresh token is no
   longer valid and cannot be used.
-- `SupportedIdentityProviders`: A list of provider names for the identity providers that
+- `"SupportedIdentityProviders"`: A list of provider names for the identity providers that
   are supported on this client. The following are supported: COGNITO, Facebook, Google and
   LoginWithAmazon.
-- `TokenValidityUnits`: The units in which the validity times are represented in. Default
+- `"TokenValidityUnits"`: The units in which the validity times are represented in. Default
   for RefreshToken is days, and default for ID and access tokens are hours.
-- `WriteAttributes`: The user pool attributes that the app client can write to. If your app
-  client allows users to sign in through an identity provider, this array must include all
-  attributes that are mapped to identity provider attributes. Amazon Cognito updates mapped
-  attributes when users sign in to your application through an identity provider. If your app
-  client lacks write access to a mapped attribute, Amazon Cognito throws an error when it
-  attempts to update the attribute. For more information, see Specifying Identity Provider
-  Attribute Mappings for Your User Pool.
+- `"WriteAttributes"`: The user pool attributes that the app client can write to. If your
+  app client allows users to sign in through an identity provider, this array must include
+  all attributes that are mapped to identity provider attributes. Amazon Cognito updates
+  mapped attributes when users sign in to your application through an identity provider. If
+  your app client lacks write access to a mapped attribute, Amazon Cognito throws an error
+  when it attempts to update the attribute. For more information, see Specifying Identity
+  Provider Attribute Mappings for Your User Pool.
 """
 create_user_pool_client(ClientName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolClient", Dict{String, Any}("ClientName"=>ClientName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_user_pool_client(ClientName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientName"=>ClientName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_user_pool_client(ClientName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientName"=>ClientName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    CreateUserPoolDomain()
+    create_user_pool_domain(domain, user_pool_id)
+    create_user_pool_domain(domain, user_pool_id, params::Dict{String,<:Any})
 
 Creates a new domain for a user pool.
 
-# Required Parameters
-- `Domain`: The domain string.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `domain`: The domain string.
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomDomainConfig"`: The configuration for a custom domain that hosts the sign-up and
   sign-in webpages for your application. Provide this parameter only if you want to use a
   custom domain for your user pool. Otherwise, you can exclude this parameter and use the
   Amazon Cognito hosted domain instead. For more information about the hosted domain and
   custom domains, see Configuring a User Pool Domain.
 """
 create_user_pool_domain(Domain, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolDomain", Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-create_user_pool_domain(Domain, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+create_user_pool_domain(Domain, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("CreateUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteGroup()
+    delete_group(group_name, user_pool_id)
+    delete_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Deletes a group. Currently only groups with no members can be deleted. Calling this action
 requires developer credentials.
 
-# Required Parameters
-- `GroupName`: The name of the group.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `group_name`: The name of the group.
+- `user_pool_id`: The user pool ID for the user pool.
 
 """
 delete_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_group(GroupName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteIdentityProvider()
+    delete_identity_provider(provider_name, user_pool_id)
+    delete_identity_provider(provider_name, user_pool_id, params::Dict{String,<:Any})
 
 Deletes an identity provider for a user pool.
 
-# Required Parameters
-- `ProviderName`: The identity provider name.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `provider_name`: The identity provider name.
+- `user_pool_id`: The user pool ID.
 
 """
 delete_identity_provider(ProviderName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteIdentityProvider", Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_identity_provider(ProviderName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_identity_provider(ProviderName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteResourceServer()
+    delete_resource_server(identifier, user_pool_id)
+    delete_resource_server(identifier, user_pool_id, params::Dict{String,<:Any})
 
 Deletes a resource server.
 
-# Required Parameters
-- `Identifier`: The identifier for the resource server.
-- `UserPoolId`: The user pool ID for the user pool that hosts the resource server.
+# Arguments
+- `identifier`: The identifier for the resource server.
+- `user_pool_id`: The user pool ID for the user pool that hosts the resource server.
 
 """
 delete_resource_server(Identifier, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteResourceServer", Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_resource_server(Identifier, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_resource_server(Identifier, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteUser()
+    delete_user(access_token)
+    delete_user(access_token, params::Dict{String,<:Any})
 
 Allows a user to delete himself or herself.
 
-# Required Parameters
-- `AccessToken`: The access token from a request to delete a user.
+# Arguments
+- `access_token`: The access token from a request to delete a user.
 
 """
 delete_user(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUser", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
-delete_user(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), args)); aws_config=aws_config)
+delete_user(AccessToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), params)); aws_config=aws_config)
 
 """
-    DeleteUserAttributes()
+    delete_user_attributes(access_token, user_attribute_names)
+    delete_user_attributes(access_token, user_attribute_names, params::Dict{String,<:Any})
 
 Deletes the attributes for a user.
 
-# Required Parameters
-- `AccessToken`: The access token used in the request to delete user attributes.
-- `UserAttributeNames`: An array of strings representing the user attribute names you wish
-  to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
+# Arguments
+- `access_token`: The access token used in the request to delete user attributes.
+- `user_attribute_names`: An array of strings representing the user attribute names you
+  wish to delete. For custom attributes, you must prepend the custom: prefix to the attribute
+  name.
 
 """
 delete_user_attributes(AccessToken, UserAttributeNames; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserAttributes", Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributeNames"=>UserAttributeNames); aws_config=aws_config)
-delete_user_attributes(AccessToken, UserAttributeNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributeNames"=>UserAttributeNames), args)); aws_config=aws_config)
+delete_user_attributes(AccessToken, UserAttributeNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributeNames"=>UserAttributeNames), params)); aws_config=aws_config)
 
 """
-    DeleteUserPool()
+    delete_user_pool(user_pool_id)
+    delete_user_pool(user_pool_id, params::Dict{String,<:Any})
 
 Deletes the specified Amazon Cognito user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool you want to delete.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool you want to delete.
 
 """
 delete_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPool", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_user_pool(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_user_pool(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteUserPoolClient()
+    delete_user_pool_client(client_id, user_pool_id)
+    delete_user_pool_client(client_id, user_pool_id, params::Dict{String,<:Any})
 
 Allows the developer to delete the user pool client.
 
-# Required Parameters
-- `ClientId`: The app client ID of the app associated with the user pool.
-- `UserPoolId`: The user pool ID for the user pool where you want to delete the client.
+# Arguments
+- `client_id`: The app client ID of the app associated with the user pool.
+- `user_pool_id`: The user pool ID for the user pool where you want to delete the client.
 
 """
 delete_user_pool_client(ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolClient", Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_user_pool_client(ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_user_pool_client(ClientId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DeleteUserPoolDomain()
+    delete_user_pool_domain(domain, user_pool_id)
+    delete_user_pool_domain(domain, user_pool_id, params::Dict{String,<:Any})
 
 Deletes a domain for a user pool.
 
-# Required Parameters
-- `Domain`: The domain string.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `domain`: The domain string.
+- `user_pool_id`: The user pool ID.
 
 """
 delete_user_pool_domain(Domain, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolDomain", Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-delete_user_pool_domain(Domain, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+delete_user_pool_domain(Domain, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DeleteUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeIdentityProvider()
+    describe_identity_provider(provider_name, user_pool_id)
+    describe_identity_provider(provider_name, user_pool_id, params::Dict{String,<:Any})
 
 Gets information about a specific identity provider.
 
-# Required Parameters
-- `ProviderName`: The identity provider name.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `provider_name`: The identity provider name.
+- `user_pool_id`: The user pool ID.
 
 """
 describe_identity_provider(ProviderName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeIdentityProvider", Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_identity_provider(ProviderName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_identity_provider(ProviderName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeResourceServer()
+    describe_resource_server(identifier, user_pool_id)
+    describe_resource_server(identifier, user_pool_id, params::Dict{String,<:Any})
 
 Describes a resource server.
 
-# Required Parameters
-- `Identifier`: The identifier for the resource server
-- `UserPoolId`: The user pool ID for the user pool that hosts the resource server.
+# Arguments
+- `identifier`: The identifier for the resource server
+- `user_pool_id`: The user pool ID for the user pool that hosts the resource server.
 
 """
 describe_resource_server(Identifier, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeResourceServer", Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_resource_server(Identifier, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_resource_server(Identifier, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeRiskConfiguration()
+    describe_risk_configuration(user_pool_id)
+    describe_risk_configuration(user_pool_id, params::Dict{String,<:Any})
 
 Describes the risk configuration.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `ClientId`: The app client ID.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientId"`: The app client ID.
 """
 describe_risk_configuration(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeRiskConfiguration", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_risk_configuration(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeRiskConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_risk_configuration(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeRiskConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeUserImportJob()
+    describe_user_import_job(job_id, user_pool_id)
+    describe_user_import_job(job_id, user_pool_id, params::Dict{String,<:Any})
 
 Describes the user import job.
 
-# Required Parameters
-- `JobId`: The job ID for the user import job.
-- `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
+# Arguments
+- `job_id`: The job ID for the user import job.
+- `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
 describe_user_import_job(JobId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserImportJob", Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_user_import_job(JobId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_user_import_job(JobId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeUserPool()
+    describe_user_pool(user_pool_id)
+    describe_user_pool(user_pool_id, params::Dict{String,<:Any})
 
 Returns the configuration information and metadata of the specified user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool you want to describe.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool you want to describe.
 
 """
 describe_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPool", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_user_pool(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_user_pool(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeUserPoolClient()
+    describe_user_pool_client(client_id, user_pool_id)
+    describe_user_pool_client(client_id, user_pool_id, params::Dict{String,<:Any})
 
 Client method for returning the configuration information and metadata of the specified
 user pool app client.
 
-# Required Parameters
-- `ClientId`: The app client ID of the app associated with the user pool.
-- `UserPoolId`: The user pool ID for the user pool you want to describe.
+# Arguments
+- `client_id`: The app client ID of the app associated with the user pool.
+- `user_pool_id`: The user pool ID for the user pool you want to describe.
 
 """
 describe_user_pool_client(ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolClient", Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-describe_user_pool_client(ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+describe_user_pool_client(ClientId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    DescribeUserPoolDomain()
+    describe_user_pool_domain(domain)
+    describe_user_pool_domain(domain, params::Dict{String,<:Any})
 
 Gets information about a domain.
 
-# Required Parameters
-- `Domain`: The domain string.
+# Arguments
+- `domain`: The domain string.
 
 """
 describe_user_pool_domain(Domain; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolDomain", Dict{String, Any}("Domain"=>Domain); aws_config=aws_config)
-describe_user_pool_domain(Domain, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), args)); aws_config=aws_config)
+describe_user_pool_domain(Domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("DescribeUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config)
 
 """
-    ForgetDevice()
+    forget_device(device_key)
+    forget_device(device_key, params::Dict{String,<:Any})
 
 Forgets the specified device.
 
-# Required Parameters
-- `DeviceKey`: The device key.
+# Arguments
+- `device_key`: The device key.
 
 # Optional Parameters
-- `AccessToken`: The access token for the forgotten device request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessToken"`: The access token for the forgotten device request.
 """
 forget_device(DeviceKey; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgetDevice", Dict{String, Any}("DeviceKey"=>DeviceKey); aws_config=aws_config)
-forget_device(DeviceKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey), args)); aws_config=aws_config)
+forget_device(DeviceKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey), params)); aws_config=aws_config)
 
 """
-    ForgotPassword()
+    forgot_password(client_id, username)
+    forgot_password(client_id, username, params::Dict{String,<:Any})
 
 Calling this API causes a message to be sent to the end user with a confirmation code that
 is required to change the user's password. For the Username parameter, you can use the
@@ -1308,15 +1394,16 @@ the Amazon Cognito Developer Guide. If neither a verified phone number nor a ver
 exists, an InvalidParameterException is thrown. To use the confirmation code for resetting
 the password, call ConfirmForgotPassword.
 
-# Required Parameters
-- `ClientId`: The ID of the client associated with the user pool.
-- `Username`: The user name of the user for whom you want to enter a code to reset a
+# Arguments
+- `client_id`: The ID of the client associated with the user pool.
+- `username`: The user name of the user for whom you want to enter a code to reset a
   forgotten password.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ForgotPassword calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon
   Cognito invokes any functions that are assigned to the following triggers: pre sign-up,
@@ -1333,122 +1420,133 @@ the password, call ConfirmForgotPassword.
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
   don't use it to provide sensitive information.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
-  key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
+  secret key of a user pool client and username plus the client ID in the message.
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 forgot_password(ClientId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgotPassword", Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username); aws_config=aws_config)
-forgot_password(ClientId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), args)); aws_config=aws_config)
+forgot_password(ClientId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ForgotPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    GetCSVHeader()
+    get_csvheader(user_pool_id)
+    get_csvheader(user_pool_id, params::Dict{String,<:Any})
 
 Gets the header information for the .csv file to be used as input for the user import job.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool that the users are to be imported into.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool that the users are to be imported into.
 
 """
 get_csvheader(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetCSVHeader", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_csvheader(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetCSVHeader", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_csvheader(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetCSVHeader", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GetDevice()
+    get_device(device_key)
+    get_device(device_key, params::Dict{String,<:Any})
 
 Gets the device.
 
-# Required Parameters
-- `DeviceKey`: The device key.
+# Arguments
+- `device_key`: The device key.
 
 # Optional Parameters
-- `AccessToken`: The access token.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessToken"`: The access token.
 """
 get_device(DeviceKey; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetDevice", Dict{String, Any}("DeviceKey"=>DeviceKey); aws_config=aws_config)
-get_device(DeviceKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey), args)); aws_config=aws_config)
+get_device(DeviceKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceKey"=>DeviceKey), params)); aws_config=aws_config)
 
 """
-    GetGroup()
+    get_group(group_name, user_pool_id)
+    get_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Gets a group. Calling this action requires developer credentials.
 
-# Required Parameters
-- `GroupName`: The name of the group.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `group_name`: The name of the group.
+- `user_pool_id`: The user pool ID for the user pool.
 
 """
 get_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_group(GroupName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GetIdentityProviderByIdentifier()
+    get_identity_provider_by_identifier(idp_identifier, user_pool_id)
+    get_identity_provider_by_identifier(idp_identifier, user_pool_id, params::Dict{String,<:Any})
 
 Gets the specified identity provider.
 
-# Required Parameters
-- `IdpIdentifier`: The identity provider ID.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `idp_identifier`: The identity provider ID.
+- `user_pool_id`: The user pool ID.
 
 """
 get_identity_provider_by_identifier(IdpIdentifier, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetIdentityProviderByIdentifier", Dict{String, Any}("IdpIdentifier"=>IdpIdentifier, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_identity_provider_by_identifier(IdpIdentifier, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetIdentityProviderByIdentifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdpIdentifier"=>IdpIdentifier, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_identity_provider_by_identifier(IdpIdentifier, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetIdentityProviderByIdentifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdpIdentifier"=>IdpIdentifier, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GetSigningCertificate()
+    get_signing_certificate(user_pool_id)
+    get_signing_certificate(user_pool_id, params::Dict{String,<:Any})
 
 This method takes a user pool ID, and returns the signing certificate.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 """
 get_signing_certificate(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetSigningCertificate", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_signing_certificate(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_signing_certificate(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GetUICustomization()
+    get_uicustomization(user_pool_id)
+    get_uicustomization(user_pool_id, params::Dict{String,<:Any})
 
 Gets the UI Customization information for a particular app client's app UI, if there is
 something set. If nothing is set for the particular client, but there is an existing pool
 level customization (app clientId will be ALL), then that is returned. If nothing is
 present, then an empty shape is returned.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `ClientId`: The client ID for the client app.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientId"`: The client ID for the client app.
 """
 get_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUICustomization", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_uicustomization(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUICustomization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_uicustomization(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUICustomization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GetUser()
+    get_user(access_token)
+    get_user(access_token, params::Dict{String,<:Any})
 
 Gets the user attributes and metadata for a user.
 
-# Required Parameters
-- `AccessToken`: The access token returned by the server response to get information about
+# Arguments
+- `access_token`: The access token returned by the server response to get information about
   the user.
 
 """
 get_user(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUser", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
-get_user(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), args)); aws_config=aws_config)
+get_user(AccessToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), params)); aws_config=aws_config)
 
 """
-    GetUserAttributeVerificationCode()
+    get_user_attribute_verification_code(access_token, attribute_name)
+    get_user_attribute_verification_code(access_token, attribute_name, params::Dict{String,<:Any})
 
 Gets the user attribute verification code for the specified attribute name.
 
-# Required Parameters
-- `AccessToken`: The access token returned by the server response to get the user attribute
-  verification code.
-- `AttributeName`: The attribute name returned by the server response to get the user
+# Arguments
+- `access_token`: The access token returned by the server response to get the user
+  attribute verification code.
+- `attribute_name`: The attribute name returned by the server response to get the user
   attribute verification code.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode
   API action, Amazon Cognito invokes the function that is assigned to the custom message
@@ -1467,41 +1565,44 @@ Gets the user attribute verification code for the specified attribute name.
   don't use it to provide sensitive information.
 """
 get_user_attribute_verification_code(AccessToken, AttributeName; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserAttributeVerificationCode", Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName); aws_config=aws_config)
-get_user_attribute_verification_code(AccessToken, AttributeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserAttributeVerificationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName), args)); aws_config=aws_config)
+get_user_attribute_verification_code(AccessToken, AttributeName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserAttributeVerificationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName), params)); aws_config=aws_config)
 
 """
-    GetUserPoolMfaConfig()
+    get_user_pool_mfa_config(user_pool_id)
+    get_user_pool_mfa_config(user_pool_id, params::Dict{String,<:Any})
 
 Gets the user pool multi-factor authentication (MFA) configuration.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 """
 get_user_pool_mfa_config(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserPoolMfaConfig", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-get_user_pool_mfa_config(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserPoolMfaConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+get_user_pool_mfa_config(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GetUserPoolMfaConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    GlobalSignOut()
+    global_sign_out(access_token)
+    global_sign_out(access_token, params::Dict{String,<:Any})
 
 Signs out users from all devices. It also invalidates all refresh tokens issued to a user.
 The user's current access and Id tokens remain valid until their expiry. Access and Id
 tokens expire one hour after they are issued.
 
-# Required Parameters
-- `AccessToken`: The access token.
+# Arguments
+- `access_token`: The access token.
 
 """
 global_sign_out(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GlobalSignOut", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
-global_sign_out(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GlobalSignOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), args)); aws_config=aws_config)
+global_sign_out(AccessToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("GlobalSignOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), params)); aws_config=aws_config)
 
 """
-    InitiateAuth()
+    initiate_auth(auth_flow, client_id)
+    initiate_auth(auth_flow, client_id, params::Dict{String,<:Any})
 
 Initiates the authentication flow.
 
-# Required Parameters
-- `AuthFlow`: The authentication flow for this call to execute. The API action will depend
+# Arguments
+- `auth_flow`: The authentication flow for this call to execute. The API action will depend
   on this value. For example:     REFRESH_TOKEN_AUTH will take in a valid refresh token and
   return new tokens.    USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP
   variables to be used for next challenge execution.    USER_PASSWORD_AUTH will take in
@@ -1515,12 +1616,13 @@ Initiates the authentication flow.
   user password authentication. This replaces the ADMIN_NO_SRP_AUTH authentication flow. In
   this flow, Cognito receives the password in the request instead of using the SRP process to
   verify passwords.    ADMIN_NO_SRP_AUTH is not a valid value.
-- `ClientId`: The app client ID.
+- `client_id`: The app client ID.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   InitiateAuth calls.
-- `AuthParameters`: The authentication parameters. These are inputs corresponding to the
+- `"AuthParameters"`: The authentication parameters. These are inputs corresponding to the
   AuthFlow that you are invoking. The required values depend on the value of AuthFlow:   For
   USER_SRP_AUTH: USERNAME (required), SRP_A (required), SECRET_HASH (required if the app
   client is configured with a client secret), DEVICE_KEY.   For
@@ -1529,7 +1631,7 @@ Initiates the authentication flow.
   (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY. To
   start the authentication flow with password verification, include ChallengeName: SRP_A and
   SRP_A: (The SRP_A Value).
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for
   certain custom workflows that this action triggers. You create custom workflows by
   assigning AWS Lambda functions to user pool triggers. When you use the InitiateAuth API
   action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
@@ -1551,153 +1653,172 @@ Initiates the authentication flow.
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
   don't use it to provide sensitive information.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 initiate_auth(AuthFlow, ClientId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("InitiateAuth", Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId); aws_config=aws_config)
-initiate_auth(AuthFlow, ClientId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("InitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId), args)); aws_config=aws_config)
+initiate_auth(AuthFlow, ClientId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("InitiateAuth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthFlow"=>AuthFlow, "ClientId"=>ClientId), params)); aws_config=aws_config)
 
 """
-    ListDevices()
+    list_devices(access_token)
+    list_devices(access_token, params::Dict{String,<:Any})
 
 Lists the devices.
 
-# Required Parameters
-- `AccessToken`: The access tokens for the request to list devices.
+# Arguments
+- `access_token`: The access tokens for the request to list devices.
 
 # Optional Parameters
-- `Limit`: The limit of the device request.
-- `PaginationToken`: The pagination token for the list request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The limit of the device request.
+- `"PaginationToken"`: The pagination token for the list request.
 """
 list_devices(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListDevices", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
-list_devices(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), args)); aws_config=aws_config)
+list_devices(AccessToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), params)); aws_config=aws_config)
 
 """
-    ListGroups()
+    list_groups(user_pool_id)
+    list_groups(user_pool_id, params::Dict{String,<:Any})
 
 Lists the groups associated with a user pool. Calling this action requires developer
 credentials.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Limit`: The limit of the request to list groups.
-- `NextToken`: An identifier that was returned from the previous call to this operation,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The limit of the request to list groups.
+- `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
 list_groups(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListGroups", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_groups(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_groups(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListIdentityProviders()
+    list_identity_providers(user_pool_id)
+    list_identity_providers(user_pool_id, params::Dict{String,<:Any})
 
 Lists information about all identity providers for a user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of identity providers to return.
-- `NextToken`: A pagination token.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of identity providers to return.
+- `"NextToken"`: A pagination token.
 """
 list_identity_providers(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListIdentityProviders", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_identity_providers(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListIdentityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_identity_providers(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListIdentityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListResourceServers()
+    list_resource_servers(user_pool_id)
+    list_resource_servers(user_pool_id, params::Dict{String,<:Any})
 
 Lists the resource servers for a user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of resource servers to return.
-- `NextToken`: A pagination token.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of resource servers to return.
+- `"NextToken"`: A pagination token.
 """
 list_resource_servers(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListResourceServers", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_resource_servers(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListResourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_resource_servers(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListResourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags that are assigned to an Amazon Cognito user pool. A tag is a label that you
 can apply to user pools to categorize and manage them in different ways, such as by
 purpose, owner, environment, or other criteria. You can use this action up to 10 times per
 second, per account.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned
-  to.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the user pool that the tags are
+  assigned to.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    ListUserImportJobs()
+    list_user_import_jobs(max_results, user_pool_id)
+    list_user_import_jobs(max_results, user_pool_id, params::Dict{String,<:Any})
 
 Lists the user import jobs.
 
-# Required Parameters
-- `MaxResults`: The maximum number of import jobs you want the request to return.
-- `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
+# Arguments
+- `max_results`: The maximum number of import jobs you want the request to return.
+- `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 # Optional Parameters
-- `PaginationToken`: An identifier that was returned from the previous call to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PaginationToken"`: An identifier that was returned from the previous call to
   ListUserImportJobs, which can be used to return the next set of import jobs in the list.
 """
 list_user_import_jobs(MaxResults, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserImportJobs", Dict{String, Any}("MaxResults"=>MaxResults, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_user_import_jobs(MaxResults, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserImportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_user_import_jobs(MaxResults, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserImportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListUserPoolClients()
+    list_user_pool_clients(user_pool_id)
+    list_user_pool_clients(user_pool_id, params::Dict{String,<:Any})
 
 Lists the clients that have been created for the specified user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool where you want to list user pool clients.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool where you want to list user pool
+  clients.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results you want the request to return when listing
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results you want the request to return when listing
   the user pool clients.
-- `NextToken`: An identifier that was returned from the previous call to this operation,
+- `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
 list_user_pool_clients(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPoolClients", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_user_pool_clients(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPoolClients", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_user_pool_clients(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPoolClients", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListUserPools()
+    list_user_pools(max_results)
+    list_user_pools(max_results, params::Dict{String,<:Any})
 
 Lists the user pools associated with an AWS account.
 
-# Required Parameters
-- `MaxResults`: The maximum number of results you want the request to return when listing
+# Arguments
+- `max_results`: The maximum number of results you want the request to return when listing
   the user pools.
 
 # Optional Parameters
-- `NextToken`: An identifier that was returned from the previous call to this operation,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
 list_user_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPools", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
-list_user_pools(MaxResults, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws_config=aws_config)
+list_user_pools(MaxResults, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUserPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config)
 
 """
-    ListUsers()
+    list_users(user_pool_id)
+    list_users(user_pool_id, params::Dict{String,<:Any})
 
 Lists the users in the Amazon Cognito user pool.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool on which the search should be performed.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool on which the search should be
+  performed.
 
 # Optional Parameters
-- `AttributesToGet`: An array of strings, where each string is the name of a user attribute
-  to be returned for each user in the search results. If the array is null, all attributes
-  are returned.
-- `Filter`: A filter string of the form \"AttributeName Filter-Type \"AttributeValue\"\".
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToGet"`: An array of strings, where each string is the name of a user
+  attribute to be returned for each user in the search results. If the array is null, all
+  attributes are returned.
+- `"Filter"`: A filter string of the form \"AttributeName Filter-Type \"AttributeValue\"\".
   Quotation marks within the filter string must be escaped using the backslash () character.
   For example, \"family_name = \"Reddy\"\".    AttributeName: The name of the attribute to
   search for. You can only search for one attribute at a time.    Filter-Type: For an exact
@@ -1711,44 +1832,48 @@ Lists the users in the Amazon Cognito user pool.
   Custom attributes are not searchable. For more information, see Searching for Users Using
   the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer
   Guide.
-- `Limit`: Maximum number of users to be returned.
-- `PaginationToken`: An identifier that was returned from the previous call to this
+- `"Limit"`: Maximum number of users to be returned.
+- `"PaginationToken"`: An identifier that was returned from the previous call to this
   operation, which can be used to return the next set of items in the list.
 """
 list_users(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsers", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_users(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_users(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ListUsersInGroup()
+    list_users_in_group(group_name, user_pool_id)
+    list_users_in_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Lists the users in the specified group. Calling this action requires developer credentials.
 
-# Required Parameters
-- `GroupName`: The name of the group.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `group_name`: The name of the group.
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Limit`: The limit of the request to list users.
-- `NextToken`: An identifier that was returned from the previous call to this operation,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The limit of the request to list users.
+- `"NextToken"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
 list_users_in_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsersInGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-list_users_in_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsersInGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+list_users_in_group(GroupName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ListUsersInGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    ResendConfirmationCode()
+    resend_confirmation_code(client_id, username)
+    resend_confirmation_code(client_id, username, params::Dict{String,<:Any})
 
 Resends the confirmation (for confirmation of registration) to a specific user in the user
 pool.
 
-# Required Parameters
-- `ClientId`: The ID of the client associated with the user pool.
-- `Username`: The user name of the user to whom you wish to resend a confirmation code.
+# Arguments
+- `client_id`: The ID of the client associated with the user pool.
+- `username`: The user name of the user to whom you wish to resend a confirmation code.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ResendConfirmationCode calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
@@ -1764,29 +1889,31 @@ pool.
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
   ClientMetadata value, so don't use it to provide sensitive information.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
-  key of a user pool client and username plus the client ID in the message.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
+  secret key of a user pool client and username plus the client ID in the message.
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 resend_confirmation_code(ClientId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ResendConfirmationCode", Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username); aws_config=aws_config)
-resend_confirmation_code(ClientId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ResendConfirmationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), args)); aws_config=aws_config)
+resend_confirmation_code(ClientId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("ResendConfirmationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    RespondToAuthChallenge()
+    respond_to_auth_challenge(challenge_name, client_id)
+    respond_to_auth_challenge(challenge_name, client_id, params::Dict{String,<:Any})
 
 Responds to the authentication challenge.
 
-# Required Parameters
-- `ChallengeName`: The challenge name. For more information, see InitiateAuth.
+# Arguments
+- `challenge_name`: The challenge name. For more information, see InitiateAuth.
   ADMIN_NO_SRP_AUTH is not a valid value.
-- `ClientId`: The app client ID.
+- `client_id`: The app client ID.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   RespondToAuthChallenge calls.
-- `ChallengeResponses`: The challenge responses. These are inputs corresponding to the
+- `"ChallengeResponses"`: The challenge responses. These are inputs corresponding to the
   value of ChallengeName, for example:   SECRET_HASH (if app client is configured with client
   secret) applies to all inputs below (including SOFTWARE_TOKEN_MFA).     SMS_MFA:
   SMS_MFA_CODE, USERNAME.    PASSWORD_VERIFIER: PASSWORD_CLAIM_SIGNATURE,
@@ -1795,7 +1922,7 @@ Responds to the authentication challenge.
   SOFTWARE_TOKEN_MFA_CODE are required attributes.    DEVICE_SRP_AUTH requires USERNAME,
   DEVICE_KEY, SRP_A (and SECRET_HASH).    DEVICE_PASSWORD_VERIFIER requires everything that
   PASSWORD_VERIFIER requires plus DEVICE_KEY.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action,
   Amazon Cognito invokes any functions that are assigned to the following triggers: post
@@ -1813,44 +1940,48 @@ Responds to the authentication challenge.
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
   don't use it to provide sensitive information.
-- `Session`: The session which should be passed both ways in challenge-response calls to
+- `"Session"`: The session which should be passed both ways in challenge-response calls to
   the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller
   needs to go through another challenge, they return a session with other challenge
   parameters. This session should be passed as it is to the next RespondToAuthChallenge API
   call.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
 """
 respond_to_auth_challenge(ChallengeName, ClientId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("RespondToAuthChallenge", Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId); aws_config=aws_config)
-respond_to_auth_challenge(ChallengeName, ClientId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("RespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId), args)); aws_config=aws_config)
+respond_to_auth_challenge(ChallengeName, ClientId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("RespondToAuthChallenge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChallengeName"=>ChallengeName, "ClientId"=>ClientId), params)); aws_config=aws_config)
 
 """
-    SetRiskConfiguration()
+    set_risk_configuration(user_pool_id)
+    set_risk_configuration(user_pool_id, params::Dict{String,<:Any})
 
 Configures actions on detected risks. To delete the risk configuration for UserPoolId or
 ClientId, pass null values for all four configuration types. To enable Amazon Cognito
 advanced security features, update the user pool to include the UserPoolAddOns
 keyAdvancedSecurityMode.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `AccountTakeoverRiskConfiguration`: The account takeover risk configuration.
-- `ClientId`: The app client ID. If ClientId is null, then the risk configuration is mapped
-  to userPoolId. When the client ID is null, the same risk configuration is applied to all
-  the clients in the userPool. Otherwise, ClientId is mapped to the client. When the client
-  ID is not null, the user pool configuration is overridden and the risk configuration for
-  the client is used instead.
-- `CompromisedCredentialsRiskConfiguration`: The compromised credentials risk configuration.
-- `RiskExceptionConfiguration`: The configuration to override the risk decision.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountTakeoverRiskConfiguration"`: The account takeover risk configuration.
+- `"ClientId"`: The app client ID. If ClientId is null, then the risk configuration is
+  mapped to userPoolId. When the client ID is null, the same risk configuration is applied to
+  all the clients in the userPool. Otherwise, ClientId is mapped to the client. When the
+  client ID is not null, the user pool configuration is overridden and the risk configuration
+  for the client is used instead.
+- `"CompromisedCredentialsRiskConfiguration"`: The compromised credentials risk
+  configuration.
+- `"RiskExceptionConfiguration"`: The configuration to override the risk decision.
 """
 set_risk_configuration(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetRiskConfiguration", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-set_risk_configuration(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetRiskConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+set_risk_configuration(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetRiskConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    SetUICustomization()
+    set_uicustomization(user_pool_id)
+    set_uicustomization(user_pool_id, params::Dict{String,<:Any})
 
 Sets the UI customization information for a user pool's built-in app UI. You can specify
 app UI customization settings for a single client (with a specific clientId) or for all
@@ -1860,19 +1991,21 @@ UI customization settings for a particular client, it will no longer fall back t
 configuration.   To use this API, your user pool must have a domain associated with it.
 Otherwise, there is no place to host the app's pages, and the service will throw an error.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `CSS`: The CSS values in the UI customization.
-- `ClientId`: The client ID for the client app.
-- `ImageFile`: The uploaded logo image for the UI customization.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CSS"`: The CSS values in the UI customization.
+- `"ClientId"`: The client ID for the client app.
+- `"ImageFile"`: The uploaded logo image for the UI customization.
 """
 set_uicustomization(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUICustomization", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-set_uicustomization(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUICustomization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+set_uicustomization(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUICustomization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    SetUserMFAPreference()
+    set_user_mfapreference(access_token)
+    set_user_mfapreference(access_token, params::Dict{String,<:Any})
 
 Set the user's multi-factor authentication (MFA) method preference, including which MFA
 factors are enabled and if any are preferred. Only one factor can be set as preferred. The
@@ -1884,65 +2017,72 @@ the device has been trusted. If you would like MFA to be applied selectively bas
 assessed risk level of sign in attempts, disable MFA for users and turn on Adaptive
 Authentication for the user pool.
 
-# Required Parameters
-- `AccessToken`: The access token for the user.
+# Arguments
+- `access_token`: The access token for the user.
 
 # Optional Parameters
-- `SMSMfaSettings`: The SMS text message multi-factor authentication (MFA) settings.
-- `SoftwareTokenMfaSettings`: The time-based one-time password software token MFA settings.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SMSMfaSettings"`: The SMS text message multi-factor authentication (MFA) settings.
+- `"SoftwareTokenMfaSettings"`: The time-based one-time password software token MFA
+  settings.
 """
 set_user_mfapreference(AccessToken; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserMFAPreference", Dict{String, Any}("AccessToken"=>AccessToken); aws_config=aws_config)
-set_user_mfapreference(AccessToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserMFAPreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), args)); aws_config=aws_config)
+set_user_mfapreference(AccessToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserMFAPreference", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken), params)); aws_config=aws_config)
 
 """
-    SetUserPoolMfaConfig()
+    set_user_pool_mfa_config(user_pool_id)
+    set_user_pool_mfa_config(user_pool_id, params::Dict{String,<:Any})
 
 Set the user pool multi-factor authentication (MFA) configuration.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `MfaConfiguration`: The MFA configuration. Valid values include:    OFF MFA will not be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MfaConfiguration"`: The MFA configuration. Valid values include:    OFF MFA will not be
   used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be
   required only for individual users who have an MFA factor enabled.
-- `SmsMfaConfiguration`: The SMS text message MFA configuration.
-- `SoftwareTokenMfaConfiguration`: The software token MFA configuration.
+- `"SmsMfaConfiguration"`: The SMS text message MFA configuration.
+- `"SoftwareTokenMfaConfiguration"`: The software token MFA configuration.
 """
 set_user_pool_mfa_config(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserPoolMfaConfig", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-set_user_pool_mfa_config(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserPoolMfaConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+set_user_pool_mfa_config(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserPoolMfaConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    SetUserSettings()
+    set_user_settings(access_token, mfaoptions)
+    set_user_settings(access_token, mfaoptions, params::Dict{String,<:Any})
 
  This action is no longer supported. You can use it to configure only SMS MFA. You can't
 use it to configure TOTP software token MFA. To configure either type of MFA, use
 SetUserMFAPreference instead.
 
-# Required Parameters
-- `AccessToken`: The access token for the set user settings request.
-- `MFAOptions`: You can use this parameter only to set an SMS configuration that uses SMS
+# Arguments
+- `access_token`: The access token for the set user settings request.
+- `mfaoptions`: You can use this parameter only to set an SMS configuration that uses SMS
   for delivery.
 
 """
 set_user_settings(AccessToken, MFAOptions; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserSettings", Dict{String, Any}("AccessToken"=>AccessToken, "MFAOptions"=>MFAOptions); aws_config=aws_config)
-set_user_settings(AccessToken, MFAOptions, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "MFAOptions"=>MFAOptions), args)); aws_config=aws_config)
+set_user_settings(AccessToken, MFAOptions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SetUserSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "MFAOptions"=>MFAOptions), params)); aws_config=aws_config)
 
 """
-    SignUp()
+    sign_up(client_id, password, username)
+    sign_up(client_id, password, username, params::Dict{String,<:Any})
 
 Registers the user in the specified user pool and creates a user name, password, and user
 attributes.
 
-# Required Parameters
-- `ClientId`: The ID of the client associated with the user pool.
-- `Password`: The password of the user you wish to register.
-- `Username`: The user name of the user you wish to register.
+# Arguments
+- `client_id`: The ID of the client associated with the user pool.
+- `password`: The password of the user you wish to register.
+- `username`: The user name of the user you wish to register.
 
 # Optional Parameters
-- `AnalyticsMetadata`: The Amazon Pinpoint analytics metadata for collecting metrics for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   SignUp calls.
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito
   invokes any functions that are assigned to the following triggers: pre sign-up, custom
@@ -1959,46 +2099,49 @@ attributes.
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
   don't use it to provide sensitive information.
-- `SecretHash`: A keyed-hash message authentication code (HMAC) calculated using the secret
-  key of a user pool client and username plus the client ID in the message.
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+- `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
+  secret key of a user pool client and username plus the client ID in the message.
+- `"UserAttributes"`: An array of name-value pairs representing user attributes. For custom
   attributes, you must prepend the custom: prefix to the attribute name.
-- `UserContextData`: Contextual data such as the user's device fingerprint, IP address, or
-  location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
+- `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
+  or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
-- `ValidationData`: The validation data in the request to register a user.
+- `"ValidationData"`: The validation data in the request to register a user.
 """
 sign_up(ClientId, Password, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SignUp", Dict{String, Any}("ClientId"=>ClientId, "Password"=>Password, "Username"=>Username); aws_config=aws_config)
-sign_up(ClientId, Password, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Password"=>Password, "Username"=>Username), args)); aws_config=aws_config)
+sign_up(ClientId, Password, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("SignUp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "Password"=>Password, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    StartUserImportJob()
+    start_user_import_job(job_id, user_pool_id)
+    start_user_import_job(job_id, user_pool_id, params::Dict{String,<:Any})
 
 Starts the user import.
 
-# Required Parameters
-- `JobId`: The job ID for the user import job.
-- `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
+# Arguments
+- `job_id`: The job ID for the user import job.
+- `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
 start_user_import_job(JobId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StartUserImportJob", Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-start_user_import_job(JobId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StartUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+start_user_import_job(JobId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StartUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    StopUserImportJob()
+    stop_user_import_job(job_id, user_pool_id)
+    stop_user_import_job(job_id, user_pool_id, params::Dict{String,<:Any})
 
 Stops the user import job.
 
-# Required Parameters
-- `JobId`: The job ID for the user import job.
-- `UserPoolId`: The user pool ID for the user pool that the users are being imported into.
+# Arguments
+- `job_id`: The job ID for the user import job.
+- `user_pool_id`: The user pool ID for the user pool that the users are being imported into.
 
 """
 stop_user_import_job(JobId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StopUserImportJob", Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-stop_user_import_job(JobId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StopUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+stop_user_import_job(JobId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("StopUserImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to
 categorize and manage user pools in different ways, such as by purpose, owner, environment,
@@ -2012,130 +2155,142 @@ you can track the costs associated with your user pools. In an IAM policy, you c
 constrain permissions for user pools based on specific tags or tag values. You can use this
 action up to 5 times per second, per account. A user pool can have as many as 50 tags.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool to assign the tags to.
-- `Tags`: The tags to assign to the user pool.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the user pool to assign the tags to.
+- `tags`: The tags to assign to the user pool.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the specified tags from an Amazon Cognito user pool. You can use this action up to
 5 times per second, per account
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the user pool that the tags are assigned
-  to.
-- `TagKeys`: The keys of the tags to remove from the user pool.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the user pool that the tags are
+  assigned to.
+- `tag_keys`: The keys of the tags to remove from the user pool.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateAuthEventFeedback()
+    update_auth_event_feedback(event_id, feedback_token, feedback_value, user_pool_id, username)
+    update_auth_event_feedback(event_id, feedback_token, feedback_value, user_pool_id, username, params::Dict{String,<:Any})
 
 Provides the feedback for an authentication event whether it was from a valid user or not.
 This feedback is used for improving the risk evaluation decision for the user pool as part
 of Amazon Cognito advanced security.
 
-# Required Parameters
-- `EventId`: The event ID.
-- `FeedbackToken`: The feedback token.
-- `FeedbackValue`: The authentication event feedback value.
-- `UserPoolId`: The user pool ID.
-- `Username`: The user pool username.
+# Arguments
+- `event_id`: The event ID.
+- `feedback_token`: The feedback token.
+- `feedback_value`: The authentication event feedback value.
+- `user_pool_id`: The user pool ID.
+- `username`: The user pool username.
 
 """
 update_auth_event_feedback(EventId, FeedbackToken, FeedbackValue, UserPoolId, Username; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateAuthEventFeedback", Dict{String, Any}("EventId"=>EventId, "FeedbackToken"=>FeedbackToken, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username); aws_config=aws_config)
-update_auth_event_feedback(EventId, FeedbackToken, FeedbackValue, UserPoolId, Username, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateAuthEventFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventId"=>EventId, "FeedbackToken"=>FeedbackToken, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username), args)); aws_config=aws_config)
+update_auth_event_feedback(EventId, FeedbackToken, FeedbackValue, UserPoolId, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateAuthEventFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventId"=>EventId, "FeedbackToken"=>FeedbackToken, "FeedbackValue"=>FeedbackValue, "UserPoolId"=>UserPoolId, "Username"=>Username), params)); aws_config=aws_config)
 
 """
-    UpdateDeviceStatus()
+    update_device_status(access_token, device_key)
+    update_device_status(access_token, device_key, params::Dict{String,<:Any})
 
 Updates the device status.
 
-# Required Parameters
-- `AccessToken`: The access token.
-- `DeviceKey`: The device key.
+# Arguments
+- `access_token`: The access token.
+- `device_key`: The device key.
 
 # Optional Parameters
-- `DeviceRememberedStatus`: The status of whether a device is remembered.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceRememberedStatus"`: The status of whether a device is remembered.
 """
 update_device_status(AccessToken, DeviceKey; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateDeviceStatus", Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey); aws_config=aws_config)
-update_device_status(AccessToken, DeviceKey, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateDeviceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey), args)); aws_config=aws_config)
+update_device_status(AccessToken, DeviceKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateDeviceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "DeviceKey"=>DeviceKey), params)); aws_config=aws_config)
 
 """
-    UpdateGroup()
+    update_group(group_name, user_pool_id)
+    update_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Updates the specified group with the specified attributes. Calling this action requires
 developer credentials.  If you don't provide a value for an attribute, it will be set to
 the default value.
 
-# Required Parameters
-- `GroupName`: The name of the group.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `group_name`: The name of the group.
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Description`: A string containing the new description of the group.
-- `Precedence`: The new precedence value for the group. For more information about this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A string containing the new description of the group.
+- `"Precedence"`: The new precedence value for the group. For more information about this
   parameter, see CreateGroup.
-- `RoleArn`: The new role ARN for the group. This is used for setting the cognito:roles and
-  cognito:preferred_role claims in the token.
+- `"RoleArn"`: The new role ARN for the group. This is used for setting the cognito:roles
+  and cognito:preferred_role claims in the token.
 """
 update_group(GroupName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_group(GroupName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_group(GroupName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    UpdateIdentityProvider()
+    update_identity_provider(provider_name, user_pool_id)
+    update_identity_provider(provider_name, user_pool_id, params::Dict{String,<:Any})
 
 Updates identity provider information for a user pool.
 
-# Required Parameters
-- `ProviderName`: The identity provider name.
-- `UserPoolId`: The user pool ID.
+# Arguments
+- `provider_name`: The identity provider name.
+- `user_pool_id`: The user pool ID.
 
 # Optional Parameters
-- `AttributeMapping`: The identity provider attribute mapping to be changed.
-- `IdpIdentifiers`: A list of identity provider identifiers.
-- `ProviderDetails`: The identity provider details to be updated, such as MetadataURL and
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeMapping"`: The identity provider attribute mapping to be changed.
+- `"IdpIdentifiers"`: A list of identity provider identifiers.
+- `"ProviderDetails"`: The identity provider details to be updated, such as MetadataURL and
   MetadataFile.
 """
 update_identity_provider(ProviderName, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateIdentityProvider", Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_identity_provider(ProviderName, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_identity_provider(ProviderName, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateIdentityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProviderName"=>ProviderName, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    UpdateResourceServer()
+    update_resource_server(identifier, name, user_pool_id)
+    update_resource_server(identifier, name, user_pool_id, params::Dict{String,<:Any})
 
 Updates the name and scopes of resource server. All other fields are read-only.  If you
 don't provide a value for an attribute, it will be set to the default value.
 
-# Required Parameters
-- `Identifier`: The identifier for the resource server.
-- `Name`: The name of the resource server.
-- `UserPoolId`: The user pool ID for the user pool.
+# Arguments
+- `identifier`: The identifier for the resource server.
+- `name`: The name of the resource server.
+- `user_pool_id`: The user pool ID for the user pool.
 
 # Optional Parameters
-- `Scopes`: The scope values to be set for the resource server.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Scopes"`: The scope values to be set for the resource server.
 """
 update_resource_server(Identifier, Name, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateResourceServer", Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_resource_server(Identifier, Name, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_resource_server(Identifier, Name, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateResourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifier"=>Identifier, "Name"=>Name, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    UpdateUserAttributes()
+    update_user_attributes(access_token, user_attributes)
+    update_user_attributes(access_token, user_attributes, params::Dict{String,<:Any})
 
 Allows a user to update a specific attribute (one at a time).
 
-# Required Parameters
-- `AccessToken`: The access token for the request to update user attributes.
-- `UserAttributes`: An array of name-value pairs representing user attributes. For custom
+# Arguments
+- `access_token`: The access token for the request to update user attributes.
+- `user_attributes`: An array of name-value pairs representing user attributes. For custom
   attributes, you must prepend the custom: prefix to the attribute name.
 
 # Optional Parameters
-- `ClientMetadata`: A map of custom key-value pairs that you can provide as input for any
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
@@ -2153,96 +2308,101 @@ Allows a user to update a specific attribute (one at a time).
   ClientMetadata value, so don't use it to provide sensitive information.
 """
 update_user_attributes(AccessToken, UserAttributes; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes); aws_config=aws_config)
-update_user_attributes(AccessToken, UserAttributes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes), args)); aws_config=aws_config)
+update_user_attributes(AccessToken, UserAttributes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes), params)); aws_config=aws_config)
 
 """
-    UpdateUserPool()
+    update_user_pool(user_pool_id)
+    update_user_pool(user_pool_id, params::Dict{String,<:Any})
 
 Updates the specified user pool with the specified attributes. You can get a list of the
 current user pool settings using DescribeUserPool.  If you don't provide a value for an
 attribute, it will be set to the default value.
 
-# Required Parameters
-- `UserPoolId`: The user pool ID for the user pool you want to update.
+# Arguments
+- `user_pool_id`: The user pool ID for the user pool you want to update.
 
 # Optional Parameters
-- `AccountRecoverySetting`: Use this setting to define which verified available method a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountRecoverySetting"`: Use this setting to define which verified available method a
   user can use to recover their password when they call ForgotPassword. It allows you to
   define a preferred method when a user has more than one method available. With this
   setting, SMS does not qualify for a valid password recovery mechanism if the user also has
   SMS MFA enabled. In the absence of this setting, Cognito uses the legacy behavior to
   determine the recovery method where SMS is preferred over email.
-- `AdminCreateUserConfig`: The configuration for AdminCreateUser requests.
-- `AutoVerifiedAttributes`: The attributes that are automatically verified when the Amazon
-  Cognito service makes a request to update user pools.
-- `DeviceConfiguration`: Device configuration.
-- `EmailConfiguration`: Email configuration.
-- `EmailVerificationMessage`: The contents of the email verification message.
-- `EmailVerificationSubject`: The subject of the email verification message.
-- `LambdaConfig`: The AWS Lambda configuration information from the request to update the
+- `"AdminCreateUserConfig"`: The configuration for AdminCreateUser requests.
+- `"AutoVerifiedAttributes"`: The attributes that are automatically verified when the
+  Amazon Cognito service makes a request to update user pools.
+- `"DeviceConfiguration"`: Device configuration.
+- `"EmailConfiguration"`: Email configuration.
+- `"EmailVerificationMessage"`: The contents of the email verification message.
+- `"EmailVerificationSubject"`: The subject of the email verification message.
+- `"LambdaConfig"`: The AWS Lambda configuration information from the request to update the
   user pool.
-- `MfaConfiguration`: Can be one of the following values:    OFF - MFA tokens are not
+- `"MfaConfiguration"`: Can be one of the following values:    OFF - MFA tokens are not
   required and cannot be specified during user registration.    ON - MFA tokens are required
   for all user registrations. You can only specify required when you are initially creating a
   user pool.    OPTIONAL - Users have the option when registering to create an MFA token.
-- `Policies`: A container with the policies you wish to update in a user pool.
-- `SmsAuthenticationMessage`: The contents of the SMS authentication message.
-- `SmsConfiguration`: SMS configuration.
-- `SmsVerificationMessage`: A container with information about the SMS verification message.
-- `UserPoolAddOns`: Used to enable advanced security risk detection. Set the key
+- `"Policies"`: A container with the policies you wish to update in a user pool.
+- `"SmsAuthenticationMessage"`: The contents of the SMS authentication message.
+- `"SmsConfiguration"`: SMS configuration.
+- `"SmsVerificationMessage"`: A container with information about the SMS verification
+  message.
+- `"UserPoolAddOns"`: Used to enable advanced security risk detection. Set the key
   AdvancedSecurityMode to the value \"AUDIT\".
-- `UserPoolTags`: The tag keys and values to assign to the user pool. A tag is a label that
-  you can use to categorize and manage user pools in different ways, such as by purpose,
+- `"UserPoolTags"`: The tag keys and values to assign to the user pool. A tag is a label
+  that you can use to categorize and manage user pools in different ways, such as by purpose,
   owner, environment, or other criteria.
-- `VerificationMessageTemplate`: The template for verification messages.
+- `"VerificationMessageTemplate"`: The template for verification messages.
 """
 update_user_pool(UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPool", Dict{String, Any}("UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_user_pool(UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_user_pool(UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    UpdateUserPoolClient()
+    update_user_pool_client(client_id, user_pool_id)
+    update_user_pool_client(client_id, user_pool_id, params::Dict{String,<:Any})
 
 Updates the specified user pool app client with the specified attributes. You can get a
 list of the current user pool app client settings using DescribeUserPoolClient.  If you
 don't provide a value for an attribute, it will be set to the default value.
 
-# Required Parameters
-- `ClientId`: The ID of the client associated with the user pool.
-- `UserPoolId`: The user pool ID for the user pool where you want to update the user pool
+# Arguments
+- `client_id`: The ID of the client associated with the user pool.
+- `user_pool_id`: The user pool ID for the user pool where you want to update the user pool
   client.
 
 # Optional Parameters
-- `AccessTokenValidity`: The time limit, after which the access token is no longer valid
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessTokenValidity"`: The time limit, after which the access token is no longer valid
   and cannot be used.
-- `AllowedOAuthFlows`: The allowed OAuth flows. Set to code to initiate a code grant flow,
-  which provides an authorization code as the response. This code can be exchanged for access
-  tokens with the token endpoint. Set to implicit to specify that the client should get the
-  access token (and, optionally, ID token, based on scopes) directly. Set to
+- `"AllowedOAuthFlows"`: The allowed OAuth flows. Set to code to initiate a code grant
+  flow, which provides an authorization code as the response. This code can be exchanged for
+  access tokens with the token endpoint. Set to implicit to specify that the client should
+  get the access token (and, optionally, ID token, based on scopes) directly. Set to
   client_credentials to specify that the client should get the access token (and, optionally,
   ID token, based on scopes) from the token endpoint using a combination of client and
   client_secret.
-- `AllowedOAuthFlowsUserPoolClient`: Set to true if the client is allowed to follow the
+- `"AllowedOAuthFlowsUserPoolClient"`: Set to true if the client is allowed to follow the
   OAuth protocol when interacting with Cognito user pools.
-- `AllowedOAuthScopes`: The allowed OAuth scopes. Possible values provided by OAuth are:
+- `"AllowedOAuthScopes"`: The allowed OAuth scopes. Possible values provided by OAuth are:
   phone, email, openid, and profile. Possible values provided by AWS are:
   aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
-- `AnalyticsConfiguration`: The Amazon Pinpoint analytics configuration for collecting
+- `"AnalyticsConfiguration"`: The Amazon Pinpoint analytics configuration for collecting
   metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
   only supports sending events to Amazon Pinpoint projects in us-east-1. In regions where
   Pinpoint is available, Cognito User Pools will support sending events to Amazon Pinpoint
   projects within that same region.
-- `CallbackURLs`: A list of allowed redirect (callback) URLs for the identity providers. A
+- `"CallbackURLs"`: A list of allowed redirect (callback) URLs for the identity providers.
+  A redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
+  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
+  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
+  callback URLs such as myapp://example are also supported.
+- `"ClientName"`: The client name from the update user pool client request.
+- `"DefaultRedirectURI"`: The default redirect URI. Must be in the CallbackURLs list. A
   redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
   Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
   requires HTTPS over HTTP except for http://localhost for testing purposes only. App
   callback URLs such as myapp://example are also supported.
-- `ClientName`: The client name from the update user pool client request.
-- `DefaultRedirectURI`: The default redirect URI. Must be in the CallbackURLs list. A
-  redirect URI must:   Be an absolute URI.   Be registered with the authorization server.
-  Not include a fragment component.   See OAuth 2.0 - Redirection Endpoint. Amazon Cognito
-  requires HTTPS over HTTP except for http://localhost for testing purposes only. App
-  callback URLs such as myapp://example are also supported.
-- `ExplicitAuthFlows`: The authentication flows that are supported by the user pool
+- `"ExplicitAuthFlows"`: The authentication flows that are supported by the user pool
   clients. Flow names without the ALLOW_ prefix are deprecated in favor of new names with the
   ALLOW_ prefix. Note that values with ALLOW_ prefix cannot be used along with values without
   ALLOW_ prefix. Valid values include:    ALLOW_ADMIN_USER_PASSWORD_AUTH: Enable admin based
@@ -2254,10 +2414,10 @@ don't provide a value for an attribute, it will be set to the default value.
   receives the password in the request instead of using the SRP protocol to verify passwords.
      ALLOW_USER_SRP_AUTH: Enable SRP based authentication.    ALLOW_REFRESH_TOKEN_AUTH:
   Enable authflow to refresh tokens.
-- `IdTokenValidity`: The time limit, after which the ID token is no longer valid and cannot
-  be used.
-- `LogoutURLs`: A list of allowed logout URLs for the identity providers.
-- `PreventUserExistenceErrors`: Use this setting to choose which errors and responses are
+- `"IdTokenValidity"`: The time limit, after which the ID token is no longer valid and
+  cannot be used.
+- `"LogoutURLs"`: A list of allowed logout URLs for the identity providers.
+- `"PreventUserExistenceErrors"`: Use this setting to choose which errors and responses are
   returned by Cognito APIs during authentication, account confirmation, and password recovery
   when the user does not exist in the user pool. When set to ENABLED and the user does not
   exist, authentication returns an error indicating either the username or password was
@@ -2268,20 +2428,21 @@ don't provide a value for an attribute, it will be set to the default value.
   represents the old behavior of Cognito where user existence related errors are not
   prevented.    After February 15th 2020, the value of PreventUserExistenceErrors will
   default to ENABLED for newly created user pool clients if no value is provided.
-- `ReadAttributes`: The read-only attributes of the user pool.
-- `RefreshTokenValidity`: The time limit, in days, after which the refresh token is no
+- `"ReadAttributes"`: The read-only attributes of the user pool.
+- `"RefreshTokenValidity"`: The time limit, in days, after which the refresh token is no
   longer valid and cannot be used.
-- `SupportedIdentityProviders`: A list of provider names for the identity providers that
+- `"SupportedIdentityProviders"`: A list of provider names for the identity providers that
   are supported on this client.
-- `TokenValidityUnits`: The units in which the validity times are represented in. Default
+- `"TokenValidityUnits"`: The units in which the validity times are represented in. Default
   for RefreshToken is days, and default for ID and access tokens are hours.
-- `WriteAttributes`: The writeable attributes of the user pool.
+- `"WriteAttributes"`: The writeable attributes of the user pool.
 """
 update_user_pool_client(ClientId, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolClient", Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_user_pool_client(ClientId, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_user_pool_client(ClientId, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolClient", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientId"=>ClientId, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    UpdateUserPoolDomain()
+    update_user_pool_domain(custom_domain_config, domain, user_pool_id)
+    update_user_pool_domain(custom_domain_config, domain, user_pool_id, params::Dict{String,<:Any})
 
 Updates the Secure Sockets Layer (SSL) certificate for the custom domain for your user
 pool. You can use this operation to provide the Amazon Resource Name (ARN) of a new
@@ -2300,51 +2461,54 @@ After you submit your request, Amazon Cognito requires up to 1 hour to distribut
 certificate to your custom domain. For more information about adding a custom domain to
 your user pool, see Using Your Own Domain for the Hosted UI.
 
-# Required Parameters
-- `CustomDomainConfig`: The configuration for a custom domain that hosts the sign-up and
+# Arguments
+- `custom_domain_config`: The configuration for a custom domain that hosts the sign-up and
   sign-in pages for your application. Use this object to specify an SSL certificate that is
   managed by ACM.
-- `Domain`: The domain name for the custom domain that hosts the sign-up and sign-in pages
+- `domain`: The domain name for the custom domain that hosts the sign-up and sign-in pages
   for your application. For example: auth.example.com.  This string can include only
   lowercase letters, numbers, and hyphens. Do not use a hyphen for the first or last
   character. Use periods to separate subdomain names.
-- `UserPoolId`: The ID of the user pool that is associated with the custom domain that you
-  are updating the certificate for.
+- `user_pool_id`: The ID of the user pool that is associated with the custom domain that
+  you are updating the certificate for.
 
 """
 update_user_pool_domain(CustomDomainConfig, Domain, UserPoolId; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolDomain", Dict{String, Any}("CustomDomainConfig"=>CustomDomainConfig, "Domain"=>Domain, "UserPoolId"=>UserPoolId); aws_config=aws_config)
-update_user_pool_domain(CustomDomainConfig, Domain, UserPoolId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomDomainConfig"=>CustomDomainConfig, "Domain"=>Domain, "UserPoolId"=>UserPoolId), args)); aws_config=aws_config)
+update_user_pool_domain(CustomDomainConfig, Domain, UserPoolId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserPoolDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomDomainConfig"=>CustomDomainConfig, "Domain"=>Domain, "UserPoolId"=>UserPoolId), params)); aws_config=aws_config)
 
 """
-    VerifySoftwareToken()
+    verify_software_token(user_code)
+    verify_software_token(user_code, params::Dict{String,<:Any})
 
 Use this API to register a user's entered TOTP code and mark the user's software token MFA
 status as \"verified\" if successful. The request takes an access token or a session
 string, but not both.
 
-# Required Parameters
-- `UserCode`: The one time password computed using the secret code returned by
+# Arguments
+- `user_code`: The one time password computed using the secret code returned by
   AssociateSoftwareToken\".
 
 # Optional Parameters
-- `AccessToken`: The access token.
-- `FriendlyDeviceName`: The friendly device name.
-- `Session`: The session which should be passed both ways in challenge-response calls to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessToken"`: The access token.
+- `"FriendlyDeviceName"`: The friendly device name.
+- `"Session"`: The session which should be passed both ways in challenge-response calls to
   the service.
 """
 verify_software_token(UserCode; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifySoftwareToken", Dict{String, Any}("UserCode"=>UserCode); aws_config=aws_config)
-verify_software_token(UserCode, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifySoftwareToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserCode"=>UserCode), args)); aws_config=aws_config)
+verify_software_token(UserCode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifySoftwareToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserCode"=>UserCode), params)); aws_config=aws_config)
 
 """
-    VerifyUserAttribute()
+    verify_user_attribute(access_token, attribute_name, code)
+    verify_user_attribute(access_token, attribute_name, code, params::Dict{String,<:Any})
 
 Verifies the specified user attributes in the user pool.
 
-# Required Parameters
-- `AccessToken`: Represents the access token of the request to verify user attributes.
-- `AttributeName`: The attribute name in the request to verify user attributes.
-- `Code`: The verification code in the request to verify user attributes.
+# Arguments
+- `access_token`: Represents the access token of the request to verify user attributes.
+- `attribute_name`: The attribute name in the request to verify user attributes.
+- `code`: The verification code in the request to verify user attributes.
 
 """
 verify_user_attribute(AccessToken, AttributeName, Code; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifyUserAttribute", Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName, "Code"=>Code); aws_config=aws_config)
-verify_user_attribute(AccessToken, AttributeName, Code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifyUserAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName, "Code"=>Code), args)); aws_config=aws_config)
+verify_user_attribute(AccessToken, AttributeName, Code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("VerifyUserAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "AttributeName"=>AttributeName, "Code"=>Code), params)); aws_config=aws_config)
