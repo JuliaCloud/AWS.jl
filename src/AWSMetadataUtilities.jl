@@ -619,10 +619,12 @@ Return a string with line breaks added such that lines are wrapped at or before 
 """
 function wraplines(str, limit=92; delim="\n")
     lines = String[]
+
     while !isempty(str)
         line, str = splitline(str, limit)
         push!(lines, rstrip(line))  # strip trailing whitespace
     end
+
     return join(lines, delim)
 end
 
@@ -635,17 +637,20 @@ Prefers splitting the string on whitespace rather than mid-word, when possible.
 `limit` is measured in codeunits, which is an upper-bound on the number of characters.
 """
 function splitline(str, limit)
-    limit ≥ 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
-    ncodeunits(str) ≤ limit && return (str, "")
+    limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
+    ncodeunits(str) <= limit && return (str, "")
     limit = validindex(str, limit)
     first_line = str[1:limit]
     # split on whitespace if possible, else just split when we hit the limit.
     split_point = something(findlast(==(' '), first_line), limit)
     stop = validindex(first_line, split_point)
+
     while ispunct(first_line[stop])  # avoid splitting escaped characters.
         stop = prevind(first_line, stop)
     end
+
     restart = nextind(first_line, stop)
+
     return (str[1:stop], str[restart:end])
 end
 
@@ -661,6 +666,7 @@ Return a valid index into the string `str`, rounding towards the first index of 
 function validindex(str, limit)
     prev = max(firstindex(str), prevind(str, limit))
     next = nextind(str, prev)
+
     return next == limit ? limit : prev
 end
 
