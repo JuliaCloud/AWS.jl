@@ -573,7 +573,7 @@ function _generate_high_level_definition(
         args = join((_format_name(key) for (key, val) in required_parameters), ", ")
         maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
-            \"\"\"
+            $(repeat('"', 3))
                 $function_name($(args))
                 $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
 
@@ -606,7 +606,7 @@ function _generate_high_level_definition(
             end
         end
 
-        operation_definition *= "\"\"\""
+        operation_definition *= repeat('"', 3)
     end
 
     doc_string = _generate_docstring(name, documentation, required_parameters, optional_parameters)
