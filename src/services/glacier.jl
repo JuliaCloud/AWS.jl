@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AbortMultipartUpload()
+    abort_multipart_upload(account_id, upload_id, vault_name)
+    abort_multipart_upload(account_id, upload_id, vault_name, params::Dict{String,<:Any})
 
 This operation aborts a multipart upload identified by the upload ID. After the Abort
 Multipart Upload request succeeds, you cannot upload any more parts to the multipart upload
@@ -20,20 +21,21 @@ Access Management (IAM).  For conceptual information and underlying REST API, se
 with Archives in Amazon S3 Glacier and Abort Multipart Upload in the Amazon Glacier
 Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `uploadId`: The upload ID of the multipart upload to delete.
-- `vaultName`: The name of the vault.
+- `upload_id`: The upload ID of the multipart upload to delete.
+- `vault_name`: The name of the vault.
 
 """
 abort_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-abort_multipart_upload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+abort_multipart_upload(accountId, uploadId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config)
 
 """
-    AbortVaultLock()
+    abort_vault_lock(account_id, vault_name)
+    abort_vault_lock(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation aborts the vault locking process if the vault lock is not in the Locked
 state. If the vault lock is in the Locked state when this operation is requested, the
@@ -47,20 +49,21 @@ Lock Policies.  This operation is idempotent. You can successfully invoke this o
 multiple times, if the vault lock is in the InProgress state or if there is no policy
 associated with the vault.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 abort_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-abort_vault_lock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+abort_vault_lock(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config)
 
 """
-    AddTagsToVault()
+    add_tags_to_vault(account_id, vault_name)
+    add_tags_to_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation adds the specified tags to a vault. Each tag is composed of a key and a
 value. Each vault can have up to 10 tags. If your request would cause the tag limit for the
@@ -68,22 +71,24 @@ vault to be exceeded, the operation throws the LimitExceededException error. If 
 already exists on the vault under a specified key, the existing key value will be
 overwritten. For more information about tags, see Tagging Amazon S3 Glacier Resources.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `Tags`: The tags to add to the vault. Each tag is composed of a key and a value. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags to add to the vault. Each tag is composed of a key and a value. The
   value can be an empty string.
 """
 add_tags_to_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add"; aws_config=aws_config)
-add_tags_to_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", args; aws_config=aws_config)
+add_tags_to_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", params; aws_config=aws_config)
 
 """
-    CompleteMultipartUpload()
+    complete_multipart_upload(account_id, upload_id, vault_name)
+    complete_multipart_upload(account_id, upload_id, vault_name, params::Dict{String,<:Any})
 
 You call this operation to inform Amazon S3 Glacier (Glacier) that all the archive parts
 have been uploaded and that Glacier can now assemble the archive from the uploaded parts.
@@ -115,27 +120,29 @@ Control Using AWS Identity and Access Management (IAM).  For conceptual informat
 underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Complete
 Multipart Upload in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `uploadId`: The upload ID of the multipart upload.
-- `vaultName`: The name of the vault.
+- `upload_id`: The upload ID of the multipart upload.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `x-amz-archive-size`: The total size, in bytes, of the entire archive. This value should
-  be the sum of all the sizes of the individual parts that you uploaded.
-- `x-amz-sha256-tree-hash`: The SHA256 tree hash of the entire archive. It is the tree hash
-  of SHA256 tree hash of the individual parts. If the value you specify in the request does
-  not match the SHA256 tree hash of the final assembled archive as computed by Amazon S3
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-archive-size"`: The total size, in bytes, of the entire archive. This value
+  should be the sum of all the sizes of the individual parts that you uploaded.
+- `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the entire archive. It is the tree
+  hash of SHA256 tree hash of the individual parts. If the value you specify in the request
+  does not match the SHA256 tree hash of the final assembled archive as computed by Amazon S3
   Glacier (Glacier), Glacier returns an error and the request fails.
 """
 complete_multipart_upload(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-complete_multipart_upload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+complete_multipart_upload(accountId, uploadId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config)
 
 """
-    CompleteVaultLock()
+    complete_vault_lock(account_id, lock_id, vault_name)
+    complete_vault_lock(account_id, lock_id, vault_name, params::Dict{String,<:Any})
 
 This operation completes the vault locking process by transitioning the vault lock from the
 InProgress state to the Locked state, which causes the vault lock policy to become
@@ -148,21 +155,22 @@ passed in the request when the vault lock is in the Locked state, the operation 
 AccessDeniedException error. If an invalid lock ID is passed in the request when the vault
 lock is in the InProgress state, the operation throws an InvalidParameter error.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
-- `lockId`: The lockId value is the lock ID obtained from a InitiateVaultLock request.
-- `vaultName`: The name of the vault.
+- `lock_id`: The lockId value is the lock ID obtained from a InitiateVaultLock request.
+- `vault_name`: The name of the vault.
 
 """
 complete_vault_lock(accountId, lockId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)"; aws_config=aws_config)
-complete_vault_lock(accountId, lockId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", args; aws_config=aws_config)
+complete_vault_lock(accountId, lockId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", params; aws_config=aws_config)
 
 """
-    CreateVault()
+    create_vault(account_id, vault_name)
+    create_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation creates a new vault with the specified name. The name of the vault must be
 unique within a region for an AWS account. You can create up to 1,000 vaults per account.
@@ -176,20 +184,21 @@ actions. For more information, see Access Control Using AWS Identity and Access 
 (IAM).  For conceptual information and underlying REST API, see Creating a Vault in Amazon
 Glacier and Create Vault  in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 create_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-create_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+create_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config)
 
 """
-    DeleteArchive()
+    delete_archive(account_id, archive_id, vault_name)
+    delete_archive(account_id, archive_id, vault_name, params::Dict{String,<:Any})
 
 This operation deletes an archive from a vault. Subsequent requests to initiate a retrieval
 of this archive will fail. Archive retrievals that are in progress for this archive ID may
@@ -206,20 +215,21 @@ Identity and Access Management (IAM).  For conceptual information and underlying
 see Deleting an Archive in Amazon Glacier and Delete Archive in the Amazon Glacier
 Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `archiveId`: The ID of the archive to delete.
-- `vaultName`: The name of the vault.
+- `archive_id`: The ID of the archive to delete.
+- `vault_name`: The name of the vault.
 
 """
 delete_archive(accountId, archiveId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)"; aws_config=aws_config)
-delete_archive(accountId, archiveId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", args; aws_config=aws_config)
+delete_archive(accountId, archiveId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", params; aws_config=aws_config)
 
 """
-    DeleteVault()
+    delete_vault(account_id, vault_name)
+    delete_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation deletes a vault. Amazon S3 Glacier will delete a vault only if there are no
 archives in the vault as of the last inventory and there have been no writes to the vault
@@ -235,19 +245,20 @@ actions. For more information, see Access Control Using AWS Identity and Access 
 (IAM).  For conceptual information and underlying REST API, see Deleting a Vault in Amazon
 Glacier and Delete Vault  in the Amazon S3 Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 delete_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-delete_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+delete_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config)
 
 """
-    DeleteVaultAccessPolicy()
+    delete_vault_access_policy(account_id, vault_name)
+    delete_vault_access_policy(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation deletes the access policy associated with the specified vault. The operation
 is eventually consistent; that is, it might take some time for Amazon S3 Glacier to
@@ -257,19 +268,20 @@ delete multiple times, even if there is no policy associated with the vault. For
 information about vault access policies, see Amazon Glacier Access Control with Vault
 Access Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 delete_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-delete_vault_access_policy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+delete_vault_access_policy(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config)
 
 """
-    DeleteVaultNotifications()
+    delete_vault_notifications(account_id, vault_name)
+    delete_vault_notifications(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation deletes the notification configuration set for a vault. The operation is
 eventually consistent; that is, it might take some time for Amazon S3 Glacier to completely
@@ -282,19 +294,20 @@ actions. For more information, see Access Control Using AWS Identity and Access 
 Notifications in Amazon S3 Glacier and Delete Vault Notification Configuration  in the
 Amazon S3 Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 delete_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-delete_vault_notifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+delete_vault_notifications(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config)
 
 """
-    DescribeJob()
+    describe_job(account_id, job_id, vault_name)
+    describe_job(account_id, job_id, vault_name, params::Dict{String,<:Any})
 
 This operation returns information about a job you previously initiated, including the job
 initiation date, the user who initiated the job, the job status code/message and the Amazon
@@ -310,20 +323,21 @@ information, see Access Control Using AWS Identity and Access Management (IAM). 
 information about using this operation, see the documentation for the underlying REST API
 Describe Job in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `jobId`: The ID of the job to describe.
-- `vaultName`: The name of the vault.
+- `job_id`: The ID of the job to describe.
+- `vault_name`: The name of the vault.
 
 """
 describe_job(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)"; aws_config=aws_config)
-describe_job(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", args; aws_config=aws_config)
+describe_job(accountId, jobId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", params; aws_config=aws_config)
 
 """
-    DescribeVault()
+    describe_vault(account_id, vault_name)
+    describe_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation returns information about a vault, including the vault's Amazon Resource
 Name (ARN), the date the vault was created, the number of archives it contains, and the
@@ -340,26 +354,27 @@ Identity and Access Management (IAM). For conceptual information and underlying 
 see Retrieving Vault Metadata in Amazon S3 Glacier and Describe Vault  in the Amazon
 Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 describe_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-describe_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+describe_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", params; aws_config=aws_config)
 
 """
-    GetDataRetrievalPolicy()
+    get_data_retrieval_policy(account_id)
+    get_data_retrieval_policy(account_id, params::Dict{String,<:Any})
 
 This operation returns the current data retrieval policy for the account and region
 specified in the GET request. For more information about data retrieval policies, see
 Amazon Glacier Data Retrieval Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
@@ -367,10 +382,11 @@ Amazon Glacier Data Retrieval Policies.
 
 """
 get_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
-get_data_retrieval_policy(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
+get_data_retrieval_policy(accountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config)
 
 """
-    GetJobOutput()
+    get_job_output(account_id, job_id, vault_name)
+    get_job_output(account_id, job_id, vault_name, params::Dict{String,<:Any})
 
 This operation downloads the output of the job you initiated using InitiateJob. Depending
 on the job type you specified when you initiated the job, the output will be either the
@@ -400,16 +416,17 @@ Access Control Using AWS Identity and Access Management (IAM). For conceptual in
 and the underlying REST API, see Downloading a Vault Inventory, Downloading an Archive, and
 Get Job Output
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `jobId`: The job ID whose data is downloaded.
-- `vaultName`: The name of the vault.
+- `job_id`: The job ID whose data is downloaded.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `Range`: The range of bytes to retrieve from the output. For example, if you want to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Range"`: The range of bytes to retrieve from the output. For example, if you want to
   download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this
   operation downloads the entire output. If the job output is large, then you can use a range
   to retrieve a portion of the output. This allows you to download the entire output in
@@ -429,10 +446,11 @@ Get Job Output
   ensure you have downloaded the entire archive content with no errors.
 """
 get_job_output(accountId, jobId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output"; aws_config=aws_config)
-get_job_output(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", args; aws_config=aws_config)
+get_job_output(accountId, jobId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", params; aws_config=aws_config)
 
 """
-    GetVaultAccessPolicy()
+    get_vault_access_policy(account_id, vault_name)
+    get_vault_access_policy(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation retrieves the access-policy subresource set on the vault; for more
 information on setting this subresource, see Set Vault Access Policy (PUT access-policy).
@@ -440,19 +458,20 @@ If there is no access policy set on the vault, the operation returns a 404 Not f
 For more information about vault access policies, see Amazon Glacier Access Control with
 Vault Access Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 get_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-get_vault_access_policy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+get_vault_access_policy(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config)
 
 """
-    GetVaultLock()
+    get_vault_lock(account_id, vault_name)
+    get_vault_lock(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation retrieves the following attributes from the lock-policy subresource set on
 the specified vault:    The vault lock policy set on the vault.   The state of the vault
@@ -465,19 +484,20 @@ about the vault locking process, Amazon Glacier Vault Lock.  If there is no vaul
 policy set on the vault, the operation returns a 404 Not found error. For more information
 about vault lock policies, Amazon Glacier Access Control with Vault Lock Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 get_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-get_vault_lock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+get_vault_lock(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config)
 
 """
-    GetVaultNotifications()
+    get_vault_notifications(account_id, vault_name)
+    get_vault_notifications(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation retrieves the notification-configuration subresource of the specified vault.
 For information about setting a notification configuration on a vault, see
@@ -491,39 +511,42 @@ and Access Management (IAM). For conceptual information and underlying REST API,
 Configuring Vault Notifications in Amazon S3 Glacier and Get Vault Notification
 Configuration  in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 get_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-get_vault_notifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+get_vault_notifications(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config)
 
 """
-    InitiateJob()
+    initiate_job(account_id, vault_name)
+    initiate_job(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation initiates a job of the specified type, which can be a select, an archival
 retrieval, or a vault retrieval. For more information about using this operation, see the
 documentation for the underlying REST API Initiate a Job.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `jobParameters`: Provides options for specifying job information.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobParameters"`: Provides options for specifying job information.
 """
 initiate_job(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
-initiate_job(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
+initiate_job(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config)
 
 """
-    InitiateMultipartUpload()
+    initiate_multipart_upload(account_id, vault_name)
+    initiate_multipart_upload(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation initiates a multipart upload. Amazon S3 Glacier creates a multipart upload
 resource and returns its ID in the response. The multipart upload ID is used in subsequent
@@ -547,26 +570,28 @@ Access Control Using AWS Identity and Access Management (IAM). For conceptual in
 and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and
 Initiate Multipart Upload in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `x-amz-archive-description`: The archive description that you are uploading in parts. The
-  part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1
-  MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part
-  size is 1 MB, and the maximum is 4 GB (4096 MB).
-- `x-amz-part-size`: The size of each part except the last, in bytes. The last part can be
-  smaller than this part size.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-archive-description"`: The archive description that you are uploading in parts.
+  The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576
+  (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable
+  part size is 1 MB, and the maximum is 4 GB (4096 MB).
+- `"x-amz-part-size"`: The size of each part except the last, in bytes. The last part can
+  be smaller than this part size.
 """
 initiate_multipart_upload(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
-initiate_multipart_upload(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
+initiate_multipart_upload(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config)
 
 """
-    InitiateVaultLock()
+    initiate_vault_lock(account_id, vault_name)
+    initiate_vault_lock(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation initiates the vault locking process by doing the following:   Installing a
 vault lock policy on the specified vault.   Setting the lock state of vault lock to
@@ -585,22 +610,25 @@ Lock. If this operation is called when the vault lock is in the InProgress state
 operation returns an AccessDeniedException error. When the vault lock is in the InProgress
 state you must call AbortVaultLock before you can initiate a new vault lock policy.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `policy`: The vault lock policy as a JSON string, which uses \"\" as an escape character.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"policy"`: The vault lock policy as a JSON string, which uses \"\" as an escape
+  character.
 """
 initiate_vault_lock(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-initiate_vault_lock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+initiate_vault_lock(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", params; aws_config=aws_config)
 
 """
-    ListJobs()
+    list_jobs(account_id, vault_name)
+    list_jobs(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation lists jobs for a vault, including jobs that are in-progress and jobs that
 have recently finished. The List Job operation returns a list of these jobs sorted by job
@@ -627,30 +655,32 @@ parameter, you can specify to return only jobs that were completed (true) or job
 not completed (false). For more information about using this operation, see the
 documentation for the underlying REST API List Jobs.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `completed`: The state of the jobs to return. You can specify true or false.
-- `limit`: The maximum number of jobs to be returned. The default limit is 50. The number
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"completed"`: The state of the jobs to return. You can specify true or false.
+- `"limit"`: The maximum number of jobs to be returned. The default limit is 50. The number
   of jobs returned might be fewer than the specified limit, but the number of returned jobs
   never exceeds the limit.
-- `marker`: An opaque string used for pagination. This value specifies the job at which the
-  listing of jobs should begin. Get the marker value from a previous List Jobs response. You
-  only need to include the marker if you are continuing the pagination of results started in
-  a previous List Jobs request.
-- `statuscode`: The type of job status to return. You can specify the following values:
+- `"marker"`: An opaque string used for pagination. This value specifies the job at which
+  the listing of jobs should begin. Get the marker value from a previous List Jobs response.
+  You only need to include the marker if you are continuing the pagination of results started
+  in a previous List Jobs request.
+- `"statuscode"`: The type of job status to return. You can specify the following values:
   InProgress, Succeeded, or Failed.
 """
 list_jobs(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
-list_jobs(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
+list_jobs(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", params; aws_config=aws_config)
 
 """
-    ListMultipartUploads()
+    list_multipart_uploads(account_id, vault_name)
+    list_multipart_uploads(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation lists in-progress multipart uploads for the specified vault. An in-progress
 multipart upload is a multipart upload that has been initiated by an
@@ -672,26 +702,28 @@ actions. For more information, see Access Control Using AWS Identity and Access 
 (IAM). For conceptual information and the underlying REST API, see Working with Archives in
 Amazon S3 Glacier and List Multipart Uploads  in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `limit`: Specifies the maximum number of uploads returned in the response body. If this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: Specifies the maximum number of uploads returned in the response body. If this
   value is not specified, the List Uploads operation returns up to 50 uploads.
-- `marker`: An opaque string used for pagination. This value specifies the upload at which
-  the listing of uploads should begin. Get the marker value from a previous List Uploads
-  response. You need only include the marker if you are continuing the pagination of results
-  started in a previous List Uploads request.
+- `"marker"`: An opaque string used for pagination. This value specifies the upload at
+  which the listing of uploads should begin. Get the marker value from a previous List
+  Uploads response. You need only include the marker if you are continuing the pagination of
+  results started in a previous List Uploads request.
 """
 list_multipart_uploads(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
-list_multipart_uploads(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
+list_multipart_uploads(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", params; aws_config=aws_config)
 
 """
-    ListParts()
+    list_parts(account_id, upload_id, vault_name)
+    list_parts(account_id, upload_id, vault_name, params::Dict{String,<:Any})
 
 This operation lists the parts of an archive that have been uploaded in a specific
 multipart upload. You can make this request at any time during an in-progress multipart
@@ -710,61 +742,65 @@ Identity and Access Management (IAM). For conceptual information and the underly
 API, see Working with Archives in Amazon S3 Glacier and List Parts in the Amazon Glacier
 Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `uploadId`: The upload ID of the multipart upload.
-- `vaultName`: The name of the vault.
+- `upload_id`: The upload ID of the multipart upload.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `limit`: The maximum number of parts to be returned. The default limit is 50. The number
-  of parts returned might be fewer than the specified limit, but the number of returned parts
-  never exceeds the limit.
-- `marker`: An opaque string used for pagination. This value specifies the part at which
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of parts to be returned. The default limit is 50. The
+  number of parts returned might be fewer than the specified limit, but the number of
+  returned parts never exceeds the limit.
+- `"marker"`: An opaque string used for pagination. This value specifies the part at which
   the listing of parts should begin. Get the marker value from the response of a previous
   List Parts response. You need only include the marker if you are continuing the pagination
   of results started in a previous List Parts request.
 """
 list_parts(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-list_parts(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+list_parts(accountId, uploadId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config)
 
 """
-    ListProvisionedCapacity()
+    list_provisioned_capacity(account_id)
+    list_provisioned_capacity(account_id, params::Dict{String,<:Any})
 
 This operation lists the provisioned capacity units for the specified AWS account.
 
-# Required Parameters
-- `accountId`: The AWS account ID of the account that owns the vault. You can either
+# Arguments
+- `account_id`: The AWS account ID of the account that owns the vault. You can either
   specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you use an account ID, don't include any hyphens ('-') in the ID.
 
 """
 list_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
-list_provisioned_capacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
+list_provisioned_capacity(accountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config)
 
 """
-    ListTagsForVault()
+    list_tags_for_vault(account_id, vault_name)
+    list_tags_for_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation lists all the tags attached to a vault. The operation returns an empty map
 if there are no tags. For more information about tags, see Tagging Amazon S3 Glacier
 Resources.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 """
 list_tags_for_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags"; aws_config=aws_config)
-list_tags_for_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", args; aws_config=aws_config)
+list_tags_for_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", params; aws_config=aws_config)
 
 """
-    ListVaults()
+    list_vaults(account_id)
+    list_vaults(account_id, params::Dict{String,<:Any})
 
 This operation lists all vaults owned by the calling user's account. The list returned in
 the response is ASCII-sorted by vault name. By default, this operation returns up to 10
@@ -780,61 +816,66 @@ specific actions. For more information, see Access Control Using AWS Identity an
 Management (IAM). For conceptual information and underlying REST API, see Retrieving Vault
 Metadata in Amazon S3 Glacier and List Vaults  in the Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
 
 # Optional Parameters
-- `limit`: The maximum number of vaults to be returned. The default limit is 10. The number
-  of vaults returned might be fewer than the specified limit, but the number of returned
-  vaults never exceeds the limit.
-- `marker`: A string used for pagination. The marker specifies the vault ARN after which
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of vaults to be returned. The default limit is 10. The
+  number of vaults returned might be fewer than the specified limit, but the number of
+  returned vaults never exceeds the limit.
+- `"marker"`: A string used for pagination. The marker specifies the vault ARN after which
   the listing of vaults should begin.
 """
 list_vaults(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults"; aws_config=aws_config)
-list_vaults(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults", args; aws_config=aws_config)
+list_vaults(accountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults", params; aws_config=aws_config)
 
 """
-    PurchaseProvisionedCapacity()
+    purchase_provisioned_capacity(account_id)
+    purchase_provisioned_capacity(account_id, params::Dict{String,<:Any})
 
 This operation purchases a provisioned capacity unit for an AWS account.
 
-# Required Parameters
-- `accountId`: The AWS account ID of the account that owns the vault. You can either
+# Arguments
+- `account_id`: The AWS account ID of the account that owns the vault. You can either
   specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3
   Glacier uses the AWS account ID associated with the credentials used to sign the request.
   If you use an account ID, don't include any hyphens ('-') in the ID.
 
 """
 purchase_provisioned_capacity(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
-purchase_provisioned_capacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
+purchase_provisioned_capacity(accountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity", params; aws_config=aws_config)
 
 """
-    RemoveTagsFromVault()
+    remove_tags_from_vault(account_id, vault_name)
+    remove_tags_from_vault(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation removes one or more tags from the set of tags attached to a vault. For more
 information about tags, see Tagging Amazon S3 Glacier Resources. This operation is
 idempotent. The operation will be successful, even if there are no tags attached to the
 vault.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `TagKeys`: A list of tag keys. Each corresponding tag is removed from the vault.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagKeys"`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
 remove_tags_from_vault(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove"; aws_config=aws_config)
-remove_tags_from_vault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", args; aws_config=aws_config)
+remove_tags_from_vault(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", params; aws_config=aws_config)
 
 """
-    SetDataRetrievalPolicy()
+    set_data_retrieval_policy(account_id)
+    set_data_retrieval_policy(account_id, params::Dict{String,<:Any})
 
 This operation sets and then enacts a data retrieval policy in the region specified in the
 PUT request. You can set one policy per region for an AWS account. The policy is enacted
@@ -842,21 +883,23 @@ within a few minutes of a successful PUT operation. The set policy operation doe
 affect retrieval jobs that were in progress before the policy was enacted. For more
 information about data retrieval policies, see Amazon Glacier Data Retrieval Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID. This value must match the AWS
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID. This value must match the AWS
   account ID associated with the credentials used to sign the request. You can either specify
   an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses
   the AWS account ID associated with the credentials used to sign the request. If you specify
   your account ID, do not include any hyphens ('-') in the ID.
 
 # Optional Parameters
-- `Policy`: The data retrieval policy in JSON format.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Policy"`: The data retrieval policy in JSON format.
 """
 set_data_retrieval_policy(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
-set_data_retrieval_policy(accountId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
+set_data_retrieval_policy(accountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval", params; aws_config=aws_config)
 
 """
-    SetVaultAccessPolicy()
+    set_vault_access_policy(account_id, vault_name)
+    set_vault_access_policy(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation configures an access policy for a vault and will overwrite an existing
 policy. To configure a vault access policy, send a PUT request to the access-policy
@@ -865,21 +908,23 @@ vault subresource. You can set one access policy per vault and the policy can be
 KB in size. For more information about vault access policies, see Amazon Glacier Access
 Control with Vault Access Policies.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `policy`: The vault access policy as a JSON string.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"policy"`: The vault access policy as a JSON string.
 """
 set_vault_access_policy(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-set_vault_access_policy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+set_vault_access_policy(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", params; aws_config=aws_config)
 
 """
-    SetVaultNotifications()
+    set_vault_notifications(account_id, vault_name)
+    set_vault_notifications(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation configures notifications that will be sent when specific events happen to a
 vault. By default, you don't get any notifications. To configure vault notifications, send
@@ -902,21 +947,23 @@ Management (IAM). For conceptual information and underlying REST API, see Config
 Notifications in Amazon S3 Glacier and Set Vault Notification Configuration  in the Amazon
 Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `vaultNotificationConfig`: Provides options for specifying notification configuration.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"vaultNotificationConfig"`: Provides options for specifying notification configuration.
 """
 set_vault_notifications(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-set_vault_notifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+set_vault_notifications(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", params; aws_config=aws_config)
 
 """
-    UploadArchive()
+    upload_archive(account_id, vault_name)
+    upload_archive(account_id, vault_name, params::Dict{String,<:Any})
 
 This operation adds an archive to a vault. This is a synchronous operation, and for a
 successful upload, your data is durably persisted. Amazon S3 Glacier returns the archive ID
@@ -942,23 +989,25 @@ Control Using AWS Identity and Access Management (IAM).  For conceptual informat
 underlying REST API, see Uploading an Archive in Amazon Glacier and Upload Archive in the
 Amazon Glacier Developer Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `vaultName`: The name of the vault.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `body`: The data to upload.
-- `x-amz-archive-description`: The optional description of the archive you are uploading.
-- `x-amz-sha256-tree-hash`: The SHA256 tree hash of the data being uploaded.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"body"`: The data to upload.
+- `"x-amz-archive-description"`: The optional description of the archive you are uploading.
+- `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 upload_archive(accountId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives"; aws_config=aws_config)
-upload_archive(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", args; aws_config=aws_config)
+upload_archive(accountId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", params; aws_config=aws_config)
 
 """
-    UploadMultipartPart()
+    upload_multipart_part(account_id, upload_id, vault_name)
+    upload_multipart_part(account_id, upload_id, vault_name, params::Dict{String,<:Any})
 
 This operation uploads a part of an archive. You can upload archive parts in any order. You
 can also upload them in parallel. You can upload up to 10,000 parts for a multipart upload.
@@ -987,21 +1036,22 @@ Access Management (IAM).  For conceptual information and underlying REST API, se
 Large Archives in Parts (Multipart Upload) and Upload Part  in the Amazon Glacier Developer
 Guide.
 
-# Required Parameters
-- `accountId`: The AccountId value is the AWS account ID of the account that owns the
+# Arguments
+- `account_id`: The AccountId value is the AWS account ID of the account that owns the
   vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in
   which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used
   to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
-- `uploadId`: The upload ID of the multipart upload.
-- `vaultName`: The name of the vault.
+- `upload_id`: The upload ID of the multipart upload.
+- `vault_name`: The name of the vault.
 
 # Optional Parameters
-- `Content-Range`: Identifies the range of bytes in the assembled archive that will be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-Range"`: Identifies the range of bytes in the assembled archive that will be
   uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in
   the proper sequence. The format of this header follows RFC 2616. An example header is
   Content-Range:bytes 0-4194303/*.
-- `body`: The data to upload.
-- `x-amz-sha256-tree-hash`: The SHA256 tree hash of the data being uploaded.
+- `"body"`: The data to upload.
+- `"x-amz-sha256-tree-hash"`: The SHA256 tree hash of the data being uploaded.
 """
 upload_multipart_part(accountId, uploadId, vaultName; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-upload_multipart_part(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+upload_multipart_part(accountId, uploadId, vaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", params; aws_config=aws_config)

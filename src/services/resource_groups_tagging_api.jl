@@ -5,17 +5,19 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DescribeReportCreation()
+    describe_report_creation()
+    describe_report_creation(params::Dict{String,<:Any})
 
 Describes the status of the StartReportCreation operation.  You can call this operation
 only from the organization's management account and from the us-east-1 Region.
 
 """
 describe_report_creation(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation"; aws_config=aws_config)
-describe_report_creation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation", args; aws_config=aws_config)
+describe_report_creation(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("DescribeReportCreation", params; aws_config=aws_config)
 
 """
-    GetComplianceSummary()
+    get_compliance_summary()
+    get_compliance_summary(params::Dict{String,<:Any})
 
 Returns a table that shows counts of resources that are noncompliant with their tag
 policies. For more information on tag policies, see Tag Policies in the AWS Organizations
@@ -28,19 +30,20 @@ recieve a null value. A null value for PaginationToken indicates that there are 
 results waiting to be returned.
 
 # Optional Parameters
-- `GroupBy`: Specifies a list of attributes to group the counts of noncompliant resources
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GroupBy"`: Specifies a list of attributes to group the counts of noncompliant resources
   by. If supplied, the counts are sorted by those attributes.
-- `MaxResults`: Specifies the maximum number of results to be returned in each page. A
+- `"MaxResults"`: Specifies the maximum number of results to be returned in each page. A
   query can return fewer than this maximum, even if there are more results still to return.
   You should always check the PaginationToken response value to see if there are more
   results. You can specify a minimum of 1 and a maximum value of 100.
-- `PaginationToken`: Specifies a PaginationToken response value from a previous request to
-  indicate that you want the next page of results. Leave this parameter empty in your initial
-  request.
-- `RegionFilters`: Specifies a list of AWS Regions to limit the output by. If you use this
-  parameter, the count of returned noncompliant resources includes only resources in the
+- `"PaginationToken"`: Specifies a PaginationToken response value from a previous request
+  to indicate that you want the next page of results. Leave this parameter empty in your
+  initial request.
+- `"RegionFilters"`: Specifies a list of AWS Regions to limit the output by. If you use
+  this parameter, the count of returned noncompliant resources includes only resources in the
   specified Regions.
-- `ResourceTypeFilters`: Specifies that you want the response to include information for
+- `"ResourceTypeFilters"`: Specifies that you want the response to include information for
   only resources of the specified types. The format of each resource type is
   service[:resourceType]. For example, specifying a resource type of ec2 returns all Amazon
   EC2 resources (which includes EC2 instances). Specifying a resource type of ec2:instance
@@ -51,18 +54,19 @@ results waiting to be returned.
   ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.   You can specify
   multiple resource types by using a comma separated array. The array can include up to 100
   items. Note that the length constraint requirement applies to each resource type filter.
-- `TagKeyFilters`: Specifies that you want the response to include information for only
+- `"TagKeyFilters"`: Specifies that you want the response to include information for only
   resources that have tags with the specified tag keys. If you use this parameter, the count
   of returned noncompliant resources includes only resources that have the specified tag keys.
-- `TargetIdFilters`: Specifies target identifiers (usually, specific account IDs) to limit
-  the output by. If you use this parameter, the count of returned noncompliant resources
-  includes only resources with the specified target IDs.
+- `"TargetIdFilters"`: Specifies target identifiers (usually, specific account IDs) to
+  limit the output by. If you use this parameter, the count of returned noncompliant
+  resources includes only resources with the specified target IDs.
 """
 get_compliance_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary"; aws_config=aws_config)
-get_compliance_summary(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary", args; aws_config=aws_config)
+get_compliance_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetComplianceSummary", params; aws_config=aws_config)
 
 """
-    GetResources()
+    get_resources()
+    get_resources(params::Dict{String,<:Any})
 
 Returns all the tagged or previously tagged resources that are located in the specified
 Region for the AWS account. Depending on what information you want returned, you can also
@@ -77,24 +81,25 @@ input to the next request until you recieve a null value. A null value for Pagin
 indicates that there are no more results waiting to be returned.
 
 # Optional Parameters
-- `ExcludeCompliantResources`: Specifies whether to exclude resources that are compliant
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExcludeCompliantResources"`: Specifies whether to exclude resources that are compliant
   with the tag policy. Set this to true if you are interested in retrieving information on
   noncompliant resources only. You can use this parameter only if the
   IncludeComplianceDetails parameter is also set to true.
-- `IncludeComplianceDetails`: Specifies whether to include details regarding the compliance
-  with the effective tag policy. Set this to true to determine whether resources are
-  compliant with the tag policy and to get details.
-- `PaginationToken`: Specifies a PaginationToken response value from a previous request to
-  indicate that you want the next page of results. Leave this parameter empty in your initial
-  request.
-- `ResourceARNList`: Specifies a list of ARNs of resources for which you want to retrieve
+- `"IncludeComplianceDetails"`: Specifies whether to include details regarding the
+  compliance with the effective tag policy. Set this to true to determine whether resources
+  are compliant with the tag policy and to get details.
+- `"PaginationToken"`: Specifies a PaginationToken response value from a previous request
+  to indicate that you want the next page of results. Leave this parameter empty in your
+  initial request.
+- `"ResourceARNList"`: Specifies a list of ARNs of resources for which you want to retrieve
   tag data. You can't specify both this parameter and any of the pagination parameters
   (ResourcesPerPage, TagsPerPage, PaginationToken) in the same request. If you specify both,
   you get an Invalid Parameter exception. If a resource specified by this parameter doesn't
   exist, it doesn't generate an error; it simply isn't included in the response. An ARN
   (Amazon Resource Name) uniquely identifies a resource. For more information, see Amazon
   Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `ResourceTypeFilters`: Specifies the resource types that you want included in the
+- `"ResourceTypeFilters"`: Specifies the resource types that you want included in the
   response. The format of each resource type is service[:resourceType]. For example,
   specifying a resource type of ec2 returns all Amazon EC2 resources (which includes EC2
   instances). Specifying a resource type of ec2:instance returns only EC2 instances.  The
@@ -103,12 +108,12 @@ indicates that there are no more results waiting to be returned.
   information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces. You
   can specify multiple resource types by using an array. The array can include up to 100
   items. Note that the length constraint requirement applies to each resource type filter.
-- `ResourcesPerPage`: Specifies the maximum number of results to be returned in each page.
-  A query can return fewer than this maximum, even if there are more results still to return.
-  You should always check the PaginationToken response value to see if there are more
+- `"ResourcesPerPage"`: Specifies the maximum number of results to be returned in each
+  page. A query can return fewer than this maximum, even if there are more results still to
+  return. You should always check the PaginationToken response value to see if there are more
   results. You can specify a minimum of 1 and a maximum value of 100.
-- `TagFilters`: Specifies a list of TagFilters (keys and values) to restrict the output to
-  only those resources that have the specified tag and, if included, the specified value.
+- `"TagFilters"`: Specifies a list of TagFilters (keys and values) to restrict the output
+  to only those resources that have the specified tag and, if included, the specified value.
   Each TagFilter must contain a key with values optional. A request can include up to 50
   keys, and each key can include up to 20 values.  Note the following when deciding how to
   use TagFilters:   If you don't specify a TagFilter, the response includes all resources
@@ -125,7 +130,7 @@ indicates that there are no more results waiting to be returned.
   tagged with any tag with the key key3, and with any or no value
   GetResources({filter1,filter2,filter3}) returns resources tagged with (key1=value1) and
   (key2=value2 or key2=value3 or key2=value4) and (key3, any or no value)
-- `TagsPerPage`: AWS recommends using ResourcesPerPage instead of this parameter. A limit
+- `"TagsPerPage"`: AWS recommends using ResourcesPerPage instead of this parameter. A limit
   that restricts the number of tags (key and value pairs) returned by GetResources in
   paginated output. A resource with no tags is counted as having one tag (one key and value
   pair).  GetResources does not split a resource and its associated tags across pages. If the
@@ -139,10 +144,11 @@ indicates that there are no more results waiting to be returned.
   minimum of 100 items up to a maximum of 500 items.
 """
 get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources"; aws_config=aws_config)
-get_resources(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources", args; aws_config=aws_config)
+get_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetResources", params; aws_config=aws_config)
 
 """
-    GetTagKeys()
+    get_tag_keys()
+    get_tag_keys(params::Dict{String,<:Any})
 
 Returns all tag keys currently in use in the specified Region for the calling AWS account.
 This operation supports pagination, where the response can be sent in multiple pages. You
@@ -152,15 +158,17 @@ parameter value as an input to the next request until you recieve a null value. 
 value for PaginationToken indicates that there are no more results waiting to be returned.
 
 # Optional Parameters
-- `PaginationToken`: Specifies a PaginationToken response value from a previous request to
-  indicate that you want the next page of results. Leave this parameter empty in your initial
-  request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PaginationToken"`: Specifies a PaginationToken response value from a previous request
+  to indicate that you want the next page of results. Leave this parameter empty in your
+  initial request.
 """
 get_tag_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys"; aws_config=aws_config)
-get_tag_keys(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys", args; aws_config=aws_config)
+get_tag_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagKeys", params; aws_config=aws_config)
 
 """
-    GetTagValues()
+    get_tag_values(key)
+    get_tag_values(key, params::Dict{String,<:Any})
 
 Returns all tag values for the specified key that are used in the specified AWS Region for
 the calling AWS account. This operation supports pagination, where the response can be sent
@@ -170,20 +178,22 @@ PaginationToken response parameter value as an input to the next request until y
 a null value. A null value for PaginationToken indicates that there are no more results
 waiting to be returned.
 
-# Required Parameters
-- `Key`: Specifies the tag key for which you want to list all existing values that are
+# Arguments
+- `key`: Specifies the tag key for which you want to list all existing values that are
   currently used in the specified AWS Region for the calling AWS account.
 
 # Optional Parameters
-- `PaginationToken`: Specifies a PaginationToken response value from a previous request to
-  indicate that you want the next page of results. Leave this parameter empty in your initial
-  request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PaginationToken"`: Specifies a PaginationToken response value from a previous request
+  to indicate that you want the next page of results. Leave this parameter empty in your
+  initial request.
 """
 get_tag_values(Key; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}("Key"=>Key); aws_config=aws_config)
-get_tag_values(Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), args)); aws_config=aws_config)
+get_tag_values(Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("GetTagValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), params)); aws_config=aws_config)
 
 """
-    StartReportCreation()
+    start_report_creation(s3_bucket)
+    start_report_creation(s3_bucket, params::Dict{String,<:Any})
 
 Generates a report that lists all tagged resources in the accounts across your organization
 and tells whether each resource is compliant with the effective tag policy. Compliance data
@@ -193,17 +203,18 @@ s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.cs
 call this operation only from the organization's management account and from the us-east-1
 Region.
 
-# Required Parameters
-- `S3Bucket`: The name of the Amazon S3 bucket where the report will be stored; for
+# Arguments
+- `s3_bucket`: The name of the Amazon S3 bucket where the report will be stored; for
   example:  awsexamplebucket  For more information on S3 bucket requirements, including an
   example bucket policy, see the example S3 bucket policy on this page.
 
 """
 start_report_creation(S3Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}("S3Bucket"=>S3Bucket); aws_config=aws_config)
-start_report_creation(S3Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket), args)); aws_config=aws_config)
+start_report_creation(S3Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("StartReportCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket), params)); aws_config=aws_config)
 
 """
-    TagResources()
+    tag_resources(resource_arnlist, tags)
+    tag_resources(resource_arnlist, tags, params::Dict{String,<:Any})
 
 Applies one or more tags to the specified resources. Note the following:   Not all
 resources can have tags. For a list of services with resources that support tagging using
@@ -217,20 +228,21 @@ identifiable information (PII) or other confidential or sensitive information in
 use tags to provide you with billing and administration services. Tags are not intended to
 be used for private or sensitive data.
 
-# Required Parameters
-- `ResourceARNList`: Specifies the list of ARNs of the resources that you want to apply
+# Arguments
+- `resource_arnlist`: Specifies the list of ARNs of the resources that you want to apply
   tags to. An ARN (Amazon Resource Name) uniquely identifies a resource. For more
   information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General
   Reference.
-- `Tags`: Specifies a list of tags that you want to add to the specified resources. A tag
+- `tags`: Specifies a list of tags that you want to add to the specified resources. A tag
   consists of a key and a value that you define.
 
 """
 tag_resources(ResourceARNList, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags); aws_config=aws_config)
-tag_resources(ResourceARNList, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resources(ResourceARNList, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("TagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResources()
+    untag_resources(resource_arnlist, tag_keys)
+    untag_resources(resource_arnlist, tag_keys, params::Dict{String,<:Any})
 
 Removes the specified tags from the specified resources. When you specify a tag key, the
 action removes both that key and its associated value. The operation succeeds even if you
@@ -240,13 +252,14 @@ resource belongs to as well as permissions for removing tags. For more informati
 documentation for the service whose resource you want to untag.   You can only tag
 resources that are located in the specified AWS Region for the calling AWS account.
 
-# Required Parameters
-- `ResourceARNList`: Specifies a list of ARNs of the resources that you want to remove tags
-  from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more information,
-  see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `TagKeys`: Specifies a list of tag keys that you want to remove from the specified
+# Arguments
+- `resource_arnlist`: Specifies a list of ARNs of the resources that you want to remove
+  tags from. An ARN (Amazon Resource Name) uniquely identifies a resource. For more
+  information, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General
+  Reference.
+- `tag_keys`: Specifies a list of tag keys that you want to remove from the specified
   resources.
 
 """
 untag_resources(ResourceARNList, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resources(ResourceARNList, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resources(ResourceARNList, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups_tagging_api("UntagResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARNList"=>ResourceARNList, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

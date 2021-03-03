@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DeleteScalingPolicy()
+    delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
+    delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
 Deletes the specified scaling policy for an Application Auto Scaling scalable target.
 Deleting a step scaling policy deletes the underlying alarm action, but does not delete the
@@ -13,9 +14,9 @@ CloudWatch alarm associated with the scaling policy, even if it no longer has an
 action. For more information, see Delete a step scaling policy and Delete a target tracking
 scaling policy in the Application Auto Scaling User Guide.
 
-# Required Parameters
-- `PolicyName`: The name of the scaling policy.
-- `ResourceId`: The identifier of the resource associated with the scalable target. This
+# Arguments
+- `policy_name`: The name of the scaling policy.
+- `resource_id`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -48,7 +49,7 @@ scaling policy in the Application Auto Scaling User Guide.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
   capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -72,21 +73,22 @@ scaling policy in the Application Auto Scaling User Guide.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 """
 delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DeleteScheduledAction()
+    delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
+    delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace, params::Dict{String,<:Any})
 
 Deletes the specified scheduled action for an Application Auto Scaling scalable target. For
 more information, see Delete a scheduled action in the Application Auto Scaling User Guide.
 
-# Required Parameters
-- `ResourceId`: The identifier of the resource associated with the scheduled action. This
+# Arguments
+- `resource_id`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -119,7 +121,7 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
   capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -143,24 +145,25 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ScheduledActionName`: The name of the scheduled action.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `scheduled_action_name`: The name of the scheduled action.
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 """
 delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DeregisterScalableTarget()
+    deregister_scalable_target(resource_id, scalable_dimension, service_namespace)
+    deregister_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
 Deregisters an Application Auto Scaling scalable target when you have finished using it. To
 see which resources have been registered, use DescribeScalableTargets.   Deregistering a
 scalable target deletes the scaling policies and the scheduled actions that are associated
 with it.
 
-# Required Parameters
-- `ResourceId`: The identifier of the resource associated with the scalable target. This
+# Arguments
+- `resource_id`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -193,7 +196,7 @@ with it.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension associated with the scalable target. This
+- `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
   ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
@@ -218,31 +221,33 @@ with it.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 """
 deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DescribeScalableTargets()
+    describe_scalable_targets(service_namespace)
+    describe_scalable_targets(service_namespace, params::Dict{String,<:Any})
 
 Gets information about the scalable targets in the specified namespace. You can filter the
 results using ResourceIds and ScalableDimension.
 
-# Required Parameters
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+# Arguments
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of scalable targets. This value can be between 1 and 50.
-  The default value is 50. If this parameter is used, the operation returns up to MaxResults
-  results at a time, along with a NextToken value. To get the next set of results, include
-  the NextToken value in a subsequent call. If this parameter is not used, the operation
-  returns up to 50 results and a NextToken value, if applicable.
-- `NextToken`: The token for the next set of results.
-- `ResourceIds`: The identifier of the resource associated with the scalable target. This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+  50. The default value is 50. If this parameter is used, the operation returns up to
+  MaxResults results at a time, along with a NextToken value. To get the next set of results,
+  include the NextToken value in a subsequent call. If this parameter is not used, the
+  operation returns up to 50 results and a NextToken value, if applicable.
+- `"NextToken"`: The token for the next set of results.
+- `"ResourceIds"`: The identifier of the resource associated with the scalable target. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -275,7 +280,7 @@ results using ResourceIds and ScalableDimension.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension associated with the scalable target. This
+- `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -303,27 +308,29 @@ results using ResourceIds and ScalableDimension.
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scalable_targets(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scalable_targets(ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+describe_scalable_targets(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DescribeScalingActivities()
+    describe_scaling_activities(service_namespace)
+    describe_scaling_activities(service_namespace, params::Dict{String,<:Any})
 
 Provides descriptive information about the scaling activities in the specified namespace
 from the previous six weeks. You can filter the results using ResourceId and
 ScalableDimension.
 
-# Required Parameters
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+# Arguments
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of scalable targets. This value can be between 1 and 50.
-  The default value is 50. If this parameter is used, the operation returns up to MaxResults
-  results at a time, along with a NextToken value. To get the next set of results, include
-  the NextToken value in a subsequent call. If this parameter is not used, the operation
-  returns up to 50 results and a NextToken value, if applicable.
-- `NextToken`: The token for the next set of results.
-- `ResourceId`: The identifier of the resource associated with the scaling activity. This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+  50. The default value is 50. If this parameter is used, the operation returns up to
+  MaxResults results at a time, along with a NextToken value. To get the next set of results,
+  include the NextToken value in a subsequent call. If this parameter is not used, the
+  operation returns up to 50 results and a NextToken value, if applicable.
+- `"NextToken"`: The token for the next set of results.
+- `"ResourceId"`: The identifier of the resource associated with the scaling activity. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -356,7 +363,7 @@ ScalableDimension.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
@@ -383,29 +390,31 @@ ScalableDimension.
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scaling_activities(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scaling_activities(ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+describe_scaling_activities(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DescribeScalingPolicies()
+    describe_scaling_policies(service_namespace)
+    describe_scaling_policies(service_namespace, params::Dict{String,<:Any})
 
 Describes the Application Auto Scaling scaling policies for the specified service
 namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames.
 For more information, see Target tracking scaling policies and Step scaling policies in the
 Application Auto Scaling User Guide.
 
-# Required Parameters
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+# Arguments
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of scalable targets. This value can be between 1 and 50.
-  The default value is 50. If this parameter is used, the operation returns up to MaxResults
-  results at a time, along with a NextToken value. To get the next set of results, include
-  the NextToken value in a subsequent call. If this parameter is not used, the operation
-  returns up to 50 results and a NextToken value, if applicable.
-- `NextToken`: The token for the next set of results.
-- `PolicyNames`: The names of the scaling policies to describe.
-- `ResourceId`: The identifier of the resource associated with the scaling policy. This
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+  50. The default value is 50. If this parameter is used, the operation returns up to
+  MaxResults results at a time, along with a NextToken value. To get the next set of results,
+  include the NextToken value in a subsequent call. If this parameter is not used, the
+  operation returns up to 50 results and a NextToken value, if applicable.
+- `"NextToken"`: The token for the next set of results.
+- `"PolicyNames"`: The names of the scaling policies to describe.
+- `"ResourceId"`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -438,7 +447,7 @@ Application Auto Scaling User Guide.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
@@ -465,28 +474,30 @@ Application Auto Scaling User Guide.
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scaling_policies(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scaling_policies(ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+describe_scaling_policies(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    DescribeScheduledActions()
+    describe_scheduled_actions(service_namespace)
+    describe_scheduled_actions(service_namespace, params::Dict{String,<:Any})
 
 Describes the Application Auto Scaling scheduled actions for the specified service
 namespace. You can filter the results using the ResourceId, ScalableDimension, and
 ScheduledActionNames parameters. For more information, see Scheduled scaling and Managing
 scheduled scaling in the Application Auto Scaling User Guide.
 
-# Required Parameters
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+# Arguments
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of scheduled action results. This value can be between 1
-  and 50. The default value is 50. If this parameter is used, the operation returns up to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of scheduled action results. This value can be between
+  1 and 50. The default value is 50. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
   include the NextToken value in a subsequent call. If this parameter is not used, the
   operation returns up to 50 results and a NextToken value, if applicable.
-- `NextToken`: The token for the next set of results.
-- `ResourceId`: The identifier of the resource associated with the scheduled action. This
+- `"NextToken"`: The token for the next set of results.
+- `"ResourceId"`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -519,7 +530,7 @@ scheduled scaling in the Application Auto Scaling User Guide.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet
@@ -544,13 +555,14 @@ scheduled scaling in the Application Auto Scaling User Guide.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ScheduledActionNames`: The names of the scheduled actions to describe.
+- `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 describe_scheduled_actions(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scheduled_actions(ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+describe_scheduled_actions(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    PutScalingPolicy()
+    put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
+    put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
 Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each
 scalable target is identified by a service namespace, resource ID, and scalable dimension.
@@ -574,9 +586,9 @@ scaling policies in the Application Auto Scaling User Guide.  If a scalable targ
 deregistered, the scalable target is no longer available to execute scaling policies. Any
 scaling policies that were specified for the scalable target are deleted.
 
-# Required Parameters
-- `PolicyName`: The name of the scaling policy.
-- `ResourceId`: The identifier of the resource associated with the scaling policy. This
+# Arguments
+- `policy_name`: The name of the scaling policy.
+- `resource_id`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -609,7 +621,7 @@ scaling policies that were specified for the scalable target are deleted.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
   capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -633,26 +645,28 @@ scaling policies that were specified for the scalable target are deleted.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `PolicyType`: The policy type. This parameter is required if you are creating a scaling
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyType"`: The policy type. This parameter is required if you are creating a scaling
   policy. The following policy types are supported:   TargetTrackingScaling—Not supported
   for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon
   Keyspaces (for Apache Cassandra), or Amazon MSK. For more information, see Target tracking
   scaling policies and Step scaling policies in the Application Auto Scaling User Guide.
-- `StepScalingPolicyConfiguration`: A step scaling policy. This parameter is required if
+- `"StepScalingPolicyConfiguration"`: A step scaling policy. This parameter is required if
   you are creating a policy and the policy type is StepScaling.
-- `TargetTrackingScalingPolicyConfiguration`: A target tracking scaling policy. Includes
+- `"TargetTrackingScalingPolicyConfiguration"`: A target tracking scaling policy. Includes
   support for predefined or customized metrics. This parameter is required if you are
   creating a policy and the policy type is TargetTrackingScaling.
 """
 put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    PutScheduledAction()
+    put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
+    put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace, params::Dict{String,<:Any})
 
 Creates or updates a scheduled action for an Application Auto Scaling scalable target.
 Each scalable target is identified by a service namespace, resource ID, and scalable
@@ -666,8 +680,8 @@ Scheduled scaling in the Application Auto Scaling User Guide.  If a scalable tar
 deregistered, the scalable target is no longer available to run scheduled actions. Any
 scheduled actions that were specified for the scalable target are deleted.
 
-# Required Parameters
-- `ResourceId`: The identifier of the resource associated with the scheduled action. This
+# Arguments
+- `resource_id`: The identifier of the resource associated with the scheduled action. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet request - The resource type is
@@ -700,7 +714,7 @@ scheduled actions that were specified for the scalable target are deleted.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension. This string consists of the service
+- `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    ec2:spot-fleet-request:TargetCapacity - The target
   capacity of a Spot Fleet request.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -724,18 +738,19 @@ scheduled actions that were specified for the scalable target are deleted.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ScheduledActionName`: The name of the scheduled action. This name must be unique among
+- `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `EndTime`: The date and time for the recurring schedule to end, in UTC.
-- `ScalableTargetAction`: The new minimum and maximum capacity. You can set both values or
-  just one. At the scheduled time, if the current capacity is below the minimum capacity,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndTime"`: The date and time for the recurring schedule to end, in UTC.
+- `"ScalableTargetAction"`: The new minimum and maximum capacity. You can set both values
+  or just one. At the scheduled time, if the current capacity is below the minimum capacity,
   Application Auto Scaling scales out to the minimum capacity. If the current capacity is
   above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
-- `Schedule`: The schedule for this action. The following formats are supported:   At
+- `"Schedule"`: The schedule for this action. The following formats are supported:   At
   expressions - \"at(yyyy-mm-ddThh:mm:ss)\"   Rate expressions - \"rate(value unit)\"   Cron
   expressions - \"cron(fields)\"   At expressions are useful for one-time schedules. Cron
   expressions are useful for scheduled actions that run periodically at a specified date and
@@ -745,17 +760,18 @@ scheduled actions that were specified for the scalable target are deleted.
   [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute
   | minutes | hour | hours | day | days. For more information and examples, see Example
   scheduled actions for Application Auto Scaling in the Application Auto Scaling User Guide.
-- `StartTime`: The date and time for this scheduled action to start, in UTC.
-- `Timezone`: Specifies the time zone used when setting a scheduled action by using an at
+- `"StartTime"`: The date and time for this scheduled action to start, in UTC.
+- `"Timezone"`: Specifies the time zone used when setting a scheduled action by using an at
   or cron expression. If a time zone is not provided, UTC is used by default. Valid values
   are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
 put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    RegisterScalableTarget()
+    register_scalable_target(resource_id, scalable_dimension, service_namespace)
+    register_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
 Registers or updates a scalable target.  A scalable target is a resource that Application
 Auto Scaling can scale out and scale in. Scalable targets are uniquely identified by the
@@ -772,11 +788,11 @@ that you want to change. Include the parameters that identify the scalable targe
 ID, scalable dimension, and namespace. Any parameters that you don't specify are not
 changed by this update request.
 
-# Required Parameters
-- `ResourceId`: The identifier of the resource that is associated with the scalable target.
-  This string consists of the resource type and unique identifier.   ECS service - The
-  resource type is service and the unique identifier is the cluster name and service name.
-  Example: service/default/sample-webapp.   Spot Fleet request - The resource type is
+# Arguments
+- `resource_id`: The identifier of the resource that is associated with the scalable
+  target. This string consists of the resource type and unique identifier.   ECS service -
+  The resource type is service and the unique identifier is the cluster name and service
+  name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is
   spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
@@ -806,7 +822,7 @@ changed by this update request.
   identifier are specified using the cluster ARN. Example:
   arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c
   2e31-5.
-- `ScalableDimension`: The scalable dimension associated with the scalable target. This
+- `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
   ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot Fleet request.
@@ -831,12 +847,13 @@ changed by this update request.
   Keyspaces table.    cassandra:table:WriteCapacityUnits - The provisioned write capacity for
   an Amazon Keyspaces table.    kafka:broker-storage:VolumeSize - The provisioned volume size
   (in GiB) for brokers in an Amazon MSK cluster.
-- `ServiceNamespace`: The namespace of the AWS service that provides the resource. For a
+- `service_namespace`: The namespace of the AWS service that provides the resource. For a
   resource provided by your own application or service, use custom-resource instead.
 
 # Optional Parameters
-- `MaxCapacity`: The maximum value that you plan to scale out to. When a scaling policy is
-  in effect, Application Auto Scaling can scale out (expand) as needed to the maximum
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxCapacity"`: The maximum value that you plan to scale out to. When a scaling policy
+  is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. Although you can specify a large maximum capacity, note that service
   quotas may impose lower limits. Each service has its own default quotas for the maximum
@@ -844,19 +861,19 @@ changed by this update request.
   increase. For more information, consult the documentation for that service. For information
   about the default quotas for each service, see Service Endpoints and Quotas in the Amazon
   Web Services General Reference.
-- `MinCapacity`: The minimum value that you plan to scale in to. When a scaling policy is
+- `"MinCapacity"`: The minimum value that you plan to scale in to. When a scaling policy is
   in effect, Application Auto Scaling can scale in (contract) as needed to the minimum
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. For certain resources, the minimum value allowed is 0. This includes
   Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR clusters,
   and custom resources. For all other resources, the minimum value allowed is 1.
-- `RoleARN`: This parameter is required for services that do not support service-linked
+- `"RoleARN"`: This parameter is required for services that do not support service-linked
   roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows
   Application Auto Scaling to modify the scalable target on your behalf.  If the service
   supports service-linked roles, Application Auto Scaling uses a service-linked role, which
   it creates if it does not yet exist. For more information, see Application Auto Scaling IAM
   roles.
-- `SuspendedState`: An embedded object that contains attributes and attribute values that
+- `"SuspendedState"`: An embedded object that contains attributes and attribute values that
   are used to suspend and resume automatic scaling. Setting the value of an attribute to true
   suspends the specified scaling activities. Setting it to false (default) resumes the
   specified scaling activities.   Suspension Outcomes    For DynamicScalingInSuspended, while
@@ -868,4 +885,4 @@ changed by this update request.
   resuming scaling in the Application Auto Scaling User Guide.
 """
 register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)

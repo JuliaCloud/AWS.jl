@@ -5,40 +5,43 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DeleteObject()
+    delete_object(path)
+    delete_object(path, params::Dict{String,<:Any})
 
 Deletes an object at the specified path.
 
-# Required Parameters
-- `Path`: The path (including the file name) where the object is stored in the container.
+# Arguments
+- `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
 delete_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
-delete_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", args; aws_config=aws_config)
+delete_object(Path, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", params; aws_config=aws_config)
 
 """
-    DescribeObject()
+    describe_object(path)
+    describe_object(path, params::Dict{String,<:Any})
 
 Gets the headers for an object at the specified path.
 
-# Required Parameters
-- `Path`: The path (including the file name) where the object is stored in the container.
+# Arguments
+- `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
 """
 describe_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
-describe_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", args; aws_config=aws_config)
+describe_object(Path, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", params; aws_config=aws_config)
 
 """
-    GetObject()
+    get_object(path)
+    get_object(path, params::Dict{String,<:Any})
 
 Downloads the object at the specified path. If the object’s upload availability is set to
 streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the
 object.
 
-# Required Parameters
-- `Path`: The path (including the file name) where the object is stored in the container.
+# Arguments
+- `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload
   the file mlaw.avi to the folder path premiumcanada in the container movies, enter the path
   premium/canada/mlaw.avi. Do not include the container name in this path. If the path
@@ -53,46 +56,50 @@ object.
   file name can include or omit an extension.
 
 # Optional Parameters
-- `Range`: The range bytes of an object to retrieve. For more information about the Range
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Range"`: The range bytes of an object to retrieve. For more information about the Range
   header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental
   MediaStore ignores this header for partially uploaded objects that have streaming upload
   availability.
 """
 get_object(Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
-get_object(Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", args; aws_config=aws_config)
+get_object(Path, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", params; aws_config=aws_config)
 
 """
-    ListItems()
+    list_items()
+    list_items(params::Dict{String,<:Any})
 
 Provides a list of metadata entries about folders and objects in the specified folder.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results to return per API request. For example, you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per API request. For example, you
   submit a ListItems request with MaxResults set at 500. Although 2,000 items match your
   request, the service returns no more than the first 500 items. (The service also returns a
   NextToken value that you can use to fetch the next batch of results.) The service might
   return fewer results than the MaxResults value. If MaxResults is not included in the
   request, the service defaults to pagination with a maximum of 1,000 results per page.
-- `NextToken`: The token that identifies which batch of results that you want to see. For
+- `"NextToken"`: The token that identifies which batch of results that you want to see. For
   example, you submit a ListItems request with MaxResults set at 500. The service returns the
   first batch of results (up to 500) and a NextToken value. To see the next batch of results,
   you can submit the ListItems request a second time and specify the NextToken value. Tokens
   expire after 15 minutes.
-- `Path`: The path in the container from which to retrieve items. Format: &lt;folder
+- `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
 list_items(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
-list_items(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", args; aws_config=aws_config)
+list_items(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", params; aws_config=aws_config)
 
 """
-    PutObject()
+    put_object(body, path)
+    put_object(body, path, params::Dict{String,<:Any})
 
 Uploads an object to the specified path. Object sizes are limited to 25 MB for standard
 upload availability and 10 MB for streaming upload availability.
 
-# Required Parameters
-- `Body`: The bytes to be stored.
-- `Path`: The path (including the file name) where the object is stored in the container.
+# Arguments
+- `body`: The bytes to be stored.
+- `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload
   the file mlaw.avi to the folder path premiumcanada in the container movies, enter the path
   premium/canada/mlaw.avi. Do not include the container name in this path. If the path
@@ -107,15 +114,16 @@ upload availability and 10 MB for streaming upload availability.
   file name can include or omit an extension.
 
 # Optional Parameters
-- `Cache-Control`: An optional CacheControl header that allows the caller to control the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cache-Control"`: An optional CacheControl header that allows the caller to control the
   object's cache behavior. Headers can be passed in as specified in the HTTP at
   https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom
   user-defined value are also accepted.
-- `Content-Type`: The content type of the object.
-- `x-amz-storage-class`: Indicates the storage class of a Put request. Defaults to
+- `"Content-Type"`: The content type of the object.
+- `"x-amz-storage-class"`: Indicates the storage class of a Put request. Defaults to
   high-performance temporal storage class, and objects are persisted into durable storage
   shortly after being received.
-- `x-amz-upload-availability`: Indicates the availability of an object while it is still
+- `"x-amz-upload-availability"`: Indicates the availability of an object while it is still
   uploading. If the value is set to streaming, the object is available for downloading after
   some initial buffering but before the object is uploaded completely. If the value is set to
   standard, the object is available for downloading only when it is uploaded completely. The
@@ -123,4 +131,4 @@ upload availability and 10 MB for streaming upload availability.
   Transfer-Encoding header to chunked.
 """
 put_object(Body, Path; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
-put_object(Body, Path, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), args)); aws_config=aws_config)
+put_object(Body, Path, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config)

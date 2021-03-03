@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    GenerateDataSet()
+    generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn)
+    generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn, params::Dict{String,<:Any})
 
 Given a data set type and data set publication date, asynchronously publishes the requested
 data set to the specified S3 bucket and notifies the specified SNS topic once the data is
@@ -17,15 +18,15 @@ be overwritten by the new file. Requires a Role with an attached permissions pol
 providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation,
 sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
 
-# Required Parameters
-- `dataSetPublicationDate`: The date a data set was published. For daily data sets, provide
-  a date with day-level granularity for the desired day. For monthly data sets except those
-  with prefix disbursed_amount, provide a date with month-level granularity for the desired
-  month (the day value will be ignored). For data sets with prefix disbursed_amount, provide
-  a date with day-level granularity for the desired day. For these data sets we will look
-  backwards in time over the range of 31 days until the first data set is found (the latest
-  one).
-- `dataSetType`: The desired data set type.
+# Arguments
+- `data_set_publication_date`: The date a data set was published. For daily data sets,
+  provide a date with day-level granularity for the desired day. For monthly data sets except
+  those with prefix disbursed_amount, provide a date with month-level granularity for the
+  desired month (the day value will be ignored). For data sets with prefix disbursed_amount,
+  provide a date with day-level granularity for the desired day. For these data sets we will
+  look backwards in time over the range of 31 days until the first data set is found (the
+  latest one).
+- `data_set_type`: The desired data set type.
   customer_subscriber_hourly_monthly_subscriptions From 2017-09-15 to present: Available
   daily by 24:00 UTC.   customer_subscriber_annual_subscriptions From 2017-09-15 to present:
   Available daily by 24:00 UTC.   daily_business_usage_by_instance_type From 2017-09-15 to
@@ -62,17 +63,19 @@ sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   AMMP instead!   customer_profile_by_revenue This data set is deprecated. Download related
   reports from AMMP instead!   customer_profile_by_geography This data set is deprecated.
   Download related reports from AMMP instead!
-- `destinationS3BucketName`: The name (friendly name, not ARN) of the destination S3 bucket.
-- `roleNameArn`: The Amazon Resource Name (ARN) of the Role with an attached permissions
+- `destination_s3_bucket_name`: The name (friendly name, not ARN) of the destination S3
+  bucket.
+- `role_name_arn`: The Amazon Resource Name (ARN) of the Role with an attached permissions
   policy to interact with the provided AWS services.
-- `snsTopicArn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
+- `sns_topic_arn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
   the data set has been published or if an error has occurred.
 
 # Optional Parameters
-- `customerDefinedValues`: (Optional) Key-value pairs which will be returned, unmodified,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customerDefinedValues"`: (Optional) Key-value pairs which will be returned, unmodified,
   in the Amazon SNS notification message and the data set metadata file. These key-value
   pairs can be used to correlated responses with tracking information from other systems.
-- `destinationS3Prefix`: (Optional) The desired S3 prefix for the published data set,
+- `"destinationS3Prefix"`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
@@ -80,10 +83,11 @@ sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   be published to the S3 bucket root.
 """
 generate_data_set(dataSetPublicationDate, dataSetType, destinationS3BucketName, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("GenerateDataSet", Dict{String, Any}("dataSetPublicationDate"=>dataSetPublicationDate, "dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn); aws_config=aws_config)
-generate_data_set(dataSetPublicationDate, dataSetType, destinationS3BucketName, roleNameArn, snsTopicArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("GenerateDataSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetPublicationDate"=>dataSetPublicationDate, "dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), args)); aws_config=aws_config)
+generate_data_set(dataSetPublicationDate, dataSetType, destinationS3BucketName, roleNameArn, snsTopicArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("GenerateDataSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetPublicationDate"=>dataSetPublicationDate, "dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config)
 
 """
-    StartSupportDataExport()
+    start_support_data_export(data_set_type, destination_s3_bucket_name, from_date, role_name_arn, sns_topic_arn)
+    start_support_data_export(data_set_type, destination_s3_bucket_name, from_date, role_name_arn, sns_topic_arn, params::Dict{String,<:Any})
 
 Given a data set type and a from date, asynchronously publishes the requested customer
 support data to the specified S3 bucket and notifies the specified SNS topic once the data
@@ -95,8 +99,8 @@ original file will be overwritten by the new file. Requires a Role with an attac
 permissions policy providing Allow permissions for the following actions: s3:PutObject,
 s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
 
-# Required Parameters
-- `dataSetType`:  Specifies the data set type to be written to the output csv file. The
+# Arguments
+- `data_set_type`:  Specifies the data set type to be written to the output csv file. The
   data set types customer_support_contacts_data and test_customer_support_contacts_data both
   result in a csv file containing the following fields: Product Id, Product Code, Customer
   Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name,
@@ -106,18 +110,20 @@ s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   data from the date specified in the from_date parameter.
   test_customer_support_contacts_data An example data set containing static test data in the
   same format as customer_support_contacts_data
-- `destinationS3BucketName`: The name (friendly name, not ARN) of the destination S3 bucket.
-- `fromDate`: The start date from which to retrieve the data set in UTC. This parameter
+- `destination_s3_bucket_name`: The name (friendly name, not ARN) of the destination S3
+  bucket.
+- `from_date`: The start date from which to retrieve the data set in UTC. This parameter
   only affects the customer_support_contacts_data data set type.
-- `roleNameArn`: The Amazon Resource Name (ARN) of the Role with an attached permissions
+- `role_name_arn`: The Amazon Resource Name (ARN) of the Role with an attached permissions
   policy to interact with the provided AWS services.
-- `snsTopicArn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
+- `sns_topic_arn`: Amazon Resource Name (ARN) for the SNS Topic that will be notified when
   the data set has been published or if an error has occurred.
 
 # Optional Parameters
-- `customerDefinedValues`: (Optional) Key-value pairs which will be returned, unmodified,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customerDefinedValues"`: (Optional) Key-value pairs which will be returned, unmodified,
   in the Amazon SNS notification message and the data set metadata file.
-- `destinationS3Prefix`: (Optional) The desired S3 prefix for the published data set,
+- `"destinationS3Prefix"`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
@@ -125,4 +131,4 @@ s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   be published to the S3 bucket root.
 """
 start_support_data_export(dataSetType, destinationS3BucketName, fromDate, roleNameArn, snsTopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("StartSupportDataExport", Dict{String, Any}("dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "fromDate"=>fromDate, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn); aws_config=aws_config)
-start_support_data_export(dataSetType, destinationS3BucketName, fromDate, roleNameArn, snsTopicArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("StartSupportDataExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "fromDate"=>fromDate, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), args)); aws_config=aws_config)
+start_support_data_export(dataSetType, destinationS3BucketName, fromDate, roleNameArn, snsTopicArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_commerce_analytics("StartSupportDataExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSetType"=>dataSetType, "destinationS3BucketName"=>destinationS3BucketName, "fromDate"=>fromDate, "roleNameArn"=>roleNameArn, "snsTopicArn"=>snsTopicArn), params)); aws_config=aws_config)

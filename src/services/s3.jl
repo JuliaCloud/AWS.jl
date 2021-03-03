@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AbortMultipartUpload()
+    abort_multipart_upload(bucket, key, upload_id)
+    abort_multipart_upload(bucket, key, upload_id, params::Dict{String,<:Any})
 
 This operation aborts a multipart upload. After a multipart upload is aborted, no
 additional parts can be uploaded using that upload ID. The storage consumed by any
@@ -19,8 +20,8 @@ API, see Multipart Upload API and Permissions. The following operations are rela
 AbortMultipartUpload:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
   ListParts     ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: The bucket name to which the upload was taking place.  When using this API with
+# Arguments
+- `bucket`: The bucket name to which the upload was taking place.  When using this API with
   an access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -32,20 +33,22 @@ AbortMultipartUpload:    CreateMultipartUpload     UploadPart     CompleteMultip
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Key of the object for which the multipart upload was initiated.
-- `uploadId`: Upload ID that identifies the multipart upload.
+- `key`: Key of the object for which the multipart upload was initiated.
+- `upload_id`: Upload ID that identifies the multipart upload.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 abort_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-abort_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+abort_multipart_upload(Bucket, Key, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config)
 
 """
-    CompleteMultipartUpload()
+    complete_multipart_upload(bucket, key, upload_id)
+    complete_multipart_upload(bucket, key, upload_id, params::Dict{String,<:Any})
 
 Completes a multipart upload by assembling previously uploaded parts. You first initiate
 the multipart upload and then upload all parts using the UploadPart operation. After
@@ -79,23 +82,25 @@ Found     The following operations are related to CompleteMultipartUpload:
 CreateMultipartUpload     UploadPart     AbortMultipartUpload     ListParts
 ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: Name of the bucket to which the multipart upload was initiated.
-- `Key`: Object key for which the multipart upload was initiated.
-- `uploadId`: ID for the initiated multipart upload.
+# Arguments
+- `bucket`: Name of the bucket to which the multipart upload was initiated.
+- `key`: Object key for which the multipart upload was initiated.
+- `upload_id`: ID for the initiated multipart upload.
 
 # Optional Parameters
-- `CompleteMultipartUpload`: The container for the multipart upload request information.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CompleteMultipartUpload"`: The container for the multipart upload request information.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 complete_multipart_upload(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-complete_multipart_upload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+complete_multipart_upload(Bucket, Key, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config)
 
 """
-    CopyObject()
+    copy_object(bucket, key, x-amz-copy-source)
+    copy_object(bucket, key, x-amz-copy-source, params::Dict{String,<:Any})
 
 Creates a copy of an object that is already stored in Amazon S3.  You can store individual
 objects of up to 5 TB in Amazon S3. You create a copy of your object up to 5 GB in size in
@@ -170,8 +175,8 @@ object for the copy operation. For more information, see RestoreObject. The foll
 operations are related to CopyObject:    PutObject     GetObject    For more information,
 see Copying Objects.
 
-# Required Parameters
-- `Bucket`: The name of the destination bucket. When using this API with an access point,
+# Arguments
+- `bucket`: The name of the destination bucket. When using this API with an access point,
   you must direct requests to the access point hostname. The access point hostname takes the
   form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this
   operation with an access point through the AWS SDKs, you provide the access point ARN in
@@ -183,7 +188,7 @@ see Copying Objects.
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: The key of the destination object.
+- `key`: The key of the destination object.
 - `x-amz-copy-source`: Specifies the source object for the copy operation. You specify the
   value in one of two formats, depending on whether you want to access the source object
   through an access point:   For objects not accessed through an access point, specify the
@@ -210,99 +215,103 @@ see Copying Objects.
   don't specify a version ID, Amazon S3 copies the latest version of the source object.
 
 # Optional Parameters
-- `Cache-Control`: Specifies caching behavior along the request/reply chain.
-- `Content-Disposition`: Specifies presentational information for the object.
-- `Content-Encoding`: Specifies what content encodings have been applied to the object and
-  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
-  Content-Type header field.
-- `Content-Language`: The language the content is in.
-- `Content-Type`: A standard MIME type describing the format of the object data.
-- `Expires`: The date and time at which the object is no longer cacheable.
-- `x-amz-acl`: The canned ACL to apply to the object. This action is not supported by
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cache-Control"`: Specifies caching behavior along the request/reply chain.
+- `"Content-Disposition"`: Specifies presentational information for the object.
+- `"Content-Encoding"`: Specifies what content encodings have been applied to the object
+  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
+  the Content-Type header field.
+- `"Content-Language"`: The language the content is in.
+- `"Content-Type"`: A standard MIME type describing the format of the object data.
+- `"Expires"`: The date and time at which the object is no longer cacheable.
+- `"x-amz-acl"`: The canned ACL to apply to the object. This action is not supported by
   Amazon S3 on Outposts.
-- `x-amz-copy-source-if-match`: Copies the object if its entity tag (ETag) matches the
+- `"x-amz-copy-source-if-match"`: Copies the object if its entity tag (ETag) matches the
   specified tag.
-- `x-amz-copy-source-if-modified-since`: Copies the object if it has been modified since
+- `"x-amz-copy-source-if-modified-since"`: Copies the object if it has been modified since
   the specified time.
-- `x-amz-copy-source-if-none-match`: Copies the object if its entity tag (ETag) is
+- `"x-amz-copy-source-if-none-match"`: Copies the object if its entity tag (ETag) is
   different than the specified ETag.
-- `x-amz-copy-source-if-unmodified-since`: Copies the object if it hasn't been modified
+- `"x-amz-copy-source-if-unmodified-since"`: Copies the object if it hasn't been modified
   since the specified time.
-- `x-amz-copy-source-server-side-encryption-customer-algorithm`: Specifies the algorithm to
-  use when decrypting the source object (for example, AES256).
-- `x-amz-copy-source-server-side-encryption-customer-key`: Specifies the customer-provided
-  encryption key for Amazon S3 to use to decrypt the source object. The encryption key
-  provided in this header must be one that was used when the source object was created.
-- `x-amz-copy-source-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5
+- `"x-amz-copy-source-server-side-encryption-customer-algorithm"`: Specifies the algorithm
+  to use when decrypting the source object (for example, AES256).
+- `"x-amz-copy-source-server-side-encryption-customer-key"`: Specifies the
+  customer-provided encryption key for Amazon S3 to use to decrypt the source object. The
+  encryption key provided in this header must be one that was used when the source object was
+  created.
+- `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
   message integrity check to ensure that the encryption key was transmitted without error.
-- `x-amz-expected-bucket-owner`: The account id of the expected destination bucket owner.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected destination bucket owner.
   If the destination bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
-- `x-amz-grant-full-control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
+- `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
   on the object. This action is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read`: Allows grantee to read the object data and its metadata. This action
-  is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read-acp`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable object. This
+- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
   action is not supported by Amazon S3 on Outposts.
-- `x-amz-meta-`: A map of metadata to store with the object in S3.
-- `x-amz-metadata-directive`: Specifies whether the metadata is copied from the source
+- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
+  supported by Amazon S3 on Outposts.
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
+  This action is not supported by Amazon S3 on Outposts.
+- `"x-amz-meta-"`: A map of metadata to store with the object in S3.
+- `"x-amz-metadata-directive"`: Specifies whether the metadata is copied from the source
   object or replaced with metadata provided in the request.
-- `x-amz-object-lock-legal-hold`: Specifies whether you want to apply a Legal Hold to the
+- `"x-amz-object-lock-legal-hold"`: Specifies whether you want to apply a Legal Hold to the
   copied object.
-- `x-amz-object-lock-mode`: The Object Lock mode that you want to apply to the copied
+- `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to the copied
   object.
-- `x-amz-object-lock-retain-until-date`: The date and time when you want the copied
+- `"x-amz-object-lock-retain-until-date"`: The date and time when you want the copied
   object's Object Lock to expire.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption`: The server-side encryption algorithm used when storing
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
   this object in Amazon S3 (for example, AES256, aws:kms).
-- `x-amz-server-side-encryption-aws-kms-key-id`: Specifies the AWS KMS key ID to use for
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the AWS KMS key ID to use for
   object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if
   not made via SSL or using SigV4. For information about configuring using any of the
   officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request
   Authentication in the Amazon S3 Developer Guide.
-- `x-amz-server-side-encryption-bucket-key-enabled`: Specifies whether Amazon S3 should use
-  an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS).
-  Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption
-  with SSE-KMS.  Specifying this header with a COPY operation doesn’t affect bucket-level
-  settings for S3 Bucket Key.
-- `x-amz-server-side-encryption-context`: Specifies the AWS KMS Encryption Context to use
+- `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
+  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
+  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
+  encryption with SSE-KMS.  Specifying this header with a COPY operation doesn’t affect
+  bucket-level settings for S3 Bucket Key.
+- `"x-amz-server-side-encryption-context"`: Specifies the AWS KMS Encryption Context to use
   for object encryption. The value of this header is a base64-encoded UTF-8 string holding
   JSON with the encryption context key-value pairs.
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
-- `x-amz-source-expected-bucket-owner`: The account id of the expected source bucket owner.
-  If the source bucket is owned by a different account, the request will fail with an HTTP
-  403 (Access Denied) error.
-- `x-amz-storage-class`: By default, Amazon S3 uses the STANDARD Storage Class to store
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
+- `"x-amz-source-expected-bucket-owner"`: The account id of the expected source bucket
+  owner. If the source bucket is owned by a different account, the request will fail with an
+  HTTP 403 (Access Denied) error.
+- `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
   Storage Classes in the Amazon S3 Service Developer Guide.
-- `x-amz-tagging`: The tag-set for the object destination object this value must be used in
-  conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters.
-- `x-amz-tagging-directive`: Specifies whether the object tag-set are copied from the
+- `"x-amz-tagging"`: The tag-set for the object destination object this value must be used
+  in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query
+  parameters.
+- `"x-amz-tagging-directive"`: Specifies whether the object tag-set are copied from the
   source object or replaced with tag-set provided in the request.
-- `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects
+- `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
   requests for this object to another object in the same bucket or to an external URL. Amazon
   S3 stores the value of this header in the object metadata.
 """
 copy_object(Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
-copy_object(Bucket, Key, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
+copy_object(Bucket, Key, x_amz_copy_source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config)
 
 """
-    CreateBucket()
+    create_bucket(bucket)
+    create_bucket(bucket, params::Dict{String,<:Any})
 
 Creates a new S3 bucket. To create a bucket, you must register with Amazon S3 and have a
 valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to
@@ -342,27 +351,29 @@ x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use eithe
 ACL or specify access permissions explicitly. You cannot do both.  The following operations
 are related to CreateBucket:    PutObject     DeleteBucket
 
-# Required Parameters
-- `Bucket`: The name of the bucket to create.
+# Arguments
+- `bucket`: The name of the bucket to create.
 
 # Optional Parameters
-- `CreateBucketConfiguration`: The configuration information for the bucket.
-- `x-amz-acl`: The canned ACL to apply to the bucket.
-- `x-amz-bucket-object-lock-enabled`: Specifies whether you want S3 Object Lock to be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreateBucketConfiguration"`: The configuration information for the bucket.
+- `"x-amz-acl"`: The canned ACL to apply to the bucket.
+- `"x-amz-bucket-object-lock-enabled"`: Specifies whether you want S3 Object Lock to be
   enabled for the new bucket.
-- `x-amz-grant-full-control`: Allows grantee the read, write, read ACP, and write ACP
+- `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket.
-- `x-amz-grant-read`: Allows grantee to list the objects in the bucket.
-- `x-amz-grant-read-acp`: Allows grantee to read the bucket ACL.
-- `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.
+- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
   bucket.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
 """
 create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)"; aws_config=aws_config)
-create_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)", args; aws_config=aws_config)
+create_bucket(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)", params; aws_config=aws_config)
 
 """
-    CreateMultipartUpload()
+    create_multipart_upload(bucket, key)
+    create_multipart_upload(bucket, key, params::Dict{String,<:Any})
 
 This operation initiates a multipart upload and returns an upload ID. This upload ID is
 used to associate all of the parts in the specific multipart upload. You specify this
@@ -456,8 +467,8 @@ id=\"444455556666\"       The following operations are related to CreateMultipar
 UploadPart     CompleteMultipartUpload     AbortMultipartUpload     ListParts
 ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: The name of the bucket to which to initiate the upload When using this API with
+# Arguments
+- `bucket`: The name of the bucket to which to initiate the upload When using this API with
   an access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -469,97 +480,101 @@ ListMultipartUploads
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the multipart upload is to be initiated.
+- `key`: Object key for which the multipart upload is to be initiated.
 
 # Optional Parameters
-- `Cache-Control`: Specifies caching behavior along the request/reply chain.
-- `Content-Disposition`: Specifies presentational information for the object.
-- `Content-Encoding`: Specifies what content encodings have been applied to the object and
-  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
-  Content-Type header field.
-- `Content-Language`: The language the content is in.
-- `Content-Type`: A standard MIME type describing the format of the object data.
-- `Expires`: The date and time at which the object is no longer cacheable.
-- `x-amz-acl`: The canned ACL to apply to the object. This action is not supported by
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Cache-Control"`: Specifies caching behavior along the request/reply chain.
+- `"Content-Disposition"`: Specifies presentational information for the object.
+- `"Content-Encoding"`: Specifies what content encodings have been applied to the object
+  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
+  the Content-Type header field.
+- `"Content-Language"`: The language the content is in.
+- `"Content-Type"`: A standard MIME type describing the format of the object data.
+- `"Expires"`: The date and time at which the object is no longer cacheable.
+- `"x-amz-acl"`: The canned ACL to apply to the object. This action is not supported by
   Amazon S3 on Outposts.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-grant-full-control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
   on the object. This action is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read`: Allows grantee to read the object data and its metadata. This action
-  is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read-acp`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable object. This
+- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
   action is not supported by Amazon S3 on Outposts.
-- `x-amz-meta-`: A map of metadata to store with the object in S3.
-- `x-amz-object-lock-legal-hold`: Specifies whether you want to apply a Legal Hold to the
+- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
+  supported by Amazon S3 on Outposts.
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
+  This action is not supported by Amazon S3 on Outposts.
+- `"x-amz-meta-"`: A map of metadata to store with the object in S3.
+- `"x-amz-object-lock-legal-hold"`: Specifies whether you want to apply a Legal Hold to the
   uploaded object.
-- `x-amz-object-lock-mode`: Specifies the Object Lock mode that you want to apply to the
+- `"x-amz-object-lock-mode"`: Specifies the Object Lock mode that you want to apply to the
   uploaded object.
-- `x-amz-object-lock-retain-until-date`: Specifies the date and time when you want the
+- `"x-amz-object-lock-retain-until-date"`: Specifies the date and time when you want the
   Object Lock to expire.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption`: The server-side encryption algorithm used when storing
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
   this object in Amazon S3 (for example, AES256, aws:kms).
-- `x-amz-server-side-encryption-aws-kms-key-id`: Specifies the ID of the symmetric customer
-  managed AWS KMS CMK to use for object encryption. All GET and PUT requests for an object
-  protected by AWS KMS will fail if not made via SSL or using SigV4. For information about
-  configuring using any of the officially supported AWS SDKs and AWS CLI, see Specifying the
-  Signature Version in Request Authentication in the Amazon S3 Developer Guide.
-- `x-amz-server-side-encryption-bucket-key-enabled`: Specifies whether Amazon S3 should use
-  an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS).
-  Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption
-  with SSE-KMS. Specifying this header with an object operation doesn’t affect bucket-level
-  settings for S3 Bucket Key.
-- `x-amz-server-side-encryption-context`: Specifies the AWS KMS Encryption Context to use
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the ID of the symmetric
+  customer managed AWS KMS CMK to use for object encryption. All GET and PUT requests for an
+  object protected by AWS KMS will fail if not made via SSL or using SigV4. For information
+  about configuring using any of the officially supported AWS SDKs and AWS CLI, see
+  Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
+- `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
+  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
+  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
+  encryption with SSE-KMS. Specifying this header with an object operation doesn’t affect
+  bucket-level settings for S3 Bucket Key.
+- `"x-amz-server-side-encryption-context"`: Specifies the AWS KMS Encryption Context to use
   for object encryption. The value of this header is a base64-encoded UTF-8 string holding
   JSON with the encryption context key-value pairs.
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
-- `x-amz-storage-class`: By default, Amazon S3 uses the STANDARD Storage Class to store
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
+- `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
   Storage Classes in the Amazon S3 Service Developer Guide.
-- `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query
+- `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters.
-- `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects
+- `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
   requests for this object to another object in the same bucket or to an external URL. Amazon
   S3 stores the value of this header in the object metadata.
 """
 create_multipart_upload(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads"; aws_config=aws_config)
-create_multipart_upload(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads", args; aws_config=aws_config)
+create_multipart_upload(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads", params; aws_config=aws_config)
 
 """
-    DeleteBucket()
+    delete_bucket(bucket)
+    delete_bucket(bucket, params::Dict{String,<:Any})
 
 Deletes the S3 bucket. All objects (including all object versions and delete markers) in
 the bucket must be deleted before the bucket itself can be deleted.  Related Resources
 CreateBucket     DeleteObject
 
-# Required Parameters
-- `Bucket`: Specifies the bucket being deleted.
+# Arguments
+- `bucket`: Specifies the bucket being deleted.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)"; aws_config=aws_config)
-delete_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)", args; aws_config=aws_config)
+delete_bucket(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)", params; aws_config=aws_config)
 
 """
-    DeleteBucketAnalyticsConfiguration()
+    delete_bucket_analytics_configuration(bucket, id)
+    delete_bucket_analytics_configuration(bucket, id, params::Dict{String,<:Any})
 
 Deletes an analytics configuration for the bucket (specified by the analytics configuration
 ID). To use this operation, you must have permissions to perform the
@@ -571,20 +586,22 @@ S3 Analytics – Storage Class Analysis.  The following operations are related t
 DeleteBucketAnalyticsConfiguration:    GetBucketAnalyticsConfiguration
 ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket from which an analytics configuration is deleted.
+# Arguments
+- `bucket`: The name of the bucket from which an analytics configuration is deleted.
 - `id`: The ID that identifies the analytics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_analytics_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    DeleteBucketCors()
+    delete_bucket_cors(bucket)
+    delete_bucket_cors(bucket, params::Dict{String,<:Any})
 
 Deletes the cors configuration information set for the bucket. To use this operation, you
 must have permission to perform the s3:PutBucketCORS action. The bucket owner has this
@@ -592,19 +609,21 @@ permission by default and can grant this permission to others.  For information 
 see Enabling Cross-Origin Resource Sharing in the Amazon Simple Storage Service Developer
 Guide.  Related Resources:     PutBucketCors     RESTOPTIONSobject
 
-# Required Parameters
-- `Bucket`: Specifies the bucket whose cors configuration is being deleted.
+# Arguments
+- `bucket`: Specifies the bucket whose cors configuration is being deleted.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors"; aws_config=aws_config)
-delete_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors", args; aws_config=aws_config)
+delete_bucket_cors(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors", params; aws_config=aws_config)
 
 """
-    DeleteBucketEncryption()
+    delete_bucket_encryption(bucket)
+    delete_bucket_encryption(bucket, params::Dict{String,<:Any})
 
 This implementation of the DELETE operation removes default encryption from the bucket. For
 information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket
@@ -616,20 +635,22 @@ Operations and Managing Access Permissions to your Amazon S3 Resources in the Am
 Storage Service Developer Guide.  Related Resources     PutBucketEncryption
 GetBucketEncryption
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the server-side encryption configuration to
+# Arguments
+- `bucket`: The name of the bucket containing the server-side encryption configuration to
   delete.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption"; aws_config=aws_config)
-delete_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption", args; aws_config=aws_config)
+delete_bucket_encryption(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption", params; aws_config=aws_config)
 
 """
-    DeleteBucketIntelligentTieringConfiguration()
+    delete_bucket_intelligent_tiering_configuration(bucket, id)
+    delete_bucket_intelligent_tiering_configuration(bucket, id, params::Dict{String,<:Any})
 
 Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
@@ -646,17 +667,18 @@ Operations related to DeleteBucketIntelligentTieringConfiguration include:
 GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
 ListBucketIntelligentTieringConfigurations
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
   retrieve.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
 delete_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_intelligent_tiering_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    DeleteBucketInventoryConfiguration()
+    delete_bucket_inventory_configuration(bucket, id)
+    delete_bucket_inventory_configuration(bucket, id, params::Dict{String,<:Any})
 
 Deletes an inventory configuration (identified by the inventory ID) from the bucket. To use
 this operation, you must have permissions to perform the s3:PutInventoryConfiguration
@@ -667,20 +689,22 @@ For information about the Amazon S3 inventory feature, see Amazon S3 Inventory. 
 related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryConfiguration
    PutBucketInventoryConfiguration     ListBucketInventoryConfigurations
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the inventory configuration to delete.
+# Arguments
+- `bucket`: The name of the bucket containing the inventory configuration to delete.
 - `id`: The ID used to identify the inventory configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_inventory_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    DeleteBucketLifecycle()
+    delete_bucket_lifecycle(bucket)
+    delete_bucket_lifecycle(bucket, params::Dict{String,<:Any})
 
 Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the
 lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your
@@ -693,19 +717,21 @@ to all the Amazon S3 systems. For more information about the object expiration, 
 Elements to Describe Lifecycle Actions. Related actions include:
 PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
-# Required Parameters
-- `Bucket`: The bucket name of the lifecycle to delete.
+# Arguments
+- `bucket`: The bucket name of the lifecycle to delete.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-delete_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+delete_bucket_lifecycle(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle", params; aws_config=aws_config)
 
 """
-    DeleteBucketMetricsConfiguration()
+    delete_bucket_metrics_configuration(bucket, id)
+    delete_bucket_metrics_configuration(bucket, id, params::Dict{String,<:Any})
 
 Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the
 metrics configuration ID) from the bucket. Note that this doesn't include the daily storage
@@ -719,20 +745,22 @@ DeleteBucketMetricsConfiguration:    GetBucketMetricsConfiguration
 PutBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring Metrics
 with Amazon CloudWatch
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the metrics configuration to delete.
+# Arguments
+- `bucket`: The name of the bucket containing the metrics configuration to delete.
 - `id`: The ID used to identify the metrics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+delete_bucket_metrics_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    DeleteBucketOwnershipControls()
+    delete_bucket_ownership_controls(bucket)
+    delete_bucket_ownership_controls(bucket, params::Dict{String,<:Any})
 
 Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the
 s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions,
@@ -741,19 +769,21 @@ see Using Object Ownership.  The following operations are related to
 DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwnershipControls
 
 
-# Required Parameters
-- `Bucket`: The Amazon S3 bucket whose OwnershipControls you want to delete.
+# Arguments
+- `bucket`: The Amazon S3 bucket whose OwnershipControls you want to delete.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
-delete_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
+delete_bucket_ownership_controls(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?ownershipControls", params; aws_config=aws_config)
 
 """
-    DeleteBucketPolicy()
+    delete_bucket_policy(bucket)
+    delete_bucket_policy(bucket, params::Dict{String,<:Any})
 
 This implementation of the DELETE operation uses the policy subresource to delete the
 policy of a specified bucket. If you are using an identity other than the root user of the
@@ -768,19 +798,21 @@ to perform this action.  For more information about bucket policies, see Using B
 Policies and UserPolicies.  The following operations are related to DeleteBucketPolicy
 CreateBucket     DeleteObject
 
-# Required Parameters
-- `Bucket`: The bucket name.
+# Arguments
+- `bucket`: The bucket name.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy"; aws_config=aws_config)
-delete_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy", args; aws_config=aws_config)
+delete_bucket_policy(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy", params; aws_config=aws_config)
 
 """
-    DeleteBucketReplication()
+    delete_bucket_replication(bucket)
+    delete_bucket_replication(bucket, params::Dict{String,<:Any})
 
  Deletes the replication configuration from the bucket. To use this operation, you must
 have permissions to perform the s3:PutReplicationConfiguration action. The bucket owner has
@@ -791,38 +823,42 @@ replication configuration to fully propagate.   For information about replicatio
 configuration, see Replication in the Amazon S3 Developer Guide.  The following operations
 are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
 
-# Required Parameters
-- `Bucket`:  The bucket name.
+# Arguments
+- `bucket`:  The bucket name.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication"; aws_config=aws_config)
-delete_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication", args; aws_config=aws_config)
+delete_bucket_replication(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication", params; aws_config=aws_config)
 
 """
-    DeleteBucketTagging()
+    delete_bucket_tagging(bucket)
+    delete_bucket_tagging(bucket, params::Dict{String,<:Any})
 
 Deletes the tags from the bucket. To use this operation, you must have permission to
 perform the s3:PutBucketTagging action. By default, the bucket owner has this permission
 and can grant this permission to others.  The following operations are related to
 DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 
-# Required Parameters
-- `Bucket`: The bucket that has the tag set to be removed.
+# Arguments
+- `bucket`: The bucket that has the tag set to be removed.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging"; aws_config=aws_config)
-delete_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging", args; aws_config=aws_config)
+delete_bucket_tagging(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging", params; aws_config=aws_config)
 
 """
-    DeleteBucketWebsite()
+    delete_bucket_website(bucket)
+    delete_bucket_website(bucket, params::Dict{String,<:Any})
 
 This operation removes the website configuration for a bucket. Amazon S3 returns a 200 OK
 response upon successfully deleting a website configuration on the specified bucket. You
@@ -836,19 +872,21 @@ permission.  For more information about hosting websites, see Hosting Websites o
 S3.  The following operations are related to DeleteBucketWebsite:    GetBucketWebsite
 PutBucketWebsite
 
-# Required Parameters
-- `Bucket`: The bucket name for which you want to remove the website configuration.
+# Arguments
+- `bucket`: The bucket name for which you want to remove the website configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website"; aws_config=aws_config)
-delete_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website", args; aws_config=aws_config)
+delete_bucket_website(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website", params; aws_config=aws_config)
 
 """
-    DeleteObject()
+    delete_object(bucket, key)
+    delete_object(bucket, key, params::Dict{String,<:Any})
 
 Removes the null version (if there is one) of an object and inserts a delete marker, which
 becomes the latest version of the object. If there isn't a null version, Amazon S3 does not
@@ -866,8 +904,8 @@ deleting objects from your bucket, you must deny them the s3:DeleteObject,
 s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions.  The following operation
 is related to DeleteObject:    PutObject
 
-# Required Parameters
-- `Bucket`: The bucket name of the bucket containing the object.  When using this API with
+# Arguments
+- `bucket`: The bucket name of the bucket containing the object.  When using this API with
   an access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -879,25 +917,27 @@ is related to DeleteObject:    PutObject
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Key name of the object to delete.
+- `key`: Key name of the object to delete.
 
 # Optional Parameters
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-bypass-governance-retention`: Indicates whether S3 Object Lock should bypass
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-bypass-governance-retention"`: Indicates whether S3 Object Lock should bypass
   Governance-mode restrictions to process this operation.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and
-  the value that is displayed on your authentication device. Required to permanently delete a
-  versioned object if versioning is configured with MFA delete enabled.
-- `x-amz-request-payer`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
+  and the value that is displayed on your authentication device. Required to permanently
+  delete a versioned object if versioning is configured with MFA delete enabled.
+- `"x-amz-request-payer"`:
 """
 delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-delete_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+delete_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", params; aws_config=aws_config)
 
 """
-    DeleteObjectTagging()
+    delete_object_tagging(bucket, key)
+    delete_object_tagging(bucket, key, params::Dict{String,<:Any})
 
 Removes the entire tag set from the specified object. For more information about managing
 object tags, see  Object Tagging. To use this operation, you must have permission to
@@ -906,8 +946,8 @@ the versionId query parameter in the request. You will need permission for the
 s3:DeleteObjectVersionTagging action. The following operations are related to
 DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
 
-# Required Parameters
-- `Bucket`: The bucket name containing the objects from which to remove the tags.  When
+# Arguments
+- `bucket`: The bucket name containing the objects from which to remove the tags.  When
   using this API with an access point, you must direct requests to the access point hostname.
   The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -920,19 +960,21 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Name of the object key.
+- `key`: The key that identifies the object in the bucket from which to remove all tags.
 
 # Optional Parameters
-- `versionId`: The versionId of the object that the tag-set will be removed from.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: The versionId of the object that the tag-set will be removed from.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
-delete_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
+delete_object_tagging(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config)
 
 """
-    DeleteObjects()
+    delete_objects(bucket, delete)
+    delete_objects(bucket, delete, params::Dict{String,<:Any})
 
 This operation enables you to delete multiple objects from a bucket using a single HTTP
 request. If you know the object keys that you want to delete, then this operation provides
@@ -957,8 +999,8 @@ Amazon S3 uses the header value to ensure that your request body has not been al
 transit. The following operations are related to DeleteObjects:    CreateMultipartUpload
  UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
 
-# Required Parameters
-- `Bucket`: The bucket name containing the objects to delete.  When using this API with an
+# Arguments
+- `bucket`: The bucket name containing the objects to delete.  When using this API with an
   access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -970,25 +1012,27 @@ transit. The following operations are related to DeleteObjects:    CreateMultipa
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Delete`: Container for the request.
+- `delete`: Container for the request.
 
 # Optional Parameters
-- `x-amz-bypass-governance-retention`: Specifies whether you want to delete this object
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-bypass-governance-retention"`: Specifies whether you want to delete this object
   even if it has a Governance-type Object Lock in place. You must have sufficient permissions
   to perform this operation.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and
-  the value that is displayed on your authentication device. Required to permanently delete a
-  versioned object if versioning is configured with MFA delete enabled.
-- `x-amz-request-payer`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
+  and the value that is displayed on your authentication device. Required to permanently
+  delete a versioned object if versioning is configured with MFA delete enabled.
+- `"x-amz-request-payer"`:
 """
 delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}("Delete"=>Delete); aws_config=aws_config)
-delete_objects(Bucket, Delete, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), args)); aws_config=aws_config)
+delete_objects(Bucket, Delete, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), params)); aws_config=aws_config)
 
 """
-    DeletePublicAccessBlock()
+    delete_public_access_block(bucket)
+    delete_public_access_block(bucket, params::Dict{String,<:Any})
 
 Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation,
 you must have the s3:PutBucketPublicAccessBlock permission. For more information about
@@ -997,19 +1041,21 @@ Permissions to Your Amazon S3 Resources. The following operations are related to
 DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAccessBlock
  PutPublicAccessBlock     GetBucketPolicyStatus
 
-# Required Parameters
-- `Bucket`: The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
+# Arguments
+- `bucket`: The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 delete_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
-delete_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
+delete_public_access_block(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config)
 
 """
-    GetBucketAccelerateConfiguration()
+    get_bucket_accelerate_configuration(bucket)
+    get_bucket_accelerate_configuration(bucket, params::Dict{String,<:Any})
 
 This implementation of the GET operation uses the accelerate subresource to return the
 Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3
@@ -1027,19 +1073,21 @@ For more information about transfer acceleration, see Transfer Acceleration in t
 Simple Storage Service Developer Guide.  Related Resources
 PutBucketAccelerateConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which the accelerate configuration is retrieved.
+# Arguments
+- `bucket`: The name of the bucket for which the accelerate configuration is retrieved.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_accelerate_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate"; aws_config=aws_config)
-get_bucket_accelerate_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate", args; aws_config=aws_config)
+get_bucket_accelerate_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate", params; aws_config=aws_config)
 
 """
-    GetBucketAcl()
+    get_bucket_acl(bucket)
+    get_bucket_acl(bucket, params::Dict{String,<:Any})
 
 This implementation of the GET operation uses the acl subresource to return the access
 control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have
@@ -1047,19 +1095,21 @@ READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymou
 can return the ACL of the bucket without using an authorization header.  Related Resources
    ListObjects
 
-# Required Parameters
-- `Bucket`: Specifies the S3 bucket whose ACL is being requested.
+# Arguments
+- `bucket`: Specifies the S3 bucket whose ACL is being requested.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl"; aws_config=aws_config)
-get_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl", args; aws_config=aws_config)
+get_bucket_acl(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl", params; aws_config=aws_config)
 
 """
-    GetBucketAnalyticsConfiguration()
+    get_bucket_analytics_configuration(bucket, id)
+    get_bucket_analytics_configuration(bucket, id, params::Dict{String,<:Any})
 
 This implementation of the GET operation returns an analytics configuration (identified by
 the analytics configuration ID) from the bucket. To use this operation, you must have
@@ -1072,20 +1122,22 @@ Analytics – Storage Class Analysis in the Amazon Simple Storage Service Develo
 Related Resources     DeleteBucketAnalyticsConfiguration
 ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket from which an analytics configuration is retrieved.
+# Arguments
+- `bucket`: The name of the bucket from which an analytics configuration is retrieved.
 - `id`: The ID that identifies the analytics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_analytics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_analytics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_analytics_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    GetBucketCors()
+    get_bucket_cors(bucket)
+    get_bucket_cors(bucket, params::Dict{String,<:Any})
 
 Returns the cors configuration information set for the bucket.  To use this operation, you
 must have permission to perform the s3:GetBucketCORS action. By default, the bucket owner
@@ -1093,43 +1145,49 @@ has this permission and can grant it to others.  For more information about cors
 Enabling Cross-Origin Resource Sharing. The following operations are related to
 GetBucketCors:    PutBucketCors     DeleteBucketCors
 
-# Required Parameters
-- `Bucket`: The bucket name for which to get the cors configuration.
+# Arguments
+- `bucket`: The bucket name for which to get the cors configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors"; aws_config=aws_config)
-get_bucket_cors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors", args; aws_config=aws_config)
+get_bucket_cors(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors", params; aws_config=aws_config)
 
 """
-    GetBucketEncryption()
+    get_bucket_encryption(bucket)
+    get_bucket_encryption(bucket, params::Dict{String,<:Any})
 
-Returns the default encryption configuration for an Amazon S3 bucket. For information about
-the Amazon S3 default encryption feature, see Amazon S3 Default Bucket Encryption.  To use
-this operation, you must have permission to perform the s3:GetEncryptionConfiguration
-action. The bucket owner has this permission by default. The bucket owner can grant this
-permission to others. For more information about permissions, see Permissions Related to
-Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
-The following operations are related to GetBucketEncryption:    PutBucketEncryption
+Returns the default encryption configuration for an Amazon S3 bucket. If the bucket does
+not have a default encryption configuration, GetBucketEncryption returns
+ServerSideEncryptionConfigurationNotFoundError.  For information about the Amazon S3
+default encryption feature, see Amazon S3 Default Bucket Encryption.  To use this
+operation, you must have permission to perform the s3:GetEncryptionConfiguration action.
+The bucket owner has this permission by default. The bucket owner can grant this permission
+to others. For more information about permissions, see Permissions Related to Bucket
+Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. The
+following operations are related to GetBucketEncryption:    PutBucketEncryption
 DeleteBucketEncryption
 
-# Required Parameters
-- `Bucket`: The name of the bucket from which the server-side encryption configuration is
+# Arguments
+- `bucket`: The name of the bucket from which the server-side encryption configuration is
   retrieved.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption"; aws_config=aws_config)
-get_bucket_encryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption", args; aws_config=aws_config)
+get_bucket_encryption(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption", params; aws_config=aws_config)
 
 """
-    GetBucketIntelligentTieringConfiguration()
+    get_bucket_intelligent_tiering_configuration(bucket, id)
+    get_bucket_intelligent_tiering_configuration(bucket, id, params::Dict{String,<:Any})
 
 Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
@@ -1146,17 +1204,18 @@ Operations related to GetBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
  ListBucketIntelligentTieringConfigurations
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
   retrieve.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
 get_bucket_intelligent_tiering_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_intelligent_tiering_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_intelligent_tiering_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    GetBucketInventoryConfiguration()
+    get_bucket_inventory_configuration(bucket, id)
+    get_bucket_inventory_configuration(bucket, id, params::Dict{String,<:Any})
 
 Returns an inventory configuration (identified by the inventory configuration ID) from the
 bucket. To use this operation, you must have permissions to perform the
@@ -1168,20 +1227,22 @@ S3 Inventory. The following operations are related to GetBucketInventoryConfigur
 DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
 PutBucketInventoryConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the inventory configuration to retrieve.
+# Arguments
+- `bucket`: The name of the bucket containing the inventory configuration to retrieve.
 - `id`: The ID used to identify the inventory configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_inventory_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_inventory_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_inventory_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    GetBucketLifecycle()
+    get_bucket_lifecycle(bucket)
+    get_bucket_lifecycle(bucket, params::Dict{String,<:Any})
 
  For an updated version of this API, see GetBucketLifecycleConfiguration. If you configured
 a bucket lifecycle using the filter element, you should see the updated version of this
@@ -1197,19 +1258,21 @@ configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Cod
 Client     The following operations are related to GetBucketLifecycle:
 GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the lifecycle information.
+# Arguments
+- `bucket`: The name of the bucket for which to get the lifecycle information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-get_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+get_bucket_lifecycle(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config)
 
 """
-    GetBucketLifecycleConfiguration()
+    get_bucket_lifecycle_configuration(bucket)
+    get_bucket_lifecycle_configuration(bucket, params::Dict{String,<:Any})
 
  Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
 key name prefix, one or more object tags, or a combination of both. Accordingly, this
@@ -1228,56 +1291,62 @@ not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client   
 following operations are related to GetBucketLifecycleConfiguration:    GetBucketLifecycle
    PutBucketLifecycle     DeleteBucketLifecycle
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the lifecycle information.
+# Arguments
+- `bucket`: The name of the bucket for which to get the lifecycle information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-get_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+get_bucket_lifecycle_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", params; aws_config=aws_config)
 
 """
-    GetBucketLocation()
+    get_bucket_location(bucket)
+    get_bucket_location(bucket, params::Dict{String,<:Any})
 
 Returns the Region the bucket resides in. You set the bucket's Region using the
 LocationConstraint request parameter in a CreateBucket request. For more information, see
 CreateBucket.  To use this implementation of the operation, you must be the bucket owner.
 The following operations are related to GetBucketLocation:    GetObject     CreateBucket
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the location.
+# Arguments
+- `bucket`: The name of the bucket for which to get the location.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location"; aws_config=aws_config)
-get_bucket_location(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location", args; aws_config=aws_config)
+get_bucket_location(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location", params; aws_config=aws_config)
 
 """
-    GetBucketLogging()
+    get_bucket_logging(bucket)
+    get_bucket_logging(bucket, params::Dict{String,<:Any})
 
 Returns the logging status of a bucket and the permissions users have to view and modify
 that status. To use GET, you must be the bucket owner. The following operations are related
 to GetBucketLogging:    CreateBucket     PutBucketLogging
 
-# Required Parameters
-- `Bucket`: The bucket name for which to get the logging information.
+# Arguments
+- `bucket`: The bucket name for which to get the logging information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging"; aws_config=aws_config)
-get_bucket_logging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging", args; aws_config=aws_config)
+get_bucket_logging(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging", params; aws_config=aws_config)
 
 """
-    GetBucketMetricsConfiguration()
+    get_bucket_metrics_configuration(bucket, id)
+    get_bucket_metrics_configuration(bucket, id, params::Dict{String,<:Any})
 
 Gets a metrics configuration (specified by the metrics configuration ID) from the bucket.
 Note that this doesn't include the daily storage metrics.  To use this operation, you must
@@ -1290,36 +1359,40 @@ operations are related to GetBucketMetricsConfiguration:    PutBucketMetricsConf
   DeleteBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring
 Metrics with Amazon CloudWatch
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the metrics configuration to retrieve.
+# Arguments
+- `bucket`: The name of the bucket containing the metrics configuration to retrieve.
 - `id`: The ID used to identify the metrics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_metrics_configuration(Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_bucket_metrics_configuration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
+get_bucket_metrics_configuration(Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
-    GetBucketNotification()
+    get_bucket_notification(bucket)
+    get_bucket_notification(bucket, params::Dict{String,<:Any})
 
  No longer used, see GetBucketNotificationConfiguration.
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the notification configuration.
+# Arguments
+- `bucket`: The name of the bucket for which to get the notification configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
-get_bucket_notification(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
+get_bucket_notification(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config)
 
 """
-    GetBucketNotificationConfiguration()
+    get_bucket_notification_configuration(bucket)
+    get_bucket_notification_configuration(bucket, params::Dict{String,<:Any})
 
 Returns the notification configuration of a bucket. If notifications are not enabled on the
 bucket, the operation returns an empty NotificationConfiguration element. By default, you
@@ -1330,19 +1403,21 @@ setting and reading the notification configuration on a bucket, see Setting Up N
 of Bucket Events. For more information about bucket policies, see Using Bucket Policies.
 The following operation is related to GetBucketNotification:    PutBucketNotification
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the notification configuration.
+# Arguments
+- `bucket`: The name of the bucket for which to get the notification configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_notification_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
-get_bucket_notification_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
+get_bucket_notification_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", params; aws_config=aws_config)
 
 """
-    GetBucketOwnershipControls()
+    get_bucket_ownership_controls(bucket)
+    get_bucket_ownership_controls(bucket, params::Dict{String,<:Any})
 
 Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have
 the s3:GetBucketOwnershipControls permission. For more information about Amazon S3
@@ -1351,19 +1426,21 @@ Object Ownership, see Using Object Ownership.  The following operations are rela
 GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwnershipControls
 
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls"; aws_config=aws_config)
-get_bucket_ownership_controls(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls", args; aws_config=aws_config)
+get_bucket_ownership_controls(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?ownershipControls", params; aws_config=aws_config)
 
 """
-    GetBucketPolicy()
+    get_bucket_policy(bucket)
+    get_bucket_policy(bucket, params::Dict{String,<:Any})
 
 Returns the policy of a specified bucket. If you are using an identity other than the root
 user of the AWS account that owns the bucket, the calling identity must have the
@@ -1377,19 +1454,21 @@ root user the ability to perform this action.  For more information about bucket
 see Using Bucket Policies and User Policies. The following operation is related to
 GetBucketPolicy:    GetObject
 
-# Required Parameters
-- `Bucket`: The bucket name for which to get the bucket policy.
+# Arguments
+- `bucket`: The bucket name for which to get the bucket policy.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy"; aws_config=aws_config)
-get_bucket_policy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy", args; aws_config=aws_config)
+get_bucket_policy(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy", params; aws_config=aws_config)
 
 """
-    GetBucketPolicyStatus()
+    get_bucket_policy_status(bucket)
+    get_bucket_policy_status(bucket, params::Dict{String,<:Any})
 
 Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is
 public. In order to use this operation, you must have the s3:GetBucketPolicyStatus
@@ -1399,19 +1478,21 @@ Meaning of \"Public\".  The following operations are related to GetBucketPolicyS
 Using Amazon S3 Block Public Access     GetPublicAccessBlock     PutPublicAccessBlock
 DeletePublicAccessBlock
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose policy status you want to retrieve.
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose policy status you want to retrieve.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus"; aws_config=aws_config)
-get_bucket_policy_status(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus", args; aws_config=aws_config)
+get_bucket_policy_status(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus", params; aws_config=aws_config)
 
 """
-    GetBucketReplication()
+    get_bucket_replication(bucket)
+    get_bucket_replication(bucket, params::Dict{String,<:Any})
 
 Returns the replication configuration of a bucket.   It can take a while to propagate the
 put or delete a replication configuration to all Amazon S3 systems. Therefore, a get
@@ -1425,37 +1506,41 @@ For information about GetBucketReplication errors, see List of replication-relat
 codes  The following operations are related to GetBucketReplication:
 PutBucketReplication     DeleteBucketReplication
 
-# Required Parameters
-- `Bucket`: The bucket name for which to get the replication information.
+# Arguments
+- `bucket`: The bucket name for which to get the replication information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication"; aws_config=aws_config)
-get_bucket_replication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication", args; aws_config=aws_config)
+get_bucket_replication(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication", params; aws_config=aws_config)
 
 """
-    GetBucketRequestPayment()
+    get_bucket_request_payment(bucket)
+    get_bucket_request_payment(bucket, params::Dict{String,<:Any})
 
 Returns the request payment configuration of a bucket. To use this version of the
 operation, you must be the bucket owner. For more information, see Requester Pays Buckets.
 The following operations are related to GetBucketRequestPayment:    ListObjects
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the payment request configuration
+# Arguments
+- `bucket`: The name of the bucket for which to get the payment request configuration
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_request_payment(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment"; aws_config=aws_config)
-get_bucket_request_payment(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment", args; aws_config=aws_config)
+get_bucket_request_payment(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment", params; aws_config=aws_config)
 
 """
-    GetBucketTagging()
+    get_bucket_tagging(bucket)
+    get_bucket_tagging(bucket, params::Dict{String,<:Any})
 
 Returns the tag set associated with the bucket. To use this operation, you must have
 permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this
@@ -1464,19 +1549,21 @@ special error:   Error code: NoSuchTagSetError    Description: There is no tag s
 associated with the bucket.     The following operations are related to GetBucketTagging:
  PutBucketTagging     DeleteBucketTagging
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the tagging information.
+# Arguments
+- `bucket`: The name of the bucket for which to get the tagging information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging"; aws_config=aws_config)
-get_bucket_tagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging", args; aws_config=aws_config)
+get_bucket_tagging(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging", params; aws_config=aws_config)
 
 """
-    GetBucketVersioning()
+    get_bucket_versioning(bucket)
+    get_bucket_versioning(bucket, params::Dict{String,<:Any})
 
 Returns the versioning state of a bucket. To retrieve the versioning state of a bucket, you
 must be the bucket owner. This implementation also returns the MFA Delete status of the
@@ -1485,19 +1572,21 @@ authentication device to change the versioning state of the bucket. The followin
 operations are related to GetBucketVersioning:    GetObject     PutObject     DeleteObject
 
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to get the versioning information.
+# Arguments
+- `bucket`: The name of the bucket for which to get the versioning information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning"; aws_config=aws_config)
-get_bucket_versioning(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning", args; aws_config=aws_config)
+get_bucket_versioning(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning", params; aws_config=aws_config)
 
 """
-    GetBucketWebsite()
+    get_bucket_website(bucket)
+    get_bucket_website(bucket, params::Dict{String,<:Any})
 
 Returns the website configuration for a bucket. To host website on Amazon S3, you can
 configure a bucket as website by adding a website configuration. For more information about
@@ -1508,19 +1597,21 @@ configuration by writing a bucket policy granting them the S3:GetBucketWebsite p
 The following operations are related to DeleteBucketWebsite:    DeleteBucketWebsite
 PutBucketWebsite
 
-# Required Parameters
-- `Bucket`: The bucket name for which to get the website configuration.
+# Arguments
+- `bucket`: The bucket name for which to get the website configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website"; aws_config=aws_config)
-get_bucket_website(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website", args; aws_config=aws_config)
+get_bucket_website(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website", params; aws_config=aws_config)
 
 """
-    GetObject()
+    get_object(bucket, key)
+    get_object(bucket, key, params::Dict{String,<:Any})
 
 Retrieves objects from Amazon S3. To use GET, you must have READ access to the object. If
 you grant READ access to the anonymous user, you can return the object without using an
@@ -1587,8 +1678,8 @@ If-Modified-Since condition evaluates to true; then, S3 returns 304 Not Modified
 code. For more information about conditional requests, see RFC 7232. The following
 operations are related to GetObject:    ListBuckets     GetObjectAcl
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object.  When using this API with an access
+# Arguments
+- `bucket`: The bucket name containing the object.  When using this API with an access
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this operation with an access point through the AWS SDKs, you provide the access point ARN
@@ -1600,50 +1691,53 @@ operations are related to GetObject:    ListBuckets     GetObjectAcl
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Key of the object to get.
+- `key`: Key of the object to get.
 
 # Optional Parameters
-- `If-Match`: Return the object only if its entity tag (ETag) is the same as the one
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: Return the object only if its entity tag (ETag) is the same as the one
   specified, otherwise return a 412 (precondition failed).
-- `If-Modified-Since`: Return the object only if it has been modified since the specified
+- `"If-Modified-Since"`: Return the object only if it has been modified since the specified
   time, otherwise return a 304 (not modified).
-- `If-None-Match`: Return the object only if its entity tag (ETag) is different from the
+- `"If-None-Match"`: Return the object only if its entity tag (ETag) is different from the
   one specified, otherwise return a 304 (not modified).
-- `If-Unmodified-Since`: Return the object only if it has not been modified since the
+- `"If-Unmodified-Since"`: Return the object only if it has not been modified since the
   specified time, otherwise return a 412 (precondition failed).
-- `Range`: Downloads the specified range bytes of an object. For more information about the
-  HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
-- `partNumber`: Part number of the object being read. This is a positive integer between 1
-  and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for
-  downloading just a part of an object.
-- `response-cache-control`: Sets the Cache-Control header of the response.
-- `response-content-disposition`: Sets the Content-Disposition header of the response
-- `response-content-encoding`: Sets the Content-Encoding header of the response.
-- `response-content-language`: Sets the Content-Language header of the response.
-- `response-content-type`: Sets the Content-Type header of the response.
-- `response-expires`: Sets the Expires header of the response.
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
-  key for Amazon S3 to use in encrypting data. This value is used to store the object and
-  then it is discarded; Amazon S3 does not store the encryption key. The key must be
+- `"Range"`: Downloads the specified range bytes of an object. For more information about
+  the HTTP Range header, see
+  https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't
+  support retrieving multiple ranges of data per GET request.
+- `"partNumber"`: Part number of the object being read. This is a positive integer between
+  1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful
+  for downloading just a part of an object.
+- `"response-cache-control"`: Sets the Cache-Control header of the response.
+- `"response-content-disposition"`: Sets the Content-Disposition header of the response
+- `"response-content-encoding"`: Sets the Content-Encoding header of the response.
+- `"response-content-language"`: Sets the Content-Language header of the response.
+- `"response-content-type"`: Sets the Content-Type header of the response.
+- `"response-expires"`: Sets the Expires header of the response.
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when decrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
+  key for Amazon S3 used to encrypt the data. This value is used to decrypt the object when
+  recovering it and must match the one used when storing the data. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
 """
 get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-get_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+get_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", params; aws_config=aws_config)
 
 """
-    GetObjectAcl()
+    get_object_acl(bucket, key)
+    get_object_acl(bucket, key, params::Dict{String,<:Any})
 
 Returns the access control list (ACL) of an object. To use this operation, you must have
 READ_ACP access to the object. This action is not supported by Amazon S3 on Outposts.
@@ -1652,61 +1746,65 @@ To return ACL information about a different version, use the versionId subresour
 following operations are related to GetObjectAcl:    GetObject     DeleteObject
 PutObject
 
-# Required Parameters
-- `Bucket`: The bucket name that contains the object for which to get the ACL information.
+# Arguments
+- `bucket`: The bucket name that contains the object for which to get the ACL information.
   When using this API with an access point, you must direct requests to the access point
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: The key of the object for which to get the ACL information.
+- `key`: The key of the object for which to get the ACL information.
 
 # Optional Parameters
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
-get_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
+get_object_acl(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config)
 
 """
-    GetObjectLegalHold()
+    get_object_legal_hold(bucket, key)
+    get_object_legal_hold(bucket, key, params::Dict{String,<:Any})
 
 Gets an object's current Legal Hold status. For more information, see Locking Objects. This
 action is not supported by Amazon S3 on Outposts.
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object whose Legal Hold status you want to
+# Arguments
+- `bucket`: The bucket name containing the object whose Legal Hold status you want to
   retrieve.  When using this API with an access point, you must direct requests to the access
   point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: The key name for the object whose Legal Hold status you want to retrieve.
+- `key`: The key name for the object whose Legal Hold status you want to retrieve.
 
 # Optional Parameters
-- `versionId`: The version ID of the object whose Legal Hold status you want to retrieve.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: The version ID of the object whose Legal Hold status you want to retrieve.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 get_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
-get_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
+get_object_legal_hold(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config)
 
 """
-    GetObjectLockConfiguration()
+    get_object_lock_configuration(bucket)
+    get_object_lock_configuration(bucket, params::Dict{String,<:Any})
 
 Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock
 configuration will be applied by default to every new object placed in the specified
 bucket. For more information, see Locking Objects.
 
-# Required Parameters
-- `Bucket`: The bucket whose Object Lock configuration you want to retrieve. When using
+# Arguments
+- `bucket`: The bucket whose Object Lock configuration you want to retrieve. When using
   this API with an access point, you must direct requests to the access point hostname. The
   access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -1715,41 +1813,46 @@ bucket. For more information, see Locking Objects.
   Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock"; aws_config=aws_config)
-get_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock", args; aws_config=aws_config)
+get_object_lock_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock", params; aws_config=aws_config)
 
 """
-    GetObjectRetention()
+    get_object_retention(bucket, key)
+    get_object_retention(bucket, key, params::Dict{String,<:Any})
 
 Retrieves an object's retention settings. For more information, see Locking Objects. This
 action is not supported by Amazon S3 on Outposts.
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object whose retention settings you want to
+# Arguments
+- `bucket`: The bucket name containing the object whose retention settings you want to
   retrieve.  When using this API with an access point, you must direct requests to the access
   point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: The key name for the object whose retention settings you want to retrieve.
+- `key`: The key name for the object whose retention settings you want to retrieve.
 
 # Optional Parameters
-- `versionId`: The version ID for the object whose retention settings you want to retrieve.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: The version ID for the object whose retention settings you want to
+  retrieve.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 get_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
-get_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
+get_object_retention(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config)
 
 """
-    GetObjectTagging()
+    get_object_tagging(bucket, key)
+    get_object_tagging(bucket, key, params::Dict{String,<:Any})
 
 Returns the tag-set of an object. You send the GET request against the tagging subresource
 associated with the object. To use this operation, you must have permission to perform the
@@ -1759,10 +1862,10 @@ in your bucket. To retrieve tags of any other version, use the versionId query p
 You also need permission for the s3:GetObjectVersionTagging action.  By default, the bucket
 owner has this permission and can grant this permission to others.  For information about
 the Amazon S3 object tagging feature, see Object Tagging. The following operation is
-related to GetObjectTagging:    PutObjectTagging
+related to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object for which to get the tagging information.
+# Arguments
+- `bucket`: The bucket name containing the object for which to get the tagging information.
    When using this API with an access point, you must direct requests to the access point
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -1775,19 +1878,22 @@ related to GetObjectTagging:    PutObjectTagging
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which to get the tagging information.
+- `key`: Object key for which to get the tagging information.
 
 # Optional Parameters
-- `versionId`: The versionId of the object for which to get the tagging information.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"versionId"`: The versionId of the object for which to get the tagging information.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
-get_object_tagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
+get_object_tagging(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging", params; aws_config=aws_config)
 
 """
-    GetObjectTorrent()
+    get_object_torrent(bucket, key)
+    get_object_torrent(bucket, key, params::Dict{String,<:Any})
 
 Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're
 distributing large files. For more information about BitTorrent, see Using BitTorrent with
@@ -1796,21 +1902,23 @@ are not encrypted using server-side encryption with a customer-provided encrypti
 use GET, you must have READ access to the object. This action is not supported by Amazon S3
 on Outposts. The following operation is related to GetObjectTorrent:    GetObject
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the object for which to get the torrent files.
-- `Key`: The object key for which to get the information.
+# Arguments
+- `bucket`: The name of the bucket containing the object for which to get the torrent files.
+- `key`: The object key for which to get the information.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent"; aws_config=aws_config)
-get_object_torrent(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent", args; aws_config=aws_config)
+get_object_torrent(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent", params; aws_config=aws_config)
 
 """
-    GetPublicAccessBlock()
+    get_public_access_block(bucket)
+    get_public_access_block(bucket, params::Dict{String,<:Any})
 
 Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use this
 operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information
@@ -1824,31 +1932,35 @@ considers a bucket or an object public, see The Meaning of \"Public\". The follo
 operations are related to GetPublicAccessBlock:    Using Amazon S3 Block Public Access
 PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
   to retrieve.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
-get_public_access_block(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
+get_public_access_block(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock", params; aws_config=aws_config)
 
 """
-    HeadBucket()
+    head_bucket(bucket)
+    head_bucket(bucket, params::Dict{String,<:Any})
 
 This operation is useful to determine if a bucket exists and you have permission to access
 it. The operation returns a 200 OK if the bucket exists and you have permission to access
-it. Otherwise, the operation might return responses such as 404 Not Found and 403
-Forbidden.  To use this operation, you must have permissions to perform the s3:ListBucket
-action. The bucket owner has this permission by default and can grant this permission to
-others. For more information about permissions, see Permissions Related to Bucket
-Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
+it. If the bucket does not exist or you do not have permission to access it, the HEAD
+request returns a generic 404 Not Found or 403 Forbidden code. A message body is not
+included, so you cannot determine the exception beyond these error codes. To use this
+operation, you must have permissions to perform the s3:ListBucket action. The bucket owner
+has this permission by default and can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources.
 
-# Required Parameters
-- `Bucket`: The bucket name. When using this API with an access point, you must direct
+# Arguments
+- `bucket`: The bucket name. When using this API with an access point, you must direct
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
@@ -1862,38 +1974,43 @@ Subresource Operations and Managing Access Permissions to Your Amazon S3 Resourc
   Outposts in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)"; aws_config=aws_config)
-head_bucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)", args; aws_config=aws_config)
+head_bucket(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)", params; aws_config=aws_config)
 
 """
-    HeadObject()
+    head_object(bucket, key)
+    head_object(bucket, key, params::Dict{String,<:Any})
 
 The HEAD operation retrieves metadata from an object without returning the object itself.
 This operation is useful if you're only interested in an object's metadata. To use HEAD,
 you must have READ access to the object. A HEAD request has the same options as a GET
 operation on an object. The response is identical to the GET response except that there is
-no response body. If you encrypt an object by using server-side encryption with
-customer-provided encryption keys (SSE-C) when you store the object in Amazon S3, then when
-you retrieve the metadata from the object, you must use the following headers:
-x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5   For more information about SSE-C, see
-Server-Side Encryption (Using Customer-Provided Encryption Keys).  Encryption request
-headers, like x-amz-server-side-encryption, should not be sent for GET requests if your
-object uses server-side encryption with CMKs stored in AWS KMS (SSE-KMS) or server-side
-encryption with Amazon S3–managed encryption keys (SSE-S3). If your object does use these
-types of keys, you’ll get an HTTP 400 BadRequest error.  Request headers are limited to 8
-KB in size. For more information, see Common Request Headers. Consider the following when
-using request headers:    Consideration 1 – If both of the If-Match and
-If-Unmodified-Since headers are present in the request as follows:    If-Match condition
-evaluates to true, and;    If-Unmodified-Since condition evaluates to false;   Then Amazon
-S3 returns 200 OK and the data requested.    Consideration 2 – If both of the
-If-None-Match and If-Modified-Since headers are present in the request as follows:
-If-None-Match condition evaluates to false, and;    If-Modified-Since condition evaluates
-to true;   Then Amazon S3 returns the 304 Not Modified response code.   For more
+no response body. Because of this, if the HEAD request generates an error, it returns a
+generic 404 Not Found or 403 Forbidden code. It is not possible to retrieve the exact
+exception beyond these error codes. If you encrypt an object by using server-side
+encryption with customer-provided encryption keys (SSE-C) when you store the object in
+Amazon S3, then when you retrieve the metadata from the object, you must use the following
+headers:   x-amz-server-side-encryption-customer-algorithm
+x-amz-server-side-encryption-customer-key   x-amz-server-side-encryption-customer-key-MD5
+For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
+Encryption Keys).    Encryption request headers, like x-amz-server-side-encryption, should
+not be sent for GET requests if your object uses server-side encryption with CMKs stored in
+AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys
+(SSE-S3). If your object does use these types of keys, you’ll get an HTTP 400 BadRequest
+error.    The last modified property in this case is the creation date of the object.
+Request headers are limited to 8 KB in size. For more information, see Common Request
+Headers. Consider the following when using request headers:    Consideration 1 – If both
+of the If-Match and If-Unmodified-Since headers are present in the request as follows:
+If-Match condition evaluates to true, and;    If-Unmodified-Since condition evaluates to
+false;   Then Amazon S3 returns 200 OK and the data requested.    Consideration 2 – If
+both of the If-None-Match and If-Modified-Since headers are present in the request as
+follows:    If-None-Match condition evaluates to false, and;    If-Modified-Since condition
+evaluates to true;   Then Amazon S3 returns the 304 Not Modified response code.   For more
 information about conditional requests, see RFC 7232.  Permissions  You need the
 s3:GetObject permission for this operation. For more information, see Specifying
 Permissions in a Policy. If the object you request does not exist, the error Amazon S3
@@ -1903,8 +2020,8 @@ such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
 HTTP status code 403 (\"access denied\") error.   The following operation is related to
 HeadObject:    GetObject
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the object. When using this API with an
+# Arguments
+- `bucket`: The name of the bucket containing the object. When using this API with an
   access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -1916,44 +2033,46 @@ HeadObject:    GetObject
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: The object key.
+- `key`: The object key.
 
 # Optional Parameters
-- `If-Match`: Return the object only if its entity tag (ETag) is the same as the one
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"If-Match"`: Return the object only if its entity tag (ETag) is the same as the one
   specified, otherwise return a 412 (precondition failed).
-- `If-Modified-Since`: Return the object only if it has been modified since the specified
+- `"If-Modified-Since"`: Return the object only if it has been modified since the specified
   time, otherwise return a 304 (not modified).
-- `If-None-Match`: Return the object only if its entity tag (ETag) is different from the
+- `"If-None-Match"`: Return the object only if its entity tag (ETag) is different from the
   one specified, otherwise return a 304 (not modified).
-- `If-Unmodified-Since`: Return the object only if it has not been modified since the
+- `"If-Unmodified-Since"`: Return the object only if it has not been modified since the
   specified time, otherwise return a 412 (precondition failed).
-- `Range`: Downloads the specified range bytes of an object. For more information about the
-  HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
-- `partNumber`: Part number of the object being read. This is a positive integer between 1
-  and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
+- `"Range"`: Downloads the specified range bytes of an object. For more information about
+  the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+   Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+- `"partNumber"`: Part number of the object being read. This is a positive integer between
+  1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
 """
 head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-head_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+head_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)", params; aws_config=aws_config)
 
 """
-    ListBucketAnalyticsConfigurations()
+    list_bucket_analytics_configurations(bucket)
+    list_bucket_analytics_configurations(bucket, params::Dict{String,<:Any})
 
 Lists the analytics configurations for the bucket. You can have up to 1,000 analytics
 configurations per bucket. This operation supports list pagination and does not return more
@@ -1971,21 +2090,23 @@ Analytics – Storage Class Analysis.  The following operations are related to
 ListBucketAnalyticsConfigurations:    GetBucketAnalyticsConfiguration
 DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket from which analytics configurations are retrieved.
+# Arguments
+- `bucket`: The name of the bucket from which analytics configurations are retrieved.
 
 # Optional Parameters
-- `continuation-token`: The ContinuationToken that represents a placeholder from where this
-  request should begin.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`: The ContinuationToken that represents a placeholder from where
+  this request should begin.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 list_bucket_analytics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics"; aws_config=aws_config)
-list_bucket_analytics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", args; aws_config=aws_config)
+list_bucket_analytics_configurations(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", params; aws_config=aws_config)
 
 """
-    ListBucketIntelligentTieringConfigurations()
+    list_bucket_intelligent_tiering_configurations(bucket)
+    list_bucket_intelligent_tiering_configurations(bucket, params::Dict{String,<:Any})
 
 Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
 Intelligent-Tiering storage class is designed to optimize storage costs by automatically
@@ -2002,19 +2123,21 @@ Operations related to ListBucketIntelligentTieringConfigurations include:
 DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
  GetBucketIntelligentTieringConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
   retrieve.
 
 # Optional Parameters
-- `continuation-token`: The ContinuationToken that represents a placeholder from where this
-  request should begin.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`: The ContinuationToken that represents a placeholder from where
+  this request should begin.
 """
 list_bucket_intelligent_tiering_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering"; aws_config=aws_config)
-list_bucket_intelligent_tiering_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", args; aws_config=aws_config)
+list_bucket_intelligent_tiering_configurations(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?intelligent-tiering", params; aws_config=aws_config)
 
 """
-    ListBucketInventoryConfigurations()
+    list_bucket_inventory_configurations(bucket)
+    list_bucket_inventory_configurations(bucket, params::Dict{String,<:Any})
 
 Returns a list of inventory configurations for the bucket. You can have up to 1,000
 analytics configurations per bucket. This operation supports list pagination and does not
@@ -2032,23 +2155,25 @@ S3 Inventory  The following operations are related to ListBucketInventoryConfigu
 GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration
 PutBucketInventoryConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the inventory configurations to retrieve.
+# Arguments
+- `bucket`: The name of the bucket containing the inventory configurations to retrieve.
 
 # Optional Parameters
-- `continuation-token`: The marker used to continue an inventory configuration listing that
-  has been truncated. Use the NextContinuationToken from a previously truncated list response
-  to continue the listing. The continuation token is an opaque value that Amazon S3
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`: The marker used to continue an inventory configuration listing
+  that has been truncated. Use the NextContinuationToken from a previously truncated list
+  response to continue the listing. The continuation token is an opaque value that Amazon S3
   understands.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 list_bucket_inventory_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory"; aws_config=aws_config)
-list_bucket_inventory_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", args; aws_config=aws_config)
+list_bucket_inventory_configurations(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", params; aws_config=aws_config)
 
 """
-    ListBucketMetricsConfigurations()
+    list_bucket_metrics_configurations(bucket)
+    list_bucket_metrics_configurations(bucket, params::Dict{String,<:Any})
 
 Lists the metrics configurations for the bucket. The metrics configurations are only for
 the request metrics of the bucket and do not provide information on daily storage metrics.
@@ -2067,32 +2192,35 @@ request metrics, see Monitoring Metrics with Amazon CloudWatch. The following op
 are related to ListBucketMetricsConfigurations:    PutBucketMetricsConfiguration
 GetBucketMetricsConfiguration     DeleteBucketMetricsConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the metrics configurations to retrieve.
+# Arguments
+- `bucket`: The name of the bucket containing the metrics configurations to retrieve.
 
 # Optional Parameters
-- `continuation-token`: The marker that is used to continue a metrics configuration listing
-  that has been truncated. Use the NextContinuationToken from a previously truncated list
-  response to continue the listing. The continuation token is an opaque value that Amazon S3
-  understands.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`: The marker that is used to continue a metrics configuration
+  listing that has been truncated. Use the NextContinuationToken from a previously truncated
+  list response to continue the listing. The continuation token is an opaque value that
+  Amazon S3 understands.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 list_bucket_metrics_configurations(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics"; aws_config=aws_config)
-list_bucket_metrics_configurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", args; aws_config=aws_config)
+list_bucket_metrics_configurations(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", params; aws_config=aws_config)
 
 """
-    ListBuckets()
+    list_buckets()
+    list_buckets(params::Dict{String,<:Any})
 
 Returns a list of all buckets owned by the authenticated sender of the request.
 
 """
 list_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/"; aws_config=aws_config)
-list_buckets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/", args; aws_config=aws_config)
+list_buckets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/", params; aws_config=aws_config)
 
 """
-    ListMultipartUploads()
+    list_multipart_uploads(bucket)
+    list_multipart_uploads(bucket, params::Dict{String,<:Any})
 
 This operation lists in-progress multipart uploads. An in-progress multipart upload is a
 multipart upload that has been initiated using the Initiate Multipart Upload request, but
@@ -2112,8 +2240,8 @@ API and Permissions. The following operations are related to ListMultipartUpload
 CreateMultipartUpload     UploadPart     CompleteMultipartUpload     ListParts
 AbortMultipartUpload
 
-# Required Parameters
-- `Bucket`: The name of the bucket to which the multipart upload was initiated.  When using
+# Arguments
+- `bucket`: The name of the bucket to which the multipart upload was initiated.  When using
   this API with an access point, you must direct requests to the access point hostname. The
   access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -2128,38 +2256,40 @@ AbortMultipartUpload
   Outposts in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `delimiter`: Character you use to group keys. All keys that contain the same string
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"delimiter"`: Character you use to group keys. All keys that contain the same string
   between the prefix, if specified, and the first occurrence of the delimiter after the
   prefix are grouped under a single result element, CommonPrefixes. If you don't specify the
   prefix parameter, then the substring starts at the beginning of the key. The keys that are
   grouped under CommonPrefixes result element are not returned elsewhere in the response.
-- `encoding-type`:
-- `key-marker`: Together with upload-id-marker, this parameter specifies the multipart
+- `"encoding-type"`:
+- `"key-marker"`: Together with upload-id-marker, this parameter specifies the multipart
   upload after which listing should begin. If upload-id-marker is not specified, only the
   keys lexicographically greater than the specified key-marker will be included in the list.
   If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker
   might also be included, provided those multipart uploads have upload IDs lexicographically
   greater than the specified upload-id-marker.
-- `max-uploads`: Sets the maximum number of multipart uploads, from 1 to 1,000, to return
+- `"max-uploads"`: Sets the maximum number of multipart uploads, from 1 to 1,000, to return
   in the response body. 1,000 is the maximum number of uploads that can be returned in a
   response.
-- `prefix`: Lists in-progress uploads only for those keys that begin with the specified
+- `"prefix"`: Lists in-progress uploads only for those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can
   think of using prefix to make groups in the same way you'd use a folder in a file system.)
-- `upload-id-marker`: Together with key-marker, specifies the multipart upload after which
-  listing should begin. If key-marker is not specified, the upload-id-marker parameter is
-  ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
+- `"upload-id-marker"`: Together with key-marker, specifies the multipart upload after
+  which listing should begin. If key-marker is not specified, the upload-id-marker parameter
+  is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
   included in the list only if they have an upload ID lexicographically greater than the
   specified upload-id-marker.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads"; aws_config=aws_config)
-list_multipart_uploads(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads", args; aws_config=aws_config)
+list_multipart_uploads(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads", params; aws_config=aws_config)
 
 """
-    ListObjectVersions()
+    list_object_versions(bucket)
+    list_object_versions(bucket, params::Dict{String,<:Any})
 
 Returns metadata about all versions of the objects in a bucket. You can also use request
 parameters as selection criteria to return metadata about a subset of all the object
@@ -2169,37 +2299,39 @@ operation, you must have READ access to the bucket. This action is not supported
 S3 on Outposts. The following operations are related to ListObjectVersions:
 ListObjectsV2     GetObject     PutObject     DeleteObject
 
-# Required Parameters
-- `Bucket`: The bucket name that contains the objects.
+# Arguments
+- `bucket`: The bucket name that contains the objects.
 
 # Optional Parameters
-- `delimiter`: A delimiter is a character that you specify to group keys. All keys that
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"delimiter"`: A delimiter is a character that you specify to group keys. All keys that
   contain the same string between the prefix and the first occurrence of the delimiter are
   grouped under a single result element in CommonPrefixes. These groups are counted as one
   result against the max-keys limitation. These keys are not returned elsewhere in the
   response.
-- `encoding-type`:
-- `key-marker`: Specifies the key to start with when listing objects in a bucket.
-- `max-keys`: Sets the maximum number of keys returned in the response. By default the API
-  returns up to 1,000 key names. The response might contain fewer keys but will never contain
-  more. If additional keys satisfy the search criteria, but were not returned because
+- `"encoding-type"`:
+- `"key-marker"`: Specifies the key to start with when listing objects in a bucket.
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+  API returns up to 1,000 key names. The response might contain fewer keys but will never
+  contain more. If additional keys satisfy the search criteria, but were not returned because
   max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;.
   To return the additional keys, see key-marker and version-id-marker.
-- `prefix`: Use this parameter to select only those keys that begin with the specified
+- `"prefix"`: Use this parameter to select only those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different groupings of keys. (You
   can think of using prefix to make groups in the same way you'd use a folder in a file
   system.) You can use prefix with delimiter to roll up numerous objects into a single result
   under CommonPrefixes.
-- `version-id-marker`: Specifies the object version you want to start listing from.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"version-id-marker"`: Specifies the object version you want to start listing from.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions"; aws_config=aws_config)
-list_object_versions(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions", args; aws_config=aws_config)
+list_object_versions(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions", params; aws_config=aws_config)
 
 """
-    ListObjects()
+    list_objects(bucket)
+    list_objects(bucket, params::Dict{String,<:Any})
 
 Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
 parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK
@@ -2210,8 +2342,8 @@ backward compatibility, Amazon S3 continues to support ListObjects.  The followi
 operations are related to ListObjects:    ListObjectsV2     GetObject     PutObject
 CreateBucket     ListBuckets
 
-# Required Parameters
-- `Bucket`: The name of the bucket containing the objects. When using this API with an
+# Arguments
+- `bucket`: The name of the bucket containing the objects. When using this API with an
   access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -2225,30 +2357,33 @@ CreateBucket     ListBuckets
   Outposts in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `delimiter`: A delimiter is a character you use to group keys.
-- `encoding-type`:
-- `marker`: Specifies the key to start with when listing objects in a bucket.
-- `max-keys`: Sets the maximum number of keys returned in the response. By default the API
-  returns up to 1,000 key names. The response might contain fewer keys but will never contain
-  more.
-- `prefix`: Limits the response to keys that begin with the specified prefix.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"delimiter"`: A delimiter is a character you use to group keys.
+- `"encoding-type"`:
+- `"marker"`: Specifies the key to start with when listing objects in a bucket.
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+  API returns up to 1,000 key names. The response might contain fewer keys but will never
+  contain more.
+- `"prefix"`: Limits the response to keys that begin with the specified prefix.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
   for the list objects request. Bucket owners need not specify this parameter in their
   requests.
 """
 list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)"; aws_config=aws_config)
-list_objects(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)", args; aws_config=aws_config)
+list_objects(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)", params; aws_config=aws_config)
 
 """
-    ListObjectsV2()
+    list_objects_v2(bucket)
+    list_objects_v2(bucket, params::Dict{String,<:Any})
 
 Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
 parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK
 response can contain valid or invalid XML. Make sure to design your application to parse
-the contents of the response and handle it appropriately. To use this operation, you must
+the contents of the response and handle it appropriately. Objects are returned sorted in an
+ascending order of the respective key names in the list. To use this operation, you must
 have READ access to the bucket. To use this operation in an AWS Identity and Access
 Management (IAM) policy, you must have permissions to perform the s3:ListBucket action. The
 bucket owner has this permission by default and can grant this permission to others. For
@@ -2260,8 +2395,8 @@ prior version of this API, ListObjects.  To get a list of your buckets, see List
 The following operations are related to ListObjectsV2:    GetObject     PutObject
 CreateBucket
 
-# Required Parameters
-- `Bucket`: Bucket name to list.  When using this API with an access point, you must direct
+# Arguments
+- `bucket`: Bucket name to list.  When using this API with an access point, you must direct
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
@@ -2275,31 +2410,33 @@ CreateBucket
   Outposts in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `continuation-token`: ContinuationToken indicates Amazon S3 that the list is being
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`: ContinuationToken indicates Amazon S3 that the list is being
   continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
   key.
-- `delimiter`: A delimiter is a character you use to group keys.
-- `encoding-type`: Encoding type used by Amazon S3 to encode object keys in the response.
-- `fetch-owner`: The owner field is not present in listV2 by default, if you want to return
-  owner field with each key in the result then set the fetch owner field to true.
-- `max-keys`: Sets the maximum number of keys returned in the response. By default the API
-  returns up to 1,000 key names. The response might contain fewer keys but will never contain
-  more.
-- `prefix`: Limits the response to keys that begin with the specified prefix.
-- `start-after`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
+- `"delimiter"`: A delimiter is a character you use to group keys.
+- `"encoding-type"`: Encoding type used by Amazon S3 to encode object keys in the response.
+- `"fetch-owner"`: The owner field is not present in listV2 by default, if you want to
+  return owner field with each key in the result then set the fetch owner field to true.
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+  API returns up to 1,000 key names. The response might contain fewer keys but will never
+  contain more.
+- `"prefix"`: Limits the response to keys that begin with the specified prefix.
+- `"start-after"`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
   starts listing after this specified key. StartAfter can be any key in the bucket.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
   for the list objects request in V2 style. Bucket owners need not specify this parameter in
   their requests.
 """
 list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2"; aws_config=aws_config)
-list_objects_v2(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2", args; aws_config=aws_config)
+list_objects_v2(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2", params; aws_config=aws_config)
 
 """
-    ListParts()
+    list_parts(bucket, key, upload_id)
+    list_parts(bucket, key, upload_id, params::Dict{String,<:Any})
 
 Lists the parts that have been uploaded for a specific multipart upload. This operation
 must include the upload ID, which you obtain by sending the initiate multipart upload
@@ -2315,8 +2452,8 @@ permissions required to use the multipart upload API, see Multipart Upload API a
 Permissions. The following operations are related to ListParts:    CreateMultipartUpload
  UploadPart     CompleteMultipartUpload     AbortMultipartUpload     ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: The name of the bucket to which the parts are being uploaded.  When using this
+# Arguments
+- `bucket`: The name of the bucket to which the parts are being uploaded.  When using this
   API with an access point, you must direct requests to the access point hostname. The access
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -2329,23 +2466,25 @@ Permissions. The following operations are related to ListParts:    CreateMultipa
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the multipart upload was initiated.
-- `uploadId`: Upload ID identifying the multipart upload whose parts are being listed.
+- `key`: Object key for which the multipart upload was initiated.
+- `upload_id`: Upload ID identifying the multipart upload whose parts are being listed.
 
 # Optional Parameters
-- `max-parts`: Sets the maximum number of parts to return.
-- `part-number-marker`: Specifies the part after which listing should begin. Only parts
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-parts"`: Sets the maximum number of parts to return.
+- `"part-number-marker"`: Specifies the part after which listing should begin. Only parts
   with higher part numbers will be listed.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 list_parts(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-list_parts(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
+list_parts(Bucket, Key, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config)
 
 """
-    PutBucketAccelerateConfiguration()
+    put_bucket_accelerate_configuration(accelerate_configuration, bucket)
+    put_bucket_accelerate_configuration(accelerate_configuration, bucket, params::Dict{String,<:Any})
 
 Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is
 a bucket-level feature that enables you to perform faster data transfers to Amazon S3.  To
@@ -2364,20 +2503,22 @@ information about transfer acceleration, see Transfer Acceleration. The followin
 operations are related to PutBucketAccelerateConfiguration:
 GetBucketAccelerateConfiguration     CreateBucket
 
-# Required Parameters
-- `AccelerateConfiguration`: Container for setting the transfer acceleration state.
-- `Bucket`: The name of the bucket for which the accelerate configuration is set.
+# Arguments
+- `accelerate_configuration`: Container for setting the transfer acceleration state.
+- `bucket`: The name of the bucket for which the accelerate configuration is set.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration); aws_config=aws_config)
-put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), args)); aws_config=aws_config)
+put_bucket_accelerate_configuration(AccelerateConfiguration, Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketAcl()
+    put_bucket_acl(bucket)
+    put_bucket_acl(bucket, params::Dict{String,<:Any})
 
 Sets the permissions on an existing bucket using access control lists (ACL). For more
 information, see Using ACLs. To set the ACL of a bucket, you must have WRITE_ACP
@@ -2431,33 +2572,35 @@ Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Re
 Endpoints in the AWS General Reference.     Related Resources     CreateBucket
 DeleteBucket     GetObjectAcl
 
-# Required Parameters
-- `Bucket`: The bucket to which to apply the ACL.
+# Arguments
+- `bucket`: The bucket to which to apply the ACL.
 
 # Optional Parameters
-- `AccessControlPolicy`: Contains the elements that set the ACL permissions for an object
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessControlPolicy"`: Contains the elements that set the ACL permissions for an object
   per grantee.
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.  For requests made using the AWS Command
   Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-acl`: The canned ACL to apply to the bucket.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-grant-full-control`: Allows grantee the read, write, read ACP, and write ACP
+- `"x-amz-acl"`: The canned ACL to apply to the bucket.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket.
-- `x-amz-grant-read`: Allows grantee to list the objects in the bucket.
-- `x-amz-grant-read-acp`: Allows grantee to read the bucket ACL.
-- `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.
+- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
   bucket.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
 """
 put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config)
-put_bucket_acl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl", args; aws_config=aws_config)
+put_bucket_acl(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl", params; aws_config=aws_config)
 
 """
-    PutBucketAnalyticsConfiguration()
+    put_bucket_analytics_configuration(analytics_configuration, bucket, id)
+    put_bucket_analytics_configuration(analytics_configuration, bucket, id, params::Dict{String,<:Any})
 
 Sets an analytics configuration for the bucket (specified by the analytics configuration
 ID). You can have up to 1,000 analytics configurations per bucket. You can choose to have
@@ -2484,21 +2627,23 @@ s3:PutAnalyticsConfiguration bucket permission to set the configuration on the b
  Related Resources     GetBucketAnalyticsConfiguration
 DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
 
-# Required Parameters
-- `AnalyticsConfiguration`: The configuration and any analyses for the analytics filter.
-- `Bucket`: The name of the bucket to which an analytics configuration is stored.
+# Arguments
+- `analytics_configuration`: The configuration and any analyses for the analytics filter.
+- `bucket`: The name of the bucket to which an analytics configuration is stored.
 - `id`: The ID that identifies the analytics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_analytics_configuration(AnalyticsConfiguration, Bucket, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), params)); aws_config=aws_config)
 
 """
-    PutBucketCors()
+    put_bucket_cors(bucket, corsconfiguration)
+    put_bucket_cors(bucket, corsconfiguration, params::Dict{String,<:Any})
 
 Sets the cors configuration for your bucket. If the configuration exists, Amazon S3
 replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS
@@ -2521,26 +2666,28 @@ match an AllowedHeader element.     For more information about CORS, go to Enabl
 Cross-Origin Resource Sharing in the Amazon Simple Storage Service Developer Guide.
 Related Resources     GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
 
-# Required Parameters
-- `Bucket`: Specifies the bucket impacted by the corsconfiguration.
-- `CORSConfiguration`: Describes the cross-origin access configuration for objects in an
+# Arguments
+- `bucket`: Specifies the bucket impacted by the corsconfiguration.
+- `corsconfiguration`: Describes the cross-origin access configuration for objects in an
   Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the
   Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.  For requests made using the AWS Command
   Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_cors(Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}("CORSConfiguration"=>CORSConfiguration); aws_config=aws_config)
-put_bucket_cors(Bucket, CORSConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), args)); aws_config=aws_config)
+put_bucket_cors(Bucket, CORSConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketEncryption()
+    put_bucket_encryption(bucket, server_side_encryption_configuration)
+    put_bucket_encryption(bucket, server_side_encryption_configuration, params::Dict{String,<:Any})
 
 This operation uses the encryption subresource to configure default encryption and Amazon
 S3 Bucket Key for an existing bucket. Default encryption for a bucket can use server-side
@@ -2557,54 +2704,66 @@ permissions, see Permissions Related to Bucket Subresource Operations and Managi
 Permissions to Your Amazon S3 Resources in the Amazon Simple Storage Service Developer
 Guide.   Related Resources     GetBucketEncryption     DeleteBucketEncryption
 
-# Required Parameters
-- `Bucket`: Specifies default encryption for a bucket using server-side encryption with
+# Arguments
+- `bucket`: Specifies default encryption for a bucket using server-side encryption with
   Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For
   information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket
   Encryption in the Amazon Simple Storage Service Developer Guide.
-- `ServerSideEncryptionConfiguration`:
+- `server_side_encryption_configuration`:
 
 # Optional Parameters
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the server-side encryption
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the server-side encryption
   configuration. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
   this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws_config=aws_config)
-put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), args)); aws_config=aws_config)
+put_bucket_encryption(Bucket, ServerSideEncryptionConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketIntelligentTieringConfiguration()
+    put_bucket_intelligent_tiering_configuration(bucket, intelligent_tiering_configuration, id)
+    put_bucket_intelligent_tiering_configuration(bucket, intelligent_tiering_configuration, id, params::Dict{String,<:Any})
 
-Puts a S3 Intelligent-Tiering configuration to the specified bucket. The S3
-Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without additional operational
-overhead. S3 Intelligent-Tiering delivers automatic cost savings by moving data between
-access tiers, when access patterns change. The S3 Intelligent-Tiering storage class is
-suitable for objects larger than 128 KB that you plan to store for at least 30 days. If the
-size of an object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects
-can be stored, but they are always charged at the frequent access tier rates in the S3
+Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to
+1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage
+class is designed to optimize storage costs by automatically moving data to the most
+cost-effective storage access tier, without additional operational overhead. S3
+Intelligent-Tiering delivers automatic cost savings by moving data between access tiers,
+when access patterns change. The S3 Intelligent-Tiering storage class is suitable for
+objects larger than 128 KB that you plan to store for at least 30 days. If the size of an
+object is less than 128 KB, it is not eligible for auto-tiering. Smaller objects can be
+stored, but they are always charged at the frequent access tier rates in the S3
 Intelligent-Tiering storage class.  If you delete an object before the end of the 30-day
 minimum storage duration period, you are charged for 30 days. For more information, see
 Storage class for automatically optimizing frequently and infrequently accessed objects.
 Operations related to PutBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
- ListBucketIntelligentTieringConfigurations
+ ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering
+enabled on a bucket if you want to automatically move objects stored in the S3
+Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier.
+Special Errors     HTTP 400 Bad Request Error     Code: InvalidArgument    Cause: Invalid
+Argument      HTTP 400 Bad Request Error     Code: TooManyConfigurations    Cause: You are
+attempting to create a new configuration but have already reached the 1,000-configuration
+limit.       HTTP 403 Forbidden Error     Code: AccessDenied    Cause: You are not the
+owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration
+bucket permission to set the configuration on the bucket.
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
   retrieve.
-- `IntelligentTieringConfiguration`: Container for S3 Intelligent-Tiering configuration.
+- `intelligent_tiering_configuration`: Container for S3 Intelligent-Tiering configuration.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
 put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_intelligent_tiering_configuration(Bucket, IntelligentTieringConfiguration, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?intelligent-tiering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntelligentTieringConfiguration"=>IntelligentTieringConfiguration, "id"=>id), params)); aws_config=aws_config)
 
 """
-    PutBucketInventoryConfiguration()
+    put_bucket_inventory_configuration(bucket, inventory_configuration, id)
+    put_bucket_inventory_configuration(bucket, inventory_configuration, id, params::Dict{String,<:Any})
 
 This implementation of the PUT operation adds an inventory configuration (identified by the
 inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket.
@@ -2633,21 +2792,23 @@ set the configuration on the bucket.       Related Resources
 GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration
 ListBucketInventoryConfigurations
 
-# Required Parameters
-- `Bucket`: The name of the bucket where the inventory configuration will be stored.
-- `InventoryConfiguration`: Specifies the inventory configuration.
+# Arguments
+- `bucket`: The name of the bucket where the inventory configuration will be stored.
+- `inventory_configuration`: Specifies the inventory configuration.
 - `id`: The ID used to identify the inventory configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), params)); aws_config=aws_config)
 
 """
-    PutBucketLifecycle()
+    put_bucket_lifecycle(bucket)
+    put_bucket_lifecycle(bucket, params::Dict{String,<:Any})
 
  For an updated version of this API, see PutBucketLifecycleConfiguration. This version has
 been deprecated. Existing lifecycle configurations will work. For new lifecycle
@@ -2674,22 +2835,24 @@ For more information, see the following topics in the Amazon Simple Storage Serv
 Developer Guide:     Specifying Permissions in a Policy     Managing Access Permissions to
 your Amazon S3 Resources
 
-# Required Parameters
-- `Bucket`:
+# Arguments
+- `bucket`:
 
 # Optional Parameters
-- `Content-MD5`:  For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
-  this field is calculated automatically.
-- `LifecycleConfiguration`:
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`:  For requests made using the AWS Command Line Interface (CLI) or AWS
+  SDKs, this field is calculated automatically.
+- `"LifecycleConfiguration"`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-put_bucket_lifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+put_bucket_lifecycle(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config)
 
 """
-    PutBucketLifecycleConfiguration()
+    put_bucket_lifecycle_configuration(bucket)
+    put_bucket_lifecycle_configuration(bucket, params::Dict{String,<:Any})
 
 Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
 configuration. For information about lifecycle configuration, see Managing Access
@@ -2722,21 +2885,23 @@ Permissions to Your Amazon S3 Resources. The following are related to
 PutBucketLifecycleConfiguration:    Examples of Lifecycle Configuration
 GetBucketLifecycleConfiguration     DeleteBucketLifecycle
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to set the configuration.
+# Arguments
+- `bucket`: The name of the bucket for which to set the configuration.
 
 # Optional Parameters
-- `LifecycleConfiguration`: Container for lifecycle rules. You can add as many as 1,000
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_lifecycle_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
-put_bucket_lifecycle_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
+put_bucket_lifecycle_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", params; aws_config=aws_config)
 
 """
-    PutBucketLogging()
+    put_bucket_logging(bucket, bucket_logging_status)
+    put_bucket_logging(bucket, bucket_logging_status, params::Dict{String,<:Any})
 
 Set the logging parameters for a bucket and to specify permissions for who can view and
 modify the logging parameters. All logs are saved to buckets in the same AWS Region as the
@@ -2765,22 +2930,25 @@ returning the logging status of a bucket, see GetBucketLogging. The following op
 are related to PutBucketLogging:    PutObject     DeleteBucket     CreateBucket
 GetBucketLogging
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which to set the logging parameters.
-- `BucketLoggingStatus`: Container for logging status information.
+# Arguments
+- `bucket`: The name of the bucket for which to set the logging parameters.
+- `bucket_logging_status`: Container for logging status information.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash of the PutBucketLogging request body. For requests made using
-  the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash of the PutBucketLogging request body. For requests made
+  using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
+  automatically.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_logging(Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus); aws_config=aws_config)
-put_bucket_logging(Bucket, BucketLoggingStatus, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), args)); aws_config=aws_config)
+put_bucket_logging(Bucket, BucketLoggingStatus, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), params)); aws_config=aws_config)
 
 """
-    PutBucketMetricsConfiguration()
+    put_bucket_metrics_configuration(bucket, metrics_configuration, id)
+    put_bucket_metrics_configuration(bucket, metrics_configuration, id, params::Dict{String,<:Any})
 
 Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
 You can have up to 1,000 metrics configurations per bucket. If you're updating an existing
@@ -2798,41 +2966,45 @@ Error code: TooManyConfigurations    Description: You are attempting to create a
 configuration but have already reached the 1,000-configuration limit.   HTTP Status Code:
 HTTP 400 Bad Request
 
-# Required Parameters
-- `Bucket`: The name of the bucket for which the metrics configuration is set.
-- `MetricsConfiguration`: Specifies the metrics configuration.
+# Arguments
+- `bucket`: The name of the bucket for which the metrics configuration is set.
+- `metrics_configuration`: Specifies the metrics configuration.
 - `id`: The ID used to identify the metrics configuration.
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id); aws_config=aws_config)
-put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), args)); aws_config=aws_config)
+put_bucket_metrics_configuration(Bucket, MetricsConfiguration, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), params)); aws_config=aws_config)
 
 """
-    PutBucketNotification()
+    put_bucket_notification(bucket, notification_configuration)
+    put_bucket_notification(bucket, notification_configuration, params::Dict{String,<:Any})
 
  No longer used, see the PutBucketNotificationConfiguration operation.
 
-# Required Parameters
-- `Bucket`: The name of the bucket.
-- `NotificationConfiguration`: The container for the configuration.
+# Arguments
+- `bucket`: The name of the bucket.
+- `notification_configuration`: The container for the configuration.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body. For requests made
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash of the PutPublicAccessBlock request body. For requests made
   using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_notification(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
-put_bucket_notification(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
+put_bucket_notification(Bucket, NotificationConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketNotificationConfiguration()
+    put_bucket_notification_configuration(bucket, notification_configuration)
+    put_bucket_notification_configuration(bucket, notification_configuration, params::Dict{String,<:Any})
 
 Enables notifications of specified events for a bucket. For more information about event
 notifications, see Configuring Event Notifications. Using this API, you can replace an
@@ -2863,20 +3035,22 @@ x-amz-sns-test-message-id header containing the message ID of the test notificat
 the topic. The following operation is related to PutBucketNotificationConfiguration:
 GetBucketNotificationConfiguration
 
-# Required Parameters
-- `Bucket`: The name of the bucket.
-- `NotificationConfiguration`:
+# Arguments
+- `bucket`: The name of the bucket.
+- `notification_configuration`:
 
 # Optional Parameters
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_notification_configuration(Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
-put_bucket_notification_configuration(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
+put_bucket_notification_configuration(Bucket, NotificationConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketOwnershipControls()
+    put_bucket_ownership_controls(bucket, ownership_controls)
+    put_bucket_ownership_controls(bucket, ownership_controls, params::Dict{String,<:Any})
 
 Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you
 must have the s3:PutBucketOwnershipControls permission. For more information about Amazon
@@ -2885,24 +3059,26 @@ Object Ownership, see Using Object Ownership.  The following operations are rela
 PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwnershipControls
 
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to set.
-- `OwnershipControls`: The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to set.
+- `ownership_controls`: The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that
   you want to apply to this Amazon S3 bucket.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash of the OwnershipControls request body.  For requests made
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash of the OwnershipControls request body.  For requests made
   using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_ownership_controls(Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}("OwnershipControls"=>OwnershipControls); aws_config=aws_config)
-put_bucket_ownership_controls(Bucket, OwnershipControls, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), args)); aws_config=aws_config)
+put_bucket_ownership_controls(Bucket, OwnershipControls, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?ownershipControls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnershipControls"=>OwnershipControls), params)); aws_config=aws_config)
 
 """
-    PutBucketPolicy()
+    put_bucket_policy(bucket, policy)
+    put_bucket_policy(bucket, policy, params::Dict{String,<:Any})
 
 Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity
 other than the root user of the AWS account that owns the bucket, the calling identity must
@@ -2916,24 +3092,26 @@ explicitly denies the root user the ability to perform this action.   For more i
 about bucket policies, see Using Bucket Policies and User Policies. The following
 operations are related to PutBucketPolicy:    CreateBucket     DeleteBucket
 
-# Required Parameters
-- `Bucket`: The name of the bucket.
-- `Policy`: The bucket policy as a JSON document.
+# Arguments
+- `bucket`: The name of the bucket.
+- `policy`: The bucket policy as a JSON document.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash of the request body. For requests made using the AWS Command
-  Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-confirm-remove-self-bucket-access`: Set this parameter to true to confirm that you
-  want to remove your permissions to change this bucket policy in the future.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash of the request body. For requests made using the AWS
+  Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+- `"x-amz-confirm-remove-self-bucket-access"`: Set this parameter to true to confirm that
+  you want to remove your permissions to change this bucket policy in the future.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_policy(Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-put_bucket_policy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+put_bucket_policy(Bucket, Policy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
 
 """
-    PutBucketReplication()
+    put_bucket_replication(bucket, replication_configuration)
+    put_bucket_replication(bucket, replication_configuration, params::Dict{String,<:Any})
 
  Creates a replication configuration or replaces an existing one. For more information, see
 Replication in the Amazon S3 Developer Guide.   To perform this operation, the user or role
@@ -2964,26 +3142,28 @@ Created with SSE Using CMKs stored in AWS KMS. For information on PutBucketRepli
 errors, see List of replication-related error codes  The following operations are related
 to PutBucketReplication:    GetBucketReplication     DeleteBucketReplication
 
-# Required Parameters
-- `Bucket`: The name of the bucket
-- `ReplicationConfiguration`:
+# Arguments
+- `bucket`: The name of the bucket
+- `replication_configuration`:
 
 # Optional Parameters
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-bucket-object-lock-token`: A token to allow Object Lock to be enabled for an
+- `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_replication(Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration); aws_config=aws_config)
-put_bucket_replication(Bucket, ReplicationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), args)); aws_config=aws_config)
+put_bucket_replication(Bucket, ReplicationConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketRequestPayment()
+    put_bucket_request_payment(bucket, request_payment_configuration)
+    put_bucket_request_payment(bucket, request_payment_configuration, params::Dict{String,<:Any})
 
 Sets the request payment configuration for a bucket. By default, the bucket owner pays for
 downloads from the bucket. This configuration parameter enables the bucket owner (only) to
@@ -2991,24 +3171,26 @@ specify that the person requesting the download will be charged for the download
 information, see Requester Pays Buckets. The following operations are related to
 PutBucketRequestPayment:    CreateBucket     GetBucketRequestPayment
 
-# Required Parameters
-- `Bucket`: The bucket name.
-- `RequestPaymentConfiguration`: Container for Payer.
+# Arguments
+- `bucket`: The bucket name.
+- `request_payment_configuration`: Container for Payer.
 
 # Optional Parameters
-- `Content-MD5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_request_payment(Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration); aws_config=aws_config)
-put_bucket_request_payment(Bucket, RequestPaymentConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), args)); aws_config=aws_config)
+put_bucket_request_payment(Bucket, RequestPaymentConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketTagging()
+    put_bucket_tagging(bucket, tagging)
+    put_bucket_tagging(bucket, tagging, params::Dict{String,<:Any})
 
 Sets the tags for a bucket. Use tags to organize your AWS bill to reflect your own cost
 structure. To do this, sign up to get your AWS account bill with tag key values included.
@@ -3033,24 +3215,26 @@ InternalError    Description: The service was unable to apply the provided tag t
 bucket.     The following operations are related to PutBucketTagging:    GetBucketTagging
   DeleteBucketTagging
 
-# Required Parameters
-- `Bucket`: The bucket name.
-- `Tagging`: Container for the TagSet and Tag elements.
+# Arguments
+- `bucket`: The bucket name.
+- `tagging`: Container for the TagSet and Tag elements.
 
 # Optional Parameters
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_tagging(Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
-put_bucket_tagging(Bucket, Tagging, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
+put_bucket_tagging(Bucket, Tagging, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config)
 
 """
-    PutBucketVersioning()
+    put_bucket_versioning(bucket, versioning_configuration)
+    put_bucket_versioning(bucket, versioning_configuration, params::Dict{String,<:Any})
 
 Sets the versioning state of an existing bucket. To set the versioning state, you must be
 the bucket owner. You can set the versioning state with one of the following values:
@@ -3069,26 +3253,28 @@ version-enabled bucket. (A version-enabled bucket maintains one current and zero
 noncurrent object versions.) For more information, see Lifecycle and Versioning.   Related
 Resources     CreateBucket     DeleteBucket     GetBucketVersioning
 
-# Required Parameters
-- `Bucket`: The bucket name.
-- `VersioningConfiguration`: Container for setting the versioning state.
+# Arguments
+- `bucket`: The bucket name.
+- `versioning_configuration`: Container for setting the versioning state.
 
 # Optional Parameters
-- `Content-MD5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and
-  the value that is displayed on your authentication device.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
+  and the value that is displayed on your authentication device.
 """
 put_bucket_versioning(Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration); aws_config=aws_config)
-put_bucket_versioning(Bucket, VersioningConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), args)); aws_config=aws_config)
+put_bucket_versioning(Bucket, VersioningConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), params)); aws_config=aws_config)
 
 """
-    PutBucketWebsite()
+    put_bucket_website(bucket, website_configuration)
+    put_bucket_website(bucket, website_configuration, params::Dict{String,<:Any})
 
 Sets the configuration of the website that is specified in the website subresource. To
 configure a bucket as a website, you can add this subresource on the bucket with website
@@ -3112,24 +3298,26 @@ a limitation of 50 routing rules per website configuration. If you require more 
 routing rules, you can use object redirect. For more information, see Configuring an Object
 Redirect in the Amazon Simple Storage Service Developer Guide.
 
-# Required Parameters
-- `Bucket`: The bucket name.
-- `WebsiteConfiguration`: Container for the request.
+# Arguments
+- `bucket`: The bucket name.
+- `website_configuration`: Container for the request.
 
 # Optional Parameters
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. You must use this
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_bucket_website(Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration); aws_config=aws_config)
-put_bucket_website(Bucket, WebsiteConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), args)); aws_config=aws_config)
+put_bucket_website(Bucket, WebsiteConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), params)); aws_config=aws_config)
 
 """
-    PutObject()
+    put_object(bucket, key)
+    put_object(bucket, key, params::Dict{String,<:Any})
 
 Adds an object to a bucket. You must have WRITE permissions on a bucket to add an object to
 it. Amazon S3 never adds partial objects; if you receive a success response, Amazon S3
@@ -3168,8 +3356,8 @@ objects. For more information about versioning, see Adding Objects to Versioning
 Buckets. For information about returning the versioning state of a bucket, see
 GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
 
-# Required Parameters
-- `Bucket`: The bucket name to which the PUT operation was initiated.  When using this API
+# Arguments
+- `bucket`: The bucket name to which the PUT operation was initiated.  When using this API
   with an access point, you must direct requests to the access point hostname. The access
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -3182,87 +3370,89 @@ GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the PUT operation was initiated.
+- `key`: Object key for which the PUT operation was initiated.
 
 # Optional Parameters
-- `Body`: Object data.
-- `Cache-Control`:  Can be used to specify caching behavior along the request/reply chain.
-  For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
-- `Content-Disposition`: Specifies presentational information for the object. For more
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Body"`: Object data.
+- `"Cache-Control"`:  Can be used to specify caching behavior along the request/reply
+  chain. For more information, see
+  http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
+- `"Content-Disposition"`: Specifies presentational information for the object. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1.
-- `Content-Encoding`: Specifies what content encodings have been applied to the object and
-  thus what decoding mechanisms must be applied to obtain the media-type referenced by the
-  Content-Type header field. For more information, see
+- `"Content-Encoding"`: Specifies what content encodings have been applied to the object
+  and thus what decoding mechanisms must be applied to obtain the media-type referenced by
+  the Content-Type header field. For more information, see
   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.11.
-- `Content-Language`: The language the content is in.
-- `Content-Length`: Size of the body in bytes. This parameter is useful when the size of
+- `"Content-Language"`: The language the content is in.
+- `"Content-Length"`: Size of the body in bytes. This parameter is useful when the size of
   the body cannot be determined automatically. For more information, see
   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13.
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the message (without the headers)
-  according to RFC 1864. This header can be used as a message integrity check to verify that
-  the data is the same data that was originally sent. Although it is optional, we recommend
-  using the Content-MD5 mechanism as an end-to-end integrity check. For more information
-  about REST request authentication, see REST Authentication.
-- `Content-Type`: A standard MIME type describing the format of the contents. For more
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the message (without the
+  headers) according to RFC 1864. This header can be used as a message integrity check to
+  verify that the data is the same data that was originally sent. Although it is optional, we
+  recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more
+  information about REST request authentication, see REST Authentication.
+- `"Content-Type"`: A standard MIME type describing the format of the contents. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17.
-- `Expires`: The date and time at which the object is no longer cacheable. For more
+- `"Expires"`: The date and time at which the object is no longer cacheable. For more
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
-- `x-amz-acl`: The canned ACL to apply to the object. For more information, see Canned ACL.
-  This action is not supported by Amazon S3 on Outposts.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-grant-full-control`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
+- `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
+  ACL. This action is not supported by Amazon S3 on Outposts.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
   on the object. This action is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read`: Allows grantee to read the object data and its metadata. This action
-  is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read-acp`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable object. This
+- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
   action is not supported by Amazon S3 on Outposts.
-- `x-amz-meta-`: A map of metadata to store with the object in S3.
-- `x-amz-object-lock-legal-hold`: Specifies whether a legal hold will be applied to this
+- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
+  supported by Amazon S3 on Outposts.
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
+  This action is not supported by Amazon S3 on Outposts.
+- `"x-amz-meta-"`: A map of metadata to store with the object in S3.
+- `"x-amz-object-lock-legal-hold"`: Specifies whether a legal hold will be applied to this
   object. For more information about S3 Object Lock, see Object Lock.
-- `x-amz-object-lock-mode`: The Object Lock mode that you want to apply to this object.
-- `x-amz-object-lock-retain-until-date`: The date and time when you want this object's
+- `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to this object.
+- `"x-amz-object-lock-retain-until-date"`: The date and time when you want this object's
   Object Lock to expire.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption`: The server-side encryption algorithm used when storing
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
   this object in Amazon S3 (for example, AES256, aws:kms).
-- `x-amz-server-side-encryption-aws-kms-key-id`: If x-amz-server-side-encryption is present
-  and has the value of aws:kms, this header specifies the ID of the AWS Key Management
-  Service (AWS KMS) symmetrical customer managed customer master key (CMK) that was used for
-  the object.  If the value of x-amz-server-side-encryption is aws:kms, this header specifies
-  the ID of the symmetric customer managed AWS KMS CMK that will be used for the object. If
-  you specify x-amz-server-side-encryption:aws:kms, but do not provide
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: If x-amz-server-side-encryption is
+  present and has the value of aws:kms, this header specifies the ID of the AWS Key
+  Management Service (AWS KMS) symmetrical customer managed customer master key (CMK) that
+  was used for the object.  If the value of x-amz-server-side-encryption is aws:kms, this
+  header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for
+  the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide
   x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS to
   protect the data.
-- `x-amz-server-side-encryption-bucket-key-enabled`: Specifies whether Amazon S3 should use
-  an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS).
-  Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption
-  with SSE-KMS. Specifying this header with a PUT operation doesn’t affect bucket-level
-  settings for S3 Bucket Key.
-- `x-amz-server-side-encryption-context`: Specifies the AWS KMS Encryption Context to use
+- `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
+  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
+  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
+  encryption with SSE-KMS. Specifying this header with a PUT operation doesn’t affect
+  bucket-level settings for S3 Bucket Key.
+- `"x-amz-server-side-encryption-context"`: Specifies the AWS KMS Encryption Context to use
   for object encryption. The value of this header is a base64-encoded UTF-8 string holding
   JSON with the encryption context key-value pairs.
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
-- `x-amz-storage-class`: By default, Amazon S3 uses the STANDARD Storage Class to store
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
+- `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
   Storage Classes in the Amazon S3 Service Developer Guide.
-- `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query
+- `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters. (For example, \"Key1=Value1\")
-- `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects
+- `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
   requests for this object to another object in the same bucket or to an external URL. Amazon
   S3 stores the value of this header in the object metadata. For information about object
   metadata, see Object Key and Metadata. In the following example, the request header sets
@@ -3273,10 +3463,11 @@ GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
   Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
 """
 put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config)
-put_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
+put_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", params; aws_config=aws_config)
 
 """
-    PutObjectAcl()
+    put_object_acl(bucket, key)
+    put_object_acl(bucket, key, params::Dict{String,<:Any})
 
 Uses the acl subresource to set the access control list (ACL) permissions for a new or
 existing object in an S3 bucket. You must have WRITE_ACP permission to set the ACL of an
@@ -3332,15 +3523,15 @@ object version level. By default, PUT sets the ACL of the current version of an 
 set the ACL of a different version, use the versionId subresource.  Related Resources
 CopyObject     GetObject
 
-# Required Parameters
-- `Bucket`: The bucket name that contains the object to which you want to attach the ACL.
+# Arguments
+- `bucket`: The bucket name that contains the object to which you want to attach the ACL.
   When using this API with an access point, you must direct requests to the access point
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: Key for which the PUT operation was initiated. When using this API with an access
+- `key`: Key for which the PUT operation was initiated. When using this API with an access
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this operation with an access point through the AWS SDKs, you provide the access point ARN
@@ -3354,123 +3545,132 @@ CopyObject     GetObject
   Outposts in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `AccessControlPolicy`: Contains the elements that set the ACL permissions for an object
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessControlPolicy"`: Contains the elements that set the ACL permissions for an object
   per grantee.
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. This header must be
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the data. This header must be
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.&gt;  For requests made using the AWS Command
   Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-acl`: The canned ACL to apply to the object. For more information, see Canned ACL.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-grant-full-control`: Allows grantee the read, write, read ACP, and write ACP
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
+  ACL.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket. This action is not supported by Amazon S3 on Outposts.
-- `x-amz-grant-read`: Allows grantee to list the objects in the bucket. This action is not
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket. This action is
+  not supported by Amazon S3 on Outposts.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL. This action is not
   supported by Amazon S3 on Outposts.
-- `x-amz-grant-read-acp`: Allows grantee to read the bucket ACL. This action is not
-  supported by Amazon S3 on Outposts.
-- `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the
+- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
   bucket.
-- `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket. This
-  action is not supported by Amazon S3 on Outposts.
-- `x-amz-request-payer`:
+- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
+  This action is not supported by Amazon S3 on Outposts.
+- `"x-amz-request-payer"`:
 """
 put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
-put_object_acl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
+put_object_acl(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl", params; aws_config=aws_config)
 
 """
-    PutObjectLegalHold()
+    put_object_legal_hold(bucket, key)
+    put_object_legal_hold(bucket, key, params::Dict{String,<:Any})
 
 Applies a Legal Hold configuration to the specified object. This action is not supported by
 Amazon S3 on Outposts.  Related Resources     Locking Objects
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object that you want to place a Legal Hold on.
+# Arguments
+- `bucket`: The bucket name containing the object that you want to place a Legal Hold on.
   When using this API with an access point, you must direct requests to the access point
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: The key name for the object that you want to place a Legal Hold on.
+- `key`: The key name for the object that you want to place a Legal Hold on.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash for the request body. For requests made using the AWS Command
-  Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `LegalHold`: Container element for the Legal Hold configuration you want to apply to the
-  specified object.
-- `versionId`: The version ID of the object that you want to place a Legal Hold on.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash for the request body. For requests made using the AWS
+  Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+- `"LegalHold"`: Container element for the Legal Hold configuration you want to apply to
+  the specified object.
+- `"versionId"`: The version ID of the object that you want to place a Legal Hold on.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 put_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
-put_object_legal_hold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
+put_object_legal_hold(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", params; aws_config=aws_config)
 
 """
-    PutObjectLockConfiguration()
+    put_object_lock_configuration(bucket)
+    put_object_lock_configuration(bucket, params::Dict{String,<:Any})
 
 Places an Object Lock configuration on the specified bucket. The rule specified in the
 Object Lock configuration will be applied by default to every new object placed in the
 specified bucket.   DefaultRetention requires either Days or Years. You can't specify both
 at the same time.   Related Resources     Locking Objects
 
-# Required Parameters
-- `Bucket`: The bucket whose Object Lock configuration you want to create or replace.
+# Arguments
+- `bucket`: The bucket whose Object Lock configuration you want to create or replace.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash for the request body. For requests made using the AWS Command
-  Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `ObjectLockConfiguration`: The Object Lock configuration that you want to apply to the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash for the request body. For requests made using the AWS
+  Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+- `"ObjectLockConfiguration"`: The Object Lock configuration that you want to apply to the
   specified bucket.
-- `x-amz-bucket-object-lock-token`: A token to allow Object Lock to be enabled for an
+- `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 put_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock"; aws_config=aws_config)
-put_object_lock_configuration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock", args; aws_config=aws_config)
+put_object_lock_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock", params; aws_config=aws_config)
 
 """
-    PutObjectRetention()
+    put_object_retention(bucket, key)
+    put_object_retention(bucket, key, params::Dict{String,<:Any})
 
 Places an Object Retention configuration on an object. This action is not supported by
 Amazon S3 on Outposts.  Related Resources     Locking Objects
 
-# Required Parameters
-- `Bucket`: The bucket name that contains the object you want to apply this Object
+# Arguments
+- `bucket`: The bucket name that contains the object you want to apply this Object
   Retention configuration to.  When using this API with an access point, you must direct
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
   Amazon Simple Storage Service Developer Guide.
-- `Key`: The key name for the object that you want to apply this Object Retention
+- `key`: The key name for the object that you want to apply this Object Retention
   configuration to.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash for the request body. For requests made using the AWS Command
-  Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `Retention`: The container element for the Object Retention configuration.
-- `versionId`: The version ID for the object that you want to apply this Object Retention
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash for the request body. For requests made using the AWS
+  Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+- `"Retention"`: The container element for the Object Retention configuration.
+- `"versionId"`: The version ID for the object that you want to apply this Object Retention
   configuration to.
-- `x-amz-bypass-governance-retention`: Indicates whether this operation should bypass
+- `"x-amz-bypass-governance-retention"`: Indicates whether this operation should bypass
   Governance-mode restrictions.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 put_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
-put_object_retention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
+put_object_retention(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention", params; aws_config=aws_config)
 
 """
-    PutObjectTagging()
+    put_object_tagging(bucket, key, tagging)
+    put_object_tagging(bucket, key, tagging, params::Dict{String,<:Any})
 
 Sets the supplied tag-set to an object that already exists in a bucket. A tag is a
 key-value pair. You can associate tags with an object by sending a PUT request against the
@@ -3488,10 +3688,10 @@ see Object Tagging.         Code: MalformedXMLError      Cause: The XML provided
 match the schema.         Code: OperationAbortedError      Cause: A conflicting conditional
 operation is currently in progress against this resource. Please try again.         Code:
 InternalError     Cause: The service was unable to apply the provided tag to the object.
-   Related Resources     GetObjectTagging
+   Related Resources     GetObjectTagging     DeleteObjectTagging
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object.  When using this API with an access
+# Arguments
+- `bucket`: The bucket name containing the object.  When using this API with an access
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this operation with an access point through the AWS SDKs, you provide the access point ARN
@@ -3503,22 +3703,25 @@ InternalError     Cause: The service was unable to apply the provided tag to the
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Name of the object key.
-- `Tagging`: Container for the TagSet and Tag elements
+- `key`: Name of the object key.
+- `tagging`: Container for the TagSet and Tag elements
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash for the request body. For requests made using the AWS Command
-  Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `versionId`: The versionId of the object that the tag-set will be added to.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash for the request body. For requests made using the AWS
+  Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
+- `"versionId"`: The versionId of the object that the tag-set will be added to.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 put_object_tagging(Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
-put_object_tagging(Bucket, Key, Tagging, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
+put_object_tagging(Bucket, Key, Tagging, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), params)); aws_config=aws_config)
 
 """
-    PutPublicAccessBlock()
+    put_public_access_block(bucket, public_access_block_configuration)
+    put_public_access_block(bucket, public_access_block_configuration, params::Dict{String,<:Any})
 
 Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use
 this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more
@@ -3532,27 +3735,29 @@ when Amazon S3 considers a bucket or an object public, see The Meaning of \"Publ
 Related Resources     GetPublicAccessBlock     DeletePublicAccessBlock
 GetBucketPolicyStatus     Using Amazon S3 Block Public Access
 
-# Required Parameters
-- `Bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
+# Arguments
+- `bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
   to set.
-- `PublicAccessBlockConfiguration`: The PublicAccessBlock configuration that you want to
+- `public_access_block_configuration`: The PublicAccessBlock configuration that you want to
   apply to this Amazon S3 bucket. You can enable the configuration options in any
   combination. For more information about when Amazon S3 considers a bucket or object public,
   see The Meaning of \"Public\" in the Amazon Simple Storage Service Developer Guide.
 
 # Optional Parameters
-- `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body.  For requests made
-  using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Content-MD5"`: The MD5 hash of the PutPublicAccessBlock request body.  For requests
+  made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
 """
 put_public_access_block(Bucket, PublicAccessBlockConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration); aws_config=aws_config)
-put_public_access_block(Bucket, PublicAccessBlockConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), args)); aws_config=aws_config)
+put_public_access_block(Bucket, PublicAccessBlockConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), params)); aws_config=aws_config)
 
 """
-    RestoreObject()
+    restore_object(bucket, key)
+    restore_object(bucket, key, params::Dict{String,<:Any})
 
 Restores an archived copy of an object back into Amazon S3 This action is not supported by
 Amazon S3 on Outposts. This action performs the following types of requests:     select -
@@ -3661,8 +3866,8 @@ Expedited retrievals and not to S3 Standard or Bulk retrievals.)     HTTP Status
    GetBucketNotificationConfiguration     SQL Reference for Amazon S3 Select and S3 Glacier
 Select  in the Amazon Simple Storage Service Developer Guide
 
-# Required Parameters
-- `Bucket`: The bucket name containing the object to restore.  When using this API with an
+# Arguments
+- `bucket`: The bucket name containing the object to restore.  When using this API with an
   access point, you must direct requests to the access point hostname. The access point
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this operation with an access point through the AWS SDKs, you provide the access
@@ -3674,21 +3879,23 @@ Select  in the Amazon Simple Storage Service Developer Guide
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the operation was initiated.
+- `key`: Object key for which the operation was initiated.
 
 # Optional Parameters
-- `RestoreRequest`:
-- `versionId`: VersionId used to reference a specific version of the object.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RestoreRequest"`:
+- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
 """
 restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore"; aws_config=aws_config)
-restore_object(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore", args; aws_config=aws_config)
+restore_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore", params; aws_config=aws_config)
 
 """
-    SelectObjectContent()
+    select_object_content(bucket, expression, expression_type, input_serialization, key, output_serialization)
+    select_object_content(bucket, expression, expression_type, input_serialization, key, output_serialization, params::Dict{String,<:Any})
 
 This operation filters the contents of an Amazon S3 object based on a simple structured
 query language (SQL) statement. In the request, along with the SQL expression, you must
@@ -3733,20 +3940,21 @@ Guide.     Special Errors  For a list of special errors for this operation, see 
 SELECT Object Content Error Codes   Related Resources     GetObject
 GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
 
-# Required Parameters
-- `Bucket`: The S3 bucket.
-- `Expression`: The expression that is used to query the object.
-- `ExpressionType`: The type of the provided expression (for example, SQL).
-- `InputSerialization`: Describes the format of the data in the object that is being
+# Arguments
+- `bucket`: The S3 bucket.
+- `expression`: The expression that is used to query the object.
+- `expression_type`: The type of the provided expression (for example, SQL).
+- `input_serialization`: Describes the format of the data in the object that is being
   queried.
-- `Key`: The object key.
-- `OutputSerialization`: Describes the format of the data that you want Amazon S3 to return
-  in response.
+- `key`: The object key.
+- `output_serialization`: Describes the format of the data that you want Amazon S3 to
+  return in response.
 
 # Optional Parameters
-- `RequestProgress`: Specifies if periodic request progress information should be enabled.
-- `ScanRange`: Specifies the byte range of the object to get the records from. A record is
-  processed when its first byte is contained by the range. This parameter is optional, but
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestProgress"`: Specifies if periodic request progress information should be enabled.
+- `"ScanRange"`: Specifies the byte range of the object to get the records from. A record
+  is processed when its first byte is contained by the range. This parameter is optional, but
   when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify
   the start and end of the range.  ScanRangemay be used in the following ways:
   &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt;
@@ -3755,22 +3963,23 @@ GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
   the records starting after the byte 50
   &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records
   within the last 50 bytes of the file.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-server-side-encryption-customer-algorithm`: The SSE Algorithm used to encrypt the
-  object. For more information, see Server-Side Encryption (Using Customer-Provided
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-server-side-encryption-customer-algorithm"`: The SSE Algorithm used to encrypt
+  the object. For more information, see Server-Side Encryption (Using Customer-Provided
   Encryption Keys.
-- `x-amz-server-side-encryption-customer-key`: The SSE Customer Key. For more information,
-  see Server-Side Encryption (Using Customer-Provided Encryption Keys.
-- `x-amz-server-side-encryption-customer-key-MD5`: The SSE Customer Key MD5. For more
+- `"x-amz-server-side-encryption-customer-key"`: The SSE Customer Key. For more
+  information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
+- `"x-amz-server-side-encryption-customer-key-MD5"`: The SSE Customer Key MD5. For more
   information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
 """
 select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization); aws_config=aws_config)
-select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), args)); aws_config=aws_config)
+select_object_content(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), params)); aws_config=aws_config)
 
 """
-    UploadPart()
+    upload_part(bucket, key, part_number, upload_id)
+    upload_part(bucket, key, part_number, upload_id, params::Dict{String,<:Any})
 
 Uploads a part in a multipart upload.  In this operation, you provide part data in your
 request. However, you have an option to specify your existing Amazon S3 object as a data
@@ -3817,8 +4026,8 @@ completed.      HTTP Status Code: 404 Not Found      SOAP Fault Code Prefix: Cli
 Related Resources     CreateMultipartUpload     CompleteMultipartUpload
 AbortMultipartUpload     ListParts     ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: The name of the bucket to which the multipart upload was initiated. When using
+# Arguments
+- `bucket`: The name of the bucket to which the multipart upload was initiated. When using
   this API with an access point, you must direct requests to the access point hostname. The
   access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
@@ -3831,39 +4040,41 @@ AbortMultipartUpload     ListParts     ListMultipartUploads
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the multipart upload was initiated.
-- `partNumber`: Part number of part being uploaded. This is a positive integer between 1
+- `key`: Object key for which the multipart upload was initiated.
+- `part_number`: Part number of part being uploaded. This is a positive integer between 1
   and 10,000.
-- `uploadId`: Upload ID identifying the multipart upload whose part is being uploaded.
+- `upload_id`: Upload ID identifying the multipart upload whose part is being uploaded.
 
 # Optional Parameters
-- `Body`: Object data.
-- `Content-Length`: Size of the body in bytes. This parameter is useful when the size of
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Body"`: Object data.
+- `"Content-Length"`: Size of the body in bytes. This parameter is useful when the size of
   the body cannot be determined automatically.
-- `Content-MD5`: The base64-encoded 128-bit MD5 digest of the part data. This parameter is
-  auto-populated when using the command from the CLI. This parameter is required if object
+- `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the part data. This parameter
+  is auto-populated when using the command from the CLI. This parameter is required if object
   lock parameters are specified.
-- `x-amz-expected-bucket-owner`: The account id of the expected bucket owner. If the bucket
-  is owned by a different account, the request will fail with an HTTP 403 (Access Denied)
-  error.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+  bucket is owned by a different account, the request will fail with an HTTP 403 (Access
+  Denied) error.
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption
   key specified in the initiate multipart upload request.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
 """
 upload_part(Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId); aws_config=aws_config)
-upload_part(Bucket, Key, partNumber, uploadId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), args)); aws_config=aws_config)
+upload_part(Bucket, Key, partNumber, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), params)); aws_config=aws_config)
 
 """
-    UploadPartCopy()
+    upload_part_copy(bucket, key, part_number, upload_id, x-amz-copy-source)
+    upload_part_copy(bucket, key, part_number, upload_id, x-amz-copy-source, params::Dict{String,<:Any})
 
 Uploads a part by copying data from an existing object as data source. You specify the data
 source by adding the request header x-amz-copy-source in your request and a byte range by
@@ -3910,8 +4121,8 @@ byte-range copy source.     HTTP Status Code: 400 Bad Request       Related Reso
 CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultipartUpload
   ListParts     ListMultipartUploads
 
-# Required Parameters
-- `Bucket`: The bucket name. When using this API with an access point, you must direct
+# Arguments
+- `bucket`: The bucket name. When using this API with an access point, you must direct
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation
   with an access point through the AWS SDKs, you provide the access point ARN in place of the
@@ -3923,10 +4134,10 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   operation using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
   Outposts in the Amazon Simple Storage Service Developer Guide.
-- `Key`: Object key for which the multipart upload was initiated.
-- `partNumber`: Part number of part being copied. This is a positive integer between 1 and
+- `key`: Object key for which the multipart upload was initiated.
+- `part_number`: Part number of part being copied. This is a positive integer between 1 and
   10,000.
-- `uploadId`: Upload ID identifying the multipart upload whose part is being copied.
+- `upload_id`: Upload ID identifying the multipart upload whose part is being copied.
 - `x-amz-copy-source`: Specifies the source object for the copy operation. You specify the
   value in one of two formats, depending on whether you want to access the source object
   through an access point:   For objects not accessed through an access point, specify the
@@ -3953,44 +4164,46 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   don't specify a version ID, Amazon S3 copies the latest version of the source object.
 
 # Optional Parameters
-- `x-amz-copy-source-if-match`: Copies the object if its entity tag (ETag) matches the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-copy-source-if-match"`: Copies the object if its entity tag (ETag) matches the
   specified tag.
-- `x-amz-copy-source-if-modified-since`: Copies the object if it has been modified since
+- `"x-amz-copy-source-if-modified-since"`: Copies the object if it has been modified since
   the specified time.
-- `x-amz-copy-source-if-none-match`: Copies the object if its entity tag (ETag) is
+- `"x-amz-copy-source-if-none-match"`: Copies the object if its entity tag (ETag) is
   different than the specified ETag.
-- `x-amz-copy-source-if-unmodified-since`: Copies the object if it hasn't been modified
+- `"x-amz-copy-source-if-unmodified-since"`: Copies the object if it hasn't been modified
   since the specified time.
-- `x-amz-copy-source-range`: The range of bytes to copy from the source object. The range
+- `"x-amz-copy-source-range"`: The range of bytes to copy from the source object. The range
   value must use the form bytes=first-last, where the first and last are the zero-based byte
   offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes
   of the source. You can copy a range only if the source object is greater than 5 MB.
-- `x-amz-copy-source-server-side-encryption-customer-algorithm`: Specifies the algorithm to
-  use when decrypting the source object (for example, AES256).
-- `x-amz-copy-source-server-side-encryption-customer-key`: Specifies the customer-provided
-  encryption key for Amazon S3 to use to decrypt the source object. The encryption key
-  provided in this header must be one that was used when the source object was created.
-- `x-amz-copy-source-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5
+- `"x-amz-copy-source-server-side-encryption-customer-algorithm"`: Specifies the algorithm
+  to use when decrypting the source object (for example, AES256).
+- `"x-amz-copy-source-server-side-encryption-customer-key"`: Specifies the
+  customer-provided encryption key for Amazon S3 to use to decrypt the source object. The
+  encryption key provided in this header must be one that was used when the source object was
+  created.
+- `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
   message integrity check to ensure that the encryption key was transmitted without error.
-- `x-amz-expected-bucket-owner`: The account id of the expected destination bucket owner.
+- `"x-amz-expected-bucket-owner"`: The account id of the expected destination bucket owner.
   If the destination bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
-- `x-amz-request-payer`:
-- `x-amz-server-side-encryption-customer-algorithm`: Specifies the algorithm to use to when
-  encrypting the object (for example, AES256).
-- `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption
+- `"x-amz-request-payer"`:
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
+  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption
   key specified in the initiate multipart upload request.
-- `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the
-  encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity
-  check to ensure that the encryption key was transmitted without error.
-- `x-amz-source-expected-bucket-owner`: The account id of the expected source bucket owner.
-  If the source bucket is owned by a different account, the request will fail with an HTTP
-  403 (Access Denied) error.
+- `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
+  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
+  integrity check to ensure that the encryption key was transmitted without error.
+- `"x-amz-source-expected-bucket-owner"`: The account id of the expected source bucket
+  owner. If the source bucket is owned by a different account, the request will fail with an
+  HTTP 403 (Access Denied) error.
 """
 upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
-upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
+upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config)

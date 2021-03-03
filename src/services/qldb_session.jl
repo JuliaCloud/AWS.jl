@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    SendCommand()
+    send_command()
+    send_command(params::Dict{String,<:Any})
 
 Sends a command to an Amazon QLDB ledger.  Instead of interacting directly with this API,
 we recommend using the QLDB driver or the QLDB shell to execute data transactions on a
@@ -18,18 +19,19 @@ interface that uses the QLDB driver to interact with a ledger. For information, 
 Accessing Amazon QLDB using the QLDB shell.
 
 # Optional Parameters
-- `AbortTransaction`: Command to abort the current transaction.
-- `CommitTransaction`: Command to commit the specified transaction.
-- `EndSession`: Command to end the current session.
-- `ExecuteStatement`: Command to execute a statement in the specified transaction.
-- `FetchPage`: Command to fetch a page.
-- `SessionToken`: Specifies the session token for the current command. A session token is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AbortTransaction"`: Command to abort the current transaction.
+- `"CommitTransaction"`: Command to commit the specified transaction.
+- `"EndSession"`: Command to end the current session.
+- `"ExecuteStatement"`: Command to execute a statement in the specified transaction.
+- `"FetchPage"`: Command to fetch a page.
+- `"SessionToken"`: Specifies the session token for the current command. A session token is
   constant throughout the life of the session. To obtain a session token, run the
   StartSession command. This SessionToken is required for every subsequent command that is
   issued during the current session.
-- `StartSession`: Command to start a new session. A session token is obtained as part of
+- `"StartSession"`: Command to start a new session. A session token is obtained as part of
   the response.
-- `StartTransaction`: Command to start a new transaction.
+- `"StartTransaction"`: Command to start a new transaction.
 """
 send_command(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand"; aws_config=aws_config)
-send_command(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand", args; aws_config=aws_config)
+send_command(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand", params; aws_config=aws_config)

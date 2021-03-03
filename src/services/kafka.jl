@@ -5,88 +5,94 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    BatchAssociateScramSecret()
+    batch_associate_scram_secret(cluster_arn, secret_arn_list)
+    batch_associate_scram_secret(cluster_arn, secret_arn_list, params::Dict{String,<:Any})
 
 
             Associates one or more Scram Secrets with an Amazon MSK cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) of the cluster to be updated.
   
-- `secretArnList`: 
+- `secret_arn_list`: 
             List of AWS Secrets Manager secret ARNs.
 
 """
 batch_associate_scram_secret(clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}("secretArnList"=>secretArnList); aws_config=aws_config)
-batch_associate_scram_secret(clusterArn, secretArnList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), args)); aws_config=aws_config)
+batch_associate_scram_secret(clusterArn, secretArnList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), params)); aws_config=aws_config)
 
 """
-    BatchDisassociateScramSecret()
+    batch_disassociate_scram_secret(cluster_arn, secret_arn_list)
+    batch_disassociate_scram_secret(cluster_arn, secret_arn_list, params::Dict{String,<:Any})
 
 
             Disassociates one or more Scram Secrets from an Amazon MSK cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) of the cluster to be updated.
   
-- `secretArnList`: 
+- `secret_arn_list`: 
             List of AWS Secrets Manager secret ARNs.
 
 """
 batch_disassociate_scram_secret(clusterArn, secretArnList; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PATCH", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}("secretArnList"=>secretArnList); aws_config=aws_config)
-batch_disassociate_scram_secret(clusterArn, secretArnList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PATCH", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), args)); aws_config=aws_config)
+batch_disassociate_scram_secret(clusterArn, secretArnList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PATCH", "/v1/clusters/$(clusterArn)/scram-secrets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("secretArnList"=>secretArnList), params)); aws_config=aws_config)
 
 """
-    CreateCluster()
+    create_cluster(broker_node_group_info, cluster_name, kafka_version, number_of_broker_nodes)
+    create_cluster(broker_node_group_info, cluster_name, kafka_version, number_of_broker_nodes, params::Dict{String,<:Any})
 
 
             Creates a new MSK cluster.
 
-# Required Parameters
-- `brokerNodeGroupInfo`: 
-            Information about the broker nodes in the cluster.
-  
-- `clusterName`: 
+# Arguments
+- `broker_node_group_info`: 
+            Information about the broker nodes in the
+  cluster.
+- `cluster_name`: 
             The name of the cluster.
-- `kafkaVersion`: 
+- `kafka_version`: 
             The version of Apache Kafka.
-- `numberOfBrokerNodes`: 
+- `number_of_broker_nodes`: 
             The number of broker nodes in the cluster.
+  
 
 # Optional Parameters
-- `clientAuthentication`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientAuthentication"`: 
             Includes all client authentication related
   information.
-- `configurationInfo`: 
+- `"configurationInfo"`: 
             Represents the configuration that you want MSK to use
   for the brokers in a cluster.
-- `encryptionInfo`: 
+- `"encryptionInfo"`: 
             Includes all encryption-related information.
-- `enhancedMonitoring`: 
-            Specifies the level of monitoring for the MSK cluster.
-  The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
+- `"enhancedMonitoring"`: 
+            Specifies the level of monitoring for the MSK
+  cluster. The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and
   PER_TOPIC_PER_PARTITION.
-- `loggingInfo`:
-- `openMonitoring`: 
+- `"loggingInfo"`:
+- `"openMonitoring"`: 
             The settings for open monitoring.
-- `tags`: 
+- `"tags"`: 
             Create tags when creating the cluster.
 """
 create_cluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters", Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes); aws_config=aws_config)
-create_cluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes), args)); aws_config=aws_config)
+create_cluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes), params)); aws_config=aws_config)
 
 """
-    CreateConfiguration()
+    create_configuration(name, server_properties)
+    create_configuration(name, server_properties, params::Dict{String,<:Any})
 
 
             Creates a new MSK configuration.
 
-# Required Parameters
+# Arguments
 - `name`: 
             The name of the configuration.
-- `serverProperties`: 
+- `server_properties`: 
             Contents of the server.properties file. When using the
   API, you must ensure that the contents of the file are base64 encoded. 
                When
@@ -94,102 +100,110 @@ create_cluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNod
   server.properties can be in plaintext.
 
 # Optional Parameters
-- `description`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: 
             The description of the configuration.
-- `kafkaVersions`: 
+- `"kafkaVersions"`: 
             The versions of Apache Kafka with which you can use this
   MSK configuration.
 """
 create_configuration(name, serverProperties; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/configurations", Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties); aws_config=aws_config)
-create_configuration(name, serverProperties, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties), args)); aws_config=aws_config)
+create_configuration(name, serverProperties, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties), params)); aws_config=aws_config)
 
 """
-    DeleteCluster()
+    delete_cluster(cluster_arn)
+    delete_cluster(cluster_arn, params::Dict{String,<:Any})
 
 
             Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the
 request.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
 # Optional Parameters
-- `currentVersion`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"currentVersion"`: 
             The current version of the MSK cluster.
 """
 delete_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
-delete_cluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
+delete_cluster(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/clusters/$(clusterArn)", params; aws_config=aws_config)
 
 """
-    DeleteConfiguration()
+    delete_configuration(arn)
+    delete_configuration(arn, params::Dict{String,<:Any})
 
 
             Deletes an MSK Configuration.
 
-# Required Parameters
+# Arguments
 - `arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies an MSK
   configuration.
 
 """
 delete_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/configurations/$(arn)"; aws_config=aws_config)
-delete_configuration(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/configurations/$(arn)", args; aws_config=aws_config)
+delete_configuration(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/configurations/$(arn)", params; aws_config=aws_config)
 
 """
-    DescribeCluster()
+    describe_cluster(cluster_arn)
+    describe_cluster(cluster_arn, params::Dict{String,<:Any})
 
 
             Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is
 specified in the request.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
 """
 describe_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
-describe_cluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
+describe_cluster(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)", params; aws_config=aws_config)
 
 """
-    DescribeClusterOperation()
+    describe_cluster_operation(cluster_operation_arn)
+    describe_cluster_operation(cluster_operation_arn, params::Dict{String,<:Any})
 
 
             Returns a description of the cluster operation specified by the ARN.
 
-# Required Parameters
-- `clusterOperationArn`: 
+# Arguments
+- `cluster_operation_arn`: 
             The Amazon Resource Name (ARN) that uniquely
   identifies the MSK cluster operation.
 
 """
 describe_cluster_operation(clusterOperationArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/operations/$(clusterOperationArn)"; aws_config=aws_config)
-describe_cluster_operation(clusterOperationArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/operations/$(clusterOperationArn)", args; aws_config=aws_config)
+describe_cluster_operation(clusterOperationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/operations/$(clusterOperationArn)", params; aws_config=aws_config)
 
 """
-    DescribeConfiguration()
+    describe_configuration(arn)
+    describe_configuration(arn, params::Dict{String,<:Any})
 
 
             Returns a description of this MSK configuration.
 
-# Required Parameters
+# Arguments
 - `arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies an MSK
   configuration and all of its revisions.
 
 """
 describe_configuration(arn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)"; aws_config=aws_config)
-describe_configuration(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)", args; aws_config=aws_config)
+describe_configuration(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationRevision()
+    describe_configuration_revision(arn, revision)
+    describe_configuration_revision(arn, revision, params::Dict{String,<:Any})
 
 
             Returns a description of this revision of the configuration.
 
-# Required Parameters
+# Arguments
 - `arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies an MSK
   configuration and all of its revisions.
@@ -199,231 +213,251 @@ describe_configuration(arn, args::AbstractDict{String, <:Any}; aws_config::Abstr
 
 """
 describe_configuration_revision(arn, revision; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)"; aws_config=aws_config)
-describe_configuration_revision(arn, revision, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", args; aws_config=aws_config)
+describe_configuration_revision(arn, revision, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", params; aws_config=aws_config)
 
 """
-    GetBootstrapBrokers()
+    get_bootstrap_brokers(cluster_arn)
+    get_bootstrap_brokers(cluster_arn, params::Dict{String,<:Any})
 
 
             A list of brokers that a client application can use to bootstrap.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
 """
 get_bootstrap_brokers(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers"; aws_config=aws_config)
-get_bootstrap_brokers(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", args; aws_config=aws_config)
+get_bootstrap_brokers(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", params; aws_config=aws_config)
 
 """
-    GetCompatibleKafkaVersions()
+    get_compatible_kafka_versions()
+    get_compatible_kafka_versions(params::Dict{String,<:Any})
 
 
             Gets the Apache Kafka versions to which you can update the MSK cluster.
 
 
 # Optional Parameters
-- `clusterArn`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clusterArn"`: 
             The Amazon Resource Name (ARN) of the cluster check.
   
 """
 get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions"; aws_config=aws_config)
-get_compatible_kafka_versions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions", args; aws_config=aws_config)
+get_compatible_kafka_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions", params; aws_config=aws_config)
 
 """
-    ListClusterOperations()
+    list_cluster_operations(cluster_arn)
+    list_cluster_operations(cluster_arn, params::Dict{String,<:Any})
 
 
             Returns a list of all the operations that have been performed on the specified
 MSK cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. 
-            To get the next
-  batch, provide this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
 """
 list_cluster_operations(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/operations"; aws_config=aws_config)
-list_cluster_operations(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/operations", args; aws_config=aws_config)
+list_cluster_operations(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/operations", params; aws_config=aws_config)
 
 """
-    ListClusters()
+    list_clusters()
+    list_clusters(params::Dict{String,<:Any})
 
 
             Returns a list of all the MSK clusters in the current Region.
 
 # Optional Parameters
-- `clusterNameFilter`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clusterNameFilter"`: 
             Specify a prefix of the name of the clusters that you
   want to list. The service lists all the clusters whose names start with this prefix.
   
-- `maxResults`: 
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. 
-            To get the next
-  batch, provide this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters"; aws_config=aws_config)
-list_clusters(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters", args; aws_config=aws_config)
+list_clusters(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters", params; aws_config=aws_config)
 
 """
-    ListConfigurationRevisions()
+    list_configuration_revisions(arn)
+    list_configuration_revisions(arn, params::Dict{String,<:Any})
 
 
             Returns a list of all the MSK configurations in this Region.
 
-# Required Parameters
+# Arguments
 - `arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies an MSK
   configuration and all of its revisions.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. 
-            To get the next
-  batch, provide this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
 """
 list_configuration_revisions(arn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions"; aws_config=aws_config)
-list_configuration_revisions(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions", args; aws_config=aws_config)
+list_configuration_revisions(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions", params; aws_config=aws_config)
 
 """
-    ListConfigurations()
+    list_configurations()
+    list_configurations(params::Dict{String,<:Any})
 
 
             Returns a list of all the MSK configurations in this Region.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. 
-            To get the next
-  batch, provide this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
 """
 list_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations"; aws_config=aws_config)
-list_configurations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations", args; aws_config=aws_config)
+list_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations", params; aws_config=aws_config)
 
 """
-    ListKafkaVersions()
+    list_kafka_versions()
+    list_kafka_versions(params::Dict{String,<:Any})
 
 
             Returns a list of Kafka versions.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. To get the next batch, provide
-  this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. To get the next batch,
+  provide this token in your next request.
 """
 list_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions"; aws_config=aws_config)
-list_kafka_versions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions", args; aws_config=aws_config)
+list_kafka_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions", params; aws_config=aws_config)
 
 """
-    ListNodes()
+    list_nodes(cluster_arn)
+    list_nodes(cluster_arn, params::Dict{String,<:Any})
 
 
             Returns a list of the broker nodes in the cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maximum number of results to return in the response. If
   there are more results, the response includes a NextToken parameter.
-- `nextToken`: 
-            The paginated results marker. When the result of the operation
-  is truncated, the call returns NextToken in the response. 
-            To get the next
-  batch, provide this token in your next request.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
 """
 list_nodes(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes"; aws_config=aws_config)
-list_nodes(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes", args; aws_config=aws_config)
+list_nodes(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes", params; aws_config=aws_config)
 
 """
-    ListScramSecrets()
+    list_scram_secrets(cluster_arn)
+    list_scram_secrets(cluster_arn, params::Dict{String,<:Any})
 
 
             Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
 
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The arn of the cluster.
 
 # Optional Parameters
-- `maxResults`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
             The maxResults of the query.
-- `nextToken`: 
+- `"nextToken"`: 
             The nextToken of the query.
 """
 list_scram_secrets(clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/scram-secrets"; aws_config=aws_config)
-list_scram_secrets(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/scram-secrets", args; aws_config=aws_config)
+list_scram_secrets(clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/scram-secrets", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 
             Returns a list of the tags associated with the specified resource.
 
-# Required Parameters
-- `resourceArn`: 
+# Arguments
+- `resource_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   resource that's associated with the tags.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
-    RebootBroker()
+    reboot_broker(broker_ids, cluster_arn)
+    reboot_broker(broker_ids, cluster_arn, params::Dict{String,<:Any})
 
 Reboots brokers.
 
-# Required Parameters
-- `brokerIds`: 
+# Arguments
+- `broker_ids`: 
             The list of broker IDs to be rebooted. The reboot-broker
   operation supports rebooting one broker at a time.
-- `clusterArn`: 
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) of the cluster to be updated.
   
 
 """
 reboot_broker(brokerIds, clusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}("brokerIds"=>brokerIds); aws_config=aws_config)
-reboot_broker(brokerIds, clusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerIds"=>brokerIds), args)); aws_config=aws_config)
+reboot_broker(brokerIds, clusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerIds"=>brokerIds), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 
             Adds tags to the specified MSK resource.
 
-# Required Parameters
-- `resourceArn`: 
+# Arguments
+- `resource_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   resource that's associated with the tags.
 - `tags`: 
@@ -431,20 +465,21 @@ reboot_broker(brokerIds, clusterArn, args::AbstractDict{String, <:Any}; aws_conf
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 
             Removes the tags associated with the keys that are provided in the query.
 
 
-# Required Parameters
-- `resourceArn`: 
+# Arguments
+- `resource_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   resource that's associated with the tags.
-- `tagKeys`: 
+- `tag_keys`: 
             Tag keys must be unique for a given cluster. In addition, the
   following restrictions apply:
             
@@ -465,126 +500,133 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateBrokerCount()
+    update_broker_count(cluster_arn, current_version, target_number_of_broker_nodes)
+    update_broker_count(cluster_arn, current_version, target_number_of_broker_nodes, params::Dict{String,<:Any})
 
 
             Updates the number of broker nodes in the cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
-- `currentVersion`: 
+- `current_version`: 
             The version of cluster to update from. A successful
   operation will then generate a new version.
-- `targetNumberOfBrokerNodes`: 
-            The number of broker nodes that you want the
-  cluster to have after this operation completes successfully.
+- `target_number_of_broker_nodes`: 
+            The number of broker nodes that you want
+  the cluster to have after this operation completes successfully.
 
 """
 update_broker_count(clusterArn, currentVersion, targetNumberOfBrokerNodes; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes); aws_config=aws_config)
-update_broker_count(clusterArn, currentVersion, targetNumberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes), args)); aws_config=aws_config)
+update_broker_count(clusterArn, currentVersion, targetNumberOfBrokerNodes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes), params)); aws_config=aws_config)
 
 """
-    UpdateBrokerStorage()
+    update_broker_storage(cluster_arn, current_version, target_broker_ebsvolume_info)
+    update_broker_storage(cluster_arn, current_version, target_broker_ebsvolume_info, params::Dict{String,<:Any})
 
 
             Updates the EBS storage associated with MSK brokers.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
-- `currentVersion`: 
+- `current_version`: 
             The version of cluster to update from. A successful
   operation will then generate a new version.
-- `targetBrokerEBSVolumeInfo`: 
-            Describes the target volume size and the ID of
-  the broker to apply the update to.
+- `target_broker_ebsvolume_info`: 
+            Describes the target volume size and the ID
+  of the broker to apply the update to.
 
 """
 update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo); aws_config=aws_config)
-update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), args)); aws_config=aws_config)
+update_broker_storage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), params)); aws_config=aws_config)
 
 """
-    UpdateBrokerType()
+    update_broker_type(cluster_arn, current_version, target_instance_type)
+    update_broker_type(cluster_arn, current_version, target_instance_type, params::Dict{String,<:Any})
 
 
             Updates EC2 instance type.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
-- `currentVersion`: 
+- `current_version`: 
             The cluster version that you want to change. After this
   operation completes successfully, the cluster will have a new version.
-- `targetInstanceType`: 
+- `target_instance_type`: 
             The Amazon MSK broker type that you want all of the
   brokers in this cluster to be.
 
 """
 update_broker_type(clusterArn, currentVersion, targetInstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType); aws_config=aws_config)
-update_broker_type(clusterArn, currentVersion, targetInstanceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType), args)); aws_config=aws_config)
+update_broker_type(clusterArn, currentVersion, targetInstanceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/type", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetInstanceType"=>targetInstanceType), params)); aws_config=aws_config)
 
 """
-    UpdateClusterConfiguration()
+    update_cluster_configuration(cluster_arn, configuration_info, current_version)
+    update_cluster_configuration(cluster_arn, configuration_info, current_version, params::Dict{String,<:Any})
 
 
             Updates the cluster with the configuration that is specified in the request
 body.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
-- `configurationInfo`: 
+- `configuration_info`: 
             Represents the configuration that you want MSK to use
   for the brokers in a cluster.
-- `currentVersion`: 
+- `current_version`: 
             The version of the cluster that needs to be updated.
   
 
 """
 update_cluster_configuration(clusterArn, configurationInfo, currentVersion; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion); aws_config=aws_config)
-update_cluster_configuration(clusterArn, configurationInfo, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion), args)); aws_config=aws_config)
+update_cluster_configuration(clusterArn, configurationInfo, currentVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion), params)); aws_config=aws_config)
 
 """
-    UpdateClusterKafkaVersion()
+    update_cluster_kafka_version(cluster_arn, current_version, target_kafka_version)
+    update_cluster_kafka_version(cluster_arn, current_version, target_kafka_version, params::Dict{String,<:Any})
 
 
             Updates the Apache Kafka version for the cluster.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) of the cluster to be updated.
   
-- `currentVersion`: 
+- `current_version`: 
             Current cluster version.
-- `targetKafkaVersion`: 
+- `target_kafka_version`: 
             Target Kafka version.
 
 # Optional Parameters
-- `configurationInfo`: 
-            The custom configuration that should be applied on the
-  new version of cluster.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"configurationInfo"`: 
+            The custom configuration that should be applied on
+  the new version of cluster.
 """
 update_cluster_kafka_version(clusterArn, currentVersion, targetKafkaVersion; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion); aws_config=aws_config)
-update_cluster_kafka_version(clusterArn, currentVersion, targetKafkaVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion), args)); aws_config=aws_config)
+update_cluster_kafka_version(clusterArn, currentVersion, targetKafkaVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion), params)); aws_config=aws_config)
 
 """
-    UpdateConfiguration()
+    update_configuration(arn, server_properties)
+    update_configuration(arn, server_properties, params::Dict{String,<:Any})
 
 
             Updates an MSK configuration.
 
-# Required Parameters
+# Arguments
 - `arn`: 
             The Amazon Resource Name (ARN) of the configuration.
-- `serverProperties`: 
+- `server_properties`: 
             Contents of the server.properties file. When using the
   API, you must ensure that the contents of the file are base64 encoded. 
                When
@@ -592,36 +634,39 @@ update_cluster_kafka_version(clusterArn, currentVersion, targetKafkaVersion, arg
   server.properties can be in plaintext.
 
 # Optional Parameters
-- `description`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: 
             The description of the configuration revision.
 """
 update_configuration(arn, serverProperties; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/configurations/$(arn)", Dict{String, Any}("serverProperties"=>serverProperties); aws_config=aws_config)
-update_configuration(arn, serverProperties, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/configurations/$(arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serverProperties"=>serverProperties), args)); aws_config=aws_config)
+update_configuration(arn, serverProperties, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/configurations/$(arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serverProperties"=>serverProperties), params)); aws_config=aws_config)
 
 """
-    UpdateMonitoring()
+    update_monitoring(cluster_arn, current_version)
+    update_monitoring(cluster_arn, current_version, params::Dict{String,<:Any})
 
 
             Updates the monitoring settings for the cluster. You can use this operation to
 specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You
 can also specify settings for open monitoring with Prometheus.
 
-# Required Parameters
-- `clusterArn`: 
+# Arguments
+- `cluster_arn`: 
             The Amazon Resource Name (ARN) that uniquely identifies the
   cluster.
-- `currentVersion`: 
-            The version of the MSK cluster to update. Cluster versions
-  aren't simple numbers. You can describe an MSK cluster to find its version. When this
-  update operation is successful, it generates a new cluster version.
+- `current_version`: 
+            The version of the MSK cluster to update. Cluster
+  versions aren't simple numbers. You can describe an MSK cluster to find its version. When
+  this update operation is successful, it generates a new cluster version.
 
 # Optional Parameters
-- `enhancedMonitoring`: 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enhancedMonitoring"`: 
             Specifies which Apache Kafka metrics Amazon MSK
   gathers and sends to Amazon CloudWatch for this cluster.
-- `loggingInfo`:
-- `openMonitoring`: 
+- `"loggingInfo"`:
+- `"openMonitoring"`: 
             The settings for open monitoring.
 """
 update_monitoring(clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}("currentVersion"=>currentVersion); aws_config=aws_config)
-update_monitoring(clusterArn, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), args)); aws_config=aws_config)
+update_monitoring(clusterArn, currentVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), params)); aws_config=aws_config)

@@ -5,30 +5,33 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateHttpNamespace()
+    create_http_namespace(name)
+    create_http_namespace(name, params::Dict{String,<:Any})
 
 Creates an HTTP namespace. Service instances that you register using an HTTP namespace can
 be discovered using a DiscoverInstances request but can't be discovered using DNS.  For the
 current quota on the number of namespaces that you can create using the same AWS account,
 see AWS Cloud Map quotas in the AWS Cloud Map Developer Guide.
 
-# Required Parameters
-- `Name`: The name that you want to assign to this namespace.
+# Arguments
+- `name`: The name that you want to assign to this namespace.
 
 # Optional Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
   CreateHttpNamespace requests to be retried without the risk of executing the operation
   twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-- `Description`: A description for the namespace.
-- `Tags`: The tags to add to the namespace. Each tag consists of a key and an optional
+- `"Description"`: A description for the namespace.
+- `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
   value, both of which you define. Tag keys can have a maximum character length of 128
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_http_namespace(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
+create_http_namespace(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreatePrivateDnsNamespace()
+    create_private_dns_namespace(name, vpc)
+    create_private_dns_namespace(name, vpc, params::Dict{String,<:Any})
 
 Creates a private namespace based on DNS, which will be visible only inside a specified
 Amazon VPC. The namespace defines your service naming scheme. For example, if you name your
@@ -37,26 +40,28 @@ will be backend.example.com. For the current quota on the number of namespaces t
 create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer
 Guide.
 
-# Required Parameters
-- `Name`: The name that you want to assign to this namespace. When you create a private DNS
+# Arguments
+- `name`: The name that you want to assign to this namespace. When you create a private DNS
   namespace, AWS Cloud Map automatically creates an Amazon Route 53 private hosted zone that
   has the same name as the namespace.
-- `Vpc`: The ID of the Amazon VPC that you want to associate the namespace with.
+- `vpc`: The ID of the Amazon VPC that you want to associate the namespace with.
 
 # Optional Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
   CreatePrivateDnsNamespace requests to be retried without the risk of executing the
   operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-- `Description`: A description for the namespace.
-- `Tags`: The tags to add to the namespace. Each tag consists of a key and an optional
+- `"Description"`: A description for the namespace.
+- `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
   value, both of which you define. Tag keys can have a maximum character length of 128
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_private_dns_namespace(Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_private_dns_namespace(Name, Vpc, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
+create_private_dns_namespace(Name, Vpc, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreatePublicDnsNamespace()
+    create_public_dns_namespace(name)
+    create_public_dns_namespace(name, params::Dict{String,<:Any})
 
 Creates a public namespace based on DNS, which will be visible on the internet. The
 namespace defines your service naming scheme. For example, if you name your namespace
@@ -64,23 +69,25 @@ example.com and name your service backend, the resulting DNS name for the servic
 backend.example.com. For the current quota on the number of namespaces that you can create
 using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
 
-# Required Parameters
-- `Name`: The name that you want to assign to this namespace.
+# Arguments
+- `name`: The name that you want to assign to this namespace.
 
 # Optional Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
   CreatePublicDnsNamespace requests to be retried without the risk of executing the operation
   twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
-- `Description`: A description for the namespace.
-- `Tags`: The tags to add to the namespace. Each tag consists of a key and an optional
+- `"Description"`: A description for the namespace.
+- `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
   value, both of which you define. Tag keys can have a maximum character length of 128
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_public_dns_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_public_dns_namespace(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
+create_public_dns_namespace(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    CreateService()
+    create_service(name)
+    create_service(name, params::Dict{String,<:Any})
 
 Creates a service, which defines the configuration for the following entities:   For public
 and private DNS namespaces, one of the following combinations of DNS records in Amazon
@@ -90,8 +97,8 @@ uses the values in the configuration to create the specified entities. For the c
 quota on the number of instances that you can register using the same namespace and using
 the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
 
-# Required Parameters
-- `Name`: The name that you want to assign to the service. If you want AWS Cloud Map to
+# Arguments
+- `name`: The name that you want to assign to the service. If you want AWS Cloud Map to
   create an SRV record when you register an instance, and if you're using a system that
   requires a specific SRV format, such as HAProxy, specify the following for Name:   Start
   the name with an underscore (_), such as _exampleservice    End the name with ._protocol,
@@ -100,212 +107,228 @@ the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
   example:  _exampleservice._tcp.example.com
 
 # Optional Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
   CreateService requests to be retried without the risk of executing the operation twice.
   CreatorRequestId can be any unique string, for example, a date/time stamp.
-- `Description`: A description for the service.
-- `DnsConfig`: A complex type that contains information about the Amazon Route 53 records
-  that you want AWS Cloud Map to create when you register an instance.
-- `HealthCheckConfig`:  Public DNS and HTTP namespaces only. A complex type that contains
+- `"Description"`: A description for the service.
+- `"DnsConfig"`: A complex type that contains information about the Amazon Route 53
+  records that you want AWS Cloud Map to create when you register an instance.
+- `"HealthCheckConfig"`:  Public DNS and HTTP namespaces only. A complex type that contains
   settings for an optional Route 53 health check. If you specify settings for a health
   check, AWS Cloud Map associates the health check with all the Route 53 DNS records that
   you specify in DnsConfig.  If you specify a health check configuration, you can specify
   either HealthCheckCustomConfig or HealthCheckConfig but not both.  For information about
   the charges for health checks, see AWS Cloud Map Pricing.
-- `HealthCheckCustomConfig`: A complex type that contains information about an optional
+- `"HealthCheckCustomConfig"`: A complex type that contains information about an optional
   custom health check.  If you specify a health check configuration, you can specify either
   HealthCheckCustomConfig or HealthCheckConfig but not both.  You can't add, update, or
   delete a HealthCheckCustomConfig configuration from an existing service.
-- `NamespaceId`: The ID of the namespace that you want to use to create the service.
-- `Tags`: The tags to add to the service. Each tag consists of a key and an optional value,
-  both of which you define. Tag keys can have a maximum character length of 128 characters,
-  and tag values can have a maximum length of 256 characters.
+- `"NamespaceId"`: The ID of the namespace that you want to use to create the service.
+- `"Tags"`: The tags to add to the service. Each tag consists of a key and an optional
+  value, both of which you define. Tag keys can have a maximum character length of 128
+  characters, and tag values can have a maximum length of 256 characters.
 """
 create_service(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_service(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
+create_service(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    DeleteNamespace()
+    delete_namespace(id)
+    delete_namespace(id, params::Dict{String,<:Any})
 
 Deletes a namespace from the current account. If the namespace still contains one or more
 services, the request fails.
 
-# Required Parameters
-- `Id`: The ID of the namespace that you want to delete.
+# Arguments
+- `id`: The ID of the namespace that you want to delete.
 
 """
 delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-delete_namespace(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+delete_namespace(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
-    DeleteService()
+    delete_service(id)
+    delete_service(id, params::Dict{String,<:Any})
 
 Deletes a specified service. If the service still contains one or more registered
 instances, the request fails.
 
-# Required Parameters
-- `Id`: The ID of the service that you want to delete.
+# Arguments
+- `id`: The ID of the service that you want to delete.
 
 """
 delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-delete_service(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+delete_service(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
-    DeregisterInstance()
+    deregister_instance(instance_id, service_id)
+    deregister_instance(instance_id, service_id, params::Dict{String,<:Any})
 
 Deletes the Amazon Route 53 DNS records and health check, if any, that AWS Cloud Map
 created for the specified instance.
 
-# Required Parameters
-- `InstanceId`: The value that you specified for Id in the RegisterInstance request.
-- `ServiceId`: The ID of the service that the instance is associated with.
+# Arguments
+- `instance_id`: The value that you specified for Id in the RegisterInstance request.
+- `service_id`: The ID of the service that the instance is associated with.
 
 """
 deregister_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId); aws_config=aws_config)
-deregister_instance(InstanceId, ServiceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), args)); aws_config=aws_config)
+deregister_instance(InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
-    DiscoverInstances()
+    discover_instances(namespace_name, service_name)
+    discover_instances(namespace_name, service_name, params::Dict{String,<:Any})
 
 Discovers registered instances for a specified namespace and service. You can use
 DiscoverInstances to discover instances for any type of namespace. For public and private
 DNS namespaces, you can also use DNS queries to discover instances.
 
-# Required Parameters
-- `NamespaceName`: The name of the namespace that you specified when you registered the
+# Arguments
+- `namespace_name`: The name of the namespace that you specified when you registered the
   instance.
-- `ServiceName`: The name of the service that you specified when you registered the
+- `service_name`: The name of the service that you specified when you registered the
   instance.
 
 # Optional Parameters
-- `HealthStatus`: The health status of the instances that you want to discover.
-- `MaxResults`: The maximum number of instances that you want AWS Cloud Map to return in
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HealthStatus"`: The health status of the instances that you want to discover.
+- `"MaxResults"`: The maximum number of instances that you want AWS Cloud Map to return in
   the response to a DiscoverInstances request. If you don't specify a value for MaxResults,
   AWS Cloud Map returns up to 100 instances.
-- `OptionalParameters`: Opportunistic filters to scope the results based on custom
+- `"OptionalParameters"`: Opportunistic filters to scope the results based on custom
   attributes. If there are instances that match both the filters specified in both the
   QueryParameters parameter and this parameter, they are returned. Otherwise, these filters
   are ignored and only instances that match the filters specified in the QueryParameters
   parameter are returned.
-- `QueryParameters`: Filters to scope the results based on custom attributes for the
+- `"QueryParameters"`: Filters to scope the results based on custom attributes for the
   instance. For example, {version=v1, az=1a}. Only instances that match all the specified
   key-value pairs will be returned.
 """
 discover_instances(NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName); aws_config=aws_config)
-discover_instances(NamespaceName, ServiceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), args)); aws_config=aws_config)
+discover_instances(NamespaceName, ServiceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), params)); aws_config=aws_config)
 
 """
-    GetInstance()
+    get_instance(instance_id, service_id)
+    get_instance(instance_id, service_id, params::Dict{String,<:Any})
 
 Gets information about a specified instance.
 
-# Required Parameters
-- `InstanceId`: The ID of the instance that you want to get information about.
-- `ServiceId`: The ID of the service that the instance is associated with.
+# Arguments
+- `instance_id`: The ID of the instance that you want to get information about.
+- `service_id`: The ID of the service that the instance is associated with.
 
 """
 get_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId); aws_config=aws_config)
-get_instance(InstanceId, ServiceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), args)); aws_config=aws_config)
+get_instance(InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
-    GetInstancesHealthStatus()
+    get_instances_health_status(service_id)
+    get_instances_health_status(service_id, params::Dict{String,<:Any})
 
 Gets the current health status (Healthy, Unhealthy, or Unknown) of one or more instances
 that are associated with a specified service.  There is a brief delay between when you
 register an instance and when the health status for the instance is available.
 
-# Required Parameters
-- `ServiceId`: The ID of the service that the instance is associated with.
+# Arguments
+- `service_id`: The ID of the service that the instance is associated with.
 
 # Optional Parameters
-- `Instances`: An array that contains the IDs of all the instances that you want to get the
-  health status for. If you omit Instances, AWS Cloud Map returns the health status for all
-  the instances that are associated with the specified service.  To get the IDs for the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Instances"`: An array that contains the IDs of all the instances that you want to get
+  the health status for. If you omit Instances, AWS Cloud Map returns the health status for
+  all the instances that are associated with the specified service.  To get the IDs for the
   instances that you've registered by using a specified service, submit a ListInstances
   request.
-- `MaxResults`: The maximum number of instances that you want AWS Cloud Map to return in
+- `"MaxResults"`: The maximum number of instances that you want AWS Cloud Map to return in
   the response to a GetInstancesHealthStatus request. If you don't specify a value for
   MaxResults, AWS Cloud Map returns up to 100 instances.
-- `NextToken`: For the first GetInstancesHealthStatus request, omit this value. If more
+- `"NextToken"`: For the first GetInstancesHealthStatus request, omit this value. If more
   than MaxResults instances match the specified criteria, you can submit another
   GetInstancesHealthStatus request to get the next group of results. Specify the value of
   NextToken from the previous response in the next request.
 """
 get_instances_health_status(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-get_instances_health_status(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+get_instances_health_status(ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
-    GetNamespace()
+    get_namespace(id)
+    get_namespace(id, params::Dict{String,<:Any})
 
 Gets information about a namespace.
 
-# Required Parameters
-- `Id`: The ID of the namespace that you want to get information about.
+# Arguments
+- `id`: The ID of the namespace that you want to get information about.
 
 """
 get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_namespace(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+get_namespace(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
-    GetOperation()
+    get_operation(operation_id)
+    get_operation(operation_id, params::Dict{String,<:Any})
 
 Gets information about any operation that returns an operation ID in the response, such as
 a CreateService request.  To get a list of operations that match specified criteria, see
 ListOperations.
 
-# Required Parameters
-- `OperationId`: The ID of the operation that you want to get more information about.
+# Arguments
+- `operation_id`: The ID of the operation that you want to get more information about.
 
 """
 get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config)
-get_operation(OperationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), args)); aws_config=aws_config)
+get_operation(OperationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config)
 
 """
-    GetService()
+    get_service(id)
+    get_service(id, params::Dict{String,<:Any})
 
 Gets the settings for a specified service.
 
-# Required Parameters
-- `Id`: The ID of the service that you want to get settings for.
+# Arguments
+- `id`: The ID of the service that you want to get settings for.
 
 """
 get_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_service(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), args)); aws_config=aws_config)
+get_service(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
-    ListInstances()
+    list_instances(service_id)
+    list_instances(service_id, params::Dict{String,<:Any})
 
 Lists summary information about the instances that you registered by using a specified
 service.
 
-# Required Parameters
-- `ServiceId`: The ID of the service that you want to list instances for.
+# Arguments
+- `service_id`: The ID of the service that you want to list instances for.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of instances that you want AWS Cloud Map to return in
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of instances that you want AWS Cloud Map to return in
   the response to a ListInstances request. If you don't specify a value for MaxResults, AWS
   Cloud Map returns up to 100 instances.
-- `NextToken`: For the first ListInstances request, omit this value. If more than
+- `"NextToken"`: For the first ListInstances request, omit this value. If more than
   MaxResults instances match the specified criteria, you can submit another ListInstances
   request to get the next group of results. Specify the value of NextToken from the previous
   response in the next request.
 """
 list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-list_instances(ServiceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), args)); aws_config=aws_config)
+list_instances(ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
-    ListNamespaces()
+    list_namespaces()
+    list_namespaces(params::Dict{String,<:Any})
 
 Lists summary information about the namespaces that were created by the current AWS account.
 
 # Optional Parameters
-- `Filters`: A complex type that contains specifications for the namespaces that you want
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A complex type that contains specifications for the namespaces that you want
   to list. If you specify more than one filter, a namespace must match all filters to be
   returned by ListNamespaces.
-- `MaxResults`: The maximum number of namespaces that you want AWS Cloud Map to return in
+- `"MaxResults"`: The maximum number of namespaces that you want AWS Cloud Map to return in
   the response to a ListNamespaces request. If you don't specify a value for MaxResults, AWS
   Cloud Map returns up to 100 namespaces.
-- `NextToken`: For the first ListNamespaces request, omit this value. If the response
+- `"NextToken"`: For the first ListNamespaces request, omit this value. If the response
   contains NextToken, submit another ListNamespaces request to get the next group of results.
   Specify the value of NextToken from the previous response in the next request.  AWS Cloud
   Map gets MaxResults namespaces and then filters them based on the specified criteria. It's
@@ -314,22 +337,24 @@ Lists summary information about the namespaces that were created by the current 
   match the criteria.
 """
 list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces"; aws_config=aws_config)
-list_namespaces(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces", args; aws_config=aws_config)
+list_namespaces(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces", params; aws_config=aws_config)
 
 """
-    ListOperations()
+    list_operations()
+    list_operations(params::Dict{String,<:Any})
 
 Lists operations that match the criteria that you specify.
 
 # Optional Parameters
-- `Filters`: A complex type that contains specifications for the operations that you want
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A complex type that contains specifications for the operations that you want
   to list, for example, operations that you started between a specified start date and end
   date. If you specify more than one filter, an operation must match all filters to be
   returned by ListOperations.
-- `MaxResults`: The maximum number of items that you want AWS Cloud Map to return in the
+- `"MaxResults"`: The maximum number of items that you want AWS Cloud Map to return in the
   response to a ListOperations request. If you don't specify a value for MaxResults, AWS
   Cloud Map returns up to 100 operations.
-- `NextToken`: For the first ListOperations request, omit this value. If the response
+- `"NextToken"`: For the first ListOperations request, omit this value. If the response
   contains NextToken, submit another ListOperations request to get the next group of results.
   Specify the value of NextToken from the previous response in the next request.  AWS Cloud
   Map gets MaxResults operations and then filters them based on the specified criteria. It's
@@ -338,22 +363,24 @@ Lists operations that match the criteria that you specify.
   match the criteria.
 """
 list_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations"; aws_config=aws_config)
-list_operations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations", args; aws_config=aws_config)
+list_operations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations", params; aws_config=aws_config)
 
 """
-    ListServices()
+    list_services()
+    list_services(params::Dict{String,<:Any})
 
 Lists summary information for all the services that are associated with one or more
 specified namespaces.
 
 # Optional Parameters
-- `Filters`: A complex type that contains specifications for the namespaces that you want
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A complex type that contains specifications for the namespaces that you want
   to list services for.  If you specify more than one filter, an operation must match all
   filters to be returned by ListServices.
-- `MaxResults`: The maximum number of services that you want AWS Cloud Map to return in the
-  response to a ListServices request. If you don't specify a value for MaxResults, AWS Cloud
-  Map returns up to 100 services.
-- `NextToken`: For the first ListServices request, omit this value. If the response
+- `"MaxResults"`: The maximum number of services that you want AWS Cloud Map to return in
+  the response to a ListServices request. If you don't specify a value for MaxResults, AWS
+  Cloud Map returns up to 100 services.
+- `"NextToken"`: For the first ListServices request, omit this value. If the response
   contains NextToken, submit another ListServices request to get the next group of results.
   Specify the value of NextToken from the previous response in the next request.  AWS Cloud
   Map gets MaxResults services and then filters them based on the specified criteria. It's
@@ -362,23 +389,25 @@ specified namespaces.
   criteria.
 """
 list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices"; aws_config=aws_config)
-list_services(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices", args; aws_config=aws_config)
+list_services(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists tags for the specified resource.
 
-# Required Parameters
-- `ResourceARN`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
   tags for.
 
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
-    RegisterInstance()
+    register_instance(attributes, instance_id, service_id)
+    register_instance(attributes, instance_id, service_id, params::Dict{String,<:Any})
 
 Creates or updates one or more records and, optionally, creates a health check based on the
 settings in a specified service. When you submit a RegisterInstance request, the following
@@ -396,8 +425,8 @@ configuration: returns all the records   For the current quota on the number of 
 that you can register using the same namespace and using the same service, see AWS Cloud
 Map Limits in the AWS Cloud Map Developer Guide.
 
-# Required Parameters
-- `Attributes`: A string map that contains the following information for the service that
+# Arguments
+- `attributes`: A string map that contains the following information for the service that
   you specify in ServiceId:   The attributes that apply to the records that are defined in
   the service.    For each attribute, the applicable value.   Supported attribute keys
   include the following:  AWS_ALIAS_DNS_NAME  If you want AWS Cloud Map to create an Amazon
@@ -441,7 +470,7 @@ Map Limits in the AWS Cloud Map Developer Guide.
   255 characters, and the maximum length of the attribute value is 1,024 characters. The
   total size of all provided attributes (sum of all keys and values) must not exceed 5,000
   characters.
-- `InstanceId`: An identifier that you want to associate with the instance. Note the
+- `instance_id`: An identifier that you want to associate with the instance. Note the
   following:   If the service that is specified by ServiceId includes settings for an SRV
   record, the value of InstanceId is automatically included as part of the value for the SRV
   record. For more information, see DnsRecord &gt; Type.   You can use this value to update
@@ -451,50 +480,54 @@ Map Limits in the AWS Cloud Map Developer Guide.
   there's also an existing health check, AWS Cloud Map deletes the old health check and
   creates a new one.   The health check isn't deleted immediately, so it will still appear
   for a while if you submit a ListHealthChecks request, for example.
-- `ServiceId`: The ID of the service that you want to use for settings for the instance.
+- `service_id`: The ID of the service that you want to use for settings for the instance.
 
 # Optional Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
   RegisterInstance requests to be retried without the risk of executing the operation twice.
   You must use a unique CreatorRequestId string every time you submit a RegisterInstance
   request if you're registering additional instances for the same namespace and service.
   CreatorRequestId can be any unique string, for example, a date/time stamp.
 """
 register_instance(Attributes, InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-register_instance(Attributes, InstanceId, ServiceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())), args)); aws_config=aws_config)
+register_instance(Attributes, InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to the specified resource.
 
-# Required Parameters
-- `ResourceARN`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
   tags for.
-- `Tags`: The tags to add to the specified resource. Specifying the tag key is required.
+- `tags`: The tags to add to the specified resource. Specifying the tag key is required.
   You can set the value of a tag to an empty string, but you can't set the value of a tag to
   null.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes one or more tags from the specified resource.
 
-# Required Parameters
-- `ResourceARN`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
   tags for.
-- `TagKeys`: The tag keys to remove from the specified resource.
+- `tag_keys`: The tag keys to remove from the specified resource.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateInstanceCustomHealthStatus()
+    update_instance_custom_health_status(instance_id, service_id, status)
+    update_instance_custom_health_status(instance_id, service_id, status, params::Dict{String,<:Any})
 
 Submits a request to change the health status of a custom health check to healthy or
 unhealthy. You can use UpdateInstanceCustomHealthStatus to change the status only for
@@ -502,18 +535,19 @@ custom health checks, which you define using HealthCheckCustomConfig when you cr
 service. You can't use it to change the status for Route 53 health checks, which you
 define using HealthCheckConfig. For more information, see HealthCheckCustomConfig.
 
-# Required Parameters
-- `InstanceId`: The ID of the instance that you want to change the health status for.
-- `ServiceId`: The ID of the service that includes the configuration for the custom health
+# Arguments
+- `instance_id`: The ID of the instance that you want to change the health status for.
+- `service_id`: The ID of the service that includes the configuration for the custom health
   check that you want to change the status for.
-- `Status`: The new status of the instance, HEALTHY or UNHEALTHY.
+- `status`: The new status of the instance, HEALTHY or UNHEALTHY.
 
 """
 update_instance_custom_health_status(InstanceId, ServiceId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status); aws_config=aws_config)
-update_instance_custom_health_status(InstanceId, ServiceId, Status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status), args)); aws_config=aws_config)
+update_instance_custom_health_status(InstanceId, ServiceId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
-    UpdateService()
+    update_service(id, service)
+    update_service(id, service, params::Dict{String,<:Any})
 
 Submits a request to perform the following operations:   Update the TTL setting for
 existing DnsRecords configurations   Add, update, or delete HealthCheckConfig for a
@@ -526,10 +560,10 @@ not deleted from the service.   When you update settings for a service, AWS Clou
 updates the corresponding settings in all the records and health checks that were created
 by using the specified service.
 
-# Required Parameters
-- `Id`: The ID of the service that you want to update.
-- `Service`: A complex type that contains the new settings for the service.
+# Arguments
+- `id`: The ID of the service that you want to update.
+- `service`: A complex type that contains the new settings for the service.
 
 """
 update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}("Id"=>Id, "Service"=>Service); aws_config=aws_config)
-update_service(Id, Service, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Service"=>Service), args)); aws_config=aws_config)
+update_service(Id, Service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Service"=>Service), params)); aws_config=aws_config)

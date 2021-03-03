@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    BatchGetAggregateResourceConfig()
+    batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers)
+    batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers, params::Dict{String,<:Any})
 
 Returns the current configuration items for resources that are present in your AWS Config
 aggregator. The operation also returns a list of resources that are not processed in the
@@ -13,16 +14,17 @@ current request. If there are no unprocessed resources, the operation returns an
 unprocessedResourceIdentifiers list.     The API does not return results for deleted
 resources.    The API does not return tags and relationships.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
-- `ResourceIdentifiers`: A list of aggregate ResourceIdentifiers objects.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+- `resource_identifiers`: A list of aggregate ResourceIdentifiers objects.
 
 """
 batch_get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetAggregateResourceConfig", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifiers"=>ResourceIdentifiers); aws_config=aws_config)
-batch_get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifiers, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifiers"=>ResourceIdentifiers), args)); aws_config=aws_config)
+batch_get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifiers, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifiers"=>ResourceIdentifiers), params)); aws_config=aws_config)
 
 """
-    BatchGetResourceConfig()
+    batch_get_resource_config(resource_keys)
+    batch_get_resource_config(resource_keys, params::Dict{String,<:Any})
 
 Returns the current configuration for one or more requested resources. The operation also
 returns a list of resources that are not processed in the current request. If there are no
@@ -31,31 +33,33 @@ API does not return results for deleted resources.    The API does not return an
 the requested resources. This information is filtered out of the supplementaryConfiguration
 section of the API response.
 
-# Required Parameters
-- `resourceKeys`: A list of resource keys to be processed with the current request. Each
+# Arguments
+- `resource_keys`: A list of resource keys to be processed with the current request. Each
   element in the list consists of the resource type and resource ID.
 
 """
 batch_get_resource_config(resourceKeys; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetResourceConfig", Dict{String, Any}("resourceKeys"=>resourceKeys); aws_config=aws_config)
-batch_get_resource_config(resourceKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceKeys"=>resourceKeys), args)); aws_config=aws_config)
+batch_get_resource_config(resourceKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("BatchGetResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceKeys"=>resourceKeys), params)); aws_config=aws_config)
 
 """
-    DeleteAggregationAuthorization()
+    delete_aggregation_authorization(authorized_account_id, authorized_aws_region)
+    delete_aggregation_authorization(authorized_account_id, authorized_aws_region, params::Dict{String,<:Any})
 
 Deletes the authorization granted to the specified configuration aggregator account in a
 specified region.
 
-# Required Parameters
-- `AuthorizedAccountId`: The 12-digit account ID of the account authorized to aggregate
+# Arguments
+- `authorized_account_id`: The 12-digit account ID of the account authorized to aggregate
   data.
-- `AuthorizedAwsRegion`: The region authorized to collect aggregated data.
+- `authorized_aws_region`: The region authorized to collect aggregated data.
 
 """
 delete_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteAggregationAuthorization", Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion); aws_config=aws_config)
-delete_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), args)); aws_config=aws_config)
+delete_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), params)); aws_config=aws_config)
 
 """
-    DeleteConfigRule()
+    delete_config_rule(config_rule_name)
+    delete_config_rule(config_rule_name, params::Dict{String,<:Any})
 
 Deletes the specified AWS Config rule and all of its evaluation results. AWS Config sets
 the state of a rule to DELETING until the deletion is complete. You cannot update a rule
@@ -63,28 +67,30 @@ while it is in this state. If you make a PutConfigRule or DeleteConfigRule reque
 rule, you will receive a ResourceInUseException. You can check the state of a rule by using
 the DescribeConfigRules request.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule that you want to delete.
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule that you want to delete.
 
 """
 delete_config_rule(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigRule", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-delete_config_rule(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+delete_config_rule(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DeleteConfigurationAggregator()
+    delete_configuration_aggregator(configuration_aggregator_name)
+    delete_configuration_aggregator(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Deletes the specified configuration aggregator and the aggregated data associated with the
 aggregator.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 """
 delete_configuration_aggregator(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationAggregator", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-delete_configuration_aggregator(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+delete_configuration_aggregator(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    DeleteConfigurationRecorder()
+    delete_configuration_recorder(configuration_recorder_name)
+    delete_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
 Deletes the configuration recorder. After the configuration recorder is deleted, AWS Config
 will not record resource configuration changes until you create a new configuration
@@ -93,60 +99,64 @@ recorded. You will be able to access the previously recorded information by usin
 GetResourceConfigHistory action, but you will not be able to access this information in the
 AWS Config console until you create a new configuration recorder.
 
-# Required Parameters
-- `ConfigurationRecorderName`: The name of the configuration recorder to be deleted. You
+# Arguments
+- `configuration_recorder_name`: The name of the configuration recorder to be deleted. You
   can retrieve the name of your configuration recorder by using the
   DescribeConfigurationRecorders action.
 
 """
 delete_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationRecorder", Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName); aws_config=aws_config)
-delete_configuration_recorder(ConfigurationRecorderName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), args)); aws_config=aws_config)
+delete_configuration_recorder(ConfigurationRecorderName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config)
 
 """
-    DeleteConformancePack()
+    delete_conformance_pack(conformance_pack_name)
+    delete_conformance_pack(conformance_pack_name, params::Dict{String,<:Any})
 
 Deletes the specified conformance pack and all the AWS Config rules, remediation actions,
 and all evaluation results within that conformance pack. AWS Config sets the conformance
 pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance
 pack while it is in this state.
 
-# Required Parameters
-- `ConformancePackName`: Name of the conformance pack you want to delete.
+# Arguments
+- `conformance_pack_name`: Name of the conformance pack you want to delete.
 
 """
 delete_conformance_pack(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConformancePack", Dict{String, Any}("ConformancePackName"=>ConformancePackName); aws_config=aws_config)
-delete_conformance_pack(ConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), args)); aws_config=aws_config)
+delete_conformance_pack(ConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config)
 
 """
-    DeleteDeliveryChannel()
+    delete_delivery_channel(delivery_channel_name)
+    delete_delivery_channel(delivery_channel_name, params::Dict{String,<:Any})
 
 Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
 configuration recorder by using the StopConfigurationRecorder action.
 
-# Required Parameters
-- `DeliveryChannelName`: The name of the delivery channel to delete.
+# Arguments
+- `delivery_channel_name`: The name of the delivery channel to delete.
 
 """
 delete_delivery_channel(DeliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteDeliveryChannel", Dict{String, Any}("DeliveryChannelName"=>DeliveryChannelName); aws_config=aws_config)
-delete_delivery_channel(DeliveryChannelName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannelName"=>DeliveryChannelName), args)); aws_config=aws_config)
+delete_delivery_channel(DeliveryChannelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannelName"=>DeliveryChannelName), params)); aws_config=aws_config)
 
 """
-    DeleteEvaluationResults()
+    delete_evaluation_results(config_rule_name)
+    delete_evaluation_results(config_rule_name, params::Dict{String,<:Any})
 
 Deletes the evaluation results for the specified AWS Config rule. You can specify one AWS
 Config rule per request. After you delete the evaluation results, you can call the
 StartConfigRulesEvaluation API to start evaluating your AWS resources against the rule.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule for which you want to delete the
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule for which you want to delete the
   evaluation results.
 
 """
 delete_evaluation_results(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteEvaluationResults", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-delete_evaluation_results(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteEvaluationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+delete_evaluation_results(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteEvaluationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DeleteOrganizationConfigRule()
+    delete_organization_config_rule(organization_config_rule_name)
+    delete_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
 
 Deletes the specified organization config rule and all of its evaluation results from all
 member accounts in that organization.  Only a master account and a delegated administrator
@@ -155,16 +165,17 @@ administrator, you must ensure AWS Organizations ListDelegatedAdministrator perm
 added. AWS Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is
 complete. You cannot update a rule while it is in this state.
 
-# Required Parameters
-- `OrganizationConfigRuleName`: The name of organization config rule that you want to
+# Arguments
+- `organization_config_rule_name`: The name of organization config rule that you want to
   delete.
 
 """
 delete_organization_config_rule(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConfigRule", Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName); aws_config=aws_config)
-delete_organization_config_rule(OrganizationConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), args)); aws_config=aws_config)
+delete_organization_config_rule(OrganizationConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DeleteOrganizationConformancePack()
+    delete_organization_conformance_pack(organization_conformance_pack_name)
+    delete_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
 
 Deletes the specified organization conformance pack and all of the config rules and
 remediation actions from all member accounts in that organization.   Only a master account
@@ -174,103 +185,112 @@ ListDelegatedAdministrator permissions are added. AWS Config sets the state of a
 conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a
 conformance pack while it is in this state.
 
-# Required Parameters
-- `OrganizationConformancePackName`: The name of organization conformance pack that you
+# Arguments
+- `organization_conformance_pack_name`: The name of organization conformance pack that you
   want to delete.
 
 """
 delete_organization_conformance_pack(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConformancePack", Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName); aws_config=aws_config)
-delete_organization_conformance_pack(OrganizationConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), args)); aws_config=aws_config)
+delete_organization_conformance_pack(OrganizationConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config)
 
 """
-    DeletePendingAggregationRequest()
+    delete_pending_aggregation_request(requester_account_id, requester_aws_region)
+    delete_pending_aggregation_request(requester_account_id, requester_aws_region, params::Dict{String,<:Any})
 
 Deletes pending authorization requests for a specified aggregator account in a specified
 region.
 
-# Required Parameters
-- `RequesterAccountId`: The 12-digit account ID of the account requesting to aggregate data.
-- `RequesterAwsRegion`: The region requesting to aggregate data.
+# Arguments
+- `requester_account_id`: The 12-digit account ID of the account requesting to aggregate
+  data.
+- `requester_aws_region`: The region requesting to aggregate data.
 
 """
 delete_pending_aggregation_request(RequesterAccountId, RequesterAwsRegion; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeletePendingAggregationRequest", Dict{String, Any}("RequesterAccountId"=>RequesterAccountId, "RequesterAwsRegion"=>RequesterAwsRegion); aws_config=aws_config)
-delete_pending_aggregation_request(RequesterAccountId, RequesterAwsRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeletePendingAggregationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequesterAccountId"=>RequesterAccountId, "RequesterAwsRegion"=>RequesterAwsRegion), args)); aws_config=aws_config)
+delete_pending_aggregation_request(RequesterAccountId, RequesterAwsRegion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeletePendingAggregationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequesterAccountId"=>RequesterAccountId, "RequesterAwsRegion"=>RequesterAwsRegion), params)); aws_config=aws_config)
 
 """
-    DeleteRemediationConfiguration()
+    delete_remediation_configuration(config_rule_name)
+    delete_remediation_configuration(config_rule_name, params::Dict{String,<:Any})
 
 Deletes the remediation configuration.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule for which you want to delete
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule for which you want to delete
   remediation configuration.
 
 # Optional Parameters
-- `ResourceType`: The type of a resource.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceType"`: The type of a resource.
 """
 delete_remediation_configuration(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationConfiguration", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-delete_remediation_configuration(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+delete_remediation_configuration(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DeleteRemediationExceptions()
+    delete_remediation_exceptions(config_rule_name, resource_keys)
+    delete_remediation_exceptions(config_rule_name, resource_keys, params::Dict{String,<:Any})
 
 Deletes one or more remediation exceptions mentioned in the resource keys.  AWS Config
 generates a remediation exception when a problem occurs executing a remediation action to a
 specific resource. Remediation exceptions blocks auto-remediation until the exception is
 cleared.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule for which you want to delete
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule for which you want to delete
   remediation exception configuration.
-- `ResourceKeys`: An exception list of resource exception keys to be processed with the
+- `resource_keys`: An exception list of resource exception keys to be processed with the
   current request. AWS Config adds exception for each resource key. For example, AWS Config
   adds 3 exceptions for 3 resource keys.
 
 """
 delete_remediation_exceptions(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationExceptions", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys); aws_config=aws_config)
-delete_remediation_exceptions(ConfigRuleName, ResourceKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), args)); aws_config=aws_config)
+delete_remediation_exceptions(ConfigRuleName, ResourceKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config)
 
 """
-    DeleteResourceConfig()
+    delete_resource_config(resource_id, resource_type)
+    delete_resource_config(resource_id, resource_type, params::Dict{String,<:Any})
 
 Records the configuration state for a custom resource that has been deleted. This API
 records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the
 ConfigurationItems recorded for this resource in your AWS Config History.
 
-# Required Parameters
-- `ResourceId`: Unique identifier of the resource.
-- `ResourceType`: The type of the resource.
+# Arguments
+- `resource_id`: Unique identifier of the resource.
+- `resource_type`: The type of the resource.
 
 """
 delete_resource_config(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteResourceConfig", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
-delete_resource_config(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws_config=aws_config)
+delete_resource_config(ResourceId, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
-    DeleteRetentionConfiguration()
+    delete_retention_configuration(retention_configuration_name)
+    delete_retention_configuration(retention_configuration_name, params::Dict{String,<:Any})
 
 Deletes the retention configuration.
 
-# Required Parameters
-- `RetentionConfigurationName`: The name of the retention configuration to delete.
+# Arguments
+- `retention_configuration_name`: The name of the retention configuration to delete.
 
 """
 delete_retention_configuration(RetentionConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRetentionConfiguration", Dict{String, Any}("RetentionConfigurationName"=>RetentionConfigurationName); aws_config=aws_config)
-delete_retention_configuration(RetentionConfigurationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionConfigurationName"=>RetentionConfigurationName), args)); aws_config=aws_config)
+delete_retention_configuration(RetentionConfigurationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionConfigurationName"=>RetentionConfigurationName), params)); aws_config=aws_config)
 
 """
-    DeleteStoredQuery()
+    delete_stored_query(query_name)
+    delete_stored_query(query_name, params::Dict{String,<:Any})
 
 Deletes the stored query for a single AWS account and a single AWS Region.
 
-# Required Parameters
-- `QueryName`: The name of the query that you want to delete.
+# Arguments
+- `query_name`: The name of the query that you want to delete.
 
 """
 delete_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteStoredQuery", Dict{String, Any}("QueryName"=>QueryName); aws_config=aws_config)
-delete_stored_query(QueryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), args)); aws_config=aws_config)
+delete_stored_query(QueryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeleteStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), params)); aws_config=aws_config)
 
 """
-    DeliverConfigSnapshot()
+    deliver_config_snapshot(delivery_channel_name)
+    deliver_config_snapshot(delivery_channel_name, params::Dict{String,<:Any})
 
 Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified
 delivery channel. After the delivery has started, AWS Config sends the following
@@ -278,50 +298,55 @@ notifications using an Amazon SNS topic that you have specified.   Notification 
 start of the delivery.   Notification of the completion of the delivery, if the delivery
 was successfully completed.   Notification of delivery failure, if the delivery failed.
 
-# Required Parameters
-- `deliveryChannelName`: The name of the delivery channel through which the snapshot is
+# Arguments
+- `delivery_channel_name`: The name of the delivery channel through which the snapshot is
   delivered.
 
 """
 deliver_config_snapshot(deliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeliverConfigSnapshot", Dict{String, Any}("deliveryChannelName"=>deliveryChannelName); aws_config=aws_config)
-deliver_config_snapshot(deliveryChannelName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeliverConfigSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deliveryChannelName"=>deliveryChannelName), args)); aws_config=aws_config)
+deliver_config_snapshot(deliveryChannelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DeliverConfigSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deliveryChannelName"=>deliveryChannelName), params)); aws_config=aws_config)
 
 """
-    DescribeAggregateComplianceByConfigRules()
+    describe_aggregate_compliance_by_config_rules(configuration_aggregator_name)
+    describe_aggregate_compliance_by_config_rules(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Returns a list of compliant and noncompliant rules with the number of resources for
 compliant and noncompliant rules.   The results can return an empty result page, but if you
 have a nextToken, the results are displayed on the next page.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `Filters`: Filters the results by ConfigRuleComplianceFilters object.
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results by ConfigRuleComplianceFilters object.
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConfigRules", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConfigRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConfigRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    DescribeAggregationAuthorizations()
+    describe_aggregation_authorizations()
+    describe_aggregation_authorizations(params::Dict{String,<:Any})
 
 Returns a list of authorizations granted to various aggregator accounts and regions.
 
 # Optional Parameters
-- `Limit`: The maximum number of AggregationAuthorizations returned on each page. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of AggregationAuthorizations returned on each page. The
   default is maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_aggregation_authorizations(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregationAuthorizations"; aws_config=aws_config)
-describe_aggregation_authorizations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregationAuthorizations", args; aws_config=aws_config)
+describe_aggregation_authorizations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregationAuthorizations", params; aws_config=aws_config)
 
 """
-    DescribeComplianceByConfigRule()
+    describe_compliance_by_config_rule()
+    describe_compliance_by_config_rule(params::Dict{String,<:Any})
 
 Indicates whether the specified AWS Config rules are compliant. If a rule is noncompliant,
 this action returns the number of AWS resources that do not comply with the rule. A rule is
@@ -338,18 +363,20 @@ permission.   The rule's AWS Lambda function has returned NOT_APPLICABLE for all
 results. This can occur if the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
-- `ComplianceTypes`: Filters the results by compliance. The allowed values are COMPLIANT
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT
   and NON_COMPLIANT.
-- `ConfigRuleNames`: Specify one or more AWS Config rule names to filter the results by
+- `"ConfigRuleNames"`: Specify one or more AWS Config rule names to filter the results by
   rule.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_compliance_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByConfigRule"; aws_config=aws_config)
-describe_compliance_by_config_rule(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByConfigRule", args; aws_config=aws_config)
+describe_compliance_by_config_rule(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByConfigRule", params; aws_config=aws_config)
 
 """
-    DescribeComplianceByResource()
+    describe_compliance_by_resource()
+    describe_compliance_by_resource(params::Dict{String,<:Any})
 
 Indicates whether the specified AWS resources are compliant. If a resource is noncompliant,
 this action returns the number of AWS Config rules that the resource does not comply with.
@@ -367,100 +394,110 @@ The rule's AWS Lambda function has returned NOT_APPLICABLE for all evaluation re
 can occur if the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
-- `ComplianceTypes`: Filters the results by compliance. The allowed values are COMPLIANT,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
   NON_COMPLIANT, and INSUFFICIENT_DATA.
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `ResourceId`: The ID of the AWS resource for which you want compliance information. You
+- `"ResourceId"`: The ID of the AWS resource for which you want compliance information. You
   can specify only one resource ID. If you specify a resource ID, you must also specify a
   type for ResourceType.
-- `ResourceType`: The types of AWS resources for which you want compliance information (for
-  example, AWS::EC2::Instance). For this action, you can specify that the resource type is an
-  AWS account by specifying AWS::::Account.
+- `"ResourceType"`: The types of AWS resources for which you want compliance information
+  (for example, AWS::EC2::Instance). For this action, you can specify that the resource type
+  is an AWS account by specifying AWS::::Account.
 """
 describe_compliance_by_resource(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByResource"; aws_config=aws_config)
-describe_compliance_by_resource(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByResource", args; aws_config=aws_config)
+describe_compliance_by_resource(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeComplianceByResource", params; aws_config=aws_config)
 
 """
-    DescribeConfigRuleEvaluationStatus()
+    describe_config_rule_evaluation_status()
+    describe_config_rule_evaluation_status(params::Dict{String,<:Any})
 
 Returns status information for each of your AWS managed Config rules. The status includes
 information such as the last time AWS Config invoked the rule, the last time AWS Config
 failed to invoke the rule, and the related error for the last failure.
 
 # Optional Parameters
-- `ConfigRuleNames`: The name of the AWS managed Config rules for which you want status
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigRuleNames"`: The name of the AWS managed Config rules for which you want status
   information. If you do not specify any names, AWS Config returns status information for all
   AWS managed Config rules that you use.
-- `Limit`: The number of rule evaluation results that you want returned. This parameter is
-  required if the rule limit for your account is more than the default of 150 rules. For
+- `"Limit"`: The number of rule evaluation results that you want returned. This parameter
+  is required if the rule limit for your account is more than the default of 150 rules. For
   information about requesting a rule limit increase, see AWS Config Limits in the AWS
   General Reference Guide.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_config_rule_evaluation_status(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRuleEvaluationStatus"; aws_config=aws_config)
-describe_config_rule_evaluation_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRuleEvaluationStatus", args; aws_config=aws_config)
+describe_config_rule_evaluation_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRuleEvaluationStatus", params; aws_config=aws_config)
 
 """
-    DescribeConfigRules()
+    describe_config_rules()
+    describe_config_rules(params::Dict{String,<:Any})
 
 Returns details about your AWS Config rules.
 
 # Optional Parameters
-- `ConfigRuleNames`: The names of the AWS Config rules for which you want details. If you
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigRuleNames"`: The names of the AWS Config rules for which you want details. If you
   do not specify any names, AWS Config returns details for all your rules.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRules"; aws_config=aws_config)
-describe_config_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRules", args; aws_config=aws_config)
+describe_config_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigRules", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationAggregatorSourcesStatus()
+    describe_configuration_aggregator_sources_status(configuration_aggregator_name)
+    describe_configuration_aggregator_sources_status(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Returns status information for sources within an aggregator. The status includes
 information about the last time AWS Config verified authorization between the source
 account and an aggregator account. In case of a failure, the status contains the related
 error code or message.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `Limit`: The maximum number of AggregatorSourceStatus returned on each page. The default
-  is maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of AggregatorSourceStatus returned on each page. The
+  default is maximum. If you specify 0, AWS Config uses the default.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `UpdateStatus`: Filters the status type.   Valid value FAILED indicates errors while
+- `"UpdateStatus"`: Filters the status type.   Valid value FAILED indicates errors while
   moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid
   value OUTDATED indicates the data is not the most recent.
 """
 describe_configuration_aggregator_sources_status(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregatorSourcesStatus", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-describe_configuration_aggregator_sources_status(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregatorSourcesStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+describe_configuration_aggregator_sources_status(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregatorSourcesStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    DescribeConfigurationAggregators()
+    describe_configuration_aggregators()
+    describe_configuration_aggregators(params::Dict{String,<:Any})
 
 Returns the details of one or more configuration aggregators. If the configuration
 aggregator is not specified, this action returns the details for all the configuration
 aggregators associated with the account.
 
 # Optional Parameters
-- `ConfigurationAggregatorNames`: The name of the configuration aggregators.
-- `Limit`: The maximum number of configuration aggregators returned on each page. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationAggregatorNames"`: The name of the configuration aggregators.
+- `"Limit"`: The maximum number of configuration aggregators returned on each page. The
   default is maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_configuration_aggregators(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregators"; aws_config=aws_config)
-describe_configuration_aggregators(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregators", args; aws_config=aws_config)
+describe_configuration_aggregators(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationAggregators", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationRecorderStatus()
+    describe_configuration_recorder_status()
+    describe_configuration_recorder_status(params::Dict{String,<:Any})
 
 Returns the current status of the specified configuration recorder. If a configuration
 recorder is not specified, this action returns the status of all configuration recorders
@@ -468,15 +505,17 @@ associated with the account.  Currently, you can specify only one configuration 
 per region in your account.
 
 # Optional Parameters
-- `ConfigurationRecorderNames`: The name(s) of the configuration recorder. If the name is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationRecorderNames"`: The name(s) of the configuration recorder. If the name is
   not specified, the action returns the current status of all the configuration recorders
   associated with the account.
 """
 describe_configuration_recorder_status(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorderStatus"; aws_config=aws_config)
-describe_configuration_recorder_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorderStatus", args; aws_config=aws_config)
+describe_configuration_recorder_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorderStatus", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationRecorders()
+    describe_configuration_recorders()
+    describe_configuration_recorders(params::Dict{String,<:Any})
 
 Returns the details for the specified configuration recorders. If the configuration
 recorder is not specified, this action returns the details for all configuration recorders
@@ -484,63 +523,71 @@ associated with the account.  Currently, you can specify only one configuration 
 per region in your account.
 
 # Optional Parameters
-- `ConfigurationRecorderNames`: A list of configuration recorder names.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationRecorderNames"`: A list of configuration recorder names.
 """
 describe_configuration_recorders(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorders"; aws_config=aws_config)
-describe_configuration_recorders(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorders", args; aws_config=aws_config)
+describe_configuration_recorders(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConfigurationRecorders", params; aws_config=aws_config)
 
 """
-    DescribeConformancePackCompliance()
+    describe_conformance_pack_compliance(conformance_pack_name)
+    describe_conformance_pack_compliance(conformance_pack_name, params::Dict{String,<:Any})
 
 Returns compliance details for each rule in that conformance pack.  You must provide exact
 rule names.
 
-# Required Parameters
-- `ConformancePackName`: Name of the conformance pack.
+# Arguments
+- `conformance_pack_name`: Name of the conformance pack.
 
 # Optional Parameters
-- `Filters`: A ConformancePackComplianceFilters object.
-- `Limit`: The maximum number of AWS Config rules within a conformance pack are returned on
-  each page.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A ConformancePackComplianceFilters object.
+- `"Limit"`: The maximum number of AWS Config rules within a conformance pack are returned
+  on each page.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 describe_conformance_pack_compliance(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackCompliance", Dict{String, Any}("ConformancePackName"=>ConformancePackName); aws_config=aws_config)
-describe_conformance_pack_compliance(ConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackCompliance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), args)); aws_config=aws_config)
+describe_conformance_pack_compliance(ConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackCompliance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config)
 
 """
-    DescribeConformancePackStatus()
+    describe_conformance_pack_status()
+    describe_conformance_pack_status(params::Dict{String,<:Any})
 
 Provides one or more conformance packs deployment status.  If there are no conformance
 packs then you will see an empty result.
 
 # Optional Parameters
-- `ConformancePackNames`: Comma-separated list of conformance pack names.
-- `Limit`: The maximum number of conformance packs status returned on each page.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConformancePackNames"`: Comma-separated list of conformance pack names.
+- `"Limit"`: The maximum number of conformance packs status returned on each page.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 describe_conformance_pack_status(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackStatus"; aws_config=aws_config)
-describe_conformance_pack_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackStatus", args; aws_config=aws_config)
+describe_conformance_pack_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePackStatus", params; aws_config=aws_config)
 
 """
-    DescribeConformancePacks()
+    describe_conformance_packs()
+    describe_conformance_packs(params::Dict{String,<:Any})
 
 Returns a list of one or more conformance packs.
 
 # Optional Parameters
-- `ConformancePackNames`: Comma-separated list of conformance pack names for which you want
-  details. If you do not specify any names, AWS Config returns details for all your
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConformancePackNames"`: Comma-separated list of conformance pack names for which you
+  want details. If you do not specify any names, AWS Config returns details for all your
   conformance packs.
-- `Limit`: The maximum number of conformance packs returned on each page.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+- `"Limit"`: The maximum number of conformance packs returned on each page.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePacks"; aws_config=aws_config)
-describe_conformance_packs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePacks", args; aws_config=aws_config)
+describe_conformance_packs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeConformancePacks", params; aws_config=aws_config)
 
 """
-    DescribeDeliveryChannelStatus()
+    describe_delivery_channel_status()
+    describe_delivery_channel_status(params::Dict{String,<:Any})
 
 Returns the current status of the specified delivery channel. If a delivery channel is not
 specified, this action returns the current status of all delivery channels associated with
@@ -548,26 +595,30 @@ the account.  Currently, you can specify only one delivery channel per region in
 account.
 
 # Optional Parameters
-- `DeliveryChannelNames`: A list of delivery channel names.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeliveryChannelNames"`: A list of delivery channel names.
 """
 describe_delivery_channel_status(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannelStatus"; aws_config=aws_config)
-describe_delivery_channel_status(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannelStatus", args; aws_config=aws_config)
+describe_delivery_channel_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannelStatus", params; aws_config=aws_config)
 
 """
-    DescribeDeliveryChannels()
+    describe_delivery_channels()
+    describe_delivery_channels(params::Dict{String,<:Any})
 
 Returns details about the specified delivery channel. If a delivery channel is not
 specified, this action returns the details of all delivery channels associated with the
 account.  Currently, you can specify only one delivery channel per region in your account.
 
 # Optional Parameters
-- `DeliveryChannelNames`: A list of delivery channel names.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeliveryChannelNames"`: A list of delivery channel names.
 """
 describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannels"; aws_config=aws_config)
-describe_delivery_channels(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannels", args; aws_config=aws_config)
+describe_delivery_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeDeliveryChannels", params; aws_config=aws_config)
 
 """
-    DescribeOrganizationConfigRuleStatuses()
+    describe_organization_config_rule_statuses()
+    describe_organization_config_rule_statuses(params::Dict{String,<:Any})
 
 Provides organization config rule deployment status for an organization.  The status is not
 considered successful until organization config rule is successfully deployed in all the
@@ -577,19 +628,21 @@ you specify organization config rule names. It is only applicable, when you requ
 organization config rules.
 
 # Optional Parameters
-- `Limit`: The maximum number of OrganizationConfigRuleStatuses returned on each page. If
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of OrganizationConfigRuleStatuses returned on each page. If
   you do no specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `OrganizationConfigRuleNames`: The names of organization config rules for which you want
-  status details. If you do not specify any names, AWS Config returns details for all your
-  organization AWS Confg rules.
+- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+  want status details. If you do not specify any names, AWS Config returns details for all
+  your organization AWS Confg rules.
 """
 describe_organization_config_rule_statuses(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRuleStatuses"; aws_config=aws_config)
-describe_organization_config_rule_statuses(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRuleStatuses", args; aws_config=aws_config)
+describe_organization_config_rule_statuses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRuleStatuses", params; aws_config=aws_config)
 
 """
-    DescribeOrganizationConfigRules()
+    describe_organization_config_rules()
+    describe_organization_config_rules(params::Dict{String,<:Any})
 
 Returns a list of organization config rules.   When you specify the limit and the next
 token, you receive a paginated response. Limit and next token are not applicable if you
@@ -597,19 +650,21 @@ specify organization config rule names. It is only applicable, when you request 
 organization config rules.
 
 # Optional Parameters
-- `Limit`: The maximum number of organization config rules returned on each page. If you do
-  no specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of organization config rules returned on each page. If you
+  do no specify a number, AWS Config uses the default. The default is 100.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `OrganizationConfigRuleNames`: The names of organization config rules for which you want
-  details. If you do not specify any names, AWS Config returns details for all your
+- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+  want details. If you do not specify any names, AWS Config returns details for all your
   organization config rules.
 """
 describe_organization_config_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRules"; aws_config=aws_config)
-describe_organization_config_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRules", args; aws_config=aws_config)
+describe_organization_config_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConfigRules", params; aws_config=aws_config)
 
 """
-    DescribeOrganizationConformancePackStatuses()
+    describe_organization_conformance_pack_statuses()
+    describe_organization_conformance_pack_statuses(params::Dict{String,<:Any})
 
 Provides organization conformance pack deployment status for an organization.   The status
 is not considered successful until organization conformance pack is successfully deployed
@@ -619,19 +674,21 @@ applicable if you specify organization conformance pack names. They are only app
 when you request all the organization conformance packs.
 
 # Optional Parameters
-- `Limit`: The maximum number of OrganizationConformancePackStatuses returned on each page.
-  If you do no specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of OrganizationConformancePackStatuses returned on each
+  page. If you do no specify a number, AWS Config uses the default. The default is 100.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `OrganizationConformancePackNames`: The names of organization conformance packs for which
-  you want status details. If you do not specify any names, AWS Config returns details for
-  all your organization conformance packs.
+- `"OrganizationConformancePackNames"`: The names of organization conformance packs for
+  which you want status details. If you do not specify any names, AWS Config returns details
+  for all your organization conformance packs.
 """
 describe_organization_conformance_pack_statuses(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePackStatuses"; aws_config=aws_config)
-describe_organization_conformance_pack_statuses(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePackStatuses", args; aws_config=aws_config)
+describe_organization_conformance_pack_statuses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePackStatuses", params; aws_config=aws_config)
 
 """
-    DescribeOrganizationConformancePacks()
+    describe_organization_conformance_packs()
+    describe_organization_conformance_packs(params::Dict{String,<:Any})
 
 Returns a list of organization conformance packs.   When you specify the limit and the next
 token, you receive a paginated response.  Limit and next token are not applicable if you
@@ -639,45 +696,50 @@ specify organization conformance packs names. They are only applicable, when you
 all the organization conformance packs.
 
 # Optional Parameters
-- `Limit`: The maximum number of organization config packs returned on each page. If you do
-  no specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of organization config packs returned on each page. If you
+  do no specify a number, AWS Config uses the default. The default is 100.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `OrganizationConformancePackNames`: The name that you assign to an organization
+- `"OrganizationConformancePackNames"`: The name that you assign to an organization
   conformance pack.
 """
 describe_organization_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePacks"; aws_config=aws_config)
-describe_organization_conformance_packs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePacks", args; aws_config=aws_config)
+describe_organization_conformance_packs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeOrganizationConformancePacks", params; aws_config=aws_config)
 
 """
-    DescribePendingAggregationRequests()
+    describe_pending_aggregation_requests()
+    describe_pending_aggregation_requests(params::Dict{String,<:Any})
 
 Returns a list of all pending aggregation requests.
 
 # Optional Parameters
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 describe_pending_aggregation_requests(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribePendingAggregationRequests"; aws_config=aws_config)
-describe_pending_aggregation_requests(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribePendingAggregationRequests", args; aws_config=aws_config)
+describe_pending_aggregation_requests(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribePendingAggregationRequests", params; aws_config=aws_config)
 
 """
-    DescribeRemediationConfigurations()
+    describe_remediation_configurations(config_rule_names)
+    describe_remediation_configurations(config_rule_names, params::Dict{String,<:Any})
 
 Returns the details of one or more remediation configurations.
 
-# Required Parameters
-- `ConfigRuleNames`: A list of AWS Config rule names of remediation configurations for
+# Arguments
+- `config_rule_names`: A list of AWS Config rule names of remediation configurations for
   which you want details.
 
 """
 describe_remediation_configurations(ConfigRuleNames; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationConfigurations", Dict{String, Any}("ConfigRuleNames"=>ConfigRuleNames); aws_config=aws_config)
-describe_remediation_configurations(ConfigRuleNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleNames"=>ConfigRuleNames), args)); aws_config=aws_config)
+describe_remediation_configurations(ConfigRuleNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleNames"=>ConfigRuleNames), params)); aws_config=aws_config)
 
 """
-    DescribeRemediationExceptions()
+    describe_remediation_exceptions(config_rule_name)
+    describe_remediation_exceptions(config_rule_name, params::Dict{String,<:Any})
 
 Returns the details of one or more remediation exceptions. A detailed view of a remediation
 exception for a set of resources that includes an explanation of an exception and the time
@@ -688,45 +750,49 @@ auto-remediation until the exception is cleared. When you specify the limit and 
 token, you receive a paginated response.  Limit and next token are not applicable if you
 request resources in batch. It is only applicable, when you request all resources.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule.
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule.
 
 # Optional Parameters
-- `Limit`: The maximum number of RemediationExceptionResourceKey returned on each page. The
-  default is 25. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
-- `ResourceKeys`: An exception list of resource exception keys to be processed with the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of RemediationExceptionResourceKey returned on each page.
+  The default is 25. If you specify 0, AWS Config uses the default.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
+- `"ResourceKeys"`: An exception list of resource exception keys to be processed with the
   current request. AWS Config adds exception for each resource key. For example, AWS Config
   adds 3 exceptions for 3 resource keys.
 """
 describe_remediation_exceptions(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExceptions", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-describe_remediation_exceptions(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+describe_remediation_exceptions(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DescribeRemediationExecutionStatus()
+    describe_remediation_execution_status(config_rule_name)
+    describe_remediation_execution_status(config_rule_name, params::Dict{String,<:Any})
 
 Provides a detailed view of a Remediation Execution for a set of resources including state,
 timestamps for when steps for the remediation execution occur, and any error messages for
 steps that have failed. When you specify the limit and the next token, you receive a
 paginated response.
 
-# Required Parameters
-- `ConfigRuleName`: A list of AWS Config rule names.
+# Arguments
+- `config_rule_name`: A list of AWS Config rule names.
 
 # Optional Parameters
-- `Limit`: The maximum number of RemediationExecutionStatuses returned on each page. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of RemediationExecutionStatuses returned on each page. The
   default is maximum. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `ResourceKeys`: A list of resource keys to be processed with the current request. Each
+- `"ResourceKeys"`: A list of resource keys to be processed with the current request. Each
   element in the list consists of the resource type and resource ID.
 """
 describe_remediation_execution_status(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExecutionStatus", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-describe_remediation_execution_status(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExecutionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+describe_remediation_execution_status(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRemediationExecutionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    DescribeRetentionConfigurations()
+    describe_retention_configurations()
+    describe_retention_configurations(params::Dict{String,<:Any})
 
 Returns the details of one or more retention configurations. If the retention configuration
 name is not specified, this action returns the details for all the retention configurations
@@ -734,18 +800,20 @@ for that account.  Currently, AWS Config supports only one retention configurati
 region in your account.
 
 # Optional Parameters
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `RetentionConfigurationNames`: A list of names of retention configurations for which you
-  want details. If you do not specify a name, AWS Config returns details for all the
+- `"RetentionConfigurationNames"`: A list of names of retention configurations for which
+  you want details. If you do not specify a name, AWS Config returns details for all the
   retention configurations for that account.  Currently, AWS Config supports only one
   retention configuration per region in your account.
 """
 describe_retention_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRetentionConfigurations"; aws_config=aws_config)
-describe_retention_configurations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRetentionConfigurations", args; aws_config=aws_config)
+describe_retention_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeRetentionConfigurations", params; aws_config=aws_config)
 
 """
-    GetAggregateComplianceDetailsByConfigRule()
+    get_aggregate_compliance_details_by_config_rule(account_id, aws_region, config_rule_name, configuration_aggregator_name)
+    get_aggregate_compliance_details_by_config_rule(account_id, aws_region, config_rule_name, configuration_aggregator_name, params::Dict{String,<:Any})
 
 Returns the evaluation results for the specified AWS Config rule for a specific resource in
 a rule. The results indicate which AWS resources were evaluated by the rule, when each
@@ -753,51 +821,55 @@ resource was last evaluated, and whether each resource complies with the rule.  
 results can return an empty result page. But if you have a nextToken, the results are
 displayed on the next page.
 
-# Required Parameters
-- `AccountId`: The 12-digit account ID of the source account.
-- `AwsRegion`: The source region from where the data is aggregated.
-- `ConfigRuleName`: The name of the AWS Config rule for which you want compliance
+# Arguments
+- `account_id`: The 12-digit account ID of the source account.
+- `aws_region`: The source region from where the data is aggregated.
+- `config_rule_name`: The name of the AWS Config rule for which you want compliance
   information.
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `ComplianceType`: The resource compliance status.  For the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComplianceType"`: The resource compliance status.  For the
   GetAggregateComplianceDetailsByConfigRuleRequest data type, AWS Config supports only the
   COMPLIANT and NON_COMPLIANT. AWS Config does not support the NOT_APPLICABLE and
   INSUFFICIENT_DATA values.
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   50. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_aggregate_compliance_details_by_config_rule(AccountId, AwsRegion, ConfigRuleName, ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateComplianceDetailsByConfigRule", Dict{String, Any}("AccountId"=>AccountId, "AwsRegion"=>AwsRegion, "ConfigRuleName"=>ConfigRuleName, "ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-get_aggregate_compliance_details_by_config_rule(AccountId, AwsRegion, ConfigRuleName, ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "AwsRegion"=>AwsRegion, "ConfigRuleName"=>ConfigRuleName, "ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+get_aggregate_compliance_details_by_config_rule(AccountId, AwsRegion, ConfigRuleName, ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "AwsRegion"=>AwsRegion, "ConfigRuleName"=>ConfigRuleName, "ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    GetAggregateConfigRuleComplianceSummary()
+    get_aggregate_config_rule_compliance_summary(configuration_aggregator_name)
+    get_aggregate_config_rule_compliance_summary(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Returns the number of compliant and noncompliant rules for one or more accounts and regions
 in an aggregator.  The results can return an empty result page, but if you have a
 nextToken, the results are displayed on the next page.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `Filters`: Filters the results based on the ConfigRuleComplianceSummaryFilters object.
-- `GroupByKey`: Groups the result based on ACCOUNT_ID or AWS_REGION.
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results based on the ConfigRuleComplianceSummaryFilters object.
+- `"GroupByKey"`: Groups the result based on ACCOUNT_ID or AWS_REGION.
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   1000. You cannot specify a number greater than 1000. If you specify 0, AWS Config uses the
   default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    GetAggregateDiscoveredResourceCounts()
+    get_aggregate_discovered_resource_counts(configuration_aggregator_name)
+    get_aggregate_discovered_resource_counts(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Returns the resource counts across accounts and regions that are present in your AWS Config
 aggregator. You can request the resource counts by providing filters and GroupByKey. For
@@ -806,142 +878,156 @@ API returns the count of resources in account ID 12345678910 and region us-east-
 input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source
 accounts that are present in your aggregator.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `Filters`: Filters the results based on the ResourceCountFilters object.
-- `GroupByKey`: The key to group the resource counts.
-- `Limit`: The maximum number of GroupedResourceCount objects returned on each page. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results based on the ResourceCountFilters object.
+- `"GroupByKey"`: The key to group the resource counts.
+- `"Limit"`: The maximum number of GroupedResourceCount objects returned on each page. The
   default is 1000. You cannot specify a number greater than 1000. If you specify 0, AWS
   Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_aggregate_discovered_resource_counts(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateDiscoveredResourceCounts", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-get_aggregate_discovered_resource_counts(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateDiscoveredResourceCounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+get_aggregate_discovered_resource_counts(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateDiscoveredResourceCounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    GetAggregateResourceConfig()
+    get_aggregate_resource_config(configuration_aggregator_name, resource_identifier)
+    get_aggregate_resource_config(configuration_aggregator_name, resource_identifier, params::Dict{String,<:Any})
 
 Returns configuration item that is aggregated for your specific resource in a specific
 source account and region.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
-- `ResourceIdentifier`: An object that identifies aggregate resource.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+- `resource_identifier`: An object that identifies aggregate resource.
 
 """
 get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateResourceConfig", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifier"=>ResourceIdentifier); aws_config=aws_config)
-get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifier"=>ResourceIdentifier), args)); aws_config=aws_config)
+get_aggregate_resource_config(ConfigurationAggregatorName, ResourceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config)
 
 """
-    GetComplianceDetailsByConfigRule()
+    get_compliance_details_by_config_rule(config_rule_name)
+    get_compliance_details_by_config_rule(config_rule_name, params::Dict{String,<:Any})
 
 Returns the evaluation results for the specified AWS Config rule. The results indicate
 which AWS resources were evaluated by the rule, when each resource was last evaluated, and
 whether each resource complies with the rule.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule for which you want compliance
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule for which you want compliance
   information.
 
 # Optional Parameters
-- `ComplianceTypes`: Filters the results by compliance. The allowed values are COMPLIANT,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
   NON_COMPLIANT, and NOT_APPLICABLE.
-- `Limit`: The maximum number of evaluation results returned on each page. The default is
+- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_compliance_details_by_config_rule(ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByConfigRule", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName); aws_config=aws_config)
-get_compliance_details_by_config_rule(ConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), args)); aws_config=aws_config)
+get_compliance_details_by_config_rule(ConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName), params)); aws_config=aws_config)
 
 """
-    GetComplianceDetailsByResource()
+    get_compliance_details_by_resource(resource_id, resource_type)
+    get_compliance_details_by_resource(resource_id, resource_type, params::Dict{String,<:Any})
 
 Returns the evaluation results for the specified AWS resource. The results indicate which
 AWS Config rules were used to evaluate the resource, when each rule was last used, and
 whether the resource complies with each rule.
 
-# Required Parameters
-- `ResourceId`: The ID of the AWS resource for which you want compliance information.
-- `ResourceType`: The type of the AWS resource for which you want compliance information.
+# Arguments
+- `resource_id`: The ID of the AWS resource for which you want compliance information.
+- `resource_type`: The type of the AWS resource for which you want compliance information.
 
 # Optional Parameters
-- `ComplianceTypes`: Filters the results by compliance. The allowed values are COMPLIANT,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
   NON_COMPLIANT, and NOT_APPLICABLE.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_compliance_details_by_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByResource", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
-get_compliance_details_by_resource(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws_config=aws_config)
+get_compliance_details_by_resource(ResourceId, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceDetailsByResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
-    GetComplianceSummaryByConfigRule()
+    get_compliance_summary_by_config_rule()
+    get_compliance_summary_by_config_rule(params::Dict{String,<:Any})
 
 Returns the number of AWS Config rules that are compliant and noncompliant, up to a maximum
 of 25 for each.
 
 """
 get_compliance_summary_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByConfigRule"; aws_config=aws_config)
-get_compliance_summary_by_config_rule(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByConfigRule", args; aws_config=aws_config)
+get_compliance_summary_by_config_rule(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByConfigRule", params; aws_config=aws_config)
 
 """
-    GetComplianceSummaryByResourceType()
+    get_compliance_summary_by_resource_type()
+    get_compliance_summary_by_resource_type(params::Dict{String,<:Any})
 
 Returns the number of resources that are compliant and the number that are noncompliant.
 You can specify one or more resource types to get these numbers for each resource type. The
 maximum number returned is 100.
 
 # Optional Parameters
-- `ResourceTypes`: Specify one or more resource types to get the number of resources that
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceTypes"`: Specify one or more resource types to get the number of resources that
   are compliant and the number that are noncompliant for each resource type. For this
   request, you can specify an AWS resource type such as AWS::EC2::Instance. You can specify
   that the resource type is an AWS account by specifying AWS::::Account.
 """
 get_compliance_summary_by_resource_type(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByResourceType"; aws_config=aws_config)
-get_compliance_summary_by_resource_type(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByResourceType", args; aws_config=aws_config)
+get_compliance_summary_by_resource_type(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetComplianceSummaryByResourceType", params; aws_config=aws_config)
 
 """
-    GetConformancePackComplianceDetails()
+    get_conformance_pack_compliance_details(conformance_pack_name)
+    get_conformance_pack_compliance_details(conformance_pack_name, params::Dict{String,<:Any})
 
 Returns compliance details of a conformance pack for all AWS resources that are monitered
 by conformance pack.
 
-# Required Parameters
-- `ConformancePackName`: Name of the conformance pack.
+# Arguments
+- `conformance_pack_name`: Name of the conformance pack.
 
 # Optional Parameters
-- `Filters`: A ConformancePackEvaluationFilters object.
-- `Limit`: The maximum number of evaluation results returned on each page. If you do no
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A ConformancePackEvaluationFilters object.
+- `"Limit"`: The maximum number of evaluation results returned on each page. If you do no
   specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 get_conformance_pack_compliance_details(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceDetails", Dict{String, Any}("ConformancePackName"=>ConformancePackName); aws_config=aws_config)
-get_conformance_pack_compliance_details(ConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), args)); aws_config=aws_config)
+get_conformance_pack_compliance_details(ConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config)
 
 """
-    GetConformancePackComplianceSummary()
+    get_conformance_pack_compliance_summary(conformance_pack_names)
+    get_conformance_pack_compliance_summary(conformance_pack_names, params::Dict{String,<:Any})
 
 Returns compliance details for the conformance pack based on the cumulative compliance
 results of all the rules in that conformance pack.
 
-# Required Parameters
-- `ConformancePackNames`: Names of conformance packs.
+# Arguments
+- `conformance_pack_names`: Names of conformance packs.
 
 # Optional Parameters
-- `Limit`: The maximum number of conformance packs returned on each page.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of conformance packs returned on each page.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_conformance_pack_compliance_summary(ConformancePackNames; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceSummary", Dict{String, Any}("ConformancePackNames"=>ConformancePackNames); aws_config=aws_config)
-get_conformance_pack_compliance_summary(ConformancePackNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackNames"=>ConformancePackNames), args)); aws_config=aws_config)
+get_conformance_pack_compliance_summary(ConformancePackNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetConformancePackComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackNames"=>ConformancePackNames), params)); aws_config=aws_config)
 
 """
-    GetDiscoveredResourceCounts()
+    get_discovered_resource_counts()
+    get_discovered_resource_counts(params::Dict{String,<:Any})
 
 Returns the resource types, the number of each resource type, and the total number of
 resources that AWS Config is recording in this region for your AWS account.   Example
@@ -960,64 +1046,70 @@ recording.   It might take a few minutes for AWS Config to record and count your
 Wait a few minutes and then retry the GetDiscoveredResourceCounts action.
 
 # Optional Parameters
-- `limit`: The maximum number of ResourceCount objects returned on each page. The default
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of ResourceCount objects returned on each page. The default
   is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `nextToken`: The nextToken string returned on a previous page that you use to get the
+- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `resourceTypes`: The comma-separated list that specifies the resource types that you want
-  AWS Config to return (for example, \"AWS::EC2::Instance\", \"AWS::IAM::User\"). If a value
-  for resourceTypes is not specified, AWS Config returns all resource types that AWS Config
-  is recording in the region for your account.  If the configuration recorder is turned off,
-  AWS Config returns an empty list of ResourceCount objects. If the configuration recorder is
-  not recording a specific resource type (for example, S3 buckets), that resource type is not
-  returned in the list of ResourceCount objects.
+- `"resourceTypes"`: The comma-separated list that specifies the resource types that you
+  want AWS Config to return (for example, \"AWS::EC2::Instance\", \"AWS::IAM::User\"). If a
+  value for resourceTypes is not specified, AWS Config returns all resource types that AWS
+  Config is recording in the region for your account.  If the configuration recorder is
+  turned off, AWS Config returns an empty list of ResourceCount objects. If the configuration
+  recorder is not recording a specific resource type (for example, S3 buckets), that resource
+  type is not returned in the list of ResourceCount objects.
 """
 get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetDiscoveredResourceCounts"; aws_config=aws_config)
-get_discovered_resource_counts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetDiscoveredResourceCounts", args; aws_config=aws_config)
+get_discovered_resource_counts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetDiscoveredResourceCounts", params; aws_config=aws_config)
 
 """
-    GetOrganizationConfigRuleDetailedStatus()
+    get_organization_config_rule_detailed_status(organization_config_rule_name)
+    get_organization_config_rule_detailed_status(organization_config_rule_name, params::Dict{String,<:Any})
 
 Returns detailed status for each member account within an organization for a given
 organization config rule.
 
-# Required Parameters
-- `OrganizationConfigRuleName`: The name of organization config rule for which you want
+# Arguments
+- `organization_config_rule_name`: The name of organization config rule for which you want
   status details for member accounts.
 
 # Optional Parameters
-- `Filters`: A StatusDetailFilters object.
-- `Limit`: The maximum number of OrganizationConfigRuleDetailedStatus returned on each
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A StatusDetailFilters object.
+- `"Limit"`: The maximum number of OrganizationConfigRuleDetailedStatus returned on each
   page. If you do not specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_organization_config_rule_detailed_status(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConfigRuleDetailedStatus", Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName); aws_config=aws_config)
-get_organization_config_rule_detailed_status(OrganizationConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConfigRuleDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), args)); aws_config=aws_config)
+get_organization_config_rule_detailed_status(OrganizationConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConfigRuleDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config)
 
 """
-    GetOrganizationConformancePackDetailedStatus()
+    get_organization_conformance_pack_detailed_status(organization_conformance_pack_name)
+    get_organization_conformance_pack_detailed_status(organization_conformance_pack_name, params::Dict{String,<:Any})
 
 Returns detailed status for each member account within an organization for a given
 organization conformance pack.
 
-# Required Parameters
-- `OrganizationConformancePackName`: The name of organization conformance pack for which
+# Arguments
+- `organization_conformance_pack_name`: The name of organization conformance pack for which
   you want status details for member accounts.
 
 # Optional Parameters
-- `Filters`: An OrganizationResourceDetailedStatusFilters object.
-- `Limit`: The maximum number of OrganizationConformancePackDetailedStatuses returned on
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: An OrganizationResourceDetailedStatusFilters object.
+- `"Limit"`: The maximum number of OrganizationConformancePackDetailedStatuses returned on
   each page. If you do not specify a number, AWS Config uses the default. The default is 100.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_organization_conformance_pack_detailed_status(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConformancePackDetailedStatus", Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName); aws_config=aws_config)
-get_organization_conformance_pack_detailed_status(OrganizationConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConformancePackDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), args)); aws_config=aws_config)
+get_organization_conformance_pack_detailed_status(OrganizationConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetOrganizationConformancePackDetailedStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config)
 
 """
-    GetResourceConfigHistory()
+    get_resource_config_history(resource_id, resource_type)
+    get_resource_config_history(resource_id, resource_type, params::Dict{String,<:Any})
 
 Returns a list of configuration items for the specified resource. The list contains details
 about each state of the resource during the specified time interval. If you specified a
@@ -1031,41 +1123,44 @@ to span a duration of seven days. It is likely that the number of records return
 smaller than the specified limit. In such cases, you can make another call, using the
 nextToken.
 
-# Required Parameters
-- `resourceId`: The ID of the resource (for example., sg-xxxxxx).
-- `resourceType`: The resource type.
+# Arguments
+- `resource_id`: The ID of the resource (for example., sg-xxxxxx).
+- `resource_type`: The resource type.
 
 # Optional Parameters
-- `chronologicalOrder`: The chronological order for configuration items listed. By default,
-  the results are listed in reverse chronological order.
-- `earlierTime`: The time stamp that indicates an earlier time. If not specified, the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"chronologicalOrder"`: The chronological order for configuration items listed. By
+  default, the results are listed in reverse chronological order.
+- `"earlierTime"`: The time stamp that indicates an earlier time. If not specified, the
   action returns paginated results that contain configuration items that start when the first
   configuration item was recorded.
-- `laterTime`: The time stamp that indicates a later time. If not specified, current time
+- `"laterTime"`: The time stamp that indicates a later time. If not specified, current time
   is taken.
-- `limit`: The maximum number of configuration items returned on each page. The default is
-  10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
+- `"limit"`: The maximum number of configuration items returned on each page. The default
+  is 10. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `nextToken`: The nextToken string returned on a previous page that you use to get the
+- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 get_resource_config_history(resourceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetResourceConfigHistory", Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType); aws_config=aws_config)
-get_resource_config_history(resourceId, resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetResourceConfigHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType), args)); aws_config=aws_config)
+get_resource_config_history(resourceId, resourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetResourceConfigHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId, "resourceType"=>resourceType), params)); aws_config=aws_config)
 
 """
-    GetStoredQuery()
+    get_stored_query(query_name)
+    get_stored_query(query_name, params::Dict{String,<:Any})
 
 Returns the details of a specific stored query.
 
-# Required Parameters
-- `QueryName`: The name of the query.
+# Arguments
+- `query_name`: The name of the query.
 
 """
 get_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetStoredQuery", Dict{String, Any}("QueryName"=>QueryName); aws_config=aws_config)
-get_stored_query(QueryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), args)); aws_config=aws_config)
+get_stored_query(QueryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryName"=>QueryName), params)); aws_config=aws_config)
 
 """
-    ListAggregateDiscoveredResources()
+    list_aggregate_discovered_resources(configuration_aggregator_name, resource_type)
+    list_aggregate_discovered_resources(configuration_aggregator_name, resource_type, params::Dict{String,<:Any})
 
 Accepts a resource type and returns a list of resource identifiers that are aggregated for
 a specific resource type across accounts and regions. A resource identifier includes the
@@ -1076,22 +1171,24 @@ consists of accountID 12345678910 and the region is us-east-1 for resource type
 AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID
 12345678910 and region us-east-1.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
-- `ResourceType`: The type of resources that you want AWS Config to list in the response.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+- `resource_type`: The type of resources that you want AWS Config to list in the response.
 
 # Optional Parameters
-- `Filters`: Filters the results based on the ResourceFilters object.
-- `Limit`: The maximum number of resource identifiers returned on each page. You cannot
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results based on the ResourceFilters object.
+- `"Limit"`: The maximum number of resource identifiers returned on each page. You cannot
   specify a number greater than 100. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 list_aggregate_discovered_resources(ConfigurationAggregatorName, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListAggregateDiscoveredResources", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceType"=>ResourceType); aws_config=aws_config)
-list_aggregate_discovered_resources(ConfigurationAggregatorName, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListAggregateDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceType"=>ResourceType), args)); aws_config=aws_config)
+list_aggregate_discovered_resources(ConfigurationAggregatorName, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListAggregateDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
-    ListDiscoveredResources()
+    list_discovered_resources(resource_type)
+    list_discovered_resources(resource_type, params::Dict{String,<:Any})
 
 Accepts a resource type and returns a list of resource identifiers for the resources of
 that type. A resource identifier includes the resource type, ID, and (if available) the
@@ -1104,79 +1201,87 @@ customize this number with the limit parameter. The response includes a nextToke
 To get the next page of results, run the request again and specify the string for the
 nextToken parameter.
 
-# Required Parameters
-- `resourceType`: The type of resources that you want AWS Config to list in the response.
+# Arguments
+- `resource_type`: The type of resources that you want AWS Config to list in the response.
 
 # Optional Parameters
-- `includeDeletedResources`: Specifies whether AWS Config includes deleted resources in the
-  results. By default, deleted resources are not included.
-- `limit`: The maximum number of resource identifiers returned on each page. The default is
-  100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includeDeletedResources"`: Specifies whether AWS Config includes deleted resources in
+  the results. By default, deleted resources are not included.
+- `"limit"`: The maximum number of resource identifiers returned on each page. The default
+  is 100. You cannot specify a number greater than 100. If you specify 0, AWS Config uses the
   default.
-- `nextToken`: The nextToken string returned on a previous page that you use to get the
+- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `resourceIds`: The IDs of only those resources that you want AWS Config to list in the
+- `"resourceIds"`: The IDs of only those resources that you want AWS Config to list in the
   response. If you do not specify this parameter, AWS Config lists all resources of the
   specified type that it has discovered.
-- `resourceName`: The custom name of only those resources that you want AWS Config to list
-  in the response. If you do not specify this parameter, AWS Config lists all resources of
-  the specified type that it has discovered.
+- `"resourceName"`: The custom name of only those resources that you want AWS Config to
+  list in the response. If you do not specify this parameter, AWS Config lists all resources
+  of the specified type that it has discovered.
 """
 list_discovered_resources(resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListDiscoveredResources", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
-list_discovered_resources(resourceType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), args)); aws_config=aws_config)
+list_discovered_resources(resourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListDiscoveredResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config)
 
 """
-    ListStoredQueries()
+    list_stored_queries()
+    list_stored_queries(params::Dict{String,<:Any})
 
 Lists the stored queries for a single AWS account and a single AWS Region. The default is
 100.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results to be returned with a single call.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to be returned with a single call.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListStoredQueries"; aws_config=aws_config)
-list_stored_queries(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListStoredQueries", args; aws_config=aws_config)
+list_stored_queries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListStoredQueries", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 List the tags for AWS Config resource.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
   list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator
   and AggregatorAuthorization.
 
 # Optional Parameters
-- `Limit`: The maximum number of tags returned on each page. The limit maximum is 50. You
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of tags returned on each page. The limit maximum is 50. You
   cannot specify a number greater than 50. If you specify 0, AWS Config uses the default.
-- `NextToken`: The nextToken string returned on a previous page that you use to get the
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    PutAggregationAuthorization()
+    put_aggregation_authorization(authorized_account_id, authorized_aws_region)
+    put_aggregation_authorization(authorized_account_id, authorized_aws_region, params::Dict{String,<:Any})
 
 Authorizes the aggregator account and region to collect data from the source account and
 region.
 
-# Required Parameters
-- `AuthorizedAccountId`: The 12-digit account ID of the account authorized to aggregate
+# Arguments
+- `authorized_account_id`: The 12-digit account ID of the account authorized to aggregate
   data.
-- `AuthorizedAwsRegion`: The region authorized to collect aggregated data.
+- `authorized_aws_region`: The region authorized to collect aggregated data.
 
 # Optional Parameters
-- `Tags`: An array of tag object.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: An array of tag object.
 """
 put_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutAggregationAuthorization", Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion); aws_config=aws_config)
-put_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), args)); aws_config=aws_config)
+put_aggregation_authorization(AuthorizedAccountId, AuthorizedAwsRegion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutAggregationAuthorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizedAccountId"=>AuthorizedAccountId, "AuthorizedAwsRegion"=>AuthorizedAwsRegion), params)); aws_config=aws_config)
 
 """
-    PutConfigRule()
+    put_config_rule(config_rule)
+    put_config_rule(config_rule, params::Dict{String,<:Any})
 
 Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with
 your desired configurations. You can use this action for custom AWS Config rules and AWS
@@ -1198,17 +1303,19 @@ about requesting a rule limit increase, see AWS Config Limits in the AWS General
 Guide. For more information about developing and using AWS Config rules, see Evaluating AWS
 Resource Configurations with AWS Config in the AWS Config Developer Guide.
 
-# Required Parameters
-- `ConfigRule`: The rule that you want to add to your account.
+# Arguments
+- `config_rule`: The rule that you want to add to your account.
 
 # Optional Parameters
-- `Tags`: An array of tag object.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: An array of tag object.
 """
 put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigRule", Dict{String, Any}("ConfigRule"=>ConfigRule); aws_config=aws_config)
-put_config_rule(ConfigRule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRule"=>ConfigRule), args)); aws_config=aws_config)
+put_config_rule(ConfigRule, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRule"=>ConfigRule), params)); aws_config=aws_config)
 
 """
-    PutConfigurationAggregator()
+    put_configuration_aggregator(configuration_aggregator_name)
+    put_configuration_aggregator(configuration_aggregator_name, params::Dict{String,<:Any})
 
 Creates and updates the configuration aggregator with the selected source accounts and
 regions. The source account can be individual account(s) or an organization.  accountIds
@@ -1224,19 +1331,21 @@ ListDelegatedAdministrators API to verify whether the caller is a valid delegate
 administrator. To register a delegated administrator, see Register a Delegated
 Administrator in the AWS Config developer guide.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-- `AccountAggregationSources`: A list of AccountAggregationSource object.
-- `OrganizationAggregationSource`: An OrganizationAggregationSource object.
-- `Tags`: An array of tag object.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountAggregationSources"`: A list of AccountAggregationSource object.
+- `"OrganizationAggregationSource"`: An OrganizationAggregationSource object.
+- `"Tags"`: An array of tag object.
 """
 put_configuration_aggregator(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationAggregator", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
-put_configuration_aggregator(ConfigurationAggregatorName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), args)); aws_config=aws_config)
+put_configuration_aggregator(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationAggregator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
-    PutConfigurationRecorder()
+    put_configuration_recorder(configuration_recorder)
+    put_configuration_recorder(configuration_recorder, params::Dict{String,<:Any})
 
 Creates a new configuration recorder to record the selected resource configurations. You
 can use this action to change the role roleARN or the recordingGroup of an existing
@@ -1245,16 +1354,17 @@ specify a role.  Currently, you can specify only one configuration recorder per 
 your account. If ConfigurationRecorder does not have the recordingGroup parameter
 specified, the default is to record all supported resource types.
 
-# Required Parameters
-- `ConfigurationRecorder`: The configuration recorder object that records each
+# Arguments
+- `configuration_recorder`: The configuration recorder object that records each
   configuration change made to the resources.
 
 """
 put_configuration_recorder(ConfigurationRecorder; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationRecorder", Dict{String, Any}("ConfigurationRecorder"=>ConfigurationRecorder); aws_config=aws_config)
-put_configuration_recorder(ConfigurationRecorder, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorder"=>ConfigurationRecorder), args)); aws_config=aws_config)
+put_configuration_recorder(ConfigurationRecorder, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorder"=>ConfigurationRecorder), params)); aws_config=aws_config)
 
 """
-    PutConformancePack()
+    put_conformance_pack(conformance_pack_name)
+    put_conformance_pack(conformance_pack_name, params::Dict{String,<:Any})
 
 Creates or updates a conformance pack. A conformance pack is a collection of AWS Config
 rules that can be easily deployed in an account and a region and across AWS Organization.
@@ -1264,28 +1374,30 @@ must specify either the TemplateS3Uri or the TemplateBody parameter, but not bot
 provide both AWS Config uses the TemplateS3Uri parameter and ignores the TemplateBody
 parameter.
 
-# Required Parameters
-- `ConformancePackName`: Name of the conformance pack you want to create.
+# Arguments
+- `conformance_pack_name`: Name of the conformance pack you want to create.
 
 # Optional Parameters
-- `ConformancePackInputParameters`: A list of ConformancePackInputParameter objects.
-- `DeliveryS3Bucket`: Amazon S3 bucket where AWS Config stores conformance pack templates.
-  This field is optional.
-- `DeliveryS3KeyPrefix`: The prefix for the Amazon S3 bucket.   This field is optional.
-- `TemplateBody`: A string containing full conformance pack template body. Structure
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConformancePackInputParameters"`: A list of ConformancePackInputParameter objects.
+- `"DeliveryS3Bucket"`: Amazon S3 bucket where AWS Config stores conformance pack
+  templates.  This field is optional.
+- `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.   This field is optional.
+- `"TemplateBody"`: A string containing full conformance pack template body. Structure
   containing the template body with a minimum length of 1 byte and a maximum length of 51,200
   bytes.  You can only use a YAML template with one resource type, that is, config rule and a
   remediation action.
-- `TemplateS3Uri`: Location of file containing the template body (s3://bucketname/prefix).
-  The uri must point to the conformance pack template (max size: 300 KB) that is located in
-  an Amazon S3 bucket in the same region as the conformance pack.   You must have access to
-  read Amazon S3 bucket.
+- `"TemplateS3Uri"`: Location of file containing the template body
+  (s3://bucketname/prefix). The uri must point to the conformance pack template (max size:
+  300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
+   You must have access to read Amazon S3 bucket.
 """
 put_conformance_pack(ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConformancePack", Dict{String, Any}("ConformancePackName"=>ConformancePackName); aws_config=aws_config)
-put_conformance_pack(ConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), args)); aws_config=aws_config)
+put_conformance_pack(ConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConformancePackName"=>ConformancePackName), params)); aws_config=aws_config)
 
 """
-    PutDeliveryChannel()
+    put_delivery_channel(delivery_channel)
+    put_delivery_channel(delivery_channel, params::Dict{String,<:Any})
 
 Creates a delivery channel object to deliver configuration information to an Amazon S3
 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a
@@ -1296,53 +1408,58 @@ If you specify a different value for either the S3 bucket or the SNS topic, this
 will keep the existing value for the parameter that is not changed.  You can have only one
 delivery channel per region in your account.
 
-# Required Parameters
-- `DeliveryChannel`: The configuration delivery channel object that delivers the
+# Arguments
+- `delivery_channel`: The configuration delivery channel object that delivers the
   configuration information to an Amazon S3 bucket and to an Amazon SNS topic.
 
 """
 put_delivery_channel(DeliveryChannel; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutDeliveryChannel", Dict{String, Any}("DeliveryChannel"=>DeliveryChannel); aws_config=aws_config)
-put_delivery_channel(DeliveryChannel, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannel"=>DeliveryChannel), args)); aws_config=aws_config)
+put_delivery_channel(DeliveryChannel, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutDeliveryChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeliveryChannel"=>DeliveryChannel), params)); aws_config=aws_config)
 
 """
-    PutEvaluations()
+    put_evaluations(result_token)
+    put_evaluations(result_token, params::Dict{String,<:Any})
 
 Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is
 required in every AWS Lambda function that is invoked by an AWS Config rule.
 
-# Required Parameters
-- `ResultToken`: An encrypted token that associates an evaluation with an AWS Config rule.
+# Arguments
+- `result_token`: An encrypted token that associates an evaluation with an AWS Config rule.
   Identifies the rule and the event that triggered the evaluation.
 
 # Optional Parameters
-- `Evaluations`: The assessments that the AWS Lambda function performs. Each evaluation
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Evaluations"`: The assessments that the AWS Lambda function performs. Each evaluation
   identifies an AWS resource and indicates whether it complies with the AWS Config rule that
   invokes the AWS Lambda function.
-- `TestMode`: Use this parameter to specify a test run for PutEvaluations. You can verify
+- `"TestMode"`: Use this parameter to specify a test run for PutEvaluations. You can verify
   whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates
   occur to your existing evaluations, and evaluation results are not sent to AWS Config.
   When TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken
   parameter, but the value cannot be null.
 """
 put_evaluations(ResultToken; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutEvaluations", Dict{String, Any}("ResultToken"=>ResultToken); aws_config=aws_config)
-put_evaluations(ResultToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutEvaluations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResultToken"=>ResultToken), args)); aws_config=aws_config)
+put_evaluations(ResultToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutEvaluations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResultToken"=>ResultToken), params)); aws_config=aws_config)
 
 """
-    PutExternalEvaluation()
+    put_external_evaluation(config_rule_name, external_evaluation)
+    put_external_evaluation(config_rule_name, external_evaluation, params::Dict{String,<:Any})
 
 Add or updates the evaluations for process checks. This API checks if the rule is a process
 check when the name of the AWS Config rule is provided.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule.
-- `ExternalEvaluation`: An ExternalEvaluation object that provides details about compliance.
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule.
+- `external_evaluation`: An ExternalEvaluation object that provides details about
+  compliance.
 
 """
 put_external_evaluation(ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutExternalEvaluation", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation); aws_config=aws_config)
-put_external_evaluation(ConfigRuleName, ExternalEvaluation, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutExternalEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation), args)); aws_config=aws_config)
+put_external_evaluation(ConfigRuleName, ExternalEvaluation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutExternalEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ExternalEvaluation"=>ExternalEvaluation), params)); aws_config=aws_config)
 
 """
-    PutOrganizationConfigRule()
+    put_organization_config_rule(organization_config_rule_name)
+    put_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
 
 Adds or updates organization config rule for your entire organization evaluating whether
 your AWS resources comply with your desired configurations.  Only a master account and a
@@ -1367,20 +1484,22 @@ administrator per organization.   Prerequisite: Ensure you call EnableAllFeature
 enable all features in an organization. Specify either OrganizationCustomRuleMetadata or
 OrganizationManagedRuleMetadata.
 
-# Required Parameters
-- `OrganizationConfigRuleName`: The name that you assign to an organization config rule.
+# Arguments
+- `organization_config_rule_name`: The name that you assign to an organization config rule.
 
 # Optional Parameters
-- `ExcludedAccounts`: A comma-separated list of accounts that you want to exclude from an
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExcludedAccounts"`: A comma-separated list of accounts that you want to exclude from an
   organization config rule.
-- `OrganizationCustomRuleMetadata`: An OrganizationCustomRuleMetadata object.
-- `OrganizationManagedRuleMetadata`: An OrganizationManagedRuleMetadata object.
+- `"OrganizationCustomRuleMetadata"`: An OrganizationCustomRuleMetadata object.
+- `"OrganizationManagedRuleMetadata"`: An OrganizationManagedRuleMetadata object.
 """
 put_organization_config_rule(OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConfigRule", Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName); aws_config=aws_config)
-put_organization_config_rule(OrganizationConfigRuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), args)); aws_config=aws_config)
+put_organization_config_rule(OrganizationConfigRuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConfigRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConfigRuleName"=>OrganizationConfigRuleName), params)); aws_config=aws_config)
 
 """
-    PutOrganizationConformancePack()
+    put_organization_conformance_pack(organization_conformance_pack_name)
+    put_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
 
 Deploys conformance packs across member accounts in an AWS Organization. Only a master
 account and a delegated administrator can call this API. When calling this API with a
@@ -1400,29 +1519,31 @@ until the conformance pack is created or updated. You cannot update a conformanc
 while it is in this state. You can create 6 conformance packs with 25 AWS Config rules in
 each pack and 3 delegated administrator per organization.
 
-# Required Parameters
-- `OrganizationConformancePackName`: Name of the organization conformance pack you want to
-  create.
+# Arguments
+- `organization_conformance_pack_name`: Name of the organization conformance pack you want
+  to create.
 
 # Optional Parameters
-- `ConformancePackInputParameters`: A list of ConformancePackInputParameter objects.
-- `DeliveryS3Bucket`: Amazon S3 bucket where AWS Config stores conformance pack templates.
-  This field is optional.
-- `DeliveryS3KeyPrefix`: The prefix for the Amazon S3 bucket.  This field is optional.
-- `ExcludedAccounts`: A list of AWS accounts to be excluded from an organization
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConformancePackInputParameters"`: A list of ConformancePackInputParameter objects.
+- `"DeliveryS3Bucket"`: Amazon S3 bucket where AWS Config stores conformance pack
+  templates.  This field is optional.
+- `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.  This field is optional.
+- `"ExcludedAccounts"`: A list of AWS accounts to be excluded from an organization
   conformance pack while deploying a conformance pack.
-- `TemplateBody`: A string containing full conformance pack template body. Structure
+- `"TemplateBody"`: A string containing full conformance pack template body. Structure
   containing the template body with a minimum length of 1 byte and a maximum length of 51,200
   bytes.
-- `TemplateS3Uri`: Location of file containing the template body. The uri must point to the
-  conformance pack template (max size: 300 KB).  You must have access to read Amazon S3
+- `"TemplateS3Uri"`: Location of file containing the template body. The uri must point to
+  the conformance pack template (max size: 300 KB).  You must have access to read Amazon S3
   bucket.
 """
 put_organization_conformance_pack(OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConformancePack", Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName); aws_config=aws_config)
-put_organization_conformance_pack(OrganizationConformancePackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), args)); aws_config=aws_config)
+put_organization_conformance_pack(OrganizationConformancePackName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutOrganizationConformancePack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationConformancePackName"=>OrganizationConformancePackName), params)); aws_config=aws_config)
 
 """
-    PutRemediationConfigurations()
+    put_remediation_configurations(remediation_configurations)
+    put_remediation_configurations(remediation_configurations, params::Dict{String,<:Any})
 
 Adds or updates the remediation configuration with a specific AWS Config rule with the
 selected target or action. The API creates the RemediationConfiguration object for the AWS
@@ -1433,15 +1554,16 @@ to ensure the remediations can run. This API does not support adding remediation
 configurations for service-linked AWS Config Rules such as Organization Config rules, the
 rules deployed by conformance packs, and rules deployed by AWS Security Hub.
 
-# Required Parameters
-- `RemediationConfigurations`: A list of remediation configuration objects.
+# Arguments
+- `remediation_configurations`: A list of remediation configuration objects.
 
 """
 put_remediation_configurations(RemediationConfigurations; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationConfigurations", Dict{String, Any}("RemediationConfigurations"=>RemediationConfigurations); aws_config=aws_config)
-put_remediation_configurations(RemediationConfigurations, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemediationConfigurations"=>RemediationConfigurations), args)); aws_config=aws_config)
+put_remediation_configurations(RemediationConfigurations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemediationConfigurations"=>RemediationConfigurations), params)); aws_config=aws_config)
 
 """
-    PutRemediationExceptions()
+    put_remediation_exceptions(config_rule_name, resource_keys)
+    put_remediation_exceptions(config_rule_name, resource_keys, params::Dict{String,<:Any})
 
 A remediation exception is when a specific resource is no longer considered for
 auto-remediation. This API adds a new exception or updates an existing exception for a
@@ -1449,22 +1571,24 @@ specific resource with a specific AWS Config rule.   AWS Config generates a reme
 exception when a problem occurs executing a remediation action to a specific resource.
 Remediation exceptions blocks auto-remediation until the exception is cleared.
 
-# Required Parameters
-- `ConfigRuleName`: The name of the AWS Config rule for which you want to create
+# Arguments
+- `config_rule_name`: The name of the AWS Config rule for which you want to create
   remediation exception.
-- `ResourceKeys`: An exception list of resource exception keys to be processed with the
+- `resource_keys`: An exception list of resource exception keys to be processed with the
   current request. AWS Config adds exception for each resource key. For example, AWS Config
   adds 3 exceptions for 3 resource keys.
 
 # Optional Parameters
-- `ExpirationTime`: The exception is automatically deleted after the expiration date.
-- `Message`: The message contains an explanation of the exception.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationTime"`: The exception is automatically deleted after the expiration date.
+- `"Message"`: The message contains an explanation of the exception.
 """
 put_remediation_exceptions(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationExceptions", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys); aws_config=aws_config)
-put_remediation_exceptions(ConfigRuleName, ResourceKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), args)); aws_config=aws_config)
+put_remediation_exceptions(ConfigRuleName, ResourceKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRemediationExceptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config)
 
 """
-    PutResourceConfig()
+    put_resource_config(configuration, resource_id, resource_type, schema_version_id)
+    put_resource_config(configuration, resource_id, resource_type, schema_version_id, params::Dict{String,<:Any})
 
 Records the configuration state for the resource provided in the request. The configuration
 state of a resource is represented in AWS Config as Configuration Items. Once this API
@@ -1476,27 +1600,29 @@ the resource provided in the request. This API does not change or remediate the
 configuration of the resource.  Write-only schema properites are not recorded as part of
 the published configuration item.
 
-# Required Parameters
-- `Configuration`: The configuration object of the resource in valid JSON format. It must
+# Arguments
+- `configuration`: The configuration object of the resource in valid JSON format. It must
   match the schema registered with AWS CloudFormation.  The configuration JSON must not
   exceed 64 KB.
-- `ResourceId`: Unique identifier of the resource.
-- `ResourceType`: The type of the resource. The custom resource type must be registered
+- `resource_id`: Unique identifier of the resource.
+- `resource_type`: The type of the resource. The custom resource type must be registered
   with AWS CloudFormation.   You cannot use the organization names “aws”, “amzn”,
   “amazon”, “alexa”, “custom” with custom resource types. It is the first part of
   the ResourceType up to the first ::.
-- `SchemaVersionId`: Version of the schema registered for the ResourceType in AWS
+- `schema_version_id`: Version of the schema registered for the ResourceType in AWS
   CloudFormation.
 
 # Optional Parameters
-- `ResourceName`: Name of the resource.
-- `Tags`: Tags associated with the resource.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceName"`: Name of the resource.
+- `"Tags"`: Tags associated with the resource.
 """
 put_resource_config(Configuration, ResourceId, ResourceType, SchemaVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutResourceConfig", Dict{String, Any}("Configuration"=>Configuration, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "SchemaVersionId"=>SchemaVersionId); aws_config=aws_config)
-put_resource_config(Configuration, ResourceId, ResourceType, SchemaVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "SchemaVersionId"=>SchemaVersionId), args)); aws_config=aws_config)
+put_resource_config(Configuration, ResourceId, ResourceType, SchemaVersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "SchemaVersionId"=>SchemaVersionId), params)); aws_config=aws_config)
 
 """
-    PutRetentionConfiguration()
+    put_retention_configuration(retention_period_in_days)
+    put_retention_configuration(retention_period_in_days, params::Dict{String,<:Any})
 
 Creates and updates the retention configuration with details about retention period (number
 of days) that AWS Config stores your historical information. The API creates the
@@ -1504,35 +1630,38 @@ RetentionConfiguration object and names the object as default. When you have a
 RetentionConfiguration object named default, calling the API modifies the default object.
 Currently, AWS Config supports only one retention configuration per region in your account.
 
-# Required Parameters
-- `RetentionPeriodInDays`: Number of days AWS Config stores your historical information.
-  Currently, only applicable to the configuration item history.
+# Arguments
+- `retention_period_in_days`: Number of days AWS Config stores your historical information.
+   Currently, only applicable to the configuration item history.
 
 """
 put_retention_configuration(RetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRetentionConfiguration", Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays); aws_config=aws_config)
-put_retention_configuration(RetentionPeriodInDays, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays), args)); aws_config=aws_config)
+put_retention_configuration(RetentionPeriodInDays, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutRetentionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodInDays"=>RetentionPeriodInDays), params)); aws_config=aws_config)
 
 """
-    PutStoredQuery()
+    put_stored_query(stored_query)
+    put_stored_query(stored_query, params::Dict{String,<:Any})
 
 Saves a new query or updates an existing saved query. The QueryName must be unique for a
 single AWS account and a single AWS Region. You can create upto 300 queries in a single AWS
 account and a single AWS Region.
 
-# Required Parameters
-- `StoredQuery`: A list of StoredQuery objects. The mandatory fields are QueryName and
+# Arguments
+- `stored_query`: A list of StoredQuery objects. The mandatory fields are QueryName and
   Expression.  When you are creating a query, you must provide a query name and an
   expression. When you are updating a query, you must provide a query name but updating the
   description is optional.
 
 # Optional Parameters
-- `Tags`: A list of Tags object.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of Tags object.
 """
 put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutStoredQuery", Dict{String, Any}("StoredQuery"=>StoredQuery); aws_config=aws_config)
-put_stored_query(StoredQuery, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StoredQuery"=>StoredQuery), args)); aws_config=aws_config)
+put_stored_query(StoredQuery, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("PutStoredQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StoredQuery"=>StoredQuery), params)); aws_config=aws_config)
 
 """
-    SelectAggregateResourceConfig()
+    select_aggregate_resource_config(configuration_aggregator_name, expression)
+    select_aggregate_resource_config(configuration_aggregator_name, expression, params::Dict{String,<:Any})
 
 Accepts a structured query language (SQL) SELECT command and an aggregator to query
 configuration state of AWS resources across multiple accounts and regions, performs the
@@ -1540,41 +1669,45 @@ corresponding search, and returns resource configurations matching the propertie
 information about query components, see the  Query Components  section in the AWS Config
 Developer Guide.
 
-# Required Parameters
-- `ConfigurationAggregatorName`: The name of the configuration aggregator.
-- `Expression`: The SQL query SELECT command.
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+- `expression`: The SQL query SELECT command.
 
 # Optional Parameters
-- `Limit`: The maximum number of query results returned on each page.
-- `MaxResults`: The maximum number of query results returned on each page. AWS Config also
-  allows the Limit request parameter.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of query results returned on each page.
+- `"MaxResults"`: The maximum number of query results returned on each page. AWS Config
+  also allows the Limit request parameter.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 select_aggregate_resource_config(ConfigurationAggregatorName, Expression; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectAggregateResourceConfig", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "Expression"=>Expression); aws_config=aws_config)
-select_aggregate_resource_config(ConfigurationAggregatorName, Expression, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "Expression"=>Expression), args)); aws_config=aws_config)
+select_aggregate_resource_config(ConfigurationAggregatorName, Expression, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectAggregateResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName, "Expression"=>Expression), params)); aws_config=aws_config)
 
 """
-    SelectResourceConfig()
+    select_resource_config(expression)
+    select_resource_config(expression, params::Dict{String,<:Any})
 
 Accepts a structured query language (SQL) SELECT command, performs the corresponding
 search, and returns resource configurations matching the properties. For more information
 about query components, see the  Query Components  section in the AWS Config Developer
 Guide.
 
-# Required Parameters
-- `Expression`: The SQL query SELECT command.
+# Arguments
+- `expression`: The SQL query SELECT command.
 
 # Optional Parameters
-- `Limit`: The maximum number of query results returned on each page.
-- `NextToken`: The nextToken string returned in a previous request that you use to request
-  the next page of results in a paginated response.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of query results returned on each page.
+- `"NextToken"`: The nextToken string returned in a previous request that you use to
+  request the next page of results in a paginated response.
 """
 select_resource_config(Expression; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectResourceConfig", Dict{String, Any}("Expression"=>Expression); aws_config=aws_config)
-select_resource_config(Expression, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), args)); aws_config=aws_config)
+select_resource_config(Expression, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("SelectResourceConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config)
 
 """
-    StartConfigRulesEvaluation()
+    start_config_rules_evaluation()
+    start_config_rules_evaluation(params::Dict{String,<:Any})
 
 Runs an on-demand evaluation for the specified AWS Config rules against the last known
 configuration state of the resources. Use StartConfigRulesEvaluation when you want to test
@@ -1595,29 +1728,32 @@ evaluates your IAM resources.   Your custom rule will still run periodic evaluat
 24 hours.
 
 # Optional Parameters
-- `ConfigRuleNames`: The list of names of AWS Config rules that you want to run evaluations
-  for.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigRuleNames"`: The list of names of AWS Config rules that you want to run
+  evaluations for.
 """
 start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigRulesEvaluation"; aws_config=aws_config)
-start_config_rules_evaluation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigRulesEvaluation", args; aws_config=aws_config)
+start_config_rules_evaluation(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigRulesEvaluation", params; aws_config=aws_config)
 
 """
-    StartConfigurationRecorder()
+    start_configuration_recorder(configuration_recorder_name)
+    start_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
 Starts recording configurations of the AWS resources you have selected to record in your
 AWS account. You must have created at least one delivery channel to successfully start the
 configuration recorder.
 
-# Required Parameters
-- `ConfigurationRecorderName`: The name of the recorder object that records each
+# Arguments
+- `configuration_recorder_name`: The name of the recorder object that records each
   configuration change made to the resources.
 
 """
 start_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigurationRecorder", Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName); aws_config=aws_config)
-start_configuration_recorder(ConfigurationRecorderName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), args)); aws_config=aws_config)
+start_configuration_recorder(ConfigurationRecorderName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config)
 
 """
-    StartRemediationExecution()
+    start_remediation_execution(config_rule_name, resource_keys)
+    start_remediation_execution(config_rule_name, resource_keys, params::Dict{String,<:Any})
 
 Runs an on-demand remediation for the specified AWS Config rules against the last known
 remediation configuration. It runs an execution against the current state of your
@@ -1625,58 +1761,61 @@ resources. Remediation execution is asynchronous. You can specify up to 100 reso
 per request. An existing StartRemediationExecution call for the specified resource keys
 must complete before you can call the API again.
 
-# Required Parameters
-- `ConfigRuleName`: The list of names of AWS Config rules that you want to run remediation
-  execution for.
-- `ResourceKeys`: A list of resource keys to be processed with the current request. Each
+# Arguments
+- `config_rule_name`: The list of names of AWS Config rules that you want to run
+  remediation execution for.
+- `resource_keys`: A list of resource keys to be processed with the current request. Each
   element in the list consists of the resource type and resource ID.
 
 """
 start_remediation_execution(ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartRemediationExecution", Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys); aws_config=aws_config)
-start_remediation_execution(ConfigRuleName, ResourceKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartRemediationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), args)); aws_config=aws_config)
+start_remediation_execution(ConfigRuleName, ResourceKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StartRemediationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigRuleName"=>ConfigRuleName, "ResourceKeys"=>ResourceKeys), params)); aws_config=aws_config)
 
 """
-    StopConfigurationRecorder()
+    stop_configuration_recorder(configuration_recorder_name)
+    stop_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
 
 Stops recording configurations of the AWS resources you have selected to record in your AWS
 account.
 
-# Required Parameters
-- `ConfigurationRecorderName`: The name of the recorder object that records each
+# Arguments
+- `configuration_recorder_name`: The name of the recorder object that records each
   configuration change made to the resources.
 
 """
 stop_configuration_recorder(ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StopConfigurationRecorder", Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName); aws_config=aws_config)
-stop_configuration_recorder(ConfigurationRecorderName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StopConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), args)); aws_config=aws_config)
+stop_configuration_recorder(ConfigurationRecorderName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("StopConfigurationRecorder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationRecorderName"=>ConfigurationRecorderName), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Associates the specified tags to a resource with the specified resourceArn. If existing
 tags on a resource are not specified in the request parameters, they are not changed. When
 a resource is deleted, the tags associated with that resource are deleted as well.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
   list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator
   and AggregatorAuthorization.
-- `Tags`: An array of tag object.
+- `tags`: An array of tag object.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Deletes specified tags from a resource.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
   list the tags. Currently, the supported resources are ConfigRule, ConfigurationAggregator
   and AggregatorAuthorization.
-- `TagKeys`: The keys of the tags to be removed.
+- `tag_keys`: The keys of the tags to be removed.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

@@ -5,90 +5,97 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DescribeJobExecution()
+    describe_job_execution(job_id, thing_name)
+    describe_job_execution(job_id, thing_name, params::Dict{String,<:Any})
 
 Gets details of a job execution.
 
-# Required Parameters
-- `jobId`: The unique identifier assigned to this job when it was created.
-- `thingName`: The thing name associated with the device the job execution is running on.
+# Arguments
+- `job_id`: The unique identifier assigned to this job when it was created.
+- `thing_name`: The thing name associated with the device the job execution is running on.
 
 # Optional Parameters
-- `executionNumber`: Optional. A number that identifies a particular job execution on a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"executionNumber"`: Optional. A number that identifies a particular job execution on a
   particular device. If not specified, the latest job execution is returned.
-- `includeJobDocument`: Optional. When set to true, the response contains the job document.
-  The default is false.
+- `"includeJobDocument"`: Optional. When set to true, the response contains the job
+  document. The default is false.
 """
 describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config)
-describe_job_execution(jobId, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", args; aws_config=aws_config)
+describe_job_execution(jobId, thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config)
 
 """
-    GetPendingJobExecutions()
+    get_pending_job_executions(thing_name)
+    get_pending_job_executions(thing_name, params::Dict{String,<:Any})
 
 Gets the list of all jobs for a thing that are not in a terminal status.
 
-# Required Parameters
-- `thingName`: The name of the thing that is executing the job.
+# Arguments
+- `thing_name`: The name of the thing that is executing the job.
 
 """
 get_pending_job_executions(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
-get_pending_job_executions(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", args; aws_config=aws_config)
+get_pending_job_executions(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config)
 
 """
-    StartNextPendingJobExecution()
+    start_next_pending_job_execution(thing_name)
+    start_next_pending_job_execution(thing_name, params::Dict{String,<:Any})
 
 Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
 
-# Required Parameters
-- `thingName`: The name of the thing associated with the device.
+# Arguments
+- `thing_name`: The name of the thing associated with the device.
 
 # Optional Parameters
-- `statusDetails`: A collection of name/value pairs that describe the status of the job
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"statusDetails"`: A collection of name/value pairs that describe the status of the job
   execution. If not specified, the statusDetails are unchanged.
-- `stepTimeoutInMinutes`: Specifies the amount of time this device has to finish execution
-  of this job. If the job execution status is not set to a terminal state before this timer
-  expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to
-  IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes) the job
-  execution status will be automatically set to TIMED_OUT. Note that setting this timeout has
-  no effect on that job execution timeout which may have been specified when the job was
-  created (CreateJob using field timeoutConfig).
+- `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish
+  execution of this job. If the job execution status is not set to a terminal state before
+  this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting
+  the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes)
+  the job execution status will be automatically set to TIMED_OUT. Note that setting this
+  timeout has no effect on that job execution timeout which may have been specified when the
+  job was created (CreateJob using field timeoutConfig).
 """
 start_next_pending_job_execution(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next"; aws_config=aws_config)
-start_next_pending_job_execution(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", args; aws_config=aws_config)
+start_next_pending_job_execution(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config)
 
 """
-    UpdateJobExecution()
+    update_job_execution(job_id, status, thing_name)
+    update_job_execution(job_id, status, thing_name, params::Dict{String,<:Any})
 
 Updates the status of a job execution.
 
-# Required Parameters
-- `jobId`: The unique identifier assigned to this job when it was created.
+# Arguments
+- `job_id`: The unique identifier assigned to this job when it was created.
 - `status`: The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or
   REJECTED). This must be specified on every update.
-- `thingName`: The name of the thing associated with the device.
+- `thing_name`: The name of the thing associated with the device.
 
 # Optional Parameters
-- `executionNumber`: Optional. A number that identifies a particular job execution on a
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"executionNumber"`: Optional. A number that identifies a particular job execution on a
   particular device.
-- `expectedVersion`: Optional. The expected current version of the job execution. Each time
-  you update the job execution, its version is incremented. If the version of the job
+- `"expectedVersion"`: Optional. The expected current version of the job execution. Each
+  time you update the job execution, its version is incremented. If the version of the job
   execution stored in Jobs does not match, the update is rejected with a VersionMismatch
   error, and an ErrorResponse that contains the current job execution status data is
   returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in
   order to obtain the job execution status data.)
-- `includeJobDocument`: Optional. When set to true, the response contains the job document.
-  The default is false.
-- `includeJobExecutionState`: Optional. When included and set to true, the response
+- `"includeJobDocument"`: Optional. When set to true, the response contains the job
+  document. The default is false.
+- `"includeJobExecutionState"`: Optional. When included and set to true, the response
   contains the JobExecutionState data. The default is false.
-- `statusDetails`:  Optional. A collection of name/value pairs that describe the status of
-  the job execution. If not specified, the statusDetails are unchanged.
-- `stepTimeoutInMinutes`: Specifies the amount of time this device has to finish execution
-  of this job. If the job execution status is not set to a terminal state before this timer
-  expires, or before the timer is reset (by again calling UpdateJobExecution, setting the
-  status to IN_PROGRESS and specifying a new timeout value in this field) the job execution
-  status will be automatically set to TIMED_OUT. Note that setting or resetting this timeout
-  has no effect on that job execution timeout which may have been specified when the job was
-  created (CreateJob using field timeoutConfig).
+- `"statusDetails"`:  Optional. A collection of name/value pairs that describe the status
+  of the job execution. If not specified, the statusDetails are unchanged.
+- `"stepTimeoutInMinutes"`: Specifies the amount of time this device has to finish
+  execution of this job. If the job execution status is not set to a terminal state before
+  this timer expires, or before the timer is reset (by again calling UpdateJobExecution,
+  setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job
+  execution status will be automatically set to TIMED_OUT. Note that setting or resetting
+  this timeout has no effect on that job execution timeout which may have been specified when
+  the job was created (CreateJob using field timeoutConfig).
 """
 update_job_execution(jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_job_execution(jobId, status, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)
+update_job_execution(jobId, status, thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)

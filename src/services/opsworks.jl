@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssignInstance()
+    assign_instance(instance_id, layer_ids)
+    assign_instance(instance_id, layer_ids, params::Dict{String,<:Any})
 
 Assign a registered instance to a layer.   You can assign registered on-premises instances
 to any layer type.   You can assign registered Amazon EC2 instances only to custom layers.
@@ -14,17 +15,18 @@ Required Permissions: To use this action, an AWS Identity and Access Management 
 must have a Manage permissions level for the stack or an attached policy that explicitly
 grants permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
-- `LayerIds`: The layer ID, which must correspond to a custom layer. You cannot assign a
+# Arguments
+- `instance_id`: The instance ID.
+- `layer_ids`: The layer ID, which must correspond to a custom layer. You cannot assign a
   registered instance to a built-in layer.
 
 """
 assign_instance(InstanceId, LayerIds; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds); aws_config=aws_config)
-assign_instance(InstanceId, LayerIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), args)); aws_config=aws_config)
+assign_instance(InstanceId, LayerIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "LayerIds"=>LayerIds), params)); aws_config=aws_config)
 
 """
-    AssignVolume()
+    assign_volume(volume_id)
+    assign_volume(volume_id, params::Dict{String,<:Any})
 
 Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The
 volume must first be registered with the stack by calling RegisterVolume. After you
@@ -34,17 +36,19 @@ this action, an IAM user must have a Manage permissions level for the stack, or 
 policy that explicitly grants permissions. For more information on user permissions, see
 Managing User Permissions.
 
-# Required Parameters
-- `VolumeId`: The volume ID.
+# Arguments
+- `volume_id`: The volume ID.
 
 # Optional Parameters
-- `InstanceId`: The instance ID.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID.
 """
 assign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-assign_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+assign_volume(VolumeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config)
 
 """
-    AssociateElasticIp()
+    associate_elastic_ip(elastic_ip)
+    associate_elastic_ip(elastic_ip, params::Dict{String,<:Any})
 
 Associates one of the stack's registered Elastic IP addresses with a specified instance.
 The address must first be registered with the stack by calling RegisterElasticIp. For more
@@ -53,17 +57,19 @@ user must have a Manage permissions level for the stack, or an attached policy t
 explicitly grants permissions. For more information on user permissions, see Managing User
 Permissions.
 
-# Required Parameters
-- `ElasticIp`: The Elastic IP address.
+# Arguments
+- `elastic_ip`: The Elastic IP address.
 
 # Optional Parameters
-- `InstanceId`: The instance ID.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID.
 """
 associate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-associate_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+associate_elastic_ip(ElasticIp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AssociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config)
 
 """
-    AttachElasticLoadBalancer()
+    attach_elastic_load_balancer(elastic_load_balancer_name, layer_id)
+    attach_elastic_load_balancer(elastic_load_balancer_name, layer_id, params::Dict{String,<:Any})
 
 Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWorks Stacks
 does not support Application Load Balancer. You can only use Classic Load Balancer with AWS
@@ -74,25 +80,26 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `ElasticLoadBalancerName`: The Elastic Load Balancing instance's name.
-- `LayerId`: The ID of the layer to which the Elastic Load Balancing instance is to be
+# Arguments
+- `elastic_load_balancer_name`: The Elastic Load Balancing instance's name.
+- `layer_id`: The ID of the layer to which the Elastic Load Balancing instance is to be
   attached.
 
 """
 attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
-attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
+attach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("AttachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    CloneStack()
+    clone_stack(service_role_arn, source_stack_id)
+    clone_stack(service_role_arn, source_stack_id, params::Dict{String,<:Any})
 
 Creates a clone of a specified stack. For more information, see Clone a Stack. By default,
 all parameters are set to the values used by the parent stack.  Required Permissions: To
 use this action, an IAM user must have an attached policy that explicitly grants
 permissions. For more information about user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `ServiceRoleArn`: The stack AWS Identity and Access Management (IAM) role, which allows
+# Arguments
+- `service_role_arn`: The stack AWS Identity and Access Management (IAM) role, which allows
   AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter
   to the Amazon Resource Name (ARN) for an existing IAM role. If you create a stack by using
   the AWS OpsWorks Stacks console, it creates the role for you. You can obtain an existing
@@ -100,10 +107,11 @@ permissions. For more information about user permissions, see Managing User Perm
   IAM ARNs, see Using Identifiers.  You must set this parameter to a valid service role ARN
   or the action will fail; there is no default value. You can specify the source stack's
   service role ARN, if you prefer, but you must do so explicitly.
-- `SourceStackId`: The source stack ID.
+- `source_stack_id`: The source stack ID.
 
 # Optional Parameters
-- `AgentVersion`: The default AWS OpsWorks Stacks agent version. You have the following
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentVersion"`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -114,33 +122,33 @@ permissions. For more information about user permissions, see Managing User Perm
   call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify
   an agent version when you create or update an instance, which overrides the stack's default
   setting.
-- `Attributes`: A list of stack attributes and values as key/value pairs to be added to the
-  cloned stack.
-- `ChefConfiguration`: A ChefConfiguration object that specifies whether to enable
+- `"Attributes"`: A list of stack attributes and values as key/value pairs to be added to
+  the cloned stack.
+- `"ChefConfiguration"`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `CloneAppIds`: A list of source stack app IDs to be included in the cloned stack.
-- `ClonePermissions`: Whether to clone the source stack's permissions.
-- `ConfigurationManager`: The configuration manager. When you clone a stack we recommend
+- `"CloneAppIds"`: A list of source stack app IDs to be included in the cloned stack.
+- `"ClonePermissions"`: Whether to clone the source stack's permissions.
+- `"ConfigurationManager"`: The configuration manager. When you clone a stack we recommend
   that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
   Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
   12.
-- `CustomCookbooksSource`: Contains the information required to retrieve an app or cookbook
-  from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `CustomJson`: A string that contains user-defined, custom JSON. It is used to override
+- `"CustomCookbooksSource"`: Contains the information required to retrieve an app or
+  cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
+- `"CustomJson"`: A string that contains user-defined, custom JSON. It is used to override
   the corresponding default stack configuration JSON values. The string should be in the
   following format:  \"{\"key1\": \"value1\", \"key2\": \"value2\",...}\"  For more
   information about custom JSON, see Use Custom JSON to Modify the Stack Configuration
   Attributes
-- `DefaultAvailabilityZone`: The cloned stack's default Availability Zone, which must be in
-  the specified region. For more information, see Regions and Endpoints. If you also specify
-  a value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
-  the VpcId parameter description.
-- `DefaultInstanceProfileArn`: The Amazon Resource Name (ARN) of an IAM profile that is the
-  default profile for all of the stack's EC2 instances. For more information about IAM ARNs,
-  see Using Identifiers.
-- `DefaultOs`: The stack's operating system, which must be set to one of the following.   A
-  supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
+- `"DefaultAvailabilityZone"`: The cloned stack's default Availability Zone, which must be
+  in the specified region. For more information, see Regions and Endpoints. If you also
+  specify a value for DefaultSubnetId, the subnet must be in the same zone. For more
+  information, see the VpcId parameter description.
+- `"DefaultInstanceProfileArn"`: The Amazon Resource Name (ARN) of an IAM profile that is
+  the default profile for all of the stack's EC2 instances. For more information about IAM
+  ARNs, see Using Identifiers.
+- `"DefaultOs"`: The stack's operating system, which must be set to one of the following.
+  A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
   as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat
@@ -152,21 +160,21 @@ permissions. For more information about user permissions, see Managing User Perm
   stack's operating system. For more information about supported operating systems, see AWS
   OpsWorks Stacks Operating Systems.  You can specify a different Linux operating system for
   the cloned stack, but you cannot change from Linux to Windows or Windows to Linux.
-- `DefaultRootDeviceType`: The default root device type. This value is used by default for
-  all instances in the cloned stack, but you can override it when you create an instance. For
-  more information, see Storage for the Root Device.
-- `DefaultSshKeyName`: A default Amazon EC2 key pair name. The default value is none. If
+- `"DefaultRootDeviceType"`: The default root device type. This value is used by default
+  for all instances in the cloned stack, but you can override it when you create an instance.
+  For more information, see Storage for the Root Device.
+- `"DefaultSshKeyName"`: A default Amazon EC2 key pair name. The default value is none. If
   you specify a key pair name, AWS OpsWorks installs the public key on the instance and you
   can use the private key with an SSH client to log in to the instance. For more information,
   see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override
   this setting by specifying a different key pair, or no key pair, when you  create an
   instance.
-- `DefaultSubnetId`: The stack's default VPC subnet ID. This parameter is required if you
+- `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the VpcId parameter. All instances are launched into this subnet unless
   you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `HostnameTheme`: The stack's host name theme, with spaces are replaced by underscores.
+- `"HostnameTheme"`: The stack's host name theme, with spaces are replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to
   the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities
@@ -174,11 +182,11 @@ permissions. For more information about user permissions, see Managing User Perm
   Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To
   obtain a generated host name, call GetHostNameSuggestion, which returns a host name based
   on the current theme.
-- `Name`: The cloned stack name.
-- `Region`: The cloned stack AWS region, such as \"ap-northeast-2\". For more information
+- `"Name"`: The cloned stack name.
+- `"Region"`: The cloned stack AWS region, such as \"ap-northeast-2\". For more information
   about AWS regions, see Regions and Endpoints.
-- `UseCustomCookbooks`: Whether to use custom cookbooks.
-- `UseOpsworksSecurityGroups`: Whether to associate the AWS OpsWorks Stacks built-in
+- `"UseCustomCookbooks"`: Whether to use custom cookbooks.
+- `"UseOpsworksSecurityGroups"`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   With UseOpsworksSecurityGroups you can instead provide your own custom security groups.
@@ -191,7 +199,7 @@ permissions. For more information about user permissions, see Managing User Perm
   that you create. However, you can still manually associate a built-in security group with a
   layer on creation; custom security groups are required only for those layers that need
   custom settings.   For more information, see Create a New Stack.
-- `VpcId`: The ID of the VPC that the cloned stack is to be launched into. It must be in
+- `"VpcId"`: The ID of the VPC that the cloned stack is to be launched into. It must be in
   the specified region. All instances are launched into this VPC, and you cannot change the
   ID later.   If your account supports EC2 Classic, the default value is no VPC.   If your
   account does not support EC2 Classic, the default value is the default VPC for the
@@ -206,96 +214,102 @@ permissions. For more information about user permissions, see Managing User Perm
   For more information about default VPC and EC2 Classic, see Supported Platforms.
 """
 clone_stack(ServiceRoleArn, SourceStackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId); aws_config=aws_config)
-clone_stack(ServiceRoleArn, SourceStackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), args)); aws_config=aws_config)
+clone_stack(ServiceRoleArn, SourceStackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CloneStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceRoleArn"=>ServiceRoleArn, "SourceStackId"=>SourceStackId), params)); aws_config=aws_config)
 
 """
-    CreateApp()
+    create_app(name, stack_id, type)
+    create_app(name, stack_id, type, params::Dict{String,<:Any})
 
 Creates an app for a specified stack. For more information, see Creating Apps.  Required
 Permissions: To use this action, an IAM user must have a Manage permissions level for the
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `Name`: The app name.
-- `StackId`: The stack ID.
-- `Type`: The app type. Each supported type is associated with a particular layer. For
+# Arguments
+- `name`: The app name.
+- `stack_id`: The stack ID.
+- `type`: The app type. Each supported type is associated with a particular layer. For
   example, PHP applications are associated with a PHP layer. AWS OpsWorks Stacks deploys an
   application to those instances that are members of the corresponding layer. If your app
   isn't one of the standard types, or you prefer to implement your own Deploy recipes,
   specify other.
 
 # Optional Parameters
-- `AppSource`: A Source object that specifies the app repository.
-- `Attributes`: One or more user-defined key/value pairs to be added to the stack
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppSource"`: A Source object that specifies the app repository.
+- `"Attributes"`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `DataSources`: The app's data source.
-- `Description`: A description of the app.
-- `Domains`: The app virtual host settings, with multiple domains separated by commas. For
-  example: 'www.example.com, example.com'
-- `EnableSsl`: Whether to enable SSL for the app.
-- `Environment`: An array of EnvironmentVariable objects that specify environment variables
-  to be associated with the app. After you deploy the app, these variables are defined on the
-  associated app server instance. For more information, see  Environment Variables. There is
-  no specific limit on the number of environment variables. However, the size of the
-  associated data structure - which includes the variables' names, values, and protected flag
-  values - cannot exceed 20 KB. This limit should accommodate most if not all use cases.
-  Exceeding it will cause an exception with the message, \"Environment: is too large (maximum
-  is 20KB).\"  If you have specified one or more environment variables, you cannot modify the
-  stack's Chef version.
-- `Shortname`: The app's short name.
-- `SslConfiguration`: An SslConfiguration object with the SSL configuration.
+- `"DataSources"`: The app's data source.
+- `"Description"`: A description of the app.
+- `"Domains"`: The app virtual host settings, with multiple domains separated by commas.
+  For example: 'www.example.com, example.com'
+- `"EnableSsl"`: Whether to enable SSL for the app.
+- `"Environment"`: An array of EnvironmentVariable objects that specify environment
+  variables to be associated with the app. After you deploy the app, these variables are
+  defined on the associated app server instance. For more information, see  Environment
+  Variables. There is no specific limit on the number of environment variables. However, the
+  size of the associated data structure - which includes the variables' names, values, and
+  protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all
+  use cases. Exceeding it will cause an exception with the message, \"Environment: is too
+  large (maximum is 20KB).\"  If you have specified one or more environment variables, you
+  cannot modify the stack's Chef version.
+- `"Shortname"`: The app's short name.
+- `"SslConfiguration"`: An SslConfiguration object with the SSL configuration.
 """
 create_app(Name, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
-create_app(Name, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
+create_app(Name, StackId, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config)
 
 """
-    CreateDeployment()
+    create_deployment(command, stack_id)
+    create_deployment(command, stack_id, params::Dict{String,<:Any})
 
 Runs deployment or stack commands. For more information, see Deploying Apps and Run Stack
 Commands.  Required Permissions: To use this action, an IAM user must have a Deploy or
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `Command`: A DeploymentCommand object that specifies the deployment command and any
+# Arguments
+- `command`: A DeploymentCommand object that specifies the deployment command and any
   associated arguments.
-- `StackId`: The stack ID.
+- `stack_id`: The stack ID.
 
 # Optional Parameters
-- `AppId`: The app ID. This parameter is required for app deployments, but not for other
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppId"`: The app ID. This parameter is required for app deployments, but not for other
   deployment commands.
-- `Comment`: A user-defined comment.
-- `CustomJson`: A string that contains user-defined, custom JSON. You can use this
+- `"Comment"`: A user-defined comment.
+- `"CustomJson"`: A string that contains user-defined, custom JSON. You can use this
   parameter to override some corresponding default stack configuration JSON values. The
   string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes and Overriding Attributes With Custom JSON.
-- `InstanceIds`: The instance IDs for the deployment targets.
-- `LayerIds`: The layer IDs for the deployment targets.
+- `"InstanceIds"`: The instance IDs for the deployment targets.
+- `"LayerIds"`: The layer IDs for the deployment targets.
 """
 create_deployment(Command, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}("Command"=>Command, "StackId"=>StackId); aws_config=aws_config)
-create_deployment(Command, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), args)); aws_config=aws_config)
+create_deployment(Command, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    CreateInstance()
+    create_instance(instance_type, layer_ids, stack_id)
+    create_instance(instance_type, layer_ids, stack_id, params::Dict{String,<:Any})
 
 Creates an instance in a specified stack. For more information, see Adding an Instance to a
 Layer.  Required Permissions: To use this action, an IAM user must have a Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceType`: The instance type, such as t2.micro. For a list of supported instance
+# Arguments
+- `instance_type`: The instance type, such as t2.micro. For a list of supported instance
   types, open the stack in the console, choose Instances, and choose + Instance. The Size
   list contains the currently supported types. For more information, see Instance Families
   and Types. The parameter values that you use to specify the various types are in the API
   Name column of the Available Instance Types table.
-- `LayerIds`: An array that contains the instance's layer IDs.
-- `StackId`: The stack ID.
+- `layer_ids`: An array that contains the instance's layer IDs.
+- `stack_id`: The stack ID.
 
 # Optional Parameters
-- `AgentVersion`: The default AWS OpsWorks Stacks agent version. You have the following
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentVersion"`: The default AWS OpsWorks Stacks agent version. You have the following
   options:    INHERIT - Use the stack's default agent version setting.    version_number -
   Use the specified agent version. This value overrides the stack's default setting. To
   update the agent version, edit the instance configuration and specify a new version. AWS
@@ -303,28 +317,28 @@ For more information on user permissions, see Managing User Permissions.
   setting is INHERIT. To specify an agent version, you must use the complete version number,
   not the abbreviated number shown on the console. For a list of available agent version
   numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-- `AmiId`: A custom AMI ID to be used to create the instance. The AMI should be based on
+- `"AmiId"`: A custom AMI ID to be used to create the instance. The AMI should be based on
   one of the supported operating systems. For more information, see Using Custom AMIs.  If
   you specify a custom AMI, you must set Os to Custom.
-- `Architecture`: The instance architecture. The default option is x86_64. Instance types
+- `"Architecture"`: The instance architecture. The default option is x86_64. Instance types
   do not necessarily support both architectures. For a list of the architectures that are
   supported by the different instance types, see Instance Families and Types.
-- `AutoScalingType`: For load-based or time-based instances, the type. Windows stacks can
+- `"AutoScalingType"`: For load-based or time-based instances, the type. Windows stacks can
   use only time-based instances.
-- `AvailabilityZone`: The instance Availability Zone. For more information, see Regions and
-  Endpoints.
-- `BlockDeviceMappings`: An array of BlockDeviceMapping objects that specify the instance's
-  block devices. For more information, see Block Device Mapping. Note that block device
-  mappings are not supported for custom AMIs.
-- `EbsOptimized`: Whether to create an Amazon EBS-optimized instance.
-- `Hostname`: The instance host name.
-- `InstallUpdatesOnBoot`: Whether to install operating system and package updates when the
-  instance boots. The default value is true. To control when updates are installed, set this
-  value to false. You must then update your instances manually by using CreateDeployment to
-  run the update_dependencies stack command or by manually running yum (Amazon Linux) or
+- `"AvailabilityZone"`: The instance Availability Zone. For more information, see Regions
+  and Endpoints.
+- `"BlockDeviceMappings"`: An array of BlockDeviceMapping objects that specify the
+  instance's block devices. For more information, see Block Device Mapping. Note that block
+  device mappings are not supported for custom AMIs.
+- `"EbsOptimized"`: Whether to create an Amazon EBS-optimized instance.
+- `"Hostname"`: The instance host name.
+- `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
+  the instance boots. The default value is true. To control when updates are installed, set
+  this value to false. You must then update your instances manually by using CreateDeployment
+  to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true
   to ensure that your instances have the latest security updates.
-- `Os`: The instance's operating system, which must be set to one of the following.   A
+- `"Os"`: The instance's operating system, which must be set to one of the following.   A
   supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
@@ -339,26 +353,27 @@ For more information on user permissions, see Managing User Permissions.
   Block device mappings are not supported if the value is Custom. For more information about
   supported operating systems, see Operating SystemsFor more information about how to use
   custom AMIs with AWS OpsWorks Stacks, see Using Custom AMIs.
-- `RootDeviceType`: The instance root device type. For more information, see Storage for
+- `"RootDeviceType"`: The instance root device type. For more information, see Storage for
   the Root Device.
-- `SshKeyName`: The instance's Amazon EC2 key-pair name.
-- `SubnetId`: The ID of the instance's subnet. If the stack is running in a VPC, you can
+- `"SshKeyName"`: The instance's Amazon EC2 key-pair name.
+- `"SubnetId"`: The ID of the instance's subnet. If the stack is running in a VPC, you can
   use this parameter to override the stack's default subnet ID value and direct AWS OpsWorks
   Stacks to launch the instance in a different subnet.
-- `Tenancy`: The instance's tenancy option. The default option is no tenancy, or if the
+- `"Tenancy"`: The instance's tenancy option. The default option is no tenancy, or if the
   instance is running in a VPC, inherit tenancy settings from the VPC. The following are
   valid values for this parameter: dedicated, default, or host. Because there are costs
   associated with changes in tenancy options, we recommend that you research tenancy options
   before choosing them for your instances. For more information about dedicated hosts, see
   Dedicated Hosts Overview and Amazon EC2 Dedicated Hosts. For more information about
   dedicated instances, see Dedicated Instances and Amazon EC2 Dedicated Instances.
-- `VirtualizationType`: The instance's virtualization type, paravirtual or hvm.
+- `"VirtualizationType"`: The instance's virtualization type, paravirtual or hvm.
 """
 create_instance(InstanceType, LayerIds, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId); aws_config=aws_config)
-create_instance(InstanceType, LayerIds, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), args)); aws_config=aws_config)
+create_instance(InstanceType, LayerIds, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "LayerIds"=>LayerIds, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    CreateLayer()
+    create_layer(name, shortname, stack_id, type)
+    create_layer(name, shortname, stack_id, type, params::Dict{String,<:Any})
 
 Creates a layer. For more information, see How to Create a Layer.  You should use
 CreateLayer for noncustom layer types such as PHP App Server only if the stack does not
@@ -369,67 +384,69 @@ like for that layer type.   Required Permissions: To use this action, an IAM use
 a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `Name`: The layer name, which is used by the console.
-- `Shortname`: For custom layers only, use this parameter to specify the layer's short
+# Arguments
+- `name`: The layer name, which is used by the console.
+- `shortname`: For custom layers only, use this parameter to specify the layer's short
   name, which is used internally by AWS OpsWorks Stacks and by Chef recipes. The short name
   is also used as the name for the directory where your app files are installed. It can have
   a maximum of 200 characters, which are limited to the alphanumeric characters, '-', '_',
   and '.'. The built-in layers' short names are defined by AWS OpsWorks Stacks. For more
   information, see the Layer Reference.
-- `StackId`: The layer stack ID.
-- `Type`: The layer type. A stack cannot have more than one built-in layer of the same
+- `stack_id`: The layer stack ID.
+- `type`: The layer type. A stack cannot have more than one built-in layer of the same
   type. It can have any number of custom layers. Built-in layers are not available in Chef 12
   stacks.
 
 # Optional Parameters
-- `Attributes`: One or more user-defined key-value pairs to be added to the stack
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
-- `AutoAssignElasticIps`: Whether to automatically assign an Elastic IP address to the
+- `"AutoAssignElasticIps"`: Whether to automatically assign an Elastic IP address to the
   layer's instances. For more information, see How to Edit a Layer.
-- `AutoAssignPublicIps`: For stacks that are running in a VPC, whether to automatically
+- `"AutoAssignPublicIps"`: For stacks that are running in a VPC, whether to automatically
   assign a public IP address to the layer's instances. For more information, see How to Edit
   a Layer.
-- `CloudWatchLogsConfiguration`: Specifies CloudWatch Logs configuration options for the
+- `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
   layer. For more information, see CloudWatchLogsLogStream.
-- `CustomInstanceProfileArn`: The ARN of an IAM profile to be used for the layer's EC2
+- `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for the layer's EC2
   instances. For more information about IAM ARNs, see Using Identifiers.
-- `CustomJson`: A JSON-formatted string containing custom stack configuration and
+- `"CustomJson"`: A JSON-formatted string containing custom stack configuration and
   deployment attributes to be installed on the layer's instances. For more information, see
   Using Custom JSON. This feature is supported as of version 1.7.42 of the AWS CLI.
-- `CustomRecipes`: A LayerCustomRecipes object that specifies the layer custom recipes.
-- `CustomSecurityGroupIds`: An array containing the layer custom security group IDs.
-- `EnableAutoHealing`: Whether to disable auto healing for the layer.
-- `InstallUpdatesOnBoot`: Whether to install operating system and package updates when the
-  instance boots. The default value is true. To control when updates are installed, set this
-  value to false. You must then update your instances manually by using CreateDeployment to
-  run the update_dependencies stack command or by manually running yum (Amazon Linux) or
+- `"CustomRecipes"`: A LayerCustomRecipes object that specifies the layer custom recipes.
+- `"CustomSecurityGroupIds"`: An array containing the layer custom security group IDs.
+- `"EnableAutoHealing"`: Whether to disable auto healing for the layer.
+- `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
+  the instance boots. The default value is true. To control when updates are installed, set
+  this value to false. You must then update your instances manually by using CreateDeployment
+  to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   To ensure that your instances have the latest security
   updates, we strongly recommend using the default value of true.
-- `LifecycleEventConfiguration`: A LifeCycleEventConfiguration object that you can use to
+- `"LifecycleEventConfiguration"`: A LifeCycleEventConfiguration object that you can use to
   configure the Shutdown event to specify an execution timeout and enable or disable Elastic
   Load Balancer connection draining.
-- `Packages`: An array of Package objects that describes the layer packages.
-- `UseEbsOptimizedInstances`: Whether to use Amazon EBS-optimized instances.
-- `VolumeConfigurations`: A VolumeConfigurations object that describes the layer's Amazon
+- `"Packages"`: An array of Package objects that describes the layer packages.
+- `"UseEbsOptimizedInstances"`: Whether to use Amazon EBS-optimized instances.
+- `"VolumeConfigurations"`: A VolumeConfigurations object that describes the layer's Amazon
   EBS volumes.
 """
 create_layer(Name, Shortname, StackId, Type; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type); aws_config=aws_config)
-create_layer(Name, Shortname, StackId, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), args)); aws_config=aws_config)
+create_layer(Name, Shortname, StackId, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Shortname"=>Shortname, "StackId"=>StackId, "Type"=>Type), params)); aws_config=aws_config)
 
 """
-    CreateStack()
+    create_stack(default_instance_profile_arn, name, region, service_role_arn)
+    create_stack(default_instance_profile_arn, name, region, service_role_arn, params::Dict{String,<:Any})
 
 Creates a new stack. For more information, see Create a New Stack.  Required Permissions:
 To use this action, an IAM user must have an attached policy that explicitly grants
 permissions. For more information about user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `DefaultInstanceProfileArn`: The Amazon Resource Name (ARN) of an IAM profile that is the
-  default profile for all of the stack's EC2 instances. For more information about IAM ARNs,
-  see Using Identifiers.
-- `Name`: The stack name.
-- `Region`: The stack's AWS region, such as ap-south-1. For more information about Amazon
+# Arguments
+- `default_instance_profile_arn`: The Amazon Resource Name (ARN) of an IAM profile that is
+  the default profile for all of the stack's EC2 instances. For more information about IAM
+  ARNs, see Using Identifiers.
+- `name`: The stack name.
+- `region`: The stack's AWS region, such as ap-south-1. For more information about Amazon
   regions, see Regions and Endpoints.  In the AWS CLI, this API maps to the --stack-region
   parameter. If the --stack-region parameter and the AWS CLI common parameter --region are
   set to the same value, the stack uses a regional endpoint. If the --stack-region parameter
@@ -443,13 +460,14 @@ permissions. For more information about user permissions, see Managing User Perm
   where you manage AWS, we recommend that you use regional endpoints for new stacks. The AWS
   CLI common --region parameter always specifies a regional API endpoint; it cannot be used
   to specify a classic AWS OpsWorks Stacks region.
-- `ServiceRoleArn`: The stack's AWS Identity and Access Management (IAM) role, which allows
-  AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this parameter
-  to the Amazon Resource Name (ARN) for an existing IAM role. For more information about IAM
-  ARNs, see Using Identifiers.
+- `service_role_arn`: The stack's AWS Identity and Access Management (IAM) role, which
+  allows AWS OpsWorks Stacks to work with AWS resources on your behalf. You must set this
+  parameter to the Amazon Resource Name (ARN) for an existing IAM role. For more information
+  about IAM ARNs, see Using Identifiers.
 
 # Optional Parameters
-- `AgentVersion`: The default AWS OpsWorks Stacks agent version. You have the following
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentVersion"`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -460,27 +478,27 @@ permissions. For more information about user permissions, see Managing User Perm
   agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
    You can also specify an agent version when you create or update an instance, which
   overrides the stack's default setting.
-- `Attributes`: One or more user-defined key-value pairs to be added to the stack
+- `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes.
-- `ChefConfiguration`: A ChefConfiguration object that specifies whether to enable
+- `"ChefConfiguration"`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `ConfigurationManager`: The configuration manager. When you create a stack we recommend
+- `"ConfigurationManager"`: The configuration manager. When you create a stack we recommend
   that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
   Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
   12.
-- `CustomCookbooksSource`: Contains the information required to retrieve an app or cookbook
-  from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `CustomJson`: A string that contains user-defined, custom JSON. It can be used to
+- `"CustomCookbooksSource"`: Contains the information required to retrieve an app or
+  cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
+- `"CustomJson"`: A string that contains user-defined, custom JSON. It can be used to
   override the corresponding default stack configuration attribute values or to pass data to
   recipes. The string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes.
-- `DefaultAvailabilityZone`: The stack's default Availability Zone, which must be in the
+- `"DefaultAvailabilityZone"`: The stack's default Availability Zone, which must be in the
   specified region. For more information, see Regions and Endpoints. If you also specify a
   value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
   the VpcId parameter description.
-- `DefaultOs`: The stack's default operating system, which is installed on every instance
+- `"DefaultOs"`: The stack's default operating system, which is installed on every instance
   unless you specify a different operating system when you create the instance. You can
   specify one of the following.   A supported Linux operating system: An Amazon Linux
   version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon
@@ -493,29 +511,29 @@ permissions. For more information about user permissions, see Managing User Perm
   specify the custom AMI you want to use when you create instances. For more information, see
    Using Custom AMIs.   The default option is the current Amazon Linux version. For more
   information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-- `DefaultRootDeviceType`: The default root device type. This value is the default for all
-  instances in the stack, but you can override it when you create an instance. The default
-  option is instance-store. For more information, see Storage for the Root Device.
-- `DefaultSshKeyName`: A default Amazon EC2 key pair name. The default value is none. If
+- `"DefaultRootDeviceType"`: The default root device type. This value is the default for
+  all instances in the stack, but you can override it when you create an instance. The
+  default option is instance-store. For more information, see Storage for the Root Device.
+- `"DefaultSshKeyName"`: A default Amazon EC2 key pair name. The default value is none. If
   you specify a key pair name, AWS OpsWorks installs the public key on the instance and you
   can use the private key with an SSH client to log in to the instance. For more information,
   see  Using SSH to Communicate with an Instance and  Managing SSH Access. You can override
   this setting by specifying a different key pair, or no key pair, when you  create an
   instance.
-- `DefaultSubnetId`: The stack's default VPC subnet ID. This parameter is required if you
+- `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the VpcId parameter. All instances are launched into this subnet unless
   you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `HostnameTheme`: The stack's host name theme, with spaces replaced by underscores. The
+- `"HostnameTheme"`: The stack's host name theme, with spaces replaced by underscores. The
   theme is used to generate host names for the stack's instances. By default, HostnameTheme
   is set to Layer_Dependent, which creates host names by appending integers to the layer's
   short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities     Fruits
    Greek_Deities_and_Titans     Legendary_creatures_from_Japan     Planets_and_Moons
   Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To obtain a generated
   host name, call GetHostNameSuggestion, which returns a host name based on the current theme.
-- `UseCustomCookbooks`: Whether the stack uses custom cookbooks.
-- `UseOpsworksSecurityGroups`: Whether to associate the AWS OpsWorks Stacks built-in
+- `"UseCustomCookbooks"`: Whether the stack uses custom cookbooks.
+- `"UseOpsworksSecurityGroups"`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   With UseOpsworksSecurityGroups you can instead provide your own custom security groups.
@@ -528,61 +546,65 @@ permissions. For more information about user permissions, see Managing User Perm
   still manually associate a built-in security group with a layer on creation; custom
   security groups are required only for those layers that need custom settings.   For more
   information, see Create a New Stack.
-- `VpcId`: The ID of the VPC that the stack is to be launched into. The VPC must be in the
-  stack's region. All instances are launched into this VPC. You cannot change the ID later.
-  If your account supports EC2-Classic, the default value is no VPC.   If your account does
-  not support EC2-Classic, the default value is the default VPC for the specified region.
-  If the VPC ID corresponds to a default VPC and you have specified either the
-  DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks Stacks infers
-  the value of the other parameter. If you specify neither parameter, AWS OpsWorks Stacks
-  sets these parameters to the first valid Availability Zone for the specified region and the
-  corresponding default VPC subnet ID, respectively. If you specify a nondefault VPC ID, note
-  the following:   It must belong to a VPC in your account that is in the specified region.
-  You must specify a value for DefaultSubnetId.   For more information about how to use AWS
-  OpsWorks Stacks with a VPC, see Running a Stack in a VPC. For more information about
-  default VPC and EC2-Classic, see Supported Platforms.
+- `"VpcId"`: The ID of the VPC that the stack is to be launched into. The VPC must be in
+  the stack's region. All instances are launched into this VPC. You cannot change the ID
+  later.   If your account supports EC2-Classic, the default value is no VPC.   If your
+  account does not support EC2-Classic, the default value is the default VPC for the
+  specified region.   If the VPC ID corresponds to a default VPC and you have specified
+  either the DefaultAvailabilityZone or the DefaultSubnetId parameter only, AWS OpsWorks
+  Stacks infers the value of the other parameter. If you specify neither parameter, AWS
+  OpsWorks Stacks sets these parameters to the first valid Availability Zone for the
+  specified region and the corresponding default VPC subnet ID, respectively. If you specify
+  a nondefault VPC ID, note the following:   It must belong to a VPC in your account that is
+  in the specified region.   You must specify a value for DefaultSubnetId.   For more
+  information about how to use AWS OpsWorks Stacks with a VPC, see Running a Stack in a VPC.
+  For more information about default VPC and EC2-Classic, see Supported Platforms.
 """
 create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
-create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
+create_stack(DefaultInstanceProfileArn, Name, Region, ServiceRoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultInstanceProfileArn"=>DefaultInstanceProfileArn, "Name"=>Name, "Region"=>Region, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config)
 
 """
-    CreateUserProfile()
+    create_user_profile(iam_user_arn)
+    create_user_profile(iam_user_arn, params::Dict{String,<:Any})
 
 Creates a new user profile.  Required Permissions: To use this action, an IAM user must
 have an attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
-# Required Parameters
-- `IamUserArn`: The user's IAM ARN; this can also be a federated user's ARN.
+# Arguments
+- `iam_user_arn`: The user's IAM ARN; this can also be a federated user's ARN.
 
 # Optional Parameters
-- `AllowSelfManagement`: Whether users can specify their own SSH public key through the My
-  Settings page. For more information, see Setting an IAM User's Public SSH Key.
-- `SshPublicKey`: The user's public SSH key.
-- `SshUsername`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowSelfManagement"`: Whether users can specify their own SSH public key through the
+  My Settings page. For more information, see Setting an IAM User's Public SSH Key.
+- `"SshPublicKey"`: The user's public SSH key.
+- `"SshUsername"`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
   [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks
   Stacks removes them. For example, my.name will be changed to myname. If you do not specify
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
 create_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-create_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+create_user_profile(IamUserArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config)
 
 """
-    DeleteApp()
+    delete_app(app_id)
+    delete_app(app_id, params::Dict{String,<:Any})
 
 Deletes a specified app.  Required Permissions: To use this action, an IAM user must have a
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `AppId`: The app ID.
+# Arguments
+- `app_id`: The app ID.
 
 """
 delete_app(AppId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
-delete_app(AppId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
+delete_app(AppId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config)
 
 """
-    DeleteInstance()
+    delete_instance(instance_id)
+    delete_instance(instance_id, params::Dict{String,<:Any})
 
 Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must
 stop an instance before you can delete it. For more information, see Deleting Instances.
@@ -590,18 +612,20 @@ Required Permissions: To use this action, an IAM user must have a Manage permiss
 for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 # Optional Parameters
-- `DeleteElasticIp`: Whether to delete the instance Elastic IP address.
-- `DeleteVolumes`: Whether to delete the instance's Amazon EBS volumes.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteElasticIp"`: Whether to delete the instance Elastic IP address.
+- `"DeleteVolumes"`: Whether to delete the instance's Amazon EBS volumes.
 """
 delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-delete_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+delete_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    DeleteLayer()
+    delete_layer(layer_id)
+    delete_layer(layer_id, params::Dict{String,<:Any})
 
 Deletes a specified layer. You must first stop and then delete all associated instances or
 unassign registered instances. For more information, see How to Delete a Layer.  Required
@@ -609,15 +633,16 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `LayerId`: The layer ID.
+# Arguments
+- `layer_id`: The layer ID.
 
 """
 delete_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-delete_layer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+delete_layer(LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    DeleteStack()
+    delete_stack(stack_id)
+    delete_stack(stack_id, params::Dict{String,<:Any})
 
 Deletes a specified stack. You must first delete all instances, layers, and apps or
 deregister registered instances. For more information, see Shut Down a Stack.  Required
@@ -625,29 +650,31 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 """
 delete_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-delete_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+delete_stack(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    DeleteUserProfile()
+    delete_user_profile(iam_user_arn)
+    delete_user_profile(iam_user_arn, params::Dict{String,<:Any})
 
 Deletes a user profile.  Required Permissions: To use this action, an IAM user must have an
 attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
-# Required Parameters
-- `IamUserArn`: The user's IAM ARN. This can also be a federated user's ARN.
+# Arguments
+- `iam_user_arn`: The user's IAM ARN. This can also be a federated user's ARN.
 
 """
 delete_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-delete_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+delete_user_profile(IamUserArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config)
 
 """
-    DeregisterEcsCluster()
+    deregister_ecs_cluster(ecs_cluster_arn)
+    deregister_ecs_cluster(ecs_cluster_arn, params::Dict{String,<:Any})
 
 Deregisters a specified Amazon ECS cluster from a stack. For more information, see
 Resource Management.  Required Permissions: To use this action, an IAM user must have a
@@ -655,15 +682,16 @@ Manage permissions level for the stack or an attached policy that explicitly gra
 permissions. For more information on user permissions, see
 https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html.
 
-# Required Parameters
-- `EcsClusterArn`: The cluster's Amazon Resource Number (ARN).
+# Arguments
+- `ecs_cluster_arn`: The cluster's Amazon Resource Number (ARN).
 
 """
 deregister_ecs_cluster(EcsClusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn); aws_config=aws_config)
-deregister_ecs_cluster(EcsClusterArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), args)); aws_config=aws_config)
+deregister_ecs_cluster(EcsClusterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn), params)); aws_config=aws_config)
 
 """
-    DeregisterElasticIp()
+    deregister_elastic_ip(elastic_ip)
+    deregister_elastic_ip(elastic_ip, params::Dict{String,<:Any})
 
 Deregisters a specified Elastic IP address. The address can then be registered by another
 stack. For more information, see Resource Management.  Required Permissions: To use this
@@ -671,15 +699,16 @@ action, an IAM user must have a Manage permissions level for the stack, or an at
 policy that explicitly grants permissions. For more information on user permissions, see
 Managing User Permissions.
 
-# Required Parameters
-- `ElasticIp`: The Elastic IP address.
+# Arguments
+- `elastic_ip`: The Elastic IP address.
 
 """
 deregister_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-deregister_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+deregister_elastic_ip(ElasticIp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config)
 
 """
-    DeregisterInstance()
+    deregister_instance(instance_id)
+    deregister_instance(instance_id, params::Dict{String,<:Any})
 
 Deregister a registered Amazon EC2 or on-premises instance. This action removes the
 instance from the stack and returns it to your control. This action cannot be used with
@@ -688,29 +717,31 @@ action, an IAM user must have a Manage permissions level for the stack or an att
 policy that explicitly grants permissions. For more information on user permissions, see
 Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 """
 deregister_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-deregister_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+deregister_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    DeregisterRdsDbInstance()
+    deregister_rds_db_instance(rds_db_instance_arn)
+    deregister_rds_db_instance(rds_db_instance_arn, params::Dict{String,<:Any})
 
 Deregisters an Amazon RDS instance.  Required Permissions: To use this action, an IAM user
 must have a Manage permissions level for the stack, or an attached policy that explicitly
 grants permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `RdsDbInstanceArn`: The Amazon RDS instance's ARN.
+# Arguments
+- `rds_db_instance_arn`: The Amazon RDS instance's ARN.
 
 """
 deregister_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
-deregister_rds_db_instance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
+deregister_rds_db_instance(RdsDbInstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config)
 
 """
-    DeregisterVolume()
+    deregister_volume(volume_id)
+    deregister_volume(volume_id, params::Dict{String,<:Any})
 
 Deregisters an Amazon EBS volume. The volume can then be registered by another stack. For
 more information, see Resource Management.  Required Permissions: To use this action, an
@@ -718,31 +749,34 @@ IAM user must have a Manage permissions level for the stack, or an attached poli
 explicitly grants permissions. For more information on user permissions, see Managing User
 Permissions.
 
-# Required Parameters
-- `VolumeId`: The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks
-  assigned to the instance when you registered the volume with the stack, not the Amazon EC2
-  volume ID.
+# Arguments
+- `volume_id`: The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks
+  Stacks assigned to the instance when you registered the volume with the stack, not the
+  Amazon EC2 volume ID.
 
 """
 deregister_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-deregister_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+deregister_volume(VolumeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DeregisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config)
 
 """
-    DescribeAgentVersions()
+    describe_agent_versions()
+    describe_agent_versions(params::Dict{String,<:Any})
 
 Describes the available AWS OpsWorks Stacks agent versions. You must specify a stack ID or
 a configuration manager. DescribeAgentVersions returns a list of available agent versions
 for the specified stack or configuration manager.
 
 # Optional Parameters
-- `ConfigurationManager`: The configuration manager.
-- `StackId`: The stack ID.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationManager"`: The configuration manager.
+- `"StackId"`: The stack ID.
 """
 describe_agent_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions"; aws_config=aws_config)
-describe_agent_versions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions", args; aws_config=aws_config)
+describe_agent_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeAgentVersions", params; aws_config=aws_config)
 
 """
-    DescribeApps()
+    describe_apps()
+    describe_apps(params::Dict{String,<:Any})
 
 Requests a description of a specified set of apps.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -751,17 +785,19 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `AppIds`: An array of app IDs for the apps to be described. If you use this parameter,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppIds"`: An array of app IDs for the apps to be described. If you use this parameter,
   DescribeApps returns a description of the specified apps. Otherwise, it returns a
   description of every app.
-- `StackId`: The app stack ID. If you use this parameter, DescribeApps returns a
+- `"StackId"`: The app stack ID. If you use this parameter, DescribeApps returns a
   description of the apps in the specified stack.
 """
 describe_apps(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeApps"; aws_config=aws_config)
-describe_apps(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeApps", args; aws_config=aws_config)
+describe_apps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeApps", params; aws_config=aws_config)
 
 """
-    DescribeCommands()
+    describe_commands()
+    describe_commands(params::Dict{String,<:Any})
 
 Describes the results of specified commands.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -770,19 +806,21 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `CommandIds`: An array of command IDs. If you include this parameter, DescribeCommands
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CommandIds"`: An array of command IDs. If you include this parameter, DescribeCommands
   returns a description of the specified commands. Otherwise, it returns a description of
   every command.
-- `DeploymentId`: The deployment ID. If you include this parameter, DescribeCommands
+- `"DeploymentId"`: The deployment ID. If you include this parameter, DescribeCommands
   returns a description of the commands associated with the specified deployment.
-- `InstanceId`: The instance ID. If you include this parameter, DescribeCommands returns a
-  description of the commands associated with the specified instance.
+- `"InstanceId"`: The instance ID. If you include this parameter, DescribeCommands returns
+  a description of the commands associated with the specified instance.
 """
 describe_commands(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeCommands"; aws_config=aws_config)
-describe_commands(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeCommands", args; aws_config=aws_config)
+describe_commands(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeCommands", params; aws_config=aws_config)
 
 """
-    DescribeDeployments()
+    describe_deployments()
+    describe_deployments(params::Dict{String,<:Any})
 
 Requests a description of a specified set of deployments.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -791,19 +829,21 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `AppId`: The app ID. If you include this parameter, the command returns a description of
-  the commands associated with the specified app.
-- `DeploymentIds`: An array of deployment IDs to be described. If you include this
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppId"`: The app ID. If you include this parameter, the command returns a description
+  of the commands associated with the specified app.
+- `"DeploymentIds"`: An array of deployment IDs to be described. If you include this
   parameter, the command returns a description of the specified deployments. Otherwise, it
   returns a description of every deployment.
-- `StackId`: The stack ID. If you include this parameter, the command returns a description
-  of the commands associated with the specified stack.
+- `"StackId"`: The stack ID. If you include this parameter, the command returns a
+  description of the commands associated with the specified stack.
 """
 describe_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeDeployments"; aws_config=aws_config)
-describe_deployments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeDeployments", args; aws_config=aws_config)
+describe_deployments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeDeployments", params; aws_config=aws_config)
 
 """
-    DescribeEcsClusters()
+    describe_ecs_clusters()
+    describe_ecs_clusters(params::Dict{String,<:Any})
 
 Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack
 ID, you can use the MaxResults and NextToken parameters to paginate the response. However,
@@ -814,24 +854,26 @@ explicitly grants permission. For more information about user permissions, see M
 User Permissions. This call accepts only one resource-identifying parameter.
 
 # Optional Parameters
-- `EcsClusterArns`: A list of ARNs, one for each cluster to be described.
-- `MaxResults`: To receive a paginated response, use this parameter to specify the maximum
-  number of results to be returned with a single call. If the number of available results
-  exceeds this maximum, the response includes a NextToken value that you can assign to the
-  NextToken request parameter to get the next set of results.
-- `NextToken`: If the previous paginated request did not return all of the remaining
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EcsClusterArns"`: A list of ARNs, one for each cluster to be described.
+- `"MaxResults"`: To receive a paginated response, use this parameter to specify the
+  maximum number of results to be returned with a single call. If the number of available
+  results exceeds this maximum, the response includes a NextToken value that you can assign
+  to the NextToken request parameter to get the next set of results.
+- `"NextToken"`: If the previous paginated request did not return all of the remaining
   results, the response object'sNextToken parameter value is set to a token. To retrieve the
   next set of results, call DescribeEcsClusters again and assign that token to the request
   object's NextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
-- `StackId`: A stack ID. DescribeEcsClusters returns a description of the cluster that is
+- `"StackId"`: A stack ID. DescribeEcsClusters returns a description of the cluster that is
   registered with the stack.
 """
 describe_ecs_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters"; aws_config=aws_config)
-describe_ecs_clusters(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters", args; aws_config=aws_config)
+describe_ecs_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeEcsClusters", params; aws_config=aws_config)
 
 """
-    DescribeElasticIps()
+    describe_elastic_ips()
+    describe_elastic_ips(params::Dict{String,<:Any})
 
 Describes Elastic IP addresses.  This call accepts only one resource-identifying parameter.
   Required Permissions: To use this action, an IAM user must have a Show, Deploy, or Manage
@@ -839,19 +881,21 @@ permissions level for the stack, or an attached policy that explicitly grants pe
 For more information about user permissions, see Managing User Permissions.
 
 # Optional Parameters
-- `InstanceId`: The instance ID. If you include this parameter, DescribeElasticIps returns
-  a description of the Elastic IP addresses associated with the specified instance.
-- `Ips`: An array of Elastic IP addresses to be described. If you include this parameter,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID. If you include this parameter, DescribeElasticIps
+  returns a description of the Elastic IP addresses associated with the specified instance.
+- `"Ips"`: An array of Elastic IP addresses to be described. If you include this parameter,
   DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise,
   it returns a description of every Elastic IP address.
-- `StackId`: A stack ID. If you include this parameter, DescribeElasticIps returns a
+- `"StackId"`: A stack ID. If you include this parameter, DescribeElasticIps returns a
   description of the Elastic IP addresses that are registered with the specified stack.
 """
 describe_elastic_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticIps"; aws_config=aws_config)
-describe_elastic_ips(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticIps", args; aws_config=aws_config)
+describe_elastic_ips(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticIps", params; aws_config=aws_config)
 
 """
-    DescribeElasticLoadBalancers()
+    describe_elastic_load_balancers()
+    describe_elastic_load_balancers(params::Dict{String,<:Any})
 
 Describes a stack's Elastic Load Balancing instances.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -860,15 +904,18 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `LayerIds`: A list of layer IDs. The action describes the Elastic Load Balancing
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LayerIds"`: A list of layer IDs. The action describes the Elastic Load Balancing
   instances for the specified layers.
-- `StackId`: A stack ID. The action describes the stack's Elastic Load Balancing instances.
+- `"StackId"`: A stack ID. The action describes the stack's Elastic Load Balancing
+  instances.
 """
 describe_elastic_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers"; aws_config=aws_config)
-describe_elastic_load_balancers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers", args; aws_config=aws_config)
+describe_elastic_load_balancers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeElasticLoadBalancers", params; aws_config=aws_config)
 
 """
-    DescribeInstances()
+    describe_instances()
+    describe_instances(params::Dict{String,<:Any})
 
 Requests a description of a set of instances.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -877,19 +924,21 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `InstanceIds`: An array of instance IDs to be described. If you use this parameter,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceIds"`: An array of instance IDs to be described. If you use this parameter,
   DescribeInstances returns a description of the specified instances. Otherwise, it returns a
   description of every instance.
-- `LayerId`: A layer ID. If you use this parameter, DescribeInstances returns descriptions
-  of the instances associated with the specified layer.
-- `StackId`: A stack ID. If you use this parameter, DescribeInstances returns descriptions
-  of the instances associated with the specified stack.
+- `"LayerId"`: A layer ID. If you use this parameter, DescribeInstances returns
+  descriptions of the instances associated with the specified layer.
+- `"StackId"`: A stack ID. If you use this parameter, DescribeInstances returns
+  descriptions of the instances associated with the specified stack.
 """
 describe_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeInstances"; aws_config=aws_config)
-describe_instances(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeInstances", args; aws_config=aws_config)
+describe_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeInstances", params; aws_config=aws_config)
 
 """
-    DescribeLayers()
+    describe_layers()
+    describe_layers(params::Dict{String,<:Any})
 
 Requests a description of one or more layers in a specified stack.  This call accepts only
 one resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -898,15 +947,17 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `LayerIds`: An array of layer IDs that specify the layers to be described. If you omit
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LayerIds"`: An array of layer IDs that specify the layers to be described. If you omit
   this parameter, DescribeLayers returns a description of every layer in the specified stack.
-- `StackId`: The stack ID.
+- `"StackId"`: The stack ID.
 """
 describe_layers(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLayers"; aws_config=aws_config)
-describe_layers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLayers", args; aws_config=aws_config)
+describe_layers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLayers", params; aws_config=aws_config)
 
 """
-    DescribeLoadBasedAutoScaling()
+    describe_load_based_auto_scaling(layer_ids)
+    describe_load_based_auto_scaling(layer_ids, params::Dict{String,<:Any})
 
 Describes load-based auto scaling configurations for specified layers.  You must specify at
 least one of the parameters.   Required Permissions: To use this action, an IAM user must
@@ -914,15 +965,16 @@ have a Show, Deploy, or Manage permissions level for the stack, or an attached p
 explicitly grants permissions. For more information about user permissions, see Managing
 User Permissions.
 
-# Required Parameters
-- `LayerIds`: An array of layer IDs.
+# Arguments
+- `layer_ids`: An array of layer IDs.
 
 """
 describe_load_based_auto_scaling(LayerIds; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}("LayerIds"=>LayerIds); aws_config=aws_config)
-describe_load_based_auto_scaling(LayerIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), args)); aws_config=aws_config)
+describe_load_based_auto_scaling(LayerIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerIds"=>LayerIds), params)); aws_config=aws_config)
 
 """
-    DescribeMyUserProfile()
+    describe_my_user_profile()
+    describe_my_user_profile(params::Dict{String,<:Any})
 
 Describes a user's SSH information.  Required Permissions: To use this action, an IAM user
 must have self-management enabled or an attached policy that explicitly grants permissions.
@@ -930,19 +982,21 @@ For more information about user permissions, see Managing User Permissions.
 
 """
 describe_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile"; aws_config=aws_config)
-describe_my_user_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile", args; aws_config=aws_config)
+describe_my_user_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeMyUserProfile", params; aws_config=aws_config)
 
 """
-    DescribeOperatingSystems()
+    describe_operating_systems()
+    describe_operating_systems(params::Dict{String,<:Any})
 
 Describes the operating systems that are supported by AWS OpsWorks Stacks.
 
 """
 describe_operating_systems(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems"; aws_config=aws_config)
-describe_operating_systems(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems", args; aws_config=aws_config)
+describe_operating_systems(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeOperatingSystems", params; aws_config=aws_config)
 
 """
-    DescribePermissions()
+    describe_permissions()
+    describe_permissions(params::Dict{String,<:Any})
 
 Describes the permissions for a specified stack.  Required Permissions: To use this action,
 an IAM user must have a Manage permissions level for the stack, or an attached policy that
@@ -950,15 +1004,17 @@ explicitly grants permissions. For more information on user permissions, see Man
 Permissions.
 
 # Optional Parameters
-- `IamUserArn`: The user's IAM ARN. This can also be a federated user's ARN. For more
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IamUserArn"`: The user's IAM ARN. This can also be a federated user's ARN. For more
   information about IAM ARNs, see Using Identifiers.
-- `StackId`: The stack ID.
+- `"StackId"`: The stack ID.
 """
 describe_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribePermissions"; aws_config=aws_config)
-describe_permissions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribePermissions", args; aws_config=aws_config)
+describe_permissions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribePermissions", params; aws_config=aws_config)
 
 """
-    DescribeRaidArrays()
+    describe_raid_arrays()
+    describe_raid_arrays(params::Dict{String,<:Any})
 
 Describe an instance's RAID arrays.  This call accepts only one resource-identifying
 parameter.   Required Permissions: To use this action, an IAM user must have a Show,
@@ -967,36 +1023,40 @@ grants permissions. For more information about user permissions, see Managing Us
 Permissions.
 
 # Optional Parameters
-- `InstanceId`: The instance ID. If you use this parameter, DescribeRaidArrays returns
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID. If you use this parameter, DescribeRaidArrays returns
   descriptions of the RAID arrays associated with the specified instance.
-- `RaidArrayIds`: An array of RAID array IDs. If you use this parameter, DescribeRaidArrays
-  returns descriptions of the specified arrays. Otherwise, it returns a description of every
-  array.
-- `StackId`: The stack ID.
+- `"RaidArrayIds"`: An array of RAID array IDs. If you use this parameter,
+  DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a
+  description of every array.
+- `"StackId"`: The stack ID.
 """
 describe_raid_arrays(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays"; aws_config=aws_config)
-describe_raid_arrays(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays", args; aws_config=aws_config)
+describe_raid_arrays(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRaidArrays", params; aws_config=aws_config)
 
 """
-    DescribeRdsDbInstances()
+    describe_rds_db_instances(stack_id)
+    describe_rds_db_instances(stack_id, params::Dict{String,<:Any})
 
 Describes Amazon RDS instances.  Required Permissions: To use this action, an IAM user must
 have a Show, Deploy, or Manage permissions level for the stack, or an attached policy that
 explicitly grants permissions. For more information about user permissions, see Managing
 User Permissions. This call accepts only one resource-identifying parameter.
 
-# Required Parameters
-- `StackId`: The ID of the stack with which the instances are registered. The operation
+# Arguments
+- `stack_id`: The ID of the stack with which the instances are registered. The operation
   returns descriptions of all registered Amazon RDS instances.
 
 # Optional Parameters
-- `RdsDbInstanceArns`: An array containing the ARNs of the instances to be described.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RdsDbInstanceArns"`: An array containing the ARNs of the instances to be described.
 """
 describe_rds_db_instances(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-describe_rds_db_instances(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_rds_db_instances(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeRdsDbInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    DescribeServiceErrors()
+    describe_service_errors()
+    describe_service_errors(params::Dict{String,<:Any})
 
 Describes AWS OpsWorks Stacks service errors.  Required Permissions: To use this action, an
 IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an
@@ -1005,34 +1065,37 @@ permissions, see Managing User Permissions. This call accepts only one resource-
 parameter.
 
 # Optional Parameters
-- `InstanceId`: The instance ID. If you use this parameter, DescribeServiceErrors returns
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID. If you use this parameter, DescribeServiceErrors returns
   descriptions of the errors associated with the specified instance.
-- `ServiceErrorIds`: An array of service error IDs. If you use this parameter,
+- `"ServiceErrorIds"`: An array of service error IDs. If you use this parameter,
   DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a
   description of every error.
-- `StackId`: The stack ID. If you use this parameter, DescribeServiceErrors returns
+- `"StackId"`: The stack ID. If you use this parameter, DescribeServiceErrors returns
   descriptions of the errors associated with the specified stack.
 """
 describe_service_errors(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors"; aws_config=aws_config)
-describe_service_errors(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors", args; aws_config=aws_config)
+describe_service_errors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeServiceErrors", params; aws_config=aws_config)
 
 """
-    DescribeStackProvisioningParameters()
+    describe_stack_provisioning_parameters(stack_id)
+    describe_stack_provisioning_parameters(stack_id, params::Dict{String,<:Any})
 
 Requests a description of a stack's provisioning parameters.  Required Permissions: To use
 this action, an IAM user must have a Show, Deploy, or Manage permissions level for the
 stack or an attached policy that explicitly grants permissions. For more information about
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 """
 describe_stack_provisioning_parameters(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-describe_stack_provisioning_parameters(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_stack_provisioning_parameters(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackProvisioningParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    DescribeStackSummary()
+    describe_stack_summary(stack_id)
+    describe_stack_summary(stack_id, params::Dict{String,<:Any})
 
 Describes the number of layers and apps in a specified stack, and the number of instances
 in each state, such as running_setup or online.  Required Permissions: To use this action,
@@ -1040,15 +1103,16 @@ an IAM user must have a Show, Deploy, or Manage permissions level for the stack,
 attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 """
 describe_stack_summary(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-describe_stack_summary(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+describe_stack_summary(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStackSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    DescribeStacks()
+    describe_stacks()
+    describe_stacks(params::Dict{String,<:Any})
 
 Requests a description of one or more stacks.  Required Permissions: To use this action, an
 IAM user must have a Show, Deploy, or Manage permissions level for the stack, or an
@@ -1056,14 +1120,16 @@ attached policy that explicitly grants permissions. For more information about u
 permissions, see Managing User Permissions.
 
 # Optional Parameters
-- `StackIds`: An array of stack IDs that specify the stacks to be described. If you omit
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StackIds"`: An array of stack IDs that specify the stacks to be described. If you omit
   this parameter, DescribeStacks returns a description of every stack.
 """
 describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStacks"; aws_config=aws_config)
-describe_stacks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStacks", args; aws_config=aws_config)
+describe_stacks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeStacks", params; aws_config=aws_config)
 
 """
-    DescribeTimeBasedAutoScaling()
+    describe_time_based_auto_scaling(instance_ids)
+    describe_time_based_auto_scaling(instance_ids, params::Dict{String,<:Any})
 
 Describes time-based auto scaling configurations for specified instances.  You must specify
 at least one of the parameters.   Required Permissions: To use this action, an IAM user
@@ -1071,29 +1137,32 @@ must have a Show, Deploy, or Manage permissions level for the stack, or an attac
 that explicitly grants permissions. For more information about user permissions, see
 Managing User Permissions.
 
-# Required Parameters
-- `InstanceIds`: An array of instance IDs.
+# Arguments
+- `instance_ids`: An array of instance IDs.
 
 """
 describe_time_based_auto_scaling(InstanceIds; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}("InstanceIds"=>InstanceIds); aws_config=aws_config)
-describe_time_based_auto_scaling(InstanceIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), args)); aws_config=aws_config)
+describe_time_based_auto_scaling(InstanceIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config)
 
 """
-    DescribeUserProfiles()
+    describe_user_profiles()
+    describe_user_profiles(params::Dict{String,<:Any})
 
 Describe specified users.  Required Permissions: To use this action, an IAM user must have
 an attached policy that explicitly grants permissions. For more information about user
 permissions, see Managing User Permissions.
 
 # Optional Parameters
-- `IamUserArns`: An array of IAM or federated user ARNs that identify the users to be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IamUserArns"`: An array of IAM or federated user ARNs that identify the users to be
   described.
 """
 describe_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles"; aws_config=aws_config)
-describe_user_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles", args; aws_config=aws_config)
+describe_user_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeUserProfiles", params; aws_config=aws_config)
 
 """
-    DescribeVolumes()
+    describe_volumes()
+    describe_volumes(params::Dict{String,<:Any})
 
 Describes an instance's Amazon EBS volumes.  This call accepts only one
 resource-identifying parameter.   Required Permissions: To use this action, an IAM user
@@ -1102,35 +1171,38 @@ that explicitly grants permissions. For more information about user permissions,
 Managing User Permissions.
 
 # Optional Parameters
-- `InstanceId`: The instance ID. If you use this parameter, DescribeVolumes returns
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceId"`: The instance ID. If you use this parameter, DescribeVolumes returns
   descriptions of the volumes associated with the specified instance.
-- `RaidArrayId`: The RAID array ID. If you use this parameter, DescribeVolumes returns
+- `"RaidArrayId"`: The RAID array ID. If you use this parameter, DescribeVolumes returns
   descriptions of the volumes associated with the specified RAID array.
-- `StackId`: A stack ID. The action describes the stack's registered Amazon EBS volumes.
-- `VolumeIds`: Am array of volume IDs. If you use this parameter, DescribeVolumes returns
+- `"StackId"`: A stack ID. The action describes the stack's registered Amazon EBS volumes.
+- `"VolumeIds"`: Am array of volume IDs. If you use this parameter, DescribeVolumes returns
   descriptions of the specified volumes. Otherwise, it returns a description of every volume.
 """
 describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeVolumes"; aws_config=aws_config)
-describe_volumes(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeVolumes", args; aws_config=aws_config)
+describe_volumes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DescribeVolumes", params; aws_config=aws_config)
 
 """
-    DetachElasticLoadBalancer()
+    detach_elastic_load_balancer(elastic_load_balancer_name, layer_id)
+    detach_elastic_load_balancer(elastic_load_balancer_name, layer_id, params::Dict{String,<:Any})
 
 Detaches a specified Elastic Load Balancing instance from its layer.  Required Permissions:
 To use this action, an IAM user must have a Manage permissions level for the stack, or an
 attached policy that explicitly grants permissions. For more information on user
 permissions, see Managing User Permissions.
 
-# Required Parameters
-- `ElasticLoadBalancerName`: The Elastic Load Balancing instance's name.
-- `LayerId`: The ID of the layer that the Elastic Load Balancing instance is attached to.
+# Arguments
+- `elastic_load_balancer_name`: The Elastic Load Balancing instance's name.
+- `layer_id`: The ID of the layer that the Elastic Load Balancing instance is attached to.
 
 """
 detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId); aws_config=aws_config)
-detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), args)); aws_config=aws_config)
+detach_elastic_load_balancer(ElasticLoadBalancerName, LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DetachElasticLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticLoadBalancerName"=>ElasticLoadBalancerName, "LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    DisassociateElasticIp()
+    disassociate_elastic_ip(elastic_ip)
+    disassociate_elastic_ip(elastic_ip, params::Dict{String,<:Any})
 
 Disassociates an Elastic IP address from its instance. The address remains registered with
 the stack. For more information, see Resource Management.  Required Permissions: To use
@@ -1138,80 +1210,87 @@ this action, an IAM user must have a Manage permissions level for the stack, or 
 policy that explicitly grants permissions. For more information on user permissions, see
 Managing User Permissions.
 
-# Required Parameters
-- `ElasticIp`: The Elastic IP address.
+# Arguments
+- `elastic_ip`: The Elastic IP address.
 
 """
 disassociate_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-disassociate_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+disassociate_elastic_ip(ElasticIp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("DisassociateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config)
 
 """
-    GetHostnameSuggestion()
+    get_hostname_suggestion(layer_id)
+    get_hostname_suggestion(layer_id, params::Dict{String,<:Any})
 
 Gets a generated host name for the specified layer, based on the current host name theme.
 Required Permissions: To use this action, an IAM user must have a Manage permissions level
 for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `LayerId`: The layer ID.
+# Arguments
+- `layer_id`: The layer ID.
 
 """
 get_hostname_suggestion(LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-get_hostname_suggestion(LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+get_hostname_suggestion(LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GetHostnameSuggestion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    GrantAccess()
+    grant_access(instance_id)
+    grant_access(instance_id, params::Dict{String,<:Any})
 
  This action can be used only with Windows stacks.  Grants RDP access to a Windows instance
 for a specified time period.
 
-# Required Parameters
-- `InstanceId`: The instance's AWS OpsWorks Stacks ID.
+# Arguments
+- `instance_id`: The instance's AWS OpsWorks Stacks ID.
 
 # Optional Parameters
-- `ValidForInMinutes`: The length of time (in minutes) that the grant is valid. When the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ValidForInMinutes"`: The length of time (in minutes) that the grant is valid. When the
   grant expires at the end of this period, the user will no longer be able to use the
   credentials to log in. If the user is logged in at the time, he or she automatically will
   be logged out.
 """
 grant_access(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-grant_access(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+grant_access(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("GrantAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    ListTags()
+    list_tags(resource_arn)
+    list_tags(resource_arn, params::Dict{String,<:Any})
 
 Returns a list of tags that are applied to the specified stack or layer.
 
-# Required Parameters
-- `ResourceArn`: The stack or layer's Amazon Resource Number (ARN).
+# Arguments
+- `resource_arn`: The stack or layer's Amazon Resource Number (ARN).
 
 # Optional Parameters
-- `MaxResults`: Do not use. A validation exception occurs if you add a MaxResults parameter
-  to a ListTagsRequest call.
-- `NextToken`: Do not use. A validation exception occurs if you add a NextToken parameter
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Do not use. A validation exception occurs if you add a MaxResults
+  parameter to a ListTagsRequest call.
+- `"NextToken"`: Do not use. A validation exception occurs if you add a NextToken parameter
   to a ListTagsRequest call.
 """
 list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    RebootInstance()
+    reboot_instance(instance_id)
+    reboot_instance(instance_id, params::Dict{String,<:Any})
 
 Reboots a specified instance. For more information, see Starting, Stopping, and Rebooting
 Instances.  Required Permissions: To use this action, an IAM user must have a Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 """
 reboot_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-reboot_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+reboot_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RebootInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    RegisterEcsCluster()
+    register_ecs_cluster(ecs_cluster_arn, stack_id)
+    register_ecs_cluster(ecs_cluster_arn, stack_id, params::Dict{String,<:Any})
 
 Registers a specified Amazon ECS cluster with a stack. You can register only one cluster
 with a stack. A cluster can be registered with only one stack. For more information, see
@@ -1219,16 +1298,17 @@ Resource Management.  Required Permissions: To use this action, an IAM user must
 Manage permissions level for the stack or an attached policy that explicitly grants
 permissions. For more information on user permissions, see  Managing User Permissions.
 
-# Required Parameters
-- `EcsClusterArn`: The cluster's ARN.
-- `StackId`: The stack ID.
+# Arguments
+- `ecs_cluster_arn`: The cluster's ARN.
+- `stack_id`: The stack ID.
 
 """
 register_ecs_cluster(EcsClusterArn, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId); aws_config=aws_config)
-register_ecs_cluster(EcsClusterArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), args)); aws_config=aws_config)
+register_ecs_cluster(EcsClusterArn, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterEcsCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EcsClusterArn"=>EcsClusterArn, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    RegisterElasticIp()
+    register_elastic_ip(elastic_ip, stack_id)
+    register_elastic_ip(elastic_ip, stack_id, params::Dict{String,<:Any})
 
 Registers an Elastic IP address with a specified stack. An address can be registered with
 only one stack at a time. If the address is already registered, you must first deregister
@@ -1237,16 +1317,17 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `ElasticIp`: The Elastic IP address.
-- `StackId`: The stack ID.
+# Arguments
+- `elastic_ip`: The Elastic IP address.
+- `stack_id`: The stack ID.
 
 """
 register_elastic_ip(ElasticIp, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId); aws_config=aws_config)
-register_elastic_ip(ElasticIp, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), args)); aws_config=aws_config)
+register_elastic_ip(ElasticIp, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    RegisterInstance()
+    register_instance(stack_id)
+    register_instance(stack_id, params::Dict{String,<:Any})
 
 Registers instances that were created outside of AWS OpsWorks Stacks with a specified
 stack.  We do not recommend using this action to register instances. The complete
@@ -1262,41 +1343,44 @@ Preparing the Instance.  Required Permissions: To use this action, an IAM user m
 Manage permissions level for the stack or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The ID of the stack that the instance is to be registered with.
+# Arguments
+- `stack_id`: The ID of the stack that the instance is to be registered with.
 
 # Optional Parameters
-- `Hostname`: The instance's hostname.
-- `InstanceIdentity`: An InstanceIdentity object that contains the instance's identity.
-- `PrivateIp`: The instance's private IP address.
-- `PublicIp`: The instance's public IP address.
-- `RsaPublicKey`: The instances public RSA key. This key is used to encrypt communication
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Hostname"`: The instance's hostname.
+- `"InstanceIdentity"`: An InstanceIdentity object that contains the instance's identity.
+- `"PrivateIp"`: The instance's private IP address.
+- `"PublicIp"`: The instance's public IP address.
+- `"RsaPublicKey"`: The instances public RSA key. This key is used to encrypt communication
   between the instance and the service.
-- `RsaPublicKeyFingerprint`: The instances public RSA key fingerprint.
+- `"RsaPublicKeyFingerprint"`: The instances public RSA key fingerprint.
 """
 register_instance(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-register_instance(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+register_instance(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    RegisterRdsDbInstance()
+    register_rds_db_instance(db_password, db_user, rds_db_instance_arn, stack_id)
+    register_rds_db_instance(db_password, db_user, rds_db_instance_arn, stack_id, params::Dict{String,<:Any})
 
 Registers an Amazon RDS instance with a stack.  Required Permissions: To use this action,
 an IAM user must have a Manage permissions level for the stack, or an attached policy that
 explicitly grants permissions. For more information on user permissions, see Managing User
 Permissions.
 
-# Required Parameters
-- `DbPassword`: The database password.
-- `DbUser`: The database's master user name.
-- `RdsDbInstanceArn`: The Amazon RDS instance's ARN.
-- `StackId`: The stack ID.
+# Arguments
+- `db_password`: The database password.
+- `db_user`: The database's master user name.
+- `rds_db_instance_arn`: The Amazon RDS instance's ARN.
+- `stack_id`: The stack ID.
 
 """
 register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId); aws_config=aws_config)
-register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), args)); aws_config=aws_config)
+register_rds_db_instance(DbPassword, DbUser, RdsDbInstanceArn, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbPassword"=>DbPassword, "DbUser"=>DbUser, "RdsDbInstanceArn"=>RdsDbInstanceArn, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    RegisterVolume()
+    register_volume(stack_id)
+    register_volume(stack_id, params::Dict{String,<:Any})
 
 Registers an Amazon EBS volume with a specified stack. A volume can be registered with only
 one stack at a time. If the volume is already registered, you must first deregister it by
@@ -1305,17 +1389,19 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 # Optional Parameters
-- `Ec2VolumeId`: The Amazon EBS volume ID.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Ec2VolumeId"`: The Amazon EBS volume ID.
 """
 register_volume(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-register_volume(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+register_volume(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("RegisterVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    SetLoadBasedAutoScaling()
+    set_load_based_auto_scaling(layer_id)
+    set_load_based_auto_scaling(layer_id, params::Dict{String,<:Any})
 
 Specify the load-based auto scaling configuration for a specified layer. For more
 information, see Managing Load with Time-based and Load-based Instances.  To use load-based
@@ -1326,46 +1412,50 @@ use this action, an IAM user must have a Manage permissions level for the stack,
 attached policy that explicitly grants permissions. For more information on user
 permissions, see Managing User Permissions.
 
-# Required Parameters
-- `LayerId`: The layer ID.
+# Arguments
+- `layer_id`: The layer ID.
 
 # Optional Parameters
-- `DownScaling`: An AutoScalingThresholds object with the downscaling threshold
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DownScaling"`: An AutoScalingThresholds object with the downscaling threshold
   configuration. If the load falls below these thresholds for a specified amount of time, AWS
   OpsWorks Stacks stops a specified number of instances.
-- `Enable`: Enables load-based auto scaling for the layer.
-- `UpScaling`: An AutoScalingThresholds object with the upscaling threshold configuration.
-  If the load exceeds these thresholds for a specified amount of time, AWS OpsWorks Stacks
-  starts a specified number of instances.
+- `"Enable"`: Enables load-based auto scaling for the layer.
+- `"UpScaling"`: An AutoScalingThresholds object with the upscaling threshold
+  configuration. If the load exceeds these thresholds for a specified amount of time, AWS
+  OpsWorks Stacks starts a specified number of instances.
 """
 set_load_based_auto_scaling(LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-set_load_based_auto_scaling(LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+set_load_based_auto_scaling(LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetLoadBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    SetPermission()
+    set_permission(iam_user_arn, stack_id)
+    set_permission(iam_user_arn, stack_id, params::Dict{String,<:Any})
 
 Specifies a user's permissions. For more information, see Security and Permissions.
 Required Permissions: To use this action, an IAM user must have a Manage permissions level
 for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `IamUserArn`: The user's IAM ARN. This can also be a federated user's ARN.
-- `StackId`: The stack ID.
+# Arguments
+- `iam_user_arn`: The user's IAM ARN. This can also be a federated user's ARN.
+- `stack_id`: The stack ID.
 
 # Optional Parameters
-- `AllowSsh`: The user is allowed to use SSH to communicate with the instance.
-- `AllowSudo`: The user is allowed to use sudo to elevate privileges.
-- `Level`: The user's permission level, which must be set to one of the following strings.
-  You cannot set your own permissions level.    deny     show     deploy     manage
-  iam_only    For more information about the permissions associated with these levels, see
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowSsh"`: The user is allowed to use SSH to communicate with the instance.
+- `"AllowSudo"`: The user is allowed to use sudo to elevate privileges.
+- `"Level"`: The user's permission level, which must be set to one of the following
+  strings. You cannot set your own permissions level.    deny     show     deploy     manage
+     iam_only    For more information about the permissions associated with these levels, see
   Managing User Permissions.
 """
 set_permission(IamUserArn, StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId); aws_config=aws_config)
-set_permission(IamUserArn, StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), args)); aws_config=aws_config)
+set_permission(IamUserArn, StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn, "StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    SetTimeBasedAutoScaling()
+    set_time_based_auto_scaling(instance_id)
+    set_time_based_auto_scaling(instance_id, params::Dict{String,<:Any})
 
 Specify the time-based auto scaling configuration for a specified instance. For more
 information, see Managing Load with Time-based and Load-based Instances.  Required
@@ -1373,46 +1463,50 @@ Permissions: To use this action, an IAM user must have a Manage permissions leve
 stack, or an attached policy that explicitly grants permissions. For more information on
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 # Optional Parameters
-- `AutoScalingSchedule`: An AutoScalingSchedule with the instance schedule.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoScalingSchedule"`: An AutoScalingSchedule with the instance schedule.
 """
 set_time_based_auto_scaling(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-set_time_based_auto_scaling(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+set_time_based_auto_scaling(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("SetTimeBasedAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    StartInstance()
+    start_instance(instance_id)
+    start_instance(instance_id, params::Dict{String,<:Any})
 
 Starts a specified instance. For more information, see Starting, Stopping, and Rebooting
 Instances.  Required Permissions: To use this action, an IAM user must have a Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 """
 start_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-start_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+start_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    StartStack()
+    start_stack(stack_id)
+    start_stack(stack_id, params::Dict{String,<:Any})
 
 Starts a stack's instances.  Required Permissions: To use this action, an IAM user must
 have a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 """
 start_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-start_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+start_stack(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StartStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    StopInstance()
+    stop_instance(instance_id)
+    stop_instance(instance_id, params::Dict{String,<:Any})
 
 Stops a specified instance. When you stop a standard instance, the data disappears and must
 be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance
@@ -1421,42 +1515,45 @@ without losing data. For more information, see Starting, Stopping, and Rebooting
 for the stack, or an attached policy that explicitly grants permissions. For more
 information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 # Optional Parameters
-- `Force`: Specifies whether to force an instance to stop. If the instance's root device
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Force"`: Specifies whether to force an instance to stop. If the instance's root device
   type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call
   disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the
   OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2
   after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
 """
 stop_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-stop_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+stop_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    StopStack()
+    stop_stack(stack_id)
+    stop_stack(stack_id, params::Dict{String,<:Any})
 
 Stops a specified stack.  Required Permissions: To use this action, an IAM user must have a
 Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 """
 stop_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-stop_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+stop_stack(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("StopStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks. For more
 information about how tagging works, see Tags in the AWS OpsWorks User Guide.
 
-# Required Parameters
-- `ResourceArn`: The stack or layer's Amazon Resource Number (ARN).
-- `Tags`: A map that contains tag keys and tag values that are attached to a stack or
+# Arguments
+- `resource_arn`: The stack or layer's Amazon Resource Number (ARN).
+- `tags`: A map that contains tag keys and tag values that are attached to a stack or
   layer.   The key cannot be empty.   The key can be a maximum of 127 characters, and can
   contain only Unicode letters, numbers, or separators, or the following special characters:
   + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode
@@ -1466,10 +1563,11 @@ information about how tagging works, see Tags in the AWS OpsWorks User Guide.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UnassignInstance()
+    unassign_instance(instance_id)
+    unassign_instance(instance_id, params::Dict{String,<:Any})
 
 Unassigns a registered instance from all layers that are using the instance. The instance
 remains in the stack as an unassigned instance, and can be assigned to another layer as
@@ -1478,15 +1576,16 @@ Stacks.  Required Permissions: To use this action, an IAM user must have a Manag
 permissions level for the stack or an attached policy that explicitly grants permissions.
 For more information about user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 """
 unassign_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-unassign_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+unassign_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    UnassignVolume()
+    unassign_volume(volume_id)
+    unassign_volume(volume_id, params::Dict{String,<:Any})
 
 Unassigns an assigned Amazon EBS volume. The volume remains registered with the stack. For
 more information, see Resource Management.  Required Permissions: To use this action, an
@@ -1494,90 +1593,97 @@ IAM user must have a Manage permissions level for the stack, or an attached poli
 explicitly grants permissions. For more information on user permissions, see Managing User
 Permissions.
 
-# Required Parameters
-- `VolumeId`: The volume ID.
+# Arguments
+- `volume_id`: The volume ID.
 
 """
 unassign_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-unassign_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+unassign_volume(VolumeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UnassignVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes tags from a specified stack or layer.
 
-# Required Parameters
-- `ResourceArn`: The stack or layer's Amazon Resource Number (ARN).
-- `TagKeys`: A list of the keys of tags to be removed from a stack or layer.
+# Arguments
+- `resource_arn`: The stack or layer's Amazon Resource Number (ARN).
+- `tag_keys`: A list of the keys of tags to be removed from a stack or layer.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateApp()
+    update_app(app_id)
+    update_app(app_id, params::Dict{String,<:Any})
 
 Updates a specified app.  Required Permissions: To use this action, an IAM user must have a
 Deploy or Manage permissions level for the stack, or an attached policy that explicitly
 grants permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `AppId`: The app ID.
+# Arguments
+- `app_id`: The app ID.
 
 # Optional Parameters
-- `AppSource`: A Source object that specifies the app repository.
-- `Attributes`: One or more user-defined key/value pairs to be added to the stack
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppSource"`: A Source object that specifies the app repository.
+- `"Attributes"`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `DataSources`: The app's data sources.
-- `Description`: A description of the app.
-- `Domains`: The app's virtual host settings, with multiple domains separated by commas.
+- `"DataSources"`: The app's data sources.
+- `"Description"`: A description of the app.
+- `"Domains"`: The app's virtual host settings, with multiple domains separated by commas.
   For example: 'www.example.com, example.com'
-- `EnableSsl`: Whether SSL is enabled for the app.
-- `Environment`: An array of EnvironmentVariable objects that specify environment variables
-  to be associated with the app. After you deploy the app, these variables are defined on the
-  associated app server instances.For more information, see  Environment Variables. There is
-  no specific limit on the number of environment variables. However, the size of the
-  associated data structure - which includes the variables' names, values, and protected flag
-  values - cannot exceed 20 KB. This limit should accommodate most if not all use cases.
-  Exceeding it will cause an exception with the message, \"Environment: is too large (maximum
-  is 20 KB).\"  If you have specified one or more environment variables, you cannot modify
-  the stack's Chef version.
-- `Name`: The app name.
-- `SslConfiguration`: An SslConfiguration object with the SSL configuration.
-- `Type`: The app type.
+- `"EnableSsl"`: Whether SSL is enabled for the app.
+- `"Environment"`: An array of EnvironmentVariable objects that specify environment
+  variables to be associated with the app. After you deploy the app, these variables are
+  defined on the associated app server instances.For more information, see  Environment
+  Variables. There is no specific limit on the number of environment variables. However, the
+  size of the associated data structure - which includes the variables' names, values, and
+  protected flag values - cannot exceed 20 KB. This limit should accommodate most if not all
+  use cases. Exceeding it will cause an exception with the message, \"Environment: is too
+  large (maximum is 20 KB).\"  If you have specified one or more environment variables, you
+  cannot modify the stack's Chef version.
+- `"Name"`: The app name.
+- `"SslConfiguration"`: An SslConfiguration object with the SSL configuration.
+- `"Type"`: The app type.
 """
 update_app(AppId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}("AppId"=>AppId); aws_config=aws_config)
-update_app(AppId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), args)); aws_config=aws_config)
+update_app(AppId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppId"=>AppId), params)); aws_config=aws_config)
 
 """
-    UpdateElasticIp()
+    update_elastic_ip(elastic_ip)
+    update_elastic_ip(elastic_ip, params::Dict{String,<:Any})
 
 Updates a registered Elastic IP address's name. For more information, see Resource
 Management.  Required Permissions: To use this action, an IAM user must have a Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `ElasticIp`: The IP address for which you want to update the name.
+# Arguments
+- `elastic_ip`: The IP address for which you want to update the name.
 
 # Optional Parameters
-- `Name`: The new name.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Name"`: The new name.
 """
 update_elastic_ip(ElasticIp; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}("ElasticIp"=>ElasticIp); aws_config=aws_config)
-update_elastic_ip(ElasticIp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), args)); aws_config=aws_config)
+update_elastic_ip(ElasticIp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateElasticIp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ElasticIp"=>ElasticIp), params)); aws_config=aws_config)
 
 """
-    UpdateInstance()
+    update_instance(instance_id)
+    update_instance(instance_id, params::Dict{String,<:Any})
 
 Updates a specified instance.  Required Permissions: To use this action, an IAM user must
 have a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `InstanceId`: The instance ID.
+# Arguments
+- `instance_id`: The instance ID.
 
 # Optional Parameters
-- `AgentVersion`: The default AWS OpsWorks Stacks agent version. You have the following
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentVersion"`: The default AWS OpsWorks Stacks agent version. You have the following
   options:    INHERIT - Use the stack's default agent version setting.    version_number -
   Use the specified agent version. This value overrides the stack's default setting. To
   update the agent version, you must edit the instance configuration and specify a new
@@ -1585,30 +1691,30 @@ permissions. For more information on user permissions, see Managing User Permiss
   The default setting is INHERIT. To specify an agent version, you must use the complete
   version number, not the abbreviated number shown on the console. For a list of available
   agent version numbers, call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.
-- `AmiId`: The ID of the AMI that was used to create the instance. The value of this
+- `"AmiId"`: The ID of the AMI that was used to create the instance. The value of this
   parameter must be the same AMI ID that the instance is already using. You cannot apply a
   new AMI to an instance by running UpdateInstance. UpdateInstance does not work on instances
   that are using custom AMIs.
-- `Architecture`: The instance architecture. Instance types do not necessarily support both
-  architectures. For a list of the architectures that are supported by the different instance
-  types, see Instance Families and Types.
-- `AutoScalingType`: For load-based or time-based instances, the type. Windows stacks can
+- `"Architecture"`: The instance architecture. Instance types do not necessarily support
+  both architectures. For a list of the architectures that are supported by the different
+  instance types, see Instance Families and Types.
+- `"AutoScalingType"`: For load-based or time-based instances, the type. Windows stacks can
   use only time-based instances.
-- `EbsOptimized`: This property cannot be updated.
-- `Hostname`: The instance host name.
-- `InstallUpdatesOnBoot`: Whether to install operating system and package updates when the
-  instance boots. The default value is true. To control when updates are installed, set this
-  value to false. You must then update your instances manually by using CreateDeployment to
-  run the update_dependencies stack command or by manually running yum (Amazon Linux) or
+- `"EbsOptimized"`: This property cannot be updated.
+- `"Hostname"`: The instance host name.
+- `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
+  the instance boots. The default value is true. To control when updates are installed, set
+  this value to false. You must then update your instances manually by using CreateDeployment
+  to run the update_dependencies stack command or by manually running yum (Amazon Linux) or
   apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true,
   to ensure that your instances have the latest security updates.
-- `InstanceType`: The instance type, such as t2.micro. For a list of supported instance
+- `"InstanceType"`: The instance type, such as t2.micro. For a list of supported instance
   types, open the stack in the console, choose Instances, and choose + Instance. The Size
   list contains the currently supported types. For more information, see Instance Families
   and Types. The parameter values that you use to specify the various types are in the API
   Name column of the Available Instance Types table.
-- `LayerIds`: The instance's layer IDs.
-- `Os`: The instance's operating system, which must be set to one of the following. You
+- `"LayerIds"`: The instance's layer IDs.
+- `"Os"`: The instance's operating system, which must be set to one of the following. You
   cannot update an instance that is using a custom AMI.   A supported Linux operating system:
   An Amazon Linux version, such as Amazon Linux 2018.03, Amazon Linux 2017.09, Amazon Linux
   2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03, Amazon Linux 2015.09, or Amazon Linux
@@ -1624,103 +1730,111 @@ permissions. For more information on user permissions, see Managing User Permiss
   about how to use custom AMIs with OpsWorks, see Using Custom AMIs.  You can specify a
   different Linux operating system for the updated stack, but you cannot change from Linux to
   Windows or Windows to Linux.
-- `SshKeyName`: The instance's Amazon EC2 key name.
+- `"SshKeyName"`: The instance's Amazon EC2 key name.
 """
 update_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-update_instance(InstanceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), args)); aws_config=aws_config)
+update_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    UpdateLayer()
+    update_layer(layer_id)
+    update_layer(layer_id, params::Dict{String,<:Any})
 
 Updates a specified layer.  Required Permissions: To use this action, an IAM user must have
 a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `LayerId`: The layer ID.
+# Arguments
+- `layer_id`: The layer ID.
 
 # Optional Parameters
-- `Attributes`: One or more user-defined key/value pairs to be added to the stack
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Attributes"`: One or more user-defined key/value pairs to be added to the stack
   attributes.
-- `AutoAssignElasticIps`: Whether to automatically assign an Elastic IP address to the
+- `"AutoAssignElasticIps"`: Whether to automatically assign an Elastic IP address to the
   layer's instances. For more information, see How to Edit a Layer.
-- `AutoAssignPublicIps`: For stacks that are running in a VPC, whether to automatically
+- `"AutoAssignPublicIps"`: For stacks that are running in a VPC, whether to automatically
   assign a public IP address to the layer's instances. For more information, see How to Edit
   a Layer.
-- `CloudWatchLogsConfiguration`: Specifies CloudWatch Logs configuration options for the
+- `"CloudWatchLogsConfiguration"`: Specifies CloudWatch Logs configuration options for the
   layer. For more information, see CloudWatchLogsLogStream.
-- `CustomInstanceProfileArn`: The ARN of an IAM profile to be used for all of the layer's
+- `"CustomInstanceProfileArn"`: The ARN of an IAM profile to be used for all of the layer's
   EC2 instances. For more information about IAM ARNs, see Using Identifiers.
-- `CustomJson`: A JSON-formatted string containing custom stack configuration and
+- `"CustomJson"`: A JSON-formatted string containing custom stack configuration and
   deployment attributes to be installed on the layer's instances. For more information, see
   Using Custom JSON.
-- `CustomRecipes`: A LayerCustomRecipes object that specifies the layer's custom recipes.
-- `CustomSecurityGroupIds`: An array containing the layer's custom security group IDs.
-- `EnableAutoHealing`: Whether to disable auto healing for the layer.
-- `InstallUpdatesOnBoot`: Whether to install operating system and package updates when the
-  instance boots. The default value is true. To control when updates are installed, set this
-  value to false. You must then update your instances manually by using CreateDeployment to
-  run the update_dependencies stack command or manually running yum (Amazon Linux) or apt-get
-  (Ubuntu) on the instances.   We strongly recommend using the default value of true, to
-  ensure that your instances have the latest security updates.
-- `LifecycleEventConfiguration`:
-- `Name`: The layer name, which is used by the console.
-- `Packages`: An array of Package objects that describe the layer's packages.
-- `Shortname`: For custom layers only, use this parameter to specify the layer's short
+- `"CustomRecipes"`: A LayerCustomRecipes object that specifies the layer's custom recipes.
+- `"CustomSecurityGroupIds"`: An array containing the layer's custom security group IDs.
+- `"EnableAutoHealing"`: Whether to disable auto healing for the layer.
+- `"InstallUpdatesOnBoot"`: Whether to install operating system and package updates when
+  the instance boots. The default value is true. To control when updates are installed, set
+  this value to false. You must then update your instances manually by using CreateDeployment
+  to run the update_dependencies stack command or manually running yum (Amazon Linux) or
+  apt-get (Ubuntu) on the instances.   We strongly recommend using the default value of true,
+  to ensure that your instances have the latest security updates.
+- `"LifecycleEventConfiguration"`:
+- `"Name"`: The layer name, which is used by the console.
+- `"Packages"`: An array of Package objects that describe the layer's packages.
+- `"Shortname"`: For custom layers only, use this parameter to specify the layer's short
   name, which is used internally by AWS OpsWorks Stacks and by Chef. The short name is also
   used as the name for the directory where your app files are installed. It can have a
   maximum of 200 characters and must be in the following format: /A[a-z0-9-_.]+Z/. The
   built-in layers' short names are defined by AWS OpsWorks Stacks. For more information, see
   the Layer Reference
-- `UseEbsOptimizedInstances`: Whether to use Amazon EBS-optimized instances.
-- `VolumeConfigurations`: A VolumeConfigurations object that describes the layer's Amazon
+- `"UseEbsOptimizedInstances"`: Whether to use Amazon EBS-optimized instances.
+- `"VolumeConfigurations"`: A VolumeConfigurations object that describes the layer's Amazon
   EBS volumes.
 """
 update_layer(LayerId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}("LayerId"=>LayerId); aws_config=aws_config)
-update_layer(LayerId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), args)); aws_config=aws_config)
+update_layer(LayerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateLayer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LayerId"=>LayerId), params)); aws_config=aws_config)
 
 """
-    UpdateMyUserProfile()
+    update_my_user_profile()
+    update_my_user_profile(params::Dict{String,<:Any})
 
 Updates a user's SSH public key.  Required Permissions: To use this action, an IAM user
 must have self-management enabled or an attached policy that explicitly grants permissions.
 For more information about user permissions, see Managing User Permissions.
 
 # Optional Parameters
-- `SshPublicKey`: The user's SSH public key.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SshPublicKey"`: The user's SSH public key.
 """
 update_my_user_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile"; aws_config=aws_config)
-update_my_user_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile", args; aws_config=aws_config)
+update_my_user_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateMyUserProfile", params; aws_config=aws_config)
 
 """
-    UpdateRdsDbInstance()
+    update_rds_db_instance(rds_db_instance_arn)
+    update_rds_db_instance(rds_db_instance_arn, params::Dict{String,<:Any})
 
 Updates an Amazon RDS instance.  Required Permissions: To use this action, an IAM user must
 have a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `RdsDbInstanceArn`: The Amazon RDS instance's ARN.
+# Arguments
+- `rds_db_instance_arn`: The Amazon RDS instance's ARN.
 
 # Optional Parameters
-- `DbPassword`: The database password.
-- `DbUser`: The master user name.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DbPassword"`: The database password.
+- `"DbUser"`: The master user name.
 """
 update_rds_db_instance(RdsDbInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn); aws_config=aws_config)
-update_rds_db_instance(RdsDbInstanceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), args)); aws_config=aws_config)
+update_rds_db_instance(RdsDbInstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateRdsDbInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RdsDbInstanceArn"=>RdsDbInstanceArn), params)); aws_config=aws_config)
 
 """
-    UpdateStack()
+    update_stack(stack_id)
+    update_stack(stack_id, params::Dict{String,<:Any})
 
 Updates a specified stack.  Required Permissions: To use this action, an IAM user must have
 a Manage permissions level for the stack, or an attached policy that explicitly grants
 permissions. For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `StackId`: The stack ID.
+# Arguments
+- `stack_id`: The stack ID.
 
 # Optional Parameters
-- `AgentVersion`: The default AWS OpsWorks Stacks agent version. You have the following
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentVersion"`: The default AWS OpsWorks Stacks agent version. You have the following
   options:   Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically
   installs new agent versions on the stack's instances as soon as they are available.   Fixed
   version - Set this parameter to your preferred agent version. To update the agent version,
@@ -1731,31 +1845,31 @@ permissions. For more information on user permissions, see Managing User Permiss
   call DescribeAgentVersions. AgentVersion cannot be set to Chef 12.2.  You can also specify
   an agent version when you create or update an instance, which overrides the stack's default
   setting.
-- `Attributes`: One or more user-defined key-value pairs to be added to the stack
+- `"Attributes"`: One or more user-defined key-value pairs to be added to the stack
   attributes.
-- `ChefConfiguration`: A ChefConfiguration object that specifies whether to enable
+- `"ChefConfiguration"`: A ChefConfiguration object that specifies whether to enable
   Berkshelf and the Berkshelf version on Chef 11.10 stacks. For more information, see Create
   a New Stack.
-- `ConfigurationManager`: The configuration manager. When you update a stack, we recommend
-  that you use the configuration manager to specify the Chef version: 12, 11.10, or 11.4 for
-  Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is currently
-  12.
-- `CustomCookbooksSource`: Contains the information required to retrieve an app or cookbook
-  from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
-- `CustomJson`: A string that contains user-defined, custom JSON. It can be used to
+- `"ConfigurationManager"`: The configuration manager. When you update a stack, we
+  recommend that you use the configuration manager to specify the Chef version: 12, 11.10, or
+  11.4 for Linux stacks, or 12.2 for Windows stacks. The default value for Linux stacks is
+  currently 12.
+- `"CustomCookbooksSource"`: Contains the information required to retrieve an app or
+  cookbook from a repository. For more information, see Adding Apps or Cookbooks and Recipes.
+- `"CustomJson"`: A string that contains user-defined, custom JSON. It can be used to
   override the corresponding default stack configuration JSON values or to pass data to
   recipes. The string should be in the following format:  \"{\"key1\": \"value1\", \"key2\":
   \"value2\",...}\"  For more information about custom JSON, see Use Custom JSON to Modify
   the Stack Configuration Attributes.
-- `DefaultAvailabilityZone`: The stack's default Availability Zone, which must be in the
+- `"DefaultAvailabilityZone"`: The stack's default Availability Zone, which must be in the
   stack's region. For more information, see Regions and Endpoints. If you also specify a
   value for DefaultSubnetId, the subnet must be in the same zone. For more information, see
   CreateStack.
-- `DefaultInstanceProfileArn`: The ARN of an IAM profile that is the default profile for
+- `"DefaultInstanceProfileArn"`: The ARN of an IAM profile that is the default profile for
   all of the stack's EC2 instances. For more information about IAM ARNs, see Using
   Identifiers.
-- `DefaultOs`: The stack's operating system, which must be set to one of the following:   A
-  supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
+- `"DefaultOs"`: The stack's operating system, which must be set to one of the following:
+  A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2018.03,
   Amazon Linux 2017.09, Amazon Linux 2017.03, Amazon Linux 2016.09, Amazon Linux 2016.03,
   Amazon Linux 2015.09, or Amazon Linux 2015.03.   A supported Ubuntu operating system, such
   as Ubuntu 16.04 LTS, Ubuntu 14.04 LTS, or Ubuntu 12.04 LTS.    CentOS Linux 7     Red Hat
@@ -1766,21 +1880,21 @@ permissions. For more information on user permissions, see Managing User Permiss
   create instances. For more information about how to use custom AMIs with OpsWorks, see
   Using Custom AMIs.   The default option is the stack's current operating system. For more
   information about supported operating systems, see AWS OpsWorks Stacks Operating Systems.
-- `DefaultRootDeviceType`: The default root device type. This value is used by default for
-  all instances in the stack, but you can override it when you create an instance. For more
-  information, see Storage for the Root Device.
-- `DefaultSshKeyName`: A default Amazon EC2 key-pair name. The default value is none. If
+- `"DefaultRootDeviceType"`: The default root device type. This value is used by default
+  for all instances in the stack, but you can override it when you create an instance. For
+  more information, see Storage for the Root Device.
+- `"DefaultSshKeyName"`: A default Amazon EC2 key-pair name. The default value is none. If
   you specify a key-pair name, AWS OpsWorks Stacks installs the public key on the instance
   and you can use the private key with an SSH client to log in to the instance. For more
   information, see  Using SSH to Communicate with an Instance and  Managing SSH Access. You
   can override this setting by specifying a different key pair, or no key pair, when you
   create an instance.
-- `DefaultSubnetId`: The stack's default VPC subnet ID. This parameter is required if you
+- `"DefaultSubnetId"`: The stack's default VPC subnet ID. This parameter is required if you
   specify a value for the VpcId parameter. All instances are launched into this subnet unless
   you specify otherwise when you create the instance. If you also specify a value for
   DefaultAvailabilityZone, the subnet must be in that zone. For information on default values
   and when this parameter is required, see the VpcId parameter description.
-- `HostnameTheme`: The stack's new host name theme, with spaces replaced by underscores.
+- `"HostnameTheme"`: The stack's new host name theme, with spaces replaced by underscores.
   The theme is used to generate host names for the stack's instances. By default,
   HostnameTheme is set to Layer_Dependent, which creates host names by appending integers to
   the layer's short name. The other themes are:    Baked_Goods     Clouds     Europe_Cities
@@ -1788,10 +1902,10 @@ permissions. For more information on user permissions, see Managing User Permiss
   Planets_and_Moons     Roman_Deities     Scottish_Islands     US_Cities     Wild_Cats    To
   obtain a generated host name, call GetHostNameSuggestion, which returns a host name based
   on the current theme.
-- `Name`: The stack's new name.
-- `ServiceRoleArn`: Do not use this parameter. You cannot update a stack's service role.
-- `UseCustomCookbooks`: Whether the stack uses custom cookbooks.
-- `UseOpsworksSecurityGroups`: Whether to associate the AWS OpsWorks Stacks built-in
+- `"Name"`: The stack's new name.
+- `"ServiceRoleArn"`: Do not use this parameter. You cannot update a stack's service role.
+- `"UseCustomCookbooks"`: Whether the stack uses custom cookbooks.
+- `"UseOpsworksSecurityGroups"`: Whether to associate the AWS OpsWorks Stacks built-in
   security groups with the stack's layers. AWS OpsWorks Stacks provides a standard set of
   built-in security groups, one for each layer, which are associated with layers by default.
   UseOpsworksSecurityGroups allows you to provide your own custom security groups instead of
@@ -1806,44 +1920,48 @@ permissions. For more information on user permissions, see Managing User Permiss
   For more information, see Create a New Stack.
 """
 update_stack(StackId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}("StackId"=>StackId); aws_config=aws_config)
-update_stack(StackId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), args)); aws_config=aws_config)
+update_stack(StackId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackId"=>StackId), params)); aws_config=aws_config)
 
 """
-    UpdateUserProfile()
+    update_user_profile(iam_user_arn)
+    update_user_profile(iam_user_arn, params::Dict{String,<:Any})
 
 Updates a specified user profile.  Required Permissions: To use this action, an IAM user
 must have an attached policy that explicitly grants permissions. For more information about
 user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `IamUserArn`: The user IAM ARN. This can also be a federated user's ARN.
+# Arguments
+- `iam_user_arn`: The user IAM ARN. This can also be a federated user's ARN.
 
 # Optional Parameters
-- `AllowSelfManagement`: Whether users can specify their own SSH public key through the My
-  Settings page. For more information, see Managing User Permissions.
-- `SshPublicKey`: The user's new SSH public key.
-- `SshUsername`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowSelfManagement"`: Whether users can specify their own SSH public key through the
+  My Settings page. For more information, see Managing User Permissions.
+- `"SshPublicKey"`: The user's new SSH public key.
+- `"SshUsername"`: The user's SSH user name. The allowable characters are [a-z], [A-Z],
   [0-9], '-', and '_'. If the specified name includes other punctuation marks, AWS OpsWorks
   Stacks removes them. For example, my.name will be changed to myname. If you do not specify
   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user name.
 """
 update_user_profile(IamUserArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}("IamUserArn"=>IamUserArn); aws_config=aws_config)
-update_user_profile(IamUserArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), args)); aws_config=aws_config)
+update_user_profile(IamUserArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamUserArn"=>IamUserArn), params)); aws_config=aws_config)
 
 """
-    UpdateVolume()
+    update_volume(volume_id)
+    update_volume(volume_id, params::Dict{String,<:Any})
 
 Updates an Amazon EBS volume's name or mount point. For more information, see Resource
 Management.  Required Permissions: To use this action, an IAM user must have a Manage
 permissions level for the stack, or an attached policy that explicitly grants permissions.
 For more information on user permissions, see Managing User Permissions.
 
-# Required Parameters
-- `VolumeId`: The volume ID.
+# Arguments
+- `volume_id`: The volume ID.
 
 # Optional Parameters
-- `MountPoint`: The new mount point.
-- `Name`: The new name.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MountPoint"`: The new mount point.
+- `"Name"`: The new name.
 """
 update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
-update_volume(VolumeId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), args)); aws_config=aws_config)
+update_volume(VolumeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworks("UpdateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config)

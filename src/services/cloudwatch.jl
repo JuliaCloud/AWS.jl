@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DeleteAlarms()
+    delete_alarms(alarm_names)
+    delete_alarms(alarm_names, params::Dict{String,<:Any})
 
 Deletes the specified alarms. You can delete up to 100 alarms in one operation. However,
 this total can include no more than one composite alarm. For example, you could delete 99
@@ -21,59 +22,65 @@ change to make to break a cycle is to change the AlarmRule of one of the alarms 
 Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the
 evaluation path.
 
-# Required Parameters
-- `AlarmNames`: The alarms to be deleted.
+# Arguments
+- `alarm_names`: The alarms to be deleted.
 
 """
 delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAlarms", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-delete_alarms(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAlarms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+delete_alarms(AlarmNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAlarms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config)
 
 """
-    DeleteAnomalyDetector()
+    delete_anomaly_detector(metric_name, namespace, stat)
+    delete_anomaly_detector(metric_name, namespace, stat, params::Dict{String,<:Any})
 
 Deletes the specified anomaly detection model from your account.
 
-# Required Parameters
-- `MetricName`: The metric name associated with the anomaly detection model to delete.
-- `Namespace`: The namespace associated with the anomaly detection model to delete.
-- `Stat`: The statistic associated with the anomaly detection model to delete.
+# Arguments
+- `metric_name`: The metric name associated with the anomaly detection model to delete.
+- `namespace`: The namespace associated with the anomaly detection model to delete.
+- `stat`: The statistic associated with the anomaly detection model to delete.
 
 # Optional Parameters
-- `Dimensions`: The metric dimensions associated with the anomaly detection model to delete.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Dimensions"`: The metric dimensions associated with the anomaly detection model to
+  delete.
 """
 delete_anomaly_detector(MetricName, Namespace, Stat; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
-delete_anomaly_detector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
+delete_anomaly_detector(MetricName, Namespace, Stat, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), params)); aws_config=aws_config)
 
 """
-    DeleteDashboards()
+    delete_dashboards(dashboard_names)
+    delete_dashboards(dashboard_names, params::Dict{String,<:Any})
 
 Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If
 there is an error during this call, no dashboards are deleted.
 
-# Required Parameters
-- `DashboardNames`: The dashboards to be deleted. This parameter is required.
+# Arguments
+- `dashboard_names`: The dashboards to be deleted. This parameter is required.
 
 """
 delete_dashboards(DashboardNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteDashboards", Dict{String, Any}("DashboardNames"=>DashboardNames); aws_config=aws_config)
-delete_dashboards(DashboardNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteDashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardNames"=>DashboardNames), args)); aws_config=aws_config)
+delete_dashboards(DashboardNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteDashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardNames"=>DashboardNames), params)); aws_config=aws_config)
 
 """
-    DeleteInsightRules()
+    delete_insight_rules(rule_names)
+    delete_insight_rules(rule_names, params::Dict{String,<:Any})
 
 Permanently deletes the specified Contributor Insights rules. If you create a rule, delete
 it, and then re-create it with the same name, historical data from the first time the rule
 was created might not be available.
 
-# Required Parameters
-- `RuleNames`: An array of the rule names to delete. If you need to find out the names of
+# Arguments
+- `rule_names`: An array of the rule names to delete. If you need to find out the names of
   your rules, use DescribeInsightRules.
 
 """
 delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-delete_insight_rules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+delete_insight_rules(RuleNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config)
 
 """
-    DescribeAlarmHistory()
+    describe_alarm_history()
+    describe_alarm_history(params::Dict{String,<:Any})
 
 Retrieves the history for the specified alarm. You can filter the results by date range or
 item type. If an alarm name is not specified, the histories for either all metric alarms or
@@ -81,41 +88,44 @@ all composite alarms are returned. CloudWatch retains the history of an alarm ev
 delete the alarm.
 
 # Optional Parameters
-- `AlarmName`: The name of the alarm.
-- `AlarmTypes`: Use this parameter to specify whether you want the operation to return
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AlarmName"`: The name of the alarm.
+- `"AlarmTypes"`: Use this parameter to specify whether you want the operation to return
   metric alarms or composite alarms. If you omit this parameter, only metric alarms are
   returned.
-- `EndDate`: The ending date to retrieve alarm history.
-- `HistoryItemType`: The type of alarm histories to retrieve.
-- `MaxRecords`: The maximum number of alarm history records to retrieve.
-- `NextToken`: The token returned by a previous call to indicate that there is more data
+- `"EndDate"`: The ending date to retrieve alarm history.
+- `"HistoryItemType"`: The type of alarm histories to retrieve.
+- `"MaxRecords"`: The maximum number of alarm history records to retrieve.
+- `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
-- `ScanBy`: Specified whether to return the newest or oldest alarm history first. Specify
+- `"ScanBy"`: Specified whether to return the newest or oldest alarm history first. Specify
   TimestampDescending to have the newest event history returned first, and specify
   TimestampAscending to have the oldest history returned first.
-- `StartDate`: The starting date to retrieve alarm history.
+- `"StartDate"`: The starting date to retrieve alarm history.
 """
 describe_alarm_history(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmHistory"; aws_config=aws_config)
-describe_alarm_history(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmHistory", args; aws_config=aws_config)
+describe_alarm_history(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmHistory", params; aws_config=aws_config)
 
 """
-    DescribeAlarms()
+    describe_alarms()
+    describe_alarms(params::Dict{String,<:Any})
 
 Retrieves the specified alarms. You can filter the results by specifying a prefix for the
 alarm name, the alarm state, or a prefix for any action.
 
 # Optional Parameters
-- `ActionPrefix`: Use this parameter to filter the results of the operation to only those
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActionPrefix"`: Use this parameter to filter the results of the operation to only those
   alarms that use a certain alarm action. For example, you could specify the ARN of an SNS
   topic to find all alarms that send notifications to that topic.
-- `AlarmNamePrefix`: An alarm name prefix. If you specify this parameter, you receive
+- `"AlarmNamePrefix"`: An alarm name prefix. If you specify this parameter, you receive
   information about all alarms that have names that start with this prefix. If this parameter
   is specified, you cannot specify AlarmNames.
-- `AlarmNames`: The names of the alarms to retrieve information about.
-- `AlarmTypes`: Use this parameter to specify whether you want the operation to return
+- `"AlarmNames"`: The names of the alarms to retrieve information about.
+- `"AlarmTypes"`: Use this parameter to specify whether you want the operation to return
   metric alarms or composite alarms. If you omit this parameter, only metric alarms are
   returned.
-- `ChildrenOfAlarmName`: If you use this parameter and specify the name of a composite
+- `"ChildrenOfAlarmName"`: If you use this parameter and specify the name of a composite
   alarm, the operation returns information about the \"children\" alarms of the alarm you
   specify. These are the metric alarms and composite alarms referenced in the AlarmRule field
   of the composite alarm that you specify in ChildrenOfAlarmName. Information about the
@@ -126,10 +136,10 @@ alarm name, the alarm state, or a prefix for any action.
   are returned by this operation when you use this parameter. To get complete information
   about these alarms, perform another DescribeAlarms operation and specify the parent alarm
   names in the AlarmNames parameter.
-- `MaxRecords`: The maximum number of alarm descriptions to retrieve.
-- `NextToken`: The token returned by a previous call to indicate that there is more data
+- `"MaxRecords"`: The maximum number of alarm descriptions to retrieve.
+- `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
-- `ParentsOfAlarmName`: If you use this parameter and specify the name of a metric or
+- `"ParentsOfAlarmName"`: If you use this parameter and specify the name of a metric or
   composite alarm, the operation returns information about the \"parent\" alarms of the alarm
   you specify. These are the composite alarms that have AlarmRule parameters that reference
   the alarm named in ParentsOfAlarmName. Information about the alarm that you specify in
@@ -139,146 +149,158 @@ alarm name, the alarm state, or a prefix for any action.
   when you use this parameter. To get complete information about these alarms, perform
   another DescribeAlarms operation and specify the parent alarm names in the AlarmNames
   parameter.
-- `StateValue`: Specify this parameter to receive information only about alarms that are
+- `"StateValue"`: Specify this parameter to receive information only about alarms that are
   currently in the state that you specify.
 """
 describe_alarms(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarms"; aws_config=aws_config)
-describe_alarms(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarms", args; aws_config=aws_config)
+describe_alarms(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarms", params; aws_config=aws_config)
 
 """
-    DescribeAlarmsForMetric()
+    describe_alarms_for_metric(metric_name, namespace)
+    describe_alarms_for_metric(metric_name, namespace, params::Dict{String,<:Any})
 
 Retrieves the alarms for the specified metric. To filter the results, specify a statistic,
 period, or unit. This operation retrieves only standard alarms that are based on the
 specified metric. It does not return alarms based on math expressions that use the
 specified metric, or composite alarms that use the specified metric.
 
-# Required Parameters
-- `MetricName`: The name of the metric.
-- `Namespace`: The namespace of the metric.
+# Arguments
+- `metric_name`: The name of the metric.
+- `namespace`: The namespace of the metric.
 
 # Optional Parameters
-- `Dimensions`: The dimensions associated with the metric. If the metric has any associated
-  dimensions, you must specify them in order for the call to succeed.
-- `ExtendedStatistic`: The percentile statistic for the metric. Specify a value between
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Dimensions"`: The dimensions associated with the metric. If the metric has any
+  associated dimensions, you must specify them in order for the call to succeed.
+- `"ExtendedStatistic"`: The percentile statistic for the metric. Specify a value between
   p0.0 and p100.
-- `Period`: The period, in seconds, over which the statistic is applied.
-- `Statistic`: The statistic for the metric, other than percentiles. For percentile
+- `"Period"`: The period, in seconds, over which the statistic is applied.
+- `"Statistic"`: The statistic for the metric, other than percentiles. For percentile
   statistics, use ExtendedStatistics.
-- `Unit`: The unit for the metric.
+- `"Unit"`: The unit for the metric.
 """
 describe_alarms_for_metric(MetricName, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace); aws_config=aws_config)
-describe_alarms_for_metric(MetricName, Namespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace), args)); aws_config=aws_config)
+describe_alarms_for_metric(MetricName, Namespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace), params)); aws_config=aws_config)
 
 """
-    DescribeAnomalyDetectors()
+    describe_anomaly_detectors()
+    describe_anomaly_detectors(params::Dict{String,<:Any})
 
 Lists the anomaly detection models that you have created in your account. You can list all
 models in your account or filter the results to only the models that are related to a
 certain namespace, metric name, or metric dimension.
 
 # Optional Parameters
-- `Dimensions`: Limits the results to only the anomaly detection models that are associated
-  with the specified metric dimensions. If there are multiple metrics that have these
-  dimensions and have anomaly detection models associated, they're all returned.
-- `MaxResults`: The maximum number of results to return in one operation. The maximum value
-  that you can specify is 100. To retrieve the remaining results, make another call with the
-  returned NextToken value.
-- `MetricName`: Limits the results to only the anomaly detection models that are associated
-  with the specified metric name. If there are multiple metrics with this name in different
-  namespaces that have anomaly detection models, they're all returned.
-- `Namespace`: Limits the results to only the anomaly detection models that are associated
-  with the specified namespace.
-- `NextToken`: Use the token returned by the previous operation to request the next page of
-  results.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Dimensions"`: Limits the results to only the anomaly detection models that are
+  associated with the specified metric dimensions. If there are multiple metrics that have
+  these dimensions and have anomaly detection models associated, they're all returned.
+- `"MaxResults"`: The maximum number of results to return in one operation. The maximum
+  value that you can specify is 100. To retrieve the remaining results, make another call
+  with the returned NextToken value.
+- `"MetricName"`: Limits the results to only the anomaly detection models that are
+  associated with the specified metric name. If there are multiple metrics with this name in
+  different namespaces that have anomaly detection models, they're all returned.
+- `"Namespace"`: Limits the results to only the anomaly detection models that are
+  associated with the specified namespace.
+- `"NextToken"`: Use the token returned by the previous operation to request the next page
+  of results.
 """
 describe_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAnomalyDetectors"; aws_config=aws_config)
-describe_anomaly_detectors(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAnomalyDetectors", args; aws_config=aws_config)
+describe_anomaly_detectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeAnomalyDetectors", params; aws_config=aws_config)
 
 """
-    DescribeInsightRules()
+    describe_insight_rules()
+    describe_insight_rules(params::Dict{String,<:Any})
 
 Returns a list of all the Contributor Insights rules in your account. For more information
 about Contributor Insights, see Using Contributor Insights to Analyze High-Cardinality Data.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results to return in one operation. If you omit this
-  parameter, the default of 500 is used.
-- `NextToken`: Include this value, if it was returned by the previous operation, to get the
-  next set of rules.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in one operation. If you omit
+  this parameter, the default of 500 is used.
+- `"NextToken"`: Include this value, if it was returned by the previous operation, to get
+  the next set of rules.
 """
 describe_insight_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeInsightRules"; aws_config=aws_config)
-describe_insight_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeInsightRules", args; aws_config=aws_config)
+describe_insight_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DescribeInsightRules", params; aws_config=aws_config)
 
 """
-    DisableAlarmActions()
+    disable_alarm_actions(alarm_names)
+    disable_alarm_actions(alarm_names, params::Dict{String,<:Any})
 
 Disables the actions for the specified alarms. When an alarm's actions are disabled, the
 alarm actions do not execute when the alarm state changes.
 
-# Required Parameters
-- `AlarmNames`: The names of the alarms.
+# Arguments
+- `alarm_names`: The names of the alarms.
 
 """
 disable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-disable_alarm_actions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+disable_alarm_actions(AlarmNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config)
 
 """
-    DisableInsightRules()
+    disable_insight_rules(rule_names)
+    disable_insight_rules(rule_names, params::Dict{String,<:Any})
 
 Disables the specified Contributor Insights rules. When rules are disabled, they do not
 analyze log groups and do not incur costs.
 
-# Required Parameters
-- `RuleNames`: An array of the rule names to disable. If you need to find out the names of
+# Arguments
+- `rule_names`: An array of the rule names to disable. If you need to find out the names of
   your rules, use DescribeInsightRules.
 
 """
 disable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-disable_insight_rules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+disable_insight_rules(RuleNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DisableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config)
 
 """
-    EnableAlarmActions()
+    enable_alarm_actions(alarm_names)
+    enable_alarm_actions(alarm_names, params::Dict{String,<:Any})
 
 Enables the actions for the specified alarms.
 
-# Required Parameters
-- `AlarmNames`: The names of the alarms.
+# Arguments
+- `alarm_names`: The names of the alarms.
 
 """
 enable_alarm_actions(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-enable_alarm_actions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+enable_alarm_actions(AlarmNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), params)); aws_config=aws_config)
 
 """
-    EnableInsightRules()
+    enable_insight_rules(rule_names)
+    enable_insight_rules(rule_names, params::Dict{String,<:Any})
 
 Enables the specified Contributor Insights rules. When rules are enabled, they immediately
 begin analyzing log data.
 
-# Required Parameters
-- `RuleNames`: An array of the rule names to enable. If you need to find out the names of
+# Arguments
+- `rule_names`: An array of the rule names to enable. If you need to find out the names of
   your rules, use DescribeInsightRules.
 
 """
 enable_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-enable_insight_rules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+enable_insight_rules(RuleNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("EnableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config)
 
 """
-    GetDashboard()
+    get_dashboard(dashboard_name)
+    get_dashboard(dashboard_name, params::Dict{String,<:Any})
 
 Displays the details of the dashboard that you specify. To copy an existing dashboard, use
 GetDashboard, and then use the data returned within DashboardBody as the template for the
 new dashboard when you call PutDashboard to create the copy.
 
-# Required Parameters
-- `DashboardName`: The name of the dashboard to be described.
+# Arguments
+- `dashboard_name`: The name of the dashboard to be described.
 
 """
 get_dashboard(DashboardName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetDashboard", Dict{String, Any}("DashboardName"=>DashboardName); aws_config=aws_config)
-get_dashboard(DashboardName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardName"=>DashboardName), args)); aws_config=aws_config)
+get_dashboard(DashboardName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardName"=>DashboardName), params)); aws_config=aws_config)
 
 """
-    GetInsightRuleReport()
+    get_insight_rule_report(end_time, period, rule_name, start_time)
+    get_insight_rule_report(end_time, period, rule_name, start_time, params::Dict{String,<:Any})
 
 This operation returns the time series data collected by a Contributor Insights rule. The
 data includes the identity and number of contributors to the log group. You can also
@@ -297,19 +319,20 @@ maximum value from a single observation during the time period represented by th
 point.    Average -- the average value from all contributors during the time period
 represented by that data point.
 
-# Required Parameters
-- `EndTime`: The end time of the data to use in the report. When used in a raw HTTP Query
+# Arguments
+- `end_time`: The end time of the data to use in the report. When used in a raw HTTP Query
   API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
-- `Period`: The period, in seconds, to use for the statistics in the
+- `period`: The period, in seconds, to use for the statistics in the
   InsightRuleMetricDatapoint results.
-- `RuleName`: The name of the rule that you want to see data from.
-- `StartTime`: The start time of the data to use in the report. When used in a raw HTTP
+- `rule_name`: The name of the rule that you want to see data from.
+- `start_time`: The start time of the data to use in the report. When used in a raw HTTP
   Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
 
 # Optional Parameters
-- `MaxContributorCount`: The maximum number of contributors to include in the report. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxContributorCount"`: The maximum number of contributors to include in the report. The
   range is 1 to 100. If you omit this, the default of 10 is used.
-- `Metrics`: Specifies which metrics to use for aggregation of contributor values for the
+- `"Metrics"`: Specifies which metrics to use for aggregation of contributor values for the
   report. You can specify one or more of the following metrics:    UniqueContributors -- the
   number of unique contributors for each data point.    MaxContributorValue -- the value of
   the top contributor for each data point. The identity of the contributor might change for
@@ -323,14 +346,15 @@ represented by that data point.
   the maximum value from a single observation during the time period represented by that data
   point.    Average -- the average value from all contributors during the time period
   represented by that data point.
-- `OrderBy`: Determines what statistic to use to rank the contributors. Valid values are
+- `"OrderBy"`: Determines what statistic to use to rank the contributors. Valid values are
   SUM and MAXIMUM.
 """
 get_insight_rule_report(EndTime, Period, RuleName, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetInsightRuleReport", Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime); aws_config=aws_config)
-get_insight_rule_report(EndTime, Period, RuleName, StartTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetInsightRuleReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime), args)); aws_config=aws_config)
+get_insight_rule_report(EndTime, Period, RuleName, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetInsightRuleReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
-    GetMetricData()
+    get_metric_data(end_time, metric_data_queries, start_time)
+    get_metric_data(end_time, metric_data_queries, start_time, params::Dict{String,<:Any})
 
 You can use the GetMetricData API to retrieve as many as 500 different metrics in a single
 request, with a total of as many as 100,800 data points. You can also optionally perform
@@ -358,17 +382,17 @@ that was collected with that unit specified. If you specify a unit that does not
 data collected, the results of the operation are null. CloudWatch does not perform unit
 conversions.
 
-# Required Parameters
-- `EndTime`: The time stamp indicating the latest data to be returned. The value specified
+# Arguments
+- `end_time`: The time stamp indicating the latest data to be returned. The value specified
   is exclusive; results include data points up to the specified time stamp. For better
   performance, specify StartTime and EndTime values that align with the value of the metric's
   Period and sync up with the beginning and end of an hour. For example, if the Period of a
   metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from
   CloudWatch than setting 12:07 or 12:29 as the EndTime.
-- `MetricDataQueries`: The metric queries to be returned. A single GetMetricData call can
+- `metric_data_queries`: The metric queries to be returned. A single GetMetricData call can
   include as many as 500 MetricDataQuery structures. Each of these structures can specify
   either a metric to retrieve, or a math expression to perform on retrieved data.
-- `StartTime`: The time stamp indicating the earliest data to be returned. The value
+- `start_time`: The time stamp indicating the earliest data to be returned. The value
   specified is inclusive; results include data points with the specified time stamp.
   CloudWatch rounds the specified time stamp as follows:   Start time less than 15 days ago -
   Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.
@@ -387,23 +411,25 @@ conversions.
   response from CloudWatch than setting 12:07 or 12:29 as the StartTime.
 
 # Optional Parameters
-- `LabelOptions`: This structure includes the Timezone parameter, which you can use to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LabelOptions"`: This structure includes the Timezone parameter, which you can use to
   specify your time zone so that the labels of returned data display the correct time for
   your time zone.
-- `MaxDatapoints`: The maximum number of data points the request should return before
+- `"MaxDatapoints"`: The maximum number of data points the request should return before
   paginating. If you omit this, the default of 100,800 is used.
-- `NextToken`: Include this value, if it was returned by the previous GetMetricData
+- `"NextToken"`: Include this value, if it was returned by the previous GetMetricData
   operation, to get the next set of data points.
-- `ScanBy`: The order in which data points should be returned. TimestampDescending returns
-  the newest data first and paginates when the MaxDatapoints limit is reached.
+- `"ScanBy"`: The order in which data points should be returned. TimestampDescending
+  returns the newest data first and paginates when the MaxDatapoints limit is reached.
   TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit
   is reached.
 """
 get_metric_data(EndTime, MetricDataQueries, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricData", Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime); aws_config=aws_config)
-get_metric_data(EndTime, MetricDataQueries, StartTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime), args)); aws_config=aws_config)
+get_metric_data(EndTime, MetricDataQueries, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
-    GetMetricStatistics()
+    get_metric_statistics(end_time, metric_name, namespace, period, start_time)
+    get_metric_statistics(end_time, metric_name, namespace, period, start_time, params::Dict{String,<:Any})
 
 Gets statistics for the specified metric. The maximum number of data points returned from a
 single call is 1,440. If you request more than 1,440 data points, CloudWatch returns an
@@ -434,14 +460,14 @@ aggregated and is available with a resolution of 1 hour. CloudWatch started reta
 dimensions supported by AWS services, see the Amazon CloudWatch Metrics and Dimensions
 Reference in the Amazon CloudWatch User Guide.
 
-# Required Parameters
-- `EndTime`: The time stamp that determines the last data point to return. The value
+# Arguments
+- `end_time`: The time stamp that determines the last data point to return. The value
   specified is exclusive; results include data points up to the specified time stamp. In a
   raw HTTP query, the time stamp must be in ISO 8601 UTC format (for example,
   2016-10-10T23:00:00Z).
-- `MetricName`: The name of the metric, with or without spaces.
-- `Namespace`: The namespace of the metric, with or without spaces.
-- `Period`: The granularity, in seconds, of the returned data points. For metrics with
+- `metric_name`: The name of the metric, with or without spaces.
+- `namespace`: The namespace of the metric, with or without spaces.
+- `period`: The granularity, in seconds, of the returned data points. For metrics with
   regular resolution, a period can be as short as one minute (60 seconds) and must be a
   multiple of 60. For high-resolution metrics that are collected at intervals of less than
   one minute, the period can be 1, 5, 10, 30, 60, or any multiple of 60. High-resolution
@@ -451,7 +477,7 @@ Reference in the Amazon CloudWatch User Guide.
   returned:   Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1
   minute).   Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5
   minutes).   Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
-- `StartTime`: The time stamp that determines the first data point to return. Start times
+- `start_time`: The time stamp that determines the first data point to return. Start times
   are evaluated relative to the time that CloudWatch receives the request. The value
   specified is inclusive; results include data points with the specified time stamp. In a raw
   HTTP query, the time stamp must be in ISO 8601 UTC format (for example,
@@ -469,21 +495,22 @@ Reference in the Amazon CloudWatch User Guide.
   between 15:02:15 and 15:07:15.
 
 # Optional Parameters
-- `Dimensions`: The dimensions. If the metric contains multiple dimensions, you must
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Dimensions"`: The dimensions. If the metric contains multiple dimensions, you must
   include a value for each dimension. CloudWatch treats each unique combination of dimensions
   as a separate metric. If a specific combination of dimensions was not published, you can't
   retrieve statistics for it. You must specify the same dimensions that were used when the
   metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch
   User Guide. For more information about specifying dimensions, see Publishing Metrics in the
   Amazon CloudWatch User Guide.
-- `ExtendedStatistics`: The percentile statistics. Specify values between p0.0 and p100.
+- `"ExtendedStatistics"`: The percentile statistics. Specify values between p0.0 and p100.
   When calling GetMetricStatistics, you must specify either Statistics or ExtendedStatistics,
   but not both. Percentile statistics are not available for metrics when any of the metric
   values are negative numbers.
-- `Statistics`: The metric statistics, other than percentile. For percentile statistics,
+- `"Statistics"`: The metric statistics, other than percentile. For percentile statistics,
   use ExtendedStatistics. When calling GetMetricStatistics, you must specify either
   Statistics or ExtendedStatistics, but not both.
-- `Unit`: The unit for a given metric. If you omit Unit, all data that was collected with
+- `"Unit"`: The unit for a given metric. If you omit Unit, all data that was collected with
   any unit is returned, along with the corresponding units that were specified when the data
   was reported to CloudWatch. If you specify a unit, the operation returns only data that was
   collected with that unit specified. If you specify a unit that does not match the data
@@ -491,10 +518,11 @@ Reference in the Amazon CloudWatch User Guide.
   conversions.
 """
 get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime); aws_config=aws_config)
-get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), args)); aws_config=aws_config)
+get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
-    GetMetricWidgetImage()
+    get_metric_widget_image(metric_widget)
+    get_metric_widget_image(metric_widget, params::Dict{String,<:Any})
 
 You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or more Amazon
 CloudWatch metrics as a bitmap image. You can then embed this image into your services and
@@ -505,8 +533,8 @@ horizontal and vertical annotations. There is a limit of 20 transactions per sec
 this API. Each GetMetricWidgetImage action has the following limits:   As many as 100
 metrics in the graph.   Up to 100 KB uncompressed payload.
 
-# Required Parameters
-- `MetricWidget`: A JSON string that defines the bitmap graph to be retrieved. The string
+# Arguments
+- `metric_widget`: A JSON string that defines the bitmap graph to be retrieved. The string
   includes the metrics to include in the graph, statistics, annotations, title, axis limits,
   and so on. You can include only one MetricWidget parameter in each GetMetricWidgetImage
   call. For more information about the syntax of MetricWidget see GetMetricWidgetImage:
@@ -515,7 +543,8 @@ metrics in the graph.   Up to 100 KB uncompressed payload.
   graph legend.
 
 # Optional Parameters
-- `OutputFormat`: The format of the resulting image. Only PNG images are supported. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OutputFormat"`: The format of the resulting image. Only PNG images are supported. The
   default is png. If you specify png, the API returns an HTTP response with the content-type
   set to text/xml. The image data is in a MetricWidgetImage field. For example:
   &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;
@@ -529,10 +558,11 @@ metrics in the graph.   Up to 100 KB uncompressed payload.
   to image/png, and the body of the response is a PNG image.
 """
 get_metric_widget_image(MetricWidget; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}("MetricWidget"=>MetricWidget); aws_config=aws_config)
-get_metric_widget_image(MetricWidget, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), args)); aws_config=aws_config)
+get_metric_widget_image(MetricWidget, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), params)); aws_config=aws_config)
 
 """
-    ListDashboards()
+    list_dashboards()
+    list_dashboards(params::Dict{String,<:Any})
 
 Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only
 those dashboards with names starting with the prefix are listed. Otherwise, all dashboards
@@ -541,17 +571,19 @@ there are more than 1000 dashboards, you can call ListDashboards again and inclu
 value you received for NextToken in the first call, to receive the next 1000 results.
 
 # Optional Parameters
-- `DashboardNamePrefix`: If you specify this parameter, only the dashboards with names
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DashboardNamePrefix"`: If you specify this parameter, only the dashboards with names
   starting with the specified string are listed. The maximum length is 255, and valid
   characters are A-Z, a-z, 0-9, \".\", \"-\", and \"_\".
-- `NextToken`: The token returned by a previous call to indicate that there is more data
+- `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
 """
 list_dashboards(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListDashboards"; aws_config=aws_config)
-list_dashboards(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListDashboards", args; aws_config=aws_config)
+list_dashboards(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListDashboards", params; aws_config=aws_config)
 
 """
-    ListMetrics()
+    list_metrics()
+    list_metrics(params::Dict{String,<:Any})
 
 List the specified metrics. You can use the returned metrics with GetMetricData or
 GetMetricStatistics to obtain statistical data. Up to 500 results are returned for any one
@@ -562,32 +594,34 @@ ListMetrics doesn't return information about metrics if those metrics haven't re
 in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
 
 # Optional Parameters
-- `Dimensions`: The dimensions to filter against. Only the dimensions that match exactly
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Dimensions"`: The dimensions to filter against. Only the dimensions that match exactly
   will be returned.
-- `MetricName`: The name of the metric to filter against. Only the metrics with names that
-  match exactly will be returned.
-- `Namespace`: The metric namespace to filter against. Only the namespace that matches
+- `"MetricName"`: The name of the metric to filter against. Only the metrics with names
+  that match exactly will be returned.
+- `"Namespace"`: The metric namespace to filter against. Only the namespace that matches
   exactly will be returned.
-- `NextToken`: The token returned by a previous call to indicate that there is more data
+- `"NextToken"`: The token returned by a previous call to indicate that there is more data
   available.
-- `RecentlyActive`: To filter the results to show only metrics that have had data points
+- `"RecentlyActive"`: To filter the results to show only metrics that have had data points
   published in the past three hours, specify this parameter with a value of PT3H. This is the
   only valid value for this parameter. The results that are returned are an approximation of
   the value you specify. There is a low probability that the returned results include metrics
   with last published data as much as 40 minutes more than the specified time interval.
 """
 list_metrics(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListMetrics"; aws_config=aws_config)
-list_metrics(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListMetrics", args; aws_config=aws_config)
+list_metrics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListMetrics", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor
 Insights rules support tagging.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the CloudWatch resource that you want to view tags for. The ARN
-  format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
+# Arguments
+- `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for. The
+  ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
   arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
@@ -595,32 +629,35 @@ Insights rules support tagging.
 
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
-    PutAnomalyDetector()
+    put_anomaly_detector(metric_name, namespace, stat)
+    put_anomaly_detector(metric_name, namespace, stat, params::Dict{String,<:Any})
 
 Creates an anomaly detection model for a CloudWatch metric. You can use the model to
 display a band of expected normal values when the metric is graphed. For more information,
 see CloudWatch Anomaly Detection.
 
-# Required Parameters
-- `MetricName`: The name of the metric to create the anomaly detection model for.
-- `Namespace`: The namespace of the metric to create the anomaly detection model for.
-- `Stat`: The statistic to use for the metric and the anomaly detection model.
+# Arguments
+- `metric_name`: The name of the metric to create the anomaly detection model for.
+- `namespace`: The namespace of the metric to create the anomaly detection model for.
+- `stat`: The statistic to use for the metric and the anomaly detection model.
 
 # Optional Parameters
-- `Configuration`: The configuration specifies details about how the anomaly detection
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Configuration"`: The configuration specifies details about how the anomaly detection
   model is to be trained, including time ranges to exclude when training and updating the
   model. You can specify as many as 10 time ranges. The configuration can also include the
   time zone to use for the metric.
-- `Dimensions`: The metric dimensions to create the anomaly detection model for.
+- `"Dimensions"`: The metric dimensions to create the anomaly detection model for.
 """
 put_anomaly_detector(MetricName, Namespace, Stat; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
-put_anomaly_detector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
+put_anomaly_detector(MetricName, Namespace, Stat, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), params)); aws_config=aws_config)
 
 """
-    PutCompositeAlarm()
+    put_composite_alarm(alarm_name, alarm_rule)
+    put_composite_alarm(alarm_name, alarm_rule, params::Dict{String,<:Any})
 
 Creates or updates a composite alarm. When you create a composite alarm, you specify a rule
 expression for the alarm that takes into account the alarm states of other alarms that you
@@ -648,9 +685,10 @@ completely overwrites the previous configuration of the alarm. If you are an IAM
 must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager
 OpsItem actions.
 
-# Required Parameters
-- `AlarmName`: The name for the composite alarm. This name must be unique within the Region.
-- `AlarmRule`: An expression that specifies which other alarms are to be evaluated to
+# Arguments
+- `alarm_name`: The name for the composite alarm. This name must be unique within the
+  Region.
+- `alarm_rule`: An expression that specifies which other alarms are to be evaluated to
   determine this composite alarm's state. For each alarm that you reference, you designate a
   function that specifies whether that alarm needs to be in ALARM state, OK state, or
   INSUFFICIENT_DATA state. You can use operators (AND, OR and NOT) to combine multiple
@@ -678,29 +716,31 @@ OpsItem actions.
   elements. Elements are child alarms, TRUE or FALSE statements, and parentheses.
 
 # Optional Parameters
-- `ActionsEnabled`: Indicates whether actions should be executed during any changes to the
-  alarm state of the composite alarm. The default is TRUE.
-- `AlarmActions`: The actions to execute when this alarm transitions to the ALARM state
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActionsEnabled"`: Indicates whether actions should be executed during any changes to
+  the alarm state of the composite alarm. The default is TRUE.
+- `"AlarmActions"`: The actions to execute when this alarm transitions to the ALARM state
   from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
   Values: arn:aws:sns:region:account-id:sns-topic-name  |
   arn:aws:ssm:region:account-id:opsitem:severity
-- `AlarmDescription`: The description for the composite alarm.
-- `InsufficientDataActions`: The actions to execute when this alarm transitions to the
+- `"AlarmDescription"`: The description for the composite alarm.
+- `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon
   Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
-- `OKActions`: The actions to execute when this alarm transitions to an OK state from any
+- `"OKActions"`: The actions to execute when this alarm transitions to an OK state from any
   other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:
   arn:aws:sns:region:account-id:sns-topic-name
-- `Tags`: A list of key-value pairs to associate with the composite alarm. You can
+- `"Tags"`: A list of key-value pairs to associate with the composite alarm. You can
   associate as many as 50 tags with an alarm. Tags can help you organize and categorize your
   resources. You can also use them to scope user permissions, by granting a user permission
   to access or change only resources with certain tag values.
 """
 put_composite_alarm(AlarmName, AlarmRule; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutCompositeAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule); aws_config=aws_config)
-put_composite_alarm(AlarmName, AlarmRule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutCompositeAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule), args)); aws_config=aws_config)
+put_composite_alarm(AlarmName, AlarmRule, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutCompositeAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule), params)); aws_config=aws_config)
 
 """
-    PutDashboard()
+    put_dashboard(dashboard_body, dashboard_name)
+    put_dashboard(dashboard_body, dashboard_name, params::Dict{String,<:Any})
 
 Creates a dashboard if it does not already exist, or updates an existing dashboard. If you
 update a dashboard, the entire contents are replaced with what you specify here. All
@@ -715,21 +755,22 @@ the dashboard with a message that the dashboard was created by script and should
 changed in the console. This message could also point console users to the location of the
 DashboardBody script or the CloudFormation template used to create the dashboard.
 
-# Required Parameters
-- `DashboardBody`: The detailed information about the dashboard in JSON format, including
+# Arguments
+- `dashboard_body`: The detailed information about the dashboard in JSON format, including
   the widgets to include and their location on the dashboard. This parameter is required. For
   more information about the syntax, see Dashboard Body Structure and Syntax.
-- `DashboardName`: The name of the dashboard. If a dashboard with this name already exists,
-  this call modifies that dashboard, replacing its current contents. Otherwise, a new
+- `dashboard_name`: The name of the dashboard. If a dashboard with this name already
+  exists, this call modifies that dashboard, replacing its current contents. Otherwise, a new
   dashboard is created. The maximum length is 255, and valid characters are A-Z, a-z, 0-9,
   \"-\", and \"_\". This parameter is required.
 
 """
 put_dashboard(DashboardBody, DashboardName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutDashboard", Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName); aws_config=aws_config)
-put_dashboard(DashboardBody, DashboardName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName), args)); aws_config=aws_config)
+put_dashboard(DashboardBody, DashboardName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName), params)); aws_config=aws_config)
 
 """
-    PutInsightRule()
+    put_insight_rule(rule_definition, rule_name)
+    put_insight_rule(rule_definition, rule_name, params::Dict{String,<:Any})
 
 Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log
 group, enabling you to find contributor data for the log events in that log group. For more
@@ -737,14 +778,15 @@ information, see Using Contributor Insights to Analyze High-Cardinality Data. If
 a rule, delete it, and then re-create it with the same name, historical data from the first
 time the rule was created might not be available.
 
-# Required Parameters
-- `RuleDefinition`: The definition of the rule, as a JSON object. For details on the valid
+# Arguments
+- `rule_definition`: The definition of the rule, as a JSON object. For details on the valid
   syntax, see Contributor Insights Rule Syntax.
-- `RuleName`: A unique name for the rule.
+- `rule_name`: A unique name for the rule.
 
 # Optional Parameters
-- `RuleState`: The state of the rule. Valid values are ENABLED and DISABLED.
-- `Tags`: A list of key-value pairs to associate with the Contributor Insights rule. You
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuleState"`: The state of the rule. Valid values are ENABLED and DISABLED.
+- `"Tags"`: A list of key-value pairs to associate with the Contributor Insights rule. You
   can associate as many as 50 tags with a rule. Tags can help you organize and categorize
   your resources. You can also use them to scope user permissions, by granting a user
   permission to access or change only the resources that have certain tag values. To be able
@@ -754,10 +796,11 @@ time the rule was created might not be available.
   ignored. To change the tags of an existing rule, use TagResource.
 """
 put_insight_rule(RuleDefinition, RuleName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutInsightRule", Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName); aws_config=aws_config)
-put_insight_rule(RuleDefinition, RuleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutInsightRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName), args)); aws_config=aws_config)
+put_insight_rule(RuleDefinition, RuleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutInsightRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName), params)); aws_config=aws_config)
 
 """
-    PutMetricAlarm()
+    put_metric_alarm(alarm_name, comparison_operator, evaluation_periods)
+    put_metric_alarm(alarm_name, comparison_operator, evaluation_periods, params::Dict{String,<:Any})
 
 Creates or updates an alarm and associates it with the specified metric, metric math
 expression, or anomaly detection model. Alarms based on anomaly detection models cannot
@@ -774,13 +817,13 @@ rolea for you. The service-linked roles are called AWSServiceRoleForCloudWatchEv
 AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see AWS service-linked
 role.
 
-# Required Parameters
-- `AlarmName`: The name for the alarm. This name must be unique within the Region.
-- `ComparisonOperator`:  The arithmetic operation to use when comparing the specified
+# Arguments
+- `alarm_name`: The name for the alarm. This name must be unique within the Region.
+- `comparison_operator`:  The arithmetic operation to use when comparing the specified
   statistic and threshold. The specified statistic value is used as the first operand. The
   values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and
   GreaterThanUpperThreshold are used only for alarms based on anomaly detection models.
-- `EvaluationPeriods`: The number of periods over which data is compared to the specified
+- `evaluation_periods`: The number of periods over which data is compared to the specified
   threshold. If you are setting an alarm that requires that a number of consecutive data
   points be breaching to trigger the alarm, this value specifies that number. If you are
   setting an \"M out of N\" alarm, this value is the N. An alarm's total current evaluation
@@ -788,9 +831,10 @@ role.
   than 86,400 seconds.
 
 # Optional Parameters
-- `ActionsEnabled`: Indicates whether actions should be executed during any changes to the
-  alarm state. The default is TRUE.
-- `AlarmActions`: The actions to execute when this alarm transitions to the ALARM state
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActionsEnabled"`: Indicates whether actions should be executed during any changes to
+  the alarm state. The default is TRUE.
+- `"AlarmActions"`: The actions to execute when this alarm transitions to the ALARM state
   from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
   Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate |
   arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot |
@@ -801,22 +845,22 @@ role.
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-- `AlarmDescription`: The description for the alarm.
-- `DatapointsToAlarm`: The number of data points that must be breaching to trigger the
+- `"AlarmDescription"`: The description for the alarm.
+- `"DatapointsToAlarm"`: The number of data points that must be breaching to trigger the
   alarm. This is used only if you are setting an \"M out of N\" alarm. In that case, this
   value is the M. For more information, see Evaluating an Alarm in the Amazon CloudWatch User
   Guide.
-- `Dimensions`: The dimensions for the metric specified in MetricName.
-- `EvaluateLowSampleCountPercentile`:  Used only for alarms based on percentiles. If you
+- `"Dimensions"`: The dimensions for the metric specified in MetricName.
+- `"EvaluateLowSampleCountPercentile"`:  Used only for alarms based on percentiles. If you
   specify ignore, the alarm state does not change during periods with too few data points to
   be statistically significant. If you specify evaluate or omit this parameter, the alarm is
   always evaluated and possibly changes state no matter how many data points are available.
   For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid
   Values: evaluate | ignore
-- `ExtendedStatistic`: The percentile statistic for the metric specified in MetricName.
+- `"ExtendedStatistic"`: The percentile statistic for the metric specified in MetricName.
   Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a
   MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
-- `InsufficientDataActions`: The actions to execute when this alarm transitions to the
+- `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon
   Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop |
   arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover |
@@ -826,12 +870,12 @@ role.
   &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-- `MetricName`: The name for the metric associated with the alarm. For each PutMetricAlarm
-  operation, you must specify either MetricName or a Metrics array. If you are creating an
-  alarm based on a math expression, you cannot specify this parameter, or any of the
-  Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you
+- `"MetricName"`: The name for the metric associated with the alarm. For each
+  PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are
+  creating an alarm based on a math expression, you cannot specify this parameter, or any of
+  the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you
   specify all this information in the Metrics array.
-- `Metrics`: An array of MetricDataQuery structures that enable you to create an alarm
+- `"Metrics"`: An array of MetricDataQuery structures that enable you to create an alarm
   based on the result of a metric math expression. For each PutMetricAlarm operation, you
   must specify either MetricName or a Metrics array. Each item in the Metrics array either
   retrieves a metric or performs a math expression. One item in the Metrics array is the
@@ -841,8 +885,8 @@ role.
   Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation.
   Instead, you retrieve the metrics you are using in your math expression as part of the
   Metrics array.
-- `Namespace`: The namespace for the metric associated specified in MetricName.
-- `OKActions`: The actions to execute when this alarm transitions to an OK state from any
+- `"Namespace"`: The namespace for the metric associated specified in MetricName.
+- `"OKActions"`: The actions to execute when this alarm transitions to an OK state from any
   other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:
   arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate |
   arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot |
@@ -852,7 +896,7 @@ role.
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-- `Period`: The length, in seconds, used each time the metric specified in MetricName is
+- `"Period"`: The length, in seconds, used each time the metric specified in MetricName is
   evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms
   based on static thresholds. If you are creating an alarm based on a metric math expression,
   you specify the period for each metric within the objects in the Metrics array. Be sure to
@@ -865,44 +909,46 @@ role.
   charge than other alarms. For more information about pricing, see Amazon CloudWatch
   Pricing. An alarm's total current evaluation period can be no longer than one day, so
   Period multiplied by EvaluationPeriods cannot be more than 86,400 seconds.
-- `Statistic`: The statistic for the metric specified in MetricName, other than percentile.
-  For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify
-  a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
-- `Tags`: A list of key-value pairs to associate with the alarm. You can associate as many
-  as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can
-  also use them to scope user permissions by granting a user permission to access or change
-  only resources with certain tag values. If you are using this operation to update an
+- `"Statistic"`: The statistic for the metric specified in MetricName, other than
+  percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm
+  and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not
+  both.
+- `"Tags"`: A list of key-value pairs to associate with the alarm. You can associate as
+  many as 50 tags with an alarm. Tags can help you organize and categorize your resources.
+  You can also use them to scope user permissions by granting a user permission to access or
+  change only resources with certain tag values. If you are using this operation to update an
   existing alarm, any tags you specify in this parameter are ignored. To change the tags of
   an existing alarm, use TagResource or UntagResource.
-- `Threshold`: The value against which the specified statistic is compared. This parameter
-  is required for alarms based on static thresholds, but should not be used for alarms based
-  on anomaly detection models.
-- `ThresholdMetricId`: If this is an alarm based on an anomaly detection model, make this
+- `"Threshold"`: The value against which the specified statistic is compared. This
+  parameter is required for alarms based on static thresholds, but should not be used for
+  alarms based on anomaly detection models.
+- `"ThresholdMetricId"`: If this is an alarm based on an anomaly detection model, make this
   value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use
   this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm
   uses this parameter, it cannot have Auto Scaling actions.
-- `TreatMissingData`:  Sets how this alarm is to handle missing data points. If
+- `"TreatMissingData"`:  Sets how this alarm is to handle missing data points. If
   TreatMissingData is omitted, the default behavior of missing is used. For more information,
   see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching |
   notBreaching | ignore | missing
-- `Unit`: The unit of measure for the statistic. For example, the units for the Amazon EC2
-  NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance
-  receives on all network interfaces. You can also specify a unit when you create a custom
-  metric. Units help provide conceptual meaning to your data. Metric data points that specify
-  a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit,
-  CloudWatch retrieves all unit types that have been published for the metric and attempts to
-  evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works
-  as intended. However, if the metric is published with multiple types of units and you don't
-  specify a unit, the alarm's behavior is not defined and it behaves predictably. We
-  recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is
-  not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT
-  DATA state.
+- `"Unit"`: The unit of measure for the statistic. For example, the units for the Amazon
+  EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an
+  instance receives on all network interfaces. You can also specify a unit when you create a
+  custom metric. Units help provide conceptual meaning to your data. Metric data points that
+  specify a unit of measure, such as Percent, are aggregated separately. If you don't specify
+  Unit, CloudWatch retrieves all unit types that have been published for the metric and
+  attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the
+  alarm works as intended. However, if the metric is published with multiple types of units
+  and you don't specify a unit, the alarm's behavior is not defined and it behaves
+  predictably. We recommend omitting Unit so that you don't inadvertently specify an
+  incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck
+  in the INSUFFICIENT DATA state.
 """
 put_metric_alarm(AlarmName, ComparisonOperator, EvaluationPeriods; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods); aws_config=aws_config)
-put_metric_alarm(AlarmName, ComparisonOperator, EvaluationPeriods, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods), args)); aws_config=aws_config)
+put_metric_alarm(AlarmName, ComparisonOperator, EvaluationPeriods, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods), params)); aws_config=aws_config)
 
 """
-    PutMetricData()
+    put_metric_data(metric_data, namespace)
+    put_metric_data(metric_data, namespace, params::Dict{String,<:Any})
 
 Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data points
 with the specified metric. If the specified metric does not exist, CloudWatch creates the
@@ -932,18 +978,19 @@ following conditions is true:   The SampleCount value of the statistic set is 1 
 Max, and Sum are all equal.   The Min and Max are equal, and Sum is equal to Min multiplied
 by SampleCount.
 
-# Required Parameters
-- `MetricData`: The data for the metric. The array can include no more than 20 metrics per
+# Arguments
+- `metric_data`: The data for the metric. The array can include no more than 20 metrics per
   call.
-- `Namespace`: The namespace for the metric data. To avoid conflicts with AWS service
+- `namespace`: The namespace for the metric data. To avoid conflicts with AWS service
   namespaces, you should not specify a namespace that begins with AWS/
 
 """
 put_metric_data(MetricData, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace); aws_config=aws_config)
-put_metric_data(MetricData, Namespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), args)); aws_config=aws_config)
+put_metric_data(MetricData, Namespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), params)); aws_config=aws_config)
 
 """
-    SetAlarmState()
+    set_alarm_state(alarm_name, state_reason, state_value)
+    set_alarm_state(alarm_name, state_reason, state_value, params::Dict{String,<:Any})
 
 Temporarily sets the state of an alarm for testing purposes. When the updated state differs
 from the previous value, the action configured for the appropriate state is invoked. For
@@ -958,22 +1005,24 @@ also reevaluated if you update its configuration. If an alarm triggers EC2 Auto 
 policies or application Auto Scaling policies, you must include information in the
 StateReasonData parameter to enable the policy to take the correct action.
 
-# Required Parameters
-- `AlarmName`: The name of the alarm.
-- `StateReason`: The reason that this alarm is set to this specific state, in text format.
-- `StateValue`: The value of the state.
+# Arguments
+- `alarm_name`: The name of the alarm.
+- `state_reason`: The reason that this alarm is set to this specific state, in text format.
+- `state_value`: The value of the state.
 
 # Optional Parameters
-- `StateReasonData`: The reason that this alarm is set to this specific state, in JSON
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StateReasonData"`: The reason that this alarm is set to this specific state, in JSON
   format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling
   or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in
   this field to take the correct action.
 """
 set_alarm_state(AlarmName, StateReason, StateValue; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue); aws_config=aws_config)
-set_alarm_state(AlarmName, StateReason, StateValue, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), args)); aws_config=aws_config)
+set_alarm_state(AlarmName, StateReason, StateValue, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently,
 the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules.
@@ -986,33 +1035,34 @@ list of tags associated with the alarm. If you specify a tag key that is already
 with the alarm, the new tag value that you specify replaces the previous value for that
 tag. You can associate as many as 50 tags with a CloudWatch resource.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the CloudWatch resource that you're adding tags to. The ARN
+# Arguments
+- `resource_arn`: The ARN of the CloudWatch resource that you're adding tags to. The ARN
   format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
   arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
   Services General Reference.
-- `Tags`: The list of key-value pairs to associate with the alarm.
+- `tags`: The list of key-value pairs to associate with the alarm.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes one or more tags from the specified resource.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the CloudWatch resource that you're removing tags from. The ARN
-  format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
+# Arguments
+- `resource_arn`: The ARN of the CloudWatch resource that you're removing tags from. The
+  ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
   arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
   Services General Reference.
-- `TagKeys`: The list of tag keys to remove from the resource.
+- `tag_keys`: The list of tag keys to remove from the resource.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

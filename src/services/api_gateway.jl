@@ -5,34 +5,37 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateApiKey()
+    create_api_key()
+    create_api_key(params::Dict{String,<:Any})
 
 Create an ApiKey resource.  AWS CLI
 
 # Optional Parameters
-- `customerId`: An AWS Marketplace customer identifier , when integrating with the AWS SaaS
-  Marketplace.
-- `description`: The description of the ApiKey.
-- `enabled`: Specifies whether the ApiKey can be used by callers.
-- `generateDistinctId`: Specifies whether (true) or not (false) the key identifier is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customerId"`: An AWS Marketplace customer identifier , when integrating with the AWS
+  SaaS Marketplace.
+- `"description"`: The description of the ApiKey.
+- `"enabled"`: Specifies whether the ApiKey can be used by callers.
+- `"generateDistinctId"`: Specifies whether (true) or not (false) the key identifier is
   distinct from the created API key value. This parameter is deprecated and should not be
   used.
-- `name`: The name of the ApiKey.
-- `stageKeys`: DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
-- `value`: Specifies a value of the API key.
+- `"name"`: The name of the ApiKey.
+- `"stageKeys"`: DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
+- `"value"`: Specifies a value of the API key.
 """
 create_api_key(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys"; aws_config=aws_config)
-create_api_key(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys", args; aws_config=aws_config)
+create_api_key(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys", params; aws_config=aws_config)
 
 """
-    CreateAuthorizer()
+    create_authorizer(name, restapi_id, type)
+    create_authorizer(name, restapi_id, type, params::Dict{String,<:Any})
 
 Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
 
-# Required Parameters
+# Arguments
 - `name`: [Required] The name of the authorizer.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `type`: [Required] The authorizer type. Valid values are TOKEN for a Lambda function
@@ -41,25 +44,26 @@ Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
   Cognito user pool.
 
 # Optional Parameters
-- `authType`: Optional customer-defined field, used in OpenAPI imports and exports without
-  functional impact.
-- `authorizerCredentials`: Specifies the required credentials as an IAM role for API
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"authType"`: Optional customer-defined field, used in OpenAPI imports and exports
+  without functional impact.
+- `"authorizerCredentials"`: Specifies the required credentials as an IAM role for API
   Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the
   role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda
   function, specify null.
-- `authorizerResultTtlInSeconds`: The TTL in seconds of cached authorizer results. If it
+- `"authorizerResultTtlInSeconds"`: The TTL in seconds of cached authorizer results. If it
   equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will
   cache authorizer responses. If this field is not set, the default value is 300. The maximum
   value is 3600, or 1 hour.
-- `authorizerUri`: Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN
-  or REQUEST authorizers, this must be a well-formed Lambda function URI, for example,
+- `"authorizerUri"`: Specifies the authorizer's Uniform Resource Identifier (URI). For
+  TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example,
   arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{acco
   unt_id}:function:{lambda_function_name}/invocations. In general, the URI has this form
   arn:aws:apigateway:{region}:lambda:path/{service_api}, where {region} is the same as the
   region hosting the Lambda function, path indicates that the remaining substring in the URI
   should be treated as the path to the resource, including the initial /. For Lambda
   functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations.
-- `identitySource`: The identity source for which authorization is requested. For a TOKEN
+- `"identitySource"`: The identity source for which authorization is requested. For a TOKEN
   or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping
   expression for the custom header holding the authorization token submitted by the client.
   For example, if the token header name is Auth, the header mapping expression is
@@ -75,74 +79,79 @@ Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
   function. The valid value is a string of comma-separated mapping expressions of the
   specified request parameters. When the authorization caching is not enabled, this property
   is optional.
-- `identityValidationExpression`: A validation expression for the incoming identity token.
-  For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS
+- `"identityValidationExpression"`: A validation expression for the incoming identity
+  token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS
   authorizers, API Gateway will match the aud field of the incoming token from the client
   against the specified regular expression. It will invoke the authorizer's Lambda function
   when there is a match. Otherwise, it will return a 401 Unauthorized response without
   calling the Lambda function. The validation expression does not apply to the REQUEST
   authorizer.
-- `providerARNs`: A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS
+- `"providerARNs"`: A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS
   authorizer. Each element is of this format:
   arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST
   authorizer, this is not defined.
 """
 create_authorizer(name, restapi_id, type; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers", Dict{String, Any}("name"=>name, "type"=>type); aws_config=aws_config)
-create_authorizer(name, restapi_id, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), args)); aws_config=aws_config)
+create_authorizer(name, restapi_id, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), params)); aws_config=aws_config)
 
 """
-    CreateBasePathMapping()
+    create_base_path_mapping(domain_name, rest_api_id)
+    create_base_path_mapping(domain_name, rest_api_id, params::Dict{String,<:Any})
 
 Creates a new BasePathMapping resource.
 
-# Required Parameters
+# Arguments
 - `domain_name`: [Required] The domain name of the BasePathMapping resource to create.
-- `restApiId`: [Required] The string identifier of the associated RestApi.
+- `rest_api_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `basePath`: The base path name that callers of the API must provide as part of the URL
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"basePath"`: The base path name that callers of the API must provide as part of the URL
   after the domain name. This value must be unique for all of the mappings across a single
   API. Specify '(none)' if you do not want callers to specify a base path name after the
   domain name.
-- `stage`: The name of the API's stage that you want to use for this mapping. Specify
+- `"stage"`: The name of the API's stage that you want to use for this mapping. Specify
   '(none)' if you want callers to explicitly specify the stage name after any base path name.
 """
 create_base_path_mapping(domain_name, restApiId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings", Dict{String, Any}("restApiId"=>restApiId); aws_config=aws_config)
-create_base_path_mapping(domain_name, restApiId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("restApiId"=>restApiId), args)); aws_config=aws_config)
+create_base_path_mapping(domain_name, restApiId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("restApiId"=>restApiId), params)); aws_config=aws_config)
 
 """
-    CreateDeployment()
+    create_deployment(restapi_id)
+    create_deployment(restapi_id, params::Dict{String,<:Any})
 
 Creates a Deployment resource, which makes a specified RestApi callable over the internet.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `cacheClusterEnabled`: Enables a cache cluster for the Stage resource specified in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cacheClusterEnabled"`: Enables a cache cluster for the Stage resource specified in the
   input.
-- `cacheClusterSize`: Specifies the cache cluster size for the Stage resource specified in
-  the input, if a cache cluster is enabled.
-- `canarySettings`: The input configuration for the canary deployment when the deployment
+- `"cacheClusterSize"`: Specifies the cache cluster size for the Stage resource specified
+  in the input, if a cache cluster is enabled.
+- `"canarySettings"`: The input configuration for the canary deployment when the deployment
   is a canary release deployment.
-- `description`: The description for the Deployment resource to create.
-- `stageDescription`: The description of the Stage resource for the Deployment resource to
-  create.
-- `stageName`: The name of the Stage resource for the Deployment resource to create.
-- `tracingEnabled`: Specifies whether active tracing with X-ray is enabled for the Stage.
-- `variables`: A map that defines the stage variables for the Stage resource that is
+- `"description"`: The description for the Deployment resource to create.
+- `"stageDescription"`: The description of the Stage resource for the Deployment resource
+  to create.
+- `"stageName"`: The name of the Stage resource for the Deployment resource to create.
+- `"tracingEnabled"`: Specifies whether active tracing with X-ray is enabled for the Stage.
+- `"variables"`: A map that defines the stage variables for the Stage resource that is
   associated with the new deployment. Variable names can have alphanumeric and underscore
   characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
 create_deployment(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/deployments"; aws_config=aws_config)
-create_deployment(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/deployments", args; aws_config=aws_config)
+create_deployment(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/deployments", params; aws_config=aws_config)
 
 """
-    CreateDocumentationPart()
+    create_documentation_part(location, properties, restapi_id)
+    create_documentation_part(location, properties, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `location`: [Required] The location of the targeted API entity of the to-be-created
   documentation part.
 - `properties`: [Required] The new documentation content map of the targeted API entity.
@@ -152,350 +161,377 @@ create_deployment(restapi_id, args::AbstractDict{String, <:Any}; aws_config::Abs
 
 """
 create_documentation_part(location, properties, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}("location"=>location, "properties"=>properties); aws_config=aws_config)
-create_documentation_part(location, properties, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("location"=>location, "properties"=>properties), args)); aws_config=aws_config)
+create_documentation_part(location, properties, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("location"=>location, "properties"=>properties), params)); aws_config=aws_config)
 
 """
-    CreateDocumentationVersion()
+    create_documentation_version(documentation_version, restapi_id)
+    create_documentation_version(documentation_version, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
-- `documentationVersion`: [Required] The version identifier of the new snapshot.
+# Arguments
+- `documentation_version`: [Required] The version identifier of the new snapshot.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `description`: A description about the new documentation snapshot.
-- `stageName`: The stage name to be associated with the new documentation snapshot.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description about the new documentation snapshot.
+- `"stageName"`: The stage name to be associated with the new documentation snapshot.
 """
 create_documentation_version(documentationVersion, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions", Dict{String, Any}("documentationVersion"=>documentationVersion); aws_config=aws_config)
-create_documentation_version(documentationVersion, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documentationVersion"=>documentationVersion), args)); aws_config=aws_config)
+create_documentation_version(documentationVersion, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documentationVersion"=>documentationVersion), params)); aws_config=aws_config)
 
 """
-    CreateDomainName()
+    create_domain_name(domain_name)
+    create_domain_name(domain_name, params::Dict{String,<:Any})
 
 Creates a new domain name.
 
-# Required Parameters
-- `domainName`: [Required] The name of the DomainName resource.
+# Arguments
+- `domain_name`: [Required] The name of the DomainName resource.
 
 # Optional Parameters
-- `certificateArn`: The reference to an AWS-managed certificate that will be used by
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"certificateArn"`: The reference to an AWS-managed certificate that will be used by
   edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported
   source.
-- `certificateBody`: [Deprecated] The body of the server certificate that will be used by
+- `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by
   edge-optimized endpoint for this domain name provided by your certificate authority.
-- `certificateChain`: [Deprecated] The intermediate certificates and optionally the root
+- `"certificateChain"`: [Deprecated] The intermediate certificates and optionally the root
   certificate, one after the other without any blank lines, used by an edge-optimized
   endpoint for this domain name. If you include the root certificate, your certificate chain
   must start with intermediate certificates and end with the root certificate. Use the
   intermediate certificates that were provided by your certificate authority. Do not include
   any intermediaries that are not in the chain of trust path.
-- `certificateName`: The user-friendly name of the certificate that will be used by
+- `"certificateName"`: The user-friendly name of the certificate that will be used by
   edge-optimized endpoint for this domain name.
-- `certificatePrivateKey`: [Deprecated] Your edge-optimized endpoint's domain name
+- `"certificatePrivateKey"`: [Deprecated] Your edge-optimized endpoint's domain name
   certificate's private key.
-- `endpointConfiguration`: The endpoint configuration of this DomainName showing the
+- `"endpointConfiguration"`: The endpoint configuration of this DomainName showing the
   endpoint types of the domain name.
-- `mutualTlsAuthentication`:
-- `regionalCertificateArn`: The reference to an AWS-managed certificate that will be used
+- `"mutualTlsAuthentication"`:
+- `"regionalCertificateArn"`: The reference to an AWS-managed certificate that will be used
   by regional endpoint for this domain name. AWS Certificate Manager is the only supported
   source.
-- `regionalCertificateName`: The user-friendly name of the certificate that will be used by
-  regional endpoint for this domain name.
-- `securityPolicy`: The Transport Layer Security (TLS) version + cipher suite for this
+- `"regionalCertificateName"`: The user-friendly name of the certificate that will be used
+  by regional endpoint for this domain name.
+- `"securityPolicy"`: The Transport Layer Security (TLS) version + cipher suite for this
   DomainName. The valid values are TLS_1_0 and TLS_1_2.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
 """
 create_domain_name(domainName; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-create_domain_name(domainName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), args)); aws_config=aws_config)
+create_domain_name(domainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/domainnames", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
 
 """
-    CreateModel()
+    create_model(content_type, name, restapi_id)
+    create_model(content_type, name, restapi_id, params::Dict{String,<:Any})
 
 Adds a new Model resource to an existing RestApi resource.
 
-# Required Parameters
-- `contentType`: [Required] The content-type for the model.
+# Arguments
+- `content_type`: [Required] The content-type for the model.
 - `name`: [Required] The name of the model. Must be alphanumeric.
 - `restapi_id`: [Required] The RestApi identifier under which the Model will be created.
 
 # Optional Parameters
-- `description`: The description of the model.
-- `schema`: The schema for the model. For application/json models, this should be JSON
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the model.
+- `"schema"`: The schema for the model. For application/json models, this should be JSON
   schema draft 4 model.
 """
 create_model(contentType, name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/models", Dict{String, Any}("contentType"=>contentType, "name"=>name); aws_config=aws_config)
-create_model(contentType, name, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentType"=>contentType, "name"=>name), args)); aws_config=aws_config)
+create_model(contentType, name, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentType"=>contentType, "name"=>name), params)); aws_config=aws_config)
 
 """
-    CreateRequestValidator()
+    create_request_validator(restapi_id)
+    create_request_validator(restapi_id, params::Dict{String,<:Any})
 
 Creates a ReqeustValidator of a given RestApi.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `name`: The name of the to-be-created RequestValidator.
-- `validateRequestBody`: A Boolean flag to indicate whether to validate request body
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the to-be-created RequestValidator.
+- `"validateRequestBody"`: A Boolean flag to indicate whether to validate request body
   according to the configured model schema for the method (true) or not (false).
-- `validateRequestParameters`: A Boolean flag to indicate whether to validate request
+- `"validateRequestParameters"`: A Boolean flag to indicate whether to validate request
   parameters, true, or not false.
 """
 create_request_validator(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators"; aws_config=aws_config)
-create_request_validator(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators", args; aws_config=aws_config)
+create_request_validator(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators", params; aws_config=aws_config)
 
 """
-    CreateResource()
+    create_resource(parent_id, path_part, restapi_id)
+    create_resource(parent_id, path_part, restapi_id, params::Dict{String,<:Any})
 
 Creates a Resource resource.
 
-# Required Parameters
+# Arguments
 - `parent_id`: [Required] The parent resource's identifier.
-- `pathPart`: The last path segment for this resource.
+- `path_part`: The last path segment for this resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 create_resource(parent_id, pathPart, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)", Dict{String, Any}("pathPart"=>pathPart); aws_config=aws_config)
-create_resource(parent_id, pathPart, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pathPart"=>pathPart), args)); aws_config=aws_config)
+create_resource(parent_id, pathPart, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pathPart"=>pathPart), params)); aws_config=aws_config)
 
 """
-    CreateRestApi()
+    create_rest_api(name)
+    create_rest_api(name, params::Dict{String,<:Any})
 
 Creates a new RestApi resource.
 
-# Required Parameters
+# Arguments
 - `name`: [Required] The name of the RestApi.
 
 # Optional Parameters
-- `apiKeySource`: The source of the API key for metering requests according to a usage
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"apiKeySource"`: The source of the API key for metering requests according to a usage
   plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request.
   AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
-- `binaryMediaTypes`: The list of binary media types supported by the RestApi. By default,
-  the RestApi supports only UTF-8-encoded text payloads.
-- `cloneFrom`: The ID of the RestApi that you want to clone from.
-- `description`: The description of the RestApi.
-- `disableExecuteApiEndpoint`: Specifies whether clients can invoke your API by using the
+- `"binaryMediaTypes"`: The list of binary media types supported by the RestApi. By
+  default, the RestApi supports only UTF-8-encoded text payloads.
+- `"cloneFrom"`: The ID of the RestApi that you want to clone from.
+- `"description"`: The description of the RestApi.
+- `"disableExecuteApiEndpoint"`: Specifies whether clients can invoke your API by using the
   default execute-api endpoint. By default, clients can invoke your API with the default
   https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a
   custom domain name to invoke your API, disable the default endpoint.
-- `endpointConfiguration`: The endpoint configuration of this RestApi showing the endpoint
-  types of the API.
-- `minimumCompressionSize`: A nullable integer that is used to enable compression (with
+- `"endpointConfiguration"`: The endpoint configuration of this RestApi showing the
+  endpoint types of the API.
+- `"minimumCompressionSize"`: A nullable integer that is used to enable compression (with
   non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a
   null value) on an API. When compression is enabled, compression or decompression is not
   applied on the payload if the payload size is smaller than this value. Setting it to zero
   allows compression for any payload size.
-- `policy`: A stringified JSON policy document that applies to this RestApi regardless of
+- `"policy"`: A stringified JSON policy document that applies to this RestApi regardless of
   the caller and Method configuration.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
-- `version`: A version identifier for the API.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
+- `"version"`: A version identifier for the API.
 """
 create_rest_api(name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_rest_api(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_rest_api(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
-    CreateStage()
+    create_stage(deployment_id, restapi_id, stage_name)
+    create_stage(deployment_id, restapi_id, stage_name, params::Dict{String,<:Any})
 
 Creates a new Stage resource that references a pre-existing Deployment for the API.
 
-# Required Parameters
-- `deploymentId`: [Required] The identifier of the Deployment resource for the Stage
+# Arguments
+- `deployment_id`: [Required] The identifier of the Deployment resource for the Stage
   resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
-- `stageName`: [Required] The name for the Stage resource. Stage names can only contain
+- `stage_name`: [Required] The name for the Stage resource. Stage names can only contain
   alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
 
 # Optional Parameters
-- `cacheClusterEnabled`: Whether cache clustering is enabled for the stage.
-- `cacheClusterSize`: The stage's cache cluster size.
-- `canarySettings`: The canary deployment settings of this stage.
-- `description`: The description of the Stage resource.
-- `documentationVersion`: The version of the associated API documentation.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
-- `tracingEnabled`: Specifies whether active tracing with X-ray is enabled for the Stage.
-- `variables`: A map that defines the stage variables for the new Stage resource. Variable
-  names can have alphanumeric and underscore characters, and the values must match
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cacheClusterEnabled"`: Whether cache clustering is enabled for the stage.
+- `"cacheClusterSize"`: The stage's cache cluster size.
+- `"canarySettings"`: The canary deployment settings of this stage.
+- `"description"`: The description of the Stage resource.
+- `"documentationVersion"`: The version of the associated API documentation.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
+- `"tracingEnabled"`: Specifies whether active tracing with X-ray is enabled for the Stage.
+- `"variables"`: A map that defines the stage variables for the new Stage resource.
+  Variable names can have alphanumeric and underscore characters, and the values must match
   [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
 create_stage(deploymentId, restapi_id, stageName; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/stages", Dict{String, Any}("deploymentId"=>deploymentId, "stageName"=>stageName); aws_config=aws_config)
-create_stage(deploymentId, restapi_id, stageName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "stageName"=>stageName), args)); aws_config=aws_config)
+create_stage(deploymentId, restapi_id, stageName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/stages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentId"=>deploymentId, "stageName"=>stageName), params)); aws_config=aws_config)
 
 """
-    CreateUsagePlan()
+    create_usage_plan(name)
+    create_usage_plan(name, params::Dict{String,<:Any})
 
 Creates a usage plan with the throttle and quota limits, as well as the associated API
 stages, specified in the payload.
 
-# Required Parameters
+# Arguments
 - `name`: [Required] The name of the usage plan.
 
 # Optional Parameters
-- `apiStages`: The associated API stages of the usage plan.
-- `description`: The description of the usage plan.
-- `quota`: The quota of the usage plan.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
-- `throttle`: The throttling limits of the usage plan.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"apiStages"`: The associated API stages of the usage plan.
+- `"description"`: The description of the usage plan.
+- `"quota"`: The quota of the usage plan.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
+- `"throttle"`: The throttling limits of the usage plan.
 """
 create_usage_plan(name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_usage_plan(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+create_usage_plan(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
-    CreateUsagePlanKey()
+    create_usage_plan_key(key_id, key_type, usageplan_id)
+    create_usage_plan_key(key_id, key_type, usageplan_id, params::Dict{String,<:Any})
 
 Creates a usage plan key for adding an existing API key to a usage plan.
 
-# Required Parameters
-- `keyId`: [Required] The identifier of a UsagePlanKey resource for a plan customer.
-- `keyType`: [Required] The type of a UsagePlanKey resource for a plan customer.
-- `usageplanId`: [Required] The Id of the UsagePlan resource representing the usage plan
+# Arguments
+- `key_id`: [Required] The identifier of a UsagePlanKey resource for a plan customer.
+- `key_type`: [Required] The type of a UsagePlanKey resource for a plan customer.
+- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
   containing the to-be-created UsagePlanKey resource representing a plan customer.
 
 """
 create_usage_plan_key(keyId, keyType, usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans/$(usageplanId)/keys", Dict{String, Any}("keyId"=>keyId, "keyType"=>keyType); aws_config=aws_config)
-create_usage_plan_key(keyId, keyType, usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans/$(usageplanId)/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyId"=>keyId, "keyType"=>keyType), args)); aws_config=aws_config)
+create_usage_plan_key(keyId, keyType, usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/usageplans/$(usageplanId)/keys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keyId"=>keyId, "keyType"=>keyType), params)); aws_config=aws_config)
 
 """
-    CreateVpcLink()
+    create_vpc_link(name, target_arns)
+    create_vpc_link(name, target_arns, params::Dict{String,<:Any})
 
 Creates a VPC link, under the caller's account in a selected region, in an asynchronous
 operation that typically takes 2-4 minutes to complete and become operational. The caller
 must have permissions to create and update VPC Endpoint services.
 
-# Required Parameters
+# Arguments
 - `name`: [Required] The name used to label and identify the VPC link.
-- `targetArns`: [Required] The ARN of the network load balancer of the VPC targeted by the
+- `target_arns`: [Required] The ARN of the network load balancer of the VPC targeted by the
   VPC link. The network load balancer must be owned by the same AWS account of the API owner.
 
 # Optional Parameters
-- `description`: The description of the VPC link.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the VPC link.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
 """
 create_vpc_link(name, targetArns; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/vpclinks", Dict{String, Any}("name"=>name, "targetArns"=>targetArns); aws_config=aws_config)
-create_vpc_link(name, targetArns, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "targetArns"=>targetArns), args)); aws_config=aws_config)
+create_vpc_link(name, targetArns, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/vpclinks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "targetArns"=>targetArns), params)); aws_config=aws_config)
 
 """
-    DeleteApiKey()
+    delete_api_key(api__key)
+    delete_api_key(api__key, params::Dict{String,<:Any})
 
 Deletes the ApiKey resource.
 
-# Required Parameters
-- `api_Key`: [Required] The identifier of the ApiKey resource to be deleted.
+# Arguments
+- `api__key`: [Required] The identifier of the ApiKey resource to be deleted.
 
 """
 delete_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/apikeys/$(api_Key)"; aws_config=aws_config)
-delete_api_key(api_Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/apikeys/$(api_Key)", args; aws_config=aws_config)
+delete_api_key(api_Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/apikeys/$(api_Key)", params; aws_config=aws_config)
 
 """
-    DeleteAuthorizer()
+    delete_authorizer(authorizer_id, restapi_id)
+    delete_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
 Deletes an existing Authorizer resource. AWS CLI
 
-# Required Parameters
+# Arguments
 - `authorizer_id`: [Required] The identifier of the Authorizer resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)"; aws_config=aws_config)
-delete_authorizer(authorizer_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args; aws_config=aws_config)
+delete_authorizer(authorizer_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config)
 
 """
-    DeleteBasePathMapping()
+    delete_base_path_mapping(base_path, domain_name)
+    delete_base_path_mapping(base_path, domain_name, params::Dict{String,<:Any})
 
 Deletes the BasePathMapping resource.
 
-# Required Parameters
+# Arguments
 - `base_path`: [Required] The base path name of the BasePathMapping resource to delete. To
   specify an empty base path, set this parameter to '(none)'.
 - `domain_name`: [Required] The domain name of the BasePathMapping resource to delete.
 
 """
 delete_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)"; aws_config=aws_config)
-delete_base_path_mapping(base_path, domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args; aws_config=aws_config)
+delete_base_path_mapping(base_path, domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config)
 
 """
-    DeleteClientCertificate()
+    delete_client_certificate(clientcertificate_id)
+    delete_client_certificate(clientcertificate_id, params::Dict{String,<:Any})
 
 Deletes the ClientCertificate resource.
 
-# Required Parameters
+# Arguments
 - `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
   deleted.
 
 """
 delete_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)"; aws_config=aws_config)
-delete_client_certificate(clientcertificate_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)", args; aws_config=aws_config)
+delete_client_certificate(clientcertificate_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config)
 
 """
-    DeleteDeployment()
+    delete_deployment(deployment_id, restapi_id)
+    delete_deployment(deployment_id, restapi_id, params::Dict{String,<:Any})
 
 Deletes a Deployment resource. Deleting a deployment will only succeed if there are no
 Stage resources associated with it.
 
-# Required Parameters
+# Arguments
 - `deployment_id`: [Required] The identifier of the Deployment resource to delete.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)"; aws_config=aws_config)
-delete_deployment(deployment_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args; aws_config=aws_config)
+delete_deployment(deployment_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config)
 
 """
-    DeleteDocumentationPart()
+    delete_documentation_part(part_id, restapi_id)
+    delete_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `part_id`: [Required] The identifier of the to-be-deleted documentation part.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)"; aws_config=aws_config)
-delete_documentation_part(part_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args; aws_config=aws_config)
+delete_documentation_part(part_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config)
 
 """
-    DeleteDocumentationVersion()
+    delete_documentation_version(doc_version, restapi_id)
+    delete_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `doc_version`: [Required] The version identifier of a to-be-deleted documentation
   snapshot.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)"; aws_config=aws_config)
-delete_documentation_version(doc_version, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args; aws_config=aws_config)
+delete_documentation_version(doc_version, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config)
 
 """
-    DeleteDomainName()
+    delete_domain_name(domain_name)
+    delete_domain_name(domain_name, params::Dict{String,<:Any})
 
 Deletes the DomainName resource.
 
-# Required Parameters
+# Arguments
 - `domain_name`: [Required] The name of the DomainName resource to be deleted.
 
 """
 delete_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)"; aws_config=aws_config)
-delete_domain_name(domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)", args; aws_config=aws_config)
+delete_domain_name(domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/domainnames/$(domain_name)", params; aws_config=aws_config)
 
 """
-    DeleteGatewayResponse()
+    delete_gateway_response(response_type, restapi_id)
+    delete_gateway_response(response_type, restapi_id, params::Dict{String,<:Any})
 
 Clears any customization of a GatewayResponse of a specified response type on the given
 RestApi and resets it with the default settings.
 
-# Required Parameters
+# Arguments
 - `response_type`: [Required] The response type of the associated GatewayResponse. Valid
   values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
   AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
@@ -507,28 +543,30 @@ RestApi and resets it with the default settings.
 
 """
 delete_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)"; aws_config=aws_config)
-delete_gateway_response(response_type, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args; aws_config=aws_config)
+delete_gateway_response(response_type, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config)
 
 """
-    DeleteIntegration()
+    delete_integration(http_method, resource_id, restapi_id)
+    delete_integration(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Represents a delete integration.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a delete integration request's HTTP method.
 - `resource_id`: [Required] Specifies a delete integration request's resource identifier.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration"; aws_config=aws_config)
-delete_integration(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args; aws_config=aws_config)
+delete_integration(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config)
 
 """
-    DeleteIntegrationResponse()
+    delete_integration_response(http_method, resource_id, restapi_id, status_code)
+    delete_integration_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Represents a delete integration response.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a delete integration response request's HTTP method.
 - `resource_id`: [Required] Specifies a delete integration response request's resource
   identifier.
@@ -537,28 +575,30 @@ Represents a delete integration response.
 
 """
 delete_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)"; aws_config=aws_config)
-delete_integration_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args; aws_config=aws_config)
+delete_integration_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    DeleteMethod()
+    delete_method(http_method, resource_id, restapi_id)
+    delete_method(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Deletes an existing Method resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the Method resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)"; aws_config=aws_config)
-delete_method(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args; aws_config=aws_config)
+delete_method(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config)
 
 """
-    DeleteMethodResponse()
+    delete_method_response(http_method, resource_id, restapi_id, status_code)
+    delete_method_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Deletes an existing MethodResponse resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
@@ -566,228 +606,249 @@ Deletes an existing MethodResponse resource.
 
 """
 delete_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)"; aws_config=aws_config)
-delete_method_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args; aws_config=aws_config)
+delete_method_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    DeleteModel()
+    delete_model(model_name, restapi_id)
+    delete_model(model_name, restapi_id, params::Dict{String,<:Any})
 
 Deletes a model.
 
-# Required Parameters
+# Arguments
 - `model_name`: [Required] The name of the model to delete.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)"; aws_config=aws_config)
-delete_model(model_name, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)", args; aws_config=aws_config)
+delete_model(model_name, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config)
 
 """
-    DeleteRequestValidator()
+    delete_request_validator(requestvalidator_id, restapi_id)
+    delete_request_validator(requestvalidator_id, restapi_id, params::Dict{String,<:Any})
 
 Deletes a RequestValidator of a given RestApi.
 
-# Required Parameters
+# Arguments
 - `requestvalidator_id`: [Required] The identifier of the RequestValidator to be deleted.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)"; aws_config=aws_config)
-delete_request_validator(requestvalidator_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args; aws_config=aws_config)
+delete_request_validator(requestvalidator_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config)
 
 """
-    DeleteResource()
+    delete_resource(resource_id, restapi_id)
+    delete_resource(resource_id, restapi_id, params::Dict{String,<:Any})
 
 Deletes a Resource resource.
 
-# Required Parameters
+# Arguments
 - `resource_id`: [Required] The identifier of the Resource resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)"; aws_config=aws_config)
-delete_resource(resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)", args; aws_config=aws_config)
+delete_resource(resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config)
 
 """
-    DeleteRestApi()
+    delete_rest_api(restapi_id)
+    delete_rest_api(restapi_id, params::Dict{String,<:Any})
 
 Deletes the specified API.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)"; aws_config=aws_config)
-delete_rest_api(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)", args; aws_config=aws_config)
+delete_rest_api(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)", params; aws_config=aws_config)
 
 """
-    DeleteStage()
+    delete_stage(restapi_id, stage_name)
+    delete_stage(restapi_id, stage_name, params::Dict{String,<:Any})
 
 Deletes a Stage resource.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `stage_name`: [Required] The name of the Stage resource to delete.
 
 """
 delete_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)"; aws_config=aws_config)
-delete_stage(restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)", args; aws_config=aws_config)
+delete_stage(restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config)
 
 """
-    DeleteUsagePlan()
+    delete_usage_plan(usageplan_id)
+    delete_usage_plan(usageplan_id, params::Dict{String,<:Any})
 
 Deletes a usage plan of a given plan Id.
 
-# Required Parameters
-- `usageplanId`: [Required] The Id of the to-be-deleted usage plan.
+# Arguments
+- `usageplan_id`: [Required] The Id of the to-be-deleted usage plan.
 
 """
 delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)"; aws_config=aws_config)
-delete_usage_plan(usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)", args; aws_config=aws_config)
+delete_usage_plan(usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)", params; aws_config=aws_config)
 
 """
-    DeleteUsagePlanKey()
+    delete_usage_plan_key(key_id, usageplan_id)
+    delete_usage_plan_key(key_id, usageplan_id, params::Dict{String,<:Any})
 
 Deletes a usage plan key and remove the underlying API key from the associated usage plan.
 
-# Required Parameters
-- `keyId`: [Required] The Id of the UsagePlanKey resource to be deleted.
-- `usageplanId`: [Required] The Id of the UsagePlan resource representing the usage plan
+# Arguments
+- `key_id`: [Required] The Id of the UsagePlanKey resource to be deleted.
+- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
   containing the to-be-deleted UsagePlanKey resource representing a plan customer.
 
 """
 delete_usage_plan_key(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)"; aws_config=aws_config)
-delete_usage_plan_key(keyId, usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)", args; aws_config=aws_config)
+delete_usage_plan_key(keyId, usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)", params; aws_config=aws_config)
 
 """
-    DeleteVpcLink()
+    delete_vpc_link(vpclink_id)
+    delete_vpc_link(vpclink_id, params::Dict{String,<:Any})
 
 Deletes an existing VpcLink of a specified identifier.
 
-# Required Parameters
+# Arguments
 - `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
   reference this VpcLink.
 
 """
 delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/vpclinks/$(vpclink_id)"; aws_config=aws_config)
-delete_vpc_link(vpclink_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/vpclinks/$(vpclink_id)", args; aws_config=aws_config)
+delete_vpc_link(vpclink_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config)
 
 """
-    FlushStageAuthorizersCache()
+    flush_stage_authorizers_cache(restapi_id, stage_name)
+    flush_stage_authorizers_cache(restapi_id, stage_name, params::Dict{String,<:Any})
 
 Flushes all authorizer cache entries on a stage.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: The string identifier of the associated RestApi.
 - `stage_name`: The name of the stage to flush.
 
 """
 flush_stage_authorizers_cache(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers"; aws_config=aws_config)
-flush_stage_authorizers_cache(restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers", args; aws_config=aws_config)
+flush_stage_authorizers_cache(restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers", params; aws_config=aws_config)
 
 """
-    FlushStageCache()
+    flush_stage_cache(restapi_id, stage_name)
+    flush_stage_cache(restapi_id, stage_name, params::Dict{String,<:Any})
 
 Flushes a stage's cache.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `stage_name`: [Required] The name of the stage to flush its cache.
 
 """
 flush_stage_cache(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data"; aws_config=aws_config)
-flush_stage_cache(restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data", args; aws_config=aws_config)
+flush_stage_cache(restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data", params; aws_config=aws_config)
 
 """
-    GenerateClientCertificate()
+    generate_client_certificate()
+    generate_client_certificate(params::Dict{String,<:Any})
 
 Generates a ClientCertificate resource.
 
 # Optional Parameters
-- `description`: The description of the ClientCertificate.
-- `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag
-  key can be up to 128 characters and must not start with aws:. The tag value can be up to
-  256 characters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the ClientCertificate.
+- `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The
+  tag key can be up to 128 characters and must not start with aws:. The tag value can be up
+  to 256 characters.
 """
 generate_client_certificate(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates"; aws_config=aws_config)
-generate_client_certificate(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates", args; aws_config=aws_config)
+generate_client_certificate(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates", params; aws_config=aws_config)
 
 """
-    GetAccount()
+    get_account()
+    get_account(params::Dict{String,<:Any})
 
 Gets information about the current Account resource.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account"; aws_config=aws_config)
-get_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account", args; aws_config=aws_config)
+get_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account", params; aws_config=aws_config)
 
 """
-    GetApiKey()
+    get_api_key(api__key)
+    get_api_key(api__key, params::Dict{String,<:Any})
 
 Gets information about the current ApiKey resource.
 
-# Required Parameters
-- `api_Key`: [Required] The identifier of the ApiKey resource.
+# Arguments
+- `api__key`: [Required] The identifier of the ApiKey resource.
 
 # Optional Parameters
-- `includeValue`: A boolean flag to specify whether (true) or not (false) the result
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includeValue"`: A boolean flag to specify whether (true) or not (false) the result
   contains the key value.
 """
 get_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys/$(api_Key)"; aws_config=aws_config)
-get_api_key(api_Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys/$(api_Key)", args; aws_config=aws_config)
+get_api_key(api_Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys/$(api_Key)", params; aws_config=aws_config)
 
 """
-    GetApiKeys()
+    get_api_keys()
+    get_api_keys(params::Dict{String,<:Any})
 
 Gets information about the current ApiKeys resource.
 
 # Optional Parameters
-- `customerId`: The identifier of a customer in AWS Marketplace or an external system, such
-  as a developer portal.
-- `includeValues`: A boolean flag to specify whether (true) or not (false) the result
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customerId"`: The identifier of a customer in AWS Marketplace or an external system,
+  such as a developer portal.
+- `"includeValues"`: A boolean flag to specify whether (true) or not (false) the result
   contains key values.
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `name`: The name of queried API keys.
-- `position`: The current pagination position in the paged result set.
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"name"`: The name of queried API keys.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_api_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys"; aws_config=aws_config)
-get_api_keys(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys", args; aws_config=aws_config)
+get_api_keys(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys", params; aws_config=aws_config)
 
 """
-    GetAuthorizer()
+    get_authorizer(authorizer_id, restapi_id)
+    get_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
 Describe an existing Authorizer resource. AWS CLI
 
-# Required Parameters
+# Arguments
 - `authorizer_id`: [Required] The identifier of the Authorizer resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)"; aws_config=aws_config)
-get_authorizer(authorizer_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args; aws_config=aws_config)
+get_authorizer(authorizer_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config)
 
 """
-    GetAuthorizers()
+    get_authorizers(restapi_id)
+    get_authorizers(restapi_id, params::Dict{String,<:Any})
 
 Describe an existing Authorizers resource. AWS CLI
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_authorizers(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers"; aws_config=aws_config)
-get_authorizers(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers", args; aws_config=aws_config)
+get_authorizers(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers", params; aws_config=aws_config)
 
 """
-    GetBasePathMapping()
+    get_base_path_mapping(base_path, domain_name)
+    get_base_path_mapping(base_path, domain_name, params::Dict{String,<:Any})
 
 Describe a BasePathMapping resource.
 
-# Required Parameters
+# Arguments
 - `base_path`: [Required] The base path name that callers of the API must provide as part
   of the URL after the domain name. This value must be unique for all of the mappings across
   a single API. Specify '(none)' if you do not want callers to specify any base path name
@@ -796,62 +857,69 @@ Describe a BasePathMapping resource.
 
 """
 get_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)"; aws_config=aws_config)
-get_base_path_mapping(base_path, domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args; aws_config=aws_config)
+get_base_path_mapping(base_path, domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config)
 
 """
-    GetBasePathMappings()
+    get_base_path_mappings(domain_name)
+    get_base_path_mappings(domain_name, params::Dict{String,<:Any})
 
 Represents a collection of BasePathMapping resources.
 
-# Required Parameters
+# Arguments
 - `domain_name`: [Required] The domain name of a BasePathMapping resource.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_base_path_mappings(domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings"; aws_config=aws_config)
-get_base_path_mappings(domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings", args; aws_config=aws_config)
+get_base_path_mappings(domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings", params; aws_config=aws_config)
 
 """
-    GetClientCertificate()
+    get_client_certificate(clientcertificate_id)
+    get_client_certificate(clientcertificate_id, params::Dict{String,<:Any})
 
 Gets information about the current ClientCertificate resource.
 
-# Required Parameters
+# Arguments
 - `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
   described.
 
 """
 get_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates/$(clientcertificate_id)"; aws_config=aws_config)
-get_client_certificate(clientcertificate_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates/$(clientcertificate_id)", args; aws_config=aws_config)
+get_client_certificate(clientcertificate_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config)
 
 """
-    GetClientCertificates()
+    get_client_certificates()
+    get_client_certificates(params::Dict{String,<:Any})
 
 Gets a collection of ClientCertificate resources.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_client_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates"; aws_config=aws_config)
-get_client_certificates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates", args; aws_config=aws_config)
+get_client_certificates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates", params; aws_config=aws_config)
 
 """
-    GetDeployment()
+    get_deployment(deployment_id, restapi_id)
+    get_deployment(deployment_id, restapi_id, params::Dict{String,<:Any})
 
 Gets information about a Deployment resource.
 
-# Required Parameters
+# Arguments
 - `deployment_id`: [Required] The identifier of the Deployment resource to get information
   about.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `embed`: A query parameter to retrieve the specified embedded resources of the returned
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"embed"`: A query parameter to retrieve the specified embedded resources of the returned
   Deployment resource in the response. In a REST API call, this embed parameter value is a
   list of comma-separated strings, as in GET
   /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other
@@ -861,131 +929,144 @@ Gets information about a Deployment resource.
   GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
 """
 get_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)"; aws_config=aws_config)
-get_deployment(deployment_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args; aws_config=aws_config)
+get_deployment(deployment_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config)
 
 """
-    GetDeployments()
+    get_deployments(restapi_id)
+    get_deployments(restapi_id, params::Dict{String,<:Any})
 
 Gets information about a Deployments collection.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_deployments(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments"; aws_config=aws_config)
-get_deployments(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments", args; aws_config=aws_config)
+get_deployments(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/deployments", params; aws_config=aws_config)
 
 """
-    GetDocumentationPart()
+    get_documentation_part(part_id, restapi_id)
+    get_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `part_id`: [Required] The string identifier of the associated RestApi.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)"; aws_config=aws_config)
-get_documentation_part(part_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args; aws_config=aws_config)
+get_documentation_part(part_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config)
 
 """
-    GetDocumentationParts()
+    get_documentation_parts(restapi_id)
+    get_documentation_parts(restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `locationStatus`: The status of the API documentation parts to retrieve. Valid values are
-  DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"locationStatus"`: The status of the API documentation parts to retrieve. Valid values
+  are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for
   DocumentationPart resources without content.
-- `name`: The name of API entities of the to-be-retrieved documentation parts.
-- `path`: The path of API entities of the to-be-retrieved documentation parts.
-- `position`: The current pagination position in the paged result set.
-- `type`: The type of API entities of the to-be-retrieved documentation parts.
+- `"name"`: The name of API entities of the to-be-retrieved documentation parts.
+- `"path"`: The path of API entities of the to-be-retrieved documentation parts.
+- `"position"`: The current pagination position in the paged result set.
+- `"type"`: The type of API entities of the to-be-retrieved documentation parts.
 """
 get_documentation_parts(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts"; aws_config=aws_config)
-get_documentation_parts(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts", args; aws_config=aws_config)
+get_documentation_parts(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts", params; aws_config=aws_config)
 
 """
-    GetDocumentationVersion()
+    get_documentation_version(doc_version, restapi_id)
+    get_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `doc_version`: [Required] The version identifier of the to-be-retrieved documentation
   snapshot.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)"; aws_config=aws_config)
-get_documentation_version(doc_version, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args; aws_config=aws_config)
+get_documentation_version(doc_version, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config)
 
 """
-    GetDocumentationVersions()
+    get_documentation_versions(restapi_id)
+    get_documentation_versions(restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_documentation_versions(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions"; aws_config=aws_config)
-get_documentation_versions(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions", args; aws_config=aws_config)
+get_documentation_versions(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions", params; aws_config=aws_config)
 
 """
-    GetDomainName()
+    get_domain_name(domain_name)
+    get_domain_name(domain_name, params::Dict{String,<:Any})
 
 Represents a domain name that is contained in a simpler, more intuitive URL that can be
 called.
 
-# Required Parameters
+# Arguments
 - `domain_name`: [Required] The name of the DomainName resource.
 
 """
 get_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)"; aws_config=aws_config)
-get_domain_name(domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)", args; aws_config=aws_config)
+get_domain_name(domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames/$(domain_name)", params; aws_config=aws_config)
 
 """
-    GetDomainNames()
+    get_domain_names()
+    get_domain_names(params::Dict{String,<:Any})
 
 Represents a collection of DomainName resources.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames"; aws_config=aws_config)
-get_domain_names(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames", args; aws_config=aws_config)
+get_domain_names(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames", params; aws_config=aws_config)
 
 """
-    GetExport()
+    get_export(export_type, restapi_id, stage_name)
+    get_export(export_type, restapi_id, stage_name, params::Dict{String,<:Any})
 
 Exports a deployed version of a RestApi in a specified format.
 
-# Required Parameters
+# Arguments
 - `export_type`: [Required] The type of export. Acceptable values are 'oas30' for OpenAPI
   3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `stage_name`: [Required] The name of the Stage that will be exported.
 
 # Optional Parameters
-- `Accept`: The content-type of the export, for example application/json. Currently
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Accept"`: The content-type of the export, for example application/json. Currently
   application/json and application/yaml are supported for exportType ofoas30 and swagger.
   This should be specified in the Accept header for direct API requests.
-- `parameters`: A key-value map of query string parameters that specify properties of the
+- `"parameters"`: A key-value map of query string parameters that specify properties of the
   export, depending on the requested exportType. For exportType oas30 and swagger, any
   combination of the following parameters are supported: extensions='integrations' or
   extensions='apigateway' will export the API with x-amazon-apigateway-integration
@@ -994,14 +1075,15 @@ Exports a deployed version of a RestApi in a specified format.
   extensions, allowing for import to the Postman tool
 """
 get_export(export_type, restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)"; aws_config=aws_config)
-get_export(export_type, restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)", args; aws_config=aws_config)
+get_export(export_type, restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)", params; aws_config=aws_config)
 
 """
-    GetGatewayResponse()
+    get_gateway_response(response_type, restapi_id)
+    get_gateway_response(response_type, restapi_id, params::Dict{String,<:Any})
 
 Gets a GatewayResponse of a specified response type on the given RestApi.
 
-# Required Parameters
+# Arguments
 - `response_type`: [Required] The response type of the associated GatewayResponse. Valid
   values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
   AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
@@ -1013,48 +1095,52 @@ Gets a GatewayResponse of a specified response type on the given RestApi.
 
 """
 get_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)"; aws_config=aws_config)
-get_gateway_response(response_type, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args; aws_config=aws_config)
+get_gateway_response(response_type, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config)
 
 """
-    GetGatewayResponses()
+    get_gateway_responses(restapi_id)
+    get_gateway_responses(restapi_id, params::Dict{String,<:Any})
 
 Gets the GatewayResponses collection on the given RestApi. If an API developer has not
 added any definitions for gateway responses, the result will be the API Gateway-generated
 default GatewayResponses collection for the supported response types.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500. The GatewayResponses collection does not support pagination and the
-  limit does not apply here.
-- `position`: The current pagination position in the paged result set. The GatewayResponse
-  collection does not support pagination and the position does not apply here.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500. The GatewayResponses collection does not support pagination and
+  the limit does not apply here.
+- `"position"`: The current pagination position in the paged result set. The
+  GatewayResponse collection does not support pagination and the position does not apply here.
 """
 get_gateway_responses(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses"; aws_config=aws_config)
-get_gateway_responses(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses", args; aws_config=aws_config)
+get_gateway_responses(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses", params; aws_config=aws_config)
 
 """
-    GetIntegration()
+    get_integration(http_method, resource_id, restapi_id)
+    get_integration(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Get the integration settings.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a get integration request's HTTP method.
 - `resource_id`: [Required] Specifies a get integration request's resource identifier
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration"; aws_config=aws_config)
-get_integration(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args; aws_config=aws_config)
+get_integration(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config)
 
 """
-    GetIntegrationResponse()
+    get_integration_response(http_method, resource_id, restapi_id, status_code)
+    get_integration_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Represents a get integration response.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a get integration response request's HTTP method.
 - `resource_id`: [Required] Specifies a get integration response request's resource
   identifier.
@@ -1063,28 +1149,30 @@ Represents a get integration response.
 
 """
 get_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)"; aws_config=aws_config)
-get_integration_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args; aws_config=aws_config)
+get_integration_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    GetMethod()
+    get_method(http_method, resource_id, restapi_id)
+    get_method(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Describe an existing Method resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies the method request's HTTP method type.
 - `resource_id`: [Required] The Resource identifier for the Method resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)"; aws_config=aws_config)
-get_method(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args; aws_config=aws_config)
+get_method(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config)
 
 """
-    GetMethodResponse()
+    get_method_response(http_method, resource_id, restapi_id, status_code)
+    get_method_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Describes a MethodResponse resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
@@ -1092,94 +1180,104 @@ Describes a MethodResponse resource.
 
 """
 get_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)"; aws_config=aws_config)
-get_method_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args; aws_config=aws_config)
+get_method_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    GetModel()
+    get_model(model_name, restapi_id)
+    get_model(model_name, restapi_id, params::Dict{String,<:Any})
 
 Describes an existing model defined for a RestApi resource.
 
-# Required Parameters
+# Arguments
 - `model_name`: [Required] The name of the model as an identifier.
 - `restapi_id`: [Required] The RestApi identifier under which the Model exists.
 
 # Optional Parameters
-- `flatten`: A query parameter of a Boolean value to resolve (true) all external model
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"flatten"`: A query parameter of a Boolean value to resolve (true) all external model
   references and returns a flattened model schema or not (false) The default is false.
 """
 get_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)"; aws_config=aws_config)
-get_model(model_name, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)", args; aws_config=aws_config)
+get_model(model_name, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config)
 
 """
-    GetModelTemplate()
+    get_model_template(model_name, restapi_id)
+    get_model_template(model_name, restapi_id, params::Dict{String,<:Any})
 
 Generates a sample mapping template that can be used to transform a payload into the
 structure of a model.
 
-# Required Parameters
+# Arguments
 - `model_name`: [Required] The name of the model for which to generate a template.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_model_template(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template"; aws_config=aws_config)
-get_model_template(model_name, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template", args; aws_config=aws_config)
+get_model_template(model_name, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template", params; aws_config=aws_config)
 
 """
-    GetModels()
+    get_models(restapi_id)
+    get_models(restapi_id, params::Dict{String,<:Any})
 
 Describes existing Models defined for a RestApi resource.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_models(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models"; aws_config=aws_config)
-get_models(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models", args; aws_config=aws_config)
+get_models(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/models", params; aws_config=aws_config)
 
 """
-    GetRequestValidator()
+    get_request_validator(requestvalidator_id, restapi_id)
+    get_request_validator(requestvalidator_id, restapi_id, params::Dict{String,<:Any})
 
 Gets a RequestValidator of a given RestApi.
 
-# Required Parameters
+# Arguments
 - `requestvalidator_id`: [Required] The identifier of the RequestValidator to be retrieved.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)"; aws_config=aws_config)
-get_request_validator(requestvalidator_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args; aws_config=aws_config)
+get_request_validator(requestvalidator_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config)
 
 """
-    GetRequestValidators()
+    get_request_validators(restapi_id)
+    get_request_validators(restapi_id, params::Dict{String,<:Any})
 
 Gets the RequestValidators collection of a given RestApi.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_request_validators(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators"; aws_config=aws_config)
-get_request_validators(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators", args; aws_config=aws_config)
+get_request_validators(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators", params; aws_config=aws_config)
 
 """
-    GetResource()
+    get_resource(resource_id, restapi_id)
+    get_resource(resource_id, restapi_id, params::Dict{String,<:Any})
 
 Lists information about a resource.
 
-# Required Parameters
+# Arguments
 - `resource_id`: [Required] The identifier for the Resource resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `embed`: A query parameter to retrieve the specified resources embedded in the returned
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"embed"`: A query parameter to retrieve the specified resources embedded in the returned
   Resource representation in the response. This embed parameter value is a list of
   comma-separated strings. Currently, the request supports only retrieval of the embedded
   Method resources this way. The query parameter value must be a single-valued list and
@@ -1187,303 +1285,335 @@ Lists information about a resource.
   /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
 """
 get_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)"; aws_config=aws_config)
-get_resource(resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)", args; aws_config=aws_config)
+get_resource(resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config)
 
 """
-    GetResources()
+    get_resources(restapi_id)
+    get_resources(restapi_id, params::Dict{String,<:Any})
 
 Lists information about a collection of Resource resources.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `embed`: A query parameter used to retrieve the specified resources embedded in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"embed"`: A query parameter used to retrieve the specified resources embedded in the
   returned Resources resource in the response. This embed parameter value is a list of
   comma-separated strings. Currently, the request supports only retrieval of the embedded
   Method resources this way. The query parameter value must be a single-valued list and
   contain the \"methods\" string. For example, GET
   /restapis/{restapi_id}/resources?embed=methods.
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_resources(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources"; aws_config=aws_config)
-get_resources(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources", args; aws_config=aws_config)
+get_resources(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/resources", params; aws_config=aws_config)
 
 """
-    GetRestApi()
+    get_rest_api(restapi_id)
+    get_rest_api(restapi_id, params::Dict{String,<:Any})
 
 Lists the RestApi resource in the collection.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 """
 get_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)"; aws_config=aws_config)
-get_rest_api(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)", args; aws_config=aws_config)
+get_rest_api(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)", params; aws_config=aws_config)
 
 """
-    GetRestApis()
+    get_rest_apis()
+    get_rest_apis(params::Dict{String,<:Any})
 
 Lists the RestApis resources for your collection.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_rest_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis"; aws_config=aws_config)
-get_rest_apis(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis", args; aws_config=aws_config)
+get_rest_apis(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis", params; aws_config=aws_config)
 
 """
-    GetSdk()
+    get_sdk(restapi_id, sdk_type, stage_name)
+    get_sdk(restapi_id, sdk_type, stage_name, params::Dict{String,<:Any})
 
 Generates a client SDK for a RestApi and Stage.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `sdk_type`: [Required] The language for the generated SDK. Currently java, javascript,
   android, objectivec (for iOS), swift (for iOS), and ruby are supported.
 - `stage_name`: [Required] The name of the Stage that the SDK will use.
 
 # Optional Parameters
-- `parameters`: A string-to-string key-value map of query parameters sdkType-dependent
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"parameters"`: A string-to-string key-value map of query parameters sdkType-dependent
   properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is
   required. For sdkType of android, parameters named groupId, artifactId, artifactVersion,
   and invokerPackage are required. For sdkType of java, parameters named serviceName and
   javaPackageName are required.
 """
 get_sdk(restapi_id, sdk_type, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)"; aws_config=aws_config)
-get_sdk(restapi_id, sdk_type, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)", args; aws_config=aws_config)
+get_sdk(restapi_id, sdk_type, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)", params; aws_config=aws_config)
 
 """
-    GetSdkType()
+    get_sdk_type(sdktype_id)
+    get_sdk_type(sdktype_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `sdktype_id`: [Required] The identifier of the queried SdkType instance.
 
 """
 get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes/$(sdktype_id)"; aws_config=aws_config)
-get_sdk_type(sdktype_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes/$(sdktype_id)", args; aws_config=aws_config)
+get_sdk_type(sdktype_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes/$(sdktype_id)", params; aws_config=aws_config)
 
 """
-    GetSdkTypes()
+    get_sdk_types()
+    get_sdk_types(params::Dict{String,<:Any})
 
 
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_sdk_types(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes"; aws_config=aws_config)
-get_sdk_types(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes", args; aws_config=aws_config)
+get_sdk_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes", params; aws_config=aws_config)
 
 """
-    GetStage()
+    get_stage(restapi_id, stage_name)
+    get_stage(restapi_id, stage_name, params::Dict{String,<:Any})
 
 Gets information about a Stage resource.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `stage_name`: [Required] The name of the Stage resource to get information about.
 
 """
 get_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)"; aws_config=aws_config)
-get_stage(restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)", args; aws_config=aws_config)
+get_stage(restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config)
 
 """
-    GetStages()
+    get_stages(restapi_id)
+    get_stages(restapi_id, params::Dict{String,<:Any})
 
 Gets information about one or more Stage resources.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `deploymentId`: The stages' deployment identifiers.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deploymentId"`: The stages' deployment identifiers.
 """
 get_stages(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages"; aws_config=aws_config)
-get_stages(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages", args; aws_config=aws_config)
+get_stages(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis/$(restapi_id)/stages", params; aws_config=aws_config)
 
 """
-    GetTags()
+    get_tags(resource_arn)
+    get_tags(resource_arn, params::Dict{String,<:Any})
 
 Gets the Tags collection for a given resource.
 
-# Required Parameters
+# Arguments
 - `resource_arn`: [Required] The ARN of a resource that can be tagged.
 
 # Optional Parameters
-- `limit`: (Not currently supported) The maximum number of returned results per page. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: (Not currently supported) The maximum number of returned results per page. The
   default value is 25 and the maximum value is 500.
-- `position`: (Not currently supported) The current pagination position in the paged result
-  set.
+- `"position"`: (Not currently supported) The current pagination position in the paged
+  result set.
 """
 get_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/tags/$(resource_arn)"; aws_config=aws_config)
-get_tags(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/tags/$(resource_arn)", args; aws_config=aws_config)
+get_tags(resource_arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/tags/$(resource_arn)", params; aws_config=aws_config)
 
 """
-    GetUsage()
+    get_usage(end_date, start_date, usageplan_id)
+    get_usage(end_date, start_date, usageplan_id, params::Dict{String,<:Any})
 
 Gets the usage data of a usage plan in a specified time interval.
 
-# Required Parameters
-- `endDate`: [Required] The ending date (e.g., 2016-12-31) of the usage data.
-- `startDate`: [Required] The starting date (e.g., 2016-01-01) of the usage data.
-- `usageplanId`: [Required] The Id of the usage plan associated with the usage data.
+# Arguments
+- `end_date`: [Required] The ending date (e.g., 2016-12-31) of the usage data.
+- `start_date`: [Required] The starting date (e.g., 2016-01-01) of the usage data.
+- `usageplan_id`: [Required] The Id of the usage plan associated with the usage data.
 
 # Optional Parameters
-- `keyId`: The Id of the API key associated with the resultant usage data.
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"keyId"`: The Id of the API key associated with the resultant usage data.
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_usage(endDate, startDate, usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/usage", Dict{String, Any}("endDate"=>endDate, "startDate"=>startDate); aws_config=aws_config)
-get_usage(endDate, startDate, usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endDate"=>endDate, "startDate"=>startDate), args)); aws_config=aws_config)
+get_usage(endDate, startDate, usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endDate"=>endDate, "startDate"=>startDate), params)); aws_config=aws_config)
 
 """
-    GetUsagePlan()
+    get_usage_plan(usageplan_id)
+    get_usage_plan(usageplan_id, params::Dict{String,<:Any})
 
 Gets a usage plan of a given plan identifier.
 
-# Required Parameters
-- `usageplanId`: [Required] The identifier of the UsagePlan resource to be retrieved.
+# Arguments
+- `usageplan_id`: [Required] The identifier of the UsagePlan resource to be retrieved.
 
 """
 get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)"; aws_config=aws_config)
-get_usage_plan(usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)", args; aws_config=aws_config)
+get_usage_plan(usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)", params; aws_config=aws_config)
 
 """
-    GetUsagePlanKey()
+    get_usage_plan_key(key_id, usageplan_id)
+    get_usage_plan_key(key_id, usageplan_id, params::Dict{String,<:Any})
 
 Gets a usage plan key of a given key identifier.
 
-# Required Parameters
-- `keyId`: [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing
+# Arguments
+- `key_id`: [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing
   a plan customer.
-- `usageplanId`: [Required] The Id of the UsagePlan resource representing the usage plan
+- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
   containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
 
 """
 get_usage_plan_key(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)"; aws_config=aws_config)
-get_usage_plan_key(keyId, usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)", args; aws_config=aws_config)
+get_usage_plan_key(keyId, usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)", params; aws_config=aws_config)
 
 """
-    GetUsagePlanKeys()
+    get_usage_plan_keys(usageplan_id)
+    get_usage_plan_keys(usageplan_id, params::Dict{String,<:Any})
 
 Gets all the usage plan keys representing the API keys added to a specified usage plan.
 
-# Required Parameters
-- `usageplanId`: [Required] The Id of the UsagePlan resource representing the usage plan
+# Arguments
+- `usageplan_id`: [Required] The Id of the UsagePlan resource representing the usage plan
   containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `name`: A query parameter specifying the name of the to-be-returned usage plan keys.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"name"`: A query parameter specifying the name of the to-be-returned usage plan keys.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_usage_plan_keys(usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys"; aws_config=aws_config)
-get_usage_plan_keys(usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys", args; aws_config=aws_config)
+get_usage_plan_keys(usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans/$(usageplanId)/keys", params; aws_config=aws_config)
 
 """
-    GetUsagePlans()
+    get_usage_plans()
+    get_usage_plans(params::Dict{String,<:Any})
 
 Gets all the usage plans of the caller's account.
 
 # Optional Parameters
-- `keyId`: The identifier of the API key associated with the usage plans.
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"keyId"`: The identifier of the API key associated with the usage plans.
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_usage_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans"; aws_config=aws_config)
-get_usage_plans(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans", args; aws_config=aws_config)
+get_usage_plans(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans", params; aws_config=aws_config)
 
 """
-    GetVpcLink()
+    get_vpc_link(vpclink_id)
+    get_vpc_link(vpclink_id, params::Dict{String,<:Any})
 
 Gets a specified VPC link under the caller's account in a region.
 
-# Required Parameters
+# Arguments
 - `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
   reference this VpcLink.
 
 """
 get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks/$(vpclink_id)"; aws_config=aws_config)
-get_vpc_link(vpclink_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks/$(vpclink_id)", args; aws_config=aws_config)
+get_vpc_link(vpclink_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config)
 
 """
-    GetVpcLinks()
+    get_vpc_links()
+    get_vpc_links(params::Dict{String,<:Any})
 
 Gets the VpcLinks collection under the caller's account in a selected region.
 
 # Optional Parameters
-- `limit`: The maximum number of returned results per page. The default value is 25 and the
-  maximum value is 500.
-- `position`: The current pagination position in the paged result set.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"limit"`: The maximum number of returned results per page. The default value is 25 and
+  the maximum value is 500.
+- `"position"`: The current pagination position in the paged result set.
 """
 get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks"; aws_config=aws_config)
-get_vpc_links(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks", args; aws_config=aws_config)
+get_vpc_links(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks", params; aws_config=aws_config)
 
 """
-    ImportApiKeys()
+    import_api_keys(body, format)
+    import_api_keys(body, format, params::Dict{String,<:Any})
 
 Import API keys from an external source, such as a CSV-formatted file.
 
-# Required Parameters
+# Arguments
 - `body`: The payload of the POST request to import API keys. For the payload format, see
   API Key File Format.
 - `format`: A query parameter to specify the input format to imported API keys. Currently,
   only the csv format is supported.
 
 # Optional Parameters
-- `failonwarnings`: A query parameter to indicate whether to rollback ApiKey importation
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"failonwarnings"`: A query parameter to indicate whether to rollback ApiKey importation
   (true) or not (false) when error is encountered.
 """
 import_api_keys(body, format; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys?mode=import", Dict{String, Any}("body"=>body, "format"=>format); aws_config=aws_config)
-import_api_keys(body, format, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body, "format"=>format), args)); aws_config=aws_config)
+import_api_keys(body, format, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body, "format"=>format), params)); aws_config=aws_config)
 
 """
-    ImportDocumentationParts()
+    import_documentation_parts(body, restapi_id)
+    import_documentation_parts(body, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `body`: [Required] Raw byte array representing the to-be-imported documentation parts. To
   import from an OpenAPI file, this is a JSON object.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `failonwarnings`: A query parameter to specify whether to rollback the documentation
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"failonwarnings"`: A query parameter to specify whether to rollback the documentation
   importation (true) or not (false) when a warning is encountered. The default value is false.
-- `mode`: A query parameter to indicate whether to overwrite (OVERWRITE) any existing
+- `"mode"`: A query parameter to indicate whether to overwrite (OVERWRITE) any existing
   DocumentationParts definition or to merge (MERGE) the new definition into the existing one.
   The default value is MERGE.
 """
 import_documentation_parts(body, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}("body"=>body); aws_config=aws_config)
-import_documentation_parts(body, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
+import_documentation_parts(body, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config)
 
 """
-    ImportRestApi()
+    import_rest_api(body)
+    import_rest_api(body, params::Dict{String,<:Any})
 
 A feature of the API Gateway control service for creating a new API from an external API
 definition file.
 
-# Required Parameters
+# Arguments
 - `body`: [Required] The POST request body containing external API definitions. Currently,
   only OpenAPI definition JSON/YAML files are supported. The maximum size of the API
   definition file is 6MB.
 
 # Optional Parameters
-- `failonwarnings`: A query parameter to indicate whether to rollback the API creation
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"failonwarnings"`: A query parameter to indicate whether to rollback the API creation
   (true) or not (false) when a warning is encountered. The default value is false.
-- `parameters`: A key-value map of context-specific query string parameters specifying the
-  behavior of different API importing operations. The following shows operation-specific
+- `"parameters"`: A key-value map of context-specific query string parameters specifying
+  the behavior of different API importing operations. The following shows operation-specific
   parameters and their supported values.  To exclude DocumentationParts from the import, set
   parameters as ignore=documentation.  To configure the endpoint type, set parameters as
   endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or
@@ -1496,15 +1626,16 @@ definition file.
   endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
 """
 import_rest_api(body; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis?mode=import", Dict{String, Any}("body"=>body); aws_config=aws_config)
-import_rest_api(body, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
+import_rest_api(body, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis?mode=import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config)
 
 """
-    PutGatewayResponse()
+    put_gateway_response(response_type, restapi_id)
+    put_gateway_response(response_type, restapi_id, params::Dict{String,<:Any})
 
 Creates a customization of a GatewayResponse of a specified response type and status code
 on the given RestApi.
 
-# Required Parameters
+# Arguments
 - `response_type`: [Required] The response type of the associated GatewayResponse. Valid
   values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
   AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
@@ -1515,51 +1646,54 @@ on the given RestApi.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `responseParameters`: Response parameters (paths, query strings and headers) of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"responseParameters"`: Response parameters (paths, query strings and headers) of the
   GatewayResponse as a string-to-string map of key-value pairs.
-- `responseTemplates`: Response templates of the GatewayResponse as a string-to-string map
-  of key-value pairs.
-- `statusCode`: The HTTP status code of the GatewayResponse.
+- `"responseTemplates"`: Response templates of the GatewayResponse as a string-to-string
+  map of key-value pairs.
+- `"statusCode"`: The HTTP status code of the GatewayResponse.
 """
 put_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)"; aws_config=aws_config)
-put_gateway_response(response_type, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args; aws_config=aws_config)
+put_gateway_response(response_type, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config)
 
 """
-    PutIntegration()
+    put_integration(http_method, resource_id, restapi_id, type)
+    put_integration(http_method, resource_id, restapi_id, type, params::Dict{String,<:Any})
 
 Sets up a method's integration.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a put integration request's HTTP method.
 - `resource_id`: [Required] Specifies a put integration request's resource ID.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `type`: [Required] Specifies a put integration input's type.
 
 # Optional Parameters
-- `cacheKeyParameters`: A list of request parameters whose values API Gateway caches. To be
-  valid values for cacheKeyParameters, these parameters must also be specified for Method
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cacheKeyParameters"`: A list of request parameters whose values API Gateway caches. To
+  be valid values for cacheKeyParameters, these parameters must also be specified for Method
   requestParameters.
-- `cacheNamespace`: Specifies a group of related cached parameters. By default, API Gateway
-  uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across
-  resources to return the same cached data for requests to different resources.
-- `connectionId`: The (id) of the VpcLink used for the integration when
+- `"cacheNamespace"`: Specifies a group of related cached parameters. By default, API
+  Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace
+  across resources to return the same cached data for requests to different resources.
+- `"connectionId"`: The (id) of the VpcLink used for the integration when
   connectionType=VPC_LINK and undefined, otherwise.
-- `connectionType`: The type of the network connection to the integration endpoint. The
+- `"connectionType"`: The type of the network connection to the integration endpoint. The
   valid value is INTERNET for connections through the public routable internet or VPC_LINK
   for private connections between API Gateway and a network load balancer in a VPC. The
   default value is INTERNET.
-- `contentHandling`: Specifies how to handle request payload content type conversions.
+- `"contentHandling"`: Specifies how to handle request payload content type conversions.
   Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:
   CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the
   corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob
   to a Base64-encoded string.  If this property is not defined, the request payload will be
   passed through from the method request to integration request without modification,
   provided that the passthroughBehavior is configured to support payload pass-through.
-- `credentials`: Specifies whether credentials are required for a put integration.
-- `httpMethod`: Specifies a put integration HTTP method. When the integration type is HTTP
-  or AWS, this field is required.
-- `passthroughBehavior`: Specifies the pass-through behavior for incoming requests based on
-  the Content-Type header in the request, and the available mapping templates specified as
+- `"credentials"`: Specifies whether credentials are required for a put integration.
+- `"httpMethod"`: Specifies a put integration HTTP method. When the integration type is
+  HTTP or AWS, this field is required.
+- `"passthroughBehavior"`: Specifies the pass-through behavior for incoming requests based
+  on the Content-Type header in the request, and the available mapping templates specified as
   the requestTemplates property on the Integration resource. There are three valid values:
   WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for
   unmapped content types through to the integration back end without transformation. NEVER
@@ -1567,20 +1701,20 @@ Sets up a method's integration.
   WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to
   templates. However if there is at least one content type defined, unmapped content types
   will be rejected with the same 415 response.
-- `requestParameters`: A key-value map specifying request parameters that are passed from
+- `"requestParameters"`: A key-value map specifying request parameters that are passed from
   the method request to the back end. The key is an integration request parameter name and
   the associated value is a method request parameter value or static value that must be
   enclosed within single quotes and pre-encoded as required by the back end. The method
   request parameter value must match the pattern of method.request.{location}.{name}, where
   location is querystring, path, or header and name must be a valid and unique method request
   parameter name.
-- `requestTemplates`: Represents a map of Velocity templates that are applied on the
+- `"requestTemplates"`: Represents a map of Velocity templates that are applied on the
   request payload based on the value of the Content-Type header sent by the client. The
   content type value is the key in this map, and the template (as a String) is the value.
-- `timeoutInMillis`: Custom timeout between 50 and 29,000 milliseconds. The default value
+- `"timeoutInMillis"`: Custom timeout between 50 and 29,000 milliseconds. The default value
   is 29,000 milliseconds or 29 seconds.
-- `tlsConfig`:
-- `uri`: Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For
+- `"tlsConfig"`:
+- `"uri"`: Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For
   HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL
   according to the RFC-3986 specification, for either standard integration, where
   connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK.
@@ -1600,14 +1734,15 @@ Sets up a method's integration.
   arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
 """
 put_integration(http_method, resource_id, restapi_id, type; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", Dict{String, Any}("type"=>type); aws_config=aws_config)
-put_integration(http_method, resource_id, restapi_id, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), args)); aws_config=aws_config)
+put_integration(http_method, resource_id, restapi_id, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config)
 
 """
-    PutIntegrationResponse()
+    put_integration_response(http_method, resource_id, restapi_id, status_code)
+    put_integration_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Represents a put integration.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a put integration response request's HTTP method.
 - `resource_id`: [Required] Specifies a put integration response request's resource
   identifier.
@@ -1616,13 +1751,14 @@ Represents a put integration.
   response to an existing MethodResponse.
 
 # Optional Parameters
-- `contentHandling`: Specifies how to handle response payload content type conversions.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contentHandling"`: Specifies how to handle response payload content type conversions.
   Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:
   CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the
   corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob
   to a Base64-encoded string.  If this property is not defined, the response payload will be
   passed through from the integration response to the method response without modification.
-- `responseParameters`: A key-value map specifying response parameters that are passed to
+- `"responseParameters"`: A key-value map specifying response parameters that are passed to
   the method response from the back end. The key is a method response header parameter name
   and the mapped value is an integration response header value, a static value enclosed
   within a pair of single quotes, or a JSON expression from the integration response body.
@@ -1631,19 +1767,20 @@ Represents a put integration.
   integration.response.header.{name} or integration.response.body.{JSON-expression}, where
   name must be a valid and unique response header name and JSON-expression a valid JSON
   expression without the  prefix.
-- `responseTemplates`: Specifies a put integration response's templates.
-- `selectionPattern`: Specifies the selection pattern of a put integration response.
+- `"responseTemplates"`: Specifies a put integration response's templates.
+- `"selectionPattern"`: Specifies the selection pattern of a put integration response.
 """
 put_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)"; aws_config=aws_config)
-put_integration_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args; aws_config=aws_config)
+put_integration_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    PutMethod()
+    put_method(authorization_type, http_method, resource_id, restapi_id)
+    put_method(authorization_type, http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Add a method to an existing Resource resource.
 
-# Required Parameters
-- `authorizationType`: [Required] The method's authorization type. Valid values are NONE
+# Arguments
+- `authorization_type`: [Required] The method's authorization type. Valid values are NONE
   for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom
   authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
 - `http_method`: [Required] Specifies the method request's HTTP method type.
@@ -1651,97 +1788,103 @@ Add a method to an existing Resource resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `apiKeyRequired`: Specifies whether the method required a valid ApiKey.
-- `authorizationScopes`: A list of authorization scopes configured on the method. The
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"apiKeyRequired"`: Specifies whether the method required a valid ApiKey.
+- `"authorizationScopes"`: A list of authorization scopes configured on the method. The
   scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation.
   The authorization works by matching the method scopes against the scopes parsed from the
   access token in the incoming request. The method invocation is authorized if any method
   scopes matches a claimed scope in the access token. Otherwise, the invocation is not
   authorized. When the method scope is configured, the client must provide an access token
   instead of an identity token for authorization purposes.
-- `authorizerId`: Specifies the identifier of an Authorizer to use on this Method, if the
+- `"authorizerId"`: Specifies the identifier of an Authorizer to use on this Method, if the
   type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway
   when you created the authorizer.
-- `operationName`: A human-friendly operation identifier for the method. For example, you
+- `"operationName"`: A human-friendly operation identifier for the method. For example, you
   can assign the operationName of ListPets for the GET /pets method in the PetStore example.
-- `requestModels`: Specifies the Model resources used for the request's content type.
+- `"requestModels"`: Specifies the Model resources used for the request's content type.
   Request models are represented as a key/value map, with a content type as the key and a
   Model name as the value.
-- `requestParameters`: A key-value map defining required or optional method request
+- `"requestParameters"`: A key-value map defining required or optional method request
   parameters that can be accepted by API Gateway. A key defines a method request parameter
   name matching the pattern of method.request.{location}.{name}, where location is
   querystring, path, or header and name is a valid and unique parameter name. The value
   associated with the key is a Boolean flag indicating whether the parameter is required
   (true) or optional (false). The method request parameter names defined here are available
   in Integration to be mapped to integration request parameters or body-mapping templates.
-- `requestValidatorId`: The identifier of a RequestValidator for validating the method
+- `"requestValidatorId"`: The identifier of a RequestValidator for validating the method
   request.
 """
 put_method(authorizationType, http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", Dict{String, Any}("authorizationType"=>authorizationType); aws_config=aws_config)
-put_method(authorizationType, http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizationType"=>authorizationType), args)); aws_config=aws_config)
+put_method(authorizationType, http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizationType"=>authorizationType), params)); aws_config=aws_config)
 
 """
-    PutMethodResponse()
+    put_method_response(http_method, resource_id, restapi_id, status_code)
+    put_method_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Adds a MethodResponse to an existing Method resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the Method resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `status_code`: [Required] The method response's status code.
 
 # Optional Parameters
-- `responseModels`: Specifies the Model resources used for the response's content type.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"responseModels"`: Specifies the Model resources used for the response's content type.
   Response models are represented as a key/value map, with a content type as the key and a
   Model name as the value.
-- `responseParameters`: A key-value map specifying required or optional response parameters
-  that API Gateway can send back to the caller. A key defines a method response header name
-  and the associated value is a Boolean flag indicating whether the method response parameter
-  is required or not. The method response header names must match the pattern of
-  method.response.header.{name}, where name is a valid and unique header name. The response
-  parameter names defined here are available in the integration response to be mapped from an
-  integration response header expressed in integration.response.header.{name}, a static value
-  enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression
-  from the back-end response payload in the form of
+- `"responseParameters"`: A key-value map specifying required or optional response
+  parameters that API Gateway can send back to the caller. A key defines a method response
+  header name and the associated value is a Boolean flag indicating whether the method
+  response parameter is required or not. The method response header names must match the
+  pattern of method.response.header.{name}, where name is a valid and unique header name. The
+  response parameter names defined here are available in the integration response to be
+  mapped from an integration response header expressed in integration.response.header.{name},
+  a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a
+  JSON expression from the back-end response payload in the form of
   integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON
   expression without the  prefix.)
 """
 put_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)"; aws_config=aws_config)
-put_method_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args; aws_config=aws_config)
+put_method_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    PutRestApi()
+    put_rest_api(body, restapi_id)
+    put_rest_api(body, restapi_id, params::Dict{String,<:Any})
 
 A feature of the API Gateway control service for updating an existing API with an input of
 external API definitions. The update can take the form of merging the supplied definition
 into the existing API or overwriting the existing API.
 
-# Required Parameters
+# Arguments
 - `body`: [Required] The PUT request body containing external API definitions. Currently,
   only OpenAPI definition JSON/YAML files are supported. The maximum size of the API
   definition file is 6MB.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `failonwarnings`: A query parameter to indicate whether to rollback the API update (true)
-  or not (false) when a warning is encountered. The default value is false.
-- `mode`: The mode query parameter to specify the update mode. Valid values are \"merge\"
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"failonwarnings"`: A query parameter to indicate whether to rollback the API update
+  (true) or not (false) when a warning is encountered. The default value is false.
+- `"mode"`: The mode query parameter to specify the update mode. Valid values are \"merge\"
   and \"overwrite\". By default, the update mode is \"merge\".
-- `parameters`: Custom header parameters as part of the request. For example, to exclude
+- `"parameters"`: Custom header parameters as part of the request. For example, to exclude
   DocumentationParts from an imported API, set ignore=documentation as a parameters value, as
   in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation
   --body 'file:///path/to/imported-api-body.json'.
 """
 put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)", Dict{String, Any}("body"=>body); aws_config=aws_config)
-put_rest_api(body, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), args)); aws_config=aws_config)
+put_rest_api(body, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/restapis/$(restapi_id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("body"=>body), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds or updates a tag on a given resource.
 
-# Required Parameters
+# Arguments
 - `resource_arn`: [Required] The ARN of a resource that can be tagged.
 - `tags`: [Required] The key-value map of strings. The valid character set is
   [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The
@@ -1749,223 +1892,248 @@ Adds or updates a tag on a given resource.
 
 """
 tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/tags/$(resource_arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+tag_resource(resource_arn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PUT", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
-    TestInvokeAuthorizer()
+    test_invoke_authorizer(authorizer_id, restapi_id)
+    test_invoke_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
 Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an
 incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as
 Authorizer
 
-# Required Parameters
+# Arguments
 - `authorizer_id`: [Required] Specifies a test invoke authorizer request's Authorizer ID.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `additionalContext`: [Optional] A key-value map of additional context variables.
-- `body`: [Optional] The simulated request body of an incoming invocation request.
-- `headers`: [Required] A key-value map of headers to simulate an incoming invocation
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"additionalContext"`: [Optional] A key-value map of additional context variables.
+- `"body"`: [Optional] The simulated request body of an incoming invocation request.
+- `"headers"`: [Required] A key-value map of headers to simulate an incoming invocation
   request. This is where the incoming authorization token, or identity source, should be
   specified.
-- `multiValueHeaders`: [Optional] The headers as a map from string to list of values to
+- `"multiValueHeaders"`: [Optional] The headers as a map from string to list of values to
   simulate an incoming invocation request. This is where the incoming authorization token, or
   identity source, may be specified.
-- `pathWithQueryString`: [Optional] The URI path, including query string, of the simulated
-  invocation request. Use this to specify path parameters and query string parameters.
-- `stageVariables`: A key-value map of stage variables to simulate an invocation on a
+- `"pathWithQueryString"`: [Optional] The URI path, including query string, of the
+  simulated invocation request. Use this to specify path parameters and query string
+  parameters.
+- `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
 test_invoke_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)"; aws_config=aws_config)
-test_invoke_authorizer(authorizer_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args; aws_config=aws_config)
+test_invoke_authorizer(authorizer_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config)
 
 """
-    TestInvokeMethod()
+    test_invoke_method(http_method, resource_id, restapi_id)
+    test_invoke_method(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Simulate the execution of a Method in your RestApi with headers, parameters, and an
 incoming request body.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies a test invoke method request's HTTP method.
 - `resource_id`: [Required] Specifies a test invoke method request's resource ID.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `body`: The simulated request body of an incoming invocation request.
-- `clientCertificateId`: A ClientCertificate identifier to use in the test invocation. API
-  Gateway will use the certificate when making the HTTPS request to the defined back-end
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"body"`: The simulated request body of an incoming invocation request.
+- `"clientCertificateId"`: A ClientCertificate identifier to use in the test invocation.
+  API Gateway will use the certificate when making the HTTPS request to the defined back-end
   endpoint.
-- `headers`: A key-value map of headers to simulate an incoming invocation request.
-- `multiValueHeaders`: The headers as a map from string to list of values to simulate an
+- `"headers"`: A key-value map of headers to simulate an incoming invocation request.
+- `"multiValueHeaders"`: The headers as a map from string to list of values to simulate an
   incoming invocation request.
-- `pathWithQueryString`: The URI path, including query string, of the simulated invocation
-  request. Use this to specify path parameters and query string parameters.
-- `stageVariables`: A key-value map of stage variables to simulate an invocation on a
+- `"pathWithQueryString"`: The URI path, including query string, of the simulated
+  invocation request. Use this to specify path parameters and query string parameters.
+- `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
 test_invoke_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)"; aws_config=aws_config)
-test_invoke_method(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args; aws_config=aws_config)
+test_invoke_method(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a given resource.
 
-# Required Parameters
+# Arguments
 - `resource_arn`: [Required] The ARN of a resource that can be tagged.
-- `tagKeys`: [Required] The Tag keys to delete.
+- `tag_keys`: [Required] The Tag keys to delete.
 
 """
 untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/tags/$(resource_arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("DELETE", "/tags/$(resource_arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateAccount()
+    update_account()
+    update_account(params::Dict{String,<:Any})
 
 Changes information about the current Account resource.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_account(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account"; aws_config=aws_config)
-update_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account", args; aws_config=aws_config)
+update_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account", params; aws_config=aws_config)
 
 """
-    UpdateApiKey()
+    update_api_key(api__key)
+    update_api_key(api__key, params::Dict{String,<:Any})
 
 Changes information about an ApiKey resource.
 
-# Required Parameters
-- `api_Key`: [Required] The identifier of the ApiKey resource to be updated.
+# Arguments
+- `api__key`: [Required] The identifier of the ApiKey resource to be updated.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_api_key(api_Key; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/apikeys/$(api_Key)"; aws_config=aws_config)
-update_api_key(api_Key, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/apikeys/$(api_Key)", args; aws_config=aws_config)
+update_api_key(api_Key, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/apikeys/$(api_Key)", params; aws_config=aws_config)
 
 """
-    UpdateAuthorizer()
+    update_authorizer(authorizer_id, restapi_id)
+    update_authorizer(authorizer_id, restapi_id, params::Dict{String,<:Any})
 
 Updates an existing Authorizer resource. AWS CLI
 
-# Required Parameters
+# Arguments
 - `authorizer_id`: [Required] The identifier of the Authorizer resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_authorizer(authorizer_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)"; aws_config=aws_config)
-update_authorizer(authorizer_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args; aws_config=aws_config)
+update_authorizer(authorizer_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", params; aws_config=aws_config)
 
 """
-    UpdateBasePathMapping()
+    update_base_path_mapping(base_path, domain_name)
+    update_base_path_mapping(base_path, domain_name, params::Dict{String,<:Any})
 
 Changes information about the BasePathMapping resource.
 
-# Required Parameters
+# Arguments
 - `base_path`: [Required] The base path of the BasePathMapping resource to change. To
   specify an empty base path, set this parameter to '(none)'.
 - `domain_name`: [Required] The domain name of the BasePathMapping resource to change.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_base_path_mapping(base_path, domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)"; aws_config=aws_config)
-update_base_path_mapping(base_path, domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args; aws_config=aws_config)
+update_base_path_mapping(base_path, domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", params; aws_config=aws_config)
 
 """
-    UpdateClientCertificate()
+    update_client_certificate(clientcertificate_id)
+    update_client_certificate(clientcertificate_id, params::Dict{String,<:Any})
 
 Changes information about an ClientCertificate resource.
 
-# Required Parameters
+# Arguments
 - `clientcertificate_id`: [Required] The identifier of the ClientCertificate resource to be
   updated.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_client_certificate(clientcertificate_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)"; aws_config=aws_config)
-update_client_certificate(clientcertificate_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)", args; aws_config=aws_config)
+update_client_certificate(clientcertificate_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)", params; aws_config=aws_config)
 
 """
-    UpdateDeployment()
+    update_deployment(deployment_id, restapi_id)
+    update_deployment(deployment_id, restapi_id, params::Dict{String,<:Any})
 
 Changes information about a Deployment resource.
 
-# Required Parameters
+# Arguments
 - `deployment_id`: The replacement identifier for the Deployment resource to change
   information about.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_deployment(deployment_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)"; aws_config=aws_config)
-update_deployment(deployment_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args; aws_config=aws_config)
+update_deployment(deployment_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)", params; aws_config=aws_config)
 
 """
-    UpdateDocumentationPart()
+    update_documentation_part(part_id, restapi_id)
+    update_documentation_part(part_id, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `part_id`: [Required] The identifier of the to-be-updated documentation part.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_documentation_part(part_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)"; aws_config=aws_config)
-update_documentation_part(part_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args; aws_config=aws_config)
+update_documentation_part(part_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", params; aws_config=aws_config)
 
 """
-    UpdateDocumentationVersion()
+    update_documentation_version(doc_version, restapi_id)
+    update_documentation_version(doc_version, restapi_id, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
+# Arguments
 - `doc_version`: [Required] The version identifier of the to-be-updated documentation
   version.
 - `restapi_id`: [Required] The string identifier of the associated RestApi..
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_documentation_version(doc_version, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)"; aws_config=aws_config)
-update_documentation_version(doc_version, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args; aws_config=aws_config)
+update_documentation_version(doc_version, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", params; aws_config=aws_config)
 
 """
-    UpdateDomainName()
+    update_domain_name(domain_name)
+    update_domain_name(domain_name, params::Dict{String,<:Any})
 
 Changes information about the DomainName resource.
 
-# Required Parameters
+# Arguments
 - `domain_name`: [Required] The name of the DomainName resource to be changed.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_domain_name(domain_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)"; aws_config=aws_config)
-update_domain_name(domain_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)", args; aws_config=aws_config)
+update_domain_name(domain_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/domainnames/$(domain_name)", params; aws_config=aws_config)
 
 """
-    UpdateGatewayResponse()
+    update_gateway_response(response_type, restapi_id)
+    update_gateway_response(response_type, restapi_id, params::Dict{String,<:Any})
 
 Updates a GatewayResponse of a specified response type on the given RestApi.
 
-# Required Parameters
+# Arguments
 - `response_type`: [Required] The response type of the associated GatewayResponse. Valid
   values are ACCESS_DENIEDAPI_CONFIGURATION_ERRORAUTHORIZER_FAILURE
   AUTHORIZER_CONFIGURATION_ERRORBAD_REQUEST_PARAMETERSBAD_REQUEST_BODYDEFAULT_4XXDEFAULT_5XXEX
@@ -1976,35 +2144,39 @@ Updates a GatewayResponse of a specified response type on the given RestApi.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_gateway_response(response_type, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)"; aws_config=aws_config)
-update_gateway_response(response_type, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args; aws_config=aws_config)
+update_gateway_response(response_type, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", params; aws_config=aws_config)
 
 """
-    UpdateIntegration()
+    update_integration(http_method, resource_id, restapi_id)
+    update_integration(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Represents an update integration.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Represents an update integration request's HTTP method.
 - `resource_id`: [Required] Represents an update integration request's resource identifier.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_integration(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration"; aws_config=aws_config)
-update_integration(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args; aws_config=aws_config)
+update_integration(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", params; aws_config=aws_config)
 
 """
-    UpdateIntegrationResponse()
+    update_integration_response(http_method, resource_id, restapi_id, status_code)
+    update_integration_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Represents an update integration response.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] Specifies an update integration response request's HTTP method.
 - `resource_id`: [Required] Specifies an update integration response request's resource
   identifier.
@@ -2012,171 +2184,192 @@ Represents an update integration response.
 - `status_code`: [Required] Specifies an update integration response request's status code.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_integration_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)"; aws_config=aws_config)
-update_integration_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args; aws_config=aws_config)
+update_integration_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    UpdateMethod()
+    update_method(http_method, resource_id, restapi_id)
+    update_method(http_method, resource_id, restapi_id, params::Dict{String,<:Any})
 
 Updates an existing Method resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the Method resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_method(http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)"; aws_config=aws_config)
-update_method(http_method, resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args; aws_config=aws_config)
+update_method(http_method, resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", params; aws_config=aws_config)
 
 """
-    UpdateMethodResponse()
+    update_method_response(http_method, resource_id, restapi_id, status_code)
+    update_method_response(http_method, resource_id, restapi_id, status_code, params::Dict{String,<:Any})
 
 Updates an existing MethodResponse resource.
 
-# Required Parameters
+# Arguments
 - `http_method`: [Required] The HTTP verb of the Method resource.
 - `resource_id`: [Required] The Resource identifier for the MethodResponse resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `status_code`: [Required] The status code for the MethodResponse resource.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_method_response(http_method, resource_id, restapi_id, status_code; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)"; aws_config=aws_config)
-update_method_response(http_method, resource_id, restapi_id, status_code, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args; aws_config=aws_config)
+update_method_response(http_method, resource_id, restapi_id, status_code, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", params; aws_config=aws_config)
 
 """
-    UpdateModel()
+    update_model(model_name, restapi_id)
+    update_model(model_name, restapi_id, params::Dict{String,<:Any})
 
 Changes information about a model.
 
-# Required Parameters
+# Arguments
 - `model_name`: [Required] The name of the model to update.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_model(model_name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)"; aws_config=aws_config)
-update_model(model_name, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)", args; aws_config=aws_config)
+update_model(model_name, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)", params; aws_config=aws_config)
 
 """
-    UpdateRequestValidator()
+    update_request_validator(requestvalidator_id, restapi_id)
+    update_request_validator(requestvalidator_id, restapi_id, params::Dict{String,<:Any})
 
 Updates a RequestValidator of a given RestApi.
 
-# Required Parameters
+# Arguments
 - `requestvalidator_id`: [Required] The identifier of RequestValidator to be updated.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_request_validator(requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)"; aws_config=aws_config)
-update_request_validator(requestvalidator_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args; aws_config=aws_config)
+update_request_validator(requestvalidator_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", params; aws_config=aws_config)
 
 """
-    UpdateResource()
+    update_resource(resource_id, restapi_id)
+    update_resource(resource_id, restapi_id, params::Dict{String,<:Any})
 
 Changes information about a Resource resource.
 
-# Required Parameters
+# Arguments
 - `resource_id`: [Required] The identifier of the Resource resource.
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)"; aws_config=aws_config)
-update_resource(resource_id, restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)", args; aws_config=aws_config)
+update_resource(resource_id, restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)", params; aws_config=aws_config)
 
 """
-    UpdateRestApi()
+    update_rest_api(restapi_id)
+    update_rest_api(restapi_id, params::Dict{String,<:Any})
 
 Changes information about the specified API.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_rest_api(restapi_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)"; aws_config=aws_config)
-update_rest_api(restapi_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)", args; aws_config=aws_config)
+update_rest_api(restapi_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)", params; aws_config=aws_config)
 
 """
-    UpdateStage()
+    update_stage(restapi_id, stage_name)
+    update_stage(restapi_id, stage_name, params::Dict{String,<:Any})
 
 Changes information about a Stage resource.
 
-# Required Parameters
+# Arguments
 - `restapi_id`: [Required] The string identifier of the associated RestApi.
 - `stage_name`: [Required] The name of the Stage resource to change information about.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)"; aws_config=aws_config)
-update_stage(restapi_id, stage_name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)", args; aws_config=aws_config)
+update_stage(restapi_id, stage_name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)", params; aws_config=aws_config)
 
 """
-    UpdateUsage()
+    update_usage(key_id, usageplan_id)
+    update_usage(key_id, usageplan_id, params::Dict{String,<:Any})
 
 Grants a temporary extension to the remaining quota of a usage plan associated with a
 specified API key.
 
-# Required Parameters
-- `keyId`: [Required] The identifier of the API key associated with the usage plan in which
-  a temporary extension is granted to the remaining quota.
-- `usageplanId`: [Required] The Id of the usage plan associated with the usage data.
+# Arguments
+- `key_id`: [Required] The identifier of the API key associated with the usage plan in
+  which a temporary extension is granted to the remaining quota.
+- `usageplan_id`: [Required] The Id of the usage plan associated with the usage data.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_usage(keyId, usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage"; aws_config=aws_config)
-update_usage(keyId, usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage", args; aws_config=aws_config)
+update_usage(keyId, usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage", params; aws_config=aws_config)
 
 """
-    UpdateUsagePlan()
+    update_usage_plan(usageplan_id)
+    update_usage_plan(usageplan_id, params::Dict{String,<:Any})
 
 Updates a usage plan of a given plan Id.
 
-# Required Parameters
-- `usageplanId`: [Required] The Id of the to-be-updated usage plan.
+# Arguments
+- `usageplan_id`: [Required] The Id of the to-be-updated usage plan.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)"; aws_config=aws_config)
-update_usage_plan(usageplanId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)", args; aws_config=aws_config)
+update_usage_plan(usageplanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/usageplans/$(usageplanId)", params; aws_config=aws_config)
 
 """
-    UpdateVpcLink()
+    update_vpc_link(vpclink_id)
+    update_vpc_link(vpclink_id, params::Dict{String,<:Any})
 
 Updates an existing VpcLink of a specified identifier.
 
-# Required Parameters
+# Arguments
 - `vpclink_id`: [Required] The identifier of the VpcLink. It is used in an Integration to
   reference this VpcLink.
 
 # Optional Parameters
-- `patchOperations`: A list of update operations to be applied to the specified resource
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"patchOperations"`: A list of update operations to be applied to the specified resource
   and in the order specified in this list.
 """
 update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/vpclinks/$(vpclink_id)"; aws_config=aws_config)
-update_vpc_link(vpclink_id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/vpclinks/$(vpclink_id)", args; aws_config=aws_config)
+update_vpc_link(vpclink_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/vpclinks/$(vpclink_id)", params; aws_config=aws_config)

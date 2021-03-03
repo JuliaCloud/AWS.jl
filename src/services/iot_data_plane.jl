@@ -5,78 +5,88 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    DeleteThingShadow()
+    delete_thing_shadow(thing_name)
+    delete_thing_shadow(thing_name, params::Dict{String,<:Any})
 
 Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in
 the AWS IoT Developer Guide.
 
-# Required Parameters
-- `thingName`: The name of the thing.
+# Arguments
+- `thing_name`: The name of the thing.
 
 # Optional Parameters
-- `name`: The name of the shadow.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the shadow.
 """
 delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws_config=aws_config)
-delete_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+delete_thing_shadow(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", params; aws_config=aws_config)
 
 """
-    GetThingShadow()
+    get_thing_shadow(thing_name)
+    get_thing_shadow(thing_name, params::Dict{String,<:Any})
 
 Gets the shadow for the specified thing. For more information, see GetThingShadow in the
 AWS IoT Developer Guide.
 
-# Required Parameters
-- `thingName`: The name of the thing.
+# Arguments
+- `thing_name`: The name of the thing.
 
 # Optional Parameters
-- `name`: The name of the shadow.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the shadow.
 """
 get_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws_config=aws_config)
-get_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", args; aws_config=aws_config)
+get_thing_shadow(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", params; aws_config=aws_config)
 
 """
-    ListNamedShadowsForThing()
+    list_named_shadows_for_thing(thing_name)
+    list_named_shadows_for_thing(thing_name, params::Dict{String,<:Any})
 
 Lists the shadows for the specified thing.
 
-# Required Parameters
-- `thingName`: The name of the thing.
+# Arguments
+- `thing_name`: The name of the thing.
 
 # Optional Parameters
-- `nextToken`: The token to retrieve the next set of results.
-- `pageSize`: The result page size.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token to retrieve the next set of results.
+- `"pageSize"`: The result page size.
 """
 list_named_shadows_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws_config=aws_config)
-list_named_shadows_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", args; aws_config=aws_config)
+list_named_shadows_for_thing(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", params; aws_config=aws_config)
 
 """
-    Publish()
+    publish(topic)
+    publish(topic, params::Dict{String,<:Any})
 
 Publishes state information. For more information, see HTTP Protocol in the AWS IoT
 Developer Guide.
 
-# Required Parameters
+# Arguments
 - `topic`: The name of the MQTT topic.
 
 # Optional Parameters
-- `payload`: The state information, in JSON format.
-- `qos`: The Quality of Service (QoS) level.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"payload"`: The state information, in JSON format.
+- `"qos"`: The Quality of Service (QoS) level.
 """
 publish(topic; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)"; aws_config=aws_config)
-publish(topic, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", args; aws_config=aws_config)
+publish(topic, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", params; aws_config=aws_config)
 
 """
-    UpdateThingShadow()
+    update_thing_shadow(payload, thing_name)
+    update_thing_shadow(payload, thing_name, params::Dict{String,<:Any})
 
 Updates the shadow for the specified thing. For more information, see UpdateThingShadow in
 the AWS IoT Developer Guide.
 
-# Required Parameters
+# Arguments
 - `payload`: The state information, in JSON format.
-- `thingName`: The name of the thing.
+- `thing_name`: The name of the thing.
 
 # Optional Parameters
-- `name`: The name of the shadow.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: The name of the shadow.
 """
 update_thing_shadow(payload, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload); aws_config=aws_config)
-update_thing_shadow(payload, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), args)); aws_config=aws_config)
+update_thing_shadow(payload, thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), params)); aws_config=aws_config)

@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssociateNode()
+    associate_node(engine_attributes, node_name, server_name)
+    associate_node(engine_attributes, node_name, server_name, params::Dict{String,<:Any})
 
  Associates a new node with the server. For more information about how to disassociate a
 node, see DisassociateNode.  On a Chef server: This command is an alternative to knife
@@ -21,23 +22,24 @@ ValidationException is raised when parameters of the request are not valid. The
 AssociateNode API call can be integrated into Auto Scaling configurations, AWS
 Cloudformation templates, or the user data of a server's instance.
 
-# Required Parameters
-- `EngineAttributes`: Engine attributes used for associating the node.   Attributes
+# Arguments
+- `engine_attributes`: Engine attributes used for associating the node.   Attributes
   accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization
   with which the node is associated. By default only one organization named default can
   exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the
   chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode
   request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR)
   that is created by the node.
-- `NodeName`: The name of the node.
-- `ServerName`: The name of the server with which to associate the node.
+- `node_name`: The name of the node.
+- `server_name`: The name of the server with which to associate the node.
 
 """
 associate_node(EngineAttributes, NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
-associate_node(EngineAttributes, NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+associate_node(EngineAttributes, NodeName, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("AssociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineAttributes"=>EngineAttributes, "NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    CreateBackup()
+    create_backup(server_name)
+    create_backup(server_name, params::Dict{String,<:Any})
 
  Creates an application-level backup of a server. While the server is in the BACKING_UP
 state, the server cannot be changed, and no additional backup can be created.   Backups can
@@ -48,12 +50,13 @@ InvalidStateException is thrown when the server is not in any of the following s
 RUNNING, HEALTHY, or UNHEALTHY. A ResourceNotFoundException is thrown when the server is
 not found. A ValidationException is thrown when parameters of the request are not valid.
 
-# Required Parameters
-- `ServerName`: The name of the server that you want to back up.
+# Arguments
+- `server_name`: The name of the server that you want to back up.
 
 # Optional Parameters
-- `Description`:  A user-defined description of the backup.
-- `Tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`:  A user-defined description of the backup.
+- `"Tags"`: A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM
   server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and
   can contain only Unicode letters, numbers, or separators, or the following special
   characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only
@@ -62,10 +65,11 @@ not found. A ValidationException is thrown when parameters of the request are no
   of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
 """
 create_backup(ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-create_backup(ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+create_backup(ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    CreateServer()
+    create_server(engine, instance_profile_arn, instance_type, server_name, service_role_arn)
+    create_server(engine, instance_profile_arn, instance_type, server_name, service_role_arn, params::Dict{String,<:Any})
 
  Creates and immedately starts a new server. The server is ready to use when it is in the
 HEALTHY state. By default, you can create a maximum of 10 servers.   This operation is
@@ -86,22 +90,22 @@ open Security Groups in the navigation pane of the EC2 management console.  To s
 own domain for a server, and provide your own self-signed or CA-signed certificate and
 private key, specify values for CustomDomain, CustomCertificate, and CustomPrivateKey.
 
-# Required Parameters
-- `Engine`:  The configuration management engine to use. Valid values include ChefAutomate
+# Arguments
+- `engine`:  The configuration management engine to use. Valid values include ChefAutomate
   and Puppet.
-- `InstanceProfileArn`:  The ARN of the instance profile that your Amazon EC2 instances
+- `instance_profile_arn`:  The ARN of the instance profile that your Amazon EC2 instances
   use. Although the AWS OpsWorks console typically creates the instance profile for you, if
   you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation
   template, located at
   https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.ya
   ml. This template creates a CloudFormation stack that includes the instance profile you
   need.
-- `InstanceType`:  The Amazon EC2 instance type to use. For example, m5.large.
-- `ServerName`:  The name of the server. The server name must be unique within your AWS
+- `instance_type`:  The Amazon EC2 instance type to use. For example, m5.large.
+- `server_name`:  The name of the server. The server name must be unique within your AWS
   account, within each region. Server names must start with a letter; then letters, numbers,
   or hyphens (-) are allowed, up to a maximum of 40 characters.
-- `ServiceRoleArn`:  The service role that the AWS OpsWorks CM service backend uses to work
-  with your account. Although the AWS OpsWorks management console typically creates the
+- `service_role_arn`:  The service role that the AWS OpsWorks CM service backend uses to
+  work with your account. Although the AWS OpsWorks management console typically creates the
   service role for you, if you are using the AWS CLI or API commands, run the
   service-role-creation.yaml AWS CloudFormation template, located at
   https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.ya
@@ -109,14 +113,15 @@ private key, specify values for CustomDomain, CustomCertificate, and CustomPriva
   instance profile that you need.
 
 # Optional Parameters
-- `AssociatePublicIpAddress`:  Associate a public IP address with a server that you are
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssociatePublicIpAddress"`:  Associate a public IP address with a server that you are
   launching. Valid values are true or false. The default value is true.
-- `BackupId`:  If you specify this field, AWS OpsWorks CM creates the server by using the
+- `"BackupId"`:  If you specify this field, AWS OpsWorks CM creates the server by using the
   backup represented by BackupId.
-- `BackupRetentionCount`:  The number of automated backups that you want to keep. Whenever
-  a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is
-  exceeded. The default value is 1.
-- `CustomCertificate`: A PEM-formatted HTTPS certificate. The value can be be a single,
+- `"BackupRetentionCount"`:  The number of automated backups that you want to keep.
+  Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number
+  is exceeded. The default value is 1.
+- `"CustomCertificate"`: A PEM-formatted HTTPS certificate. The value can be be a single,
   self-signed certificate, or a certificate chain. If you specify a custom certificate, you
   must also specify values for CustomDomain and CustomPrivateKey. The following are
   requirements for the CustomCertificate value:   You can provide either a self-signed,
@@ -126,20 +131,20 @@ private key, specify values for CustomDomain, CustomCertificate, and CustomPriva
   certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The
   certificate’s common name or subject alternative names (SANs), if present, must match the
   value of CustomDomain.   The certificate must match the value of CustomPrivateKey.
-- `CustomDomain`: An optional public endpoint of a server, such as
+- `"CustomDomain"`: An optional public endpoint of a server, such as
   https://aws.my-company.com. To access the server, create a CNAME DNS record in your
   preferred DNS service that points the custom domain to the endpoint that is generated when
   the server is created (the value of the CreateServer Endpoint attribute). You cannot access
   the server by using the generated Endpoint value if the server is using a custom domain. If
   you specify a custom domain, you must also specify values for CustomCertificate and
   CustomPrivateKey.
-- `CustomPrivateKey`: A private key in PEM format for connecting to the server by using
+- `"CustomPrivateKey"`: A private key in PEM format for connecting to the server by using
   HTTPS. The private key must not be encrypted; it cannot be protected by a password or
   passphrase. If you specify a custom private key, you must also specify values for
   CustomDomain and CustomCertificate.
-- `DisableAutomatedBackup`:  Enable or disable scheduled backups. Valid values are true or
-  false. The default value is true.
-- `EngineAttributes`: Optional engine attributes on a specified server.   Attributes
+- `"DisableAutomatedBackup"`:  Enable or disable scheduled backups. Valid values are true
+  or false. The default value is true.
+- `"EngineAttributes"`: Optional engine attributes on a specified server.   Attributes
   accepted in a Chef createServer request:     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded
   RSA public key. The corresponding private key is required to access the Chef API. When no
   CHEF_AUTOMATE_PIVOTAL_KEY is set, a private key is generated and returned in the response.
@@ -155,67 +160,70 @@ private key, specify values for CustomDomain, CustomCertificate, and CustomPriva
   ssh://git@your.git-repo.com:user/control-repo.git). Specifying an r10k remote opens TCP
   port 8170.    PUPPET_R10K_PRIVATE_KEY: If you are using a private Git repository, add
   PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH key.
-- `EngineModel`:  The engine model of the server. Valid values in this release include
+- `"EngineModel"`:  The engine model of the server. Valid values in this release include
   Monolithic for Puppet and Single for Chef.
-- `EngineVersion`:  The major release version of the engine that you want to use. For a
+- `"EngineVersion"`:  The major release version of the engine that you want to use. For a
   Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the
   valid value is 2017.
-- `KeyPair`:  The Amazon EC2 key pair to set for the instance. This parameter is optional;
-  if desired, you may specify this parameter to connect to your instances by using SSH.
-- `PreferredBackupWindow`:  The start time for a one-hour period during which AWS OpsWorks
-  CM backs up application-level data on your server if automated backups are enabled. Valid
-  values must be specified in one of the following formats:     HH:MM for daily backups
-  DDD:HH:MM for weekly backups    MM must be specified as 00. The specified time is in
-  coordinated universal time (UTC). The default value is a random, daily start time.
-  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00,
-  which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-- `PreferredMaintenanceWindow`:  The start time for a one-hour period each week during
+- `"KeyPair"`:  The Amazon EC2 key pair to set for the instance. This parameter is
+  optional; if desired, you may specify this parameter to connect to your instances by using
+  SSH.
+- `"PreferredBackupWindow"`:  The start time for a one-hour period during which AWS
+  OpsWorks CM backs up application-level data on your server if automated backups are
+  enabled. Valid values must be specified in one of the following formats:     HH:MM for
+  daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified
+  time is in coordinated universal time (UTC). The default value is a random, daily start
+  time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example:
+  Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+- `"PreferredMaintenanceWindow"`:  The start time for a one-hour period each week during
   which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified
   in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in
   coordinated universal time (UTC). The default value is a random one-hour period on Tuesday,
   Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00,
   which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
-- `SecurityGroupIds`:  A list of security group IDs to attach to the Amazon EC2 instance.
+- `"SecurityGroupIds"`:  A list of security group IDs to attach to the Amazon EC2 instance.
   If you add this parameter, the specified security groups must be within the VPC that is
   specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one
   new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
-- `SubnetIds`:  The IDs of subnets in which to launch the server EC2 instance.   Amazon
+- `"SubnetIds"`:  The IDs of subnets in which to launch the server EC2 instance.   Amazon
   EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC
   must have \"Auto Assign Public IP\" enabled.   EC2-VPC customers: This field is optional.
   If you do not specify subnet IDs, your EC2 instances are created in a default subnet that
   is selected by Amazon EC2. If you specify subnet IDs, the VPC must have \"Auto Assign
   Public IP\" enabled.  For more information about supported Amazon EC2 platforms, see
   Supported Platforms.
-- `Tags`: A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef
-  Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key
-  can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or
-  separators, or the following special characters: + - = . _ : / @    The value can be a
+- `"Tags"`: A map that contains tag keys and tag values to attach to an AWS OpsWorks for
+  Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.
+  The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers,
+  or separators, or the following special characters: + - = . _ : / @    The value can be a
   maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the
   following special characters: + - = . _ : / @    Leading and trailing white spaces are
   trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any
   AWS OpsWorks-CM server.
 """
 create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn); aws_config=aws_config)
-create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), args)); aws_config=aws_config)
+create_server(Engine, InstanceProfileArn, InstanceType, ServerName, ServiceRoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("CreateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine, "InstanceProfileArn"=>InstanceProfileArn, "InstanceType"=>InstanceType, "ServerName"=>ServerName, "ServiceRoleArn"=>ServiceRoleArn), params)); aws_config=aws_config)
 
 """
-    DeleteBackup()
+    delete_backup(backup_id)
+    delete_backup(backup_id, params::Dict{String,<:Any})
 
  Deletes a backup. You can delete both manual and automated backups. This operation is
 asynchronous.   An InvalidStateException is thrown when a backup deletion is already in
 progress. A ResourceNotFoundException is thrown when the backup does not exist. A
 ValidationException is thrown when parameters of the request are not valid.
 
-# Required Parameters
-- `BackupId`: The ID of the backup to delete. Run the DescribeBackups command to get a list
-  of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
+# Arguments
+- `backup_id`: The ID of the backup to delete. Run the DescribeBackups command to get a
+  list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
 
 """
 delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config)
-delete_backup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), args)); aws_config=aws_config)
+delete_backup(BackupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config)
 
 """
-    DeleteServer()
+    delete_server(server_name)
+    delete_server(server_name, params::Dict{String,<:Any})
 
  Deletes the server and the underlying AWS CloudFormation stacks (including the server's
 EC2 instance). When you run this command, the server state is updated to DELETING. After
@@ -225,24 +233,26 @@ asynchronous.   An InvalidStateException is thrown when a server deletion is alr
 progress. A ResourceNotFoundException is thrown when the server does not exist. A
 ValidationException is raised when parameters of the request are not valid.
 
-# Required Parameters
-- `ServerName`: The ID of the server to delete.
+# Arguments
+- `server_name`: The ID of the server to delete.
 
 """
 delete_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-delete_server(ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+delete_server(ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DeleteServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    DescribeAccountAttributes()
+    describe_account_attributes()
+    describe_account_attributes(params::Dict{String,<:Any})
 
  Describes your OpsWorks-CM account attributes.   This operation is synchronous.
 
 """
 describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes"; aws_config=aws_config)
-describe_account_attributes(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes", args; aws_config=aws_config)
+describe_account_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeAccountAttributes", params; aws_config=aws_config)
 
 """
-    DescribeBackups()
+    describe_backups()
+    describe_backups(params::Dict{String,<:Any})
 
  Describes backups. The results are ordered by time, with newest backups first. If you do
 not specify a BackupId or ServerName, the command returns all backups.   This operation is
@@ -250,31 +260,34 @@ synchronous.   A ResourceNotFoundException is thrown when the backup does not ex
 ValidationException is raised when parameters of the request are not valid.
 
 # Optional Parameters
-- `BackupId`: Describes a single backup.
-- `MaxResults`: This is not currently implemented for DescribeBackups requests.
-- `NextToken`: This is not currently implemented for DescribeBackups requests.
-- `ServerName`: Returns backups for the server with the specified ServerName.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupId"`: Describes a single backup.
+- `"MaxResults"`: This is not currently implemented for DescribeBackups requests.
+- `"NextToken"`: This is not currently implemented for DescribeBackups requests.
+- `"ServerName"`: Returns backups for the server with the specified ServerName.
 """
 describe_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeBackups"; aws_config=aws_config)
-describe_backups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeBackups", args; aws_config=aws_config)
+describe_backups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeBackups", params; aws_config=aws_config)
 
 """
-    DescribeEvents()
+    describe_events(server_name)
+    describe_events(server_name, params::Dict{String,<:Any})
 
  Describes events for a specified server. Results are ordered by time, with newest events
 first.   This operation is synchronous.   A ResourceNotFoundException is thrown when the
 server does not exist. A ValidationException is raised when parameters of the request are
 not valid.
 
-# Required Parameters
-- `ServerName`: The name of the server for which you want to view events.
+# Arguments
+- `server_name`: The name of the server for which you want to view events.
 
 # Optional Parameters
-- `MaxResults`: To receive a paginated response, use this parameter to specify the maximum
-  number of results to be returned with a single call. If the number of available results
-  exceeds this maximum, the response includes a NextToken value that you can assign to the
-  NextToken request parameter to get the next set of results.
-- `NextToken`: NextToken is a string that is returned in some command responses. It
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: To receive a paginated response, use this parameter to specify the
+  maximum number of results to be returned with a single call. If the number of available
+  results exceeds this maximum, the response includes a NextToken value that you can assign
+  to the NextToken request parameter to get the next set of results.
+- `"NextToken"`: NextToken is a string that is returned in some command responses. It
   indicates that not all entries have been returned, and that you must run at least one more
   request to get remaining items. To get remaining results, call DescribeEvents again, and
   assign the token from the previous results as the value of the nextToken parameter. If
@@ -283,27 +296,29 @@ not valid.
   InvalidNextTokenException to occur.
 """
 describe_events(ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-describe_events(ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+describe_events(ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    DescribeNodeAssociationStatus()
+    describe_node_association_status(node_association_status_token, server_name)
+    describe_node_association_status(node_association_status_token, server_name, params::Dict{String,<:Any})
 
  Returns the current status of an existing association or disassociation request.   A
 ResourceNotFoundException is thrown when no recent association or disassociation request
 with the specified token is found, or when the server does not exist. A ValidationException
 is raised when parameters of the request are not valid.
 
-# Required Parameters
-- `NodeAssociationStatusToken`: The token returned in either the AssociateNodeResponse or
-  the DisassociateNodeResponse.
-- `ServerName`: The name of the server from which to disassociate the node.
+# Arguments
+- `node_association_status_token`: The token returned in either the AssociateNodeResponse
+  or the DisassociateNodeResponse.
+- `server_name`: The name of the server from which to disassociate the node.
 
 """
 describe_node_association_status(NodeAssociationStatusToken, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName); aws_config=aws_config)
-describe_node_association_status(NodeAssociationStatusToken, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), args)); aws_config=aws_config)
+describe_node_association_status(NodeAssociationStatusToken, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeNodeAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeAssociationStatusToken"=>NodeAssociationStatusToken, "ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    DescribeServers()
+    describe_servers()
+    describe_servers(params::Dict{String,<:Any})
 
  Lists all configuration management servers that are identified with your account. Only the
 stored results from Amazon DynamoDB are returned. AWS OpsWorks CM does not query other
@@ -312,15 +327,17 @@ server does not exist. A ValidationException is raised when parameters of the re
 not valid.
 
 # Optional Parameters
-- `MaxResults`: This is not currently implemented for DescribeServers requests.
-- `NextToken`: This is not currently implemented for DescribeServers requests.
-- `ServerName`: Describes the server with the specified ServerName.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: This is not currently implemented for DescribeServers requests.
+- `"NextToken"`: This is not currently implemented for DescribeServers requests.
+- `"ServerName"`: Describes the server with the specified ServerName.
 """
 describe_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeServers"; aws_config=aws_config)
-describe_servers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeServers", args; aws_config=aws_config)
+describe_servers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DescribeServers", params; aws_config=aws_config)
 
 """
-    DisassociateNode()
+    disassociate_node(node_name, server_name)
+    disassociate_node(node_name, server_name, params::Dict{String,<:Any})
 
  Disassociates a node from an AWS OpsWorks CM server, and removes the node from the
 server's managed nodes. After a node is disassociated, the node key pair is no longer valid
@@ -330,21 +347,23 @@ HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFound
 is thrown when the server does not exist. A ValidationException is raised when parameters
 of the request are not valid.
 
-# Required Parameters
-- `NodeName`: The name of the client node.
-- `ServerName`: The name of the server from which to disassociate the node.
+# Arguments
+- `node_name`: The name of the client node.
+- `server_name`: The name of the server from which to disassociate the node.
 
 # Optional Parameters
-- `EngineAttributes`: Engine attributes that are used for disassociating the node. No
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EngineAttributes"`: Engine attributes that are used for disassociating the node. No
   attributes are required for Puppet.   Attributes required in a DisassociateNode request for
   Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By
   default only one organization named default can exist.
 """
 disassociate_node(NodeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName); aws_config=aws_config)
-disassociate_node(NodeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+disassociate_node(NodeName, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("DisassociateNode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NodeName"=>NodeName, "ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    ExportServerEngineAttribute()
+    export_server_engine_attribute(export_attribute_name, server_name)
+    export_server_engine_attribute(export_attribute_name, server_name, params::Dict{String,<:Any})
 
  Exports a specified server engine attribute as a base64-encoded string. For example, you
 can export user data that you can use in EC2 to associate nodes with a server.   This
@@ -353,14 +372,15 @@ are not valid. A ResourceNotFoundException is thrown when the server does not ex
 InvalidStateException is thrown when the server is in any of the following states:
 CREATING, TERMINATED, FAILED or DELETING.
 
-# Required Parameters
-- `ExportAttributeName`: The name of the export attribute. Currently, the supported export
-  attribute is Userdata. This exports a user data script that includes parameters and values
-  provided in the InputAttributes list.
-- `ServerName`: The name of the server from which you are exporting the attribute.
+# Arguments
+- `export_attribute_name`: The name of the export attribute. Currently, the supported
+  export attribute is Userdata. This exports a user data script that includes parameters and
+  values provided in the InputAttributes list.
+- `server_name`: The name of the server from which you are exporting the attribute.
 
 # Optional Parameters
-- `InputAttributes`: The list of engine attributes. The list type is EngineAttribute. An
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InputAttributes"`: The list of engine attributes. The list type is EngineAttribute. An
   EngineAttribute list item is a pair that includes an attribute name and its value. For the
   Userdata ExportAttributeName, the following are supported engine attribute names.
   RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet,
@@ -373,27 +393,29 @@ CREATING, TERMINATED, FAILED or DELETING.
   this parameter is ignored.
 """
 export_server_engine_attribute(ExportAttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName); aws_config=aws_config)
-export_server_engine_attribute(ExportAttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+export_server_engine_attribute(ExportAttributeName, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ExportServerEngineAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportAttributeName"=>ExportAttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Returns a list of tags that are applied to the specified AWS OpsWorks for Chef Automate or
 AWS OpsWorks for Puppet Enterprise servers or backups.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or
+# Arguments
+- `resource_arn`: The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or
   AWS OpsWorks for Puppet Enterprise server for which you want to show applied tags. For
   example,
   arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1
   a2bEXAMPLE.
 
 # Optional Parameters
-- `MaxResults`: To receive a paginated response, use this parameter to specify the maximum
-  number of results to be returned with a single call. If the number of available results
-  exceeds this maximum, the response includes a NextToken value that you can assign to the
-  NextToken request parameter to get the next set of results.
-- `NextToken`: NextToken is a string that is returned in some command responses. It
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: To receive a paginated response, use this parameter to specify the
+  maximum number of results to be returned with a single call. If the number of available
+  results exceeds this maximum, the response includes a NextToken value that you can assign
+  to the NextToken request parameter to get the next set of results.
+- `"NextToken"`: NextToken is a string that is returned in some command responses. It
   indicates that not all entries have been returned, and that you must run at least one more
   request to get remaining items. To get remaining results, call ListTagsForResource again,
   and assign the token from the previous results as the value of the nextToken parameter. If
@@ -402,10 +424,11 @@ AWS OpsWorks for Puppet Enterprise servers or backups.
   InvalidNextTokenException to occur.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    RestoreServer()
+    restore_server(backup_id, server_name)
+    restore_server(backup_id, server_name, params::Dict{String,<:Any})
 
  Restores a backup to a server that is in a CONNECTION_LOST, HEALTHY, RUNNING, UNHEALTHY,
 or TERMINATED state. When you run RestoreServer, the server's EC2 instance is deleted, and
@@ -419,23 +442,25 @@ An InvalidStateException is thrown when the server is not in a valid state. A
 ResourceNotFoundException is thrown when the server does not exist. A ValidationException
 is raised when parameters of the request are not valid.
 
-# Required Parameters
-- `BackupId`:  The ID of the backup that you want to use to restore a server.
-- `ServerName`:  The name of the server that you want to restore.
+# Arguments
+- `backup_id`:  The ID of the backup that you want to use to restore a server.
+- `server_name`:  The name of the server that you want to restore.
 
 # Optional Parameters
-- `InstanceType`:  The type of instance to restore. Valid values must be specified in the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceType"`:  The type of instance to restore. Valid values must be specified in the
   following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large,
   r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the
   instance type from the specified backup.
-- `KeyPair`:  The name of the key pair to set on the new EC2 instance. This can be helpful
-  if the administrator no longer has the SSH key.
+- `"KeyPair"`:  The name of the key pair to set on the new EC2 instance. This can be
+  helpful if the administrator no longer has the SSH key.
 """
 restore_server(BackupId, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName); aws_config=aws_config)
-restore_server(BackupId, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), args)); aws_config=aws_config)
+restore_server(BackupId, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("RestoreServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    StartMaintenance()
+    start_maintenance(server_name)
+    start_maintenance(server_name, params::Dict{String,<:Any})
 
  Manually starts server maintenance. This command can be useful if an earlier maintenance
 attempt failed, and the underlying cause of maintenance failure has been resolved. The
@@ -444,11 +469,12 @@ only be started on servers in HEALTHY and UNHEALTHY states. Otherwise, an
 InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does
 not exist. A ValidationException is raised when parameters of the request are not valid.
 
-# Required Parameters
-- `ServerName`: The name of the server on which to run maintenance.
+# Arguments
+- `server_name`: The name of the server on which to run maintenance.
 
 # Optional Parameters
-- `EngineAttributes`: Engine attributes that are specific to the server on which you want
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EngineAttributes"`: Engine attributes that are specific to the server on which you want
   to run maintenance.  Attributes accepted in a StartMaintenance request for Chef
   CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2,
   add this engine attribute to a StartMaintenance request and set the value to true to
@@ -456,20 +482,21 @@ not exist. A ValidationException is raised when parameters of the request are no
   for Chef Automate Server to Chef Automate 2.
 """
 start_maintenance(ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-start_maintenance(ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+start_maintenance(ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("StartMaintenance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Applies tags to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise
 server, or to server backups.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Number (ARN) of a resource to which you want to apply
+# Arguments
+- `resource_arn`: The Amazon Resource Number (ARN) of a resource to which you want to apply
   tags. For example,
   arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1
   a2bEXAMPLE.
-- `Tags`: A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers
+- `tags`: A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers
   or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and
   can contain only Unicode letters, numbers, or separators, or the following special
   characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only
@@ -479,44 +506,48 @@ server, or to server backups.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes specified tags from an AWS OpsWorks-CM server or backup.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Number (ARN) of a resource from which you want to
+# Arguments
+- `resource_arn`: The Amazon Resource Number (ARN) of a resource from which you want to
   remove tags. For example,
   arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1
   a2bEXAMPLE.
-- `TagKeys`: The keys of tags that you want to remove.
+- `tag_keys`: The keys of tags that you want to remove.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateServer()
+    update_server(server_name)
+    update_server(server_name, params::Dict{String,<:Any})
 
  Updates settings for a server.   This operation is synchronous.
 
-# Required Parameters
-- `ServerName`: The name of the server to update.
+# Arguments
+- `server_name`: The name of the server to update.
 
 # Optional Parameters
-- `BackupRetentionCount`: Sets the number of automated backups that you want to keep.
-- `DisableAutomatedBackup`: Setting DisableAutomatedBackup to true disables automated or
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupRetentionCount"`: Sets the number of automated backups that you want to keep.
+- `"DisableAutomatedBackup"`: Setting DisableAutomatedBackup to true disables automated or
   scheduled backups. Automated backups are enabled by default.
-- `PreferredBackupWindow`:
-- `PreferredMaintenanceWindow`:
+- `"PreferredBackupWindow"`:
+- `"PreferredMaintenanceWindow"`:
 """
 update_server(ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}("ServerName"=>ServerName); aws_config=aws_config)
-update_server(ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), args)); aws_config=aws_config)
+update_server(ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerName"=>ServerName), params)); aws_config=aws_config)
 
 """
-    UpdateServerEngineAttributes()
+    update_server_engine_attributes(attribute_name, server_name)
+    update_server_engine_attributes(attribute_name, server_name, params::Dict{String,<:Any})
 
  Updates engine-specific attributes on a specified server. The server enters the MODIFYING
 state when this operation is in progress. Only one update can occur at a time. You can use
@@ -526,12 +557,13 @@ can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an
 InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does
 not exist. A ValidationException is raised when parameters of the request are not valid.
 
-# Required Parameters
-- `AttributeName`: The name of the engine attribute to update.
-- `ServerName`: The name of the server to update.
+# Arguments
+- `attribute_name`: The name of the engine attribute to update.
+- `server_name`: The name of the server to update.
 
 # Optional Parameters
-- `AttributeValue`: The value to set for the attribute.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeValue"`: The value to set for the attribute.
 """
 update_server_engine_attributes(AttributeName, ServerName; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName); aws_config=aws_config)
-update_server_engine_attributes(AttributeName, ServerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), args)); aws_config=aws_config)
+update_server_engine_attributes(AttributeName, ServerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = opsworkscm("UpdateServerEngineAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServerName"=>ServerName), params)); aws_config=aws_config)

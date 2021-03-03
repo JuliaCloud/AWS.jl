@@ -5,7 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AddApplicationCloudWatchLoggingOption()
+    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id)
+    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -14,19 +15,20 @@ Adds a CloudWatch log stream to monitor application configuration errors. For mo
 information about using CloudWatch log streams with Amazon Kinesis Analytics applications,
 see Working with Amazon CloudWatch Logs.
 
-# Required Parameters
-- `ApplicationName`: The Kinesis Analytics application name.
-- `CloudWatchLoggingOption`: Provides the CloudWatch log stream Amazon Resource Name (ARN)
-  and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that
-  is used must have the PutLogEvents policy action enabled.
-- `CurrentApplicationVersionId`: The version ID of the Kinesis Analytics application.
+# Arguments
+- `application_name`: The Kinesis Analytics application name.
+- `cloud_watch_logging_option`: Provides the CloudWatch log stream Amazon Resource Name
+  (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role
+  that is used must have the PutLogEvents policy action enabled.
+- `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
 add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
 
 """
-    AddApplicationInput()
+    add_application_input(application_name, current_application_version_id, input)
+    add_application_input(application_name, current_application_version_id, input, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -40,20 +42,21 @@ application. You can use the DescribeApplication operation to find the current a
 version.  This operation requires permissions to perform the
 kinesisanalytics:AddApplicationInput action.
 
-# Required Parameters
-- `ApplicationName`: Name of your existing Amazon Kinesis Analytics application to which
+# Arguments
+- `application_name`: Name of your existing Amazon Kinesis Analytics application to which
   you want to add the streaming source.
-- `CurrentApplicationVersionId`: Current version of your Amazon Kinesis Analytics
+- `current_application_version_id`: Current version of your Amazon Kinesis Analytics
   application. You can use the DescribeApplication operation to find the current application
   version.
-- `Input`: The Input to add.
+- `input`: The Input to add.
 
 """
 add_application_input(ApplicationName, CurrentApplicationVersionId, Input; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input); aws_config=aws_config)
-add_application_input(ApplicationName, CurrentApplicationVersionId, Input, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input), args)); aws_config=aws_config)
+add_application_input(ApplicationName, CurrentApplicationVersionId, Input, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Input"=>Input), params)); aws_config=aws_config)
 
 """
-    AddApplicationInputProcessingConfiguration()
+    add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration)
+    add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -62,25 +65,26 @@ Adds an InputProcessingConfiguration to an application. An input processor prepr
 records on the input stream before the application's SQL code executes. Currently, the only
 input processor available is AWS Lambda.
 
-# Required Parameters
-- `ApplicationName`: Name of the application to which you want to add the input processing
+# Arguments
+- `application_name`: Name of the application to which you want to add the input processing
   configuration.
-- `CurrentApplicationVersionId`: Version of the application to which you want to add the
+- `current_application_version_id`: Version of the application to which you want to add the
   input processing configuration. You can use the DescribeApplication operation to get the
   current application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
-- `InputId`: The ID of the input configuration to add the input processing configuration
+- `input_id`: The ID of the input configuration to add the input processing configuration
   to. You can get a list of the input IDs for an application using the DescribeApplication
   operation.
-- `InputProcessingConfiguration`: The InputProcessingConfiguration to add to the
+- `input_processing_configuration`: The InputProcessingConfiguration to add to the
   application.
 
 """
 add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration); aws_config=aws_config)
-add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration), args)); aws_config=aws_config)
+add_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, InputProcessingConfiguration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId, "InputProcessingConfiguration"=>InputProcessingConfiguration), params)); aws_config=aws_config)
 
 """
-    AddApplicationOutput()
+    add_application_output(application_name, current_application_version_id, output)
+    add_application_output(application_name, current_application_version_id, output, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -100,24 +104,25 @@ current application version. For the limits on the number of application inputs 
 you can configure, see Limits. This operation requires permissions to perform the
 kinesisanalytics:AddApplicationOutput action.
 
-# Required Parameters
-- `ApplicationName`: Name of the application to which you want to add the output
+# Arguments
+- `application_name`: Name of the application to which you want to add the output
   configuration.
-- `CurrentApplicationVersionId`: Version of the application to which you want to add the
+- `current_application_version_id`: Version of the application to which you want to add the
   output configuration. You can use the DescribeApplication operation to get the current
   application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
-- `Output`: An array of objects, each describing one output configuration. In the output
+- `output`: An array of objects, each describing one output configuration. In the output
   configuration, you specify the name of an in-application stream, a destination (that is, an
   Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda
   function), and record the formation to use when writing to the destination.
 
 """
 add_application_output(ApplicationName, CurrentApplicationVersionId, Output; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output); aws_config=aws_config)
-add_application_output(ApplicationName, CurrentApplicationVersionId, Output, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output), args)); aws_config=aws_config)
+add_application_output(ApplicationName, CurrentApplicationVersionId, Output, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "Output"=>Output), params)); aws_config=aws_config)
 
 """
-    AddApplicationReferenceDataSource()
+    add_application_reference_data_source(application_name, current_application_version_id, reference_data_source)
+    add_application_reference_data_source(application_name, current_application_version_id, reference_data_source, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -131,13 +136,13 @@ table.  For conceptual information, see Configuring Application Input. For the l
 data sources you can add to your application, see Limits.   This operation requires
 permissions to perform the kinesisanalytics:AddApplicationOutput action.
 
-# Required Parameters
-- `ApplicationName`: Name of an existing application.
-- `CurrentApplicationVersionId`: Version of the application for which you are adding the
+# Arguments
+- `application_name`: Name of an existing application.
+- `current_application_version_id`: Version of the application for which you are adding the
   reference data source. You can use the DescribeApplication operation to get the current
   application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
-- `ReferenceDataSource`: The reference data source can be an object in your Amazon S3
+- `reference_data_source`: The reference data source can be an object in your Amazon S3
   bucket. Amazon Kinesis Analytics reads the object and copies the data into the
   in-application table that is created. You provide an S3 bucket, object key name, and the
   resulting in-application table that is created. You must also provide an IAM role with the
@@ -146,10 +151,11 @@ permissions to perform the kinesisanalytics:AddApplicationOutput action.
 
 """
 add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource); aws_config=aws_config)
-add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), args)); aws_config=aws_config)
+add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), params)); aws_config=aws_config)
 
 """
-    CreateApplication()
+    create_application(application_name)
+    create_application(application_name, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -171,12 +177,13 @@ IAM roles. This operation requires permissions to perform the
 kinesisanalytics:CreateApplication action.   For introductory exercises to create an Amazon
 Kinesis Analytics application, see Getting Started.
 
-# Required Parameters
-- `ApplicationName`: Name of your Amazon Kinesis Analytics application (for example,
+# Arguments
+- `application_name`: Name of your Amazon Kinesis Analytics application (for example,
   sample-app).
 
 # Optional Parameters
-- `ApplicationCode`: One or more SQL statements that read input data, transform it, and
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationCode"`: One or more SQL statements that read input data, transform it, and
   generate output. For example, you can write a SQL statement that reads data from one
   in-application stream, generates a running average of the number of advertisement clicks by
   vendor, and insert resulting rows in another in-application stream using pumps. For more
@@ -186,11 +193,11 @@ Kinesis Analytics application, see Getting Started.
   Note that the application code must create the streams with names specified in the Outputs.
   For example, if your Outputs defines output streams named ExampleOutputStream1 and
   ExampleOutputStream2, then your application code must create these streams.
-- `ApplicationDescription`: Summary description of the application.
-- `CloudWatchLoggingOptions`: Use this parameter to configure a CloudWatch log stream to
+- `"ApplicationDescription"`: Summary description of the application.
+- `"CloudWatchLoggingOptions"`: Use this parameter to configure a CloudWatch log stream to
   monitor application configuration errors. For more information, see Working with Amazon
   CloudWatch Logs.
-- `Inputs`: Use this parameter to configure the application input. You can configure your
+- `"Inputs"`: Use this parameter to configure the application input. You can configure your
   application to receive input from a single streaming source. In this configuration, you map
   this streaming source to an in-application stream that is created. Your application code
   can then query the in-application stream like a table (you can think of it as a constantly
@@ -200,7 +207,7 @@ Kinesis Analytics application, see Getting Started.
   the in-application stream, you need to specify a schema to transform your data into a
   schematized version used in SQL. In the schema, you provide the necessary mapping of the
   data elements in the streaming source to record columns in the in-app stream.
-- `Outputs`: You can configure application output to write data from any of the
+- `"Outputs"`: You can configure application output to write data from any of the
   in-application streams to up to three destinations. These destinations can be Amazon
   Kinesis streams, Amazon Kinesis Firehose delivery streams, AWS Lambda destinations, or any
   combination of the three. In the configuration, you specify the in-application stream name,
@@ -211,16 +218,17 @@ Kinesis Analytics application, see Getting Started.
   destinations, you provide the format of data in the stream (for example, JSON, CSV). You
   also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the
   stream or Lambda function on your behalf.
-- `Tags`: A list of one or more tags to assign to the application. A tag is a key-value
+- `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
   pair that identifies an application. Note that the maximum number of application tags
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
 """
 create_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-create_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+create_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    DeleteApplication()
+    delete_application(application_name, create_timestamp)
+    delete_application(application_name, create_timestamp, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -230,16 +238,17 @@ deletes the application, including any application artifacts (such as in-applica
 streams, reference table, and application code). This operation requires permissions to
 perform the kinesisanalytics:DeleteApplication action.
 
-# Required Parameters
-- `ApplicationName`: Name of the Amazon Kinesis Analytics application to delete.
-- `CreateTimestamp`:  You can use the DescribeApplication operation to get this value.
+# Arguments
+- `application_name`: Name of the Amazon Kinesis Analytics application to delete.
+- `create_timestamp`:  You can use the DescribeApplication operation to get this value.
 
 """
 delete_application(ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp); aws_config=aws_config)
-delete_application(ApplicationName, CreateTimestamp, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), args)); aws_config=aws_config)
+delete_application(ApplicationName, CreateTimestamp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), params)); aws_config=aws_config)
 
 """
-    DeleteApplicationCloudWatchLoggingOption()
+    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id)
+    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -248,38 +257,40 @@ Deletes a CloudWatch log stream from an application. For more information about 
 CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon
 CloudWatch Logs.
 
-# Required Parameters
-- `ApplicationName`: The Kinesis Analytics application name.
-- `CloudWatchLoggingOptionId`: The CloudWatchLoggingOptionId of the CloudWatch logging
+# Arguments
+- `application_name`: The Kinesis Analytics application name.
+- `cloud_watch_logging_option_id`: The CloudWatchLoggingOptionId of the CloudWatch logging
   option to delete. You can get the CloudWatchLoggingOptionId by using the
   DescribeApplication operation.
-- `CurrentApplicationVersionId`: The version ID of the Kinesis Analytics application.
+- `current_application_version_id`: The version ID of the Kinesis Analytics application.
 
 """
 delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
 
 """
-    DeleteApplicationInputProcessingConfiguration()
+    delete_application_input_processing_configuration(application_name, current_application_version_id, input_id)
+    delete_application_input_processing_configuration(application_name, current_application_version_id, input_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
 more information about version 2, see Amazon Kinesis Data Analytics API V2 Documentation.
 Deletes an InputProcessingConfiguration from an input.
 
-# Required Parameters
-- `ApplicationName`: The Kinesis Analytics application name.
-- `CurrentApplicationVersionId`: The version ID of the Kinesis Analytics application.
-- `InputId`: The ID of the input configuration from which to delete the input processing
+# Arguments
+- `application_name`: The Kinesis Analytics application name.
+- `current_application_version_id`: The version ID of the Kinesis Analytics application.
+- `input_id`: The ID of the input configuration from which to delete the input processing
   configuration. You can get a list of the input IDs for an application by using the
   DescribeApplication operation.
 
 """
 delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId); aws_config=aws_config)
-delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId), args)); aws_config=aws_config)
+delete_application_input_processing_configuration(ApplicationName, CurrentApplicationVersionId, InputId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationInputProcessingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "InputId"=>InputId), params)); aws_config=aws_config)
 
 """
-    DeleteApplicationOutput()
+    delete_application_output(application_name, current_application_version_id, output_id)
+    delete_application_output(application_name, current_application_version_id, output_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -289,12 +300,13 @@ Kinesis Analytics will no longer write data from the corresponding in-applicatio
 the external output destination. This operation requires permissions to perform the
 kinesisanalytics:DeleteApplicationOutput action.
 
-# Required Parameters
-- `ApplicationName`: Amazon Kinesis Analytics application name.
-- `CurrentApplicationVersionId`: Amazon Kinesis Analytics application version. You can use
-  the DescribeApplication operation to get the current application version. If the version
-  specified is not the current version, the ConcurrentModificationException is returned.
-- `OutputId`: The ID of the configuration to delete. Each output configuration that is
+# Arguments
+- `application_name`: Amazon Kinesis Analytics application name.
+- `current_application_version_id`: Amazon Kinesis Analytics application version. You can
+  use the DescribeApplication operation to get the current application version. If the
+  version specified is not the current version, the ConcurrentModificationException is
+  returned.
+- `output_id`: The ID of the configuration to delete. Each output configuration that is
   added to the application, either when the application is created or later using the
   AddApplicationOutput operation, has a unique ID. You need to provide the ID to uniquely
   identify the output configuration that you want to delete from the application
@@ -302,10 +314,11 @@ kinesisanalytics:DeleteApplicationOutput action.
 
 """
 delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId); aws_config=aws_config)
-delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId), args)); aws_config=aws_config)
+delete_application_output(ApplicationName, CurrentApplicationVersionId, OutputId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "OutputId"=>OutputId), params)); aws_config=aws_config)
 
 """
-    DeleteApplicationReferenceDataSource()
+    delete_application_reference_data_source(application_name, current_application_version_id, reference_id)
+    delete_application_reference_data_source(application_name, current_application_version_id, reference_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -316,21 +329,22 @@ in-application table that you created using the AddApplicationReferenceDataSourc
 operation.  This operation requires permissions to perform the
 kinesisanalytics.DeleteApplicationReferenceDataSource action.
 
-# Required Parameters
-- `ApplicationName`: Name of an existing application.
-- `CurrentApplicationVersionId`: Version of the application. You can use the
+# Arguments
+- `application_name`: Name of an existing application.
+- `current_application_version_id`: Version of the application. You can use the
   DescribeApplication operation to get the current application version. If the version
   specified is not the current version, the ConcurrentModificationException is returned.
-- `ReferenceId`: ID of the reference data source. When you add a reference data source to
+- `reference_id`: ID of the reference data source. When you add a reference data source to
   your application using the AddApplicationReferenceDataSource, Amazon Kinesis Analytics
   assigns an ID. You can use the DescribeApplication operation to get the reference ID.
 
 """
 delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId); aws_config=aws_config)
-delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId), args)); aws_config=aws_config)
+delete_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DeleteApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceId"=>ReferenceId), params)); aws_config=aws_config)
 
 """
-    DescribeApplication()
+    describe_application(application_name)
+    describe_application(application_name, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -341,15 +355,16 @@ This operation requires permissions to perform the kinesisanalytics:DescribeAppl
 action. You can use DescribeApplication to get the current application versionId, which you
 need to call other operations such as Update.
 
-# Required Parameters
-- `ApplicationName`: Name of the application.
+# Arguments
+- `application_name`: Name of the application.
 
 """
 describe_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-describe_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+describe_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    DiscoverInputSchema()
+    discover_input_schema()
+    discover_input_schema(params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -365,21 +380,23 @@ This operation requires permissions to perform the kinesisanalytics:DiscoverInpu
 action.
 
 # Optional Parameters
-- `InputProcessingConfiguration`: The InputProcessingConfiguration to use to preprocess the
-  records before discovering the schema of the records.
-- `InputStartingPositionConfiguration`: Point at which you want Amazon Kinesis Analytics to
-  start reading records from the specified streaming source discovery purposes.
-- `ResourceARN`: Amazon Resource Name (ARN) of the streaming source.
-- `RoleARN`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InputProcessingConfiguration"`: The InputProcessingConfiguration to use to preprocess
+  the records before discovering the schema of the records.
+- `"InputStartingPositionConfiguration"`: Point at which you want Amazon Kinesis Analytics
+  to start reading records from the specified streaming source discovery purposes.
+- `"ResourceARN"`: Amazon Resource Name (ARN) of the streaming source.
+- `"RoleARN"`: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
   stream on your behalf.
-- `S3Configuration`: Specify this parameter to discover a schema from data in an Amazon S3
-  object.
+- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
+  S3 object.
 """
 discover_input_schema(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema"; aws_config=aws_config)
-discover_input_schema(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema", args; aws_config=aws_config)
+discover_input_schema(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("DiscoverInputSchema", params; aws_config=aws_config)
 
 """
-    ListApplications()
+    list_applications()
+    list_applications(params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -393,30 +410,33 @@ information about a specific application, use DescribeApplication. This operatio
 permissions to perform the kinesisanalytics:ListApplications action.
 
 # Optional Parameters
-- `ExclusiveStartApplicationName`: Name of the application to start the list with. When
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExclusiveStartApplicationName"`: Name of the application to start the list with. When
   using pagination to retrieve the list, you don't need to specify this parameter in the
   first request. However, in subsequent requests, you add the last application name from the
   previous response to get the next page of applications.
-- `Limit`: Maximum number of applications to list.
+- `"Limit"`: Maximum number of applications to list.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListApplications"; aws_config=aws_config)
-list_applications(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListApplications", args; aws_config=aws_config)
+list_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListApplications", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Retrieves the list of key-value tags assigned to the application. For more information, see
 Using Tagging.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the application for which to retrieve tags.
+# Arguments
+- `resource_arn`: The ARN of the application for which to retrieve tags.
 
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
-    StartApplication()
+    start_application(application_name, input_configurations)
+    start_application(application_name, input_configurations, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -430,19 +450,20 @@ DescribeApplication operation. After you start the application, you can stop the
 application from processing the input by calling the StopApplication operation. This
 operation requires permissions to perform the kinesisanalytics:StartApplication action.
 
-# Required Parameters
-- `ApplicationName`: Name of the application.
-- `InputConfigurations`: Identifies the specific input, by ID, that the application starts
+# Arguments
+- `application_name`: Name of the application.
+- `input_configurations`: Identifies the specific input, by ID, that the application starts
   consuming. Amazon Kinesis Analytics starts reading the streaming source associated with the
   input. You can also specify where in the streaming source you want Amazon Kinesis Analytics
   to start reading.
 
 """
 start_application(ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations); aws_config=aws_config)
-start_application(ApplicationName, InputConfigurations, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations), args)); aws_config=aws_config)
+start_application(ApplicationName, InputConfigurations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "InputConfigurations"=>InputConfigurations), params)); aws_config=aws_config)
 
 """
-    StopApplication()
+    stop_application(application_name)
+    stop_application(application_name, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -454,44 +475,48 @@ the input, the application stops processing data, and there is no output written
 destination.  This operation requires permissions to perform the
 kinesisanalytics:StopApplication action.
 
-# Required Parameters
-- `ApplicationName`: Name of the running application to stop.
+# Arguments
+- `application_name`: Name of the running application to stop.
 
 """
 stop_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-stop_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+stop_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("StopApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum
 number of application tags includes system tags. The maximum number of user-defined
 application tags is 50. For more information, see Using Tagging.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the application to assign the tags.
-- `Tags`: The key-value tags to assign to the application.
+# Arguments
+- `resource_arn`: The ARN of the application to assign the tags.
+- `tags`: The key-value tags to assign to the application.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes one or more tags from a Kinesis Analytics application. For more information, see
 Using Tagging.
 
-# Required Parameters
-- `ResourceARN`: The ARN of the Kinesis Analytics application from which to remove the tags.
-- `TagKeys`: A list of keys of tags to remove from the specified application.
+# Arguments
+- `resource_arn`: The ARN of the Kinesis Analytics application from which to remove the
+  tags.
+- `tag_keys`: A list of keys of tags to remove from the specified application.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateApplication()
+    update_application(application_name, application_update, current_application_version_id)
+    update_application(application_name, application_update, current_application_version_id, params::Dict{String,<:Any})
 
  This documentation is for version 1 of the Amazon Kinesis Data Analytics API, which only
 supports SQL applications. Version 2 of the API supports SQL and Java applications. For
@@ -501,12 +526,12 @@ application code, input configuration, and output configuration.  Note that Amaz
 Analytics updates the CurrentApplicationVersionId each time you update your application.
 This operation requires permission for the kinesisanalytics:UpdateApplication action.
 
-# Required Parameters
-- `ApplicationName`: Name of the Amazon Kinesis Analytics application to update.
-- `ApplicationUpdate`: Describes application updates.
-- `CurrentApplicationVersionId`: The current application version ID. You can use the
+# Arguments
+- `application_name`: Name of the Amazon Kinesis Analytics application to update.
+- `application_update`: Describes application updates.
+- `current_application_version_id`: The current application version ID. You can use the
   DescribeApplication operation to get this value.
 
 """
 update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), args)); aws_config=aws_config)
+update_application(ApplicationName, ApplicationUpdate, CurrentApplicationVersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationUpdate"=>ApplicationUpdate, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)

@@ -5,23 +5,25 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AssociateFirewallPolicy()
+    associate_firewall_policy(firewall_policy_arn)
+    associate_firewall_policy(firewall_policy_arn, params::Dict{String,<:Any})
 
 Associates a FirewallPolicy to a Firewall.  A firewall policy defines how to monitor and
 manage your VPC network traffic, using a collection of inspection rule groups and other
 settings. Each firewall requires one firewall policy association, and you can use the same
 firewall policy for multiple firewalls.
 
-# Required Parameters
-- `FirewallPolicyArn`: The Amazon Resource Name (ARN) of the firewall policy.
+# Arguments
+- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the firewall policy.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -34,10 +36,11 @@ firewall policy for multiple firewalls.
   the new token.
 """
 associate_firewall_policy(FirewallPolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn); aws_config=aws_config)
-associate_firewall_policy(FirewallPolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn), args)); aws_config=aws_config)
+associate_firewall_policy(FirewallPolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn), params)); aws_config=aws_config)
 
 """
-    AssociateSubnets()
+    associate_subnets(subnet_mappings)
+    associate_subnets(subnet_mappings, params::Dict{String,<:Any})
 
 Associates the specified subnets in the Amazon VPC to the firewall. You can specify one
 subnet for each of the Availability Zones that the VPC spans.  This request creates an AWS
@@ -46,16 +49,17 @@ protections, you must also modify the VPC's route tables for each subnet's Avail
 Zone, to redirect the traffic that's coming into and going out of the zone through the
 firewall endpoint.
 
-# Required Parameters
-- `SubnetMappings`: The IDs of the subnets that you want to associate with the firewall.
+# Arguments
+- `subnet_mappings`: The IDs of the subnets that you want to associate with the firewall.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -68,10 +72,11 @@ firewall endpoint.
   the new token.
 """
 associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}("SubnetMappings"=>SubnetMappings); aws_config=aws_config)
-associate_subnets(SubnetMappings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetMappings"=>SubnetMappings), args)); aws_config=aws_config)
+associate_subnets(SubnetMappings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetMappings"=>SubnetMappings), params)); aws_config=aws_config)
 
 """
-    CreateFirewall()
+    create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
+    create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id, params::Dict{String,<:Any})
 
 Creates an AWS Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The
 firewall defines the configuration settings for an AWS Network Firewall firewall. The
@@ -84,52 +89,55 @@ and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standa
 resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To
 retrieve information about firewalls, use ListFirewalls and DescribeFirewall.
 
-# Required Parameters
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+# Arguments
+- `firewall_name`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it.
-- `FirewallPolicyArn`: The Amazon Resource Name (ARN) of the FirewallPolicy that you want
+- `firewall_policy_arn`: The Amazon Resource Name (ARN) of the FirewallPolicy that you want
   to use for the firewall.
-- `SubnetMappings`: The public subnets to use for your Network Firewall firewalls. Each
+- `subnet_mappings`: The public subnets to use for your Network Firewall firewalls. Each
   subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a
   firewall endpoint in each subnet.
-- `VpcId`: The unique identifier of the VPC where Network Firewall should create the
+- `vpc_id`: The unique identifier of the VPC where Network Firewall should create the
   firewall.  You can't change this setting after you create the firewall.
 
 # Optional Parameters
-- `DeleteProtection`: A flag indicating whether it is possible to delete the firewall. A
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteProtection"`: A flag indicating whether it is possible to delete the firewall. A
   setting of TRUE indicates that the firewall is protected against deletion. Use this setting
   to protect against accidentally deleting a firewall that is in use. When you create a
   firewall, the operation initializes this flag to TRUE.
-- `Description`: A description of the firewall.
-- `FirewallPolicyChangeProtection`: A setting indicating whether the firewall is protected
-  against a change to the firewall policy association. Use this setting to protect against
-  accidentally modifying the firewall policy for a firewall that is in use. When you create a
-  firewall, the operation initializes this setting to TRUE.
-- `SubnetChangeProtection`: A setting indicating whether the firewall is protected against
-  changes to the subnet associations. Use this setting to protect against accidentally
-  modifying the subnet associations for a firewall that is in use. When you create a
-  firewall, the operation initializes this setting to TRUE.
-- `Tags`: The key:value pairs to associate with the resource.
+- `"Description"`: A description of the firewall.
+- `"FirewallPolicyChangeProtection"`: A setting indicating whether the firewall is
+  protected against a change to the firewall policy association. Use this setting to protect
+  against accidentally modifying the firewall policy for a firewall that is in use. When you
+  create a firewall, the operation initializes this setting to TRUE.
+- `"SubnetChangeProtection"`: A setting indicating whether the firewall is protected
+  against changes to the subnet associations. Use this setting to protect against
+  accidentally modifying the subnet associations for a firewall that is in use. When you
+  create a firewall, the operation initializes this setting to TRUE.
+- `"Tags"`: The key:value pairs to associate with the resource.
 """
 create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId); aws_config=aws_config)
-create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId), args)); aws_config=aws_config)
+create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId), params)); aws_config=aws_config)
 
 """
-    CreateFirewallPolicy()
+    create_firewall_policy(firewall_policy, firewall_policy_name)
+    create_firewall_policy(firewall_policy, firewall_policy_name, params::Dict{String,<:Any})
 
 Creates the firewall policy for the firewall according to the specifications.  An AWS
 Network Firewall firewall policy defines the behavior of a firewall, in a collection of
 stateless and stateful rule groups and other settings. You can use one firewall policy for
 multiple firewalls.
 
-# Required Parameters
-- `FirewallPolicy`: The rule groups and policy actions to use in the firewall policy.
-- `FirewallPolicyName`: The descriptive name of the firewall policy. You can't change the
+# Arguments
+- `firewall_policy`: The rule groups and policy actions to use in the firewall policy.
+- `firewall_policy_name`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it.
 
 # Optional Parameters
-- `Description`: A description of the firewall policy.
-- `DryRun`: Indicates whether you want Network Firewall to just check the validity of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the firewall policy.
+- `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
   request can run successfully, but doesn't actually make the requested changes. The call
   returns the value that the request would return if you ran it with dry run set to FALSE,
@@ -137,20 +145,21 @@ multiple firewalls.
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
-- `Tags`: The key:value pairs to associate with the resource.
+- `"Tags"`: The key:value pairs to associate with the resource.
 """
 create_firewall_policy(FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName); aws_config=aws_config)
-create_firewall_policy(FirewallPolicy, FirewallPolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName), args)); aws_config=aws_config)
+create_firewall_policy(FirewallPolicy, FirewallPolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName), params)); aws_config=aws_config)
 
 """
-    CreateRuleGroup()
+    create_rule_group(capacity, rule_group_name, type)
+    create_rule_group(capacity, rule_group_name, type, params::Dict{String,<:Any})
 
 Creates the specified stateless or stateful rule group, which includes the rules for
 network traffic inspection, a capacity setting, and tags.  You provide your rule group
 specification in your request using either RuleGroup or Rules.
 
-# Required Parameters
-- `Capacity`: The maximum operating resources that this rule group can use. Rule group
+# Arguments
+- `capacity`: The maximum operating resources that this rule group can use. Rule group
   capacity is fixed at creation. When you update a rule group, you are limited to this
   capacity. When you reference a rule group from a firewall policy, Network Firewall reserves
   this capacity for the rule group.  You can retrieve the capacity that would be required for
@@ -172,14 +181,15 @@ specification in your request using either RuleGroup or Rules.
   specification for each of the other match settings has a capacity requirement of 6.
   Capacity for a stateful rule group  For a stateful rule group, the minimum capacity
   required is the number of individual rules that you expect to have in the rule group.
-- `RuleGroupName`: The descriptive name of the rule group. You can't change the name of a
+- `rule_group_name`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it.
-- `Type`: Indicates whether the rule group is stateless or stateful. If the rule group is
+- `type`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
 
 # Optional Parameters
-- `Description`: A description of the rule group.
-- `DryRun`: Indicates whether you want Network Firewall to just check the validity of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the rule group.
+- `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
   request can run successfully, but doesn't actually make the requested changes. The call
   returns the value that the request would return if you ran it with dry run set to FALSE,
@@ -187,9 +197,9 @@ specification in your request using either RuleGroup or Rules.
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
-- `RuleGroup`: An object that defines the rule group rules.   You must provide either this
-  rule group setting or a Rules setting, but not both.
-- `Rules`: The name of a file containing stateful rule group rules specifications in
+- `"RuleGroup"`: An object that defines the rule group rules.   You must provide either
+  this rule group setting or a Rules setting, but not both.
+- `"Rules"`: The name of a file containing stateful rule group rules specifications in
   Suricata flat format, with one rule per line. Use this to import your existing Suricata
   compatible rule groups.   You must provide either this rules setting or a populated
   RuleGroup setting, but not both.   You can provide your rule group specification in a file
@@ -199,13 +209,14 @@ specification in your request using either RuleGroup or Rules.
   the file or use the file in any way after performing the create or update. If you call
   DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings
   inside a RuleGroup object.
-- `Tags`: The key:value pairs to associate with the resource.
+- `"Tags"`: The key:value pairs to associate with the resource.
 """
 create_rule_group(Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type); aws_config=aws_config)
-create_rule_group(Capacity, RuleGroupName, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type), args)); aws_config=aws_config)
+create_rule_group(Capacity, RuleGroupName, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type), params)); aws_config=aws_config)
 
 """
-    DeleteFirewall()
+    delete_firewall()
+    delete_firewall(params::Dict{String,<:Any})
 
 Deletes the specified Firewall and its FirewallStatus. This operation requires the
 firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can
@@ -218,154 +229,171 @@ a firewall, remove the delete protection if you need to using
 UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
 delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewall"; aws_config=aws_config)
-delete_firewall(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewall", args; aws_config=aws_config)
+delete_firewall(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewall", params; aws_config=aws_config)
 
 """
-    DeleteFirewallPolicy()
+    delete_firewall_policy()
+    delete_firewall_policy(params::Dict{String,<:Any})
 
 Deletes the specified FirewallPolicy.
 
 # Optional Parameters
-- `FirewallPolicyArn`: The Amazon Resource Name (ARN) of the firewall policy. You must
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy. You must
   specify the ARN or the name, and you can specify both.
-- `FirewallPolicyName`: The descriptive name of the firewall policy. You can't change the
+- `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
 delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewallPolicy"; aws_config=aws_config)
-delete_firewall_policy(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewallPolicy", args; aws_config=aws_config)
+delete_firewall_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config)
 
 """
-    DeleteResourcePolicy()
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
 
 Deletes a resource policy that you created in a PutResourcePolicy request.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   resource policy you want to delete.
 
 """
 delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_resource_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+delete_resource_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    DeleteRuleGroup()
+    delete_rule_group()
+    delete_rule_group(params::Dict{String,<:Any})
 
 Deletes the specified RuleGroup.
 
 # Optional Parameters
-- `RuleGroupArn`: The Amazon Resource Name (ARN) of the rule group. You must specify the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group. You must specify the
   ARN or the name, and you can specify both.
-- `RuleGroupName`: The descriptive name of the rule group. You can't change the name of a
+- `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `Type`: Indicates whether the rule group is stateless or stateful. If the rule group is
+- `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteRuleGroup"; aws_config=aws_config)
-delete_rule_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteRuleGroup", args; aws_config=aws_config)
+delete_rule_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteRuleGroup", params; aws_config=aws_config)
 
 """
-    DescribeFirewall()
+    describe_firewall()
+    describe_firewall(params::Dict{String,<:Any})
 
 Returns the data objects for the specified firewall.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
 describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewall"; aws_config=aws_config)
-describe_firewall(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewall", args; aws_config=aws_config)
+describe_firewall(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewall", params; aws_config=aws_config)
 
 """
-    DescribeFirewallPolicy()
+    describe_firewall_policy()
+    describe_firewall_policy(params::Dict{String,<:Any})
 
 Returns the data objects for the specified firewall policy.
 
 # Optional Parameters
-- `FirewallPolicyArn`: The Amazon Resource Name (ARN) of the firewall policy. You must
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy. You must
   specify the ARN or the name, and you can specify both.
-- `FirewallPolicyName`: The descriptive name of the firewall policy. You can't change the
+- `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
 describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewallPolicy"; aws_config=aws_config)
-describe_firewall_policy(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewallPolicy", args; aws_config=aws_config)
+describe_firewall_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config)
 
 """
-    DescribeLoggingConfiguration()
+    describe_logging_configuration()
+    describe_logging_configuration(params::Dict{String,<:Any})
 
 Returns the logging configuration for the specified firewall.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
 describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeLoggingConfiguration"; aws_config=aws_config)
-describe_logging_configuration(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeLoggingConfiguration", args; aws_config=aws_config)
+describe_logging_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config)
 
 """
-    DescribeResourcePolicy()
+    describe_resource_policy(resource_arn)
+    describe_resource_policy(resource_arn, params::Dict{String,<:Any})
 
 Retrieves a resource policy that you created in a PutResourcePolicy request.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   resource policy you want to retrieve.
 
 """
 describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-describe_resource_policy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+describe_resource_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    DescribeRuleGroup()
+    describe_rule_group()
+    describe_rule_group(params::Dict{String,<:Any})
 
 Returns the data objects for the specified rule group.
 
 # Optional Parameters
-- `RuleGroupArn`: The Amazon Resource Name (ARN) of the rule group. You must specify the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group. You must specify the
   ARN or the name, and you can specify both.
-- `RuleGroupName`: The descriptive name of the rule group. You can't change the name of a
+- `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `Type`: Indicates whether the rule group is stateless or stateful. If the rule group is
+- `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeRuleGroup"; aws_config=aws_config)
-describe_rule_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeRuleGroup", args; aws_config=aws_config)
+describe_rule_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeRuleGroup", params; aws_config=aws_config)
 
 """
-    DisassociateSubnets()
+    disassociate_subnets(subnet_ids)
+    disassociate_subnets(subnet_ids, params::Dict{String,<:Any})
 
 Removes the specified subnet associations from the firewall. This removes the firewall
 endpoints from the subnets and removes any network filtering protections that the endpoints
 were providing.
 
-# Required Parameters
-- `SubnetIds`: The unique identifiers for the subnets that you want to disassociate.
+# Arguments
+- `subnet_ids`: The unique identifiers for the subnets that you want to disassociate.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -378,29 +406,32 @@ were providing.
   the new token.
 """
 disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}("SubnetIds"=>SubnetIds); aws_config=aws_config)
-disassociate_subnets(SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetIds"=>SubnetIds), args)); aws_config=aws_config)
+disassociate_subnets(SubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetIds"=>SubnetIds), params)); aws_config=aws_config)
 
 """
-    ListFirewallPolicies()
+    list_firewall_policies()
+    list_firewall_policies(params::Dict{String,<:Any})
 
 Retrieves the metadata for the firewall policies that you have defined. Depending on your
 setting for max results and the number of firewall policies, a single call might not return
 the full list.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of objects that you want Network Firewall to return for
-  this request. If more objects are available, in the response, Network Firewall provides a
-  NextToken value that you can use in a subsequent call to get the next batch of objects.
-- `NextToken`: When you request a list of objects with a MaxResults setting, if the number
-  of objects that are still available for retrieval exceeds the maximum you requested,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
+  for this request. If more objects are available, in the response, Network Firewall provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
 list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewallPolicies"; aws_config=aws_config)
-list_firewall_policies(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewallPolicies", args; aws_config=aws_config)
+list_firewall_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewallPolicies", params; aws_config=aws_config)
 
 """
-    ListFirewalls()
+    list_firewalls()
+    list_firewalls(params::Dict{String,<:Any})
 
 Retrieves the metadata for the firewalls that you have defined. If you provide VPC
 identifiers in your request, this returns only the firewalls for those VPCs. Depending on
@@ -408,40 +439,44 @@ your setting for max results and the number of firewalls, a single call might no
 the full list.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of objects that you want Network Firewall to return for
-  this request. If more objects are available, in the response, Network Firewall provides a
-  NextToken value that you can use in a subsequent call to get the next batch of objects.
-- `NextToken`: When you request a list of objects with a MaxResults setting, if the number
-  of objects that are still available for retrieval exceeds the maximum you requested,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
+  for this request. If more objects are available, in the response, Network Firewall provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
-- `VpcIds`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
+- `"VpcIds"`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
 list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewalls"; aws_config=aws_config)
-list_firewalls(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewalls", args; aws_config=aws_config)
+list_firewalls(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewalls", params; aws_config=aws_config)
 
 """
-    ListRuleGroups()
+    list_rule_groups()
+    list_rule_groups(params::Dict{String,<:Any})
 
 Retrieves the metadata for the rule groups that you have defined. Depending on your setting
 for max results and the number of rule groups, a single call might not return the full
 list.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of objects that you want Network Firewall to return for
-  this request. If more objects are available, in the response, Network Firewall provides a
-  NextToken value that you can use in a subsequent call to get the next batch of objects.
-- `NextToken`: When you request a list of objects with a MaxResults setting, if the number
-  of objects that are still available for retrieval exceeds the maximum you requested,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
+  for this request. If more objects are available, in the response, Network Firewall provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
 list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListRuleGroups"; aws_config=aws_config)
-list_rule_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListRuleGroups", args; aws_config=aws_config)
+list_rule_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListRuleGroups", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Retrieves the tags associated with the specified resource. Tags are key:value pairs that
 you can use to categorize and manage your resources, for purposes like billing. For
@@ -450,23 +485,25 @@ ID. You can specify one or more tags to add to each AWS resource, up to 50 tags 
 resource. You can tag the AWS resources that you manage through AWS Network Firewall:
 firewalls, firewall policies, and rule groups.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of objects that you want Network Firewall to return for
-  this request. If more objects are available, in the response, Network Firewall provides a
-  NextToken value that you can use in a subsequent call to get the next batch of objects.
-- `NextToken`: When you request a list of objects with a MaxResults setting, if the number
-  of objects that are still available for retrieval exceeds the maximum you requested,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
+  for this request. If more objects are available, in the response, Network Firewall provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    PutResourcePolicy()
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
 Creates or updates an AWS Identity and Access Management policy for your rule group or
 firewall policy. Use this to share rule groups and firewall policies between accounts. This
@@ -481,8 +518,8 @@ Names (ARNs) of the resource share invitations.     AcceptResourceShareInvitatio
 the share invitation for a specified resource share.    For additional information about
 resource sharing using RAM, see AWS Resource Access Manager User Guide.
 
-# Required Parameters
-- `Policy`: The AWS Identity and Access Management policy statement that lists the accounts
+# Arguments
+- `policy`: The AWS Identity and Access Management policy statement that lists the accounts
   that you want to share your rule group or firewall policy with and the operations that you
   want the accounts to be able to perform.  For a rule group resource, you can specify the
   following operations in the Actions section of the statement:
@@ -493,15 +530,16 @@ resource sharing using RAM, see AWS Resource Access Manager User Guide.
   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the
   Resource section of the statement, you specify the ARNs for the rule groups and firewall
   policies that you want to share with the account that you specified in Arn.
-- `ResourceArn`: The Amazon Resource Name (ARN) of the account that you want to share rule
+- `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share rule
   groups and firewall policies with.
 
 """
 put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_resource_policy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+put_resource_policy(Policy, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    TagResource()
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds the specified tags to the specified resource. Tags are key:value pairs that you can
 use to categorize and manage your resources, for purposes like billing. For example, you
@@ -510,16 +548,17 @@ specify one or more tags to add to each AWS resource, up to 50 tags for a resour
 tag the AWS resources that you manage through AWS Network Firewall: firewalls, firewall
 policies, and rule groups.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
-- `Tags`:
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tags`:
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    UntagResource()
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes the tags with the specified keys from the specified resource. Tags are key:value
 pairs that you can use to categorize and manage your resources, for purposes like billing.
@@ -528,34 +567,36 @@ or ID. You can specify one or more tags to add to each AWS resource, up to 50 ta
 resource. You can manage tags for the AWS resources that you manage through AWS Network
 Firewall: firewalls, firewall policies, and rule groups.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
-- `TagKeys`:
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `tag_keys`:
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UpdateFirewallDeleteProtection()
+    update_firewall_delete_protection(delete_protection)
+    update_firewall_delete_protection(delete_protection, params::Dict{String,<:Any})
 
 Modifies the flag, DeleteProtection, which indicates whether it is possible to delete the
 firewall. If the flag is set to TRUE, the firewall is protected against deletion. This
 setting helps protect against accidentally deleting a firewall that's in use.
 
-# Required Parameters
-- `DeleteProtection`: A flag indicating whether it is possible to delete the firewall. A
+# Arguments
+- `delete_protection`: A flag indicating whether it is possible to delete the firewall. A
   setting of TRUE indicates that the firewall is protected against deletion. Use this setting
   to protect against accidentally deleting a firewall that is in use. When you create a
   firewall, the operation initializes this flag to TRUE.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -568,23 +609,25 @@ setting helps protect against accidentally deleting a firewall that's in use.
   the new token.
 """
 update_firewall_delete_protection(DeleteProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}("DeleteProtection"=>DeleteProtection); aws_config=aws_config)
-update_firewall_delete_protection(DeleteProtection, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteProtection"=>DeleteProtection), args)); aws_config=aws_config)
+update_firewall_delete_protection(DeleteProtection, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteProtection"=>DeleteProtection), params)); aws_config=aws_config)
 
 """
-    UpdateFirewallDescription()
+    update_firewall_description()
+    update_firewall_description(params::Dict{String,<:Any})
 
 Modifies the description for the specified firewall. Use the description to help you
 identify the firewall when you're working with it.
 
 # Optional Parameters
-- `Description`: The new description for the firewall. If you omit this setting, Network
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The new description for the firewall. If you omit this setting, Network
   Firewall removes the description for the firewall.
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -597,16 +640,17 @@ identify the firewall when you're working with it.
   the new token.
 """
 update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDescription"; aws_config=aws_config)
-update_firewall_description(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDescription", args; aws_config=aws_config)
+update_firewall_description(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDescription", params; aws_config=aws_config)
 
 """
-    UpdateFirewallPolicy()
+    update_firewall_policy(firewall_policy, update_token)
+    update_firewall_policy(firewall_policy, update_token, params::Dict{String,<:Any})
 
 Updates the properties of the specified firewall policy.
 
-# Required Parameters
-- `FirewallPolicy`: The updated firewall policy to use for the firewall.
-- `UpdateToken`: A token used for optimistic locking. Network Firewall returns a token to
+# Arguments
+- `firewall_policy`: The updated firewall policy to use for the firewall.
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
   your requests that access the firewall policy. The token marks the state of the policy
   resource at the time of the request.  To make changes to the policy, you provide the token
   in your request. Network Firewall uses the token to ensure that the policy hasn't changed
@@ -616,8 +660,9 @@ Updates the properties of the specified firewall policy.
   using the new token.
 
 # Optional Parameters
-- `Description`: A description of the firewall policy.
-- `DryRun`: Indicates whether you want Network Firewall to just check the validity of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the firewall policy.
+- `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
   request can run successfully, but doesn't actually make the requested changes. The call
   returns the value that the request would return if you ran it with dry run set to FALSE,
@@ -625,33 +670,35 @@ Updates the properties of the specified firewall policy.
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
-- `FirewallPolicyArn`: The Amazon Resource Name (ARN) of the firewall policy. You must
+- `"FirewallPolicyArn"`: The Amazon Resource Name (ARN) of the firewall policy. You must
   specify the ARN or the name, and you can specify both.
-- `FirewallPolicyName`: The descriptive name of the firewall policy. You can't change the
+- `"FirewallPolicyName"`: The descriptive name of the firewall policy. You can't change the
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
 update_firewall_policy(FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken); aws_config=aws_config)
-update_firewall_policy(FirewallPolicy, UpdateToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken), args)); aws_config=aws_config)
+update_firewall_policy(FirewallPolicy, UpdateToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken), params)); aws_config=aws_config)
 
 """
-    UpdateFirewallPolicyChangeProtection()
+    update_firewall_policy_change_protection(firewall_policy_change_protection)
+    update_firewall_policy_change_protection(firewall_policy_change_protection, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
-- `FirewallPolicyChangeProtection`: A setting indicating whether the firewall is protected
-  against a change to the firewall policy association. Use this setting to protect against
-  accidentally modifying the firewall policy for a firewall that is in use. When you create a
-  firewall, the operation initializes this setting to TRUE.
+# Arguments
+- `firewall_policy_change_protection`: A setting indicating whether the firewall is
+  protected against a change to the firewall policy association. Use this setting to protect
+  against accidentally modifying the firewall policy for a firewall that is in use. When you
+  create a firewall, the operation initializes this setting to TRUE.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -664,10 +711,11 @@ update_firewall_policy(FirewallPolicy, UpdateToken, args::AbstractDict{String, <
   the new token.
 """
 update_firewall_policy_change_protection(FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection); aws_config=aws_config)
-update_firewall_policy_change_protection(FirewallPolicyChangeProtection, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection), args)); aws_config=aws_config)
+update_firewall_policy_change_protection(FirewallPolicyChangeProtection, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection), params)); aws_config=aws_config)
 
 """
-    UpdateLoggingConfiguration()
+    update_logging_configuration()
+    update_logging_configuration(params::Dict{String,<:Any})
 
 Sets the logging configuration for the specified firewall.  To change the logging
 configuration, retrieve the LoggingConfiguration by calling DescribeLoggingConfiguration,
@@ -683,19 +731,21 @@ settings, delete the existing LogDestinationConfig object and create a new one, 
 separate calls to this update operation.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `LoggingConfiguration`: Defines how Network Firewall performs logging for a firewall. If
-  you omit this setting, Network Firewall disables logging for the firewall.
+- `"LoggingConfiguration"`: Defines how Network Firewall performs logging for a firewall.
+  If you omit this setting, Network Firewall disables logging for the firewall.
 """
 update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateLoggingConfiguration"; aws_config=aws_config)
-update_logging_configuration(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateLoggingConfiguration", args; aws_config=aws_config)
+update_logging_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config)
 
 """
-    UpdateRuleGroup()
+    update_rule_group(update_token)
+    update_rule_group(update_token, params::Dict{String,<:Any})
 
 Updates the rule settings for the specified rule group. You use a rule group by reference
 in one or more firewall policies. When you modify a rule group, you modify all firewall
@@ -703,8 +753,8 @@ policies that use the rule group.  To update a rule group, first call DescribeRu
 retrieve the current RuleGroup object, update the object as needed, and then provide the
 updated object to this call.
 
-# Required Parameters
-- `UpdateToken`: A token used for optimistic locking. Network Firewall returns a token to
+# Arguments
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
   your requests that access the rule group. The token marks the state of the rule group
   resource at the time of the request.  To make changes to the rule group, you provide the
   token in your request. Network Firewall uses the token to ensure that the rule group hasn't
@@ -714,8 +764,9 @@ updated object to this call.
   using the new token.
 
 # Optional Parameters
-- `Description`: A description of the rule group.
-- `DryRun`: Indicates whether you want Network Firewall to just check the validity of the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the rule group.
+- `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
   request can run successfully, but doesn't actually make the requested changes. The call
   returns the value that the request would return if you ran it with dry run set to FALSE,
@@ -723,14 +774,14 @@ updated object to this call.
   sure that you have the required permissions to run the request and that your request
   parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to
   your resources.
-- `RuleGroup`: An object that defines the rule group rules.   You must provide either this
-  rule group setting or a Rules setting, but not both.
-- `RuleGroupArn`: The Amazon Resource Name (ARN) of the rule group. You must specify the
+- `"RuleGroup"`: An object that defines the rule group rules.   You must provide either
+  this rule group setting or a Rules setting, but not both.
+- `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group. You must specify the
   ARN or the name, and you can specify both.
-- `RuleGroupName`: The descriptive name of the rule group. You can't change the name of a
+- `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `Rules`: The name of a file containing stateful rule group rules specifications in
+- `"Rules"`: The name of a file containing stateful rule group rules specifications in
   Suricata flat format, with one rule per line. Use this to import your existing Suricata
   compatible rule groups.   You must provide either this rules setting or a populated
   RuleGroup setting, but not both.   You can provide your rule group specification in a file
@@ -740,31 +791,33 @@ updated object to this call.
   the file or use the file in any way after performing the create or update. If you call
   DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings
   inside a RuleGroup object.
-- `Type`: Indicates whether the rule group is stateless or stateful. If the rule group is
+- `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
 update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}("UpdateToken"=>UpdateToken); aws_config=aws_config)
-update_rule_group(UpdateToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), args)); aws_config=aws_config)
+update_rule_group(UpdateToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config)
 
 """
-    UpdateSubnetChangeProtection()
+    update_subnet_change_protection(subnet_change_protection)
+    update_subnet_change_protection(subnet_change_protection, params::Dict{String,<:Any})
 
 
 
-# Required Parameters
-- `SubnetChangeProtection`: A setting indicating whether the firewall is protected against
-  changes to the subnet associations. Use this setting to protect against accidentally
-  modifying the subnet associations for a firewall that is in use. When you create a
-  firewall, the operation initializes this setting to TRUE.
+# Arguments
+- `subnet_change_protection`: A setting indicating whether the firewall is protected
+  against changes to the subnet associations. Use this setting to protect against
+  accidentally modifying the subnet associations for a firewall that is in use. When you
+  create a firewall, the operation initializes this setting to TRUE.
 
 # Optional Parameters
-- `FirewallArn`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallArn"`: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN
   or the name, and you can specify both.
-- `FirewallName`: The descriptive name of the firewall. You can't change the name of a
+- `"FirewallName"`: The descriptive name of the firewall. You can't change the name of a
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `UpdateToken`: An optional token that you can use for optimistic locking. Network
+- `"UpdateToken"`: An optional token that you can use for optimistic locking. Network
   Firewall returns a token to your requests that access the firewall. The token marks the
   state of the firewall resource at the time of the request.  To make an unconditional change
   to the firewall, omit the token in your update request. Without the token, Network Firewall
@@ -777,4 +830,4 @@ update_rule_group(UpdateToken, args::AbstractDict{String, <:Any}; aws_config::Ab
   the new token.
 """
 update_subnet_change_protection(SubnetChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection); aws_config=aws_config)
-update_subnet_change_protection(SubnetChangeProtection, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection), args)); aws_config=aws_config)
+update_subnet_change_protection(SubnetChangeProtection, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection), params)); aws_config=aws_config)

@@ -5,131 +5,140 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CreateScalingPlan()
+    create_scaling_plan(application_source, scaling_instructions, scaling_plan_name)
+    create_scaling_plan(application_source, scaling_instructions, scaling_plan_name, params::Dict{String,<:Any})
 
 Creates a scaling plan.
 
-# Required Parameters
-- `ApplicationSource`: A CloudFormation stack or set of tags. You can create one scaling
+# Arguments
+- `application_source`: A CloudFormation stack or set of tags. You can create one scaling
   plan per application source. For more information, see ApplicationSource in the AWS Auto
   Scaling API Reference.
-- `ScalingInstructions`: The scaling instructions. For more information, see
+- `scaling_instructions`: The scaling instructions. For more information, see
   ScalingInstruction in the AWS Auto Scaling API Reference.
-- `ScalingPlanName`: The name of the scaling plan. Names cannot contain vertical bars,
+- `scaling_plan_name`: The name of the scaling plan. Names cannot contain vertical bars,
   colons, or forward slashes.
 
 """
 create_scaling_plan(ApplicationSource, ScalingInstructions, ScalingPlanName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName); aws_config=aws_config)
-create_scaling_plan(ApplicationSource, ScalingInstructions, ScalingPlanName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName), args)); aws_config=aws_config)
+create_scaling_plan(ApplicationSource, ScalingInstructions, ScalingPlanName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName), params)); aws_config=aws_config)
 
 """
-    DeleteScalingPlan()
+    delete_scaling_plan(scaling_plan_name, scaling_plan_version)
+    delete_scaling_plan(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
 
 Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying
 ScalingInstruction for all of the scalable resources that are covered by the plan. If the
 plan has launched resources or has scaling activities in progress, you must delete those
 resources separately.
 
-# Required Parameters
-- `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid
+# Arguments
+- `scaling_plan_name`: The name of the scaling plan.
+- `scaling_plan_version`: The version number of the scaling plan. Currently, the only valid
   value is 1.
 
 """
 delete_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-delete_scaling_plan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+delete_scaling_plan(ScalingPlanName, ScalingPlanVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config)
 
 """
-    DescribeScalingPlanResources()
+    describe_scaling_plan_resources(scaling_plan_name, scaling_plan_version)
+    describe_scaling_plan_resources(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
 
 Describes the scalable resources in the specified scaling plan.
 
-# Required Parameters
-- `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid
+# Arguments
+- `scaling_plan_name`: The name of the scaling plan.
+- `scaling_plan_version`: The version number of the scaling plan. Currently, the only valid
   value is 1.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of scalable resources to return. The value must be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of scalable resources to return. The value must be
   between 1 and 50. The default value is 50.
-- `NextToken`: The token for the next set of results.
+- `"NextToken"`: The token for the next set of results.
 """
 describe_scaling_plan_resources(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-describe_scaling_plan_resources(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+describe_scaling_plan_resources(ScalingPlanName, ScalingPlanVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config)
 
 """
-    DescribeScalingPlans()
+    describe_scaling_plans()
+    describe_scaling_plans(params::Dict{String,<:Any})
 
 Describes one or more of your scaling plans.
 
 # Optional Parameters
-- `ApplicationSources`: The sources for the applications (up to 10). If you specify scaling
-  plan names, you cannot specify application sources.
-- `MaxResults`: The maximum number of scalable resources to return. This value can be
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationSources"`: The sources for the applications (up to 10). If you specify
+  scaling plan names, you cannot specify application sources.
+- `"MaxResults"`: The maximum number of scalable resources to return. This value can be
   between 1 and 50. The default value is 50.
-- `NextToken`: The token for the next set of results.
-- `ScalingPlanNames`: The names of the scaling plans (up to 10). If you specify application
-  sources, you cannot specify scaling plan names.
-- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid
+- `"NextToken"`: The token for the next set of results.
+- `"ScalingPlanNames"`: The names of the scaling plans (up to 10). If you specify
+  application sources, you cannot specify scaling plan names.
+- `"ScalingPlanVersion"`: The version number of the scaling plan. Currently, the only valid
   value is 1.  If you specify a scaling plan version, you must also specify a scaling plan
   name.
 """
 describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans"; aws_config=aws_config)
-describe_scaling_plans(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans", args; aws_config=aws_config)
+describe_scaling_plans(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans", params; aws_config=aws_config)
 
 """
-    GetScalingPlanResourceForecastData()
+    get_scaling_plan_resource_forecast_data(end_time, forecast_data_type, resource_id, scalable_dimension, scaling_plan_name, scaling_plan_version, service_namespace, start_time)
+    get_scaling_plan_resource_forecast_data(end_time, forecast_data_type, resource_id, scalable_dimension, scaling_plan_name, scaling_plan_version, service_namespace, start_time, params::Dict{String,<:Any})
 
 Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as
 predicted values, or data points, that are calculated using historical data points from a
 specified CloudWatch load metric. Data points are available for up to 56 days.
 
-# Required Parameters
-- `EndTime`: The exclusive end time of the time range for the forecast data to get. The
+# Arguments
+- `end_time`: The exclusive end time of the time range for the forecast data to get. The
   maximum time duration between the start and end time is seven days.  Although this
   parameter can accept a date and time that is more than two days in the future, the
   availability of forecast data has limits. AWS Auto Scaling only issues forecasts for
   periods of two days in advance.
-- `ForecastDataType`: The type of forecast data to get.    LoadForecast: The load metric
+- `forecast_data_type`: The type of forecast data to get.    LoadForecast: The load metric
   forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The
   minimum capacity for each scheduled scaling action. This data is calculated as the larger
   of two values: the capacity forecast or the minimum capacity in the scaling instruction.
   ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The
   calculation used is determined by the predictive scaling maximum capacity behavior setting
   in the scaling instruction.
-- `ResourceId`: The ID of the resource. This string consists of a prefix (autoScalingGroup)
-  followed by the name of a specified Auto Scaling group (my-asg). Example:
-  autoScalingGroup/my-asg.
-- `ScalableDimension`: The scalable dimension for the resource. The only valid value is
+- `resource_id`: The ID of the resource. This string consists of a prefix
+  (autoScalingGroup) followed by the name of a specified Auto Scaling group (my-asg).
+  Example: autoScalingGroup/my-asg.
+- `scalable_dimension`: The scalable dimension for the resource. The only valid value is
   autoscaling:autoScalingGroup:DesiredCapacity.
-- `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan. Currently, the only valid
+- `scaling_plan_name`: The name of the scaling plan.
+- `scaling_plan_version`: The version number of the scaling plan. Currently, the only valid
   value is 1.
-- `ServiceNamespace`: The namespace of the AWS service. The only valid value is
+- `service_namespace`: The namespace of the AWS service. The only valid value is
   autoscaling.
-- `StartTime`: The inclusive start time of the time range for the forecast data to get. The
-  date and time can be at most 56 days before the current date and time.
+- `start_time`: The inclusive start time of the time range for the forecast data to get.
+  The date and time can be at most 56 days before the current date and time.
 
 """
 get_scaling_plan_resource_forecast_data(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime); aws_config=aws_config)
-get_scaling_plan_resource_forecast_data(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime), args)); aws_config=aws_config)
+get_scaling_plan_resource_forecast_data(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
-    UpdateScalingPlan()
+    update_scaling_plan(scaling_plan_name, scaling_plan_version)
+    update_scaling_plan(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
 
 Updates the specified scaling plan. You cannot update a scaling plan if it is in the
 process of being created, updated, or deleted.
 
-# Required Parameters
-- `ScalingPlanName`: The name of the scaling plan.
-- `ScalingPlanVersion`: The version number of the scaling plan. The only valid value is 1.
-  Currently, you cannot have multiple scaling plan versions.
+# Arguments
+- `scaling_plan_name`: The name of the scaling plan.
+- `scaling_plan_version`: The version number of the scaling plan. The only valid value is
+  1. Currently, you cannot have multiple scaling plan versions.
 
 # Optional Parameters
-- `ApplicationSource`: A CloudFormation stack or set of tags. For more information, see
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationSource"`: A CloudFormation stack or set of tags. For more information, see
   ApplicationSource in the AWS Auto Scaling API Reference.
-- `ScalingInstructions`: The scaling instructions. For more information, see
+- `"ScalingInstructions"`: The scaling instructions. For more information, see
   ScalingInstruction in the AWS Auto Scaling API Reference.
 """
 update_scaling_plan(ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-update_scaling_plan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+update_scaling_plan(ScalingPlanName, ScalingPlanVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), params)); aws_config=aws_config)

@@ -5,67 +5,74 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AbortEnvironmentUpdate()
+    abort_environment_update()
+    abort_environment_update(params::Dict{String,<:Any})
 
 Cancels in-progress environment configuration update or application version deployment.
 
 # Optional Parameters
-- `EnvironmentId`: This specifies the ID of the environment with the in-progress update
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: This specifies the ID of the environment with the in-progress update
   that you want to cancel.
-- `EnvironmentName`: This specifies the name of the environment with the in-progress update
-  that you want to cancel.
+- `"EnvironmentName"`: This specifies the name of the environment with the in-progress
+  update that you want to cancel.
 """
 abort_environment_update(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AbortEnvironmentUpdate"; aws_config=aws_config)
-abort_environment_update(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AbortEnvironmentUpdate", args; aws_config=aws_config)
+abort_environment_update(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AbortEnvironmentUpdate", params; aws_config=aws_config)
 
 """
-    ApplyEnvironmentManagedAction()
+    apply_environment_managed_action(action_id)
+    apply_environment_managed_action(action_id, params::Dict{String,<:Any})
 
 Applies a scheduled managed action immediately. A managed action can be applied only if its
 status is Scheduled. Get the status and action ID of a managed action with
 DescribeEnvironmentManagedActions.
 
-# Required Parameters
-- `ActionId`: The action ID of the scheduled managed action to execute.
+# Arguments
+- `action_id`: The action ID of the scheduled managed action to execute.
 
 # Optional Parameters
-- `EnvironmentId`: The environment ID of the target environment.
-- `EnvironmentName`: The name of the target environment.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The environment ID of the target environment.
+- `"EnvironmentName"`: The name of the target environment.
 """
 apply_environment_managed_action(ActionId; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}("ActionId"=>ActionId); aws_config=aws_config)
-apply_environment_managed_action(ActionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionId"=>ActionId), args)); aws_config=aws_config)
+apply_environment_managed_action(ActionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ApplyEnvironmentManagedAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionId"=>ActionId), params)); aws_config=aws_config)
 
 """
-    AssociateEnvironmentOperationsRole()
+    associate_environment_operations_role(environment_name, operations_role)
+    associate_environment_operations_role(environment_name, operations_role, params::Dict{String,<:Any})
 
 Add or change the operations role used by an environment. After this call is made, Elastic
 Beanstalk uses the associated operations role for permissions to downstream services during
 subsequent calls acting on this environment. For more information, see Operations roles in
 the AWS Elastic Beanstalk Developer Guide.
 
-# Required Parameters
-- `EnvironmentName`: The name of the environment to which to set the operations role.
-- `OperationsRole`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
+# Arguments
+- `environment_name`: The name of the environment to which to set the operations role.
+- `operations_role`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
   the environment's operations role.
 
 """
 associate_environment_operations_role(EnvironmentName, OperationsRole; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole); aws_config=aws_config)
-associate_environment_operations_role(EnvironmentName, OperationsRole, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole), args)); aws_config=aws_config)
+associate_environment_operations_role(EnvironmentName, OperationsRole, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("AssociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName, "OperationsRole"=>OperationsRole), params)); aws_config=aws_config)
 
 """
-    CheckDNSAvailability()
+    check_dnsavailability(cnameprefix)
+    check_dnsavailability(cnameprefix, params::Dict{String,<:Any})
 
 Checks if the specified CNAME is available.
 
-# Required Parameters
-- `CNAMEPrefix`: The prefix used when this CNAME is reserved.
+# Arguments
+- `cnameprefix`: The prefix used when this CNAME is reserved.
 
 """
 check_dnsavailability(CNAMEPrefix; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix); aws_config=aws_config)
-check_dnsavailability(CNAMEPrefix, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix), args)); aws_config=aws_config)
+check_dnsavailability(CNAMEPrefix, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CheckDNSAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CNAMEPrefix"=>CNAMEPrefix), params)); aws_config=aws_config)
 
 """
-    ComposeEnvironments()
+    compose_environments()
+    compose_environments(params::Dict{String,<:Any})
 
 Create or update a group of environments that each run a separate component of a single
 application. Takes a list of version labels that specify application source bundles for
@@ -74,41 +81,45 @@ required information must be included in the source bundles in an environment ma
 named env.yaml. See Compose Environments for details.
 
 # Optional Parameters
-- `ApplicationName`: The name of the application to which the specified source bundles
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: The name of the application to which the specified source bundles
   belong.
-- `GroupName`: The name of the group to which the target environments belong. Specify a
+- `"GroupName"`: The name of the group to which the target environments belong. Specify a
   group name only if the environment name defined in each target environment's manifest ends
   with a + (plus) character. See Environment Manifest (env.yaml) for details.
-- `VersionLabels`: A list of version labels, specifying one or more application source
+- `"VersionLabels"`: A list of version labels, specifying one or more application source
   bundles that belong to the target application. Each source bundle must include an
   environment manifest that specifies the name of the environment and the name of the
   solution stack to use, and optionally can specify environment links to create.
 """
 compose_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ComposeEnvironments"; aws_config=aws_config)
-compose_environments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ComposeEnvironments", args; aws_config=aws_config)
+compose_environments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ComposeEnvironments", params; aws_config=aws_config)
 
 """
-    CreateApplication()
+    create_application(application_name)
+    create_application(application_name, params::Dict{String,<:Any})
 
 Creates an application that has one configuration template named default and no application
 versions.
 
-# Required Parameters
-- `ApplicationName`: The name of the application. Must be unique within your account.
+# Arguments
+- `application_name`: The name of the application. Must be unique within your account.
 
 # Optional Parameters
-- `Description`: Your description of the application.
-- `ResourceLifecycleConfig`: Specifies an application resource lifecycle configuration to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Your description of the application.
+- `"ResourceLifecycleConfig"`: Specifies an application resource lifecycle configuration to
   prevent your application from accumulating too many versions.
-- `Tags`: Specifies the tags applied to the application. Elastic Beanstalk applies these
+- `"Tags"`: Specifies the tags applied to the application. Elastic Beanstalk applies these
   tags only to the application. Environments that you create in the application don't inherit
   the tags.
 """
 create_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-create_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+create_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    CreateApplicationVersion()
+    create_application_version(application_name, version_label)
+    create_application_version(application_name, version_label, params::Dict{String,<:Any})
 
 Creates an application version for the specified application. You can create an application
 version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an
@@ -120,19 +131,20 @@ create an application version with a specified Amazon S3 bucket and key location
 change that Amazon S3 location. If you change the Amazon S3 location, you receive an
 exception when you attempt to launch an environment from the application version.
 
-# Required Parameters
-- `ApplicationName`:  The name of the application. If no application is found with this
+# Arguments
+- `application_name`:  The name of the application. If no application is found with this
   name, and AutoCreateApplication is false, returns an InvalidParameterValue error.
-- `VersionLabel`: A label identifying this version. Constraint: Must be unique per
+- `version_label`: A label identifying this version. Constraint: Must be unique per
   application. If an application version already exists with this label for the specified
   application, AWS Elastic Beanstalk returns an InvalidParameterValue error.
 
 # Optional Parameters
-- `AutoCreateApplication`: Set to true to create an application with the specified name if
-  it doesn't already exist.
-- `BuildConfiguration`: Settings for an AWS CodeBuild build.
-- `Description`: A description of this application version.
-- `Process`: Pre-processes and validates the environment manifest (env.yaml) and
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoCreateApplication"`: Set to true to create an application with the specified name
+  if it doesn't already exist.
+- `"BuildConfiguration"`: Settings for an AWS CodeBuild build.
+- `"Description"`: A description of this application version.
+- `"Process"`: Pre-processes and validates the environment manifest (env.yaml) and
   configuration files (*.config files in the .ebextensions folder) in the source bundle.
   Validating configuration files can identify issues prior to deploying the application
   version to an environment. You must turn processing on for application versions that you
@@ -140,22 +152,23 @@ exception when you attempt to launch an environment from the application version
   bundle in Amazon S3, processing is optional.  The Process option validates Elastic
   Beanstalk configuration files. It doesn't validate your application's configuration files,
   like proxy server or Docker configuration.
-- `SourceBuildInformation`: Specify a commit in an AWS CodeCommit Git repository to use as
-  the source code for the application version.
-- `SourceBundle`: The Amazon S3 bucket and key that identify the location of the source
+- `"SourceBuildInformation"`: Specify a commit in an AWS CodeCommit Git repository to use
+  as the source code for the application version.
+- `"SourceBundle"`: The Amazon S3 bucket and key that identify the location of the source
   bundle for this version.  The Amazon S3 bucket must be in the same region as the
   environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository
   (with SourceBuildInformation), but not both. If neither SourceBundle nor
   SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
-- `Tags`: Specifies the tags applied to the application version. Elastic Beanstalk applies
-  these tags only to the application version. Environments that use the application version
-  don't inherit the tags.
+- `"Tags"`: Specifies the tags applied to the application version. Elastic Beanstalk
+  applies these tags only to the application version. Environments that use the application
+  version don't inherit the tags.
 """
 create_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config)
-create_application_version(ApplicationName, VersionLabel, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), args)); aws_config=aws_config)
+create_application_version(ApplicationName, VersionLabel, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config)
 
 """
-    CreateConfigurationTemplate()
+    create_configuration_template(application_name, template_name)
+    create_configuration_template(application_name, template_name, params::Dict{String,<:Any})
 
 Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic
 Beanstalk application. You define application configuration settings in a configuration
@@ -165,25 +178,26 @@ environment. The EnvironmentName response element is always null. Related Topics
 DescribeConfigurationOptions     DescribeConfigurationSettings
 ListAvailableSolutionStacks
 
-# Required Parameters
-- `ApplicationName`: The name of the Elastic Beanstalk application to associate with this
+# Arguments
+- `application_name`: The name of the Elastic Beanstalk application to associate with this
   configuration template.
-- `TemplateName`: The name of the configuration template. Constraint: This name must be
+- `template_name`: The name of the configuration template. Constraint: This name must be
   unique per application.
 
 # Optional Parameters
-- `Description`: An optional description for this configuration.
-- `EnvironmentId`: The ID of an environment whose settings you want to use to create the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: An optional description for this configuration.
+- `"EnvironmentId"`: The ID of an environment whose settings you want to use to create the
   configuration template. You must specify EnvironmentId if you don't specify PlatformArn,
   SolutionStackName, or SourceConfiguration.
-- `OptionSettings`: Option values for the Elastic Beanstalk configuration, such as the
+- `"OptionSettings"`: Option values for the Elastic Beanstalk configuration, such as the
   instance type. If specified, these values override the values obtained from the solution
   stack or the source configuration template. For a complete list of Elastic Beanstalk
   configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide.
-- `PlatformArn`: The Amazon Resource Name (ARN) of the custom platform. For more
+- `"PlatformArn"`: The Amazon Resource Name (ARN) of the custom platform. For more
   information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you
   specify PlatformArn, then don't specify SolutionStackName.
-- `SolutionStackName`: The name of an Elastic Beanstalk solution stack (platform version)
+- `"SolutionStackName"`: The name of an Elastic Beanstalk solution stack (platform version)
   that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java
   7. A solution stack specifies the operating system, runtime, and application server for a
   configuration template. It also determines the set of configuration options as well as the
@@ -191,7 +205,7 @@ ListAvailableSolutionStacks
   Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify
   PlatformArn, EnvironmentId, or SourceConfiguration. Use the  ListAvailableSolutionStacks
   API to obtain a list of available solution stacks.
-- `SourceConfiguration`: An Elastic Beanstalk configuration template to base this one on.
+- `"SourceConfiguration"`: An Elastic Beanstalk configuration template to base this one on.
   If specified, Elastic Beanstalk uses the configuration values from the specified
   configuration template to create a new configuration. Values specified in OptionSettings
   override any values obtained from the SourceConfiguration. You must specify
@@ -199,90 +213,96 @@ ListAvailableSolutionStacks
   Constraint: If both solution stack name and source configuration are specified, the
   solution stack of the source configuration template must match the specified solution stack
   name.
-- `Tags`: Specifies the tags applied to the configuration template.
+- `"Tags"`: Specifies the tags applied to the configuration template.
 """
 create_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config)
-create_configuration_template(ApplicationName, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
+create_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
-    CreateEnvironment()
+    create_environment(application_name)
+    create_environment(application_name, params::Dict{String,<:Any})
 
 Launches an AWS Elastic Beanstalk environment for the specified application using the
 specified configuration.
 
-# Required Parameters
-- `ApplicationName`: The name of the application that is associated with this environment.
+# Arguments
+- `application_name`: The name of the application that is associated with this environment.
 
 # Optional Parameters
-- `CNAMEPrefix`: If specified, the environment attempts to use this value as the prefix for
-  the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CNAMEPrefix"`: If specified, the environment attempts to use this value as the prefix
+  for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is
   generated automatically by appending a random alphanumeric string to the environment name.
-- `Description`: Your description for this environment.
-- `EnvironmentName`: A unique name for the environment. Constraint: Must be from 4 to 40
+- `"Description"`: Your description for this environment.
+- `"EnvironmentName"`: A unique name for the environment. Constraint: Must be from 4 to 40
   characters in length. The name can contain only letters, numbers, and hyphens. It can't
   start or end with a hyphen. This name must be unique within a region in your account. If
   the specified name already exists in the region, Elastic Beanstalk returns an
   InvalidParameterValue error.  If you don't specify the CNAMEPrefix parameter, the
   environment name becomes part of the CNAME, and therefore part of the visible URL for your
   application.
-- `GroupName`: The name of the group to which the target environment belongs. Specify a
+- `"GroupName"`: The name of the group to which the target environment belongs. Specify a
   group name only if the environment's name is specified in an environment manifest and not
   with the environment name parameter. See Environment Manifest (env.yaml) for details.
-- `OperationsRole`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
+- `"OperationsRole"`: The Amazon Resource Name (ARN) of an existing IAM role to be used as
   the environment's operations role. If specified, Elastic Beanstalk uses the operations role
   for permissions to downstream services during this call and during subsequent calls acting
   on this environment. To specify an operations role, you must have the iam:PassRole
   permission for the role. For more information, see Operations roles in the AWS Elastic
   Beanstalk Developer Guide.
-- `OptionSettings`: If specified, AWS Elastic Beanstalk sets the specified configuration
+- `"OptionSettings"`: If specified, AWS Elastic Beanstalk sets the specified configuration
   options to the requested value in the configuration set for the new environment. These
   override the values obtained from the solution stack or the configuration template.
-- `OptionsToRemove`: A list of custom user-defined configuration options to remove from the
-  configuration set for this new environment.
-- `PlatformArn`: The Amazon Resource Name (ARN) of the custom platform to use with the
+- `"OptionsToRemove"`: A list of custom user-defined configuration options to remove from
+  the configuration set for this new environment.
+- `"PlatformArn"`: The Amazon Resource Name (ARN) of the custom platform to use with the
   environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk
   Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName.
-- `SolutionStackName`: The name of an Elastic Beanstalk solution stack (platform version)
+- `"SolutionStackName"`: The name of an Elastic Beanstalk solution stack (platform version)
   to use with the environment. If specified, Elastic Beanstalk sets the configuration values
   to the default values associated with the specified solution stack. For a list of current
   solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk
   Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or
   TemplateName.
-- `Tags`: Specifies the tags applied to resources in the environment.
-- `TemplateName`: The name of the Elastic Beanstalk configuration template to use with the
-  environment.  If you specify TemplateName, then don't specify SolutionStackName.
-- `Tier`: Specifies the tier to use in creating this environment. The environment tier that
-  you choose determines whether Elastic Beanstalk provisions resources to support a web
+- `"Tags"`: Specifies the tags applied to resources in the environment.
+- `"TemplateName"`: The name of the Elastic Beanstalk configuration template to use with
+  the environment.  If you specify TemplateName, then don't specify SolutionStackName.
+- `"Tier"`: Specifies the tier to use in creating this environment. The environment tier
+  that you choose determines whether Elastic Beanstalk provisions resources to support a web
   application that handles HTTP(S) requests or a web application that handles
   background-processing tasks.
-- `VersionLabel`: The name of the application version to deploy. Default: If not specified,
-  Elastic Beanstalk attempts to deploy the sample application.
+- `"VersionLabel"`: The name of the application version to deploy. Default: If not
+  specified, Elastic Beanstalk attempts to deploy the sample application.
 """
 create_environment(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateEnvironment", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-create_environment(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+create_environment(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    CreatePlatformVersion()
+    create_platform_version(platform_definition_bundle, platform_name, platform_version)
+    create_platform_version(platform_definition_bundle, platform_name, platform_version, params::Dict{String,<:Any})
 
 Create a new version of your custom platform.
 
-# Required Parameters
-- `PlatformDefinitionBundle`: The location of the platform definition archive in Amazon S3.
-- `PlatformName`: The name of your custom platform.
-- `PlatformVersion`: The number, such as 1.0.2, for the new platform version.
+# Arguments
+- `platform_definition_bundle`: The location of the platform definition archive in Amazon
+  S3.
+- `platform_name`: The name of your custom platform.
+- `platform_version`: The number, such as 1.0.2, for the new platform version.
 
 # Optional Parameters
-- `EnvironmentName`: The name of the builder environment.
-- `OptionSettings`: The configuration option settings to apply to the builder environment.
-- `Tags`: Specifies the tags applied to the new platform version. Elastic Beanstalk applies
-  these tags only to the platform version. Environments that you create using the platform
-  version don't inherit the tags.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentName"`: The name of the builder environment.
+- `"OptionSettings"`: The configuration option settings to apply to the builder environment.
+- `"Tags"`: Specifies the tags applied to the new platform version. Elastic Beanstalk
+  applies these tags only to the platform version. Environments that you create using the
+  platform version don't inherit the tags.
 """
 create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion); aws_config=aws_config)
-create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion), args)); aws_config=aws_config)
+create_platform_version(PlatformDefinitionBundle, PlatformName, PlatformVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreatePlatformVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformDefinitionBundle"=>PlatformDefinitionBundle, "PlatformName"=>PlatformName, "PlatformVersion"=>PlatformVersion), params)); aws_config=aws_config)
 
 """
-    CreateStorageLocation()
+    create_storage_location()
+    create_storage_location(params::Dict{String,<:Any})
 
 Creates a bucket in Amazon S3 to store application versions, logs, and other files used by
 Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the
@@ -291,60 +311,66 @@ CreateStorageLocation still returns the bucket name but does not create a new bu
 
 """
 create_storage_location(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateStorageLocation"; aws_config=aws_config)
-create_storage_location(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateStorageLocation", args; aws_config=aws_config)
+create_storage_location(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("CreateStorageLocation", params; aws_config=aws_config)
 
 """
-    DeleteApplication()
+    delete_application(application_name)
+    delete_application(application_name, params::Dict{String,<:Any})
 
 Deletes the specified application along with all associated versions and configurations.
 The application versions will not be deleted from your Amazon S3 bucket.  You cannot delete
 an application that has a running environment.
 
-# Required Parameters
-- `ApplicationName`: The name of the application to delete.
+# Arguments
+- `application_name`: The name of the application to delete.
 
 # Optional Parameters
-- `TerminateEnvByForce`: When set to true, running environments will be terminated before
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TerminateEnvByForce"`: When set to true, running environments will be terminated before
   deleting the application.
 """
 delete_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-delete_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+delete_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    DeleteApplicationVersion()
+    delete_application_version(application_name, version_label)
+    delete_application_version(application_name, version_label, params::Dict{String,<:Any})
 
 Deletes the specified version from the specified application.  You cannot delete an
 application version that is associated with a running environment.
 
-# Required Parameters
-- `ApplicationName`: The name of the application to which the version belongs.
-- `VersionLabel`: The label of the version to delete.
+# Arguments
+- `application_name`: The name of the application to which the version belongs.
+- `version_label`: The label of the version to delete.
 
 # Optional Parameters
-- `DeleteSourceBundle`: Set to true to delete the source bundle from your storage bucket.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteSourceBundle"`: Set to true to delete the source bundle from your storage bucket.
   Otherwise, the application version is deleted only from Elastic Beanstalk and the source
   bundle remains in Amazon S3.
 """
 delete_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config)
-delete_application_version(ApplicationName, VersionLabel, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), args)); aws_config=aws_config)
+delete_application_version(ApplicationName, VersionLabel, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config)
 
 """
-    DeleteConfigurationTemplate()
+    delete_configuration_template(application_name, template_name)
+    delete_configuration_template(application_name, template_name, params::Dict{String,<:Any})
 
 Deletes the specified configuration template.  When you launch an environment using a
 configuration template, the environment gets a copy of the template. You can delete or
 modify the environment's copy of the template without affecting the running environment.
 
-# Required Parameters
-- `ApplicationName`: The name of the application to delete the configuration template from.
-- `TemplateName`: The name of the configuration template to delete.
+# Arguments
+- `application_name`: The name of the application to delete the configuration template from.
+- `template_name`: The name of the configuration template to delete.
 
 """
 delete_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config)
-delete_configuration_template(ApplicationName, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
+delete_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
-    DeleteEnvironmentConfiguration()
+    delete_environment_configuration(application_name, environment_name)
+    delete_environment_configuration(application_name, environment_name, params::Dict{String,<:Any})
 
 Deletes the draft configuration associated with the running environment. Updating a running
 environment with any configuration changes creates a draft configuration set. You can get
@@ -353,68 +379,76 @@ or if the update fails. The DeploymentStatus for the draft configuration indicat
 the deployment is in process or has failed. The draft configuration remains in existence
 until it is deleted with this action.
 
-# Required Parameters
-- `ApplicationName`: The name of the application the environment is associated with.
-- `EnvironmentName`: The name of the environment to delete the draft configuration from.
+# Arguments
+- `application_name`: The name of the application the environment is associated with.
+- `environment_name`: The name of the environment to delete the draft configuration from.
 
 """
 delete_environment_configuration(ApplicationName, EnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName); aws_config=aws_config)
-delete_environment_configuration(ApplicationName, EnvironmentName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName), args)); aws_config=aws_config)
+delete_environment_configuration(ApplicationName, EnvironmentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeleteEnvironmentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config)
 
 """
-    DeletePlatformVersion()
+    delete_platform_version()
+    delete_platform_version(params::Dict{String,<:Any})
 
 Deletes the specified version of a custom platform.
 
 # Optional Parameters
-- `PlatformArn`: The ARN of the version of the custom platform.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PlatformArn"`: The ARN of the version of the custom platform.
 """
 delete_platform_version(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeletePlatformVersion"; aws_config=aws_config)
-delete_platform_version(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeletePlatformVersion", args; aws_config=aws_config)
+delete_platform_version(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DeletePlatformVersion", params; aws_config=aws_config)
 
 """
-    DescribeAccountAttributes()
+    describe_account_attributes()
+    describe_account_attributes(params::Dict{String,<:Any})
 
 Returns attributes related to AWS Elastic Beanstalk that are associated with the calling
 AWS account. The result currently has one set of attributes—resource quotas.
 
 """
 describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeAccountAttributes"; aws_config=aws_config)
-describe_account_attributes(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeAccountAttributes", args; aws_config=aws_config)
+describe_account_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeAccountAttributes", params; aws_config=aws_config)
 
 """
-    DescribeApplicationVersions()
+    describe_application_versions()
+    describe_application_versions(params::Dict{String,<:Any})
 
 Retrieve a list of application versions.
 
 # Optional Parameters
-- `ApplicationName`: Specify an application name to show only application versions for that
-  application.
-- `MaxRecords`: For a paginated request. Specify a maximum number of application versions
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: Specify an application name to show only application versions for
+  that application.
+- `"MaxRecords"`: For a paginated request. Specify a maximum number of application versions
   to include in each response. If no MaxRecords is specified, all available application
   versions are retrieved in a single response.
-- `NextToken`: For a paginated request. Specify a token from a previous response page to
+- `"NextToken"`: For a paginated request. Specify a token from a previous response page to
   retrieve the next response page. All other parameter values must be identical to the ones
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
-- `VersionLabels`: Specify a version label to show a specific application version.
+- `"VersionLabels"`: Specify a version label to show a specific application version.
 """
 describe_application_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplicationVersions"; aws_config=aws_config)
-describe_application_versions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplicationVersions", args; aws_config=aws_config)
+describe_application_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplicationVersions", params; aws_config=aws_config)
 
 """
-    DescribeApplications()
+    describe_applications()
+    describe_applications(params::Dict{String,<:Any})
 
 Returns the descriptions of existing applications.
 
 # Optional Parameters
-- `ApplicationNames`: If specified, AWS Elastic Beanstalk restricts the returned
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationNames"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to only include those with the specified names.
 """
 describe_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplications"; aws_config=aws_config)
-describe_applications(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplications", args; aws_config=aws_config)
+describe_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeApplications", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationOptions()
+    describe_configuration_options()
+    describe_configuration_options(params::Dict{String,<:Any})
 
 Describes the configuration options that are used in a particular configuration template or
 environment, or that a specified solution stack defines. The description includes the
@@ -422,23 +456,25 @@ values the options, their default values, and an indication of the required acti
 running environment if an option value is changed.
 
 # Optional Parameters
-- `ApplicationName`: The name of the application associated with the configuration template
-  or environment. Only needed if you want to describe the configuration options associated
-  with either the configuration template or environment.
-- `EnvironmentName`: The name of the environment whose configuration options you want to
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: The name of the application associated with the configuration
+  template or environment. Only needed if you want to describe the configuration options
+  associated with either the configuration template or environment.
+- `"EnvironmentName"`: The name of the environment whose configuration options you want to
   describe.
-- `Options`: If specified, restricts the descriptions to only the specified options.
-- `PlatformArn`: The ARN of the custom platform.
-- `SolutionStackName`: The name of the solution stack whose configuration options you want
-  to describe.
-- `TemplateName`: The name of the configuration template whose configuration options you
+- `"Options"`: If specified, restricts the descriptions to only the specified options.
+- `"PlatformArn"`: The ARN of the custom platform.
+- `"SolutionStackName"`: The name of the solution stack whose configuration options you
+  want to describe.
+- `"TemplateName"`: The name of the configuration template whose configuration options you
   want to describe.
 """
 describe_configuration_options(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationOptions"; aws_config=aws_config)
-describe_configuration_options(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationOptions", args; aws_config=aws_config)
+describe_configuration_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationOptions", params; aws_config=aws_config)
 
 """
-    DescribeConfigurationSettings()
+    describe_configuration_settings(application_name)
+    describe_configuration_settings(application_name, params::Dict{String,<:Any})
 
 Returns a description of the settings for the specified configuration set, that is, either
 a configuration template or the configuration set associated with a running environment.
@@ -448,210 +484,233 @@ deployed configuration set, and the other is a draft configuration of an environ
 is either in the process of deployment or that failed to deploy. Related Topics
 DeleteEnvironmentConfiguration
 
-# Required Parameters
-- `ApplicationName`: The application for the environment or configuration template.
+# Arguments
+- `application_name`: The application for the environment or configuration template.
 
 # Optional Parameters
-- `EnvironmentName`: The name of the environment to describe.  Condition: You must specify
-  either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk
-  returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic
-  Beanstalk returns MissingRequiredParameter error.
-- `TemplateName`: The name of the configuration template to describe.  Conditional: You
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentName"`: The name of the environment to describe.  Condition: You must
+  specify either this or a TemplateName, but not both. If you specify both, AWS Elastic
+  Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS
+  Elastic Beanstalk returns MissingRequiredParameter error.
+- `"TemplateName"`: The name of the configuration template to describe.  Conditional: You
   must specify either this parameter or an EnvironmentName, but not both. If you specify
   both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not
   specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
 """
 describe_configuration_settings(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-describe_configuration_settings(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+describe_configuration_settings(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    DescribeEnvironmentHealth()
+    describe_environment_health()
+    describe_environment_health(params::Dict{String,<:Any})
 
 Returns information about the overall health of the specified environment. The
 DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced
 Health.
 
 # Optional Parameters
-- `AttributeNames`: Specify the response elements to return. To retrieve all attributes,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeNames"`: Specify the response elements to return. To retrieve all attributes,
   set to All. If no attribute names are specified, returns the name of the environment.
-- `EnvironmentId`: Specify the environment by ID. You must specify either this or an
+- `"EnvironmentId"`: Specify the environment by ID. You must specify either this or an
   EnvironmentName, or both.
-- `EnvironmentName`: Specify the environment by name. You must specify either this or an
+- `"EnvironmentName"`: Specify the environment by name. You must specify either this or an
   EnvironmentName, or both.
 """
 describe_environment_health(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentHealth"; aws_config=aws_config)
-describe_environment_health(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentHealth", args; aws_config=aws_config)
+describe_environment_health(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentHealth", params; aws_config=aws_config)
 
 """
-    DescribeEnvironmentManagedActionHistory()
+    describe_environment_managed_action_history()
+    describe_environment_managed_action_history(params::Dict{String,<:Any})
 
 Lists an environment's completed and failed managed actions.
 
 # Optional Parameters
-- `EnvironmentId`: The environment ID of the target environment.
-- `EnvironmentName`: The name of the target environment.
-- `MaxItems`: The maximum number of items to return for a single request.
-- `NextToken`: The pagination token returned by a previous request.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The environment ID of the target environment.
+- `"EnvironmentName"`: The name of the target environment.
+- `"MaxItems"`: The maximum number of items to return for a single request.
+- `"NextToken"`: The pagination token returned by a previous request.
 """
 describe_environment_managed_action_history(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActionHistory"; aws_config=aws_config)
-describe_environment_managed_action_history(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActionHistory", args; aws_config=aws_config)
+describe_environment_managed_action_history(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActionHistory", params; aws_config=aws_config)
 
 """
-    DescribeEnvironmentManagedActions()
+    describe_environment_managed_actions()
+    describe_environment_managed_actions(params::Dict{String,<:Any})
 
 Lists an environment's upcoming and in-progress managed actions.
 
 # Optional Parameters
-- `EnvironmentId`: The environment ID of the target environment.
-- `EnvironmentName`: The name of the target environment.
-- `Status`: To show only actions with a particular status, specify a status.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The environment ID of the target environment.
+- `"EnvironmentName"`: The name of the target environment.
+- `"Status"`: To show only actions with a particular status, specify a status.
 """
 describe_environment_managed_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActions"; aws_config=aws_config)
-describe_environment_managed_actions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActions", args; aws_config=aws_config)
+describe_environment_managed_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentManagedActions", params; aws_config=aws_config)
 
 """
-    DescribeEnvironmentResources()
+    describe_environment_resources()
+    describe_environment_resources(params::Dict{String,<:Any})
 
 Returns AWS resources for this environment.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the environment to retrieve AWS resource usage data.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the environment to retrieve AWS resource usage data.
   Condition: You must specify either this or an EnvironmentName, or both. If you do not
   specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment to retrieve AWS resource usage data.
+- `"EnvironmentName"`: The name of the environment to retrieve AWS resource usage data.
   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify
   either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 describe_environment_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentResources"; aws_config=aws_config)
-describe_environment_resources(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentResources", args; aws_config=aws_config)
+describe_environment_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironmentResources", params; aws_config=aws_config)
 
 """
-    DescribeEnvironments()
+    describe_environments()
+    describe_environments(params::Dict{String,<:Any})
 
 Returns descriptions for existing environments.
 
 # Optional Parameters
-- `ApplicationName`: If specified, AWS Elastic Beanstalk restricts the returned
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to include only those that are associated with this application.
-- `EnvironmentIds`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
-  to include only those that have the specified IDs.
-- `EnvironmentNames`: If specified, AWS Elastic Beanstalk restricts the returned
+- `"EnvironmentIds"`: If specified, AWS Elastic Beanstalk restricts the returned
+  descriptions to include only those that have the specified IDs.
+- `"EnvironmentNames"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to include only those that have the specified names.
-- `IncludeDeleted`: Indicates whether to include deleted environments:  true: Environments
-  that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include
-  deleted environments.
-- `IncludedDeletedBackTo`:  If specified when IncludeDeleted is set to true, then
+- `"IncludeDeleted"`: Indicates whether to include deleted environments:  true:
+  Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do
+  not include deleted environments.
+- `"IncludedDeletedBackTo"`:  If specified when IncludeDeleted is set to true, then
   environments deleted after this date are displayed.
-- `MaxRecords`: For a paginated request. Specify a maximum number of environments to
+- `"MaxRecords"`: For a paginated request. Specify a maximum number of environments to
   include in each response. If no MaxRecords is specified, all available environments are
   retrieved in a single response.
-- `NextToken`: For a paginated request. Specify a token from a previous response page to
+- `"NextToken"`: For a paginated request. Specify a token from a previous response page to
   retrieve the next response page. All other parameter values must be identical to the ones
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
-- `VersionLabel`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
+- `"VersionLabel"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to include only those that are associated with this application version.
 """
 describe_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironments"; aws_config=aws_config)
-describe_environments(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironments", args; aws_config=aws_config)
+describe_environments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEnvironments", params; aws_config=aws_config)
 
 """
-    DescribeEvents()
+    describe_events()
+    describe_events(params::Dict{String,<:Any})
 
 Returns list of event descriptions matching criteria up to the last 6 weeks.  This action
 returns the most recent 1,000 events from the specified NextToken.
 
 # Optional Parameters
-- `ApplicationName`: If specified, AWS Elastic Beanstalk restricts the returned
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to include only those associated with this application.
-- `EndTime`:  If specified, AWS Elastic Beanstalk restricts the returned descriptions to
+- `"EndTime"`:  If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   those that occur up to, but not including, the EndTime.
-- `EnvironmentId`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
-  to those associated with this environment.
-- `EnvironmentName`: If specified, AWS Elastic Beanstalk restricts the returned
+- `"EnvironmentId"`: If specified, AWS Elastic Beanstalk restricts the returned
   descriptions to those associated with this environment.
-- `MaxRecords`: Specifies the maximum number of events that can be returned, beginning with
-  the most recent event.
-- `NextToken`: Pagination token. If specified, the events return the next batch of results.
-- `PlatformArn`: The ARN of a custom platform version. If specified, AWS Elastic Beanstalk
-  restricts the returned descriptions to those associated with this custom platform version.
-- `RequestId`: If specified, AWS Elastic Beanstalk restricts the described events to
+- `"EnvironmentName"`: If specified, AWS Elastic Beanstalk restricts the returned
+  descriptions to those associated with this environment.
+- `"MaxRecords"`: Specifies the maximum number of events that can be returned, beginning
+  with the most recent event.
+- `"NextToken"`: Pagination token. If specified, the events return the next batch of
+  results.
+- `"PlatformArn"`: The ARN of a custom platform version. If specified, AWS Elastic
+  Beanstalk restricts the returned descriptions to those associated with this custom platform
+  version.
+- `"RequestId"`: If specified, AWS Elastic Beanstalk restricts the described events to
   include only those associated with this request ID.
-- `Severity`: If specified, limits the events returned from this call to include only those
-  with the specified severity or higher.
-- `StartTime`: If specified, AWS Elastic Beanstalk restricts the returned descriptions to
+- `"Severity"`: If specified, limits the events returned from this call to include only
+  those with the specified severity or higher.
+- `"StartTime"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   those that occur on or after this time.
-- `TemplateName`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
+- `"TemplateName"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to those that are associated with this environment configuration.
-- `VersionLabel`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
+- `"VersionLabel"`: If specified, AWS Elastic Beanstalk restricts the returned descriptions
   to those associated with this application version.
 """
 describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEvents"; aws_config=aws_config)
-describe_events(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEvents", args; aws_config=aws_config)
+describe_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeEvents", params; aws_config=aws_config)
 
 """
-    DescribeInstancesHealth()
+    describe_instances_health()
+    describe_instances_health(params::Dict{String,<:Any})
 
 Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk.
 This operation requires enhanced health reporting.
 
 # Optional Parameters
-- `AttributeNames`: Specifies the response elements you wish to receive. To retrieve all
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeNames"`: Specifies the response elements you wish to receive. To retrieve all
   attributes, set to All. If no attribute names are specified, returns a list of instances.
-- `EnvironmentId`: Specify the AWS Elastic Beanstalk environment by ID.
-- `EnvironmentName`: Specify the AWS Elastic Beanstalk environment by name.
-- `NextToken`: Specify the pagination token returned by a previous call.
+- `"EnvironmentId"`: Specify the AWS Elastic Beanstalk environment by ID.
+- `"EnvironmentName"`: Specify the AWS Elastic Beanstalk environment by name.
+- `"NextToken"`: Specify the pagination token returned by a previous call.
 """
 describe_instances_health(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeInstancesHealth"; aws_config=aws_config)
-describe_instances_health(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeInstancesHealth", args; aws_config=aws_config)
+describe_instances_health(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribeInstancesHealth", params; aws_config=aws_config)
 
 """
-    DescribePlatformVersion()
+    describe_platform_version()
+    describe_platform_version(params::Dict{String,<:Any})
 
 Describes a platform version. Provides full details. Compare to ListPlatformVersions, which
 provides summary information about a list of platform versions. For definitions of platform
 version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
 
 # Optional Parameters
-- `PlatformArn`: The ARN of the platform version.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PlatformArn"`: The ARN of the platform version.
 """
 describe_platform_version(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribePlatformVersion"; aws_config=aws_config)
-describe_platform_version(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribePlatformVersion", args; aws_config=aws_config)
+describe_platform_version(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DescribePlatformVersion", params; aws_config=aws_config)
 
 """
-    DisassociateEnvironmentOperationsRole()
+    disassociate_environment_operations_role(environment_name)
+    disassociate_environment_operations_role(environment_name, params::Dict{String,<:Any})
 
 Disassociate the operations role from an environment. After this call is made, Elastic
 Beanstalk uses the caller's permissions for permissions to downstream services during
 subsequent calls acting on this environment. For more information, see Operations roles in
 the AWS Elastic Beanstalk Developer Guide.
 
-# Required Parameters
-- `EnvironmentName`: The name of the environment from which to disassociate the operations
+# Arguments
+- `environment_name`: The name of the environment from which to disassociate the operations
   role.
 
 """
 disassociate_environment_operations_role(EnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}("EnvironmentName"=>EnvironmentName); aws_config=aws_config)
-disassociate_environment_operations_role(EnvironmentName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName), args)); aws_config=aws_config)
+disassociate_environment_operations_role(EnvironmentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnvironmentName"=>EnvironmentName), params)); aws_config=aws_config)
 
 """
-    ListAvailableSolutionStacks()
+    list_available_solution_stacks()
+    list_available_solution_stacks(params::Dict{String,<:Any})
 
 Returns a list of the available solution stack names, with the public version first and
 then in reverse chronological order.
 
 """
 list_available_solution_stacks(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListAvailableSolutionStacks"; aws_config=aws_config)
-list_available_solution_stacks(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListAvailableSolutionStacks", args; aws_config=aws_config)
+list_available_solution_stacks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListAvailableSolutionStacks", params; aws_config=aws_config)
 
 """
-    ListPlatformBranches()
+    list_platform_branches()
+    list_platform_branches(params::Dict{String,<:Any})
 
 Lists the platform branches available for your account in an AWS Region. Provides summary
 information about each platform branch. For definitions of platform branch and other
 platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
 
 # Optional Parameters
-- `Filters`: Criteria for restricting the resulting list of platform branches. The filter
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Criteria for restricting the resulting list of platform branches. The filter
   is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The
   following list shows valid attribute values for each of the SearchFilter terms. Most
   operators take a single value. The in and not_in operators can take multiple values.
@@ -662,16 +721,17 @@ platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
   | !=     Values: WebServer/Standard | Worker/SQS/HTTP      Array size: limited to 10
   SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10
   items.
-- `MaxRecords`: The maximum number of platform branch values returned in one call.
-- `NextToken`: For a paginated request. Specify a token from a previous response page to
+- `"MaxRecords"`: The maximum number of platform branch values returned in one call.
+- `"NextToken"`: For a paginated request. Specify a token from a previous response page to
   retrieve the next response page. All other parameter values must be identical to the ones
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
 """
 list_platform_branches(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformBranches"; aws_config=aws_config)
-list_platform_branches(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformBranches", args; aws_config=aws_config)
+list_platform_branches(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformBranches", params; aws_config=aws_config)
 
 """
-    ListPlatformVersions()
+    list_platform_versions()
+    list_platform_versions(params::Dict{String,<:Any})
 
 Lists the platform versions available for your account in an AWS Region. Provides summary
 information about each platform version. Compare to DescribePlatformVersion, which provides
@@ -679,50 +739,55 @@ full details about a single platform version. For definitions of platform versio
 platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
 
 # Optional Parameters
-- `Filters`: Criteria for restricting the resulting list of platform versions. The filter
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Criteria for restricting the resulting list of platform versions. The filter
   is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
-- `MaxRecords`: The maximum number of platform version values returned in one call.
-- `NextToken`: For a paginated request. Specify a token from a previous response page to
+- `"MaxRecords"`: The maximum number of platform version values returned in one call.
+- `"NextToken"`: For a paginated request. Specify a token from a previous response page to
   retrieve the next response page. All other parameter values must be identical to the ones
   specified in the initial request. If no NextToken is specified, the first page is retrieved.
 """
 list_platform_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformVersions"; aws_config=aws_config)
-list_platform_versions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformVersions", args; aws_config=aws_config)
+list_platform_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListPlatformVersions", params; aws_config=aws_config)
 
 """
-    ListTagsForResource()
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list
 of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For
 details about resource tagging, see Tagging Application Resources.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resouce for which a tag list is
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resouce for which a tag list is
   requested. Must be the ARN of an Elastic Beanstalk resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    RebuildEnvironment()
+    rebuild_environment()
+    rebuild_environment(params::Dict{String,<:Any})
 
 Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load
 balancer, etc.) for a specified environment and forces a restart.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the environment to rebuild.  Condition: You must specify
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the environment to rebuild.  Condition: You must specify
   either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic
   Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment to rebuild.  Condition: You must specify
+- `"EnvironmentName"`: The name of the environment to rebuild.  Condition: You must specify
   either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic
   Beanstalk returns MissingRequiredParameter error.
 """
 rebuild_environment(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RebuildEnvironment"; aws_config=aws_config)
-rebuild_environment(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RebuildEnvironment", args; aws_config=aws_config)
+rebuild_environment(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RebuildEnvironment", params; aws_config=aws_config)
 
 """
-    RequestEnvironmentInfo()
+    request_environment_info(info_type)
+    request_environment_info(info_type, params::Dict{String,<:Any})
 
 Initiates a request to compile the specified type of information of the deployed
 environment.  Setting the InfoType to tail compiles the last lines from the application
@@ -732,100 +797,110 @@ to bundle compresses the application server log files for every Amazon EC2 insta
 RetrieveEnvironmentInfo to obtain the set of logs.  Related Topics
 RetrieveEnvironmentInfo
 
-# Required Parameters
-- `InfoType`: The type of information to request.
+# Arguments
+- `info_type`: The type of information to request.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the environment of the requested data. If no such environment
-  is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You
-  must specify either this or an EnvironmentName, or both. If you do not specify either, AWS
-  Elastic Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment of the requested data. If no such
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the environment of the requested data. If no such
+  environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.
+  Condition: You must specify either this or an EnvironmentName, or both. If you do not
+  specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+- `"EnvironmentName"`: The name of the environment of the requested data. If no such
   environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.
   Condition: You must specify either this or an EnvironmentId, or both. If you do not specify
   either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 request_environment_info(InfoType; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}("InfoType"=>InfoType); aws_config=aws_config)
-request_environment_info(InfoType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), args)); aws_config=aws_config)
+request_environment_info(InfoType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RequestEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config)
 
 """
-    RestartAppServer()
+    restart_app_server()
+    restart_app_server(params::Dict{String,<:Any})
 
 Causes the environment to restart the application container server running on each Amazon
 EC2 instance.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the environment to restart the server for.  Condition: You
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the environment to restart the server for.  Condition: You
   must specify either this or an EnvironmentName, or both. If you do not specify either, AWS
   Elastic Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment to restart the server for.  Condition: You
-  must specify either this or an EnvironmentId, or both. If you do not specify either, AWS
-  Elastic Beanstalk returns MissingRequiredParameter error.
+- `"EnvironmentName"`: The name of the environment to restart the server for.  Condition:
+  You must specify either this or an EnvironmentId, or both. If you do not specify either,
+  AWS Elastic Beanstalk returns MissingRequiredParameter error.
 """
 restart_app_server(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RestartAppServer"; aws_config=aws_config)
-restart_app_server(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RestartAppServer", args; aws_config=aws_config)
+restart_app_server(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RestartAppServer", params; aws_config=aws_config)
 
 """
-    RetrieveEnvironmentInfo()
+    retrieve_environment_info(info_type)
+    retrieve_environment_info(info_type, params::Dict{String,<:Any})
 
 Retrieves the compiled information from a RequestEnvironmentInfo request. Related Topics
 RequestEnvironmentInfo
 
-# Required Parameters
-- `InfoType`: The type of information to retrieve.
+# Arguments
+- `info_type`: The type of information to retrieve.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the data's environment. If no such environment is found,
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the data's environment. If no such environment is found,
   returns an InvalidParameterValue error. Condition: You must specify either this or an
   EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns
   MissingRequiredParameter error.
-- `EnvironmentName`: The name of the data's environment.  If no such environment is found,
-  returns an InvalidParameterValue error.   Condition: You must specify either this or an
-  EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns
+- `"EnvironmentName"`: The name of the data's environment.  If no such environment is
+  found, returns an InvalidParameterValue error.   Condition: You must specify either this or
+  an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns
   MissingRequiredParameter error.
 """
 retrieve_environment_info(InfoType; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}("InfoType"=>InfoType); aws_config=aws_config)
-retrieve_environment_info(InfoType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), args)); aws_config=aws_config)
+retrieve_environment_info(InfoType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("RetrieveEnvironmentInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InfoType"=>InfoType), params)); aws_config=aws_config)
 
 """
-    SwapEnvironmentCNAMEs()
+    swap_environment_cnames()
+    swap_environment_cnames(params::Dict{String,<:Any})
 
 Swaps the CNAMEs of two environments.
 
 # Optional Parameters
-- `DestinationEnvironmentId`: The ID of the destination environment.  Condition: You must
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DestinationEnvironmentId"`: The ID of the destination environment.  Condition: You must
   specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You may
   also specify both. You must specify the SourceEnvironmentId with the
   DestinationEnvironmentId.
-- `DestinationEnvironmentName`: The name of the destination environment.  Condition: You
+- `"DestinationEnvironmentName"`: The name of the destination environment.  Condition: You
   must specify at least the DestinationEnvironmentID or the DestinationEnvironmentName. You
   may also specify both. You must specify the SourceEnvironmentName with the
   DestinationEnvironmentName.
-- `SourceEnvironmentId`: The ID of the source environment.  Condition: You must specify at
-  least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both. If
-  you specify the SourceEnvironmentId, you must specify the DestinationEnvironmentId.
-- `SourceEnvironmentName`: The name of the source environment.  Condition: You must specify
+- `"SourceEnvironmentId"`: The ID of the source environment.  Condition: You must specify
   at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify both.
-  If you specify the SourceEnvironmentName, you must specify the DestinationEnvironmentName.
+  If you specify the SourceEnvironmentId, you must specify the DestinationEnvironmentId.
+- `"SourceEnvironmentName"`: The name of the source environment.  Condition: You must
+  specify at least the SourceEnvironmentID or the SourceEnvironmentName. You may also specify
+  both. If you specify the SourceEnvironmentName, you must specify the
+  DestinationEnvironmentName.
 """
 swap_environment_cnames(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("SwapEnvironmentCNAMEs"; aws_config=aws_config)
-swap_environment_cnames(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("SwapEnvironmentCNAMEs", args; aws_config=aws_config)
+swap_environment_cnames(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("SwapEnvironmentCNAMEs", params; aws_config=aws_config)
 
 """
-    TerminateEnvironment()
+    terminate_environment()
+    terminate_environment(params::Dict{String,<:Any})
 
 Terminates the specified environment.
 
 # Optional Parameters
-- `EnvironmentId`: The ID of the environment to terminate.  Condition: You must specify
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentId"`: The ID of the environment to terminate.  Condition: You must specify
   either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic
   Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment to terminate.  Condition: You must specify
-  either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic
+- `"EnvironmentName"`: The name of the environment to terminate.  Condition: You must
+  specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic
   Beanstalk returns MissingRequiredParameter error.
-- `ForceTerminate`: Terminates the target environment even if another environment in the
+- `"ForceTerminate"`: Terminates the target environment even if another environment in the
   same group is dependent on it.
-- `TerminateResources`: Indicates whether the associated AWS resources should shut down
+- `"TerminateResources"`: Indicates whether the associated AWS resources should shut down
   when the environment is terminated:    true: The specified environment as well as the
   associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.
   false: AWS Elastic Beanstalk resource management is removed from the environment, but the
@@ -833,87 +908,95 @@ Terminates the specified environment.
   User Guide.    Default: true   Valid Values: true | false
 """
 terminate_environment(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("TerminateEnvironment"; aws_config=aws_config)
-terminate_environment(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("TerminateEnvironment", args; aws_config=aws_config)
+terminate_environment(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("TerminateEnvironment", params; aws_config=aws_config)
 
 """
-    UpdateApplication()
+    update_application(application_name)
+    update_application(application_name, params::Dict{String,<:Any})
 
 Updates the specified application to have the specified properties.  If a property (for
 example, description) is not provided, the value remains unchanged. To clear these
 properties, specify an empty string.
 
-# Required Parameters
-- `ApplicationName`: The name of the application to update. If no such application is
+# Arguments
+- `application_name`: The name of the application to update. If no such application is
   found, UpdateApplication returns an InvalidParameterValue error.
 
 # Optional Parameters
-- `Description`: A new description for the application. Default: If not specified, AWS
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A new description for the application. Default: If not specified, AWS
   Elastic Beanstalk does not update the description.
 """
 update_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
-update_application(ApplicationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), args)); aws_config=aws_config)
+update_application(ApplicationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
-    UpdateApplicationResourceLifecycle()
+    update_application_resource_lifecycle(application_name, resource_lifecycle_config)
+    update_application_resource_lifecycle(application_name, resource_lifecycle_config, params::Dict{String,<:Any})
 
 Modifies lifecycle settings for an application.
 
-# Required Parameters
-- `ApplicationName`: The name of the application.
-- `ResourceLifecycleConfig`: The lifecycle configuration.
+# Arguments
+- `application_name`: The name of the application.
+- `resource_lifecycle_config`: The lifecycle configuration.
 
 """
 update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig); aws_config=aws_config)
-update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig), args)); aws_config=aws_config)
+update_application_resource_lifecycle(ApplicationName, ResourceLifecycleConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationResourceLifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ResourceLifecycleConfig"=>ResourceLifecycleConfig), params)); aws_config=aws_config)
 
 """
-    UpdateApplicationVersion()
+    update_application_version(application_name, version_label)
+    update_application_version(application_name, version_label, params::Dict{String,<:Any})
 
 Updates the specified application version to have the specified properties.  If a property
 (for example, description) is not provided, the value remains unchanged. To clear
 properties, specify an empty string.
 
-# Required Parameters
-- `ApplicationName`: The name of the application associated with this version.  If no
+# Arguments
+- `application_name`: The name of the application associated with this version.  If no
   application is found with this name, UpdateApplication returns an InvalidParameterValue
   error.
-- `VersionLabel`: The name of the version to update. If no application version is found
+- `version_label`: The name of the version to update. If no application version is found
   with this label, UpdateApplication returns an InvalidParameterValue error.
 
 # Optional Parameters
-- `Description`: A new description for this version.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A new description for this version.
 """
 update_application_version(ApplicationName, VersionLabel; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel); aws_config=aws_config)
-update_application_version(ApplicationName, VersionLabel, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), args)); aws_config=aws_config)
+update_application_version(ApplicationName, VersionLabel, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VersionLabel"=>VersionLabel), params)); aws_config=aws_config)
 
 """
-    UpdateConfigurationTemplate()
+    update_configuration_template(application_name, template_name)
+    update_configuration_template(application_name, template_name, params::Dict{String,<:Any})
 
 Updates the specified configuration template to have the specified properties or
 configuration option values.  If a property (for example, ApplicationName) is not provided,
 its value remains unchanged. To clear such properties, specify an empty string.  Related
 Topics    DescribeConfigurationOptions
 
-# Required Parameters
-- `ApplicationName`: The name of the application associated with the configuration template
-  to update.  If no application is found with this name, UpdateConfigurationTemplate returns
-  an InvalidParameterValue error.
-- `TemplateName`: The name of the configuration template to update.  If no configuration
+# Arguments
+- `application_name`: The name of the application associated with the configuration
+  template to update.  If no application is found with this name, UpdateConfigurationTemplate
+  returns an InvalidParameterValue error.
+- `template_name`: The name of the configuration template to update.  If no configuration
   template is found with this name, UpdateConfigurationTemplate returns an
   InvalidParameterValue error.
 
 # Optional Parameters
-- `Description`: A new description for the configuration.
-- `OptionSettings`: A list of configuration option settings to update with the new
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A new description for the configuration.
+- `"OptionSettings"`: A list of configuration option settings to update with the new
   specified option value.
-- `OptionsToRemove`: A list of configuration options to remove from the configuration set.
-  Constraint: You can remove only UserDefined configuration options.
+- `"OptionsToRemove"`: A list of configuration options to remove from the configuration
+  set.  Constraint: You can remove only UserDefined configuration options.
 """
 update_configuration_template(ApplicationName, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName); aws_config=aws_config)
-update_configuration_template(ApplicationName, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
+update_configuration_template(ApplicationName, TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
-    UpdateEnvironment()
+    update_environment()
+    update_environment(params::Dict{String,<:Any})
 
 Updates the environment description, deploys a new application version, updates the
 configuration settings to an entirely new configuration template, or updates select
@@ -925,44 +1008,46 @@ DescribeConfigurationSettings for this environment returns two setting descripti
 different DeploymentStatus values.
 
 # Optional Parameters
-- `ApplicationName`: The name of the application with which the environment is associated.
-- `Description`: If this parameter is specified, AWS Elastic Beanstalk updates the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationName"`: The name of the application with which the environment is associated.
+- `"Description"`: If this parameter is specified, AWS Elastic Beanstalk updates the
   description of this environment.
-- `EnvironmentId`: The ID of the environment to update. If no environment with this ID
+- `"EnvironmentId"`: The ID of the environment to update. If no environment with this ID
   exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must
   specify either this or an EnvironmentName, or both. If you do not specify either, AWS
   Elastic Beanstalk returns MissingRequiredParameter error.
-- `EnvironmentName`: The name of the environment to update. If no environment with this
+- `"EnvironmentName"`: The name of the environment to update. If no environment with this
   name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You
   must specify either this or an EnvironmentId, or both. If you do not specify either, AWS
   Elastic Beanstalk returns MissingRequiredParameter error.
-- `GroupName`: The name of the group to which the target environment belongs. Specify a
+- `"GroupName"`: The name of the group to which the target environment belongs. Specify a
   group name only if the environment's name is specified in an environment manifest and not
   with the environment name or environment ID parameters. See Environment Manifest (env.yaml)
   for details.
-- `OptionSettings`: If specified, AWS Elastic Beanstalk updates the configuration set
+- `"OptionSettings"`: If specified, AWS Elastic Beanstalk updates the configuration set
   associated with the running environment and sets the specified configuration options to the
   requested value.
-- `OptionsToRemove`: A list of custom user-defined configuration options to remove from the
-  configuration set for this environment.
-- `PlatformArn`: The ARN of the platform, if used.
-- `SolutionStackName`: This specifies the platform version that the environment will run
+- `"OptionsToRemove"`: A list of custom user-defined configuration options to remove from
+  the configuration set for this environment.
+- `"PlatformArn"`: The ARN of the platform, if used.
+- `"SolutionStackName"`: This specifies the platform version that the environment will run
   after the environment is updated.
-- `TemplateName`: If this parameter is specified, AWS Elastic Beanstalk deploys this
+- `"TemplateName"`: If this parameter is specified, AWS Elastic Beanstalk deploys this
   configuration template to the environment. If no such configuration template is found, AWS
   Elastic Beanstalk returns an InvalidParameterValue error.
-- `Tier`: This specifies the tier to use to update the environment. Condition: At this
+- `"Tier"`: This specifies the tier to use to update the environment. Condition: At this
   time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns
   InvalidParameterValue error.
-- `VersionLabel`: If this parameter is specified, AWS Elastic Beanstalk deploys the named
+- `"VersionLabel"`: If this parameter is specified, AWS Elastic Beanstalk deploys the named
   application version to the environment. If no such application version is found, returns an
   InvalidParameterValue error.
 """
 update_environment(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateEnvironment"; aws_config=aws_config)
-update_environment(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateEnvironment", args; aws_config=aws_config)
+update_environment(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateEnvironment", params; aws_config=aws_config)
 
 """
-    UpdateTagsForResource()
+    update_tags_for_resource(resource_arn)
+    update_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be
 passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports
@@ -975,36 +1060,39 @@ elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource a
 list of tag keys to remove in the TagsToRemove parameter.   For details about creating a
 custom user policy, see Creating a Custom User Policy.
 
-# Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resouce to be updated. Must be the
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resouce to be updated. Must be the
   ARN of an Elastic Beanstalk resource.
 
 # Optional Parameters
-- `TagsToAdd`: A list of tags to add or update. If a key of an existing tag is added, the
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagsToAdd"`: A list of tags to add or update. If a key of an existing tag is added, the
   tag's value is updated. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
-- `TagsToRemove`: A list of tag keys to remove. If a tag key doesn't exist, it is silently
-  ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
+- `"TagsToRemove"`: A list of tag keys to remove. If a tag key doesn't exist, it is
+  silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove.
 """
 update_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-update_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+update_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("UpdateTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
-    ValidateConfigurationSettings()
+    validate_configuration_settings(application_name, option_settings)
+    validate_configuration_settings(application_name, option_settings, params::Dict{String,<:Any})
 
 Takes a set of configuration settings and either a configuration template or environment,
 and determines whether those values are valid. This action returns a list of messages
 indicating any errors or warnings associated with the selection of option values.
 
-# Required Parameters
-- `ApplicationName`: The name of the application that the configuration template or
+# Arguments
+- `application_name`: The name of the application that the configuration template or
   environment belongs to.
-- `OptionSettings`: A list of the options and desired values to evaluate.
+- `option_settings`: A list of the options and desired values to evaluate.
 
 # Optional Parameters
-- `EnvironmentName`: The name of the environment to validate the settings against.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnvironmentName"`: The name of the environment to validate the settings against.
   Condition: You cannot specify both this and a configuration template name.
-- `TemplateName`: The name of the configuration template to validate the settings against.
-  Condition: You cannot specify both this and an environment name.
+- `"TemplateName"`: The name of the configuration template to validate the settings
+  against. Condition: You cannot specify both this and an environment name.
 """
 validate_configuration_settings(ApplicationName, OptionSettings; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings); aws_config=aws_config)
-validate_configuration_settings(ApplicationName, OptionSettings, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings), args)); aws_config=aws_config)
+validate_configuration_settings(ApplicationName, OptionSettings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_beanstalk("ValidateConfigurationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "OptionSettings"=>OptionSettings), params)); aws_config=aws_config)
